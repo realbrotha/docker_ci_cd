@@ -7,7 +7,7 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install gcc
 RUN apt-get -y install git
 RUN apt-get -y install vim
-RUN apt-get -y install python2
+RUN apt-get -y install python
 RUN pip install --upgrade conan<2.0
 
 RUN     echo "test comeplete"
