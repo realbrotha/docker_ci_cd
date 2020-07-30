@@ -1,0 +1,740 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lucomp_size.sh 5.12     03/03/24 SMI"
+#
+# USAGE:              lucomp_size -i "ABE_ICF" -O "INODE_ICF"
+#				    -n "BE_name"
+# FUNCTION:           compares the size of the file systems of ABE whose
+#                     icf is ABE_ICF  w.r.t current be. It also generates
+#                     the inodes required on the ABE, and stores the
+#                     information in INODE_ICF.
+# INPUT:              "ABE_ICF - The icf of the ABE
+#                     INODE_ICF - The file name to which the inode
+#                                 requirement of ABE needs to be stored
+# OUTPUT:             0 -- if the size of file systems of ABE is
+#                          sufficient to accommodate the current BE.
+#                     1 -- if the size of ABE is not sufficient to
+#                          accommodate the current BE.
+# DEV:                RAMAN
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+TMP_RESULT_FILE="/tmp/.lucomp_size.results.tmp.$$"
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s -i <abe_icf> -O <inode_icf> -n <be_name>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3 
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Remove temporary and other files.
+  /bin/rm -f $ABE_FILE $PBE_FILE $TMP_FILE "${TMP_RESULT_FILE}"
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  exit "${retcode}"
+}
+
+put_in_assoc()
+{
+  	# usage is put_in_assoc $1 $2 $3
+  	# $1 is the name of the associative array, $2 is the index to the
+  	# associative array and $3 is the value to be stored in the
+  	# associative array.
+
+	# $2 contains "/", so replace that with "_", since it
+  	# not possible to have a variable with "/" - also translate
+	# any characters which are not valid for a shell variable
+	# name to "_" so the variables can be evaluated.
+
+  	# Basically a Dynamic variable is created.
+  
+	rev_fs=`echo V${2}V | /bin/sed 's/[^a-zA-Z0-9_]/_/g'`
+	eval `echo ${1}${rev_fs}`=\"$3\"
+}
+
+put_in_assoc_list()
+{
+  	# usage is put_in_assoc_list $1 $2 $3
+  	# $1 is the name of the associative array, $2 is the index to the
+  	# associative array and $3 is the value to be stored in the
+  	# in the associative array. This is similar to put_in_assoc()
+  	# function except that $3 value is appended to existing variable.
+
+	# $2 contains "/", so replace that with "_", since it
+  	# not possible to have a variable with "/" - also translate
+	# any characters which are not valid for a shell variable
+	# name to "_" so the variables can be evaluated.
+
+	rev_fs=`echo V${2}V | /bin/sed 's/[^a-zA-Z0-9_]/_/g'`
+    oldval=`get_from_assoc $1 $2`
+    eval `echo ${1}${rev_fs}`=\"$3 $oldval\"
+}
+
+
+get_from_assoc()
+{
+  	# usage is get_from_assoc $1 $2
+  	# $1 is the name of the associative array, $2 is the index of the
+	# the associative array, whose contents is to extracted.
+
+	# $2 contains "/", so replace that with "_", since it
+  	# not possible to have a variable with "/" - also translate
+	# any characters which are not valid for a shell variable
+	# name to "_" so the variables can be evaluated.
+
+  	# Basically a Dynamic variable is created.
+  
+	rev_fs=`echo V${2}V | /bin/sed 's/[^a-zA-Z0-9_]/_/g''`
+  	eval echo $`echo ${1}${rev_fs}`
+}	
+	
+
+get_split_list()
+{
+	# usage get_split_list $1
+	# Get the split points of $1 file system.
+
+  	get_from_assoc "split" "$1"
+
+}
+
+get_merged_into()
+{
+	# usage get_merged_into $1
+	# Get the merge point of $1 file system
+
+	get_from_assoc "merge" "$1"
+
+}
+
+evaluate_merge_point()
+{
+
+#  	set -x
+  
+	# usage evaluate_merge_point $1
+	# $1 is the file system, for which the merge point is to
+	# be determined if any. 
+
+	file_sys=$1
+
+	/bin/egrep '^'$file_sys':' $ABE_FILE > /dev/null
+	if [ $? = 0  -o "$file_sys" = "/" ]  
+	then
+		# $file_sys is not merged.
+		put_in_assoc_list "mer_list" "$file_sys" "$file_sys"
+		/bin/cat $ABE_FILE | /bin/egrep -v '^'$file_sys':' > $TMP_FILE
+		/bin/cp $TMP_FILE $ABE_FILE
+	    	return 
+	fi
+
+	merge_list=""
+
+	temp_file_sys=$file_sys
+	while [ "$temp_file_sys" != "/" ]
+	do
+	  temp_file_sys=`dirname $temp_file_sys`
+	  merge_list="$merge_list $temp_file_sys"
+	done
+	
+
+	# For each of the merge points determined, see which one is
+	# present in the ABE ICF. The mount points in the merge_list is
+	# determined in the descending order, so that we can check
+	# for the immediate parent of $file_sys.
+	
+	for i in $merge_list
+	do
+	    /bin/egrep '^'$i':' $ABE_FILE > /dev/null
+	    if [ $? = 0 ]
+	    then
+		# $i is the merge point of $file_sys on ABE. Store it into
+		# the associative array.
+
+		put_in_assoc_list "mer_list" "$i" "$file_sys"
+		break
+	    fi
+	done
+	
+}
+
+
+evaluate_split_points()
+{
+
+#	set -x
+
+	# usage evaluate_split_points $1
+	# $1 is the file system, for which the split points is to
+	# be determined
+	    
+	file_sys=$1
+
+	# The split points of $file_sys is determined by grepping for
+	# the parent directories of $file_sys in the ABE ICF.
+
+	split_list=""
+	split_list=`/bin/nawk -F: -v val=$file_sys '{
+			if (val == "/" && $1 != "/") {
+				printf("%s ", $1)
+			} else
+				if ($1 ~ "^"val"[/]")
+					printf("%s ", $1)
+		    }' $ABE_FILE`
+
+	# Once the split points are determined, those entries should be
+	# removed, so that those entries are not seen when determining the
+	# the split points of the parent directory of $file_sys.
+		
+	for i in $split_list
+	do
+		/bin/cat $ABE_FILE | /bin/egrep -v '^'$i':' > $TMP_FILE
+		/bin/cp $TMP_FILE $ABE_FILE
+	done
+
+
+	put_in_assoc "split" $file_sys "$split_list"
+
+}
+
+evaluate_split_size_inodenum()
+{
+
+#  	set -x
+
+	# usage evaluate_split_size $1
+	# The split_list of $1 file system is determined. For each of the
+	# file systems split from $1, an associative array pbe_du, with
+	# the indexing being the split file systems, disk usage of it
+	# in PBE is stored.
+	
+	file_sys=$1
+
+	if [ ! -d "$PBE_DIR$file_sys" ]
+	then
+	   	return
+	fi
+
+	split_list="`get_split_list $file_sys`"
+
+	# If $split_list is nil, then $file_sys is not split. So return
+	
+	[ -z "$split_list" ] && return
+
+	# Get the size of $file_sys of PBE.
+	
+	size=`get_from_assoc "pbe_size" "$file_sys"`
+	inodenum=`get_from_assoc "pbe_inodenum" "$file_sys"`
+
+	split_size=0
+	inode_num_size=0
+	for i in $split_list
+	do
+	    if [ ! -s "$PBE_DIR$i" ]
+	    then
+	    	continue
+	    fi
+
+	    temp_res=`$LUBIN/ludu -ms "$PBE_DIR$i" | /bin/awk '{print $1" "$2}'`
+      
+	    temp=`echo $temp_res | /bin/cut -d" " -f1`
+	    temp_inodenum=`echo $temp_res | /bin/cut -d" " -f2`
+
+	    for j in $split_list
+	    do
+		  echo "$j" | /bin/grep '^'$i'/' > /dev/null
+		  if [ $? = 0 ]
+		  then
+			# matches
+			temp_val=`get_from_assoc "pbe_du" $j`
+			temp=`/bin/expr $temp - $temp_val`
+			temp_inode_val=`get_from_assoc "pbe_inodenum" $j`
+			temp_inodenum=`/bin/expr $temp_inodenum - $temp_inode_val`
+		  fi
+	    done
+	    
+	    put_in_assoc "pbe_du" $i $temp
+	    put_in_assoc "pbe_inodenum" $i $temp_inodenum
+	    split_size=`/bin/expr $split_size + $temp`
+	    inode_num_size=`/bin/expr $inode_num_size + $temp_inodenum`
+	done
+
+	# Store the value of (PBE_file_size of $file_sys =
+	# PBE_file_size of $file_sys - (sizes of the du's of all the split
+	# file systems) )
+
+	size=`/bin/expr $size - $split_size`
+	
+	put_in_assoc "pbe_size" $file_sys $size
+
+	# Store the value of (PBE_inode_num of $file_sys =
+	# PBE_inode_num of $file_sys - (inode numbers of all the split
+	# file systems) )
+
+	inodenum=`/bin/expr $inodenum - $inode_num_size`
+
+	put_in_assoc "pbe_inodenum" $file_sys $inodenum
+
+}
+
+initialize_size()
+{
+
+#  	set -x
+
+    # usage initialize_size $1 $2 $3.
+    # Create an associative array $3, with indexing from $1, and store
+    # the values from $2.
+
+    
+	file_list="$1"
+	size_list="$2"
+	boot_environment=$3
+
+	set $size_list
+	ind=0
+
+	for i in $file_list
+	do
+		ind=`/bin/expr $ind + 1`
+		val=`eval echo $\`echo $ind\``
+		put_in_assoc "${boot_environment}_size" $i $val
+	done
+
+}
+
+initialize_inum()
+{
+
+#  	set -x
+
+    # usage initialize_inum $1 $2 $3.
+    # Create an associative array $3, with indexing from $1, and store
+    # the values from $2.
+
+    
+	file_list="$1"
+	size_list="$2"
+	boot_environment=$3
+
+	set $size_list
+	ind=0
+
+	for i in $file_list
+	do
+		ind=`/bin/expr $ind + 1`
+		val=`eval echo $\`echo $ind\``
+		put_in_assoc "${boot_environment}_inodenum" $i $val
+	done
+
+}
+
+get_du_size()
+{
+    # usage get_du_size $1
+    # Get the du size of $1 directory.
+  
+	get_from_assoc "pbe_du" $1
+
+}
+
+get_abe_size()
+{
+    # usage get_abe_size $1
+    # Get the size of $1 file system of ABE.
+    
+  	get_from_assoc "abe_size" $1
+
+}
+
+get_pbe_size()
+{
+    # usage get_pbe_size $1.
+    # Get the size of $1 file system of PBE.
+
+	get_from_assoc "pbe_size" $1
+
+}
+
+get_pbe_inum()
+{
+  # usage get_pbe_inum $1
+  # Get the inode numbers of $1 file system of PBE
+
+  get_from_assoc "pbe_inodenum" $1
+
+}
+
+
+check_split_size_inodenum()
+{
+    #  	set -x
+
+    mismatch=0
+  
+    # usage check_size $1
+    # checks the size and inode numbers of $1 file system of PBE with
+    # respect to ABE, considering all the split point of $1.
+    
+    file_sys=$1
+
+    if [ ! -d "$PBE_DIR$file_sys" ]
+    then
+    	return
+    fi
+
+    # Get the split points of $file_sys
+    
+    split_list="`get_split_list $file_sys`"
+
+    # For each of the split points, compare the du of the split point
+    # in PBE ( which is a directory) with the size of the split point
+    # file system of ABE.
+    
+    for i in $split_list
+    do
+        if [ ! -s "$PBE_DIR$i" ]
+        then
+	    	continue;
+        fi
+	pbe_size=`get_du_size $i`
+	abe_size=`get_abe_size $i`
+
+	pbe_inum=`get_pbe_inum $i`
+
+	if [ "$abe_size" -lt "$pbe_size" ]
+	then
+          	mismatch=1
+          	echo " .... size of $i file system on \"$BE_NAME\" BE is not sufficient"
+	fi
+
+        # The recommended min inode size for $file_sys is $pbe_inum * 1.2
+
+        one_fif_pbe_inum=`/bin/expr $pbe_inum / 5`
+
+        pbe_inum=`/bin/expr $pbe_inum + $one_fif_pbe_inum`
+
+        echo "${i}:${pbe_inum}" >> $INODE_ICF
+    
+    done
+
+    return $mismatch
+    
+}
+
+
+check_merge_size_inodenum()
+{
+  	mismatch=0
+
+    # usage check_merge_size_inodenum $1
+    # checks the size and inode numbers of $1 file system of ABE w.r.t
+    # the file system of PBE, which merged is $1 file system on ABE.
+
+    file_sys=$1
+
+	if [ ! -d "$PBE_DIR$file_sys" ]
+	then
+	   	return
+	fi
+
+    abe_size=`get_abe_size $file_sys`
+
+    merge_list=`get_from_assoc mer_list $file_sys`
+
+    [ -z "$merge_list" ] && return
+
+    pbe_size=0
+    pbe_inum=0
+    for i in $merge_list
+    do
+	if [ ! -d "$PBE_DIR$i" ]
+	then
+	   	return
+	fi
+      	tmp_size=`get_from_assoc pbe_size $i`
+        pbe_size=`/bin/expr $pbe_size + $tmp_size`
+        tmp_inum=`get_pbe_inum $i`
+        pbe_inum=`/bin/expr $pbe_inum + $tmp_inum`
+    done
+
+    if [ "$abe_size" -lt "$pbe_size" ]
+    then
+      	mismatch=1
+        echo " .... size of $file_sys file system on \"$BE_NAME\" BE is not sufficient"
+    fi
+
+    # The recommended min inode size for $file_sys is $pbe_inum * 1.2
+
+    one_fif_pbe_inum=`/bin/expr $pbe_inum / 5`
+
+    pbe_inum=`/bin/expr $pbe_inum + $one_fif_pbe_inum`
+
+    echo "$file_sys:$pbe_inum" >> $INODE_ICF
+
+    return $mismatch
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+while [ $# -ne 0 ] ; do
+  while getopts i:O:n:p:Xx: c
+  do
+	  case $c in
+	i) ABE_ICF=$OPTARG;;
+	p) PBE_NAME=$OPTARG;;
+	O) INODE_ICF=$OPTARG;;
+	n) BE_NAME=$OPTARG;;
+	x) # -x n - set debug level to n (PRIVATE).
+	   # This overrides the default setting read from /etc/default/lu
+	   lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	   /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	   if [ $? -gt 1 ] ; then
+	     ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	     usage 3
+	   fi
+	   flag_x="${OPTARG}"
+	   lulib_set_debug "${flag_x}"
+	   ;;
+	X) # -X - set XML output mode.
+	    lulib_set_output_format 'xml'
+	    ;;
+	\?)usage;;
+      esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+[ -z "$ABE_ICF" -o -z "$INODE_ICF" -o -z "$BE_NAME" ] && usage
+
+# Truncate INODE_ICF.
+
+> $INODE_ICF
+
+LUTAB="/etc/lutab"
+
+PBE_FILE="/tmp/pbe_file.$$"
+ABE_FILE="/tmp/abe_file.$$"
+TMP_FILE="/tmp/junk.$$"
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit_script 1
+fi
+
+# Make sure the BE specified is valid.
+
+lulib_is_be_name_inuse "${BE_NAME}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to compare size of current BE <%s> with target BE <%s>.'`" "${CURR_BE}" "${BE_NAME}"
+  usage
+fi
+
+# Generate the PBE_FILE, from PBE ICF.
+
+$LUBIN/lumk_iconf "$PBE_NAME" > /tmp/$$.iconf
+
+if [ $? != 0 ]
+then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to create the internal configuration file for BE <%s>.'`" "${PBE_NAME}"
+    exit_script 1
+fi
+
+PBE_DIR=""
+if [ "$PBE_NAME" != `lulib_lucurr` ]
+then
+	PBE_DIR=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount $PBE_NAME 2>${TMP_RESULT_FILE}`
+	if [ $? -ne 0 ] ; then
+	  [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+	  ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount the boot environment <%s>.'`" "${PBE_NAME}"
+	  exit_script 1
+	fi
+fi
+
+${LUETCBIN}/ludo filter_shared_and_swap $ABE_ICF /tmp/$$.iconf |
+/bin/awk -F: '{ printf("%s:%s\n",$2,$5) }' | /bin/sort -r -t: +0 -1 > $PBE_FILE
+
+${LUETCBIN}/ludo filter_shared_and_swap /tmp/$$.iconf $ABE_ICF |
+/bin/awk -F: '{ printf("%s:%s\n",$2,$5) }' | /bin/sort -r -t: +0 -1 > $ABE_FILE
+
+rm -f /tmp/$$.iconf
+
+# Get the PBE file sysems and store it in pbe_file_list
+pbe_file_list=""
+pbe_file_list=`/bin/awk -F: '{printf("%s ",$1)}' $PBE_FILE`
+
+# Get the PBE file system sizes and store it in pbe_filesize_list
+
+pbe_filesize_list=""
+pbe_inodenum_list=""
+for i in $pbe_file_list
+do
+  # Get the inodes and blocks usage of $i file system.
+
+  file_size_inode=`/bin/df -t $i | sed 's/(/ /' | sed 's/)/ /' |\
+		  /bin/awk 'BEGIN {RS="[ \t\n]"}
+                  {  bl_usage=$9-$4
+                    inode_usage=$11-$6
+                    printf("%d %d",bl_usage,inode_usage)
+                  }'`
+
+  pbe_filesize_list="$pbe_filesize_list `echo $file_size_inode | cut -d\" \" -f1`"
+  pbe_inodenum_list="$pbe_inodenum_list `echo $file_size_inode | cut -d\" \" -f2`"
+done  
+
+# Initialize the associative array of "pbe_size", with the file system
+# names of PBE as the index.
+
+initialize_size "$pbe_file_list" "$pbe_filesize_list" "pbe"
+
+# Initialize the associative array of "pbe_inodenum", with the file system
+# names of PBE as the index.
+
+initialize_inum "$pbe_file_list" "$pbe_inodenum_list" "pbe"
+
+# Get the ABE file systems and store it in abe_file_list
+abe_file_list=`/bin/awk -F: '{printf("%s ",$1)}' $ABE_FILE`
+
+# Get the ABE file system sizes and store it in abe_filesize_list
+
+abe_filesize_list=`/bin/awk -F: '{printf("%s ",$2)}' $ABE_FILE`
+
+  
+# Initialize the associative array of "abe_size", with the file system
+# names of ABE as the index.
+
+initialize_size "$abe_file_list" "$abe_filesize_list" "abe"
+
+
+for fs in $pbe_file_list
+do
+  # Determine the split point of $fs.
+
+  ${LUPRINTF} -lp1 "`gettext 'Determining the split file systems of <%s>.'`" "${fs}"
+  evaluate_split_points $fs
+
+  # Determine the merge point of $fs.
+
+  ${LUPRINTF} -lp1 "`gettext 'Determining the merge point of <%s>.'`" "${fs}"
+  evaluate_merge_point $fs
+
+  # Evaluate the du sizes of the split points, in PBE, and
+  # change the size of $fs in PBE.
+
+  ${LUPRINTF} -lp1 "`gettext 'Determining the size and inode count for the split filesystem of <%s>.'`" "${fs}"
+  
+  evaluate_split_size_inodenum $fs
+done
+
+# The Meat of the program. For each file sytem of PBE, verify its
+# sizes with respect to ABE file systems.
+
+ret_flag=0
+for fs in $pbe_file_list
+do
+  check_split_size_inodenum $fs
+  mis_match=$?
+  [ "$mis_match" != 0 ] && ret_flag=1
+done
+
+for fs in $abe_file_list
+do
+  # Check file size of merge points
+  check_merge_size_inodenum $fs
+  mis_match=$?
+  [ "$mis_match" != 0 ] && ret_flag=1
+done
+
+if [ "$PBE_NAME" != `lulib_lucurr` ]
+then
+	${LUBIN}/luumount -f $PBE_NAME
+fi
+
+exit_script "$ret_flag"
+

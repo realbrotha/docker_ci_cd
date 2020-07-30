@@ -1,0 +1,162 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_QuickLoungeApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/quick-lounge-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Quick Lounge Factory"/>
+	<oaf_attribute name="name-az" type="string" value="Tə&apos;cili Başlatma E&apos;malatxanası"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria del Quick Lounge"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor Rychlého odpálení"/>
+	<oaf_attribute name="name-de" type="string" value="Fabrik für Anwendungs-Starter"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Quick Lounge"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de Lanzador rápido"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique de Quick Lounge"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica brzog pokretanja"/>
+	<oaf_attribute name="name-hu" type="string" value="Quick Lounge Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Produttore Quick Lounge"/>
+	<oaf_attribute name="name-ja" type="string" value="クイックランチャーファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="빠른 실행기 팩토리"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Quick Lounge"/>
+	<oaf_attribute name="name-nl" type="string" value="Quick Lounge Fabriek"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for Quick Lounge"/>
+	<oaf_attribute name="name-pl" type="string" value="Fabryka apletu Quick Lounge"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica Quick Lounge"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Geração do Quick Lounge"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика &quot;Быстрого Запуска&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Generátor Rýchleho spustenia"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња брзог покретача"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja brzog pokretača"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för Snabbstart"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Quick Lounge 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Quick Lounge 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Quick Lounge 工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for the Quick Lounge applet"/>
+	<oaf_attribute name="description-az" type="string" value="Tə&apos;cili başlatma appleti üçün e&apos;malatxana"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de la miniaplicació Quick Lounge"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor apletu Rychlé odpálení"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für den Anwendungs-Starter"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για το εφαρμογίδιο Quick Lounge"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para el aplique Lanzador rápido"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet Quick Lounge"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za program brzog pokretanja programa"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a Quick Lounge applethez"/>
+	<oaf_attribute name="description-it" type="string" value="Produttore degli applet Quick Lounge"/>
+	<oaf_attribute name="description-ja" type="string" value="クイックランチャーアプレットのファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="빠른 실행기 애플릿 팩토리"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi aplet Quick Lounge"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor het Quick Lounge-applet"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for Quick Lounge"/>
+	<oaf_attribute name="description-pl" type="string" value="Fabryka apletu Quick Lounge"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para a applet Quick Lounge"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo Quick Lounge"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика апплета &quot;Быстрый запуск&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Generátor apletu rýchleho spustenia"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за брзо покретање"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za brzo pokretanje"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet Snabbstart"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Quick Lounge 小程序工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Quick Lounge Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Quick Lounge Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_QuickLoungeApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_QuickLoungeApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-az" type="string" value="Tə&apos;cili Başlatma"/>
+	<oaf_attribute name="name-ca" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-cs" type="string" value="Rychlé odpálení"/>
+	<oaf_attribute name="name-de" type="string" value="Anwendungs-Starter"/>
+	<oaf_attribute name="name-el" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-es" type="string" value="Lanzador rápido"/>
+	<oaf_attribute name="name-fr" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-hr" type="string" value="Brzo pokretanje"/>
+	<oaf_attribute name="name-hu" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-it" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-ja" type="string" value="クイックランチャー"/>
+	<oaf_attribute name="name-ko" type="string" value="빠른 실행기"/>
+	<oaf_attribute name="name-ms" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-nl" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-no" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-pl" type="string" value="Aplet Quick Lounge"/>
+	<oaf_attribute name="name-pt" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-ru" type="string" value="Быстрый запуск"/>
+	<oaf_attribute name="name-sk" type="string" value="Rýchle spustenie"/>
+	<oaf_attribute name="name-sr" type="string" value="Брзи покретач"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Brzi pokretač"/>
+	<oaf_attribute name="name-sv" type="string" value="Snabbstart"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Quick Lounge"/>
+	<oaf_attribute name="description" type="string" value="Organize your favourite applications on the Panel"/>
+	<oaf_attribute name="description-az" type="string" value="Sevdiyiniz proqramlara qısa yolları panel üstündə idarə edin"/>
+	<oaf_attribute name="description-ca" type="string" value="Organitzeu les vostres aplicacions preferides al tauler"/>
+	<oaf_attribute name="description-cs" type="string" value="Organizujte své oblíbené aplikace na panelu"/>
+	<oaf_attribute name="description-de" type="string" value="Organisieren Sie Ihre Lieblings-Anwendungen auf dem Panel"/>
+	<oaf_attribute name="description-el" type="string" value="Οργανώστε στο ταμπλώ τις αγαπημένες σας εφαρμογές"/>
+	<oaf_attribute name="description-es" type="string" value="Organizar las aplicaciones favoritas en el panel"/>
+	<oaf_attribute name="description-fr" type="string" value="Organiser les applications favorites sur le tableau de bord"/>
+	<oaf_attribute name="description-hr" type="string" value="Organizirajte svoje najdraže programe na traku"/>
+	<oaf_attribute name="description-hu" type="string" value="Rendezze el a kedvenc alkalmazásait a Panelen"/>
+	<oaf_attribute name="description-it" type="string" value="Organizza le applicazioni preferite sul Pannello"/>
+	<oaf_attribute name="description-ja" type="string" value="パネルにお気に入りのアプリケーションを編成してください"/>
+	<oaf_attribute name="description-ko" type="string" value="패널에 자주 쓰이는 프로그램을 둡니다"/>
+	<oaf_attribute name="description-ms" type="string" value="Susun aplikasi kegeraman anda pada panel"/>
+	<oaf_attribute name="description-nl" type="string" value="Uw·favoriete·toepassingen·schikken·in·het·paneel"/>
+	<oaf_attribute name="description-no" type="string" value="Organiser dine favorittapplikasjoner på panelet"/>
+	<oaf_attribute name="description-pl" type="string" value="Zorganizuje ulubione aplikacje na panelu"/>
+	<oaf_attribute name="description-pt" type="string" value="Organize as suas aplicações favoritas no Painel"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Organize suas aplicações favoritas no Painel"/>
+	<oaf_attribute name="description-ru" type="string" value="Размещение ваших избранных программ на панели"/>
+	<oaf_attribute name="description-sk" type="string" value="Zorganizujte si svoje obľúbené aplikácie do panelu"/>
+	<oaf_attribute name="description-sr" type="string" value="Средите ваше омиљене програме на панелу"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sredite vaše omiljene programe na panelu"/>
+	<oaf_attribute name="description-sv" type="string" value="Samla de program som du använder oftast på panelen"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在面板上组织您最喜爱的应用程序"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="組織面板上的喜好應用程式"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="組織面板上的喜好應用程式"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Tə&apos;minat"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitat"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidad"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzie"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Alati"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="实用程序"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="quick-lounge-applet.png"/>
+
+</oaf_server>
+
+</oaf_info>

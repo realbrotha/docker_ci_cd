@@ -1,0 +1,19 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/menu6 1.2                       */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1997,1996          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)58	1.2  src/gos/2d/XTOP/include/bitmaps/menu6, xserver, gos530 6/21/96 14:13:09 */
+#define menu6_width 6
+#define menu6_height 7
+static char menu6_bits[] = {
+   0x1f, 0x31, 0x35, 0x35, 0x31, 0x3f, 0x1e};

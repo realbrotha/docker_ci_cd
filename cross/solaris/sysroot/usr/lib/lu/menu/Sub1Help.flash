@@ -1,0 +1,65 @@
+#
+#ident	"@(#)Sub1Help.flash	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  MainHelp.flash
+#       Arguments: None
+#############################################################################
+# Text frame telling the user all about how to build a list of archives
+# to flash.  Seen from Menu.flash.
+#############################################################################
+title=`gettext "Perform a Flash install on an alternate boot environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu allows you to build up a list of Flash Archives to be used when flashing the selected Boot Environment."`"\n"\
+`gettext "Initially, the menu will be empty.  You select archives by pressing ADD.  You can delete archives by navigating to the archives, and pressing DELETE.  When finished, select SAVE."`"\n"\
+
+`indicator -w`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

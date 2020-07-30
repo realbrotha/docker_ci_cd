@@ -1,0 +1,3035 @@
+#!/sbin/sh
+#################################################################################################
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+#pragma ident	"@(#)lulib.sh	5.44	06/04/21 SMI"
+#
+# CONTENTS:        library of shell script functions for Live Upgrade modules
+#
+# This file is meant to be sourced at the very beginning of each live upgrade shell script
+# in a preamble that should look very much like the following code snippet:
+#
+###  
+###  LU_PROG_FULL_PATH="$0"
+###  LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+###
+###  # Dot the defaults file.
+###  if [ ! -s /etc/default/lu ]
+###  then
+###          echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+###          exit 1
+###  fi
+###  . /etc/default/lu
+###  
+###  # Default global variables we expect to be set from /etc/default/lu.
+###
+###  LUBIN=${LUBIN:=/usr/lib/lu}
+###  
+###  # Dot the Live Upgrade library functions.
+###  if [ ! -s ${LUBIN}/lulib ]
+###  then
+###          echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+###          exit 1
+###  fi
+###
+###  . ${LUBIN}/lulib
+#
+#################################################################################################
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed when script is sourced.
+#		This library should be sourced ONLY after /etc/default/lu is sourced - it will
+#		provide default values for all of the variables that SHOULD be defined in that file
+#		as well as set variables and check conditions that all scripts depend on.
+# Local Prefix:	<none>
+# Arguments:	<none>
+#################################################################################################
+
+# Establish a sane default umask.
+umask 022
+
+# If LU_DEBUG is not defined, define it as "0"
+
+if [ -z "${LU_DEBUG}" ] ; then
+	LU_DEBUG="0"
+	export LU_DEBUG
+fi
+
+# Setup the text domain from which all localized messages are retrieved.
+
+TEXTDOMAIN="SUNW_INSTALL_LU_SCRIPTS" ; export TEXTDOMAIN
+
+# Setup LUPRINTF environment variable.
+# This variable is used to output any messages to the various valid destinations.
+# Set the default to 'echo', then look for the luprintf utility, and set LUPRINTF
+# as appropriate.
+
+LUPRINTF="echo"
+if [ -x /etc/lib/lu/luprintf ] ; then
+  LUPRINTF="/etc/lib/lu/luprintf"
+elif [ ! -f /etc/lib/lu/luprintf ] ; then
+  echo "lulib: `gettext \"ERROR: Live Upgrade not installed properly (/etc/lib/lu/luprintf not found).\"`"
+fi
+export LUPRINTF
+
+# Setup LU_SYSTEM_ARCH environment variable.
+# This variable contains the system processor architecture (processor generic type),
+# such as 'sparc' or 'i386'.
+
+LU_SYSTEM_ARCH="${LU_SYSTEM_ARCH:=`/bin/uname -p`}" ; export LU_SYSTEM_ARCH
+
+# Setup LU_HARDWARE_ARCH environment variable.
+# This variable contains the system hardware architecture (processor specific type),
+# such as 'sun', 'sun4c', 'sun4d', 'sun4m', 'sun4u', or 'i86pc'.
+
+LU_HARDWARE_ARCH="${LU_HARDWARE_ARCH:=`/bin/uname -m`}" ; export LU_HARDWARE_ARCH
+
+# Setup LU_HARDWARE_IMPLEMENTATION environment variable.
+# This variable contains the system hardware implementation (platform specific type),
+# such as 'SUNW,Ultra-1', 'SUNW,Ultra-Enterprise', 'i86pc', etc.
+
+LU_HARDWARE_IMPLEMENTATION="${LU_HARDWARE_IMPLEMENTATION:=`/bin/uname -i`}" ; export LU_HARDWARE_IMPLEMENTATION
+
+# Setup the default syslog facility and priority values.
+
+LU_SYSLOG_FACILITY="${LU_SYSLOG_FACILITY:=local0}" ; export LU_SYSLOG_FACILITY
+LU_SYSLOG_PRIORITY="${LU_SYSLOG_PRIORITY:=notice}" ; export LU_SYSLOG_PRIORITY
+
+# Setup other defaults used by all scripts.
+
+LU_COMPARE_DATABASE_DIR="/etc/lu/compare"; export LU_COMPARE_DATABASE_DIR
+LU_MANDATORY_CONTENT_CONTROL_FILE="/etc/lu/lu_content_control"; export LU_MANDATORY_CONTENT_CONTROL_FILE
+LU_BE_CONFIG_FILE="${LU_BE_CONFIG_FILE:=/etc/lu/.BE_CONFIG}" ; export LU_BE_CONFIG_FILE
+LU_LUTAB_FILE="${LU_LUTAB_FILE:=/etc/lutab}" ; export LU_LUTAB_FILE
+LU_PROG_NAME="${LU_PROG_NAME:=live upgrade}"
+COPYLOCK="${COPYLOCK:=/etc/lu/COPY_LOCK}" ; export COPYLOCK
+CURR_VARS="${CURR_VARS:=/etc/lu/.CURR_VARS}" ; export CURR_VARS
+LUBIN="${LUBIN:=/usr/lib/lu}" ; export LUBIN
+LUETCBIN="${LUETCBIN:=/etc/lib/lu}" ; export LUETCBIN
+### LU_OPTFS="${LU_OPTFS:=/etc/lu/optfs}" ; export LU_OPTFS
+NEXT_ACTIVE="${NEXT_ACTIVE:=/etc/lu/.NEXT_ACTIVE}" ; export NEXT_ACTIVE
+LU_DB_LOCAL="${LU_DB_LOCAL:=/etc/lu/ludb.local.xml}" ; export LU_DB_LOCAL
+LU_DB_SYNC_LOCAL="${LU_DB_SYNC_LOCAL:=/etc/lu/ludb.sync-initial.xml}" ; export LU_DB_SYNC_LOCAL
+LU_DB_GLOBAL="${LU_DB_GLOBAL:=/etc/lu/ludb.global.xml}" ; export LU_DB_GLOBAL
+LU_SYNCLIST="${LU_SYNCLIST:=/etc/lu/synclist}" ; export LU_SYNCLIST
+LU_SYNC_LOG_FILE="${LU_SYNC_LOG_FILE:=/etc/lu/sync.log}" ; export LU_SYNC_LOG_FILE
+
+# Media path specified via -s option to luupgrade
+LU_MEDIA_PATH=""; export LU_MEDIA_PATH
+LU_VOLD_TIMEOUT=300; export LU_VOLD_TIMEOUT
+
+#
+# variables used for Newboot aka GRUB boot
+#
+MULTI_BOOT=platform/i86pc/multiboot ; export MULTI_BOOT
+FAILSAFE_MULTI_BOOT=boot/multiboot ; export FAILSAFE_MULTI_BOOT
+BOOT_ARCHIVE=platform/i86pc/boot_archive ; export BOOT_ARCHIVE
+GRUB_DIR=boot/grub ; export GRUB_DIR
+BOOT_MENU_PREFIX='#----- '  ; export BOOT_MENU_PREFIX
+BOOT_MENU_HDR_SUFFIX=' - ADDED BY LIVE UPGRADE - DO NOT EDIT  -----' ; export BOOT_MENU_HDR_SUFFIX
+BOOT_MENU_FTR_SUFFIX=' -------------- END LIVE UPGRADE ------------' ; export BOOT_MENU_FTR_SUFFIX
+BOOT_MENU_FILE="menu.lst" ; export BOOT_MENU_FILE
+BOOT_MENU_DIR=boot/grub ; export BOOT_MENU_DIR
+BOOT_MENU=${BOOT_MENU_DIR}/${BOOT_MENU_FILE} ; export BOOT_MENU
+
+GRUB_slice="/etc/lu/GRUB_slice"
+GRUB_root="/etc/lu/GRUB_root"
+GRUB_backup_menu="/etc/lu/GRUB_backup_menu"
+
+# biosdev related
+LU_BIOSDEV=/sbin/biosdev; export LU_BIOSDEV
+LU_BOOT_HD0="" ; export LU_BOOT_HD0
+LU_BOOT_SLICE="" ; export LU_BOOT_SLICE
+LU_BOOT_LOGICAL="" ; export LU_BOOT_LOGICAL
+LU_BOOT_HD="" ; export LU_BOOT_HD
+
+LU_MINIROOT_ARCHIVE="x86.miniroot" ; export LU_MINIROOT_ARCHIVE
+LU_FAILSAFE_ARCHIVE=boot/x86.miniroot-safe ; export LU_FAILSAFE_ARCHIVE
+PBOOT_PRE=usr/platform/ ; export PBOOT_PRE
+PBOOT_SUF=/lib/fs/ufs/pboot ; export PBOOT_SUF
+LU_GRUB_TIMEOUT_CMD="timeout" ; export LU_GRUB_TIMEOUT_CMD
+LU_GRUB_TIMEOUT_VALUE="10" ; export LU_GRUB_TIMEOUT_VALUE
+LU_GRUB_DEFAULT_CMD="default" ; export LU_GRUB_DEFAULT_CMD
+LU_GRUB_TITLE_CMD="title" ; export LU_GRUB_TITLE_CMD
+LU_GRUB_ITEM_SEP="" ; export LU_GRUB_ITEM_SEP
+LU_GRUB_MENU_PERM="0644" ; export LU_GRUB_MENU_PERM
+LU_GRUB_ENTRY_LEN="13" ; export LU_GRUB_ENTRY_LEN
+LU_GRUB_BOOT_ENV="/platform/i86pc/boot/solaris/bootenv.rc" ; export LU_GRUB_BOOT_ENV
+
+
+[ "${LU_OUTPUT_FORMAT}" = "xml" ] || LU_OUTPUT_FORMAT='text'
+export LU_OUTPUT_FORMAT
+
+# This is a special variable that is changed when this script is built;
+# the special string that is set in the following assignment is changed
+# to the version of Solaris under which this version of Live Upgrade is
+# intended to run against. This prevents live upgrade from upgrading to
+# a release of Solaris that it was not built to upgrade to. For example,
+# this would contain "5.9" if the version of Solaris that can be upgraded
+# to is 5.9.
+
+LU_BUILT_FOR_SOLARIS_VERSION="5.10"
+
+# Check for super-user permissions.
+
+if [ -z "${_LU__IS_ROOT_}" ] ; then
+  if [ "`/bin/id | /bin/cut -f 1 -d '(' | /bin/cut -f 2 -d '='`" -ne "0" ] ; then
+    if [ -x /etc/lib/lu/luprintf ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Super user privilege is required to run this program.'`"
+    else
+      echo "${LU_PROG_NAME}: ""`gettext 'Super user privilege is required to run this program.'`"
+    fi
+    exit 1
+  fi
+  _LU__IS_ROOT_="yes" ; export _LU__IS_ROOT_
+fi
+
+#################################################################################################
+# Given a block device node name, returns the corresponding char device
+# node name
+#################################################################################################
+
+lulib_get_cdevice()
+{
+
+# Can't depend on Solaris devattr for device info. need to recode this.
+#       alias=`devattr $1 bdevice`
+#       if [ -z "$alias" ]; then
+#               return 1
+#       fi
+#       eval `devattr -v $alias cdevice`
+        echo $1 |  sed "s/\/vol\//\/rvol\//g" | sed  "s/\/dsk\//\/rdsk\//g"
+}
+
+#################################################################################################
+# lulib_check_pbe_mounts - verifies that all of the PBE file systems are mounted.
+# RETURN VALUES: Returns 0 for success and 1 for failure.
+# REQUIREMENTS: The calling program MUST define "LUBIN" before using lulib_check_pbe_mounts.
+#################################################################################################
+
+lulib_check_pbe_mounts()
+{
+	lcpm_ret=0
+	lcpm_pbeName="`lulib_lucurr`"
+	${LUPRINTF} -lp2D - "`gettext 'lulib_check_pbe_mounts calling lumk_iconf.'`"
+	$LUBIN/lumk_iconf -S "${lcpm_pbeName}" > /etc/lu/tmp/icf.$$
+	if [ $? = 0 ] ; then
+		# 1. Get list of all vfstab entries where mount at boot == "yes" and
+		#    fsck pass != "-".
+		lcpm_vfstab=`/usr/bin/nawk < /etc/vfstab 'BEGIN { x = 0 }
+		{ if (($1 !~ /^#/) && ($5 != "-" || $6 == "yes")) {
+		if (x == 1) { printf "|"; } else { x = 1; }; printf "^%s$", $3; }}'`
+
+		# 2. Get all the mount points listed in mnttab. 
+		lcpm_mnttab=`/sbin/mount | /usr/bin/nawk 'BEGIN { x = 0 } { if (x == 1) { printf "|"; }
+		else { x = 1; }; printf "^%s$", $1; }'`
+
+		# 3. Remove the mount points listed in ICF file which do not satisfy
+		#    1. If result of this operation is not a subset of result of 2,
+		#    then we have a problem moving ahead.
+		lcpm_req_mounts=`/usr/bin/awk -F':' -e '{print $2}' /etc/lu/tmp/icf.$$ |
+		/usr/bin/egrep -e "($lcpm_vfstab)" | /usr/bin/egrep -v -e "($lcpm_mnttab)"` 
+		if [ $? -eq 0 ]
+		then
+			lcpm_normalized_rm=`echo $lcpm_req_mounts`
+			${LUPRINTF} -Eelp2 "`gettext 'The following required file systems are \
+not mounted by the currently running OS <%s>'`" "$lcpm_normalized_rm"
+			lcpm_ret=1
+		fi
+	else
+		lcpm_ret=1
+	fi
+	# Return status. We do not do a exit here because it is a
+	# function that is dotted in
+	return $lcpm_ret
+}
+
+#################################################################################################
+# lulib_validate_be_for_copy {ICF file} - verifys that all of the PBE file 
+#       systems are mounted and that the OS can support vxfs-root if the 
+#       root file system type is vxfs
+# Input: $1 = the BE to check ("" means to use the current BE)
+# RETURN VALUES: Returns 0 for success and 1 for failure.
+# REQUIREMENTS: The calling program MUST define "LUBIN" before using lulib_validate_be_for_copy.
+#################################################################################################
+
+lulib_validate_be_for_copy()
+{
+
+###
+### NEED TO ADD CODE THAT CHECKS THE $1 ARGUMENT AND "DOES THE RIGHT THING"...
+###
+
+        # verify the all required PBE file systems are mounted
+        lulib_check_pbe_mounts || return 1
+        validate_fs_type=`awk -F: '$2 == "/" {print $4}' $ICF`
+        if [ "$validate_fs_type" = "vxfs" ]
+        then
+                # The following code may need refining if/when Solaris
+                # supports vxfs on root
+                if [ ! -f /sbin/ckroot ]
+                then
+                        validate_abe=`awk -F: '$2 == "/" {print $1}' $ICF`
+                        ${LUPRINTF} -Eelp2 "`gettext 'Boot environment <%s> is configured with the root file system as 'vxfs' but the currently running OS cannot support this configuration. You will need to create a new boot environment that has root on a supported file system type.'`" "${validate_abe}"
+			${LUPRINTF} -Eelp2 "`gettext 'Vxfs-root not supported by currently running OS.'`"
+                        return 1
+                fi
+        fi
+        return 0
+}
+
+#################################################################################################
+# Function: lulib_get_devsize
+# Input:
+#    $1 = Device which can hold a file system
+#    $2 = Full path to VFSTAB file containing file system to check device against.
+# Return Code:
+#    0 - success.
+#    1 - failure.
+# Outputs: On success: a string equal to the numeric capacity of the input device
+# Function:
+#    Using device.tab, determines the size of a given device.
+# Notes:
+#    If the input device isn't in PBE's device.tab, the device.tab on
+#    target BE is searched.
+#################################################################################################
+
+lulib_get_devsize()
+{
+  SLICE="$1"
+  VFSTAB="$2"
+  # Do we really need to define DEV_DIR???
+  DEV_DIR=/dev/rdsk
+  if [ `echo $1 | grep /dev/md ` ]; then
+    DEV_DIR=`dirname $1 | sed 's/\/dsk/\/rdsk/'`
+  fi
+  if [ `echo $1 | grep /dev/vx ` ] ; then
+    DEV_DIR=`dirname $SLICE | sed 's/\/vx\/dsk/\/vx\/rdsk/g'`
+    NODSK=`basename $SLICE`
+  else
+    NODSK=`echo $SLICE |  sed "s:..*dsk/\(..*\)$:\1:" `
+  fi
+  THE_DEVICE="${DEV_DIR}/${NODSK}"
+
+  if [ -r "${THE_DEVICE}" ] ; then
+    bytespersect="`devinfo -i \"${THE_DEVICE}\" 2>/dev/null | cut -f5`"
+    if [ -n "${bytespersect}" -a "${bytespersect}" -ne "512" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Slice <%s> bytes per sector is NOT 512.'`" "${THE_DEVICE}"
+      return 1
+    fi
+    size="`devinfo -p \"${THE_DEVICE}\" 2>/dev/null`"
+    if [ "$?" -eq "0" ] ; then
+      size="`echo \"${size}\" | cut -f5`"
+      if [ -n "${size}" ] ; then
+        ${LUPRINTF} -lp2D - "`gettext 'Slice <%s> bytes per sector <%s> size <%s>.'`" "${THE_DEVICE}" "512" "${size}"
+        echo "$size"
+        return 0
+      fi
+    fi
+  fi
+
+  THE_DEVICE="${DEV_DIR}/`echo $SLICE | cut -d\"/\" -f4`"
+  if [ -r "${THE_DEVICE}" ] ; then
+    bytespersect="`devinfo -i \"${THE_DEVICE}\" 2>/dev/null | cut -f5`"
+    if [ -n "${bytespersect}" -a "${bytespersect}" -ne "512" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Slice <%s> bytes per sector is NOT 512.'`" "${THE_DEVICE}"
+      return 1
+    fi
+    size="`devinfo -p \"${THE_DEVICE}\" 2>/dev/null`"
+    if [ "$?" -eq "0" ] ; then
+      size="`echo \"${size}\" | cut -f5`"
+      if [ -n "${size}" ] ; then
+        ${LUPRINTF} -lp2D - "`gettext 'Slice <%s> bytes per sector <%s> size <%s>.'`" "${THE_DEVICE}" "512" "${size}"
+        echo "$size"
+        return 0
+      fi
+    fi
+  fi
+  
+  ${LUPRINTF} -Ielp2 "`gettext 'Unable to determine size or capacity of slice <%s>.'`" "${SLICE}"
+  return 1
+}
+
+#################################################################################################
+# Function: lulib_fstyp
+# Input:
+#    Device which can hold a file system
+# Function:
+#    Return the file system type for the specified device. First, try all known and supported
+#    file system types starting with "ufs" (the most likely base file system), followed by all
+#    file system types we know of (like vxfs). Finally, attempt to use the generic /usr/sbin/fstyp
+#    to see if it can be heuristically determined. The reason we dont call /usr/sbin/fstyp only
+#    is because of the use of heuristics in fstyp, it implies that the result of fstyp is
+#    not guaranteed to be accurate.
+# Returns:	0 - success - file system type returned.
+#		1 - failure - file system type NOT returned.
+#################################################################################################
+
+lulib_fstyp()
+{
+	llfst_device="$1"
+
+	# Check to see if device is block or character special; if not,
+	# attempt to translate into block or character special device.
+
+	if [ ! -b "${llfst_device}" -a ! -c "${llfst_device}" ] ; then
+		llfst_dfdevice="`/usr/sbin/df -n \"${llfst_device}\" 2>&1`"
+		if [ "$?" -eq "0" ] ; then
+			llfst_fst="`echo ${llfst_dfdevice} | /bin/sed 's/.*:[ ]*//'`"
+			${LUPRINTF} -lp2D 4 "`gettext 'Device <%s> is file system type <%s> [from df].'`" "${llfst_device}" "${llfst_fst}"
+			echo "${llfst_fst}"
+			return 0
+		else
+			${LUPRINTF} -lp2D 4 "`gettext 'Device <%s> is not a block or character device and it is not currently mounted.'`" "${llfst_device}"
+			return 1
+		fi
+	fi
+
+	# Check for known supported file systems first to avoid fstyp heuristics.
+
+	for llfst_fst in ${LU_SUPPORTED_FILE_SYSTEM_TYPES} ; do
+		if [ -d "/usr/lib/fs/${llfst_fst}" -a -x "/usr/lib/fs/${llfst_fst}/fstyp" ] ; then
+			/usr/lib/fs/${llfst_fst}/fstyp "${llfst_device}"
+			if [ "$?" -eq "0" ] ; then
+				${LUPRINTF} -lp2D 4 "`gettext 'Device <%s> is file system type <%s> [from %s/fstyp].'`" "${llfst_device}" "${llfst_fst}" "${llfst_fst}"
+				return 0
+			fi
+			${LUPRINTF} -lp2D 4 "`gettext 'Device <%s> is NOT file system type <%s>.'`" "${llfst_device}" "${llfst_fst}"
+		fi
+	done
+
+	# Not a known supported file system - use generic fstyp just in case...
+
+	llfst_fst="`/usr/sbin/fstyp \"${llfst_device}\" | /bin/head -1`"
+	if [ "$?" -eq "0" ] ; then
+		${LUPRINTF} -lp2D 4 "`gettext 'Device <%s> is file system type <%s> [from generic/fstyp].'`" "${llfst_device}" "${llfst_fst}"
+		echo "${llfst_fst}"
+		return 0
+	fi
+	${LUPRINTF} -Eelp2 "`gettext 'Device <%s> file system type cannot be determined.'`" "${llfst_device}"
+	return 1
+}
+
+#################################################################################################
+# lulib_validate_lulock - Checks the LU COPY_LOCK file and removes it if it is
+#    invalid. In order for a LOCK to be valid, it must either have a
+#    "at" job scheduled, or have a lu process actively running.
+# RETURN VALUES: Returns 0 if the COPY_LOCK file doesnt not exist.
+#              : Returns 1 if the COPY_LOCK existed but was invalid and removed
+#              : Returns 2 if the COPY_LOCK exists and a valid scheduled job exists.
+#              : Returns 3 if the COOPY_LOCK exists and a valid currently running job exists
+#
+#################################################################################################
+
+lulib_validate_lulock()
+{
+        TMP_PS=/tmp/PS.$$
+        PROCS=/tmp/PROCS
+        PROCS1=/tmp/PROCS1
+        COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+        OK_TO_REMOVE1=FALSE
+        OK_TO_REMOVE2=FALSE
+
+	#Return code when COPYLOCK doesn't exist
+        [ ! -f $COPYLOCK ] && return 0
+
+        # Dot in INFO from COPY_LOCK
+        . $COPYLOCK
+
+        if [ "$CL_STATUS" = "SCHEDULED" ]; then
+                at -l | grep $CL_AT_JOB_NUM > /dev/null 2>&1
+                if [ $? = 0 ]; then
+                        #LOCK is good, do not remove
+                        rm -f $TMP_PS $PROCS $PROCS1
+
+			#Return code when COPYLOCK exists and a valid scheduled job exists
+                        return 2
+                else
+                        OK_TO_REMOVE1=TRUE
+                fi
+        else
+                OK_TO_REMOVE1=TRUE
+        fi
+
+        ps -ef > $PROCS
+
+        ps -f | tail +2 | nawk '{print $2}' > $TMP_PS
+
+        for REMOVE_PID in `cat $TMP_PS`
+        do
+                nawk -v REMOVE_PID=$REMOVE_PID '($2 != REMOVE_PID)' $PROCS > $PROCS1
+                mv $PROCS1 $PROCS
+        done
+        grep -v fsflush $PROCS | egrep "pfinstall|patchadd|patchrm|luupgrade|pkgadd|pkgrm|luactivate|lucreate|lumake|lush|lucompare" > /dev/null 2>&1
+        if [ $? != 0 ]; then
+                OK_TO_REMOVE2=TRUE
+        fi
+        rm -f $TMP_PS $PROCS $PROCS1
+        if [ "$OK_TO_REMOVE1" = "TRUE" -a "$OK_TO_REMOVE2" = "TRUE" ]; then
+                ${LUPRINTF} -Ilp2 "`gettext 'Removing invalid lock file.'`"
+                sleep 2
+                rm -f $COPYLOCK
+
+		#Return code when COPYLOCK existed but was invalid and removed
+                return 1
+        fi
+
+	#Return code when COPYLOCK exists and there exists a currently running job
+        return 3
+}
+
+#################################################################################################
+# Name:		lulib_is_be_name_inuse.
+# Description:	Validate a be name as being valid and inuse (in use by any BE).
+# Local Prefix:	
+# Arguments:	$1 = be name to validate.
+# Example:      lulib_is_be_name_inuse
+# Returns:	0 - the be name is valid and is inuse (used by a BE).
+#		1 - the be name is valid and is not inuse (not used by a BE).
+#		2 - the be name could not be looked up.
+# Messages:	Messages are output if the BE name is not in a valid or cannot be looked up
+#		or the BE name is not in use.
+#################################################################################################
+
+lulib_is_be_name_inuse()
+{
+  ibni_beName="$1"
+
+  # If the /etc/lutab file does not exist, the BE cannot exist.
+  if [ ! -f "${LU_LUTAB_FILE}" ] ; then
+    lulib_be_name_valid "${ibni_beName}"
+    if [ "$?" -eq "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The boot environment name <%s> does not exist.'`" "${ibni_beName}"
+    fi
+    return 1
+  fi
+
+  ERRMSG=`${LUETCBIN}/ludo is_be_name_inuse "${ibni_beName}" 2>&1`
+  ret="$?"
+  if [ "${ret}" -ne "0" ] ; then
+    # Errors were encountered
+    ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  fi
+
+  return "${ret}"
+}
+
+
+#################################################################################################
+# Name:		lulib_verify_be_unmounted
+# Description:	Check to see if the a boot environment is not mounted; return error if it is.
+# Local Prefix:	luvbu_
+# Arguments:	$1 = be name to validate.
+# Example:      lulib_verify_be_unmounted
+# Returns:	0 - the be name is valid and is not mounted (is unmounted).
+#		1 - the be name is valid and is mounted.
+#		2 - the be name could not be looked up.
+# Messages:	Messages are output if the BE name is not in a valid or cannot be looked up
+#		or the BE is mounted.
+#################################################################################################
+
+lulib_verify_be_unmounted()
+{
+  luvbu_beName="$1"
+
+  # If the /etc/lutab file does not exist, the BE cannot exist.
+  if [ ! -f "${LU_LUTAB_FILE}" ] ; then
+    lulib_be_name_valid "${luvbu_beName}"
+    return "$?"
+  fi
+
+  # Make sure that the BE name is valid.
+  ERRMSG=`${LUETCBIN}/ludo is_be_name_valid "${luvbu_beName}" 2>&1`
+  ret="$?"
+  if [ "${ret}" -ne "0" ] ; then
+    # Errors were encountered
+    ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    return "2"
+  fi
+
+  # Get the BE ID.
+  luvbu_id="`${LUETCBIN}/ludo get_be_id \"${luvbu_beName}\" 2>&1`"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 '%s' "${luvbu_id}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine boot environment ID for target boot environment <%s>.'`" "${luvbu_beName}"
+    return "2"
+  fi
+
+  # Find the status of the BE.
+  luvbu_status="`${LUETCBIN}/ludo get_be_status_from_be_name \"${luvbu_beName}\"`"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to obtain the status of the boot environment <%s>.'`" "${luvbu_beName}"
+    return "2"
+  fi
+
+  # If it is an incomplete BE then it may not be mounted.
+  # Check to see if the root slice is mounted - just in case the user has
+  # mounted the root slice manually...
+  if [ "${luvbu_status}" != 'C' ] ; then
+    # get the ROOT slice for the BE.
+    luvbu_rslice="`${LUETCBIN}/ludo get_root_slice_from_be_name \"${luvbu_beName}\"`"
+    if [ -n "${luvbu_rslice}" ] ; then
+      ${LUETCBIN}/ludo get_mntpt_from_root_slice "${luvbu_rslice}" 2>/dev/null 1>&1
+      [ "$?" -eq '0' ] && return 1
+    fi
+    # Either no root slice found or the root slice is not mounted.
+    return 0
+  fi
+
+  # The BE must not currently be mounted.
+  luvbu_tmp_result_file="/tmp/.lulib.results.tmp.$$"
+  LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -V "${luvbu_beName}" 2>${luvbu_tmp_result_file}
+  ret="$?"
+  if [ "${ret}" -eq "0" ] ; then
+    # BE is not mounted - continue.
+    /bin/rm -f "${luvbu_tmp_result_file}"
+    return "0"
+  elif [ "${ret}" -eq "3" ] ; then
+    # BE is already mounted - issue error message and exit
+    [ -s "${luvbu_tmp_result_file}" ] && ${LUPRINTF} -elp2 '%R' < ${luvbu_tmp_result_file}
+    ${LUPRINTF} -Welp2 "`gettext 'The boot environment specified is \
+currently mounted. To unmount the BE, run <%s>.'`" "/usr/sbin/luumount ${luvbu_beName}"
+    /bin/rm -f "${luvbu_tmp_result_file}"
+    return "1"
+  fi
+
+  # lumount failed in some strange way.
+  [ -s "${luvbu_tmp_result_file}" ] && ${LUPRINTF} -elp2 '%R' < ${luvbu_tmp_result_file}
+  ${LUPRINTF} -Welp2 "`gettext 'Unable to verify whether boot environment \
+<%s> is mounted or is mountable.'`" "${luvbu_beName}"
+  /bin/rm -f "${luvbu_tmp_result_file}"
+  return "2"
+}
+
+#################################################################################################
+# Name:		lulib_is_be_name_unused.
+# Description:	Validate a be name as being valid and unused (not in use by any BE).
+# Local Prefix:	ibnu_
+# Arguments:	$1 = be name to validate.
+# Example:      lulib_is_be_name_unused
+# Returns:	0 - the be name is valid and is unused (not in use).
+#		1 - the be name is valid and is not unused (is in use).
+#		2 - the be name could not be looked up.
+# Messages:	Messages are output if the BE name is not in a valid or cannot be looked up
+#		or the BE name is in use.
+#################################################################################################
+
+lulib_is_be_name_unused()
+{
+  ibnu_beName="$1"
+
+  # If the /etc/lutab file does not exist, the BE cannot exist.
+  if [ ! -f "${LU_LUTAB_FILE}" ] ; then
+    lulib_be_name_valid "${ibnu_beName}"
+    return "$?"
+  fi
+
+  ERRMSG=`${LUETCBIN}/ludo is_be_name_unused "${ibnu_beName}" 2>&1`
+  ret="$?"
+  if [ "${ret}" -ne "0" ] ; then
+    # Errors were encountered
+    ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  fi
+
+  return "${ret}"
+}
+
+#################################################################################################
+# Name:		lulib_be_name_valid
+# Description:	Validate a be name as being valid; NO ATTEMPT MADE TO CHECK TO SEE IF BE EXISTS!
+# Local Prefix:	bnv_
+# Arguments:	$1 = be name to validate.
+# Example:      lulib_be_name_valid "be_name"
+# Returns:	0 - the be name is valid and not a duplicate of
+#		1 - the be name is not valid.
+# Messages:	Messages are output if the BE name is not in a valid format. NO MESSAGES ARE OUTPUT
+#		IF THE BE NAME IS VALID.
+#################################################################################################
+
+lulib_be_name_valid()
+{
+  ERRMSG=`${LUETCBIN}/ludo is_be_name_valid "$1" 2>&1`
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    return 1
+  fi
+
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_validate_be
+# Description:	Validate a be name exists and is complete; reject if optional check argument provided.
+# Local Prefix:	vbe_
+# Arguments:	$1 = be name to validate.
+#		$2 = optional be name that $1 CANNOT be ("" defaults to no reject check)
+#		$3 = optional if set ignore incomplete boot environments
+# Example:      lulib_validate_be "newBeName" "currBeName"
+# Returns:	0 - the be name is valid and not a duplicate of $2.
+#		1 - the be name is not valid.
+#		2 - the be name is a duplicate of $2.
+#		3 - the be name is valid, not a duplicate of $2, but is incomplete.
+# Side Effects: An existing COPYLOCK file has its contents read and executed as commands
+#		by the shell - as a result all variables from the copylock get set.
+# Messages:	Messages are output if the BE is not valid, if the BE is a duplicate of the
+#		$2 BE, if the BE is incomplete
+#################################################################################################
+
+lulib_validate_be()
+{
+  vbe_BeName="$1"
+  vbe_CurrBeName="$2"
+  vbe_ignoreIncomplete="$3"
+
+  # Validate second be name (if provided)
+  if [ -n "${vbe_CurrBeName}" ] ; then
+    lulib_be_name_valid "${vbe_CurrBeName}"
+    if [ "$?" -ne "0" ] ; then
+      return 1
+    fi
+  fi
+
+  # Make certain the boot environment name specified is valid.
+  vbe_beId=`${LUETCBIN}/ludo is_be_name_inuse "${vbe_BeName}" 2>&1`
+  if [ "$?" -ne "0" ] ; then
+    if [ -n "${vbe_beId}" ] ; then
+      ${LUPRINTF} -Eelp2 '%s' "${vbe_beId}"
+    else
+      ${LUPRINTF} -Eelp2 "`gettext 'The boot environment <%s> is not valid.'`" "${vbe_BeName}"
+    fi
+    return 1
+  fi
+
+  # Do not allow the current BE to be the target.
+  if [ -n "${vbe_CurrBeName}" -a "${vbe_BeName}" = "${vbe_CurrBeName}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The current (primary) boot environment <%s> may not be target boot environment.'`" "${vbe_BeName}"
+    return 2
+  fi
+
+  # If the BE status is not complete then exit out.
+  vbe_status=`${LUETCBIN}/ludo get_be_status_from_be_name "${vbe_BeName}"`
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to obtain the status of the boot environment <%s>.'`" "${vbe_beName}"
+    return 1
+  fi
+
+  if [ "$vbe_status" != "C" -a -z "${vbe_ignoreIncomplete}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The boot environment <%s> is not Complete.'`" "${vbe_BeName}"
+    return 3
+  fi
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_check_any_be_busy
+# Description:	Make sure that no boot environment is currently being updated, clearing out
+#		any stale copy lock file.
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      lulib_check_any_be_busy
+# Returns:	0 - There is NO boot environment is currently being updated.
+#		1 - There IS a boot environment currently being updated.
+# Side Effects: An existing COPYLOCK file has its contents read and executed as commands
+#		by the shell - as a result all variables from the copylock get set.
+#################################################################################################
+
+lulib_check_any_be_busy()
+{
+  COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+
+  # Clean up any old COPYLOCK file.
+
+  lulib_validate_lulock
+
+  # See if an operation is currently in progress; if so, operations can not be performed.
+
+  if [ -f "${COPYLOCK}" -a -s "${COPYLOCK}" ] ; then
+    . ${COPYLOCK}
+    if [ -n "$CL_STATUS" ];  then
+      ${LUPRINTF} -Eelp2 "`gettext 'A Live Upgrade Copy Lock exists: Status <%s> Source BE <%s> Target BE <%s>.'`" "${CL_STATUS}" "${CL_SOURCE_BE}" "${CL_TARGET_BE}"
+      return 1
+    fi
+  fi
+
+  # not busy.
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_cannot_duplicate_option
+# Description:	In validating command line options, emit error if option argument is specified twice.
+# Local Prefix:	<none>
+# Arguments:	$1 = setting of current option (initial value should be "").
+#		$2 = new valid for option.
+#		$3 = text describing option.
+# Example:	lulib_cannot_duplicate_option "${flag_j}" "${OPTARG}" "-j" && 
+# Returns:	return - option is not duplicated ($1 is empty/null).
+#		usage()/exit_script(3) - option $3 is duplicated (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_duplicate_option()
+{
+  if [ -n "$1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option may not be specified more than once: <%s> <%s>.'`" "$3" "$2" "$1"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_cannot_have_options
+# Description:	In validating command line options, emit error if more than one specified option
+#		argument is specified. CALL ONLY IF TWO OR MORE OPTIONS ARE SPECIFIED.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of one or more options.
+#		$2 = text describing option that can not accept $1 options.
+#		$3 = text describing $1 options.
+# Example:	lulib_cannot_have_options "${flag_a}${flag_b}" "-c" "-a or -b"
+# Returns:	return - option is not present ($1 is empty/null).
+#		usage()/exit_script(3) - option $3 is present (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_have_options()
+{
+  if [ -n "$1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option may not be combined with any of the <%s> options.'`" "$2" "$3"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_cannot_have_option
+# Description:	In validating command line options, emit error if only one single specified option
+#		argument is specified. CALL ONLY IF ONE OPTION IS SPECIFIED.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of one or more options.
+#		$2 = text describing option that can not accept $1 options.
+#		$3 = text describing $1 options.
+# Example:	lulib_cannot_have_option "${flag_a}${flag_b}" "-c" "-a"
+# Returns:	return - option is not present ($1 is empty/null).
+#		usage()/exit_script(3) - option $3 is present (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_have_option()
+{
+  if [ -n "$1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option may not be combined with the <%s> option.'`" "$2" "$3"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_cannot_have_conflicting_options
+# Description:	In validating command line options, emit error if both specified options are present.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of option one.
+#		$2 = text describing option one.
+#		$3 = string containing contents of option two.
+#		$4 = text describing option two.
+# Example:	lulib_cannot_have_conflicting_options "${flag_d}${flag_c}${flag_i}" "-d, -c, -i" "${flag_n}" "-n"
+# Returns:	return - both options are not specified.
+#		usage()/exit_script(3) - both options are specified (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_have_conflicting_options()
+{
+  if [ -n "$1" -a -n "$3" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option may not be combined with the <%s> options.'`" "$2" "$4"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_cannot_have_conflicting_option
+# Description:	In validating command line options, emit error if both specified options are present.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of option one.
+#		$2 = text describing option one.
+#		$3 = string containing contents of option two.
+#		$4 = text describing option two.
+# Example:	  lulib_cannot_have_conflicting_option "${flag_J}" "-f" "${flag_s}" "-s"
+# Returns:	return - both options are not specified.
+#		usage()/exit_script(3) - both options are specified (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_have_conflicting_option()
+{
+  if [ -n "$1" -a -n "$3" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option may not be combined with the <%s> option.'`" "$2" "$4"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_cannot_have_arguments
+# Description:	In validating command line options, emit error if non-option arguments present.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of command non-option arguments.
+#		$2 = text describing option that cannot accept $1 options.
+# Example:	lulib_cannot_have_argument "${cmdNames}" "-c"
+# Returns:	return - non-option arguments not present ($1 is empty/null).
+#		usage()/exit_script(3) - non-option arguments present (error message output; program exits).
+#################################################################################################
+
+lulib_cannot_have_argument()
+{
+  if [ -n "$1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option does not accept any command line parameters: <%s>.'`" "$2" "$1"
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_must_have_option
+# Description:	In validating command line options, emit error if one single option not present.
+#		CALL ONLY IF A SINGLE OPTION IS MISSING.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of option to check.
+#		$2 = text describing option that requires $3 option.
+#		$3 = text describing option that is required by $2 option.
+# Example:	lulib_must_have_option "${flag_s}" "-c" "-s"
+# Returns:	return - option argument is present ($1 is not empty/not null).
+#		usage()/exit_script(3) - option $3 not present (error message output; program exits).
+#################################################################################################
+
+lulib_must_have_option()
+{
+  if [ -z "$1" ] ; then
+    if [ -z "$2" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option must be specified.'`" "$3"
+    else
+      ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option requires the <%s> option to also be specified.'`" "$2" "$3"
+    fi
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_must_have_options
+# Description:	In validating command line options, emit error if two or more options not present.
+#		CALL ONLY IF TWO OR MORE OPTIONS ARE MISSING.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of option to check.
+#		$2 = text describing option that requires $3 option.
+#		$3 = text describing option that is required by $2 option.
+# Example:	lulib_must_have_options "${flag_s}" "-c" "-s, -q"
+# Returns:	return - option argument is present ($1 is not empty/not null).
+#		usage()/exit_script(3) - option $3 not present (error message output; program exits).
+#################################################################################################
+
+lulib_must_have_options()
+{
+  if [ -z "$1" ] ; then
+    if [ -z "$2" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'One of the <%s> options must be specified.'`" "$3"
+    else
+      ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option requires one of the <%s> options to also be specified.'`" "$2" "$3"
+    fi
+    usage 3
+  fi
+}
+
+#################################################################################################
+# Name:		lulib_must_have_argument
+# Description:	In validating command line options, emit error if non-option arguments not present.
+# Local Prefix:	<none>
+# Arguments:	$1 = string containing contents of command non-option arguments.
+#		$2 = text describing option that requires non-option arguments.
+# Example:	lulib_must_have_argument "${cmdNames}" "-r"
+# Returns:	return - non-option argument is present ($1 is empty/null).
+#		usage()/exit_script(3) - non-option arguments not present (error message output; program exits).
+#################################################################################################
+
+lulib_must_have_argument()
+{
+  if [ -z "$1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The <%s> option requires one or more command line parameters which have not been provided.'`" "$2"
+    usage 3
+  fi
+}
+
+###############################################################################
+# Name:		lulib_update_compare
+# Description:	Replicate /etc/lu/compare contents to all boot environments
+# Local Prefix:	luc_
+# Arguments:	$1 = optional mount point to update database on:
+#			== "" - update all complete boot environments
+#			!= "" - update boot environment at specified mount point
+#		$2 = name of boot environment mounted on "$1"
+#			- used for informational message about database update
+# Example:	lulib_update_compare
+# Returns:	<none>
+###############################################################################
+
+lulib_update_compare()
+{
+	# grab arguments to function
+	luc_mntpt="$1"
+	luc_abeName="$2"
+
+	# define temporary files and directories
+	luc_beNamesFile="/tmp/.lulib.compupd.benames.$$"
+	luc_beTmpMntpt="/tmp/.lulib.comupd.mntpt.$$"
+
+	# Remove temporary files/directories (in case they already exist)
+	/bin/rm -f "${luc_beNamesFile}"
+	/bin/rm -rf "${luc_beTmpMntpt}"
+
+	# If no compare databases present, nothing to do
+	[ -d "${LU_COMPARE_DATABASE_DIR}" ] || return
+
+	# If mount point provided, update database on mount point only
+	if [ -n "${luc_mntpt}" ] ; then
+		# ignore if not a directory
+		[ -d "${luc_mntpt}" ] || return
+
+		# ignore if live upgrade is not installed
+		[ -d "${luc_mntpt}/etc/lu" ] || return
+
+		# Output message indicating the be that is being updated
+		[ -n "${luc_abeName}" ] && ${LUPRINTF} -lp2 "`gettext 'Updating \
+compare databases on boot environment <%s>.'`" "${luc_abeName}"
+
+		# remove existing compare database
+		/bin/rm -rf "${luc_mntpt}${LU_COMPARE_DATABASE_DIR}" 2>/dev/null
+
+		# replicate compare database on specified mount point
+		/bin/cp -rp "${LU_COMPARE_DATABASE_DIR}" "${luc_mntpt}${LU_COMPARE_DATABASE_DIR}"
+
+		return
+	fi
+
+	# Process all inactive (-A) and complete (-c) BEs
+	# (that is, all complete BEs except the currently active BE).
+	# If names cannot be determined, simply return
+	${LUBIN}/lunames_list -A -c > "${luc_beNamesFile}"
+	if [ $? -ne 0 -o ! -s ${luc_beNamesFile} ] ; then
+		/bin/rm -f "${luc_beNamesFile}"
+		return
+	fi
+
+	# Replicate /etc/lu/compare directory contents for each boot environment
+	while read luc_beName ; do
+		# Output message indicating the be that is being updated
+		${LUPRINTF} -lp2 "`gettext 'Updating compare databases on boot \
+environment <%s>.'`" "${luc_beName}"
+
+		# Find the slice/fstype containing / for this boot environment
+		set `${LUBIN}/lumk_iconf "${luc_beName}" 2>/dev/null | \
+			    /bin/awk -F: '{
+					if ($2 == "/") {
+						printf("%s %s\n", $3, $4);
+					}
+				     }'` DUMMY
+
+		# skip this boot environment if no slice/fstype available
+		if [ "X$1" = "XDUMMY" ] ; then
+			# No ICF on this BE?
+			${LUPRINTF} -Ilp2 "`gettext 'Skipping update of boot environment \
+<%s>: not configured properly.'`" "${luc_beName}"
+			continue
+		fi
+
+		# Grab and verify slice to mount
+		luc_dev="$1"
+
+		# Ignore if no slice name found
+		[ -z "${luc_dev}" ] && continue
+
+		# Ignore if slice name is not a block device
+		[ -b "${luc_dev}" ] || continue
+
+		# Grab and verify file system type for slice to mount
+		luc_fstyp="$2"
+
+		# Ignore if no file system type found
+		[ -z "${luc_fstyp}" ] && continue
+
+		# See if root slice for the boot environment is currently mounted
+		luc_beMntpt="`${LUETCBIN}/ludo get_mntpt_from_root_slice \"${luc_dev}\" 2>/dev/null`"
+		[ $? -ne 0 ] && luc_beMntpt=""
+
+		# If root slice is not mounted, mount on temporary mount point
+		luc_okToUnmount=""
+		if [ -z "${luc_beMntpt}" ] ; then
+			# Create temporary mount point if it does not exist
+			if [ ! -d "${luc_beTmpMntpt}" ] ; then
+				/bin/mkdir "${luc_beTmpMntpt}" 2>/dev/null
+				[ $? -eq 0 -a -d "${luc_beTmpMntpt}" ] || continue
+			fi
+
+			# Mount root slice for BE to update on temp mount point
+			/usr/sbin/mount -F "${luc_fstyp}" "${luc_dev}" "${luc_beTmpMntpt}"
+			if [ $? -ne 0 ] ; then
+				# Mount failed, nuke temp dir and ignore slice
+				/bin/rmdir "${luc_beTmpMntpt}"
+				${LUPRINTF} -Eelp2 "`gettext 'Unable to mount root \
+filesystem <%s> for boot environment <%s>.'`" "${luc_dev}"
+				continue
+			fi
+
+			# Remember temp mount point can be unmounted/nuked when done
+			luc_beMntpt="${luc_beTmpMntpt}"
+			luc_okToUnmount="yes"
+		fi
+
+		# Check to see if enough of the BE is complete to update the 
+		# compare database; if not, skip updating this BE.
+		if [ -d "${luc_beMntpt}/etc/lu" ] ; then
+			# remove existing compare database
+			/bin/rm -rf "${luc_beMntpt}${LU_COMPARE_DATABASE_DIR}" 2>/dev/null
+
+			# replicate compare database on specified mount point
+			/bin/cp -rp "${LU_COMPARE_DATABASE_DIR}" "${luc_beMntpt}${LU_COMPARE_DATABASE_DIR}"
+		fi
+
+		# If root slice was mounted, unmount it now
+		if [ "${luc_okToUnmount}" = "yes" ] ; then
+			# sync data to storage medium before unmounting
+			/bin/sync
+			# force log to be flushed before unmounting
+			if [ -x "/usr/sbin/lockfs" ] ; then
+				/usr/sbin/lockfs -f "${luc_beTmpMntpt}" 1>/dev/null 2>&1
+			fi
+			# unmount the root slice
+			/usr/sbin/umount "${luc_beTmpMntpt}"
+			ret=$?
+			if [ $ret -ne 0 ] ; then
+			  /usr/sbin/umount -f "${luc_beTmpMntpt}"
+			  ret=$?
+			fi
+
+			[ $ret -eq 0 ] && /bin/rmdir "${luc_beTmpMntpt}"
+		fi
+	done < ${luc_beNamesFile}
+
+	# Remove temporary files and directories used
+	/bin/rm -f ${luc_beNamesFile}
+	/bin/rm -rf ${luc_beTmpMntpt}
+}
+
+#################################################################################################
+# Name:		lulib_discover_sds_installation
+# Description:	determine if the solaris metadisk software (Solstice DiskSuite, 
+#		Solaris Logical Volume Manager, etc.) is installed on this system,
+#		and if so set certain environment variables to indicate what was found
+# Local Prefix:	SCS_
+# Arguments:	<none>
+# Returns:	0	- SDS is NOT installed
+#		1	- SDS is installed
+#
+# The following environment variables will be set:
+#
+# SDS_FOUND:	indicates if SDS is installed (-z if not installed, -n if installed).
+# SDS_PACKAGE:	name of package containing main SDS software.
+# SDS_METADB:	full path name to the "metadb" command.
+# SDS_METASTAT:	full path name to the "metastat" command.
+# SDS_MD_CF:	full path name to the "md.cf" file.
+# SDS_DEVROOT:	full path name to the root for metadevices (typically /dev/md).
+# SDS_DESCRIPTION:	package "name" text description of which SDS installation was found.
+#			-> This is meant for debugging only to know what packages are in use.
+# SDS_TEXTDESCRIPTION: internationalizable description of which SDS installation was found.
+# SDS_VERSION:	readable localized text description of the version of SDS installed.
+#################################################################################################
+
+lulib_discover_sds_installation()
+{
+  # If this discovery has already been run for another lulib call, dont do it again.
+  if [ -n "${_S_D_S__D_I_S_C__D_O_N_E_}" -a -n "${SDS_ARCH}" ] ; then
+    if [ -z "${SDS_FOUND}" ] ; then
+      return 0
+    fi
+    return 1
+  fi
+
+  SDS_ARCH="`uname -r`"; export SDS_ARCH
+  SDS_FOUND=""; export SDS_FOUND
+  SDS_PACKAGE=""; export SDS_PACKAGE
+  SDS_METADB=""; export SDS_METADB
+  SDS_METASTAT=""; export SDS_METASTAT
+  SDS_METAROOT=""; export SDS_METAROOT
+  SDS_MD_CF=""; export SDS_MD_CF
+  SDS_MDDB_CF=""; export SDS_MDDB_CF
+  SDS_DESCRIPTION=""; export SDS_DESCRIPTION
+  SDS_TEXTDESCRIPTION="`gettext 'Solstice DiskSuite'`"; export SDS_TEXTDESCRIPTION
+  SDS_DEVROOT=""; export SDS_DEVROOT
+  SDS_VERSION=""; export SDS_VERSION
+
+  # The following variants of SDS must be recognized:
+  # SUNWmd (SDS <= 4.2) - Solstice DiskSuite (can be used on Solaris 2.6, Solaris 2.7 and Solaris 2.8)
+  # SUNWmd[r,u,x] (SDS >= 4.2.1) - Solstice DiskSuite (can be used on Solaris 2.7 and Solaris 2.8)
+  # SUNWmd[r,u,x] Solaris 9 - Solaris Logical Volume Manager (Integrated into OS)
+  
+  if [ "${SDS_ARCH}" != "5.6" ] ; then
+    pkginfo -q 'SUNWmdr.*'
+    if [ $? = 0 ] ; then
+      pkginfo -q 'SUNWmdu.*'
+      if [ $? = 0 ] ; then
+	SDS_FOUND="yes"
+	SDS_PACKAGE="SUNWmdr"
+	SDS_METADB="/usr/sbin/metadb"
+	SDS_METASTAT="/usr/sbin/metastat"
+	SDS_METAROOT="/usr/sbin/metaroot"
+	SDS_MD_CF="/etc/lvm/md.cf"
+	SDS_MDDB_CF="/etc/lvm/mddb.cf"
+	SDS_DEVROOT="/dev/md"
+	if [ "${SDS_ARCH}" != "5.8" ] ; then
+	  SDS_TEXTDESCRIPTION="`gettext 'Solaris Volume Manager'`"
+	fi
+      else
+	${LUPRINTF} -Eelp2 "`gettext 'Disk Suite/Logical Volume Manager Problem: SUNWmdr package found but SUNWmdu package missing.'`"
+      fi
+    fi
+  fi
+  
+  # If SDS 4.2.1/Solaris 9 not yet found then look for SDS 4.2 or before
+  if [ -z "${SDS_FOUND}" ] ; then
+    pkginfo -q 'SUNWmd.*'
+    if [ $? = 0 ] ; then
+      SDS_FOUND="yes"
+      SDS_PACKAGE="SUNWmd"
+      SDS_METADB="/usr/opt/SUNWmd/sbin/metadb"
+      SDS_METASTAT="/usr/opt/SUNWmd/sbin/metastat"
+      SDS_METAROOT="/usr/opt/SUNWmd/sbin/metaroot"
+      SDS_MD_CF="/etc/opt/SUNWmd/md.cf"
+      SDS_MDDB_CF="/etc/opt/SUNWmd/mddb.cf"
+      SDS_DEVROOT="/dev/md"
+    fi
+  fi
+
+  # If a variant of SDS has been found:
+  # - determine the latest instance of the software that is installed
+  # - make sure that the files / procedures used by this script are 
+  #   actually installed where we think they should be.
+  # - output log messages describing what software was discovered
+  
+  if [ -n "${SDS_FOUND}" ] ; then
+
+    # Determine the latest instance of the software that is installed
+    installedPkgs=`pkginfo "${SDS_PACKAGE}.*" | awk '{print $2}'`
+    ${LUPRINTF} -lp2D - "`gettext 'Disk Suite/Logical Volume Manager instances installed: <%s>.'`" "${installedPkgs}"
+    SDS_PACKAGE="`echo ${installedPkgs} | tail -1`"
+
+    # Get software description
+    SDS_DESCRIPTION="`pkgparam ${SDS_PACKAGE} NAME`"
+    SDS_VERSION="`pkgparam ${SDS_PACKAGE} VERSION`"
+
+    # Make sure all commands live upgrade depends on are available
+    for THEFILE in ${SDS_METADB} ${SDS_METASTAT} ${SDS_METAROOT} ${SDS_MD_CF} ${SDS_DEVROOT}; do
+      if [ ! -r ${THEFILE} ] ; then
+	${LUPRINTF} -Eelp2 "`gettext '%s file missing: <%s>.'`" "${SDS_DESCRIPTION}" "${THEFILE}"
+	SDS_FOUND=""
+      fi
+    done 
+
+    # Log what software was discovered
+    ${LUPRINTF} -lp2D - "`gettext 'Found SDS <%s> version <%s>.'`" "${SDS_DESCRIPTION}" "${SDS_VERSION}"
+    if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -ge "2" ] ; then
+      ${SDS_METASTAT} 2>&1 | ${LUPRINTF} -lp2D 2 "`gettext 'metastat summary:\n****************************************\n%R\n****************************************'`"
+      ${SDS_METADB} 2>&1 | ${LUPRINTF} -lp2D 2 "`gettext 'metadb summary:\n****************************************\n%R\n****************************************'`"
+    fi
+  fi
+  
+  # See if any metadevices exist - if not then dont configure for use with SDS
+
+  # For SUNWmdr, use the "metastat -i" command to verify that the meta disk 
+  # software is installed properly and that the metadisk configuration is
+  # consistent. The -i option checks the status of all active metadevices
+  # and hot spares.  The inquiry causes all components of each metadevice
+  # to be checked for accessibility, starting at the top level metadevice.
+  # When problems are discovered, the metadevice state databases are
+  # updated as if an error had occurred.
+  #
+  # For SUNWmd, use the "metadb" command to see if at least the metadevice database
+  # has been initialized. This is because "metastat" does not have a "-i" option
+  # in SUNWmd.
+
+  if [ -n "${SDS_FOUND}" ] ; then
+    if [ "${SDS_PACKAGE}" = "SUNWmd" ] ; then
+      ${SDS_METADB} 1>/dev/null 2>&1
+      status=$?
+    else
+      ${SDS_METASTAT} -i 1>/dev/null 2>&1
+      status=$?
+    fi
+    if [ ${status} != 0 ] ; then
+      SDS_FOUND=""
+      ${LUPRINTF} -lp2D - "`gettext '%s: not initialized or having problems: ignored.'`" "${SDS_DESCRIPTION}"
+    else
+      ${LUPRINTF} -lp2D - "`gettext '%s: operational and available.'`" "${SDS_DESCRIPTION}"
+    fi
+  fi
+  
+  # Set the optimization flag so we dont execute this discovery again if its already been done
+  _S_D_S__D_I_S_C__D_O_N_E_="yes" ; export _S_D_S__D_I_S_C__D_O_N_E_
+
+  # Return results of discovery
+  if [ -z "${SDS_FOUND}" ] ; then
+    return 0
+  fi
+  return 1
+}
+
+#################################################################################################
+# Name:		lulib_validate_is_directory_not_empty
+# Description:	Verify that a string argument is a directory and is not empty.
+# Local Prefix:	vde_
+# Arguments:	$1 = name of directory to validate
+# Returns:	0 - $1 is a directory
+#		1 - $1 is not a directory
+#		2 - $1 does not exist
+#		3 - $1 was not specified (is the null string)
+#		4 - $1 is a directory but is empty
+#################################################################################################
+
+lulib_validate_is_directory_not_empty()
+{
+  vde_location="$1"
+  lulib_validate_is_directory "${vde_location}"
+  if [ "$?" -ne "0" ] ; then
+    return 1
+  fi
+  if [ "`/bin/ls \"${vde_location}\" | /bin/wc -c`" -eq "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The path <%s> is an empty directory.'`" "${vde_location}"
+    return 4
+  fi	
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_validate_is_directory
+# Description:	Verify that a string argument is a directory, output error messages if it is not
+# Local Prefix:	vid_
+# Arguments:	$1 = name of directory to validate
+# Returns:	0 - $1 is a directory
+#		1 - $1 is not a directory
+#		2 - $1 does not exist
+#		3 - $1 was not specified (is the null string)
+#################################################################################################
+
+lulib_validate_is_directory()
+{
+  vid_location="$1"
+
+  # Assure path specified
+  if [ -z "${vid_location}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'No path specified.'`"
+    return 3
+  fi
+
+  # Check to see if path object exists at all
+  /bin/ls -d "${vid_location}" 1>/dev/null 2>&1
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The path <%s> does not exist.'`" "${vid_location}"
+    return 2
+  fi
+
+  # Check to see if path object is a file (just to give unique message about it being a "file")
+  if [ -f "${vid_location}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The path <%s> is an ordinary file (not a directory).'`" "${vid_location}"
+    return 1
+  fi
+
+  # Make sure the path object is a directory
+  if [ ! -d "${vid_location}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The path <%s> is not a directory.'`" "${vid_location}"
+    return 1
+  fi
+
+  # Success...
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_fixup_startup_settings
+# Description:	When each script starts, it should do a few boilerplate things:
+#		  . /etc/default/lu
+#		  LUBIN=${LUBIN:=/usr/lib/lu}
+#		  . ${LUBIN}/lulib
+#		  LUPRINTF=${LUPRINTF:=echo}; export LUPRINTF
+#		  << parse all command line options >>
+#		  lulib_fixup_startup_settings
+#		This function allows the command line arguments -x debuglevel, -l errlog, -o sesslog
+#		to be processed in each script, which should set the appropriate LU_*_OVERRIDE global.
+#		This function then checks to see if any overrides are set and if so it overrides
+#		the default LU_* settings from the /etc/default/lu file. This allows a script to
+#		override what is in the /etc/default/lu file and have it propagated to all other
+#		scripts.
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Globals:	LU_DEBUG, LU_DEBUG_OVERRIDE, LU_SESSION_LOG_FILE, LU_SESSION_LOG_FILE_OVERRIDE,
+#		LU_ERROR_LOG_FILE, LU_ERROR_LOG_FILE_OVERRIDE
+# Returns:	<none>
+# Side Effects:	IF LU_DEBUG is set to '10' then 'set -x' to all scripts
+
+#################################################################################################
+
+lulib_fixup_startup_settings()
+{
+  # Propagate LU_DEBUG.
+  if [ -n "${LU_DEBUG_OVERRIDE}" ] ; then
+    LU_DEBUG="${LU_DEBUG_OVERRIDE}"
+  fi
+  export LU_DEBUG_OVERRIDE
+  export LU_DEBUG
+
+  # If LU_DEBUG is set to '10' or greater, then 'set -x'
+  if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -ge '10' ] ; then
+    set -x
+  fi
+
+  # Set scheduling priorities.
+  if [ -z "${_LU__SCHEDULING_PRIORITY_SET_}" ] ; then
+    # If default value not set, assume minimum system priority.
+    if [ -z "${LU_SCHEDULING_PRIORITY}" ] ; then
+      LU_SCHEDULING_PRIORITY="-n +19"
+    fi
+    # Use renice to change this processes priority; it will cause
+    # this and all child processes to have run at the new priority.
+    ERRMSG="`/bin/renice ${LU_SCHEDULING_PRIORITY} -p $$`"
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Ielp2 "`gettext 'Unable to set scheduling priority to <%s> from <%s>.'`" \
+	"${LU_SCHEDULING_PRIORITY}" 'LU_SCHEDULING_PRIORITY'
+    else
+      ${LUPRINTF} -lp2D - "`gettext 'Set scheduling priority to <%s>.'`" "${LU_SCHEDULING_PRIORITY}"
+    fi
+    # Set global flag to indicate the priority has already been altered.
+    _LU__SCHEDULING_PRIORITY_SET_="yes"; export _LU__SCHEDULING_PRIORITY_SET_
+  fi
+
+  # Propagate LU_SESSION_LOG_FILE.
+  if [ -n "${LU_SESSION_LOG_FILE_OVERRIDE}" ] ; then
+    LU_SESSION_LOG_FILE="${LU_SESSION_LOG_FILE_OVERRIDE}"
+  fi
+  export LU_SESSION_LOG_FILE_OVERRIDE
+  export LU_SESSION_LOG_FILE
+
+  # Verify that the session log can be written to.
+  if [ -n "${LU_SESSION_LOG_FILE}" ] ; then
+    ERRMSG=`${LUPRINTF} -c "${LU_SESSION_LOG_FILE}" 2>&1`
+    if [ $? -ne 0 ] ; then
+      ${LUPRINTF} -Elp2 "`gettext 'Unable to write to log file <%s> - no session logging done.'`" "${LU_SESSION_LOG_FILE}"
+      LU_SESSION_LOG_FILE=""
+      LU_SESSION_LOG_FILE_OVERRIDE=""
+    fi
+  fi
+
+  # Propagate LU_ERROR_LOG_FILE.
+  if [ -n "${LU_ERROR_LOG_FILE_OVERRIDE}" ] ; then
+    LU_ERROR_LOG_FILE="${LU_ERROR_LOG_FILE_OVERRIDE}"
+  fi
+  export LU_ERROR_LOG_FILE_OVERRIDE
+  export LU_ERROR_LOG_FILE
+
+  # Verify that the error log can be written to.
+  if [ -n "${LU_ERROR_LOG_FILE}" ] ; then
+    ERRMSG=`${LUPRINTF} -c "${LU_ERROR_LOG_FILE}" 2>&1`
+    if [ $? -ne 0 ] ; then
+      ${LUPRINTF} -Eep2 "`gettext 'Unable to write to log file <%s> - no error logging done.'`" "${LU_ERROR_LOG_FILE}"
+      LU_ERROR_LOG_FILE=""
+      LU_ERROR_LOG_FILE_OVERRIDE=""
+    fi
+  fi
+
+  # Propagate LU_OUTPUT_FORMAT.
+  if [ -n "${LU_OUTPUT_FORMAT_OVERRIDE}" ] ; then
+    LU_OUTPUT_FORMAT="${LU_OUTPUT_FORMAT_OVERRIDE}"
+  fi
+  export LU_OUTPUT_FORMAT_OVERRIDE
+  export LU_OUTPUT_FORMAT
+
+  # The "_LU_OUTPUT_XML_" variable is set to null if XML is not enabled;
+  # it is set to "yes" if XML is enabled.
+  _LU_OUTPUT_XML_=''
+  [ "${LU_OUTPUT_FORMAT}" = 'xml' ] && _LU_OUTPUT_XML_=yes
+  export _LU_OUTPUT_XML_
+}
+
+#################################################################################################
+# Name:		lulib_set_error_log_file
+# Description:	Set the error log file name - called during initial options processing.
+# Local Prefix:	<none>
+# Arguments:	$1 = name of the error log file to set.
+# Globals:	LU_ERROR_LOG_FILE_OVERRIDE
+#		LU_ERROR_LOG_FILE
+# Side Effects:	LU_ERROR_LOG_FILE_OVERRIDE - set to "$1"
+#		LU_ERROR_LOG_FILE - set to "$1"
+# Returns:	<none>
+#################################################################################################
+
+lulib_set_error_log_file()
+{
+  LU_ERROR_LOG_FILE_OVERRIDE="$1"
+  export LU_ERROR_LOG_FILE_OVERRIDE
+  LU_ERROR_LOG_FILE="$1"
+  export LU_ERROR_LOG_FILE
+}
+
+#################################################################################################
+# Name:		lulib_set_session_log_file
+# Description:	Set the session log file name - called during initial options processing.
+# Local Prefix:	<none>
+# Arguments:	$1 = name of the session log file to set.
+# Globals:	LU_SESSION_LOG_FILE_OVERRIDE
+#		LU_SESSION_LOG_FILE
+# Side Effects:	LU_SESSION_LOG_FILE_OVERRIDE - set to "$1"
+#		LU_SESSION_LOG_FILE - set to "$1"
+# Returns:	<none>
+#################################################################################################
+
+lulib_set_session_log_file()
+{
+  LU_SESSION_LOG_FILE_OVERRIDE="$1"
+  export LU_SESSION_LOG_FILE_OVERRIDE
+  LU_SESSION_LOG_FILE="$1"
+  export LU_SESSION_LOG_FILE
+}
+
+#################################################################################################
+# Name:		lulib_set_debug
+# Description:	Set the debug flag - called during initial options processing.
+# Local Prefix:	<none>
+# Arguments:	$1 = name of the error log file to set.
+# Globals:	LU_DEBUG_OVERRIDE
+#		LU_DEBUG
+# Side Effects:	LU_DEBUG_OVERRIDE - set to "$1"
+#		LU_DEBUG - set to "$1"
+# Returns:	<none>
+#################################################################################################
+
+lulib_set_debug()
+{
+  LU_DEBUG_OVERRIDE="$1"
+  export LU_DEBUG_OVERRIDE
+  LU_DEBUG="$1"
+  export LU_DEBUG
+}
+
+#################################################################################################
+# Name:		lulib_set_output_format
+# Description:	Set the output format setting - called during initial options processing.
+# Local Prefix:	<none>
+# Arguments:	$1 = name of the error log file to set.
+# Globals:	LU_OUTPUT_FORMAT_OVERRIDE
+#		LU_OUTPUT_FORMAT
+# Side Effects:	LU_OUTPUT_FORMAT_OVERRIDE - set to "$1"
+#		LU_OUTPUT_FORMAT - set to "$1"
+# Returns:	<none>
+#################################################################################################
+
+lulib_set_output_format()
+{
+
+  LU_OUTPUT_FORMAT_OVERRIDE="$1"
+  export LU_OUTPUT_FORMAT_OVERRIDE
+  LU_OUTPUT_FORMAT="$1"
+  export LU_OUTPUT_FORMAT
+}
+
+#################################################################################################
+# Name:		lulib_icf_validate
+# Description:	Validate an ICF file contents
+# Local Prefix:	ivl_
+# Arguments:	$1 = name of the icf file to validate
+# Returns:	0 - icf file exists, has contents, and is valid.
+#		1 - icf file is not valid.
+#################################################################################################
+
+lulib_icf_validate()
+{
+  ivl_name="$1"
+
+  if [ -z "${ivl_name}" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File path was not specified.'`"
+    return 1
+  fi
+
+  if [ ! -f "${ivl_name}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> is not a file.'`" "${ivl_name}"
+    return 1
+  fi
+
+  if [ ! -s "${ivl_name}" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> exists but has no contents.'`" "${ivl_name}"
+    return 1
+  fi
+
+  if [ ! -r "${ivl_name}" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> exists but cannot be read.'`" "${ivl_name}"
+    return 1
+  fi
+
+  nawk -F: ' { if (NF != 5) exit 1 }' "${ivl_name}"
+  if [ "$?" -eq "1" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> has unrecognized contents.'`" "${ivl_name}"
+    return 1
+  fi
+
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_validate_bemntpt
+# Description:	Validate a BE mount point
+# Local Prefix:	vbmp_
+# Arguments:	$1 = mount point to be verified.
+# Returns:	0 - mount point exists and is valid.
+#		1 - mount point is not valid.
+#################################################################################################
+
+lulib_validate_bemntpt()
+{
+  vbmp_beName="$1"
+
+  if [ -z "${vbmp_beName}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The mount point was not specified.'`"
+   return 0
+  fi
+
+  if [ ! -r "${vbmp_beName}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The mount point <%s> is not a valid ABE (not mounted, not readable).'`" "${vbmp_beName}"
+    return 1
+  fi
+
+  if [ ! -d "${vbmp_beName}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The mount point <%s> is not a valid (not a directory).'`" "${vbmp_beName}"
+    return 1
+  fi
+
+  if [ ! -d "${vbmp_beName}/etc" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The mount point <%s> is not a valid ABE mount point (no /etc directory found).'`" "${vbmp_beName}"
+    return 1
+  fi
+
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_normalize_os_version
+# Description:	Given an OS version string, normalize it to a single numeric value according
+#		to this formula: (major * 10000) + (minor * 100) + patch
+#		For example: 5.5 = 50500, 5.5.1 = 50501, 5.9 = 50900, 5.10 = 51000
+# Local Prefix:	llnov_
+# Arguments:	$1 = release of SunOS to normalize
+# Returns:	<none>
+# Outputs:	Numeric OS version string.
+# NOTE:		When SunOS 5.11 becomes real, add an entry for 5.14. Etc.
+#################################################################################################
+
+lulib_normalize_os_version()
+{
+  llnov_release="$1"
+  if [ "${llnov_release}" = "2.5" -o "${llnov_release}" = "5.5" ] ; then
+    llnov_major="5"
+    llnov_minor="5"
+    llnov_patch="1"
+  elif [ "${llnov_release}" = "2.5.1" -o "${llnov_release}" = "5.5.1" ] ; then
+    llnov_major="5"
+    llnov_minor="5"
+    llnov_patch="1"
+  elif [ "${llnov_release}" = "2.6" -o "${llnov_release}" = "5.6" ] ; then
+    llnov_major="5"
+    llnov_minor="6"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.7" -o "${llnov_release}" = "5.7" -o "${llnov_release}" = "7" ] ; then
+    llnov_major="5"
+    llnov_minor="7"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.8" -o "${llnov_release}" = "5.8" -o "${llnov_release}" = "8" ] ; then
+    llnov_major="5"
+    llnov_minor="8"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.9" -o "${llnov_release}" = "5.9" -o "${llnov_release}" = "9" ] ; then
+    llnov_major="5"
+    llnov_minor="9"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.10" -o "${llnov_release}" = "5.10" -o "${llnov_release}" = "10" ] ; then
+    llnov_major="5"
+    llnov_minor="10"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.11" -o "${llnov_release}" = "5.11" -o "${llnov_release}" = "11" ] ; then
+    llnov_major="5"
+    llnov_minor="11"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.12" -o "${llnov_release}" = "5.12" -o "${llnov_release}" = "12" ] ; then
+    llnov_major="5"
+    llnov_minor="12"
+    llnov_patch="0"
+  elif [ "${llnov_release}" = "2.13" -o "${llnov_release}" = "5.13" -o "${llnov_release}" = "13" ] ; then
+    llnov_major="5"
+    llnov_minor="13"
+    llnov_patch="0"
+  else
+    llnov_major="`echo ${llnov_release} | /bin/awk -F'.' '{print $1}'`"
+    if [ -z "${llnov_major}" ] ; then
+      llnov_major="0"
+    fi
+    llnov_minor="`echo ${llnov_release} | /bin/awk -F'.' '{print $2}'`"
+    if [ -z "${llnov_minor}" ] ; then
+      llnov_minor="0"
+    fi
+    llnov_patch="`echo ${llnov_release} | /bin/awk -F'.' '{print $3}'`"
+    if [ -z "${llnov_patch}" ] ; then
+      llnov_patch="0"
+    fi
+    if [ "${llnov_major}" -eq "2" ] ; then
+      llnov_major="5"
+    elif [ "${llnov_minor}" -eq "0" -a "${llnov_patch}" -eq "0" ] ; then
+      llnov_patch="${llnov_minor}"
+      llnov_minor="${llnov_major}"
+      llnov_major="5"
+    elif [ "${llnov_patch}" -eq "0" -a "${llnov_major}" -ne "5" ] ; then
+      llnov_patch="${llnov_minor}"
+      llnov_minor="${llnov_major}"
+      llnov_major="5"
+    fi
+  fi
+  echo "`expr $llnov_major '*' 10000 '+' $llnov_minor '*' 100 '+' $llnov_patch`"
+}
+  
+#################################################################################################
+# Name:		lulib_is_platform_supported
+# Description:	Validate the current hardware architecture is supported by a particular SunOS release.
+# Local Prefix:	llips_
+# Arguments:	$1 = release of SunOS to check against current platform.
+# Returns:	0 - platform is supported.
+#		1 - platform is not supported.
+#################################################################################################
+
+lulib_is_platform_supported()
+{
+  llips_release="$1"
+  llips_eolAfterRelease=`/bin/grep -s "^LU_PLATFORM_${LU_HARDWARE_ARCH}_UNSUPPORTED_AFTER=" "/etc/default/lu" 2>/dev/null | /bin/head -1 | /bin/cut -d'=' -f2`
+  if [ -z "${llips_eolAfterRelease}" ] ; then
+    return 0
+  fi
+  llips_targetRelease="`lulib_normalize_os_version \"${llips_release}\""
+  llips_eolRelease="`lulib_normalize_os_version \"${llips_eolAfterRelease}\""
+  if [ "${llips_targetRelease}" -le "${llips_eolRelease}" ] ; then
+    # Supported - return success.
+    ${LUPRINTF} -lp2D - "`gettext 'Platform <%s> is supported on Solaris release <%s>.'`" "${LU_HARDWARE_ARCH}" "${llips_release}"
+    return 0
+  fi
+
+  # Not supported - return error.
+  ${LUPRINTF} -lp2D - "`gettext 'Platform <%s> is no longer supported on Solaris release <%s> (after release <%s>).'`" "${LU_HARDWARE_ARCH}" "${llips_release}" "${llips_eolAfterRelease}"
+  return 1
+}
+
+#################################################################################################
+# Name:		lulib_is_upgrade_supported
+# Description:	Validate that an OS of a particular version can be upgraded with this version
+#		of Live Upgrade.
+# Local Prefix:	llius_
+# Arguments:	$1 = release of SunOS to check against current version of Live Upgrade.
+# Returns:	0 - OS to be upgraded to is supported.
+#		1 - OS to be upgraded to is NOT supported.
+#################################################################################################
+
+lulib_is_upgrade_supported()
+{
+  llius_release="$1"
+  llius_targetRelease="`lulib_normalize_os_version \"${llius_release}\""
+  llius_supportedRelease="`lulib_normalize_os_version \"${LU_BUILT_FOR_SOLARIS_VERSION}\""
+  if [ "${llius_targetRelease}" -eq "${llius_supportedRelease}" ] ; then
+    # Supported - return success.
+    ${LUPRINTF} -lp2D - "`gettext 'Upgrade supported to Solaris version <%s>.'`" "${llius_release}"
+    return 0
+  fi
+
+  # Not supported - see if override flag LU_ALLOW_ANY_SOLARIS_VERSION_UPGRADE set in /etc/default/lu.
+  if [ "${LU_ALLOW_ANY_SOLARIS_VERSION_UPGRADE}" = "YES" -o "${LU_ALLOW_ANY_SOLARIS_VERSION_UPGRADE}" = "yes" ] ; then
+    # Not supported but overridden - return success.
+    ${LUPRINTF} -lp2D - "`gettext 'Upgrade not supported to Solaris version <%s> (only to Solaris version <%s>) but allowed because LU_ALLOW_ANY_SOLARIS_VERSION_UPGRADE set in /etc/default/lu.'`" "${llius_release}" "${LU_BUILT_FOR_SOLARIS_VERSION}"
+    return 0
+  fi
+
+  # Not supported - return error.
+  ${LUPRINTF} -lp2D - "`gettext 'Upgrade is not supported to Solaris version <%s> (only to Solaris version <%s>).'`" "${llius_release}" "${LU_BUILT_FOR_SOLARIS_VERSION}"
+  return 1
+}
+
+#################################################################################################
+# Name:		lulib_lucurr
+# Description:	Return name of the currently active BE. This call is an optimization replacement
+#		for calling 'lucurr' directly - it is much faster but it can only be used when
+#		no arguments would be passed to lucurr (such as an alternative mount point -m)
+#		and can not be used in single user mode.
+# Local Prefix:	llluc
+# Arguments:	None.
+# Returns:	0 - BE name has been returned as a string value.
+#		1 - BE name coult not be determined.
+# Outputs:	Name of currently active BE.
+#################################################################################################
+
+lulib_lucurr()
+{
+  # If BE name not already cached, see if local BE configuration file is available; if so,
+  # use the information stored in that file to determine the name of the current BE.
+
+  if [ -z "${LU_CURRENT_BE_NAME}" ] ; then
+    LU_BE_CONFIG_FILE="/etc/lu/.BE_CONFIG"
+    # Do it the easy way first: see if this BE contains a BE configuration
+    # file and if so look for the BE_NAME entry.
+    if [ -f "${LU_BE_CONFIG_FILE}" ] ; then
+      LUBECF_BE_NAME=""
+      . "${LU_BE_CONFIG_FILE}"
+      if [ -n "${LUBECF_BE_NAME}" ] ; then
+        LU_CURRENT_BE_NAME="${LUBECF_BE_NAME}"
+	export LU_CURRENT_BE_NAME
+      fi
+    fi
+  fi
+
+  # If BE name not already cached, call lucurr to determine the currently active BE name.
+
+  if [ -z "${LU_CURRENT_BE_NAME}" ] ; then
+    LU_CURRENT_BE_NAME="`${LUBIN}/lucurr`"
+    if [ "$?" -ne "0" ] ; then
+      LU_CURRENT_BE_NAME=""
+      return 1
+    fi
+    if [ -z "${LU_CURRENT_BE_NAME}" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active boot environment.'`"
+      return 1
+    fi
+    export LU_CURRENT_BE_NAME
+  fi
+
+  # Return the cached name of the currently active BE.
+  echo "${LU_CURRENT_BE_NAME}"
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_fix_name
+# Description:	Change any characters special to egrep and awk, so that
+#		the string can be safely grepped (egrep) and changed (awk)
+#	        For example, awk chokes if the pattern contains unescaped
+#	        parenthesis
+# Local Prefix:	lcs
+# Arguments:	$1 - string to be changed
+# Returns:	0 - Successfully processed string
+#		1 - An error occurred
+# Outputs:	Changed string
+#################################################################################################
+
+lulib_fix_name()
+{
+   lcs_str="$1"
+   if [ -z "$lcs_str" ]; then
+      return 1
+   fi
+
+   #
+   # NOTE: sed doesn't support the + metacharacter
+   #
+   echo "$lcs_str" | /bin/sed 's:\([^a-zA-Z0-9]\):\\\1:g'
+
+   return 0
+}
+
+#
+# Utility function (internal to lulib) that runs /sbin/biosdev
+#
+# Arguments
+#	$1 - the results file
+# Returns
+#	0 on success
+#	1 on failure
+#
+run_biosdev()
+{
+	if [ "$#" -ne 1 -o -z "$1" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'run_biosdev(): invalid arguments.'`"
+		return 1
+	fi
+
+	RES="$1"
+	/bin/rm -f "$RES"
+
+	if [ -z "$LU_BIOSDEV" -o ! -f "$LU_BIOSDEV" -o ! -x "$LU_BIOSDEV" -o ! -s "$LU_BIOSDEV" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot find or is not executable: <%s>.'`" "${LU_BIOSDEV}"
+		return 1
+	fi
+
+	${LUPRINTF} -lp2D - "`gettext 'found <%s>.'`" "${LU_BIOSDEV}"
+
+	#
+	# kill vold before running biosdev command
+	# vold prevents biosdev from working correctly
+	#
+	RESTART_VOLD=""
+	WAIT_FOR_VOLD=""
+	ret=0
+	/bin/pgrep vold > /dev/null 2>&1
+	if [ "$?" -ne 1 ]; then
+		#
+		# vold is running or some error occurred
+		# go ahead and kill vold *after* checking
+		# media.
+		#
+		lulib_is_CD_media
+		error="$?"
+		if [ "$error" -eq 0 ]; then
+		   WAIT_FOR_VOLD=1
+		elif [ "$error" -ne 1 ]; then
+		   ret=1
+		fi
+		RESTART_VOLD=1
+		/etc/init.d/volmgt stop > /dev/null 2>&1
+	fi
+
+	"$LU_BIOSDEV" > "$RES"
+	status="$?"
+
+	if [ -n "$RESTART_VOLD" ]; then
+		/etc/init.d/volmgt start > /dev/null 2>&1
+		if [ -n "$WAIT_FOR_VOLD" ]; then
+		   lulib_wait_for_vold
+		   if [ "$?" -ne 0 ]; then
+		      ret=1
+		   fi
+		fi
+	fi
+
+	if [ "$status" -ne 0 ]; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Device mapping command <%s> failed. Please reboot and try again.'`" "$LU_BIOSDEV"
+	elif [ "$status" -eq 0 -a "$ret" -ne 0 ]; then
+             status="$ret"
+	fi
+
+	return "$status"
+}
+
+#################################################################################################
+# Name:		lulib_get_logical_boot_slice
+# Description:	Given a physical slice, finds the metadevice/mirror that encapsulates it.
+# Local Prefix:	GLB
+# Arguments:	$1 - the physical slice
+# Returns:	Sets the variable LU_BOOT_LOGICAL.
+#		Returns 0 on success, 1 on failure
+#################################################################################################
+
+lulib_get_logical_boot_slice()
+{
+  GLB_TMP="/tmp/.lulib.glb.1.$$"
+
+  LU_BOOT_LOGICAL=""
+
+  if [ "${LU_SYSTEM_ARCH}" != "i386" ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Internal error: lulib_get_logical_boot_slice() only supported on x86 '`"
+     return 1
+  fi
+
+  if [ "$#" -ne 1 -o -z "$1" ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Usage: lulib_get_logical_boot_slice <phys-slice>'`"
+     return 1
+  fi
+
+  boot_raw_slice="$1"
+  ${LUPRINTF} -lp2D - "`gettext 'Physical boot slice is: <%s>'`" "$boot_raw_slice"
+
+  lulib_discover_sds_installation
+  if [ -z "${SDS_FOUND}" ]; then
+     ${LUPRINTF} -lp2D - "`gettext 'SVM is not configured'`"
+     ${LUPRINTF} -lp2D - "`gettext 'Logical slice = physical slice'`"
+     LU_BOOT_LOGICAL="$boot_raw_slice"
+     return 0
+  fi
+
+  ${SDS_METASTAT} -p > "$GLB_TMP"
+  if [ "$?" -ne 0 ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Cannot run: <%s>'`" "${SDS_METASTAT}"
+     /bin/rm -f "$GLB_TMP"
+     return 1
+  fi
+
+  ctd=`/bin/echo "$boot_raw_slice" | /bin/sed 's:/dev/rdsk/::g'`
+  if [ -z "$ctd" ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Cannot parse: <%s>'`" "${boot_raw_slice}"
+     /bin/rm -f "$GLB_TMP"
+     return 1
+  fi
+
+ # Check if component of a metadevice
+  metadev=`/bin/nawk -v phys="$ctd" ' {if ($4 == phys) {printf("%s\n", $1);exit 12;}}' "$GLB_TMP"`
+  if [ "$?" -ne 12 ]; then
+     ${LUPRINTF} -lp2D - "`gettext 'Not a metadevice: <%s>'`" "$boot_raw_slice"
+     LU_BOOT_LOGICAL="$boot_raw_slice"
+     /bin/rm -f "$GLB_TMP"
+     return 0
+  elif [ -z "$metadev" ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Cannot find metadevice for <%s>'`" "$ctd" 
+     /bin/rm -f "$GLB_TMP"
+     return 1
+  fi
+  
+  ${LUPRINTF} -lp2D - "`gettext 'Is a metadevice: <%s>'`" "$metadev"
+ 
+  #
+  # Check if component of a mirror
+  # SVM supports a maximum of 4 way mirror
+  #
+  mirror=`/bin/nawk -v meta="$metadev" ' { if ( $3 == meta || $4 == meta || $5 == meta || $6 == meta ) {printf("%s\n", $1); exit 13;}}' "$GLB_TMP"`
+  mir_ret="$?"
+
+  /bin/rm -f "$GLB_TMP"
+
+  if [ "$mir_ret" -ne 13 ]; then
+     ${LUPRINTF} -lp2D - "`gettext 'Not a mirror: <%s>'`" "$boot_raw_slice"
+     LU_BOOT_LOGICAL="${SDS_DEVROOT}/rdsk/${metadev}"
+     ${LUPRINTF} -lp2D - "`gettext 'Logical slice is: <%s>'`" "$LU_BOOT_LOGICAL"
+     return 0
+  elif [ -z "$mirror" ]; then
+     ${LUPRINTF} -Eelp2 "`gettext 'Cannot find mirror for <%s>'`" "$metadev" 
+     return 1
+  fi
+  ${LUPRINTF} -lp2D - "`gettext 'Is a mirror: <%s>'`" "$mirror"
+
+  LU_BOOT_LOGICAL="${SDS_DEVROOT}/rdsk/${mirror}"
+  ${LUPRINTF} -lp2D - "`gettext 'Logical slice is: <%s>'`" "$LU_BOOT_LOGICAL"
+  return 0
+}
+
+#################################################################################################
+# Name:		lulib_get_boot_slice
+# Description:	Determines the boot slice i.e. the slice where GRUB and menu.lst
+#		are to be installed.
+# Local Prefix:	GBS
+# Arguments:	None
+# Returns:	Sets the variables LU_BOOT_SLICE, LU_BOOT_LOGICAL and LU_BOOT_HD0
+#################################################################################################
+
+lulib_get_boot_slice()
+{
+	GBS_TMP="/tmp/.lulib.gbs.1.$$"
+	GBS_TMP2="/tmp/.lulib.gbs.2.$$"
+	GBS_TMP3="/tmp/.lulib.gbs.3.$$"
+	GBS_MNTPT="/tmp/.lulib.gbs.4.$$"
+
+	MNTED=""
+	MNTPT=""
+
+	FIRST=""
+	SECND=""
+	THIRD=""
+	FOURTH=""
+
+	BOOT_CAN=""
+	BOOT_CAN_REAL=""
+	BOOT_CAN_BLK=""
+	BOOT_CAN_REAL_BLK=""
+
+	LU_BOOT_HD0=""
+	LU_BOOT_SLICE=""
+	LU_BOOT_LOGICAL=""
+
+	if [ "${LU_SYSTEM_ARCH}" != "i386" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Internal error: lulib_get_boot_slice() only supported on x86 '`"
+		return
+	fi
+
+	# There is no need to emit an error message if run_biosdev() fails.
+	# run_biosdev() will itself emit an appropriate error message.
+	run_biosdev "$GBS_TMP"
+	if [ "$?" -ne 0 ]; then
+		/bin/rm -f "$GBS_TMP"
+		return
+	fi
+
+	${LUPRINTF} -lp2D 8 "`gettext 'bios device mapping results.'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "`/bin/cat ${GBS_TMP}`"
+
+	LU_BOOT_HD0=`/bin/egrep "^0x80[ 	]" "$GBS_TMP" \
+		| /bin/cut -d ' ' -f 2`
+	if [ -z "$LU_BOOT_HD0" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot find BIOS disk 0x80 in map.'`"
+		/bin/rm -f "$GBS_TMP"
+		return
+	fi
+	/bin/rm -f "$GBS_TMP"
+
+	${LUPRINTF} -lp2D - "`gettext 'hd0 is <%s>.'`"  "${LU_BOOT_HD0}"
+
+	#
+	# Now get the fdisk table on disk 0x80
+	#
+	HD0_P0="/devices${LU_BOOT_HD0}:q,raw"
+	if [ ! -c "$HD0_P0" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot find FDISK table on: <%s>'`" "${HD0_P0}"
+		return
+	fi
+	${LUPRINTF} -lp2D 6 "`gettext 'Fdisk table exists on: <%s>'`"  "${HD0_P0}"
+
+	/sbin/fdisk -W "$GBS_TMP" "$HD0_P0"
+	if [ "$?" -ne 0 ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Failed to get FDISK table for boot disk: <%s>'`" "${LU_BOOT_HD0}"
+		/bin/rm -f "$GBS_TMP"
+		return
+	fi
+
+	# strip off comments and blank lines
+	/bin/grep -v \* "$GBS_TMP" | /bin/egrep -v '^[ 	]*$' > "$GBS_TMP2"
+	/bin/rm -f "$GBS_TMP"
+
+	${LUPRINTF} -lp2D 8 "`gettext 'FDISK table'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "`/bin/cat ${GBS_TMP2}`"
+
+
+	/bin/awk ' { if ( $1 == "190" ) exit 7; } ' "$GBS_TMP2"
+	if [ "$?" -eq 7 ]; then
+		${LUPRINTF} -lp2D 6 "`gettext 'Boot partition found in boot disk <%s>'`" "${LU_BOOT_HD0}"
+
+		# Map the /devices name to a /dev name
+		DEV_HD0=`/bin/ls -l /dev/rdsk/*p0 | /bin/nawk -v dev="../..$HD0_P0" ' { if ($11 == dev ) {printf("%s\n", $9); exit 13;}}'`
+		if [ "$?" -eq 13 -a -n "$DEV_HD0" ]; then
+			BOOT_CAN="${DEV_HD0}:boot"
+			BOOT_CAN_REAL=`lulib_get_real_boot_partition "$BOOT_CAN"`
+			if [ "$?" -ne -0 -o -z "$BOOT_CAN_REAL" ]; then
+			   ${LUPRINTF} -Eelp2 "`gettext 'Cannot get real name for boot partition <%s>'`" "${HD0_P0}"
+			   BOOT_CAN=""
+			   BOOT_CAN_REAL=""
+			fi
+		else
+			${LUPRINTF} -Eelp2 "`gettext 'Cannot get /dev name for boot partition <%s>'`" "${HD0_P0}"
+			BOOT_CAN=""
+			BOOT_CAN_REAL=""
+		fi
+	fi
+
+
+	# check if a Solaris or Solaris2 partition exists
+	/bin/awk ' { if ( $1 == "130" || $1 == "191" ) exit 8; } ' "$GBS_TMP2"
+	if [ "$?" -ne 8 ]; then
+		if [ -n "$BOOT_CAN" ]; then
+		   LU_BOOT_SLICE="$BOOT_CAN"
+		   LU_BOOT_LOGICAL="$LU_BOOT_SLICE"
+		   ${LUPRINTF} -lp2D - "`gettext 'LU Boot (raw) Slice is <%s>'`" "${LU_BOOT_SLICE}"
+		   ${LUPRINTF} -lp2D - "`gettext 'LU Boot Logical Slice is <%s>'`" "${LU_BOOT_LOGICAL}"
+		else
+		   ${LUPRINTF} -Eelp2 "`gettext 'No Solaris partition in boot disk <%s>'`" "${LU_BOOT_HD0}"
+		fi
+		/bin/rm -f "$GBS_TMP"
+		/bin/rm -f "$GBS_TMP2"
+		return
+	fi
+	/bin/rm -f "$GBS_TMP"
+	/bin/rm -f "$GBS_TMP2"
+
+	${LUPRINTF} -lp2D 8  "`gettext 'A Solaris partition exists in boot disk: <%s>'`" "${LU_BOOT_HD0}"
+
+	#
+	# Now go through all the Solaris slices and find a suitable
+	# boot slice
+	#
+
+	# First generate a list of "real" filesystems
+	/sbin/mount | /bin/awk ' $3 ~ /\/dev\// { print $1, $3 } ' > "$GBS_TMP"
+	${LUPRINTF} -lp2D 8 "`gettext 'Edited mount table'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "`/bin/cat ${GBS_TMP}`"
+
+	for i in `/bin/cat "$GBS_TMP" | /bin/awk ' { print $2 } '`
+	do
+		#
+		# Skip p0:boot entry - that is not a real device name
+		# We still generate an entry though, so that /dev and
+		# /devices file lists are in sync
+		#
+      		/bin/echo "$i" | /bin/egrep "p0:boot$" > /dev/null 2>&1 
+      		if [ "$?" -eq 0 ]; then
+		   echo "DUMMY_ENTRY" >> "$GBS_TMP2"
+		   continue
+		fi
+
+		/bin/ls -l "$i" > /dev/null 2>&1
+      		if [ "$?" -ne 0 ]; then
+		   echo "DUMMY_ENTRY" >> "$GBS_TMP2"
+		   continue
+		fi
+
+		/bin/ls -l "$i" | /bin/awk ' { print $11 } ' \
+			| /bin/sed 's/.*\(\/devices\/\)/\1/g' >> "$GBS_TMP2"
+	done
+
+	${LUPRINTF} -lp2D 8 "`gettext 'Mounted /dev files'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "`/bin/cat ${GBS_TMP}`"
+	${LUPRINTF} -lp2D 8 "`gettext 'Mounted /devices files'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "`/bin/cat ${GBS_TMP2}`"
+
+	HD0_S2="/devices${LU_BOOT_HD0}:c,raw"
+	SLNUM=`/usr/sbin/prtvtoc -h "$HD0_S2" | /bin/awk ' { print $1 } '`
+	/usr/sbin/prtvtoc -h "$HD0_S2" > "$GBS_TMP3"
+
+	${LUPRINTF} -lp2D 8 "`gettext 'Slices in Solaris partition'`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "${SLNUM}"
+
+	for i in $SLNUM
+	do
+		SLCHAR=""
+		case $i in
+		   0) SLCHAR=a;;
+		   1) SLCHAR=b;;
+		   3) SLCHAR=d;;
+		   4) SLCHAR=e;;
+		   5) SLCHAR=f;;
+		   6) SLCHAR=g;;
+		   7) SLCHAR=h;;
+		esac
+
+		if [ -z "$SLCHAR" ]; then
+			${LUPRINTF} -lp2D 8 "`gettext 'Skipping invalid slice: <%s>'`" "${i}"
+			continue
+		fi
+
+		${LUPRINTF} -lp2D 8 "`gettext 'Processing slice: <%s>'`" "${SLCHAR}"
+
+		#
+		# Make sure we are writing to a RDWR mountable filesystem
+		# and not something like swap (fstyp and mount may lie when
+		# faced with swap partitions).
+		#
+		vtoc_tag=`/bin/cat "$GBS_TMP3" | /bin/nawk -v slice=$i ' { if ($1 == slice) {printf("%s\n", $2); exit 6;}}'`
+		if [ "$?" -ne  6 -o -z "$vtoc_tag" ]; then
+		   ${LUPRINTF} -lp2D 8 "`gettext 'Skipping slice: <%s>: no VTOC tag'`" "${i}"
+		   continue
+		fi
+		vtoc_flag=`/bin/cat "$GBS_TMP3" | /bin/nawk -v slice=$i ' { if ($1 == slice) {printf("%s\n", $3); exit 7;}}'`
+		if [ "$?" -ne  7 -o -z "$vtoc_flag" ]; then
+		   ${LUPRINTF} -lp2D 8 "`gettext 'Skipping slice: <%s>: no VTOC flag'`" "${i}"
+		   continue
+		fi
+		if [ "$vtoc_tag" -eq 3 ]; then
+		   ${LUPRINTF} -lp2D 8 "`gettext 'Skipping swap slice <%s>: VTOC tag = <%s>'`" "${i}" "$vtoc_tag"
+		   continue
+		fi
+		if [ "$vtoc_flag" -ne 0 ]; then
+		   ${LUPRINTF} -lp2D 8 "`gettext 'Cannot mount slice <%s> RDWR, skipping: VTOC flag = <%s>'`" "${i}" "$vtoc_flag"
+		   continue
+		fi
+
+		BLK_SLICE="/devices${LU_BOOT_HD0}:$SLCHAR"
+
+		${LUPRINTF} -lp2D 8 "`gettext 'Processing BLK slice: <%s>'`" "${BLK_SLICE}"
+
+		RECNUM=`/bin/cat "$GBS_TMP2" | /bin/nawk -v dev="$BLK_SLICE" \
+			' $1 == dev { print NR } ' `
+		if [ -z "$RECNUM" ]; then
+			${LUPRINTF} -lp2D 8 "`gettext 'Not mounted: <%s>'`" "${BLK_SLICE}"
+			${LUPRINTF} -lp2D 8 "`gettext 'Determining FSTYPE'`"
+			#
+			# Since this function is a member of lulib, we know
+			# it is safe to call lulib_fstyp
+			#
+			FSTYPE=`lulib_fstyp "${BLK_SLICE},raw" 2>/dev/null`
+			if [ "$?" -ne 0 -o -z "$FSTYPE" ]; then
+				${LUPRINTF} -lp2D - "`gettext 'Cannot determine FSTYPE for: <%s>'`" "${BLK_SLICE}"
+				continue
+			fi
+			${LUPRINTF} -lp2D 8 "`gettext 'FSTYPE is <%s>'`" "${FSTYPE}"
+
+
+			/bin/mkdir -p "$GBS_MNTPT"
+			#
+			# Mount the filesystem readonly, we only want to read data
+			# If ufs, mount it with nologging so that ufs logging code
+			# doesn't complain about readonly file system
+			#
+			MNT_OPT=""
+			if [ "${FSTYPE}" = ufs ]; then
+			   MNT_OPT="-o nologging"
+			fi
+			/sbin/mount -F "$FSTYPE" -r $MNT_OPT "$BLK_SLICE" "$GBS_MNTPT" 
+			if [ "$?" -ne  0 ]; then
+				${LUPRINTF} -Eelp2 "`gettext 'Mount failed for: <%s>'`" "${BLK_SLICE}"
+				/bin/rmdir "$GBS_MNTPT"
+				continue
+			fi
+			${LUPRINTF} -lp2D 8 "`gettext 'MOUNTED <%s>'`" "${BLK_SLICE}"
+			MNTPT="$GBS_MNTPT"
+			MNTED=1
+		else
+			${LUPRINTF} -lp2D 8 "`gettext 'Already mounted: <%s>'`" "${BLK_SLICE}"
+			${LUPRINTF} -lp2D 8 "`gettext 'mounted FS entry#: <%s>'`" "${RECNUM}"
+			MNTPT=`/bin/cat "$GBS_TMP" | \
+			      /bin/nawk -v rec="$RECNUM" ' NR == rec \
+			      { print $1 } '`
+			if [ -z "$MNTPT" ]; then
+				${LUPRINTF} -Eelp2 "`gettext 'Cannot find mountpoint for <%s>'`" "${BLK_SLICE}"
+				continue
+			fi
+			MNTED=""
+		fi
+
+		${LUPRINTF} -lp2D 8 "`gettext '<%s> is mounted at <%s>'`" "${BLK_SLICE}" "${MNTPT}"
+
+		#
+		# The filesystem is mounted and is a candidate
+		# for selection.
+		# Here is the order in which selection is made:
+		# 	1. first Solaris slice that has a menu.lst with an LU entry
+		#	2. (for compatibility) boot partition that has a menu.lst with an LU entry
+		#	3. First Live Upgrade BE that doesn't have a boot partition.
+		#	   We don't pick BEs with boot partition as the menu will be hidden under
+		#	   boot partition mountpoint (/boot)
+		#	4. boot partition (if it exists)
+		#
+		if [ -z "$THIRD" -a -f "${MNTPT}/${LU_LUTAB_FILE}" -a -s "${MNTPT}/${LU_LUTAB_FILE}" ]; then
+        	   /bin/grep -s -v '^#' "${MNTPT}/etc/vfstab" | /bin/grep "[ 	]/boot[ 	]*pcfs[ 	]" >/dev/null
+		   ret="$?"
+		   if [ "$ret" -eq 1 ]; then
+			THIRD="$BLK_SLICE"
+			${LUPRINTF} -lp2D - "`gettext 'Third candidate is <%s>'`" "${THIRD}"
+		   elif [ "$ret" -ne 0 ]; then
+			${LUPRINTF} -Eelp2 "`gettext 'grep of /etc/vfstab failed on boot disk, slice <s%s>'`" "${i}"
+		   fi
+		fi
+
+		if [ -f "${MNTPT}/$BOOT_MENU" -a -s "${MNTPT}/$BOOT_MENU" ]
+		then
+			/bin/grep "$BOOT_MENU_HDR_SUFFIX" "${MNTPT}/$BOOT_MENU" > /dev/null 2>&1
+			if [ "$?" -eq 0 -a -z "$FIRST" ]; then
+				FIRST="$BLK_SLICE"
+				${LUPRINTF} -lp2D - "`gettext 'first candidate is: <%s>'`" "${FIRST}"
+			fi
+
+		fi
+
+		if [ -n "$MNTED" ]; then
+			/sbin/umount "$BLK_SLICE"
+			if [ "$?" -ne 0 ]; then
+				${LUPRINTF} -Eelp2 "`gettext 'Failed to unmount <%s> at <%s>'`" "${BLK_SLICE}" "${MNTPT}"
+			else
+				/bin/rmdir "$MNTPT"
+				${LUPRINTF} -lp2D 8 "`gettext 'unmounted <%s>'`" "${BLK_SLICE}"
+			fi
+		fi
+
+		if [ -n "$FIRST" ]; then
+			break;
+		fi
+	done
+
+	/bin/rm -f "$GBS_TMP"
+	/bin/rm -f "$GBS_TMP2"
+	/bin/rm -f "$GBS_TMP3"
+
+	#
+	# Now check if the boot partition already has a Live Upgrade menu.
+	# First mount it (if required)
+	#
+	MNTED=""
+	MNTPT=""
+	if [ -n "$BOOT_CAN" ]; then
+
+	    BOOT_CAN_BLK=`/bin/echo $BOOT_CAN | /bin/sed 's/\/rdsk\//\/dsk\//g'`
+	    BOOT_CAN_REAL_BLK=`/bin/echo $BOOT_CAN_REAL | /bin/sed 's/\/rdsk\//\/dsk\//g'`
+
+	    MNTPT=`/sbin/mount | /bin/nawk -v dev="$BOOT_CAN_BLK" ' { if ($3 == dev ) {printf("%s\n", $1); exit 15;}}'`
+	    if [ "$?" -ne 15 -o -z "$MNTPT" ]; then
+	       MNTPT=`/sbin/mount | /bin/nawk -v dev="$BOOT_CAN_REAL_BLK" ' { if ($3 == dev ) {printf("%s\n", $1); exit 16;}}'`
+	       if [ "$?" -ne 16 -o -z "$MNTPT" ]; then
+	          MNTPT=""
+	          if [ -n "$BOOT_CAN_BLK" ]; then
+	             /bin/mkdir -p "$GBS_MNTPT"
+	             # Mount the filesystem readonly, we only want to read data
+	             /sbin/mount -F pcfs -r "$BOOT_CAN_BLK" "$GBS_MNTPT" 
+	             if [ "$?" -eq  0 ]; then
+		        ${LUPRINTF} -lp2D 8 "`gettext 'MOUNTED <%s>'`" "${BOOT_CAN_BLK}"
+		        MNTPT="$GBS_MNTPT"
+		        MNTED=1
+		     else
+		        ${LUPRINTF} -Eelp2 "`gettext 'Mount failed for: <%s>'`" "${BOOT_CAN_BLK}"
+		        /bin/rmdir "$GBS_MNTPT"
+		     fi
+	          else
+		     ${LUPRINTF} -Eelp2 "`gettext 'Cannot get block device for: <%s>'`" "${BOOT_CAN}"
+	          fi
+	       fi
+	    fi
+	fi
+
+	if [ -n "$MNTPT" ]; then
+	   if [ -f "${MNTPT}/$BOOT_MENU" -a -s "${MNTPT}/$BOOT_MENU" ]; then
+	      /bin/grep "$BOOT_MENU_HDR_SUFFIX" "${MNTPT}/$BOOT_MENU" > /dev/null 2>&1
+	      if [ "$?" -eq 0 ]; then
+	         SECND="$BOOT_CAN"
+	         ${LUPRINTF} -lp2D - "`gettext 'second candidate is: <%s>'`" "${BOOT_CAN}"
+	      fi
+	   fi
+	fi
+
+	# Unmount the boot partition if we mounted it.
+	if [ -n "$MNTED" ]; then
+	   /sbin/umount "$BOOT_CAN_BLK"
+	   if [ "$?" -ne 0 ]; then
+	      ${LUPRINTF} -Eelp2 "`gettext 'Failed to unmount <%s> at <%s>'`" "${BOOT_CAN_BLK}" "${MNTPT}"
+	   else
+	      /bin/rmdir "$MNTPT"
+	      ${LUPRINTF} -lp2D 8 "`gettext 'unmounted <%s>'`" "${BOOT_CAN_BLK}"
+	   fi
+	fi
+
+	if [ -n "$FIRST" ]; then
+		DEVICES_SLICE="${FIRST},raw"
+	elif [ -n "$SECND" ]; then
+	     LU_BOOT_SLICE="$BOOT_CAN"
+	     LU_BOOT_LOGICAL="$LU_BOOT_SLICE"
+	     ${LUPRINTF} -lp2D - "`gettext 'Using boot partition with Live Upgrade entries in menu.lst'`"
+	     ${LUPRINTF} -lp2D - "`gettext 'LU Boot (raw) Slice is <%s>'`" "${LU_BOOT_SLICE}"
+	     ${LUPRINTF} -lp2D - "`gettext 'LU Boot Logical Slice is <%s>'`" "${LU_BOOT_LOGICAL}"
+	     return
+	elif [ -n "$THIRD" ]; then
+		DEVICES_SLICE="${THIRD},raw"
+	elif [ -n "$BOOT_CAN" ]; then
+		LU_BOOT_SLICE="$BOOT_CAN"
+		LU_BOOT_LOGICAL="$LU_BOOT_SLICE"
+	        ${LUPRINTF} -lp2D - "`gettext 'Using boot partition'`"
+		${LUPRINTF} -lp2D - "`gettext 'LU Boot (raw) Slice is <%s>'`" "${LU_BOOT_SLICE}"
+		${LUPRINTF} -lp2D - "`gettext 'LU Boot Logical Slice is <%s>'`" "${LU_BOOT_LOGICAL}"
+		return
+	else
+		boot_disk=`/bin/ls -l /dev/rdsk/*p0 | /bin/nawk -v dev="../../devices${LU_BOOT_HD0}:q,raw" ' { if ($11 == dev) {printf("%s\n", $9); exit 13;}}'`  
+		if [ "$?" -eq 13 -a -n "$boot_disk" ]; then
+		   ${LUPRINTF} -Eelp2 "`gettext 'No suitable Solaris slice found on boot disk: <%s>'`" "$boot_disk"
+		else
+		   ${LUPRINTF} -Eelp2 "`gettext 'No suitable Solaris slice found on boot disk: <%s>'`" "$LU_BOOT_HD0"
+		fi
+		${LUPRINTF} -Eelp2 "`gettext 'Create a Live Upgrade boot environment on the boot disk or boot from an alternate disk'`"
+		LU_BOOT_SLICE=""
+		LU_BOOT_LOGICAL=""
+		return
+	fi
+
+	${LUPRINTF} -lp2D - "`gettext 'Chosen /devices slice is <%s>'`" "${DEVICES_SLICE}"
+
+	# Translate the /devices name to /dev name
+	LU_BOOT_SLICE=""
+	SLNUM=""
+	if [ -n "$DEVICES_SLICE" ]; then
+		SLCHAR=`/bin/echo "$DEVICES_SLICE" | /bin/sed 's/.*\(.\),raw$/\1/g'`
+		case $SLCHAR in
+		   a) SLNUM=0;;
+		   b) SLNUM=1;;
+		   d) SLNUM=3;;
+		   e) SLNUM=4;;
+		   f) SLNUM=5;;
+		   g) SLNUM=6;;
+		   h) SLNUM=7;;
+		esac
+	fi
+
+	if [ -n "$LU_BOOT_HD0" ]; then
+
+		DEV_HD0=`/bin/ls -l /dev/rdsk/*p0 | /bin/nawk -v dev="../../devices${LU_BOOT_HD0}:q,raw" ' { if ($11 == dev) {printf("%s\n", $9); exit 12;}}'`  
+		if [ "$?" -eq 12 -a -n "$DEV_HD0" -a -n "$SLNUM" ]; then
+	             LU_BOOT_SLICE=`/bin/echo "$DEV_HD0" | /bin/sed 's/p0$/s'$SLNUM'/g'` 
+		     LU_BOOT_LOGICAL=""
+		     lulib_get_logical_boot_slice "$LU_BOOT_SLICE"
+		     if [ "$?" -ne 0 -o -z "$LU_BOOT_LOGICAL" ]; then
+		        LU_BOOT_SLICE=""
+			LU_BOOT_LOGICAL=""
+		     fi
+		fi
+	fi
+
+	${LUPRINTF} -lp2D - "`gettext 'LU Boot (raw) Slice is <%s>'`" "${LU_BOOT_SLICE}"
+	${LUPRINTF} -lp2D - "`gettext 'LU Boot Logical Slice is <%s>'`" "${LU_BOOT_LOGICAL}"
+}
+
+#################################################################################################
+# Name:		lulib_get_bios_disk
+# Description:	Given a block device special file, returns the bios disk id of the
+#		disk it refers to.
+# Local Prefix:	GBD
+# Arguments:	$1 - Block device file to be mapped to a BIOS disk id
+# Returns:	Sets variable LU_BOOT_HD
+#################################################################################################
+
+lulib_get_bios_disk()
+{
+	BIOSMAP="/tmp/.lulib.gbd.1.$$"
+
+	LU_BOOT_HD=""
+
+	if [ "${LU_SYSTEM_ARCH}" != "i386" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Internal error: lulib_get_bios_disk only supported on x86 '`"
+		return
+	fi
+
+	if [ "$#" -ne 1 ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Usage: lulib_get_bios_disk <block_device>'`"
+		return
+	fi
+
+	BLKDEV="$1"
+
+	if [ ! -b "$BLKDEV" ]; then
+		${LUPRINTF} -Eelp2 "`gettext ' <%s> does not exist or is not a block device'`" "${BLKDEV}"
+		return
+	fi
+
+	#
+	# There is no need to emit an error message if run_biosdev() fails.
+	# run_biosdev() will itself emit an appropriate error message.
+	#
+	run_biosdev "$BIOSMAP"
+	if [ "$?" -ne 0 ]; then
+		/bin/rm -f "$BIOSMAP"
+		return
+	fi
+
+	${LUPRINTF} -lp2D 8  "`gettext 'mapping results'`"
+	${LUPRINTF} -lp2D 8  "`gettext '<%s>'`" "`/bin/cat ${BIOSMAP}`"
+
+	# Get the physical path for BLKDEV device (not minor)
+	PHYS_PATH=`/bin/ls -l $BLKDEV | /bin/awk ' { print $11 } ' \
+		| /bin/sed 's/.*\/devices\//\//g' | /bin/sed 's/:.*$//g' `
+
+	if [ -z "$PHYS_PATH" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot derive physical path for: <%s>'`" "${BLKDEV}"
+		/bin/rm -f "$BIOSMAP"
+		return
+	fi 
+
+	${LUPRINTF} -lp2D 8 "`gettext 'Physpath: '`"
+	${LUPRINTF} -lp2D 8 "`gettext '<%s>'`" "${PHYS_PATH}"
+
+	BIOSID=`/bin/nawk -v dev="$PHYS_PATH" \
+	     ' $2 == dev { print $1 } ' $BIOSMAP`
+	if [ -z "$BIOSID" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'No matching BIOS id found for: <%s>'`" "${BLKDEV}"
+		/bin/rm -f "$BIOSMAP"
+		return
+	fi
+	/bin/rm -f "$BIOSMAP"
+
+	${LUPRINTF} -lp2D - "`gettext 'BiosID: '`"
+	${LUPRINTF} -lp2D - "`gettext '<%s>'`" "${BIOSID}"
+
+	#
+	# Get the GRUB hd number
+	#
+	HD=`/bin/echo "$BIOSID" | /bin/sed 's/^0x8/hd/g'`
+	if [ -z "$HD" ]; then
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot determine GRUB disk number for: <%s>'`" "${BIOSID}"
+		return
+	fi 
+
+	LU_BOOT_HD=$HD
+
+	${LUPRINTF} -lp2D - "`gettext 'HD#: '`"
+	${LUPRINTF} -lp2D - "`gettext '<%s>'`" "${LU_BOOT_HD}"
+}
+
+#
+# Given a boot partition in c-t-d-p0:boot form,
+# get the real partition number c-t-d-p<N> where <N> is between
+# 1 and 4.
+# This routine only accepts a char device
+# It is a part of lulib and may not be called during OOS
+#
+# Arguments:
+#	$1 - A char boot partition in c-t-d-p0:boot format
+# Returns:
+#	The actual fdisk boot partition on standard output
+#	0 on success
+#	1 on failure
+#
+lulib_get_real_boot_partition()
+{
+   if [ "$#" -ne 1 -o -z "$1" ]; then
+	${LUPRINTF} -Eelp2 "`gettext 'lulib_get_real_boot_partition(): invalid arguments'`"
+	return 1
+   fi
+
+   gbp_p0Boot="$1"
+
+   gbp_tmp1="/tmp/.lulib.gbp.1.$$"
+   gbp_tmp2="/tmp/.lulib.gbp.2.$$"
+
+   /bin/rm -f "$gbp_tmp1" "$gbp_tmp2"
+
+
+   /bin/echo "$gbp_p0Boot" | /bin/egrep "p0:boot$" > /dev/null 2>&1
+   if [ "$?" -ne 0 ]; then
+	${LUPRINTF} -Eelp2 "`gettext 'Not a boot partition name: <%s>'`" "${gbp_p0Boot}"
+	return 1
+   fi
+
+   #
+   # Translate /dev/rdsk/c-t-d-p0:boot to p0
+   #
+   gbp_p0=`/bin/echo "$gbp_p0Boot" | /bin/sed 's/p0:boot$/p0/g'`
+   if [ -z "$gbp_p0" -o ! -c "$gbp_p0" ]; then
+	${LUPRINTF} -Eelp2 "`gettext 'No such partition or not a char device: <%s>'`" "${gbp_p0}"
+	return 1
+   fi
+
+   /usr/sbin/fdisk -W "$gbp_tmp1" "$gbp_p0" > /dev/null 2>&1
+   /usr/bin/grep -v \* "$gbp_tmp1" | /usr/bin/grep -v '^[ 	]*$' > "$gbp_tmp2"
+   #
+   # Note: while executed in a subshell
+   #
+   /bin/rm -f "$gbp_tmp1"
+   num=1
+   while read id act bhead bcycl ehead ecycl rsect numsect
+   do
+	if [ -z "$id" ]; then
+	   continue
+	fi
+
+        if [ "$id" -eq 190 ]; then
+	   /bin/echo "$num" > "$gbp_tmp1" 
+	   break;
+	fi
+	num=`/bin/expr "$num" + 1`
+
+   done < "$gbp_tmp2"
+
+   if [ -f "$gbp_tmp1" -a -s "$gbp_tmp1" ]; then
+      part=`/usr/bin/cat "$gbp_tmp1"`
+      if [ "$part" -lt 1 -o "$part" -gt 4 ]; then
+         ${LUPRINTF} -Eelp2 "`gettext 'partition number derived is invalid: <%s>'`" "${part}"
+         /bin/echo ""
+         retval=1
+      else
+         disk=`/bin/echo "$gbp_p0" | /bin/sed 's/p0$//g'`
+         echo "${disk}p${part}"
+         retval=0
+      fi
+     
+   else
+      ${LUPRINTF} -Eelp2 "`gettext 'No Solaris boot partition on device: <%s>'`" "${gbp_p0}"
+      /bin/echo ""
+      retval=1
+   fi
+
+   /bin/rm -f "$gbp_tmp1"
+   /bin/rm -f "$gbp_tmp2"
+
+   return "$retval"
+}
+
+#
+# Given a BE name, delete the corresponding entry from
+# the GRUB menu.
+# It is a part of lulib and may not be called during OOS
+#
+# Arguments:
+#	$1 - A BE name
+# Returns:
+#	0 on success
+#	1 on failure
+#
+lulib_delete_menu_entry()
+{
+   if [ "${LU_SYSTEM_ARCH}" != i386 ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'lulib_delete_menu_entry(): only supported on x86 systems'`"
+      return 1
+   fi
+      
+   if [ "$#" -ne 1 -o -z "$1" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'lulib_delete_menu_entry(): invalid arguments'`"
+      return 1
+   fi
+
+   BE_NAME="$1"
+
+   ldme_tmp="/tmp/.lulib.ldme.$$"
+   ldme_mnt="/tmp/.lulib.ldme.mnt.$$"
+
+   /bin/rm -f "$ldme_tmp"
+
+
+   lulib_check_patch
+   if [ "$?" -ne 0 ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot delete GRUB menu entry'`"
+      return 1
+   fi
+
+  
+   LU_BOOT_LOGICAL=""
+   lulib_get_boot_slice
+   if [ -z "$LU_BOOT_LOGICAL" ]; then
+         ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine logical boot slice.'`"
+         return 1
+   fi
+   BOOT_BLK_SLICE=`/bin/echo "$LU_BOOT_LOGICAL" | /bin/sed 's/\/rdsk\//\/dsk\//g'`
+   BOOT_CHR_SLICE="$LU_BOOT_LOGICAL"
+
+   /bin/echo "$BOOT_CHR_SLICE" | /bin/egrep "p0:boot$" > /dev/null 2>&1
+   if [ "$?" -eq 0 ]; then
+      BOOT_REAL_SLICE=`lulib_get_real_boot_partition "$BOOT_CHR_SLICE"`
+   else
+      BOOT_REAL_SLICE="$BOOT_CHR_SLICE"
+   fi
+
+   if [ "$?" -ne 0 -o -z "$BOOT_REAL_SLICE" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot get real boot partition name <%s>.'`" "${BOOT_CHR_SLICE}"
+      return 1
+   fi
+
+   #
+   # Remove entries from GRUB menu (if applicable)
+   #
+   LUDELETE_MNTED=""
+   LUDELETE_BOOT=`/usr/sbin/mount | /bin/nawk -v dev=$BOOT_BLK_SLICE ' { if ($3 == dev) {printf("%s\n", $1); exit 8;}}'`
+   if [ "$?" -ne 8 ]; then
+      LUDELETE_BOOT=""
+      /usr/bin/mkdir -p "$ldme_mnt"
+      LUDELETE_FSTYP=`lulib_fstyp $BOOT_REAL_SLICE`
+      if [ "$?" -ne 0 -o -z "$LUDELETE_FSTYP" ]; then
+         ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine fstype for boot slice <%s>.'`" "${BOOT_REAL_SLICE}"
+         return 1
+      fi
+      /usr/sbin/mount -F "$LUDELETE_FSTYP" "$BOOT_BLK_SLICE" "$ldme_mnt" 2>$ldme_tmp
+      if [ "$?" -ne 0 ]; then
+         /usr/bin/cat "$ldme_tmp"
+         ${LUPRINTF} -Eelp2 "`gettext 'Cannot mount boot slice <%s>. Cannot update GRUB menu'`" "${BOOT_BLK_SLICE}"
+         return 1
+      fi
+      LUDELETE_BOOT="$ldme_mnt"
+      LUDELETE_MNTED=1
+   fi
+
+   #
+   # Since there may or may not be GRUB BE, exit success if BOOT_MENU is not found
+   #
+   if [ ! -f "${LUDELETE_BOOT}/${BOOT_MENU}" -o ! -s "${LUDELETE_BOOT}/${BOOT_MENU}" ]; then
+      ${LUPRINTF} -lp2D - "`gettext 'No GRUB menu on device <%s>'`" "${BOOT_BLK_SLICE}"
+      if [ -n "$LUDELETE_MNTED" ]; then
+         /usr/sbin/umount "$LUDELETE_BOOT" > /dev/null 2>&1
+	 /bin/rmdir "$ldme_mnt"
+         LUDELETE_MNTED=""
+         LUDELETE_BOOT=""
+         LUDELETE_FSTYP=""
+      fi
+      return 0
+   fi
+
+   BE_FIXED=`lulib_fix_name $BE_NAME`
+
+   ldme_menu="${LUDELETE_BOOT}/${BOOT_MENU}"
+   ldme_hdr="${BOOT_MENU_PREFIX}${BE_FIXED}${BOOT_MENU_HDR_SUFFIX}"
+   ldme_ftr="${BOOT_MENU_PREFIX}${BE_FIXED}${BOOT_MENU_FTR_SUFFIX}"
+
+   /usr/bin/grep "$ldme_hdr" "$ldme_menu" > /dev/null 2>&1
+   if [ "$?" -ne 0 ]; then
+      ${LUPRINTF} -lp2D - "`gettext 'No entry for BE <%s> in GRUB menu on device <%s>'`" "${BE_NAME}" "${BOOT_BLK_SLICE}"
+      if [ -n "$LUDELETE_MNTED" ]; then
+         /usr/sbin/umount "$LUDELETE_BOOT" > /dev/null 2>&1
+	 /bin/rmdir "$ldme_mnt"
+         LUDELETE_MNTED=""
+         LUDELETE_BOOT=""
+         LUDELETE_FSTYP=""
+      fi
+      return 0
+   fi
+
+   ${LUPRINTF} -lp1 "`gettext 'Updating GRUB menu on device <%s>'`" "${BOOT_BLK_SLICE}"
+
+   #
+   # All special characters in the LU entry header were escaped
+   # above (via lulib_fix_name()).
+   # This is so that awk doesn't choke on the pattern below
+   #
+   /bin/rm -f "$ldme_tmp"
+   /bin/cp -p "$ldme_menu" "$ldme_tmp"
+
+   start=`/usr/bin/awk "/^$ldme_hdr\$/ { print NR }" "$ldme_tmp"`
+   if [ -z "$start" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot delete menu entry from <%s>'`" "${ldme_menu}"
+      /bin/rm -f "$ldme_tmp"
+      if [ -n "$LUDELETE_MNTED" ]; then
+         /usr/sbin/umount "$LUDELETE_BOOT" > /dev/null 2>&1
+	 /bin/rmdir "$ldme_mnt"
+         LUDELETE_MNTED=""
+         LUDELETE_BOOT=""
+         LUDELETE_FSTYP=""
+      fi
+      return 1
+   fi
+
+   stop=`/usr/bin/awk "/^$ldme_ftr\$/ { print NR }" "$ldme_tmp"`
+   if [ -z "$stop" ]; then
+      stop=`expr $start + ${LU_GRUB_ENTRY_LEN} - 1`
+   fi
+
+   #
+   # Delete the menu entry for this BE 
+   #
+   /bin/nawk -v "hdr=$start" -v "ftr=$stop" "NR < hdr || NR > ftr {print}" "$ldme_tmp" > "$ldme_menu"
+
+   /bin/rm -f "$ldme_tmp"
+
+   #
+   # Update the backup menu
+   #
+   /bin/cp -p "${LUDELETE_BOOT}/${BOOT_MENU}" "${GRUB_backup_menu}"
+   ${LUBIN}/luupdall ${GRUB_backup_menu}
+   if [ "$?" != 0 ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to propagate the backup menu file <%s> to all boot environments.'`" "${GRUB_backup_menu}"
+      if [ -n "$LUDELETE_MNTED" ]; then
+         /usr/sbin/umount "$LUDELETE_BOOT" > /dev/null 2>&1
+	 /bin/rmdir "$ldme_mnt"
+         LUDELETE_MNTED=""
+         LUDELETE_BOOT=""
+         LUDELETE_FSTYP=""
+      fi
+      return 1
+   fi
+
+   if [ -n "$LUDELETE_MNTED" ]; then
+      /usr/sbin/umount "$LUDELETE_BOOT" > /dev/null 2>&1
+      /bin/rmdir "$ldme_mnt"
+      LUDELETE_MNTED=""
+      LUDELETE_BOOT=""
+      LUDELETE_FSTYP=""
+   fi
+   return 0
+}
+
+#
+# Check that biosdev and other required patches have been
+# properly applied.
+# It is a part of lulib and may not be called during OOS
+#
+# Arguments:
+#	None
+# Returns:
+#	0 on success
+#	1 on failure
+#
+lulib_check_patch()
+{
+
+   # For now, only on x86
+   if [ "${LU_SYSTEM_ARCH}" != i386 ]; then
+      return 0
+   fi
+
+   if [ -z "$LU_BIOSDEV" -o ! -f "$LU_BIOSDEV" -o ! -x "$LU_BIOSDEV" -o ! -s "$LU_BIOSDEV" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot find or is not executable: <%s>.'`" "${LU_BIOSDEV}"
+      ${LUPRINTF} -Eelp2 "`gettext 'One or more patches required by Live Upgrade has not been installed.'`"
+      ${LUPRINTF} -lp1 "`gettext 'Search for info doc 72099 at http://sunsolve.sun.com for the latest patch list'`"
+      return 1
+   fi
+
+   #
+   # Verify that we have rebooted after applying patches
+   #
+   /usr/sbin/prtconf -v | /bin/grep biosdev > /dev/null 2>&1
+   if [ "$?" -ne 0 ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The system must be rebooted after applying required patches.'`"
+      ${LUPRINTF} -lp1 "`gettext 'Please reboot and try again.'`"
+      return 1
+   fi
+
+   if [ ! -x /usr/bin/gzip ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The command /usr/bin/gzip is not installed on this system.'`"
+      ${LUPRINTF} -Eelp2 "`gettext 'Solaris Live Upgrade requires the gzip command.'`"
+      ${LUPRINTF} -lp1 "`gettext 'Please install gzip and try again.'`"
+      return 1
+   fi
+
+   return 0
+}
+
+#
+# Determine the current GRUB slice and update the
+# GRUB slice file if required.
+# It is a part of lulib and may not be called during OOS
+#
+# Arguments:
+#	None
+# Returns:
+#	The tuple (LULIB_PHYS_SLICE=LULIB_LOG_SLICE=LULIB_LOG_FSTYP=LULIB_BOOT_PART=LULIB_REAL_PART) on standard output.
+#	0 on success
+#	1 on failure
+#
+lulib_update_grub_slice()
+{
+
+    if [ "${LU_SYSTEM_ARCH}" != i386 ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'lulib_update_grub_slice() is only valid on x86 system.'`"
+       return 1
+    fi
+
+    if [ "$#" -ne 0 ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'lulib_update_grub_slice() does not accept arguments.'`"
+       return 1
+    fi
+
+    lulib_check_patch
+    if [ "$?" -ne 0 ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'Patch check failed.'`"
+       return 1
+    fi
+
+    LU_BOOT_SLICE=""
+    LU_BOOT_LOGICAL=""
+    lulib_get_boot_slice
+    LULIB_PHYS_SLICE="$LU_BOOT_SLICE"
+    LULIB_LOG_SLICE="$LU_BOOT_LOGICAL"
+
+    if [ -z "$LULIB_PHYS_SLICE" -o -z "$LULIB_LOG_SLICE" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'GRUB slice lookup failed.'`"
+       return 1
+    fi
+
+    # Check if the GRUB slice is an x86 boot partition
+    LULIB_BOOT_PART=""
+    /bin/echo "$LULIB_PHYS_SLICE" | /bin/egrep "p0:boot$" > /dev/null 2>&1
+    if [ "$?" -eq 0 ]; then
+       LULIB_BOOT_PART="yes"
+       ${LUPRINTF} -lp2D - "`gettext 'Phys GRUB slice <%s> is a x86 boot partition'`" "${LULIB_PHYS_SLICE}"
+    fi
+
+    # If an x86 boot partition, change from p0:boot form to p<N> form.
+    if [ -n "$LULIB_BOOT_PART" ]; then
+       LULIB_REAL_PART=`lulib_get_real_boot_partition "$LULIB_LOG_SLICE"`
+    else
+       LULIB_REAL_PART="$LULIB_LOG_SLICE"
+    fi
+
+    if [ -z "$LULIB_REAL_PART" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine fdisk partition for x86 boot partition.'`"
+       return 1
+    fi
+
+    LULIB_LOG_FSTYP=`lulib_fstyp "$LULIB_REAL_PART" 2>/dev/null`
+    if [ "$?" -ne 0 -o -z "$LULIB_LOG_FSTYP" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine filesystem type for GRUB slice <%s>.'`" "$LULIB_REAL_PART"
+       return 1
+    fi
+
+    LULIB_LOG_BLK=`/bin/echo "$LULIB_LOG_SLICE" | /bin/sed 's/\/rdsk\//\/dsk\//g'`
+    if [ "$?" -ne 0 -o -z "$LULIB_LOG_BLK" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine block device for GRUB slice <%s>.'`" "$LULIB_LOG_SLICE"
+       return 1
+    fi
+
+    #
+    # In order to support reboot with args, we need to determine if the OS instance:
+    #	a) Is i386
+    #	b) Is a Live Upgrade instance i.e. a BE
+    #	c) Is not a DCA BE
+    #
+    # a) and b) are ensured by generating GRUB_slice file only on i386 BE.
+    # We don't care about c), since DCA doesn't require the GRUB_slice for
+    # reboot args. The GRUB_slice file may exist on a DCA BE, it just won't
+    # be used.
+    #
+    /bin/echo "PHYS_SLICE=$LULIB_PHYS_SLICE" > "$GRUB_slice"
+    /bin/echo "LOG_SLICE=$LULIB_LOG_BLK" >> "$GRUB_slice"
+    /bin/echo "LOG_FSTYP=$LULIB_LOG_FSTYP" >> "$GRUB_slice"
+
+    # Call luupdall to propagate the GRUB_slice file to all BEs
+    ${LUBIN}/luupdall "${GRUB_slice}"
+    if [ "$?" -ne 0 ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'Cannot propagate <%s> to all boot environments.'`" "$GRUB_slice"
+       return 1
+    fi
+
+    /bin/echo "${LULIB_PHYS_SLICE}=${LULIB_LOG_SLICE}=${LULIB_LOG_FSTYP}=${LULIB_BOOT_PART}=${LULIB_REAL_PART}=${LULIB_LOG_BLK}"
+
+    ${LUPRINTF} -lp2D - "`gettext 'Live Upgrade Physical GRUB slice is <%s>'`" "${LULIB_PHYS_SLICE}"
+    ${LUPRINTF} -lp2D - "`gettext 'Live Upgrade Logical GRUB slice is <%s>'`" "${LULIB_LOG_SLICE}"
+    ${LUPRINTF} -lp2D - "`gettext 'Live Upgrade Logical GRUB slice fstype is <%s>'`" "${LULIB_LOG_FSTYP}"
+
+    return 0
+}
+
+#
+# Checks if the install media we are using for Live Upgrade is
+# CD/DVD media
+#
+# Arguments:	None
+#
+# Returns:
+#	0	This is CD/DVD media
+#	1	Not CD/DVD media
+#	Other	An error occurred
+#
+lulib_is_CD_media()
+{
+    if [ "${LU_SYSTEM_ARCH}" != "i386" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'lulib_is_CD_media() only supported on x86 '`"
+       return 2
+    fi
+
+    # Check if media is specified
+    if [ -z "$LU_MEDIA_PATH" ]; then
+       ${LUPRINTF} -lp2D - "`gettext 'lulib_is_CD_media: No media path specified.'`"
+       return 1
+    fi
+
+    /bin/df -l -F hsfs "$LU_MEDIA_PATH" > /dev/null 2>&1
+    if [ "$?" -eq 0 ]; then
+       ${LUPRINTF} -lp2D - "`gettext 'lulib_is_CD_media: Install media is CD/DVD: <%s>.'`" "$LU_MEDIA_PATH"
+       ${LUPRINTF} -lp1 "`gettext 'Install media is CD/DVD. <%s>.'`" "$LU_MEDIA_PATH"
+       return 0
+    fi
+
+    # Not CD/DVD media
+    ${LUPRINTF} -lp2D - "`gettext 'lulib_is_CD_media: Not CD/DVD install media: <%s>.'`" "$LU_MEDIA_PATH"
+    return 1
+}
+
+#
+# This function is expected to be called after vold has been
+# restarted to ensure enough time has elapsed to allow vold to
+# mount media.
+# Note: if CD/DVD media is not mounted by vold, this
+# function will find them already mounted and return immediately
+#
+# Arguments:	None
+#
+# Returns:
+#	0	CD/DVD media is mounted
+#	1	An error occurred
+#
+lulib_wait_for_vold()
+{
+
+    if [ "${LU_SYSTEM_ARCH}" != "i386" ]; then
+       ${LUPRINTF} -Eelp2 "`gettext 'lulib_wait_for_vold() only supported on x86 '`"
+       return 1
+    fi
+
+    # Check if media is specified
+    if [ -z "$LU_MEDIA_PATH" ]; then
+       ${LUPRINTF} -lp2D - "`gettext 'lulib_wait_for_vold: No media path specified.'`"
+       return 0
+    fi
+
+     # If vold is not handling this CD/DVD or if vold has 
+     # already mounted the media, this check will succeed.
+     /bin/df -l -F hsfs "$LU_MEDIA_PATH" > /dev/null 2>&1
+     if [ "$?" -eq 0 ]; then
+        ${LUPRINTF} -lp2D - "`gettext 'lulib_wait_for_vold: CD/DVD media is already mounted: <%s>'`" "$LU_MEDIA_PATH"
+        return 0
+     fi
+
+    # Wait until CD/DVD media is remounted
+    ${LUPRINTF} -lp1 "`gettext 'Waiting for CD/DVD media <%s> ...'`" "$LU_MEDIA_PATH"
+    timeout=0
+    ival=2
+    while [ "$timeout" -le "$LU_VOLD_TIMEOUT" ]
+    do
+    	/bin/df -l -F hsfs "$LU_MEDIA_PATH" > /dev/null 2>&1
+    	if [ "$?" -eq 0 ]; then
+           ${LUPRINTF} -lp2D - "`gettext 'lulib_wait_for_vold: CD/DVD media is remounted: <%s>'`" "$LU_MEDIA_PATH"
+       	   return 0
+	fi
+	timeout=`/bin/expr "$timeout" + "$ival"`
+        sleep "$ival"
+    done
+
+    ${LUPRINTF} -Eelp2 "`gettext 'Timed out waiting for volume management (vold).'`"
+    return 1
+}

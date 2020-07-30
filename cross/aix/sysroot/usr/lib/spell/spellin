@@ -1,0 +1,92 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/spell/spellin.sh 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)62	1.7  src/cmdtext/usr/bin/spell/spellin.sh, cmdtext, cmdtext530 6/16/98 10:40:30
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 3,10,13,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1998
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+# spellin.sh - front end to /usr/lib/spell/spellinprg
+#
+# This front end script provides for the overlapping functionality
+# of the BSD and ATT versions (which are completely different).
+
+PATH=/bin:/usr/bin
+export PATH
+
+SPELL=/usr/lib/spell
+
+umask 077
+TMPDIR=${TMPDIR:-$HOME/tmp}
+[[ ! -d $TMPDIR ]] && TMPDIR=/tmp
+TMPDIR=$TMPDIR/${0##*/}.$$
+
+mkdir $TMPDIR || {
+        print -u2 "${0##*/}: Could not create temporary files"
+        exit 1
+}
+
+TMP=spellin
+TMPA=$TMPDIR/${TMP}A.$$
+TMPB=$TMPDIR/${TMP}B.$$
+TMPC=$TMPDIR/${TMP}C.$$
+
+status=0
+
+trap 'rm -rf $TMPDIR >/dev/null 2>&1; exit $status' 0
+trap 'status=1;exit' 1 2 3 15
+
+case A$1 in
+
+A[0-9]*)	# spellin num < in > out
+
+	$SPELL/spellinprg $1
+	;;
+
+A)		# spellin < in > out
+
+	$SPELL/hashmake | sort -u +0n > $TMPC
+	$SPELL/spellinprg `wc -l < $TMPC` < $TMPC
+	;;
+
+A[!0-9]*)	# spellin list < in > out
+
+	if [ -s $1 ] 
+        then
+           $SPELL/hashcheck < $1 > $TMPA &
+	   $SPELL/hashmake | sort -u +0n > $TMPB
+	   wait
+	   sort -mu $TMPA $TMPB > $TMPC
+	   $SPELL/spellinprg `wc -l < $TMPC` < $TMPC
+        else
+	   dspmsg spell.cat 8 "spellin:  List file %s does not exist.\n" $1 >&2
+        fi
+	;;
+
+esac
+
+status=$?
+# trap 0 handles the exit code

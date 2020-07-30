@@ -1,0 +1,925 @@
+<oaf_info>
+
+  <!-- Folder display control -->
+
+  <!-- (factory) -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ControlFactory"
+	      type="shlib"
+	      location="/usr/lib/evolution/1.4/components/libevolution-mail.so">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/ObjectFactory:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Пошта &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Evolution Pošta"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution e-post"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-E-Mail"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Correo de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution sähköposti"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Messagerie d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Levelező"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Posta di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution e-mail"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Evolution e-post"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Poczta Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Почта Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Еволуција пошта"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Evolucija pošta"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-post"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件程式"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件程式"/>
+  </oaf_server>
+
+  <!-- (control) -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Control"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:BonoboControl/evolution-mail:1.0"/>
+      <item value="IDL:GNOME/Control:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail folder viewer"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Праглядальнік паштовае тэчкі &quot;Эвалюцыі&quot;."/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Prohlížeč složek pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution e-post-mappevisning"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-E-Mail-Ordnerbetrachter"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Componente del visor de carpetas de correo de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution sähköpostikansioiden näkymä"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Afficheur de dossiers courrier d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Levelező mappamegjelenítő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Visualizzatore delle le cartelle di posta di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メールフォルダビューア"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 폴더 뷰어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Pemandang folder Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution postmap-weergave"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Komponent for mappevisning for Evolution e-post"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Przeglądarka folderów poczty programu Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Visualizador de pasta de Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Visualizador de pastas do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент просмотра папок почты Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Прегледник за директоријуме Еволуција поште"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Preglednik za direktorijume Evolucija pošte"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postmappvisare"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件文件夹查看器"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件資料夾檢視器"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件資料夾檢視器"/>
+  </oaf_server>
+
+  <!-- Shell Component -->
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ShellComponent"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail component"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Кампанэнт пошты &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Komponenta pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolutions e-post-komponent"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-E-Mail-Komponente"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Componente de correo de Evolution."/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolutionin sähköpostikomponentti"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant Messagerie d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Levelező komponens"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Componente della posta di Evolution."/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メールコンポーネント"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 구성 요소"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Komponen Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution e-mailcomponent"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Evolution e-postkomponent"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Komponent Poczty Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Componente Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Componente correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент Почта Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Компонента Еволуција поште"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Komponenta Evolucija pošte"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postkomponent"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件组件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件程式元件"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件程式元件"/>
+
+    <oaf_attribute name="evolution:shell_component_icon" type="string"
+		   value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		   value="1"/>
+  </oaf_server>
+
+  <!-- Message composer -->
+
+  <!-- (composer) -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Composer"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution:Composer:1.0"/>
+      <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail composer"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Рэдактар паведамленьняў &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Editor zpráv pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolutions e-post-redigering"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-E-Mail-Editor"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Redactor de correo de Evolution."/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolutionin sähköpostin kirjoitus"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composeur de courrier d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution levélszerkesztő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Compositore della posta di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メールコンポーザ"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 작성기"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Penggubah Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution nieuw bericht opstellen"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Evolution e-postredigering"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Edytor wiadomości Poczty Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Compositor de Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Redator do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Мастер почтовых сообщений Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Састављач Еволуција поште"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Sastavljač Evolucija pošte"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postredigerare"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件撰写器"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件編輯器"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件編輯器"/>
+  </oaf_server>
+
+  <!-- MailConfig interface -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig"
+              type="factory"
+              location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+                   value="Evolution Mail configuration interface"/>
+    <oaf_attribute name="name-be" type="string"
+                   value="Інтэрфэйс наладкі пошты &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+                   value="Konfigurační rozhraní pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+                   value="Evolution e-post-opsætningsgrænseflade"/>
+    <oaf_attribute name="name-de" type="string"
+                   value="Evolution-E-Mail-Konfigurationsoberfläche"/>
+    <oaf_attribute name="name-es" type="string"
+                   value="Interfaz de configuración del correo de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+                   value="Evolution sähköpostin asetusliittymä"/>
+    <oaf_attribute name="name-fr" type="string"
+                   value="Interface de configuration de la messagerie d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+                   value="Evolution Levelező beállító felület"/>
+    <oaf_attribute name="name-it" type="string"
+                   value="Interfaccia di configurazione della posta di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+                   value="Evolution メール設定インタフェース"/>
+    <oaf_attribute name="name-ko" type="string"
+                   value="Evolution 메일 구성 인터페이스"/>
+    <oaf_attribute name="name-ms" type="string"
+                   value="Antara muka konfigurasi Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+                   value="Evolution e-mail configuratie interface"/>
+    <oaf_attribute name="name-no" type="string"
+                   value="Konfigurasjonsgrensesnitt for Evolution e-post"/>
+    <oaf_attribute name="name-pl" type="string"
+                   value="Interfejs konfiguracji Poczty Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+                   value="Interface configuração Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+                   value="Interface de configuração do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+                   value="Интерфейс настройки компонента Почта Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+                   value="Алат за подешавање Еволуција поште"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+                   value="Alat za podešavanje Evolucija pošte"/>
+    <oaf_attribute name="name-sv" type="string"
+                   value="Evolutions e-postkonfigurationsgränssnitt"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+                   value="Evolution Mail 配置界面"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+                   value="Evolution 郵件程式組態界面"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+                   value="Evolution 郵件程式組態界面"/>
+  </oaf_server>
+
+  <!-- FolderInfo interface -->
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/FolderInfo:1.0"/>
+    </oaf_attribute>
+  </oaf_server>
+
+  <!-- Startup Wizard -->
+
+  <!-- (wizard) -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/StartupWizard:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:startup_wizard:priority" type="number"
+		   value="1"/>
+  </oaf_server>
+
+
+  <!-- Configuration pages -->
+
+  <!-- Account Editor -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:title" type="string"
+		   value="Mail Accounts"/>
+    <oaf_attribute name="evolution:config_item:title-be" type="string"
+		   value="Уліковыя запісы пошты"/>
+    <oaf_attribute name="evolution:config_item:title-cs" type="string"
+		   value="Emailové účty"/>
+    <oaf_attribute name="evolution:config_item:title-da" type="string"
+		   value="E-post-konti"/>
+    <oaf_attribute name="evolution:config_item:title-de" type="string"
+		   value="E-Mail-Konten"/>
+    <oaf_attribute name="evolution:config_item:title-el" type="string"
+		   value="Λογαριασμοί Αλληλογραφίας"/>
+    <oaf_attribute name="evolution:config_item:title-es" type="string"
+		   value="Cuentas de correo"/>
+    <oaf_attribute name="evolution:config_item:title-fi" type="string"
+		   value="Sähköpostitilit"/>
+    <oaf_attribute name="evolution:config_item:title-fr" type="string"
+		   value="Comptes de messagerie"/>
+    <oaf_attribute name="evolution:config_item:title-hu" type="string"
+		   value="Postafiókok"/>
+    <oaf_attribute name="evolution:config_item:title-it" type="string"
+		   value="Account di posta"/>
+    <oaf_attribute name="evolution:config_item:title-ja" type="string"
+		   value="メールのアカウント"/>
+    <oaf_attribute name="evolution:config_item:title-ko" type="string"
+		   value="메일 계정"/>
+    <oaf_attribute name="evolution:config_item:title-lv" type="string"
+		   value="Pasta konti"/>
+    <oaf_attribute name="evolution:config_item:title-ms" type="string"
+		   value="Akaun Mel"/>
+    <oaf_attribute name="evolution:config_item:title-nl" type="string"
+		   value="E-mail accounts"/>
+    <oaf_attribute name="evolution:config_item:title-no" type="string"
+		   value="E-post-konti"/>
+    <oaf_attribute name="evolution:config_item:title-pl" type="string"
+		   value="Konta pocztowe"/>
+    <oaf_attribute name="evolution:config_item:title-pt" type="string"
+		   value="Contas Correio"/>
+    <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		   value="Contas de correio"/>
+    <oaf_attribute name="evolution:config_item:title-ru" type="string"
+		   value="Учетные записи электронной почты"/>
+    <oaf_attribute name="evolution:config_item:title-sr" type="string"
+		   value="Поштански налози"/>
+    <oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		   value="Poštanski nalozi"/>
+    <oaf_attribute name="evolution:config_item:title-sv" type="string"
+		   value="E-postkonton"/>
+    <oaf_attribute name="evolution:config_item:title-tr" type="string"
+		   value="E-posta Hesapları"/>
+    <oaf_attribute name="evolution:config_item:title-uk" type="string"
+		   value="Поштові Рахунки"/>
+    <oaf_attribute name="evolution:config_item:title-vi" type="string"
+		   value="Tài khoản thư"/>
+    <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		   value="邮件帐号"/>
+    <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		   value="郵件帳號"/>
+    <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		   value="郵件帳號"/>
+
+    <oaf_attribute name="evolution:config_item:description" type="string"
+		   value="Configure your email accounts here"/>
+    <oaf_attribute name="evolution:config_item:description-be" type="string"
+		   value="Наладка вашых уліковых запісаў пошты робіцца тут"/>
+    <oaf_attribute name="evolution:config_item:description-cs" type="string"
+		   value="Zde se nachází nastavení vašich emailových účtů"/>
+    <oaf_attribute name="evolution:config_item:description-da" type="string"
+		   value="Konfigurér dine e-post-konti her"/>
+    <oaf_attribute name="evolution:config_item:description-de" type="string"
+		   value="Hier können Sie Ihre E-Mail-Konten konfigurieren"/>
+    <oaf_attribute name="evolution:config_item:description-el" type="string"
+		   value="Ρυθμίστε εδώ τους λογαριασμούς αλληλογραφίας σας"/>
+    <oaf_attribute name="evolution:config_item:description-es" type="string"
+		   value="Configure sus cuentas de correo aquí"/>
+    <oaf_attribute name="evolution:config_item:description-fi" type="string"
+		   value="Muokkaa tästä sähköpostitunnuksiasi "/>
+    <oaf_attribute name="evolution:config_item:description-fr" type="string"
+		   value="Configurez ici vos comptes de messagerie."/>
+    <oaf_attribute name="evolution:config_item:description-hu" type="string"
+		   value="Itt állíthatja be a postafiókokat"/>
+    <oaf_attribute name="evolution:config_item:description-it" type="string"
+		   value="Configura qui gli account di posta elettronica"/>
+    <oaf_attribute name="evolution:config_item:description-ja" type="string"
+		   value="使用する電子メールアカウントをここで設定します。"/>
+    <oaf_attribute name="evolution:config_item:description-ko" type="string"
+		   value="여기에서 전자 메일 계정을 구성합니다."/>
+    <oaf_attribute name="evolution:config_item:description-lv" type="string"
+		   value="Šeit konfigurējiet jūsu epasta kontus"/>
+    <oaf_attribute name="evolution:config_item:description-ms" type="string"
+		   value="Buat konfigurasi akaun e-mel anda di sini"/>
+    <oaf_attribute name="evolution:config_item:description-nl" type="string"
+		   value="Hier kunt u uw e-mail accounts instellen"/>
+    <oaf_attribute name="evolution:config_item:description-no" type="string"
+		   value="Konfigurer e-post-kontoer her"/>
+    <oaf_attribute name="evolution:config_item:description-pl" type="string"
+		   value="Skonfiguruj konta pocztowe"/>
+    <oaf_attribute name="evolution:config_item:description-pt" type="string"
+		   value="Configure aqui as suas contas de correio"/>
+    <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		   value="Configure aqui as suas contas de correio"/>
+    <oaf_attribute name="evolution:config_item:description-ru" type="string"
+		   value="Настройте здесь учетные записи почты"/>
+    <oaf_attribute name="evolution:config_item:description-sr" type="string"
+		   value="Подесите ваше налоге за пошту овде"/>
+    <oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		   value="Podesite vaše naloge za poštu ovde"/>
+    <oaf_attribute name="evolution:config_item:description-sv" type="string"
+		   value="Konfigurera dina e-postkonton här"/>
+    <oaf_attribute name="evolution:config_item:description-tr" type="string"
+		   value="Posta hesaplarını buradan yapılandırın"/>
+    <oaf_attribute name="evolution:config_item:description-uk" type="string"
+		   value="Налаштовування поштових рахунків"/>
+    <oaf_attribute name="evolution:config_item:description-vi" type="string"
+		   value="Cấu hình tài khoản thư ở đây"/>
+    <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		   value="在这里配置您的电子邮件账号"/>
+    <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		   value="在此設定您的郵件帳號"/>
+    <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		   value="在此設定您的郵件帳號"/>
+
+    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+		   value="mail-accounts-settings.png"/>
+
+    <oaf_attribute name="evolution:config_item:type" type="stringv">
+	<item value="mail"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-10"/>
+    
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail accounts configuration control"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Сродак кіраваньня уліковамі запісамі пошты &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Ovládací prvek nastavení účtů pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution e-post-kontoopsætnings-styreelement"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Bedienelement zur Konfiguration von Evolution-E-Mail-Konten"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Control de configuración de cuentas de correo de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolutionin sähköpostitilien asetukset"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant de configuration des comptes de messagerie d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Levelező postafiók beállítás vezérlő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Controllo di configurazione degli account di posta di Evolution."/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メールアカウント設定コントロール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 계정 구성 제어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Kawalan konfigurasi akaun Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution e-mail accountconfiguratie"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Konfigurasjonskontroll for Evolution e-postkonti"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Narzędzie do konfiguracji kont pocztowych programu Poczta Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Controlo configuração contas Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Controle de configuração de contas do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент настройки учетных записей почты Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Контрола подешавања Еволуција налога за пошту"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Kontrola podešavanja Evolucija naloga za poštu"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postkonfigurationskontroll för konton"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件账户配置控制"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 帳號組態控制項"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 帳號組態控制項"/>
+
+  </oaf_server>
+
+  <!-- Mail Preferences -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:title" type="string"
+		   value="Mail Preferences"/>
+    <oaf_attribute name="evolution:config_item:title-be" type="string"
+		   value="Перавагі пошты"/>
+    <oaf_attribute name="evolution:config_item:title-cs" type="string"
+		   value="Nastavení pošty"/>
+    <oaf_attribute name="evolution:config_item:title-da" type="string"
+		   value="E-post-indstillinger"/>
+    <oaf_attribute name="evolution:config_item:title-de" type="string"
+		   value="E-Mail-Einstellungen"/>
+    <oaf_attribute name="evolution:config_item:title-el" type="string"
+		   value="Προτιμήσεις Αλληλογραφίας"/>
+    <oaf_attribute name="evolution:config_item:title-es" type="string"
+		   value="Opciones de correo"/>
+    <oaf_attribute name="evolution:config_item:title-fi" type="string"
+		   value="Sähköpostin asetukset"/>
+    <oaf_attribute name="evolution:config_item:title-fr" type="string"
+		   value="Préférences du courrier"/>
+    <oaf_attribute name="evolution:config_item:title-hu" type="string"
+		   value="Levelezés beállításai"/>
+    <oaf_attribute name="evolution:config_item:title-it" type="string"
+		   value="Preferenze di posta"/>
+    <oaf_attribute name="evolution:config_item:title-ja" type="string"
+		   value="メールの設定"/>
+    <oaf_attribute name="evolution:config_item:title-ko" type="string"
+		   value="메일 기본 설정"/>
+    <oaf_attribute name="evolution:config_item:title-lv" type="string"
+		   value="Pasta Preferences"/>
+    <oaf_attribute name="evolution:config_item:title-ms" type="string"
+		   value="Keutamaan Mel"/>
+    <oaf_attribute name="evolution:config_item:title-nl" type="string"
+		   value="E-mailvoorkeuren"/>
+    <oaf_attribute name="evolution:config_item:title-no" type="string"
+		   value="Brukervalg for e-post"/>
+    <oaf_attribute name="evolution:config_item:title-pl" type="string"
+		   value="Ustawienia poczty"/>
+    <oaf_attribute name="evolution:config_item:title-pt" type="string"
+		   value="Preferências Correio"/>
+    <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		   value="Preferências de correio"/>
+    <oaf_attribute name="evolution:config_item:title-ru" type="string"
+		   value="Параметры почты"/>
+    <oaf_attribute name="evolution:config_item:title-sk" type="string"
+		   value="Nastavenie pošty"/>
+    <oaf_attribute name="evolution:config_item:title-sr" type="string"
+		   value="Особине поште"/>
+    <oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		   value="Osobine pošte"/>
+    <oaf_attribute name="evolution:config_item:title-sv" type="string"
+		   value="E-postinställningar"/>
+    <oaf_attribute name="evolution:config_item:title-tr" type="string"
+		   value="E-posta Tercihleri"/>
+    <oaf_attribute name="evolution:config_item:title-uk" type="string"
+		   value="Вподобання пошти"/>
+    <oaf_attribute name="evolution:config_item:title-vi" type="string"
+		   value="Thông số thư"/>
+    <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		   value="邮件首选项"/>
+    <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		   value="郵件偏好設定"/>
+    <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		   value="郵件偏好設定"/>
+
+    <oaf_attribute name="evolution:config_item:description" type="string"
+		   value="Configure mail preferences, including security and message display, here"/>
+    <oaf_attribute name="evolution:config_item:description-be" type="string"
+		   value="Тут наладжваюцца парвмэтры пошты, уключаючы бясьпеку й адлюстраваньне паведамленьняў"/>
+    <oaf_attribute name="evolution:config_item:description-cs" type="string"
+		   value="Zde se nachází nastavení voleb pošty, včetně bezpečnosti a zobrazení zprávy"/>
+    <oaf_attribute name="evolution:config_item:description-da" type="string"
+		   value="Konfigurér e-post-indstillinger, inklusive sikkerhed og meddelelsesvisning, hér"/>
+    <oaf_attribute name="evolution:config_item:description-de" type="string"
+		   value="Hier können Sie die E-Mail-Einstellungen einschließlich der Sicherheit und der Anzeige von Nachrichten festlegen"/>
+    <oaf_attribute name="evolution:config_item:description-el" type="string"
+		   value="Ρύθμιστε εδώ τις προτιμήσεις αλληλογραφίας, συμπεριλαμβανομένης της ασφάλειας και της προβολής μηνυμάτων"/>
+    <oaf_attribute name="evolution:config_item:description-es" type="string"
+		   value="Configure las preferencias de correo incluyendo seguridad y visualización de mensajes, aquí"/>
+    <oaf_attribute name="evolution:config_item:description-fi" type="string"
+		   value="Muokkaa tästä sähköpostin asetuksia, mukaanlukien turvallisuus ja viestien näyttö"/>
+    <oaf_attribute name="evolution:config_item:description-fr" type="string"
+		   value="Définissez ici les préférences pour le courrier, les paramètres de sécurité et l&apos;affichage des messages."/>
+    <oaf_attribute name="evolution:config_item:description-hu" type="string"
+		   value="Itt állíthatja be a levelezés tulajdonságait, beleértve a biztonsági- és üzenetképernyőket is."/>
+    <oaf_attribute name="evolution:config_item:description-it" type="string"
+		   value="Configura qui le tue preferenze della posta, incluse sicurezza e aspetto visualizzazione"/>
+    <oaf_attribute name="evolution:config_item:description-ja" type="string"
+		   value="セキュリティとメッセージ表示を含むメールの設定をここで設定します"/>
+    <oaf_attribute name="evolution:config_item:description-ko" type="string"
+		   value="여기에서 보안 및 메시지 표시를 포함한 메일 환경 설정을 구성합니다."/>
+    <oaf_attribute name="evolution:config_item:description-lv" type="string"
+		   value="Šeit konfigurējiet pasta preferences, ieskaitot drošību un vēstuļu attēlošanu"/>
+    <oaf_attribute name="evolution:config_item:description-ms" type="string"
+		   value="Buat konfigurasi keutamaan mel, termasuk keselamatan dan paparan mesej, di sini"/>
+    <oaf_attribute name="evolution:config_item:description-nl" type="string"
+		   value="Hier kunt u uw e-mailvoorkeuren instellen, inclusief beveiliging en weergave."/>
+    <oaf_attribute name="evolution:config_item:description-no" type="string"
+		   value="Konfigurer brukervalg for e-post, inkludert sikkerhet og meldingsvisning her"/>
+    <oaf_attribute name="evolution:config_item:description-pl" type="string"
+		   value="Konfiguracja preferencji pocztowych, włącznie z zabezpieczeniamii wyświetlaniem wiadomości"/>
+    <oaf_attribute name="evolution:config_item:description-pt" type="string"
+		   value="Configure aqui as suas preferências de correio, incluindo segurança e apresentação de mensagens"/>
+    <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		   value="Configure aqui preferências de correio, incluindo segurança e exibição de mensagens"/>
+    <oaf_attribute name="evolution:config_item:description-ru" type="string"
+		   value="Здесь настраиваются параметры почты, включая безопасность и отображение сообщений"/>
+    <oaf_attribute name="evolution:config_item:description-sr" type="string"
+		   value="Подесите особине за пошту, укључујући сигурност и приказ поруке, овде"/>
+    <oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		   value="Podesite osobine za poštu, uključujući sigurnost i prikaz poruke, ovde"/>
+    <oaf_attribute name="evolution:config_item:description-sv" type="string"
+		   value="Konfigurera e-postinställningar, inklusive säkerhet och meddelandevisning, här"/>
+    <oaf_attribute name="evolution:config_item:description-tr" type="string"
+		   value="İleti tercihleri, güvenlik ve diğer ayarları buradan yapılandırın"/>
+    <oaf_attribute name="evolution:config_item:description-uk" type="string"
+		   value="Налаштовування вподобань, включаючи безпеку та відображення повідомлень"/>
+    <oaf_attribute name="evolution:config_item:description-vi" type="string"
+		   value="Cấu hình thông số thư tín, bao gồm tính bảo mật và hiển thị thông điệp, ở đây."/>
+    <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		   value="在此配置邮件首选项，包括安全和邮件显示"/>
+    <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		   value="在此設定郵件的偏好設定，包含安全性與訊息的顯示"/>
+    <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		   value="在此設定郵件的偏好設定，包含安全性與訊息的顯示"/>
+
+    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+		   value="mail-config-druid.png"/>
+    
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-9"/>
+    
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail preferences control"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Кіраваньне перавагамі пошты &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Ovládací prvek nastavení pošty Evolution."/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution e-post-indstillings-styreelement"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-E-Mail-Einstellungsbedienelement"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Control de preferencias de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution sähköpostiasetusten ohjaus"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Préférences de la messagerie d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Levelező beállítás vezérlő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Controllo delle preferenze della posta di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メール設定コントロール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 환경 설정 제어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Kawalan keutamaan Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution e-mail voorkeuren"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Brukervalg-kontroll for Evolution e-post"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Komponent preferencji Poczty Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Controlo preferências de Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Controle de preferências do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент настройки почты Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Контрола особина Еволуција поште"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Kontrola osobina Evolucija pošte"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postinställningskontroll"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件首选项控件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件偏好設定控制項"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件偏好設定控制項"/>
+
+  </oaf_server>
+
+  <!-- Composer Preferences -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:title" type="string"
+		   value="Composer Preferences"/>
+    <oaf_attribute name="evolution:config_item:title-be" type="string"
+		   value="Перавагі рэдактара паведамленьняў"/>
+    <oaf_attribute name="evolution:config_item:title-cs" type="string"
+		   value="Nastavení editoru"/>
+    <oaf_attribute name="evolution:config_item:title-da" type="string"
+		   value="Redigererindstillinger"/>
+    <oaf_attribute name="evolution:config_item:title-de" type="string"
+		   value="Editoreinstellungen"/>
+    <oaf_attribute name="evolution:config_item:title-el" type="string"
+		   value="Προτιμήσεις Επεξεργαστή"/>
+    <oaf_attribute name="evolution:config_item:title-es" type="string"
+		   value="Preferencias del Editor"/>
+    <oaf_attribute name="evolution:config_item:title-fi" type="string"
+		   value="Muokkaimen asetukset"/>
+    <oaf_attribute name="evolution:config_item:title-fr" type="string"
+		   value="Préférences du composeur"/>
+    <oaf_attribute name="evolution:config_item:title-hu" type="string"
+		   value="Szerkesztő beállításai"/>
+    <oaf_attribute name="evolution:config_item:title-it" type="string"
+		   value="Preferenze di composizione"/>
+    <oaf_attribute name="evolution:config_item:title-ja" type="string"
+		   value="メール作成の設定"/>
+    <oaf_attribute name="evolution:config_item:title-ko" type="string"
+		   value="메일 작성기 기본 설정"/>
+    <oaf_attribute name="evolution:config_item:title-lv" type="string"
+		   value="Sacerētāja preferences"/>
+    <oaf_attribute name="evolution:config_item:title-ms" type="string"
+		   value="Keutamaan Penggubah"/>
+    <oaf_attribute name="evolution:config_item:title-nl" type="string"
+		   value="Bericht opstellen - Voorkeuren"/>
+    <oaf_attribute name="evolution:config_item:title-no" type="string"
+		   value="Brukervalg for redigering"/>
+    <oaf_attribute name="evolution:config_item:title-pl" type="string"
+		   value="Preferencje edytora"/>
+    <oaf_attribute name="evolution:config_item:title-pt" type="string"
+		   value="Preferências Compositor"/>
+    <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		   value="Preferências do redator"/>
+    <oaf_attribute name="evolution:config_item:title-ru" type="string"
+		   value="Параметры редактора"/>
+    <oaf_attribute name="evolution:config_item:title-sr" type="string"
+		   value="Поставке састављача"/>
+    <oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		   value="Postavke sastavljača"/>
+    <oaf_attribute name="evolution:config_item:title-sv" type="string"
+		   value="Redigerarinställningar"/>
+    <oaf_attribute name="evolution:config_item:title-tr" type="string"
+		   value="Düzenleyici Tercihleri"/>
+    <oaf_attribute name="evolution:config_item:title-uk" type="string"
+		   value="Вподобання редактора"/>
+    <oaf_attribute name="evolution:config_item:title-vi" type="string"
+		   value="Thông số bộ soạn thảo"/>
+    <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		   value="编写器首选项"/>
+    <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		   value="郵件編輯器偏好設定"/>
+    <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		   value="郵件編輯器偏好設定"/>
+
+    <oaf_attribute name="evolution:config_item:description" type="string"
+		   value="Configure spell-checking, signatures, and the message composer here"/>
+    <oaf_attribute name="evolution:config_item:description-be" type="string"
+		   value="Тут наладжваюцца праверка правапісу, подпісу й стварэньне паведамленьняў"/>
+    <oaf_attribute name="evolution:config_item:description-cs" type="string"
+		   value="Zde se nachází nastavení kontroly pravopisu, podpisů a editoru zpráv"/>
+    <oaf_attribute name="evolution:config_item:description-da" type="string"
+		   value="Konfigurér stavekontrol, signaturer, og meddelelseredigeringen hér"/>
+    <oaf_attribute name="evolution:config_item:description-de" type="string"
+		   value="Hier können Sie die Rechtschreibprüfung, Signaturen sowie den Nachrichteneditor konfigurieren"/>
+    <oaf_attribute name="evolution:config_item:description-el" type="string"
+		   value="Ρύθμιστε εδώ τον έλεγχο ορθογραφίας, υπογραφές και τον επεξεργαστή μηνυμάτων"/>
+    <oaf_attribute name="evolution:config_item:description-es" type="string"
+		   value="Configure aquí la ortografía, firmas y la composición de mensajes."/>
+    <oaf_attribute name="evolution:config_item:description-fi" type="string"
+		   value="Muokkaa tästä oikoluvun, allekirjoitusten ja viestien muokkaimen asetuksia"/>
+    <oaf_attribute name="evolution:config_item:description-fr" type="string"
+		   value="Définissez ici la fonction de correction de l&apos;orthographe et les signatures, et configurez le composeur de messages."/>
+    <oaf_attribute name="evolution:config_item:description-hu" type="string"
+		   value="Itt állíthatja be a helyesírás ellenőrzést, az aláírásokat és a levélszerkesztőt"/>
+    <oaf_attribute name="evolution:config_item:description-it" type="string"
+		   value="Configura qui il controllo ortografico, le firme e il compositore dei messaggi"/>
+    <oaf_attribute name="evolution:config_item:description-ja" type="string"
+		   value="スペルチェック、署名およびメッセージコンポーザをここで設定します"/>
+    <oaf_attribute name="evolution:config_item:description-ko" type="string"
+		   value="여기에서 맞춤법 검사, 서명 및 메시지 작성자를 구성합니다."/>
+    <oaf_attribute name="evolution:config_item:description-lv" type="string"
+		   value="Šeit konfigurējiet pareizrakstības pārbaudi, parakstus un vēstuļu sacerētājam"/>
+    <oaf_attribute name="evolution:config_item:description-ms" type="string"
+		   value="Buat konfigurasi semakan ejaan, tandatangan dan penggubah mesej di sini"/>
+    <oaf_attribute name="evolution:config_item:description-nl" type="string"
+		   value="Hier kunt u uw spellingscontrole, onderschiften en het opstellen van nieuwe berichten instellen."/>
+    <oaf_attribute name="evolution:config_item:description-no" type="string"
+		   value="Konfigurer stavekontroll, signaturer og meldingskomposisjon her"/>
+    <oaf_attribute name="evolution:config_item:description-pl" type="string"
+		   value="Konfiguracja sprawdzania pisowni, podpisów oraz edytora wiadomości"/>
+    <oaf_attribute name="evolution:config_item:description-pt" type="string"
+		   value="Configure aqui correcção ortográfica, assinaturas e o compositor de mensagens"/>
+    <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		   value="Configure aqui a verificação ortográfica, assinaturas e o redator de mensagens"/>
+    <oaf_attribute name="evolution:config_item:description-ru" type="string"
+		   value="Здесь настраиваются проверка правописания, подписи и редактор сообщений"/>
+    <oaf_attribute name="evolution:config_item:description-sr" type="string"
+		   value="Подесите проверу правописа, потписе, и састављач поруке овде"/>
+    <oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		   value="Podesite proveru pravopisa, potpise, i sastavljač poruke ovde"/>
+    <oaf_attribute name="evolution:config_item:description-sv" type="string"
+		   value="Konfigurera stavningskontroll, signaturer, och meddelanderedigeraren här"/>
+    <oaf_attribute name="evolution:config_item:description-tr" type="string"
+		   value="İmla denetimi, imza ve metin düzenleyiciyi buradan yapılandırın"/>
+    <oaf_attribute name="evolution:config_item:description-uk" type="string"
+		   value="Налаштовування перевірки правопису, підписів та редактора повідомлень"/>
+    <oaf_attribute name="evolution:config_item:description-vi" type="string"
+		   value="Cấu hình kiểm tra chính tả, chữ ký, và bộ soạn thảo thông điệp ở đây"/>
+    <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		   value="在此配置拼写检查、签名和邮件编写器"/>
+    <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		   value="在此設定拼字檢查、簽名檔與郵件編輯器"/>
+    <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		   value="在此設定拼字檢查、簽名檔與郵件編輯器"/>
+
+    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+		   value="composer-settings.png"/>
+    
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-8"/>
+    
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Mail composer configuration control"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Сродак кіраваньня рэдактарам паведамленьняў &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Ovládací prvek nastavení editoru zpráv pošty Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolutions e-post-redigereropsætnings-styreelement"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Bedienelement zur Konfiguration des Evolution-E-Mail-Editors"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Control de configuración del redactor de correo de Evolution."/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution sähköpostin muokkaimen asetustyökalu"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant de configuration du composeur de courrier d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution levélszerkesztő beállítás vezérlő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Controllo di configurazione del compositore di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution メールコンポーザ設定コントロール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 메일 작성기 구성 제어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Kawalan konfigurasi penggubah Mel Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution configuratie voor opstellen van nieuw bericht"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Konfigurasjonskontroll for Evolution e-postredigering"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Narzędzie do konfiguracji kreatora poczty programu Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Controlo configuração compositor de Correio Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Controle de configuração do redator do correio do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент настройки мастера почтовых ответов Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Контрола подешавања Еволуција састављача"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Kontrola podešavanja Evolucija sastavljača"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions e-postredigerarkonfigurationskontroll"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 邮件撰写控件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 郵件編輯器組態控制項"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 郵件編輯器組態控制項"/>
+
+  </oaf_server>
+
+</oaf_info>
+
+
+

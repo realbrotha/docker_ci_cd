@@ -1,0 +1,458 @@
+<oaf_info>
+  
+  <oaf_server iid="OAFIID:GNOME_EOG_CollectionFactory" type="exe" location="/usr/lib/eog-collection-view">
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/ObjectFactory:1.0"/>
+    </oaf_attribute>
+    <oaf_attribute name="name" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="name-af" type="string" value="EOG-beeldversameling-bekykfabriek"/>
+    <oaf_attribute name="name-am" type="string" value="የEOG ምስል ስብስብ መመልከቻ ፋብሪካ"/>
+    <oaf_attribute name="name-ar" type="string" value="مصنع آي·أوف·جنوم لمشهد مجموعات الصور"/>
+    <oaf_attribute name="name-az" type="string" value="EOG Rəsm kolleksiyası nümayişi e&apos;malatxanası"/>
+    <oaf_attribute name="name-be" type="string" value="Фабрыка прагляду збора відарысаў EOG"/>
+    <oaf_attribute name="name-bg" type="string" value="Фабрика за преглед на Колекция с Картинки на EOG"/>
+    <oaf_attribute name="name-bn" type="string" value="ইওজি চিত্র সংগ্রহ দৃশ্য কারখানা"/>
+    <oaf_attribute name="name-ca" type="string" value="Creació de vistes de la col·lecció d&apos;imatges d&apos;EOG"/>
+    <oaf_attribute name="name-cs" type="string" value="Generátor prohlížeče kolekce obrázků EOG"/>
+    <oaf_attribute name="name-cy" type="string" value="Ffatri gwelyddion casgliadau delweddau EOG"/>
+    <oaf_attribute name="name-da" type="string" value="EOG-billedsamlingsfremviserfabrik"/>
+    <oaf_attribute name="name-de" type="string" value="Fabrik für EOG-Bildersammlungs-Anzeigeprogramm"/>
+    <oaf_attribute name="name-el" type="string" value="Εργοστάσιο προβολής συλλογής Εικόνων EOG"/>
+    <oaf_attribute name="name-en_CA" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="name-en_GB" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="name-es" type="string" value="Fábrica de visualizadores de colecciones de imágenes EOG"/>
+    <oaf_attribute name="name-eu" type="string" value="EOG irudi-bildumak ikusteko fabrika"/>
+    <oaf_attribute name="name-fi" type="string" value="Gnomen silmän kokoelmakatselintehdas"/>
+    <oaf_attribute name="name-fr" type="string" value="Fabrique de la vue de collection d&apos;images EOG"/>
+    <oaf_attribute name="name-gl" type="string" value="Fábrica de visualizador de coleccións de imaxes do EOG"/>
+    <oaf_attribute name="name-gu" type="string" value="EOG ચિત્ર સંગ્રહ દર્શક કારખાનું"/>
+    <oaf_attribute name="name-he" type="string" value="יצרן אוסף התמונות של עי&quot;ן"/>
+    <oaf_attribute name="name-hi" type="string" value="इओजी चित्र संग्रहण दर्शक कारखाना"/>
+    <oaf_attribute name="name-hr" type="string" value="Tvornica EOG preglednika kolekcija slika"/>
+    <oaf_attribute name="name-hu" type="string" value="EOG képgyűjteménynéző factory"/>
+    <oaf_attribute name="name-id" type="string" value="Factory penampil koleksi gambar EOG"/>
+    <oaf_attribute name="name-is" type="string" value="Versmiðja EOG safnmyndarýnis"/>
+    <oaf_attribute name="name-it" type="string" value="Fabbrica per la collezione di immagini EOG"/>
+    <oaf_attribute name="name-ja" type="string" value="EOG 画像コレクションビューファクトリ"/>
+    <oaf_attribute name="name-ko" type="string" value="EOG 이미지 모음 보기 팩토리"/>
+    <oaf_attribute name="name-lt" type="string" value="EOG paveikslėlių kolekcijos žiūryklės gamykla"/>
+    <oaf_attribute name="name-lv" type="string" value="EOG attēlu kolekcijas skatu darbnīca"/>
+    <oaf_attribute name="name-mk" type="string" value="EOG Колекција на слики за пoглед-фабрика"/>
+    <oaf_attribute name="name-mn" type="string" value="EOG-зургийн цомгийн үзвэр боловсруулагч"/>
+    <oaf_attribute name="name-ms" type="string" value="Kilang pelihat koleksi Imej EOG"/>
+    <oaf_attribute name="name-nl" type="string" value="EOG afbeeldingsweergavefabriek"/>
+    <oaf_attribute name="name-nn" type="string" value="EOG-biletesamlingvisarfabrikk"/>
+    <oaf_attribute name="name-no" type="string" value="Factory for EOG visning av bildesamling"/>
+    <oaf_attribute name="name-pa" type="string" value="EOG ਚਿੱਤਰ ਸਮੂਹ ਦਰਿਸ਼ ਫੈਕਟਰੀ"/>
+    <oaf_attribute name="name-pl" type="string" value="EOG - generator przeglądarki kolekcji obrazów"/>
+    <oaf_attribute name="name-pt" type="string" value="Fábrica de vista de catálogo de imagens EOG"/>
+    <oaf_attribute name="name-pt_BR" type="string" value="Gerador de visualização da coleção de imagens EOG"/>
+    <oaf_attribute name="name-ro" type="string" value="Fabrica de vizualizare de colecţii de imagini EOG"/>
+    <oaf_attribute name="name-ru" type="string" value="Фабрика программы просмотра коллекции изображений EOG"/>
+    <oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie prehliadača kolekcie obrázkov EOG"/>
+    <oaf_attribute name="name-sl" type="string" value="Tovarna pregledovalnikov zbirk slik EOG"/>
+    <oaf_attribute name="name-sq" type="string" value="EOG, Programi për koleksionimin e figurave"/>
+    <oaf_attribute name="name-sr" type="string" value="Производња ЕОГ прегледа колекција слика"/>
+    <oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja EOG pregleda kolekcija slika"/>
+    <oaf_attribute name="name-sv" type="string" value="EOG-bilduppsättningsvisarfabrik"/>
+    <oaf_attribute name="name-ta" type="string" value="EOG ஓவிய சேகரிப்பு காட்சி தொழிற்சாலை"/>
+    <oaf_attribute name="name-th" type="string" value="โรงงานมุมมองสมุดรูปโดย EOG"/>
+    <oaf_attribute name="name-tr" type="string" value="EOG Resim kolleksiyonu gösterim üreticisi"/>
+    <oaf_attribute name="name-uk" type="string" value="Фабрика відображення колекції зображень"/>
+    <oaf_attribute name="name-vi" type="string" value="Factory của trình xem tập ảnh EOG"/>
+    <oaf_attribute name="name-wa" type="string" value="Oujhene di håyneu di ramexhnêyes d&apos; imådjes EOG"/>
+    <oaf_attribute name="name-zh_CN" type="string" value="EOG 图像集查看工厂"/>
+    <oaf_attribute name="name-zh_HK" type="string" value="EOG 圖像集瀏覽程式工廠"/>
+    <oaf_attribute name="name-zh_TW" type="string" value="EOG 圖像集瀏覽程式工廠"/>
+    <oaf_attribute name="description" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="description-af" type="string" value="EOG-beeldversameling-bekykfabriek"/>
+    <oaf_attribute name="description-am" type="string" value="የEOG ምስል ስብስብ መመልከቻ ፋብሪካ"/>
+    <oaf_attribute name="description-ar" type="string" value="مصنع آي·أوف·جنوم لمشهد مجموعات الصور"/>
+    <oaf_attribute name="description-az" type="string" value="EOG Rəsm kolleksiyası nümayişi e&apos;malatxanası"/>
+    <oaf_attribute name="description-be" type="string" value="Фабрыка прагляду збора відарысаў EOG"/>
+    <oaf_attribute name="description-bg" type="string" value="Фабрика за преглед на Колекция с Картинки на EOG"/>
+    <oaf_attribute name="description-bn" type="string" value="ইওজি চিত্র সংগ্রহ দৃশ্য কারখানা"/>
+    <oaf_attribute name="description-ca" type="string" value="Creació de vistes de la col·lecció d&apos;imatges d&apos;EOG"/>
+    <oaf_attribute name="description-cs" type="string" value="Generátor prohlížeče kolekce obrázků EOG"/>
+    <oaf_attribute name="description-cy" type="string" value="Ffatri gwelyddion casgliadau delweddau EOG"/>
+    <oaf_attribute name="description-da" type="string" value="EOG-billedsamlingsfremviserfabrik"/>
+    <oaf_attribute name="description-de" type="string" value="Fabrik für EOG-Bildersammlungs-Anzeigeprogramm"/>
+    <oaf_attribute name="description-el" type="string" value="Εργοστάσιο προβολής συλλογής Εικόνων EOG"/>
+    <oaf_attribute name="description-en_CA" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="description-en_GB" type="string" value="EOG Image collection view factory"/>
+    <oaf_attribute name="description-es" type="string" value="Fábrica de visualizadores de colecciones de imágenes EOG"/>
+    <oaf_attribute name="description-eu" type="string" value="EOG irudi-bildumak ikusteko fabrika"/>
+    <oaf_attribute name="description-fi" type="string" value="Gnomen silmän kokoelmakatselintehdas"/>
+    <oaf_attribute name="description-fr" type="string" value="Fabrique de la vue de collection d&apos;images EOG"/>
+    <oaf_attribute name="description-gl" type="string" value="Fábrica de visualizador de coleccións de imaxes do EOG"/>
+    <oaf_attribute name="description-gu" type="string" value="EOG ચિત્ર સંગ્રહ દર્શક કારખાનું"/>
+    <oaf_attribute name="description-he" type="string" value="יצרן אוסף התמונות של עי&quot;ן"/>
+    <oaf_attribute name="description-hi" type="string" value="इओजी चित्र संग्रहण दर्शक कारखाना"/>
+    <oaf_attribute name="description-hr" type="string" value="Tvornica EOG preglednika kolekcija slika"/>
+    <oaf_attribute name="description-hu" type="string" value="EOG képgyűjteménynéző factory"/>
+    <oaf_attribute name="description-id" type="string" value="Factory penampil koleksi gambar EOG"/>
+    <oaf_attribute name="description-is" type="string" value="Versmiðja EOG safnmyndarýnis"/>
+    <oaf_attribute name="description-it" type="string" value="Fabbrica per la collezione di immagini EOG"/>
+    <oaf_attribute name="description-ja" type="string" value="EOG 画像コレクションビューファクトリ"/>
+    <oaf_attribute name="description-ko" type="string" value="EOG 이미지 모음 보기 팩토리"/>
+    <oaf_attribute name="description-lt" type="string" value="EOG paveikslėlių kolekcijos žiūryklės gamykla"/>
+    <oaf_attribute name="description-lv" type="string" value="EOG attēlu kolekcijas skatu darbnīca"/>
+    <oaf_attribute name="description-mk" type="string" value="EOG Колекција на слики за пoглед-фабрика"/>
+    <oaf_attribute name="description-mn" type="string" value="EOG-зургийн цомгийн үзвэр боловсруулагч"/>
+    <oaf_attribute name="description-ms" type="string" value="Kilang pelihat koleksi Imej EOG"/>
+    <oaf_attribute name="description-nl" type="string" value="EOG afbeeldingsweergavefabriek"/>
+    <oaf_attribute name="description-nn" type="string" value="EOG-biletesamlingvisarfabrikk"/>
+    <oaf_attribute name="description-no" type="string" value="Factory for EOG visning av bildesamling"/>
+    <oaf_attribute name="description-pa" type="string" value="EOG ਚਿੱਤਰ ਸਮੂਹ ਦਰਿਸ਼ ਫੈਕਟਰੀ"/>
+    <oaf_attribute name="description-pl" type="string" value="EOG - generator przeglądarki kolekcji obrazów"/>
+    <oaf_attribute name="description-pt" type="string" value="Fábrica de vista de catálogo de imagens EOG"/>
+    <oaf_attribute name="description-pt_BR" type="string" value="Gerador de visualização da coleção de imagens EOG"/>
+    <oaf_attribute name="description-ro" type="string" value="Fabrica de vizualizare de colecţii de imagini EOG"/>
+    <oaf_attribute name="description-ru" type="string" value="Фабрика программы просмотра коллекции изображений EOG"/>
+    <oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie prehliadača kolekcie obrázkov EOG"/>
+    <oaf_attribute name="description-sl" type="string" value="Tovarna pregledovalnikov zbirk slik EOG"/>
+    <oaf_attribute name="description-sq" type="string" value="EOG, Programi për koleksionimin e figurave"/>
+    <oaf_attribute name="description-sr" type="string" value="Производња ЕОГ прегледа колекција слика"/>
+    <oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja EOG pregleda kolekcija slika"/>
+    <oaf_attribute name="description-sv" type="string" value="EOG-bilduppsättningsvisarfabrik"/>
+    <oaf_attribute name="description-ta" type="string" value="EOG ஓவிய சேகரிப்பு காட்சி தொழிற்சாலை"/>
+    <oaf_attribute name="description-th" type="string" value="โรงงานมุมมองสมุดรูปโดย EOG"/>
+    <oaf_attribute name="description-tr" type="string" value="EOG Resim kolleksiyonu gösterim üreticisi"/>
+    <oaf_attribute name="description-uk" type="string" value="Фабрика відображення колекції зображень"/>
+    <oaf_attribute name="description-vi" type="string" value="Factory của trình xem tập ảnh EOG"/>
+    <oaf_attribute name="description-wa" type="string" value="Oujhene di håyneu di ramexhnêyes d&apos; imådjes EOG"/>
+    <oaf_attribute name="description-zh_CN" type="string" value="EOG 图像集查看工厂"/>
+    <oaf_attribute name="description-zh_HK" type="string" value="EOG 圖像集瀏覽程式工廠"/>
+    <oaf_attribute name="description-zh_TW" type="string" value="EOG 圖像集瀏覽程式工廠"/>
+  </oaf_server>
+  
+  <oaf_server iid="OAFIID:GNOME_EOG_CollectionControl" type="factory"
+  	      location="OAFIID:GNOME_EOG_CollectionFactory">
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:Bonobo/Unknown:1.0"/>
+      <item value="IDL:Bonobo/Control:1.0"/>
+      <item value="IDL:Bonobo/PersistFile:1.0"/>
+      <item value="IDL:Bonobo/Zoomable:1.0"/>
+      <item value="IDL:GNOME/EOG/CollectionView:1.0"/>
+    </oaf_attribute>
+    <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+      <item value="x-directory/*"/>
+    </oaf_attribute>
+    <oaf_attribute name="nautilus:required_directory_content_mime_types" type="stringv">
+      <item value="image/bmp"/>
+      <item value="image/gif"/>
+      <item value="image/jpeg"/>
+      <item value="image/png"/>
+      <item value="image/tiff"/>
+      <item value="image/x-bmp"/>
+      <item value="image/x-cmu-raster"/>
+      <item value="image/x-icb"/>
+      <item value="image/x-ico"/>
+      <item value="image/x-png"/>
+      <item value="image/x-portable-anymap"/>
+      <item value="image/x-portable-bitmap"/>
+      <item value="image/x-portable-graymap"/>
+      <item value="image/x-portable-pixmap"/>
+      <item value="image/x-xpixmap"/>
+      <item value="image/xpm"/>
+      <item value="image/svg"/>
+    </oaf_attribute>
+    <oaf_attribute name="name" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="name-af" type="string" value="EOG-beeldversameling-bekyker"/>
+    <oaf_attribute name="name-am" type="string" value="የEOG ምስል ስብስብ ተመልካች"/>
+    <oaf_attribute name="name-ar" type="string" value="عارض مجموعات الصور آي أوف جنوم"/>
+    <oaf_attribute name="name-az" type="string" value="EOG Rəsm Kolleksiyası Nümayişçisi"/>
+    <oaf_attribute name="name-be" type="string" value="Прагляд збора відарысаў EOG"/>
+    <oaf_attribute name="name-bg" type="string" value="Програма за преглед на Колекция с Картинки на EOG"/>
+    <oaf_attribute name="name-bn" type="string" value="ছবি দেখার সফটওয়ার ইওজি"/>
+    <oaf_attribute name="name-ca" type="string" value="Visualitzador de col·leccions d&apos;imatges EOG"/>
+    <oaf_attribute name="name-cs" type="string" value="Prohlížeč kolekce obrázků EOG"/>
+    <oaf_attribute name="name-cy" type="string" value="Gwelydd Casgliad Delweddau EOG"/>
+    <oaf_attribute name="name-da" type="string" value="EOG-billedsamlingsfremviser"/>
+    <oaf_attribute name="name-de" type="string" value="EOG-Bildersammlungs-Anzeigeprogramm"/>
+    <oaf_attribute name="name-el" type="string" value="Προβολή Συλλογής εικόνων EOG"/>
+    <oaf_attribute name="name-en_CA" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="name-en_GB" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="name-es" type="string" value="Visor de colecciones de imágenes"/>
+    <oaf_attribute name="name-eu" type="string" value="EOG irudi-bildumen ikustailea"/>
+    <oaf_attribute name="name-fi" type="string" value="Gnomen silmän kokoelmakatselin"/>
+    <oaf_attribute name="name-fr" type="string" value="Visionneuse de collection d&apos;images EOG"/>
+    <oaf_attribute name="name-ga" type="string" value="Amharcóir na Albam pictiuirí EOG"/>
+    <oaf_attribute name="name-gl" type="string" value="Visualizador de coleccións de imaxes do EOG"/>
+    <oaf_attribute name="name-gu" type="string" value="EOG ચિત્ર સંગ્રહ દર્શક"/>
+    <oaf_attribute name="name-he" type="string" value="מציג אוסף התמונות של עי&quot;ן"/>
+    <oaf_attribute name="name-hi" type="string" value="इओजी चित्र संग्रहण दर्शक"/>
+    <oaf_attribute name="name-hr" type="string" value="EOG preglednik kolekcije slika"/>
+    <oaf_attribute name="name-hu" type="string" value="EOG képgyűjteménynéző"/>
+    <oaf_attribute name="name-id" type="string" value="EOG, Program Menampilkan koleksi Gambar"/>
+    <oaf_attribute name="name-is" type="string" value="EOG safnmyndarýnir"/>
+    <oaf_attribute name="name-it" type="string" value="Visualizzatore Galleria EOG"/>
+    <oaf_attribute name="name-ja" type="string" value="EOG 画像コレクションビューア"/>
+    <oaf_attribute name="name-ko" type="string" value="EOG 이미지 모음 뷰어"/>
+    <oaf_attribute name="name-lt" type="string" value="EOG paveikslėlių kolekcijų žiūrėjimo programa"/>
+    <oaf_attribute name="name-lv" type="string" value="EOG attēlu Kolekcijas Pārlūks"/>
+    <oaf_attribute name="name-mk" type="string" value="EOG Прегледувач на збирка слики"/>
+    <oaf_attribute name="name-mn" type="string" value="EOG-зургийн цомог харагч"/>
+    <oaf_attribute name="name-ms" type="string" value="Pelihat Koleksi Imej EOG"/>
+    <oaf_attribute name="name-nl" type="string" value="EOG catalogusweergave"/>
+    <oaf_attribute name="name-nn" type="string" value="EOG Framsyning av biletesamlingar"/>
+    <oaf_attribute name="name-no" type="string" value="EOG visning av bildesamling"/>
+    <oaf_attribute name="name-pa" type="string" value="EOG ਚਿੱਤਰ ਸਮੂਹ ਦਰਸ਼ਕ"/>
+    <oaf_attribute name="name-pl" type="string" value="EOG - przeglądarka kolekcji obrazów"/>
+    <oaf_attribute name="name-pt" type="string" value="Visualizador de Catálogos de Imagens EOG"/>
+    <oaf_attribute name="name-pt_BR" type="string" value="Visualizador da coleção de imagens EOG"/>
+    <oaf_attribute name="name-ro" type="string" value="Vizualizator de colecţii de imagini EOG"/>
+    <oaf_attribute name="name-ru" type="string" value="Программа просмотра коллекции изображений EOG"/>
+    <oaf_attribute name="name-sk" type="string" value="Prehliadač kolekcie obrázkov EOG"/>
+    <oaf_attribute name="name-sl" type="string" value="Pregledovalnik zbirke slik EOG"/>
+    <oaf_attribute name="name-sq" type="string" value="EOG, Shikuesi i Albumeve të Figurave"/>
+    <oaf_attribute name="name-sr" type="string" value="ЕОГ прегледник колекција слика"/>
+    <oaf_attribute name="name-sr@Latn" type="string" value="EOG preglednik kolekcija slika"/>
+    <oaf_attribute name="name-sv" type="string" value="EOG-bilduppsättningsvisare"/>
+    <oaf_attribute name="name-ta" type="string" value="கனோம்-கண் ஓவிய சேகரிப்புக் காட்டி"/>
+    <oaf_attribute name="name-th" type="string" value="EOG ตัวแสดงรูป"/>
+    <oaf_attribute name="name-tr" type="string" value="EOG Resim Kolleksiyonu Gösterici"/>
+    <oaf_attribute name="name-uk" type="string" value="Переглядач колекції зображень"/>
+    <oaf_attribute name="name-vi" type="string" value="Trình xem tập ảnh EOG"/>
+    <oaf_attribute name="name-wa" type="string" value="Håyneu di ramexhnêyes d&apos; imådjes EOG"/>
+    <oaf_attribute name="name-zh_CN" type="string" value="EOG 图像集查看器"/>
+    <oaf_attribute name="name-zh_HK" type="string" value="EOG 圖像集瀏覽程式"/>
+    <oaf_attribute name="name-zh_TW" type="string" value="EOG 圖像集瀏覽程式"/>
+    <oaf_attribute name="description" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="description-af" type="string" value="EOG-beeldversameling-bekyker"/>
+    <oaf_attribute name="description-am" type="string" value="የEOG ምስል ስብስብ ተመልካች"/>
+    <oaf_attribute name="description-ar" type="string" value="عارض مجموعات الصور آي أوف جنوم"/>
+    <oaf_attribute name="description-az" type="string" value="EOG Rəsm Kolleksiyası Nümayişçisi"/>
+    <oaf_attribute name="description-be" type="string" value="Прагляд збора відарысаў EOG"/>
+    <oaf_attribute name="description-bg" type="string" value="Програма за преглед на Колекция с Картинки на EOG"/>
+    <oaf_attribute name="description-bn" type="string" value="ছবি দেখার সফটওয়ার ইওজি"/>
+    <oaf_attribute name="description-ca" type="string" value="Visualitzador de col·leccions d&apos;imatges EOG"/>
+    <oaf_attribute name="description-cs" type="string" value="Prohlížeč kolekce obrázků EOG"/>
+    <oaf_attribute name="description-cy" type="string" value="Gwelydd Casgliad Delweddau EOG"/>
+    <oaf_attribute name="description-da" type="string" value="EOG-billedsamlingsfremviser"/>
+    <oaf_attribute name="description-de" type="string" value="EOG-Bildersammlungs-Anzeigeprogramm"/>
+    <oaf_attribute name="description-el" type="string" value="Προβολή Συλλογής εικόνων EOG"/>
+    <oaf_attribute name="description-en_CA" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="description-en_GB" type="string" value="EOG Image Collection Viewer"/>
+    <oaf_attribute name="description-es" type="string" value="Visor de colecciones de imágenes"/>
+    <oaf_attribute name="description-eu" type="string" value="EOG irudi-bildumen ikustailea"/>
+    <oaf_attribute name="description-fi" type="string" value="Gnomen silmän kokoelmakatselin"/>
+    <oaf_attribute name="description-fr" type="string" value="Visionneuse de collection d&apos;images EOG"/>
+    <oaf_attribute name="description-ga" type="string" value="Amharcóir na Albam pictiuirí EOG"/>
+    <oaf_attribute name="description-gl" type="string" value="Visualizador de coleccións de imaxes do EOG"/>
+    <oaf_attribute name="description-gu" type="string" value="EOG ચિત્ર સંગ્રહ દર્શક"/>
+    <oaf_attribute name="description-he" type="string" value="מציג אוסף התמונות של עי&quot;ן"/>
+    <oaf_attribute name="description-hi" type="string" value="इओजी चित्र संग्रहण दर्शक"/>
+    <oaf_attribute name="description-hr" type="string" value="EOG preglednik kolekcije slika"/>
+    <oaf_attribute name="description-hu" type="string" value="EOG képgyűjteménynéző"/>
+    <oaf_attribute name="description-id" type="string" value="EOG, Program Menampilkan koleksi Gambar"/>
+    <oaf_attribute name="description-is" type="string" value="EOG safnmyndarýnir"/>
+    <oaf_attribute name="description-it" type="string" value="Visualizzatore Galleria EOG"/>
+    <oaf_attribute name="description-ja" type="string" value="EOG 画像コレクションビューア"/>
+    <oaf_attribute name="description-ko" type="string" value="EOG 이미지 모음 뷰어"/>
+    <oaf_attribute name="description-lt" type="string" value="EOG paveikslėlių kolekcijų žiūrėjimo programa"/>
+    <oaf_attribute name="description-lv" type="string" value="EOG attēlu Kolekcijas Pārlūks"/>
+    <oaf_attribute name="description-mk" type="string" value="EOG Прегледувач на збирка слики"/>
+    <oaf_attribute name="description-mn" type="string" value="EOG-зургийн цомог харагч"/>
+    <oaf_attribute name="description-ms" type="string" value="Pelihat Koleksi Imej EOG"/>
+    <oaf_attribute name="description-nl" type="string" value="EOG catalogusweergave"/>
+    <oaf_attribute name="description-nn" type="string" value="EOG Framsyning av biletesamlingar"/>
+    <oaf_attribute name="description-no" type="string" value="EOG visning av bildesamling"/>
+    <oaf_attribute name="description-pa" type="string" value="EOG ਚਿੱਤਰ ਸਮੂਹ ਦਰਸ਼ਕ"/>
+    <oaf_attribute name="description-pl" type="string" value="EOG - przeglądarka kolekcji obrazów"/>
+    <oaf_attribute name="description-pt" type="string" value="Visualizador de Catálogos de Imagens EOG"/>
+    <oaf_attribute name="description-pt_BR" type="string" value="Visualizador da coleção de imagens EOG"/>
+    <oaf_attribute name="description-ro" type="string" value="Vizualizator de colecţii de imagini EOG"/>
+    <oaf_attribute name="description-ru" type="string" value="Программа просмотра коллекции изображений EOG"/>
+    <oaf_attribute name="description-sk" type="string" value="Prehliadač kolekcie obrázkov EOG"/>
+    <oaf_attribute name="description-sl" type="string" value="Pregledovalnik zbirke slik EOG"/>
+    <oaf_attribute name="description-sq" type="string" value="EOG, Shikuesi i Albumeve të Figurave"/>
+    <oaf_attribute name="description-sr" type="string" value="ЕОГ прегледник колекција слика"/>
+    <oaf_attribute name="description-sr@Latn" type="string" value="EOG preglednik kolekcija slika"/>
+    <oaf_attribute name="description-sv" type="string" value="EOG-bilduppsättningsvisare"/>
+    <oaf_attribute name="description-ta" type="string" value="கனோம்-கண் ஓவிய சேகரிப்புக் காட்டி"/>
+    <oaf_attribute name="description-th" type="string" value="EOG ตัวแสดงรูป"/>
+    <oaf_attribute name="description-tr" type="string" value="EOG Resim Kolleksiyonu Gösterici"/>
+    <oaf_attribute name="description-uk" type="string" value="Переглядач колекції зображень"/>
+    <oaf_attribute name="description-vi" type="string" value="Trình xem tập ảnh EOG"/>
+    <oaf_attribute name="description-wa" type="string" value="Håyneu di ramexhnêyes d&apos; imådjes EOG"/>
+    <oaf_attribute name="description-zh_CN" type="string" value="EOG 图像集查看器"/>
+    <oaf_attribute name="description-zh_HK" type="string" value="EOG 圖像集瀏覽程式"/>
+    <oaf_attribute name="description-zh_TW" type="string" value="EOG 圖像集瀏覽程式"/>
+    <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+    <oaf_attribute name="nautilus:view_as_name" type="string" value="Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_name-af" type="string" value="Beeldversameling"/>
+    <oaf_attribute name="nautilus:view_as_name-am" type="string" value="የምስል ምስል ስብስብ"/>
+    <oaf_attribute name="nautilus:view_as_name-ar" type="string" value="مجموعة صور"/>
+    <oaf_attribute name="nautilus:view_as_name-az" type="string" value="Rəsm Kolleksiyası"/>
+    <oaf_attribute name="nautilus:view_as_name-be" type="string" value="Збор відарысаў"/>
+    <oaf_attribute name="nautilus:view_as_name-bn" type="string" value="চিত্রের সংগ্রহ"/>
+    <oaf_attribute name="nautilus:view_as_name-ca" type="string" value="Col·lecció d&apos;imatges"/>
+    <oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Kolekce obrázků"/>
+    <oaf_attribute name="nautilus:view_as_name-cy" type="string" value="Casgliad Delweddau"/>
+    <oaf_attribute name="nautilus:view_as_name-da" type="string" value="Billedsamling"/>
+    <oaf_attribute name="nautilus:view_as_name-de" type="string" value="Bildersammlung"/>
+    <oaf_attribute name="nautilus:view_as_name-el" type="string" value="Συλλογή Εικόνων"/>
+    <oaf_attribute name="nautilus:view_as_name-en_CA" type="string" value="Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_name-en_GB" type="string" value="Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_name-es" type="string" value="Colección de imágenes"/>
+    <oaf_attribute name="nautilus:view_as_name-eu" type="string" value="Irudi-bilduma"/>
+    <oaf_attribute name="nautilus:view_as_name-fa" type="string" value="مجموعه‌ی تصویر"/>
+    <oaf_attribute name="nautilus:view_as_name-fi" type="string" value="Kuvakokoelma"/>
+    <oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Collection d&apos;images"/>
+    <oaf_attribute name="nautilus:view_as_name-ga" type="string" value="Bailiúchán Íomhanna"/>
+    <oaf_attribute name="nautilus:view_as_name-gu" type="string" value="ચિત્ર સંગ્રહ"/>
+    <oaf_attribute name="nautilus:view_as_name-he" type="string" value="אוסף תמונות"/>
+    <oaf_attribute name="nautilus:view_as_name-hi" type="string" value="चित्र संग्रहण"/>
+    <oaf_attribute name="nautilus:view_as_name-hr" type="string" value="Kolekcija slika"/>
+    <oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Képgyűjtemény"/>
+    <oaf_attribute name="nautilus:view_as_name-id" type="string" value="Koleksi gambar"/>
+    <oaf_attribute name="nautilus:view_as_name-is" type="string" value="Myndasafn"/>
+    <oaf_attribute name="nautilus:view_as_name-it" type="string" value="Galleria di immagini"/>
+    <oaf_attribute name="nautilus:view_as_name-ja" type="string" value="画像コレクション"/>
+    <oaf_attribute name="nautilus:view_as_name-ko" type="string" value="이미지 모음"/>
+    <oaf_attribute name="nautilus:view_as_name-lt" type="string" value="paveikslėlių kolekciją"/>
+    <oaf_attribute name="nautilus:view_as_name-lv" type="string" value="Attēlu Kolekcija"/>
+    <oaf_attribute name="nautilus:view_as_name-mk" type="string" value="Збирка слики"/>
+    <oaf_attribute name="nautilus:view_as_name-ml" type="string" value="ചിത്ര ശേഖരം"/>
+    <oaf_attribute name="nautilus:view_as_name-mn" type="string" value="Зургийн цомог"/>
+    <oaf_attribute name="nautilus:view_as_name-ms" type="string" value="Koleksi Imej"/>
+    <oaf_attribute name="nautilus:view_as_name-nl" type="string" value="Afbeeldingsverzameling"/>
+    <oaf_attribute name="nautilus:view_as_name-nn" type="string" value="Samling av bilete"/>
+    <oaf_attribute name="nautilus:view_as_name-no" type="string" value="Bildesamling"/>
+    <oaf_attribute name="nautilus:view_as_name-pa" type="string" value="ਚਿੱਤਰ ਸਮੂਹ"/>
+    <oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Kolekcja obrazów"/>
+    <oaf_attribute name="nautilus:view_as_name-pt" type="string" value="Catálogo de Imagens"/>
+    <oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Coleção de imagens"/>
+    <oaf_attribute name="nautilus:view_as_name-ro" type="string" value="o colecţie"/>
+    <oaf_attribute name="nautilus:view_as_name-ru" type="string" value="Коллекция изображений"/>
+    <oaf_attribute name="nautilus:view_as_name-sk" type="string" value="Kolekcia obrázkov"/>
+    <oaf_attribute name="nautilus:view_as_name-sl" type="string" value="Zbirka slik"/>
+    <oaf_attribute name="nautilus:view_as_name-sq" type="string" value="Albumi i figurave"/>
+    <oaf_attribute name="nautilus:view_as_name-sr" type="string" value="Колекција слика"/>
+    <oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string" value="Kolekcija slika"/>
+    <oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Bilduppsättning"/>
+    <oaf_attribute name="nautilus:view_as_name-ta" type="string" value="ஓவியம் சேகரிப்பு"/>
+    <oaf_attribute name="nautilus:view_as_name-th" type="string" value="สมุดรูป"/>
+    <oaf_attribute name="nautilus:view_as_name-tr" type="string" value="Resim Kolleksiyonu"/>
+    <oaf_attribute name="nautilus:view_as_name-uk" type="string" value="Колекція зображень"/>
+    <oaf_attribute name="nautilus:view_as_name-vi" type="string" value="Bộ ảnh"/>
+    <oaf_attribute name="nautilus:view_as_name-wa" type="string" value="Ramexhnêye d&apos; imådjes"/>
+    <oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="图像集"/>
+    <oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="圖像集"/>
+    <oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="圖像集"/>
+    <oaf_attribute name="nautilus:view_as_label" type="string" value="View as Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_label-af" type="string" value="Bekyk as Beeldversameling"/>
+    <oaf_attribute name="nautilus:view_as_label-ar" type="string" value="عرض كمجموعة صور"/>
+    <oaf_attribute name="nautilus:view_as_label-az" type="string" value="Rəsm Kolleksiyası Olaraq Göstər"/>
+    <oaf_attribute name="nautilus:view_as_label-be" type="string" value="Збор відарысаў"/>
+    <oaf_attribute name="nautilus:view_as_label-bn" type="string" value="চিত্রের সংগ্রহ হিসাবে দেখুন"/>
+    <oaf_attribute name="nautilus:view_as_label-ca" type="string" value="Visualitza com col·lecció d&apos;imatges"/>
+    <oaf_attribute name="nautilus:view_as_label-cs" type="string" value="Zobrazit jako kolekci obrázků"/>
+    <oaf_attribute name="nautilus:view_as_label-cy" type="string" value="Dangos fel Casgliad Delweddau"/>
+    <oaf_attribute name="nautilus:view_as_label-da" type="string" value="Vis som billedsamling"/>
+    <oaf_attribute name="nautilus:view_as_label-de" type="string" value="Als Bildersammlung anzeigen"/>
+    <oaf_attribute name="nautilus:view_as_label-el" type="string" value="Προβολή ως Συλλογή Εικόνων"/>
+    <oaf_attribute name="nautilus:view_as_label-en_CA" type="string" value="View as Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_label-en_GB" type="string" value="View as Image Collection"/>
+    <oaf_attribute name="nautilus:view_as_label-es" type="string" value="Ver como colección de imágenes"/>
+    <oaf_attribute name="nautilus:view_as_label-eu" type="string" value="Ikusi irudi-bilduma gisa"/>
+    <oaf_attribute name="nautilus:view_as_label-fi" type="string" value="Näytä kuvakokoelmana"/>
+    <oaf_attribute name="nautilus:view_as_label-fr" type="string" value="Afficher en tant qu&apos;ensemble d&apos;images"/>
+    <oaf_attribute name="nautilus:view_as_label-ga" type="string" value="Feach mar Bailiúchán íomhanna"/>
+    <oaf_attribute name="nautilus:view_as_label-gu" type="string" value="ચિત્ર સંગ્રહ તરીકે જુઓ"/>
+    <oaf_attribute name="nautilus:view_as_label-hr" type="string" value="Pogled kao kolekcija slika"/>
+    <oaf_attribute name="nautilus:view_as_label-hu" type="string" value="Megtekintés képgyűjteményként"/>
+    <oaf_attribute name="nautilus:view_as_label-it" type="string" value="Visualizza come galleria di immagini"/>
+    <oaf_attribute name="nautilus:view_as_label-ja" type="string" value="画像コレクション表示"/>
+    <oaf_attribute name="nautilus:view_as_label-ko" type="string" value="그림 모음으로 보기"/>
+    <oaf_attribute name="nautilus:view_as_label-lt" type="string" value="Rodyti kaip paveikslėlių kolekciją"/>
+    <oaf_attribute name="nautilus:view_as_label-mn" type="string" value="Зургийн цомгоор харах"/>
+    <oaf_attribute name="nautilus:view_as_label-ms" type="string" value="Lihat sebagai Koleksi Imej"/>
+    <oaf_attribute name="nautilus:view_as_label-nl" type="string" value="Alsn Afbeeldingsverzameling weergeven"/>
+    <oaf_attribute name="nautilus:view_as_label-nn" type="string" value="Vis som biletesamling"/>
+    <oaf_attribute name="nautilus:view_as_label-no" type="string" value="Vis som bildesamling"/>
+    <oaf_attribute name="nautilus:view_as_label-pa" type="string" value="ਚਿੱਤਰ ਸਮੂਹ ਵ੾ਗ ਵੇਖੋ"/>
+    <oaf_attribute name="nautilus:view_as_label-pl" type="string" value="Wyświetlanie jako kolekcja obrazów"/>
+    <oaf_attribute name="nautilus:view_as_label-pt" type="string" value="Ver como Catálogo de Imagens"/>
+    <oaf_attribute name="nautilus:view_as_label-pt_BR" type="string" value="Exibir como coleção de imagens"/>
+    <oaf_attribute name="nautilus:view_as_label-ro" type="string" value="Vizualizează ca o colecţie de imagini"/>
+    <oaf_attribute name="nautilus:view_as_label-sk" type="string" value="Zobraziť ako kolekciu obrázkov"/>
+    <oaf_attribute name="nautilus:view_as_label-sq" type="string" value="Shikoje si Album me Figura"/>
+    <oaf_attribute name="nautilus:view_as_label-sr" type="string" value="Гледај као колекцију слика"/>
+    <oaf_attribute name="nautilus:view_as_label-sr@Latn" type="string" value="Gledaj kao kolekciju slika"/>
+    <oaf_attribute name="nautilus:view_as_label-sv" type="string" value="Visa som bilduppsättning"/>
+    <oaf_attribute name="nautilus:view_as_label-ta" type="string" value="ஓவித்தை ஓர் சேகரிப்பாக பார்க்கவும்"/>
+    <oaf_attribute name="nautilus:view_as_label-th" type="string" value="มุมมองสมุดรูป"/>
+    <oaf_attribute name="nautilus:view_as_label-tr" type="string" value="Resim Kolleksiyonu olarak görüntüle"/>
+    <oaf_attribute name="nautilus:view_as_label-uk" type="string" value="Показати як колекцію зображень"/>
+    <oaf_attribute name="nautilus:view_as_label-wa" type="string" value="Vey come ene ramexhnêye d&apos; imådjes"/>
+    <oaf_attribute name="nautilus:view_as_label-zh_CN" type="string" value="以图像集查看"/>
+    <oaf_attribute name="nautilus:view_as_label-zh_HK" type="string" value="以影像集方式顯示"/>
+    <oaf_attribute name="nautilus:view_as_label-zh_TW" type="string" value="以影像集方式顯示"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic" type="string" value="View as I_mage Collection"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-af" type="string" value="Bekyk as B_eeldversameling"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ar" type="string" value="عرض كمجموعة _صور"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-az" type="string" value="_Rəsm Kolleksiyası Olaraq Göstər"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-be" type="string" value="Выгляд з_бору відарысаў"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-bn" type="string" value="চিত্রের সংগ্রহ হিসাবে দেখুন (_গ)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ca" type="string" value="Visualitza com col·lecció d&apos;i_matges"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-cs" type="string" value="Zobrazit jako _kolekci obrázků"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-cy" type="string" value="Dangos fel C_asgliad Delweddau"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-da" type="string" value="Vis som billed_samling"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-de" type="string" value="Als _Bildersammlung anzeigen"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-el" type="string" value="Προβολή ως Συλλογή Ει_κόνων"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-en_CA" type="string" value="View as I_mage Collection"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-en_GB" type="string" value="View as I_mage Collection"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-es" type="string" value="Ver como colección de i_mágenes"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-eu" type="string" value="Ikusi _irudi-bilduma gisa"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-fi" type="string" value="Näytä _kuvakokoelmana"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-fr" type="string" value="Afficher en tant qu&apos;ensemble d&apos;i_mages"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ga" type="string" value="Feach mar Bailiúchán _Íomhanna"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-gu" type="string" value="ચિત્ર સંગ્રહ તરીકે જુઓ (_m)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-hr" type="string" value="Pogled kao kolekcija _slika"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-hu" type="string" value="Megtekintés kép_gyűjteményként"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-it" type="string" value="Visualizza come galleria di i_mmagini"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ja" type="string" value="画像コレクション表示(_M)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ko" type="string" value="그림 모음으로 보기(_M)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-lt" type="string" value="Rodyti kaip _paveikslėlių kolekciją"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-mn" type="string" value="_Зургийн цомгоор харах"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ms" type="string" value="LIhat sebagai Koleksi Ii_mej"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-nl" type="string" value="Als _afbeeldingsverzameling weergeven"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-nn" type="string" value="Vis so_m biletesamling"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-no" type="string" value="Vis som bildesa_mling"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-pa" type="string" value="ਚਿੱਤਰ ਸਮੂਹ ਦੀ ਤਰ੾ ਵੇਖੋ"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-pl" type="string" value="_Wyświetlanie jako kolekcja obrazów"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-pt" type="string" value="Ver como Catálogo de I_magens"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-pt_BR" type="string" value="Exibir como coleção de i_magens"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ro" type="string" value="Vizualizează ca o colecţie de i_magini"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-sk" type="string" value="Zobraziť ako _kolekciu obrázkov"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-sq" type="string" value="Shikoje si Album me I_mazhe"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-sr" type="string" value="Гледај као _колекцију слика"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-sr@Latn" type="string" value="Gledaj kao _kolekciju slika"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-sv" type="string" value="Visa som b_ilduppsättning"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-ta" type="string" value="ஓவித்தை ஓர் சேகரிப்பாக பார்க்கவும்"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-th" type="string" value="มุมมอง_สมุดรูป"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-tr" type="string" value="_Resim Kolleksiyonu olarak görüntüle"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-uk" type="string" value="Показати, як _колекцію зображень"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-wa" type="string" value="Vey come ene rame_xhnêye d&apos; imådjes"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-zh_CN" type="string" value="以图像集查看(_M)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-zh_HK" type="string" value="以影像集方式顯示(_M)"/>
+    <oaf_attribute name="nautilus:view_as_label_with_mnemonic-zh_TW" type="string" value="以影像集方式顯示(_M)"/>
+    <oaf_attribute name="nautilus:viewer_label" type="string" value="Image Collection Viewer"/>
+    <oaf_attribute name="nautilus:viewer_label-cs" type="string" value="Prohlížeč kolekce obrázků"/>
+    <oaf_attribute name="nautilus:viewer_label-de" type="string" value="EOG-Bildersammlungs-Anzeigeprogramm"/>
+    <oaf_attribute name="nautilus:viewer_label-es" type="string" value="Visor de colecciones de imágenes"/>
+    <oaf_attribute name="nautilus:viewer_label-fr" type="string" value="Visionneur d&apos;ensembles d&apos;images"/>
+    <oaf_attribute name="nautilus:viewer_label-hu" type="string" value="EOG képgyűjteménynéző"/>
+    <oaf_attribute name="nautilus:viewer_label-it" type="string" value="Visualizzatore della galleria di immagini"/>
+    <oaf_attribute name="nautilus:viewer_label-ja" type="string" value="画像コレクションビューア"/>
+    <oaf_attribute name="nautilus:viewer_label-ko" type="string" value="이미지 모음 뷰어"/>
+    <oaf_attribute name="nautilus:viewer_label-pt_BR" type="string" value="Visualizador de coleção de imagens"/>
+    <oaf_attribute name="nautilus:viewer_label-sv" type="string" value="Bilduppsättningsvisare"/>
+    <oaf_attribute name="nautilus:viewer_label-zh_CN" type="string" value="图像集查看器"/>
+    <oaf_attribute name="nautilus:viewer_label-zh_HK" type="string" value="圖像集瀏覽程式"/>
+    <oaf_attribute name="nautilus:viewer_label-zh_TW" type="string" value="圖像集瀏覽程式"/>
+  </oaf_server>
+  
+</oaf_info>

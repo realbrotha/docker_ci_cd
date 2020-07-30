@@ -1,0 +1,54 @@
+#!/sbin/sh
+#
+#pragma ident	"@(#)svc-metainit	1.7	04/08/04 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#	Metadisk initialization.
+
+METAINIT=/sbin/metainit
+METADEV=/dev/md/admin
+
+. /lib/svc/share/smf_include.sh
+
+if [ ! -s /kernel/drv/md.conf ]; then
+	echo "/kernel/drv/md.conf is missing or empty."
+	exit 0
+fi
+
+if [ ! -c $METADEV ]; then
+	echo "$METADEV is missing or not a character device."
+	exit 0
+fi
+
+$METAINIT -r
+error=$?
+case "$error" in
+	0|1)	exit 0
+		;;
+
+	66)
+echo "Insufficient metadevice database replicas located."
+echo
+echo "Use metadb to delete databases which are broken."
+echo "Ignore any "Read-only file system" error messages."
+echo "Reboot the system when finished to reload the metadevice database."
+echo "After reboot, repair any broken database replicas which were deleted."
+
+echo "Insufficient metadevice database replicas located." >/dev/console
+echo >/dev/console
+echo "Use metadb to delete databases which are broken." >/dev/console
+echo "Ignore any "Read-only file system" error messages." >/dev/console
+echo "Reboot the system when finished to reload the metadevice database." \
+>/dev/console
+echo "After reboot, repair any broken database replicas which were deleted." \
+>/dev/console
+
+		exit $SMF_EXIT_ERR_CONFIG
+		;;
+
+	*)	echo "Unknown $METAINIT -r failure $error."
+		exit 1
+		;;
+esac

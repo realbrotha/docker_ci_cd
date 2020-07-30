@@ -1,0 +1,318 @@
+#!/bin/sh
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident	"$Revision: 1.5 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_create_instance_startup   : Create the instance startup initd service
+# - cacao_delete_instance_startup   : Delete the instance startup initd service                                       
+# - cacao_delete_startup            : Delete the whole cacao startup initd service
+#
+# - cacao_do_delete_initd_startup   : Internal method for deleting initd
+# - cacao_do_create_initd_startup   : Internal method for creating initd
+# - cacao_get_highest_install_id    : Print the hihest install id found in startup resources
+        
+#------------------------------------------------------------------------------
+# cacao_create_instance_startup
+#
+# DESCRIPTION :
+# Create the instance startup initd service, returns success if already done
+# 
+# PARAMETERS :
+# The instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_create_instance_startup() {
+    cacao_is_initd_service_present
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+    cacao_do_create_initd_startup
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_error_message \
+                    "${CACAO_MSG_ERROR_INITD_CREATE}"
+        return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_delete_instance_startup
+#
+# DESCRIPTION :
+# Delete the instance startup initd service, in fact of the whole service
+# Only occurs in case of default rollback, otherwise returns success.
+# 
+# PARAMETERS :
+# $1 the instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_delete_instance_startup() {
+    instance_name=$1
+    if [ -n "${cacao_creating_instance}" ] && [ "${instance_name}" = ${CACAO_DEFAULT_INSTANCE_NAME} ]
+    then
+        cacao_delete_startup
+        return ${?}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_delete_startup
+#
+# DESCRIPTION :
+# Delete the startup initd service
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_delete_startup() {
+
+    cacao_do_delete_initd_startup
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        # print only message when needed (not a rollback)
+        if [ -z "${cacao_creating_instance}" ]
+        then
+                cacao_print_error_message \
+                    "${CACAO_MSG_ERROR_INITD_DELETE}"
+        fi
+        return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_do_create_initd_startup
+#
+# DESCRIPTION :
+# Internal create initd startup method
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_create_initd_startup() {
+
+    # creates the directories if needed
+    if [ ! -d /etc/init.d ]
+    then
+        ${MKDIR} /etc/init.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    if [ ! -d /etc/rcS.d ]
+    then
+        ${MKDIR} /etc/rcS.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    if [ ! -d /etc/rc0.d ]
+    then
+        ${MKDIR} /etc/rc0.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    if [ ! -d /etc/rc1.d ]
+    then
+        ${MKDIR} /etc/rc1.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    if [ ! -d /etc/rc2.d ]
+    then
+        ${MKDIR} /etc/rc2.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    if [ ! -d /etc/rc3.d ]
+    then
+        ${MKDIR} /etc/rc3.d >/dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR} 
+         fi
+    fi
+    
+    # copy and update initd script
+    initd_dir=/etc/init.d
+    initd_script_file="${initd_dir}/${cacao_unique_name}"
+    template_initd_file="${cacao_template_startup_dir}"/cacao
+    cacao_copy_and_update_file ${template_initd_file} ${initd_script_file} "_CACAO_RT_DIR_#${cacao_rt_dir}" "_CACAO_ETC_INSTANCE_DIR_#${cacao_etc_instances_dir}" "_CACAO_BASE_DIR_#${cacao_rt_base_dir}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    ${CHMOD} 755 ${initd_script_file} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    # creates the links
+    ${LN} -sf ../init.d/"${cacao_unique_name}" /etc/rcS.d/K04"${cacao_unique_name}"  >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    # creates the links
+    ${LN} -sf ../init.d/"${cacao_unique_name}" /etc/rc0.d/K04"${cacao_unique_name}"  >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    # creates the links
+    ${LN} -sf ../init.d/"${cacao_unique_name}" /etc/rc1.d/K04"${cacao_unique_name}"  >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    # creates the links
+    ${LN} -sf ../init.d/"${cacao_unique_name}" /etc/rc2.d/K04"${cacao_unique_name}"  >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    # creates the links
+    ${LN} -sf ../init.d/"${cacao_unique_name}" /etc/rc3.d/S79"${cacao_unique_name}"  >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_delete_initd_startup
+#
+# DESCRIPTION :
+# Internal delete initd startup method
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_delete_initd_startup() {
+
+    ${RM} -f /etc/init.d/"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    
+    ${RM} -f /etc/rcS.d/K04"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    ${RM} -f /etc/rc0.d/K04"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    ${RM} -f /etc/rc1.d/K04"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    ${RM} -f /etc/rc2.d/K04"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    ${RM} -f /etc/rc3.d/S79"${cacao_unique_name}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_highest_install_id
+#
+# DESCRIPTION :
+# Print the hihest install id found in startup resources
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# See description
+#------------------------------------------------------------------------------
+cacao_get_highest_install_id() {
+
+
+    _max_id=`${LS} -1 /etc/init.d/${CACAO_STARTUP_PREFIX}[0-9]* 2>/dev/null | \
+        ${AWK}  'BEGIN {higher=0} {last=split($0,res,"-") ; if (res[last] > higher) higher=res[last]} END {print higher}'`
+
+    if [ -z "${_max_id}" ] 
+    then
+	#should not happen, higher is initialized to 0
+	_max_id=0
+    fi
+    
+    ${ECHO} "${_max_id}"
+    
+    return ${CACAO_CR_SUCCESS}
+}

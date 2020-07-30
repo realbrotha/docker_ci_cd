@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IBM_PROLOG_BEGIN_TAG                                                   -->
+<!-- This is an automatically generated prolog.                             -->
+<!--                                                                        -->
+<!-- perf53S src/bos/usr/sbin/perf/tools/svmon/svmon_schema.xsd 1.1         -->
+<!--                                                                        -->
+<!-- Licensed Materials - Property of IBM                                   -->
+<!--                                                                        -->
+<!-- COPYRIGHT International Business Machines Corp. 2008                   -->
+<!-- All Rights Reserved                                                    -->
+<!--                                                                        -->
+<!-- US Government Users Restricted Rights - Use, duplication or            -->
+<!-- disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      -->
+<!--                                                                        -->
+<!-- IBM_PROLOG_END_TAG                                                     -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- There are 2 different parts in this Schema. The first one is common to all IBM XML tools, the second is SVMON specific -->
+
+<!-- ########################################################################### -->
+<!-- High level description							 -->
+<!-- ########################################################################### -->
+	<xsd:element name="PerformanceMeasurement">
+		<xsd:complexType>
+			<xsd:sequence>
+<!-- This tag is consumed by the VPA tool. This is a common part to all IBM XML tools. -->
+				<xsd:element name="ProcessingHeader"
+					type="ProcessingHeaderType" minOccurs="0" maxOccurs="1">
+				</xsd:element>
+<!-- This tag is consumed by the VPA tool. This is a common part to all IBM XML tools. -->
+				<xsd:element name="ChassisDescription"
+					type="ChassisDescriptionType" minOccurs="0" maxOccurs="1">
+				</xsd:element>
+<!-- This tag is consumed by the VPA tool. This is a common part to all IBM XML tools. -->
+				<xsd:element name="NodeDescription"
+					type="NodeDescriptionType" minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
+<!-- This tag contains common and SVMON tags -->
+				<xsd:element name="CollectionDataSet"
+					type="CollectionDataType" minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+<!-- ########################################################################### 	-->		
+<!-- Details level description 								-->
+<!-- ########################################################################### 	-->
+	<xsd:element name="ProcessingHeader" type="ProcessingHeaderType" />
+<!-- Optional.  If missing, process as <Command>New</Command>  -->
+
+	<xsd:element name="ChassisDescription" type="ChassisDescriptionType">
+<!-- Required -->
+	</xsd:element>
+
+	<xsd:element name="NodeDescription" type="NodeDescriptionType">
+<!-- Required -->
+	</xsd:element>
+
+	<xsd:element name="CollectionDataSet" type="CollectionDataType">
+<!-- Required -->
+	</xsd:element>
+<!-- Notes which can be added in some tags to add information depending on the platform -->
+	<xsd:complexType name="TaggedNotesType">
+		<xsd:sequence>
+			<xsd:element name="NoteTag" minOccurs="0" maxOccurs="unbounded" type="NodeTagType">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+<!-- Give details about the machine chassis. Not all fields are filled by SVMON -->
+<!-- SVMON does not fill all the tags -->
+	<xsd:complexType name="ChassisDescriptionType">
+		<xsd:sequence>
+			<xsd:element name="TotalNodes" type="xsd:string" minOccurs="1" maxOccurs="1">
+			</xsd:element><!-- Required -->
+			<xsd:element name="NodeTopology" minOccurs="0" maxOccurs="1">
+<!-- Optional, if <TotalNodes> is "1" -->
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="NodeLink" type="xsd:string">
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ChassisGroups" minOccurs="0"
+				maxOccurs="1">
+<!-- Optional, if <TotalNodes> is "1" -->
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Chassis">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Description"	type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Optional -->									
+									</xsd:element>
+									<xsd:element name="NodeList" type="xsd:string" minOccurs="1" maxOccurs="1">
+<!-- Required -->
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute name="ChassisId"	type="xsd:string">
+								</xsd:attribute>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+<!-- This complex element gives details about each Node of the Chassis. This is also a common part to all IBM XML based tools. -->
+<!-- SVMON does not fill all the tags -->	
+	<xsd:complexType name="NodeDescriptionType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="HardwareDescription" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+				<xsd:complexType>
+					<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+<!-- 
+	This area needs work.  
+	If "SystemType" and "SystemModel" are set properly, "LabSystemName" and "LabCpuName" are not needed.
+	However, early on only "LabSystemName" and "LabCpuName" are available.
+-->
+						<xsd:element name="LabSystemName" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element>
+						<xsd:element name="LabCpuName" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element>
+						<xsd:element name="CpuClockMhz" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element>
+						<xsd:element name="SystemMemory" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element><!-- Optional -->
+						<xsd:element name="AvailableProcessorIds" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Optional if "SystemType" and "SystemModel" are set properly and there are no disabled processors.  -->
+						</xsd:element>
+						<xsd:element name="TaggedNotes" minOccurs="0" maxOccurs="1">
+<!-- Optional, see comment above. -->
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="NoteTag" type="NodeTagType" minOccurs="0" maxOccurs="unbounded">
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="HardwareClass" type="xsd:string">
+					</xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>
+<!-- Firmware information are put here when available -->
+<!-- SVMON does not fill all the tags -->
+			<xsd:element name="FirmwareDescription" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+				<xsd:complexType>
+					<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="FspName" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element><!-- Required -->
+						<xsd:element name="FspVersion" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element><!-- Required -->
+						<xsd:element name="PhypVersion" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element><!-- Required -->
+						<xsd:element name="PfwVersion" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element><!-- Required -->
+						<xsd:element name="PhypBuildDirectory" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+<!-- Logical Partition information are put here when available -->
+<!-- SVMON does not fill all the tags -->
+			<xsd:element name="LogicalPartitionDescription" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+				<xsd:complexType>
+					<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="HardwareDescription"	minOccurs="0" maxOccurs="1">
+<!-- Required -->
+							<xsd:complexType>
+								<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="NumberConfiguredProcessors" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+									</xsd:element>
+									<xsd:element name="PartitionProcessorMap" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Optional if "SystemType" and "SystemModel" are set properly and all processors are used.  -->
+									</xsd:element>
+									<xsd:element name="TaggedNotes"	type="TaggedNotesType" minOccurs="0" maxOccurs="1">
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="LogicalPartitionConfiguration" minOccurs="0" maxOccurs="1">
+<!-- Optional, only if there is a single dedicated partition on the system. -->
+							<xsd:complexType>
+								<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="LogicalPartitionType" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required if "LogicalPartitionConfiguration" -->
+									</xsd:element>
+									<xsd:element name="CappedAttribute" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required if "LogicalPartitionConfiguration" -->
+									</xsd:element>
+									<xsd:element name="EntitledCapacity" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required if "LogicalPartitionConfiguration" -->
+									</xsd:element>
+									<xsd:element name="UncappedWeight" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required if "LogicalPartitionConfiguration" -->
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute name="Name" type="xsd:string">
+								</xsd:attribute>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="SoftwareDescription"	minOccurs="0" maxOccurs="1">
+<!-- Required -->
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="SwDesc" minOccurs="0" maxOccurs="unbounded">
+<!-- Required "OperatingSystem"-->
+										<xsd:complexType>
+											<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+												<xsd:element name="Description" type="xsd:string" minOccurs="0"> </xsd:element>
+												<xsd:element name="TaggedNotes" type="TaggedNotesType" minOccurs="0"> </xsd:element>
+												<xsd:element name="HwThreadMode" type="xsd:string" minOccurs="0"> </xsd:element>
+											</xsd:sequence>
+											<xsd:attribute name="Family" type="xsd:string">
+											</xsd:attribute>
+											<xsd:attribute name="Name" type="xsd:string">
+											</xsd:attribute>
+											<xsd:attribute name="Version" type="xsd:string">
+											</xsd:attribute>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+<!-- A workload is the program used to procude the output. In SVMON, the workload is just svmon itself -->
+						<xsd:element name="Workload" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="RunByUser" type="xsd:string" minOccurs="1" maxOccurs="1">
+<!-- Required -->
+									</xsd:element>
+									<xsd:element name="ShortLegend"	type="xsd:string" minOccurs="1" maxOccurs="1">
+<!-- Required -->
+									</xsd:element>
+									<xsd:element name="Description"	type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Optional, this tag contains the content of the SVMON -c option -->
+									</xsd:element>
+									<xsd:element name="TaggedNotes"	type="TaggedNotesType" minOccurs="0" maxOccurs="1">
+<!-- Optional -->
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute name="Name" type="xsd:string">
+								</xsd:attribute>
+								<xsd:attribute name="Version" type="xsd:string">
+								</xsd:attribute>
+								<xsd:attribute name="WorkloadFamily" type="xsd:string">
+								</xsd:attribute>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="LparId" type="xsd:string">
+					</xsd:attribute>
+					<xsd:attribute name="Hostname" type="xsd:string">
+					</xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>
+<!-- The Validation tag is not used by SVMON at all -->
+			<xsd:element name="Validation" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="NodeClass" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="NodeId" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+<!-- ########################################################################### 	-->		
+<!-- SVMON Specific tags START 								-->
+<!-- ########################################################################### 	-->
+	<xsd:complexType name="MemoryType">
+		<xsd:sequence>
+			<xsd:element name="MemoryMap" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemSize" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemInuse" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemFree" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemPin" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemVirtual" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemAvailable" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemStolen" type="xsd:string"	minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemoryPgsp" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemPgspSize"	type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemPgspInuse" type="xsd:string" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemoryPin" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemPinWork" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemPinPers" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemPinClnt" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemPinOther"	type="xsd:string" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemoryInuse" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemInuseWork" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemInusePers" type="xsd:string" minOccurs="0" />
+						<xsd:element name="MemInuseClnt" type="xsd:string" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemoryPoolList" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemoryPool" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="UserPoolSize" type="xsd:string" minOccurs="0" />
+									<xsd:element name="MemPoolInuse" type="xsd:string" minOccurs="0" />
+									<xsd:element name="MemPoolFree"	type="xsd:string" minOccurs="0" />
+									<xsd:element name="MemPoolPgsp"	type="xsd:string" minOccurs="0" />
+									<xsd:element name="MemPoolPin" type="xsd:string" minOccurs="0" />
+									<xsd:element name="MemPoolVirtual" type="xsd:string" minOccurs="0" />
+								</xsd:sequence>
+								<xsd:attribute name="Psize" type="xsd:string" />
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="MemoryAffinityList" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MemoryAffinity" type="MemoryAffinityType" minOccurs="0" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+<!-- ########################################################################### 	-->		
+<!-- SVMON Specific tags END 								-->
+<!-- ########################################################################### 	-->
+
+<!-- ########################################################################### 	-->		
+<!-- Common Collection tags which contain also SVMON specific case. START 		-->
+<!-- ########################################################################### 	-->
+	<xsd:complexType name="CollectionDataType">
+		<xsd:sequence>
+<!-- Move the DataContext at this level to avoid duplicate the info -->
+			<xsd:element name="DataContext" minOccurs="0" maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="NodeId" type="xsd:string" />
+						<xsd:element name="LparId" type="xsd:string" />
+						<xsd:element name="SvmonConstantsCollection" minOccurs="1" maxOccurs="1">
+							<xsd:complexType>
+								<xsd:sequence>
+										<xsd:element name="SegDescrConstantList">
+											<xsd:complexType>
+												<xsd:sequence>
+										 			<xsd:element name="SegDescrConstant" type="Constant" minOccurs="0" maxOccurs="unbounded" />
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="SegTypeConstantList">
+											<xsd:complexType>
+												<xsd:sequence>
+										 			<xsd:element name="SegTypeConstant" type="Constant" minOccurs="0" maxOccurs="unbounded" />
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="PgSizeConstantList">
+											<xsd:complexType>
+												<xsd:sequence>
+										 			<xsd:element name="PgSizeConstant" type="Constant" minOccurs="0" maxOccurs="unbounded" />
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="MemoryTypeConstantList">
+											<xsd:complexType>
+												<xsd:sequence>
+										 			<xsd:element name="MemoryTypeConstant" type="Constant" minOccurs="0" maxOccurs="unbounded" />
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+<!-- A Collection Frame matches a SVMON run. Which means that if you use the SVMON -i option, you will have 1 CollectionFrame per i occurrence -->
+			<xsd:element name="CollectionFrame" minOccurs="1" maxOccurs="unbounded">
+<!-- Required -->
+				<xsd:complexType>
+					<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="XmlFormatVersion" type="xsd:string" minOccurs="0" maxOccurs="1">
+						</xsd:element>
+
+						<xsd:element name="CollectionHeader" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+							<xsd:complexType>
+								<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="CollectedByUser" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+									</xsd:element>
+									<xsd:element name="CollectionTool" minOccurs="0" maxOccurs="1"> 
+<!-- Required -->
+										<xsd:complexType>
+											<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+												<xsd:element name="Name" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+												</xsd:element>
+												<xsd:element name="Command" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+<!-- Required -->
+												</xsd:element>
+												<xsd:element name="Version" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+												</xsd:element>
+												<xsd:element name="DataContextsMonitored" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="OsHwThreadBaseNumber" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="PmcReportedBase" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+											</xsd:sequence>
+											<xsd:attribute name="Name" type="xsd:string">
+											</xsd:attribute>
+											<xsd:attribute name="Units" type="xsd:string">
+											</xsd:attribute>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="TimePeriod" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="TimeStamp" type="TimeStampType" minOccurs="0" maxOccurs="unbounded">
+												</xsd:element>
+												<xsd:element name="TimeDuration" type="TimeDurationType" minOccurs="0" maxOccurs="unbounded">
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="StartedByUser" type="xsd:string" minOccurs="0"> 
+									</xsd:element>
+									<xsd:element name="Validation" minOccurs="0" maxOccurs="1">
+										<xsd:complexType>
+											<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+												<xsd:element name="GeneralStatus" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="ReviewedBy" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="TimeStamp" type="TimeStampType" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="InvalidReason" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="Comments" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="CollectionID" type="xsd:string" minOccurs="0" maxOccurs="1">
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+<!-- ########################################################################### 	-->		
+<!-- SVMON Specific tags and types START 						-->
+<!-- ########################################################################### 	-->
+						<xsd:element name="SvmonData" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="System">
+										<xsd:complexType>
+											<xsd:sequence minOccurs="1" maxOccurs="1">
+												<xsd:element name="Memory" type="MemoryType" minOccurs="0" maxOccurs="1" />
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									
+<!-- List all the Processes on the machine. Can be used to build a -P, -U, -C reports -->
+									<xsd:element name="ProcessList" minOccurs="1" maxOccurs="1">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="Process" minOccurs="0" maxOccurs="unbounded">
+													<xsd:complexType>
+														<xsd:sequence>
+															<xsd:element name="Bitness" type="xsd:string" minOccurs="0" />
+															<xsd:element name="Mthread" type="xsd:string" minOccurs="0" />
+															<xsd:element name="CmdRef" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="UsrRef" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="WlmClassRef" minOccurs="0" maxOccurs="1">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																	<xsd:attribute name="WlmSuperClassID" type="xsd:string" />
+																	<xsd:attribute name="WlmClassID" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="ProcMemory" type="ProcMemoryType" minOccurs="0" maxOccurs="2" />
+															<xsd:element name="ProcSegmentRefList" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="ProcSegRef" minOccurs="0" maxOccurs="unbounded">
+																			<xsd:complexType>
+																				<xsd:attribute name="Vsid" type="xsd:string" />
+																				<xsd:attribute name="Esid" type="xsd:string" />
+																				<xsd:attribute name="Categ" type="xsd:string" />
+																			</xsd:complexType>
+																		</xsd:element>
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="MemoryAffinityList" minOccurs="0" maxOccurs="1">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="MemoryAffinity" type="MemoryAffinityType" minOccurs="0" maxOccurs="unbounded" />
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<!--<xsd:element name="MemoryAffinityDetailList" minOccurs="0" maxOccurs="1">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="MemoryAffinity" type="MemoryAffinityType" minOccurs="0" maxOccurs="unbounded" />
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>-->
+														</xsd:sequence>
+														<xsd:attribute name="PID" type="xsd:string" />										
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+<!-- List all the Segments on the machine. Can be used to build a -S, -P, -U, -C reports -->
+									<xsd:element name="SegmentList" minOccurs="1" maxOccurs="1"> 
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="Segment" minOccurs="1" maxOccurs="unbounded">
+													<xsd:complexType>
+														<xsd:sequence>
+															<xsd:element name="SegInuse" type="xsd:string" minOccurs="0" />
+															<xsd:element name="SegPin" type="xsd:string" minOccurs="0" />
+															<xsd:element name="SegPgsp" type="xsd:string" minOccurs="0" />
+															<xsd:element name="SegVirtual" type="xsd:string" minOccurs="0" />
+															<xsd:element name="SegProp" type="xsd:string"/>
+															<xsd:element name="SegTypeRef" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="SegDescRef" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																	<xsd:attribute name="Value" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="SegPgSizeRef" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:attribute name="ID" type="xsd:string" />
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="RangeList" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="Range" minOccurs="0" maxOccurs="unbounded">
+																			<xsd:complexType>
+																				<xsd:attribute name="low" type="xsd:string" />
+																				<xsd:attribute name="high" type="xsd:string" />
+																			</xsd:complexType>
+																		</xsd:element>
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="SegProcessRefList" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="ProcRef" minOccurs="0" maxOccurs="unbounded">
+																			<xsd:complexType>
+																				<xsd:attribute name="PID" type="xsd:string" />																			
+																			</xsd:complexType>
+																		</xsd:element>
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="MappingSegmentRefList" minOccurs="0" maxOccurs="unbounded">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element ref="SegmentRef" minOccurs="0" maxOccurs="unbounded" />
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="MemoryAffinityList" minOccurs="0" maxOccurs="1">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="MemoryAffinity" type="MemoryAffinityType" minOccurs="0" maxOccurs="unbounded" />
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+															<xsd:element name="MemoryAffinityDetailList" minOccurs="0" maxOccurs="1">
+																<xsd:complexType>
+																	<xsd:sequence>
+																		<xsd:element name="MemoryAffinity" type="MemoryAffinityType" minOccurs="0" maxOccurs="unbounded" />
+																	</xsd:sequence>
+																</xsd:complexType>
+															</xsd:element>
+														</xsd:sequence>
+														<xsd:attribute name="Vsid" type="xsd:string" />
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<!-- List all the commands used on the machine. Can be used to build a -C report -->
+									<xsd:element name="CommandList" minOccurs="1" maxOccurs="1">
+										<xsd:complexType>
+ 											<xsd:sequence>
+   												<xsd:element name="Command" minOccurs="0" maxOccurs="unbounded">
+     													<xsd:complexType>
+       														<xsd:sequence>
+         														<xsd:element name="CommandName" type="xsd:string" minOccurs="0"  />
+       														</xsd:sequence>
+       														<xsd:attribute name="ID" type="xsd:string" />
+     													</xsd:complexType>
+   												</xsd:element>
+										    </xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+<!-- List all the users on the machine. Can be used to build a -U report -->
+									<xsd:element name="UserList" minOccurs="1" maxOccurs="1">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="User" minOccurs="0" maxOccurs="unbounded">
+													<xsd:complexType>
+														<xsd:sequence>
+															<xsd:element name="UserName" type="xsd:string" minOccurs="0"  />												
+														</xsd:sequence>
+														<xsd:attribute name="UID" type="xsd:string" />
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									
+<!-- List all the WLM classes on the machine. Can be used to build a -W report -->
+									<xsd:element name="WlmList" minOccurs="1" maxOccurs="1">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="WlmSuperClass" type="WlmSuperClassType" maxOccurs="unbounded">
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="CollectionFooter" minOccurs="0" maxOccurs="1">
+<!-- NOT Required -->
+							<xsd:complexType>
+								<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+									<xsd:element name="CollectedByUser" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- NOT Required -->
+									</xsd:element>
+									<xsd:element name="CollectionTool" minOccurs="0" maxOccurs="1"> 
+<!-- NOT Required -->
+										<xsd:complexType>
+											<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+												<xsd:element name="Name" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- NOT Required -->
+												</xsd:element>
+												<xsd:element name="Command" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+<!-- NOT Required -->
+												</xsd:element>
+												<xsd:element name="Version" type="xsd:string" minOccurs="0" maxOccurs="1">
+<!-- NOT Required -->
+												</xsd:element>
+												<xsd:element name="DataContextsMonitored" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="OsHwThreadBaseNumber" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+												<xsd:element name="PmcReportedBase" type="xsd:string" minOccurs="0" maxOccurs="1">
+												</xsd:element>
+											</xsd:sequence>
+											<xsd:attribute name="Name" type="xsd:string">
+											</xsd:attribute>
+											<xsd:attribute name="Units" type="xsd:string">
+											</xsd:attribute>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="TimePeriod" minOccurs="0" maxOccurs="1">
+<!-- Required -->
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="TimeStamp" type="TimeStampType" minOccurs="0" maxOccurs="unbounded">
+												</xsd:element>
+												<xsd:element name="TimeDuration" type="TimeDurationType" minOccurs="0" maxOccurs="unbounded">
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="StartedByUser" type="xsd:string" minOccurs="0"> 
+									</xsd:element>
+									<xsd:element name="CollectionID" type="xsd:string" minOccurs="0" maxOccurs="1">
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>	
+	</xsd:complexType>
+<!-- ########################################################################### 	-->		
+<!-- SVMON Specific types used in the SvmonData tag START 				-->
+<!-- ########################################################################### 	-->
+	<xsd:complexType name="ProcessingHeaderType">
+		<xsd:sequence minOccurs="0"
+			maxOccurs="unbounded">
+			<xsd:element name="Command"
+				type="xsd:string" minOccurs="0" maxOccurs="1">
+			</xsd:element><!-- Required if <ProcessingHeader> present -->
+			<xsd:element name="XmlFormatVersion" type="xsd:string" maxOccurs="1" minOccurs="0">
+			</xsd:element><!-- Required if <ProcessingHeader> present -->
+			<xsd:element name="TimeStamp"
+				maxOccurs="unbounded" minOccurs="0" type="TimeStampType">
+			</xsd:element><!-- Required if <ProcessingHeader> present -->
+			<xsd:element name="CollectionId"
+				type="xsd:string" maxOccurs="1" minOccurs="0">
+			</xsd:element><!-- Optional if <ProcessingHeader> present -->
+			<xsd:element name="ProcessingID"
+				type="xsd:string" minOccurs="0" maxOccurs="1">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TimeStampType">
+		<xsd:simpleContent>
+			<xsd:extension
+				base="xsd:string">
+				<xsd:attribute name="Type" type="xsd:string">
+				</xsd:attribute>
+				<xsd:attribute name="Units" type="xsd:string">
+				</xsd:attribute>
+				<xsd:attribute name="Name" type="xsd:string">
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType
+		name="TimeDurationType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="Name" type="xsd:string">
+				</xsd:attribute>
+				<xsd:attribute name="Units" type="xsd:string">
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="NodeTagType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="Key" type="xsd:string">
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:element name="SegmentRef">
+		<xsd:complexType>
+			<xsd:attribute name="Vsid" type="xsd:string" />
+			<xsd:attribute name="Refcount" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="ProcMemoryType">
+<!-- Virtual Pin Pgsp PrvtText ShrdText Heap Stack OtherData ShrdMem MapFile -->
+		<xsd:sequence>
+<!-- These first 2 values depend on the attribute 'type' value -->
+			<xsd:element name="ProcVirtual" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ProcInuse" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			
+			<xsd:element name="ProcPin" type="xsd:string" minOccurs="1" />
+			<xsd:element name="ProcPgsp" type="xsd:string" minOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="type" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="Constant">
+		<xsd:sequence>
+			<xsd:element name="ConstantLabel" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="ConstantDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="ConstantUnit" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
+			<xsd:element name="ConstantValue" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="WlmClassType">
+		<xsd:sequence>
+			<xsd:element name="WlmClassName" type="xsd:string" minOccurs="1" maxOccurs="1"  />
+			<xsd:element name="WlmClassID" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<!-- The ID is the ClassID -->
+		<xsd:attribute name="ID" type="xsd:string" />
+		<!-- ParentID is the ID of the SuperClass -->
+		<xsd:attribute name="ParentID" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="WlmSuperClassType">
+		<xsd:sequence>
+			<xsd:element name="WlmClassName" type="xsd:string" minOccurs="1" maxOccurs="1"  />
+			<xsd:element name="WlmClassID" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="WlmSubClass" type="WlmClassType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<!-- The ID is the ClassID -->
+		<xsd:attribute name="ID" type="xsd:string" />
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="MemoryAffinityType">
+		<xsd:sequence>
+			<!-- Depending on the tag where the Affinity information is put, some of these fields may not appear -->
+			<xsd:element name="MemAffinityUsed" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MemAffinityFree" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MemAffinityNbPages" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MemAffinityPercent" type="xsd:string" minOccurs="0" maxOccurs="1"  />
+			<xsd:element name="MemAffinityBegin" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MemAffinityEnd" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="MemAffinityLcpus" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="Domain" type="xsd:string" />
+	</xsd:complexType>
+	
+<!-- ########################################################################### 	-->		
+<!-- SVMON Specific types used in the SvmonData tag END 				-->
+<!-- ########################################################################### 	-->
+
+
+<!-- ########################################################################### -->		
+<!-- SVMON Specific tags and types END						 -->
+<!-- ########################################################################### -->
+</xsd:schema>

@@ -1,0 +1,66 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Text.ok 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Result of the Live Upgrade"`" "`gettext "$ARG2"`" "`gettext "operation"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=4
+columns=70
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+text="
+`if [ -f $COPYLOCK ];
+then
+	gettext "Population of the target BE is scheduled at following time:";
+	echo "";
+	fmlgrep CL_EXEC_TIME $COPYLOCK | fmlcut -d\" -f2; 
+else
+	gettext "Live Upgrade";
+	/usr/bin/echo " \c";
+	gettext "$ARG2";
+	/usr/bin/echo " \c";
+	gettext "operation completed successfully";
+	/usr/bin/echo "";
+fi;`
+"
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=`/bin/rm -f $ARG1`CLEANUP
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

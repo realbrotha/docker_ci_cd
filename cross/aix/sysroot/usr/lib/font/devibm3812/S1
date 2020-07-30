@@ -1,0 +1,98 @@
+## @(#)42	1.2  src/cmdtext/usr/bin/ibm3812/font/S1, cmdtext, cmdtext530 5/3/91 18:33:15
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3812/font/S1 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S1
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+bu	24 2 047	bullet
+ô   24 2 064	paragraph
+õ	24 2 065	section symbol
+sc	"
+ua	24 2 070	up arrow
+da	24 2 071	down
+->	24 2 072	right arrow
+rh	"
+<-	24 2 073	left arrow
+lh	"
+î	24 2 0243	overbar
+rn	24 2 "\xe2\xff\xf9\xe3\xff\xfe\001\243\xe2\xff\xf5\001\243\xe3%\x00\x02\xe2\xff\xfb"
+gr	24 3 066	gradient
+÷	24 1 0122	cedilla accent
+cd	"
+¸	24 2 231	copyright
+co	"
+©	24 2 0127	registered
+rg	"
+ó	24 2 0130
+34	"
+dg	24 2 250	dagger
+›	17 2 70		o slash
+es	"
+	28 2 78		O slash
+ž	24 0 0356	multiplication sign
+mu	"
+ò	24 1 0134
+û   24 2 232
+ü	24 2 99
+Æ	24 2 64
+¶	24 2 66
+·	24 2 67
+µ	24 2 68
+Ç	24 2 69
+Ð	24 2 79
+Ñ	24 2 84
+Ó	24 2 72
+Ò	24 2 71
+Ô	24 2 73
+Õ	24 2 94
+Ö	13 2 74		I acute
+×	13 2 75		I circumflex
+Ø	13 2 76		I umlaut
+Þ	13 2 77		I grave
+ç	20 3 81		small Icelandic thorn
+è	24 3 86		capital Icelandic thorn
+â	24 2 95
+ã	24 2 96
+å	24 2 98
+à	24 2 97
+ä	24 2 93		o tilde
+é	24 2 102	U acute
+ê	24 2 100	U circumflex
+ë	24 2 101	U grave
+ì	24 3 80		y acute
+í	24 2 85		Y acute
+ù	24 2 90
+ï	24 2 91
+Ï	24 2 83		int'l currency symbol

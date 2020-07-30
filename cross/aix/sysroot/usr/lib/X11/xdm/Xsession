@@ -1,0 +1,141 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos53J src/gos/2d/XTOP/aixclients/xdm/config/Xsession 1.16 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1992,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)27        1.16  src/gos/2d/XTOP/aixclients/xdm/config/Xsession, xdmcp, gos53J, j2006_16A2 4/13/06 16:55:23
+#
+# $XdotOrg: app/xdm/config/Xsession.cpp,v 1.4 2006-03-18 03:43:18 alanc Exp $
+# $XConsortium: Xsession,v 1.7 92/08/06 11:08:14 gildea Exp $
+
+#
+# redirect errors to a file in user's home directory if we can
+#
+errfile="$HOME/.xsession-errors"
+if ( umask 077 && cp /dev/null "$errfile" 2> /dev/null )
+then
+        exec > "$errfile" 2>&1
+else
+	exec > /dev/null 2>&1
+fi
+
+#
+#  Set up the system environment
+#
+if [ -r /etc/profile ]; then
+  . /etc/profile
+fi
+
+#
+#  Set the XSTATION variable.
+#  This is used by other script files to determine if
+#  the user is running on a local or remote X-server.
+#
+case $DISPLAY in
+  :0|:0.*|localhost:0|localhost:0.*|unix:0|unix:0.*)
+	XSTATION="";;
+  *)
+	XSTATION=$DISPLAY;export XSTATION;;
+esac
+
+#
+#  Execute the "fail safe" login if requested
+#
+case $# in
+1)
+        case $1 in
+        failsafe)
+                if [ -f "/usr/lib/X11/$LANG/xinitrc" ]; then
+                        /bin/ksh /usr/lib/X11/$LANG/xinitrc
+                elif [ -f "/usr/lpp/X11/defaults/$LANG/xinitrc" ]; then
+                        /bin/ksh /usr/lpp/X11/defaults/$LANG/xinitrc
+                elif [ -f "/usr/lpp/X11/defaults/xinitrc" ]; then
+                        /bin/ksh /usr/lpp/X11/defaults/xinitrc
+                else
+                        (mwm &)
+                        exec aixterm -geometry 80x35+0-0 -ls
+                fi
+                exit
+                ;;
+        esac
+esac
+
+#
+#  Set up the users custom environment
+#
+#  NOTE: System Administrators may uncomment this code below, so that a
+#        users $HOME/.profile or $HOME/.login will be sourced.  But beware,
+#        users that have a .profile or .login that contains commands that
+#        may cause problems (such as tty commands or xinit).  All users
+#        should review their .profile or .login and remove such commands, or
+#        enclose them in an "if" statement that checks for the existance
+#        or value of the environment variable XDM_LOGIN.
+#
+#XDM_LOGIN=true
+#export XDM_LOGIN
+#case $SHELL  in
+#  ("/bin/ksh" | "/usr/bin/ksh")
+#       if [ -r $HOME/.profile ]; then
+#           . $HOME/.profile
+#       fi
+#       ;;
+#  ("/bin/csh" | "/usr/bin/csh")
+#       if [ -r $HOME/.login ]; then
+#           # need to call this to properly set up environment under csh
+#           if [ -x /usr/lib/X11/xdm/Xsession.csh ]; then
+#               exec /bin/csh /usr/lib/X11/xdm/Xsession.csh
+#           fi
+#       fi
+#       ;;
+#  ("/bin/sh" | "/usr/bin/sh")
+#       if [ -r $HOME/.profile ]; then
+#           . $HOME/.profile
+#       fi
+#       ;;
+#  ("/bin/bsh" | "/usr/bin/bsh")
+#       if [ -r $HOME/.profile ]; then
+#           . $HOME/.profile
+#       fi
+#       ;;
+##
+## You may also add support for any other shells you may need here.
+##
+#esac
+
+
+#
+# Start the users X session
+#
+startup=$HOME/.xsession
+resources=$HOME/.Xresources
+
+if [ -f /usr/bin/X11/startx ]; then
+	exec /usr/bin/X11/startx -t -wait
+elif [ -f $startup ]; then
+	exec $startup
+else
+	if [ -f $resources ]; then
+		xrdb -retain $resources
+	fi
+
+	if [ -f "/usr/lib/X11/$LANG/xinitrc" ]; then
+		/bin/ksh /usr/lib/X11/$LANG/xinitrc
+	elif [ -f "/usr/lpp/X11/defaults/$LANG/xinitrc" ]; then
+		/bin/ksh /usr/lpp/X11/defaults/$LANG/xinitrc
+	elif [ -f "/usr/lpp/X11/defaults/xinitrc" ]; then
+		/bin/ksh /usr/lpp/X11/defaults/xinitrc
+	else
+		(mwm &)
+		exec aixterm -geometry 80x35+0-0 -ls
+	fi
+fi

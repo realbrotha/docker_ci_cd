@@ -1,0 +1,138 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_PanelShell" type="exe" location="panel-2">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelShell:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-af" type="string" value="GNOME-Paneeldop"/>
+	<oaf_attribute name="name-am" type="string" value="የኖም ፓነል ሼል"/>
+	<oaf_attribute name="name-ar" type="string" value="هيكل شريط جنوم"/>
+	<oaf_attribute name="name-az" type="string" value="GNOME Panel Qabığı"/>
+	<oaf_attribute name="name-be" type="string" value="Абалонка панэлі GNOME"/>
+	<oaf_attribute name="name-bg" type="string" value="Обвивката панел на GNOME"/>
+	<oaf_attribute name="name-bn" type="string" value="গুহ্‍নোম প্যানেল শেল"/>
+	<oaf_attribute name="name-ca" type="string" value="Shell del quadre del GNOME"/>
+	<oaf_attribute name="name-cs" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-cy" type="string" value="Cragen Panel GNOME"/>
+	<oaf_attribute name="name-da" type="string" value="Gnome-panelskal"/>
+	<oaf_attribute name="name-de" type="string" value="GNOME-Panel-Shell"/>
+	<oaf_attribute name="name-el" type="string" value="Κέλυφος Ταμπλώ GNOME"/>
+	<oaf_attribute name="name-en_CA" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-en_GB" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-eo" type="string" value="GNOME panela ŝelo"/>
+	<oaf_attribute name="name-es" type="string" value="Shell del panel de GNOME"/>
+	<oaf_attribute name="name-et" type="string" value="GNOME Paneeli kest"/>
+	<oaf_attribute name="name-eu" type="string" value="GNOMEren panelaren shell-a"/>
+	<oaf_attribute name="name-fi" type="string" value="Gnomen paneelikuori"/>
+	<oaf_attribute name="name-fr" type="string" value="Shell tableau de bord de GNOME"/>
+	<oaf_attribute name="name-ga" type="string" value="Blasocacha Chláir GNOME"/>
+	<oaf_attribute name="name-gl" type="string" value="Shell do panel de GNOME"/>
+	<oaf_attribute name="name-gu" type="string" value="જીનોમ પેનલ શેલ"/>
+	<oaf_attribute name="name-he" type="string" value="מעטפת הלוח של GNOME"/>
+	<oaf_attribute name="name-hi" type="string" value="गनोम पेनल शेल"/>
+	<oaf_attribute name="name-hr" type="string" value="Gnomova ljuska ploče"/>
+	<oaf_attribute name="name-hu" type="string" value="GNOME panel shell"/>
+	<oaf_attribute name="name-id" type="string" value="Shell Panel GNOME"/>
+	<oaf_attribute name="name-it" type="string" value="Shell del pannello di GNOME"/>
+	<oaf_attribute name="name-ja" type="string" value="GNOME パネルシェル"/>
+	<oaf_attribute name="name-ko" type="string" value="그놈 패널 쉘"/>
+	<oaf_attribute name="name-li" type="string" value="GNOME-Penielshell"/>
+	<oaf_attribute name="name-lt" type="string" value="GNOME skydelio apvalkalas"/>
+	<oaf_attribute name="name-lv" type="string" value="GNOME Paneļa Čaula"/>
+	<oaf_attribute name="name-mk" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-ml" type="string" value="ജിനോം പ്രധാന ഇ-സ്ഥലം"/>
+	<oaf_attribute name="name-mn" type="string" value="ГНОМЕ Самбарын Бүрхүүл"/>
+	<oaf_attribute name="name-mr" type="string" value="जीनोमचे पट्टी घर"/>
+	<oaf_attribute name="name-ms" type="string" value="Shell Utama GNOME"/>
+	<oaf_attribute name="name-nl" type="string" value="GNOME-Paneelshell"/>
+	<oaf_attribute name="name-nn" type="string" value="GNOME-panelskal"/>
+	<oaf_attribute name="name-no" type="string" value="GNOME panel skall"/>
+	<oaf_attribute name="name-pa" type="string" value="ਗਨੋਮ ਪੈਨਲ ਦੀ ਸ਼ੈਲ"/>
+	<oaf_attribute name="name-pl" type="string" value="Powłoka panelu GNOME"/>
+	<oaf_attribute name="name-pt" type="string" value="Consola de Painel GNOME"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Shell do painel GNOME"/>
+	<oaf_attribute name="name-ro" type="string" value="Shell Panou GNOME"/>
+	<oaf_attribute name="name-ru" type="string" value="Оболочка панели GNOME"/>
+	<oaf_attribute name="name-sk" type="string" value="Panel pre GNOME"/>
+	<oaf_attribute name="name-sl" type="string" value="Lupina pulta GNOME"/>
+	<oaf_attribute name="name-sq" type="string" value="Shell i Panelit të GNOME-s"/>
+	<oaf_attribute name="name-sr" type="string" value="Гномова љуска панела"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Gnomova ljuska panela"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Гномова љуска панела"/>
+	<oaf_attribute name="name-sv" type="string" value="GNOME-panelskalet"/>
+	<oaf_attribute name="name-ta" type="string" value="கனோம் பலகை மேல்வடிவு"/>
+	<oaf_attribute name="name-tr" type="string" value="GNOME Panel Kabuğu"/>
+	<oaf_attribute name="name-uk" type="string" value="Оболонка панелі"/>
+	<oaf_attribute name="name-vi" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="GNOME 面板 Shell"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="GNOME 面板命令殼"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="GNOME 面板命令殼"/>
+	<oaf_attribute name="description" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-af" type="string" value="GNOME-Paneeldop"/>
+	<oaf_attribute name="description-am" type="string" value="የኖም ፓነል ሼል"/>
+	<oaf_attribute name="description-ar" type="string" value="هيكل شريط جنوم"/>
+	<oaf_attribute name="description-az" type="string" value="GNOME Panel Qabığı"/>
+	<oaf_attribute name="description-be" type="string" value="Абалонка панэлі GNOME"/>
+	<oaf_attribute name="description-bg" type="string" value="Обвивката панел на GNOME"/>
+	<oaf_attribute name="description-bn" type="string" value="গুহ্‍নোম প্যানেল শেল"/>
+	<oaf_attribute name="description-ca" type="string" value="Shell del quadre del GNOME"/>
+	<oaf_attribute name="description-cs" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-cy" type="string" value="Cragen Panel GNOME"/>
+	<oaf_attribute name="description-da" type="string" value="Gnome-panelskal"/>
+	<oaf_attribute name="description-de" type="string" value="GNOME-Panel-Shell"/>
+	<oaf_attribute name="description-el" type="string" value="Κέλυφος Ταμπλώ GNOME"/>
+	<oaf_attribute name="description-en_CA" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-en_GB" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-eo" type="string" value="GNOME panela ŝelo"/>
+	<oaf_attribute name="description-es" type="string" value="Shell del panel de GNOME"/>
+	<oaf_attribute name="description-et" type="string" value="GNOME Paneeli kest"/>
+	<oaf_attribute name="description-eu" type="string" value="GNOMEren panelaren shell-a"/>
+	<oaf_attribute name="description-fi" type="string" value="Gnomen paneelikuori"/>
+	<oaf_attribute name="description-fr" type="string" value="Shell tableau de bord de GNOME"/>
+	<oaf_attribute name="description-ga" type="string" value="Blasocacha Chláir GNOME"/>
+	<oaf_attribute name="description-gl" type="string" value="Shell do panel de GNOME"/>
+	<oaf_attribute name="description-gu" type="string" value="જીનોમ પેનલ શેલ"/>
+	<oaf_attribute name="description-he" type="string" value="מעטפת הלוח של GNOME"/>
+	<oaf_attribute name="description-hi" type="string" value="गनोम पेनल शेल"/>
+	<oaf_attribute name="description-hr" type="string" value="Gnomova ljuska ploče"/>
+	<oaf_attribute name="description-hu" type="string" value="GNOME panel shell"/>
+	<oaf_attribute name="description-id" type="string" value="Shell Panel GNOME"/>
+	<oaf_attribute name="description-it" type="string" value="Shell del pannello di GNOME"/>
+	<oaf_attribute name="description-ja" type="string" value="GNOME パネルシェル"/>
+	<oaf_attribute name="description-ko" type="string" value="그놈 패널 쉘"/>
+	<oaf_attribute name="description-li" type="string" value="GNOME-Penielshell"/>
+	<oaf_attribute name="description-lt" type="string" value="GNOME skydelio apvalkalas"/>
+	<oaf_attribute name="description-lv" type="string" value="GNOME Paneļa Čaula"/>
+	<oaf_attribute name="description-mk" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-ml" type="string" value="ജിനോം പ്രധാന ഇ-സ്ഥലം"/>
+	<oaf_attribute name="description-mn" type="string" value="ГНОМЕ Самбарын Бүрхүүл"/>
+	<oaf_attribute name="description-mr" type="string" value="जीनोमचे पट्टी घर"/>
+	<oaf_attribute name="description-ms" type="string" value="Shell Utama GNOME"/>
+	<oaf_attribute name="description-nl" type="string" value="GNOME-Paneelshell"/>
+	<oaf_attribute name="description-nn" type="string" value="GNOME-panelskal"/>
+	<oaf_attribute name="description-no" type="string" value="GNOME panel skall"/>
+	<oaf_attribute name="description-pa" type="string" value="ਗਨੋਮ ਪੈਨਲ ਦੀ ਸ਼ੈਲ"/>
+	<oaf_attribute name="description-pl" type="string" value="Powłoka panelu GNOME"/>
+	<oaf_attribute name="description-pt" type="string" value="Consola de Painel GNOME"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Shell do painel GNOME"/>
+	<oaf_attribute name="description-ro" type="string" value="Shell Panou GNOME"/>
+	<oaf_attribute name="description-ru" type="string" value="Оболочка панели GNOME"/>
+	<oaf_attribute name="description-sk" type="string" value="Panel pre GNOME"/>
+	<oaf_attribute name="description-sl" type="string" value="Lupina pulta GNOME"/>
+	<oaf_attribute name="description-sq" type="string" value="Shell i Panelit të GNOME-s"/>
+	<oaf_attribute name="description-sr" type="string" value="Гномова љуска панела"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Gnomova ljuska panela"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Гномова љуска панела"/>
+	<oaf_attribute name="description-sv" type="string" value="GNOME-panelskalet"/>
+	<oaf_attribute name="description-ta" type="string" value="கனோம் பலகை மேல்வடிவு"/>
+	<oaf_attribute name="description-tr" type="string" value="GNOME Panel Kabuğu"/>
+	<oaf_attribute name="description-uk" type="string" value="Оболонка панелі"/>
+	<oaf_attribute name="description-vi" type="string" value="GNOME Panel Shell"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="GNOME 面板 Shell"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="GNOME 面板命令殼"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="GNOME 面板命令殼"/>
+</oaf_server>
+
+</oaf_info>

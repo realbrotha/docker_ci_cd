@@ -1,0 +1,11 @@
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lnvpair	1.6	04/02/08 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <libnvpair.h>

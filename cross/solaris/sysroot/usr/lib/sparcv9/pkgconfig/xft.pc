@@ -1,0 +1,15 @@
+prefix=/usr/openwin
+exec_prefix=/usr/openwin/bin
+libdir=/usr/openwin/lib/sparcv9
+includedir=/usr/openwin/include
+freetypelibs=-L/usr/sfw/lib/sparcv9 -R/usr/sfw/lib/sparcv9 -lfreetype
+freetypecflags=-I/usr/sfw/include -I/usr/sfw/include/freetype2
+xrenderlibs=-L/usr/openwin/sfw/lib/sparcv9 -R/usr/openwin/lib/sparcv9:/usr/openwin/sfw/lib/sparcv9 -lXrender
+xrendercflags=
+
+Name: Xft
+Description: X FreeType library
+Version: 2.0.0
+Requires: fontconfig
+Libs: -L${libdir} -R${libdir} -lXft ${freetypelibs} ${xrenderlibs}
+Cflags: -I${includedir} ${freetypecflags} ${xrendercflags}

@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+esd_serverdir=/usr/lib
+
+Name: esound
+Description: esound
+Requires: audiofile
+Version: 0.2.32
+Libs: -L${libdir} -lesd
+Cflags: -I${includedir}

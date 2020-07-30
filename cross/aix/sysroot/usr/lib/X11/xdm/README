@@ -1,0 +1,145 @@
+# @(#)65        1.6  src/gos/2d/XTOP/aixclients/xdm/config/README, xdmcp, gos530 1/8/96 13:04:19
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/aixclients/xdm/config/README 1.6 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1992,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: XDMCP
+#
+# FUNCTIONS: n/a
+#
+# ORIGINS: 16, 27 
+#
+# (C) COPYRIGHT International Business Machines Corp. 1992, 1996
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+
+XDM is now a supported client.
+
+This directory contains a collection of files which describe a configuration of
+xdm. Only a few of the many configuration parameters which xdm can be tuned with
+are set in this configuration. Read the xdm manual page for a complete 
+description.
+
+A detailed discription of xdm configuration can be found in the README 
+file located in the /usr/lpp/X11 directory.
+
+Notes on configuring xdm:
+
+******
+
+For diskless machines you will need to change the xdm-config file to include:
+
+DisplayManager.pidFile: /tmp/xdm-pid
+DisplayManager.errorLogFile: /tmp/xdm-errors
+
+where /tmp is a unique read/write filesystem for each diskless machine.
+
+******
+
+Setting up the users environment.
+
+If you would like all of the users that log into your machine through xdm
+to have their $HOME/.profile or $HOME/.login sourced, uncomment the code
+that is provided in the /usr/lib/X11/xdm/Xsession file.
+But BEWARE.  It is common for users to have commands in their .profile or
+.login that may cause problems when logging in through xdm.  Users should
+review their .profile/.login file and remove these commands, or they
+should enclose them in an "if" statement that checks for the existance
+or value of the XDM_LOGIN environemt variable.
+
+******
+
+XDM compatibility with the MIT version:
+
+The following action handlers were added in order to be compatible with the
+standard version of XDM:
+	delete-previous-character()
+	delete-character()
+	move-backward-character()
+	move-forward-character()
+	move-to-begining()
+     	move-to-end()
+	erase-to-end-of-line()
+	erase-line()
+	finish-field()
+	insert-char()
+	set-session-argument(session-arg)
+	
+The following resource was added to comply with the MIT version of XDM:
+	sessionArgument
+
+You may now setup XDM to use the standard XDM translations by replacing the
+XmText translations as defined in Xresources: (Note: We use "<Key>osfHelp"
+instead of "<Key>F1" due to the Motif default virtual bindings.)
+
+Xlogin*XmText.translations:	#override\n\
+	<Key>osfHelp:	set-session-argument(failsafe) finish-field()\n\
+	Ctrl<Key>Return: set-session-argument(failsafe) finish-field()\n\
+	Ctrl<Key>H:	delete-previous-character() \n\
+	Ctrl<Key>D:	delete-character() \n\
+	Ctrl<Key>B:	move-backward-character() \n\
+	Ctrl<Key>F:	move-forward-character() \n\
+	Ctrl<Key>A:	move-to-begining() \n\
+	Ctrl<Key>E:	move-to-end() \n\
+	Ctrl<Key>K:	erase-to-end-of-line() \n\
+	Ctrl<Key>U:	erase-line() \n\
+	Ctrl<Key>X:	erase-line() \n\
+	<Key>Return:	finish-field() \n
+	<Key>BackSpace:	delete-previous-character() \n\
+	<Key>Delete:	delete-previous-character() \n
+
+You may also set the sessionArgument in the Xresources file as well, e.g.
+XLogin*sessionArgument: defaultlogin
+
+******
+
+XDM user access control:
+
+There are two attributes in the /etc/security/user file that will
+change whether XDM will allow specific users to login or not. The
+first attribute is rlogin. When using SMIT, it is the line with the
+label "User CAN RLOGIN?". If this is set to false, XDM will only allow
+that user to login through a local XDM session.
+
+The second attribute is ttys. When using SMIT, it is the line with the
+label "Valid TTYs". It is used to restrict which terminals a user can
+use to login. XDM constructs a fake tty of "/dev/xdm/DISPLAY" where
+DISPLAY is the same format as when you specify a display in the
+xdm-config file. I.e. the hostname of the machine from which the user
+is attempting to login in followed by the display number separated by
+a "_" (e.g.  /dev/xdm/tester_0). This tty is checked against the
+user's ttys attribute to decide whether or not to allow the user to
+login.  Using the previous example of a user logging in from machine
+tester and display 0, the following settings of ttys would allow the
+user to attempt to login:
+  
+     ttys = ALL                * default for all users
+     ttys = /dev/xdm           * allow login only through XDM
+     ttys = /dev/xdm/tester_0  * allow login only through XDM from machine 
+                               * tester and display 0 when tester is in
+                               * same domain of machine running XDM
+     ttys = /dev/xdm/tester_austin_ibm_com_0
+                               * allow login only through XDM from machine 
+                               * tester and display 0 when tester is in
+                               * different domain or hostname of machine 
+                               * running XDM is not fully qualified
+                               * NOTE: periods in hostname are replaced by "_"
+     ttys = /dev/xdm/_0        * allow login only through XDM from machine
+                               * tester and display 0 when XDM is running
+                               * on same machine (i.e. tester)

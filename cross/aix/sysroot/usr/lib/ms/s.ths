@@ -1,0 +1,34 @@
+.\" @(#)44	1.2 11/21/89 13:06:21
+.\"
+.\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+.\"
+.\" FUNCTIONS:
+.\"
+.\" ORIGINS: 26
+.\"
+.	\" $Header:s.ths 12.0$
+.	\" $ACIS:s.ths 12.0$
+.	\" $Source: /ibm/acis/usr/src/usr.lib/ms/RCS/s.ths,v $
+.	\" TM - U.C. Berkeley thesis mode
+.ls 2
+.if v .nr PO 1.5i
+.rm CH
+.ds RH \\n(PN
+.rm CF
+.P1
+.nr TM 1
+.	\" CT - chapter title
+.de CT
+.rn RH R@
+.if \\n(1T .bp
+.RT
+.if \\n(1T .sp
+.if !\\n(1T .BG
+.RT
+.ft 3
+.if n .ul 100
+.ps \\n(PS+2
+.ce 100
+.nr CT 1
+.rn R@ RH
+..

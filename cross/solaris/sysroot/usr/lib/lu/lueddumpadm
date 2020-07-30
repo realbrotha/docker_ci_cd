@@ -1,0 +1,398 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lueddumpadm.sh 5.5     03/01/29 SMI"
+#
+# USAGE:        lueddumpadm  [-l error_log] [-o outfile] -i <internal_config_file> -m <abe_mount_point>
+#
+# FUNCTION:     edits /etc/dumpadm.conf on target BE to use the first swap device found in the
+#		ABE's dumpadm.conf file if a dump device is configured.
+#		(Assumes ABE is already mounted)
+# INPUT:        Internal config file.
+# OUTPUT:       editted /etc/dumpadm.conf on ABE
+# DEV:          WLH
+#
+# Returns:	0	- Update of /etc/dumpadm.conf on BE succeeded.
+#		1	- Update of /etc/dumpadm.conf on BE failed: failure to perform specific operation requested.
+#		2	- Update of /etc/dumpadm.conf on BE failed: unexpected failure outside of requested operation.
+#		3	- Update of /etc/dumpadm.conf on BE failed: command line / user request error.
+#
+# ALGORITHM:
+# 1. Save the current version of ABE dumpadm.conf
+# 2. Edit the ABE dumpadm.conf by changing DUMPADM_DEVICE to the first swap device found in the ABE's icf file.
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+ICF=""
+LU_ALT=""
+ABE_DUMPADM=""
+ABE_DUMPADM_SAV=""
+ABE_DUMPADM_CAN_BE_DELETED=""
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts.
+
+  # 1- SIGHUP (hangup).
+  # 2- SIGINT (user interrupt).
+  # 3- SIGQUIT (user quit).
+  # 9- SIGKILL (kill process - can not be caught or ignored :).
+  # 15- SIGTERM (software termination request).
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed.
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  # Cause the script to exit.
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i <ABE_icf_file> -m <ABE_mount_point>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3 "yes"
+  fi
+  exit_script "$1" "yes"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+#		$2 = optional suppress exit status message ("" or none = do NOT suppress)
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # If the dumpadm.conf file can be deleted, then remove it and restore the
+  # backup copy if it is available.
+
+  if [ -n "${ABE_DUMPADM_CAN_BE_DELETED}" -a -n "${ABE_DUMPADM}" ] ; then
+    ${LUPRINTF} -lp1 "`gettext 'Removing incomplete dumpadm.conf file <%s> from ABE.'`" "${ABE_DUMPADM}"
+    /bin/rm -f "${ABE_DUMPADM}"
+    if [ -n "${ABE_DUMPADM_SAV}" -a -s "${ABE_DUMPADM_SAV}" ] ; then
+      ${LUPRINTF} -lp1 "`gettext 'Restoring backup copy of dumpadm.conf file <%s> to <%s> on ABE.'`" "${ABE_DUMPADM_SAV}" "${ABE_DUMPADM}"
+      /bin/cp -p "${ABE_DUMPADM_SAV}" "${ABE_DUMPADM}"
+    fi
+  fi
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  # Output the exit status message if not suppressed. 
+  if [ -z "$2" ] ; then
+    if [ "${retcode}" -ne "0" ] ; then
+      ${LUPRINTF} -lp1 "`gettext 'The update of the dumpadm.conf file on the ABE failed.'`"
+    fi
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts i:l:m:o:x:X c
+  do
+    case $c in
+      i) ICF="$OPTARG"
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      m) LU_ALT="$OPTARG"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# Add command to session log file and to standard error output if debug mode enabled.
+
+${LUPRINTF} -p1D - "`gettext \"Updating ABE's /etc/dumpadm.conf file.\"`"
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Validate the ABE mount point.
+
+lulib_validate_bemntpt "${LU_ALT}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-m> option to specify the mount point of the ABE where to create the /etc/dumpadm.conf file.'`"
+  usage 3
+fi
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF file to use to modify the /etc/dumpadm.conf file from.'`"
+  usage 3
+fi
+
+# Validate the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# See if the dumpadm.conf file exists on the ABE.
+
+ABE_DUMPADM="${LU_ALT}/etc/dumpadm.conf"
+ABE_DUMPADM_SAV="${LU_ALT}/etc/dumpadm.conf.sav"
+
+if [ ! -f "${ABE_DUMPADM}" ] ; then
+  ${LUPRINTF} -lp2D - "`gettext 'The dumpadm.conf file <%s> does not exist on the ABE: updating skipped.'`" "${ABE_DUMPADM}"
+  exit_script 0
+fi
+
+# Does the dumpadm.conf file have a dump device configured?
+
+dumpDevice="`/bin/grep '^DUMPADM_DEVICE=' \"${ABE_DUMPADM}\" | /bin/head -1`"
+if [ "$?" -ne "0" -o -z "${dumpDevice}" ] ; then
+  ${LUPRINTF} -lp2D - "`gettext 'The dumpadm.conf file <%s> on the ABE does not configure a dump device: updating of dumpadm.conf skipped.'`" "${ABE_DUMPADM}"
+  exit_script 0
+fi
+
+# Make sure the dump device does not have a '%' in its name; this is
+# because we use sed to substitute the dump device in the dumpadm.conf
+# file and the '%' is used as the substitute separator...
+
+echo "${dumpDevice}" | /bin/fgrep -s -e '%'
+if [ "$?" -eq "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update dumpadm.conf file <%s>: the configured dump device <%s> contains a percent (%%) character.`'" "${ABE_DUMPADM}" "${dumpDevice}"
+  exit_script 1
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'The dumpadm.conf file <%s> configures <%s> as the dump device.'`" "${ABE_DUMPADM}" "${dumpDevice}"
+
+# Extract the first swap device from the ICF file - if none then nothing to do.
+
+firstSwap="`${LUETCBIN}/ludo get_first_swap ${ICF}`"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to extract swap devices from ICF file <%s>.'`" "${ICF}"
+  exit_script 1
+fi
+
+if [ -z "${firstSwap}" ] ; then
+  ${LUPRINTF} -lp2D - "`gettext 'No swap devices configured on ABE: updating of dumpadm.conf skipped.'`"
+  exit_script 0
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'First swap device configured on the ABE is <%s>.'`" "${firstSwap}"
+
+# Make sure the swap device does not have a '%' in its name; this is
+# because we use sed to substitute the swap device in the dumpadm.conf
+# file and the '%' is used as the substitute separator...
+
+echo "${firstSwap}" | /bin/fgrep -s -e '%'
+if [ "$?" -eq "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update dumpadm.conf file <%s>: the ABE swap device <%s> contains a percent (%%) character.`'" "${ABE_DUMPADM}" "${firstSwap}"
+  exit_script 1
+fi
+
+# Are the dump devices the same? If so no need to update
+if [ "${dumpDevice}" = "DUMPADM_DEVICE=${firstSwap}" ] ; then
+  ${LUPRINTF} -lp2D - "`gettext 'Swap device on ABE is already configured in dumpadm.conf file: updating of dumpadm.conf skipped.'`"
+  exit_script 0
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'Updating the dumpadm.conf file <%s> on the ABE specified by the ICF file <%s>.'`" "${ABE_DUMPADM}" "${ICF}"
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+# Save original ABE dumpadm.conf. 
+ERRMSG="`cd ${LU_ALT}/etc 2>&1`"
+cd ${LU_ALT}/etc
+if [ "$?" -ne "0" ] ; then
+  [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to access directory <%s> on the ABE.'`" "${LU_ALT}/etc"
+  exit_script 1
+fi
+/bin/rm -f "${ABE_DUMPADM_SAV}" 2>/dev/null
+if [ -f "${ABE_DUMPADM}" ] ; then
+  ERRMSG="`/bin/cp -p \"${ABE_DUMPADM}\" \"${ABE_DUMPADM_SAV}\" 2>&1`"
+  if [ "$?" -ne "0" -o ! -r "${ABE_DUMPADM_SAV}" ]; then
+    [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to save backup copy of ABE dumpadm.conf file <%s> to <%s>.'`" "${ABE_DUMPADM}" "${ABE_DUMPADM_SAV}"
+    exit_script 1
+  fi
+fi
+
+# Set flag so that the dumpadm.conf file on the abe will be restored from
+# the saved copy if we are interrupted or when we exit.
+
+ABE_DUMPADM_CAN_BE_DELETED="yes"
+
+# Truncate the existing dumpadm.conf file: this way the permissions are preserved.
+
+ERRMSG=`/bin/cp /dev/null "${ABE_DUMPADM}" 2>&1`
+if [ "$?" -ne "0" ] ; then
+  [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to truncate dumpadm.conf file <%s>.`'" "${ABE_DUMPADM}"
+  exit_script 1
+fi
+
+# Update the ABE's dumpadm.conf by updating the DUMPADM_DEVICE line
+/bin/sed "s%^${dumpDevice}%DUMPADM_DEVICE=${firstSwap}%" < ${ABE_DUMPADM_SAV} > ${ABE_DUMPADM}
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update dumpadm.conf file <%s>.'`" "${ABE_DUMPADM}"
+  exit_script 1
+fi
+
+# Succeeded!
+# Output debugging information on the change.
+
+/bin/diff -w -b ${ABE_DUMPADM_SAV} ${ABE_DUMPADM} 2>&1 | ${LUPRINTF} -lp2D - "`gettext 'Differences between old and new dumpadm.conf files:\n****************************************\n%R\n****************************************'`"
+
+# Unset flag so that the dumpadm.conf file on the abe will NOT be restored
+# from the saved copy if we are interrupted or when we exit.
+
+ABE_DUMPADM_CAN_BE_DELETED=""
+exit_script 0

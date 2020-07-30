@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=/usr/sbin/sconadm register -c
+Icon=SDtBR.png
+Terminal=false
+Name=Solaris Registration
+Comment=
+X-GNOME-DocPath=

@@ -1,0 +1,147 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_WebEyes_Factory"
+	    type="exe"
+	    location="/usr/lib/webeyes">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="name-az" type="string" value="WebEyes Paneli Applet E&apos;malatxanası"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de miniaplicacions del quadre del WebEyes"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor apletu panelu WebEyes"/>
+	<oaf_attribute name="name-de" type="string" value="WebEyes-Panel-Applet-Fabrik"/>
+	<oaf_attribute name="name-en_CA" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de miniaplicaciones del panel WebEyes"/>
+	<oaf_attribute name="name-eu" type="string" value="WebEyes paneleko applet-aren fabrika"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique du panneau de l&apos;applet WebEyes"/>
+	<oaf_attribute name="name-hr" type="string" value="WebEyes tvornica ploče programa"/>
+	<oaf_attribute name="name-hu" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet del pannello WebEyes"/>
+	<oaf_attribute name="name-ja" type="string" value="WebEyes パネルアプレットファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="WebEyes 패널 애플릿 팩토리"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Panel WebEyes"/>
+	<oaf_attribute name="name-nl" type="string" value="WebEyes paneel-applet fabriek"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletów panela WebEyes"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Applet de Painel WebEyes"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Fábrica do Miniaplicativo de Painel WebEyes"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Instrumentit për panel WebEyes"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња програмчета за панел ОчиВеба"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za panel OčiVeba"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet WebEyes"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплета панелі Web Eyes"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="WebEyes 面板 Applet Factory"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="WebEyes 面板 Applet Factory"/>
+	<oaf_attribute name="description" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="description-az" type="string" value="WebEyes Paneli Applet E&apos;malatxanası"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de miniaplicacions del quadre del WebEyes"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor apletu panelu WebEyes"/>
+	<oaf_attribute name="description-de" type="string" value="WebEyes-Panel-Applet-Fabrik"/>
+	<oaf_attribute name="description-en_CA" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de miniaplicaciones del panel WebEyes"/>
+	<oaf_attribute name="description-eu" type="string" value="WebEyes paneleko applet-aren fabrika"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique du panneau de l&apos;applet WebEyes"/>
+	<oaf_attribute name="description-hr" type="string" value="WebEyes tvornica ploče programa"/>
+	<oaf_attribute name="description-hu" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet del pannello WebEyes"/>
+	<oaf_attribute name="description-ja" type="string" value="WebEyes パネルアプレットファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="WebEyes 패널 애플릿 팩토리"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet Panel WebEyes"/>
+	<oaf_attribute name="description-nl" type="string" value="WebEyes paneel-applet fabriek"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletów panela WebEyes"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica de Applet de Painel WebEyes"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Fábrica do Miniaplicativo de Painel WebEyes"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e Instrumentit për panel WebEyes"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за панел ОчиВеба"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za panel OčiVeba"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet WebEyes"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплета панелі Web Eyes"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="WebEyes Panel Applet Factory"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="WebEyes 面板 Applet Factory"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="WebEyes 面板 Applet Factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_WebEyes" type="factory" location="OAFIID:GNOME_WebEyes_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Internet Search"/>
+	<oaf_attribute name="name-cs" type="string" value="Internetové hledání"/>
+	<oaf_attribute name="name-de" type="string" value="Internet-Suche"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Internet Search"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Internet Search"/>
+	<oaf_attribute name="name-es" type="string" value="Búsqueda en Internet"/>
+	<oaf_attribute name="name-eu" type="string" value="Internet-en bilatu"/>
+	<oaf_attribute name="name-fr" type="string" value="Recherche Internet"/>
+	<oaf_attribute name="name-hu" type="string" value="Keresés az Interneten"/>
+	<oaf_attribute name="name-it" type="string" value="Ricerca Internet"/>
+	<oaf_attribute name="name-ja" type="string" value="インターネット検索"/>
+	<oaf_attribute name="name-ko" type="string" value="인터넷 검색"/>
+	<oaf_attribute name="name-nl" type="string" value="Internet Zoeken"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Pesquisa na Internet"/>
+	<oaf_attribute name="name-sq" type="string" value="Kërkim në Internet"/>
+	<oaf_attribute name="name-sv" type="string" value="Internet-sökning"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="互联网搜索"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="網際網路搜尋"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="網際網路搜尋"/>
+1;5A
+	<oaf_attribute name="description" type="string" value="Search the internet for keywords"/>
+	<oaf_attribute name="description-cs" type="string" value="Hledat klíčová slova na internetu"/>
+	<oaf_attribute name="description-de" type="string" value="Internet nach Schlüsselwörtern durchsuchen"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Search the internet for keywords"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Search the internet for keywords"/>
+	<oaf_attribute name="description-es" type="string" value="Buscar en Internet palabras clave"/>
+	<oaf_attribute name="description-eu" type="string" value="Bilatu gako-hitzak interneten"/>
+	<oaf_attribute name="description-fr" type="string" value="Recherche des mots clés sur Internet"/>
+	<oaf_attribute name="description-hu" type="string" value="Keresés az Interneten kulcsszavak alapján"/>
+	<oaf_attribute name="description-it" type="string" value="Ricerca le parole chiave su Internet"/>
+	<oaf_attribute name="description-ja" type="string" value="インターネットでキーワードを検索"/>
+	<oaf_attribute name="description-ko" type="string" value="키워드에 대한 인터넷 검색"/>
+	<oaf_attribute name="description-nl" type="string" value="Op het Internet zoeken naar bepaalde woorden"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Pesquisar palavras-chave na Internet"/>
+	<oaf_attribute name="description-sq" type="string" value="Kërko në internet për fjalëkyçet"/>
+	<oaf_attribute name="description-sv" type="string" value="Sök på Internet efter nyckelorden"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在互联网上搜索关键字"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="在網路上搜尋關鍵字"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="在網路上搜尋關鍵字"/>
+	<oaf_attribute name="panel:category" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-az" type="string" value="İnternet"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="インターネット"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="인터넷"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Internett"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Інтернет"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="互联网"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="網際網路"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="網際網路"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-searchtool.png"/>
+</oaf_server>
+</oaf_info>

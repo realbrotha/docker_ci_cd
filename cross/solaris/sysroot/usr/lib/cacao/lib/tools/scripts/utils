@@ -1,0 +1,1374 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.28.2.1 $ SMI"
+#
+
+
+#
+# script file content short description
+# 
+# script functions list:
+# cacao_print_message              : print a localised message to stdout
+# cacao_get_localised_message      : get localised string of message
+# cacao_print_error_message        : print a localised message to stderr
+# cacao_print_syslog_message       : print a localised message to syslog
+# cacao_print_syslog_error_message : print a localised error message to syslog
+# cacao_print_syslog_notice_message: print a localised notice message to syslog
+# cacao_kill_processes             : kill the process and it's tree sub process
+# cacao_kill_processes_and_wait_completion : kill the process and it's tree sub 
+#                                   process and wait for completion
+# cacao_remove_file                 : remove a fill and display a message in 
+#                                   case of error
+# cacao_lock                       : lock mechanism to serial all cacaoadm call
+# cacao_unlock                     : release the lock
+# cacao_get_user_id                : return the id of the user
+# cacao_get_user_id_name           : return the name the user
+# cacao_get_user_gid               : return the group id of the user
+# cacao_get_user_gid_name          : return the group name the user
+# cacao_get_host_name              : get the current host name
+# cacao_get_file_owner             : get the owner of a file/directory
+# cacao_get_file_string_right      : get the right of a file/directory using string format
+#
+# cacao_validate_boolean    : check that parameter is true/false
+# cacao_validate_signed     : check that parameter is well formed signed number
+# cacao_validate_unsigned   : check that parameter is well formed unsigned number
+# cacao_validate_string     : check that parameter is well formed string
+# cacao_validate_dirname    : check that parameter is valid  filename
+# cacao_validate_filename   : check that parameter is valid  directory name
+# cacao_validate_username   : check that parameter is valid  user name
+# cacao_validate_groupname  : check that parameter is valid  group name
+#
+# cacao_is_valid_pid        : check if the pid is valid 
+#
+# cacao_set_file_attributes : Change file attributes
+# cacao_copy_and_update_file : Copy a file and change some values in it
+
+#------------------------------------------------------------------------------
+# cacao_print_message
+# 
+# DESCRIPTION :
+# Print message according to the locale in stdout
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_message() {
+    
+    message=`${GET_TEXT} "${CACAO_TEXT_DOMAIN}" "$1"`
+    shift
+    parameters="$*"
+    printf -- "${message} \n" ${parameters}
+}
+#------------------------------------------------------------------------------
+# cacao_get_localised_message
+# 
+# DESCRIPTION :
+# get localised string of message
+#
+# PARAMETERS :
+# $1 : the message.
+# 
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# localised string
+#------------------------------------------------------------------------------
+cacao_get_localised_message () {
+    message=`${GET_TEXT} "${CACAO_TEXT_DOMAIN}" "$1"`
+    ${ECHO} ${message}
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_error_message
+# 
+# DESCRIPTION :
+# Print message according to the locale in stderr
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_error_message() {
+
+    message=`${GET_TEXT} "${CACAO_TEXT_DOMAIN}" "$1"`
+    shift
+    parameters="$*"
+    printf -- "${message} \n" ${parameters} >&2
+
+    #we are inside a cacaoadm smf call
+    #the message is saved in a file and will then be printed 
+    #from parent cacaoadm call
+    if [ "${cacao_print_error_in_file}" = "${CACAO_TRUE_VALUE}" ]
+    then
+        printf -- "${message} \n" ${parameters} 2>&1 >>"${cacao_error_file}" 
+    fi
+}
+#------------------------------------------------------------------------------
+# cacao_echo_error_message
+# 
+# DESCRIPTION :
+# send arguments to output as error message
+#
+# PARAMETERS :
+# $* : message
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# the message
+#------------------------------------------------------------------------------
+cacao_echo_error_message() {
+    ${ECHO} $* >&2
+}
+
+#------------------------------------------------------------------------------
+# cacao_format_message
+# 
+# DESCRIPTION :
+# Print message according to the locale in stdout without '\n' et the end
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# formatted string.
+#------------------------------------------------------------------------------
+cacao_format_message() {
+    message=`${GET_TEXT} "${CACAO_TEXT_DOMAIN}" "$1"`
+    shift
+    parameters="$*"
+    printf -- "${message}" ${parameters}
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_syslog_message
+# 
+# DESCRIPTION :
+# Print message according to the locale to syslog
+#
+# PARAMETERS :
+# $1 : the priority
+# $2 : the default message.
+# $[3-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_syslog_message() {
+    _priority="$1"
+    _message=`${GET_TEXT} "${CACAO_TEXT_DOMAIN}" "$2"`
+    shift; shift
+    _parameters="$*"
+    ${LOGGER} -p "${_priority}" -t "${CACAO_DAEMON_NAME}" \
+        -- `cacao_print_message "${_message}" "${_parameters}"`
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_syslog_error_message
+# 
+# DESCRIPTION :
+# Print message according to the locale to syslog
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_syslog_error_message() {
+    _m="${1}"
+    shift
+    cacao_print_syslog_message "daemon.err" "${_m}" "$*"
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_syslog_notice_message
+# 
+# DESCRIPTION :
+# Print notice message according to the locale to syslog
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_syslog_notice_message() {
+    _m="${1}"
+    shift
+    cacao_print_syslog_message "daemon.notice" "${_m}" "$*"
+}
+
+#------------------------------------------------------------------------------
+# cacao_lock
+# 
+# DESCRIPTION :
+# lock mechanims for cacaoadm
+# - create the lock file filled with our pid number.
+# - if the first line of the file is our pid, we have it
+#
+# - if the lock is acquire, the global cacao_had_lock is set to path of the locked file
+#   we need to know that in any case : trap, exit etc...
+#   with now lock mechanism we cannot rely on the fact that our pid is inside
+#   the lock file
+# NOTICE : 
+#  as 'cacao_had_lock' must be set ot the locked filename, we cannot have several locks
+#  in the same time (not needed for now). to do that :
+#    - cacao_had_lock : must be a locked file name list
+#    - cacao_unlock   : should check prsence of file to be unlocked inside that list
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : when lock is successful
+# CACAO_CR_EPERM  : lock already acquired
+# CACAO_CR_ERROR   : error occured
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+
+cacao_lock() {
+
+    _lockfile=$1
+    
+    if [ -z "${_lockfile}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    _lockfile_base=`${DIRNAME} ${_lockfile} 2>/dev/null`
+    _tempfile=${_lockfile_base}/.cacaoadm.$$
+
+    cur_retries=${CACAO_LOCK_ACQUIRE_RETIRES}
+    
+    ${ECHO} $$ > ${_tempfile}
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi 
+      
+
+    while [ ${cur_retries} -gt 0 ]
+    do
+      
+      ${LN} ${_tempfile} ${_lockfile} 2> /dev/null 
+      if [ $? -eq 0 ] 
+	  then
+	  cacao_had_lock=${_lockfile}
+	  ${RM} -f ${_tempfile}
+	  return ${CACAO_CR_SUCCESS}
+      fi
+      
+      #we did not have it : check for stale file
+      pid=`${CAT} ${_lockfile} 2>/dev/null`
+      cacao_is_cacaoadm_valid_pid $pid 
+      if [ $? -eq ${CACAO_TRUE} ]
+	  then
+	  ${RM} -f ${_tempfile}
+	  return ${CACAO_CR_EEXIST}
+      fi
+      
+      
+      #removing stale lock
+      ${RM} -f ${_lockfile} 
+      
+      cur_retries=`${EXPR} ${cur_retries} - 1`
+      
+    done
+    
+    cacao_had_lock=""
+    ${RM} -f ${_tempfile}
+    return ${CACAO_CR_EPERM}
+    
+}
+
+#------------------------------------------------------------------------------
+# cacao_unlock
+# 
+# DESCRIPTION :
+# unlock acquired lock
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : when unlock is successful.
+# CACAO_CR_ERROR : when cannot do a delete of the lock file.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+
+cacao_unlock() {
+    
+    if [ -z "${cacao_had_lock}" ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cr=${CACAO_CR_SUCCESS}
+
+    ${RM} -f ${cacao_had_lock} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message ${FAIL_TO_REMOVE_LOCK}
+	cr=${CACAO_CR_ERROR}
+    fi
+    
+    cacao_had_lock=""
+
+    return ${cr}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_user_id
+# 
+# DESCRIPTION :
+# Return the user id name
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# Display user id name
+#------------------------------------------------------------------------------
+cacao_get_user_id() {
+    ${ID} -u 2>/dev/null
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_user_id_name
+# 
+# DESCRIPTION :
+# Return the user id 
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# Display user id
+#------------------------------------------------------------------------------
+cacao_get_user_id_name() {
+    ${ID} -u -n 2>/dev/null
+}
+#------------------------------------------------------------------------------
+# cacao_get_user_gid
+# 
+# DESCRIPTION :
+# Return the user group id
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# Display user group id
+#------------------------------------------------------------------------------
+cacao_get_user_gid() {
+    ${ID} -g 2>/dev/null
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_user_gid_name
+# 
+# DESCRIPTION :
+# Return the user group id name
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# Display user group name 
+#------------------------------------------------------------------------------
+cacao_get_user_gid_name() {
+    ${ID} -g -n 2>/dev/null
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_host_name
+# 
+# DESCRIPTION :
+# get the current host name
+# 
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# echo the host name
+#------------------------------------------------------------------------------
+cacao_get_host_name() {
+    ${UNAME} -n 2>/dev/null
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_process_pid
+# 
+# DESCRIPTION :
+# Print the pid of a process.
+# return the first occurence found
+#
+# PARAMETERS :
+# The process name
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : if a process's pid if found
+# CACAO_CR_ERROR   : if process not found
+# CACAO_CR_EINVAL  : invalid parameter
+# OUTPUT:
+# The process's pid if found.
+#------------------------------------------------------------------------------
+cacao_get_process_pid() {
+    if [ ${#} -ne 1 ] || [ -z "${1}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    process_to_find=$1
+
+    res_pid=0
+
+    res_pid=`${PS} -e -o pid,comm | ${AWK} -v pattern=${process_to_find} \
+	  '{last=split($2,fields,"/") ; if (fields[last] == pattern) {print $1; exit}}'` 
+
+    if [ -z "${res_pid}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${ECHO} ${res_pid}
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_pid_running
+# 
+# DESCRIPTION :
+# check if the pid is a valid runnning process
+# 
+# PARAMETERS :
+# the process pid
+#
+# RETURN CODE: 
+# CACAO_TRUE, CACAO_FALSE otherwise
+#
+# OUTPUT:
+# none.
+#------------------------------------------------------------------------------
+cacao_is_pid_running() {
+    pid_to_find=$1
+
+    if [ ${cacao_current_id} -eq 0 ]
+    then
+	#much faster but authorized for all pids only for root
+	${KILL} -0 ${pid_to_find} 2>/dev/null
+    else
+	${PS} -p ${pid_to_find} >/dev/null 2>&1
+    fi    
+
+    if [ $? -eq 0 ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_kill_processes
+# 
+# DESCRIPTION :
+# Kill a process and it's tree sub process
+# 
+# PARAMETERS :
+# the process pid
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_kill_processes() {
+    _pid=$1
+    child_pid_list=`cacao_ptree ${_pid}`
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    ${PS} -p ${_pid} >/dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+	${KILL} -USR2 ${_pid} >/dev/null 2>&1
+    fi
+    for p in ${child_pid_list}
+    do
+      ${PS} -p ${p} >/dev/null 2>&1
+      if [ $? -eq 0 ]
+      then
+       ${KILL} -9 ${p} >/dev/null 2>&1
+      fi 
+    done
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_kill_processes_and_wait_completion
+# 
+# DESCRIPTION :
+# Kill a process and it's tree sub process and wait for the completion
+# 
+# PARAMETERS :
+# the process pid
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_kill_processes_and_wait_completion() {
+    _pid=$1
+    cacao_kill_processes ${_pid}
+    if [ $? -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    ps_retries=3
+    _kill_cr=${CACAO_CR_ERROR}
+    while [ ${ps_retries} -gt 0 ]
+    do
+      cacao_is_pid_running ${_pid}
+      if [ $? -eq ${CACAO_TRUE} ]
+      then
+	  ${SLEEP} 1
+      else
+	  _kill_cr=${CACAO_CR_SUCCESS}
+	  break
+      fi
+      ps_retries=`${EXPR} ${ps_retries} - 1`
+    done
+
+    return ${_kill_cr}
+}
+
+#------------------------------------------------------------------------------
+# cacao_remove_file
+# 
+# DESCRIPTION :
+# Remove a given file and display an error message in case of error
+# 
+# PARAMETERS :
+# the file path
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_remove_file() {
+    ${RM} -f ${1} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        cacao_print_error_message "${FAIL_RM}" "${1}"		  
+        return ${CACAO_CR_ERROR}
+    else
+        return ${CACAO_CR_SUCCESS}
+    fi
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_set_file_attributes
+#
+# DESCRIPTION :
+# Use to set file ownership and access right attributes.
+#
+# PARAMETERS :
+# $1 filename to check
+# $2 username who must be able to have the rigths
+# $3 the rigths
+# $4 the wished group name of owner (optional)
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_set_file_attributes () {
+
+    _filepath=$1
+    _user=$2    
+    _rights=$3
+    _group=$4
+
+    _fulluser=""
+
+    if [ -z "${_group}" ]
+    then
+        _fulluser="${_user}"
+    else
+        _fulluser="${_user}:${_group}"
+    fi
+
+    ${CHOWN} "${_fulluser}" ${_filepath} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	  return ${CACAO_CR_ERROR}
+    fi
+
+    ${CHMOD} "${_rights}" $_filepath >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_file_owner
+#
+# DESCRIPTION :
+# Used to get the owner of a file
+#
+# PARAMETERS :
+# $1 filename 
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# file owner
+#------------------------------------------------------------------------------
+cacao_get_file_owner() {
+     ${LS} -ld $1 2>/dev/null | ${AWK} '{print $3}' 
+     if [ $? -ne 0 ]
+     then
+        return ${CACAO_CR_ERROR}
+     else
+        return ${CACAO_CR_SUCCESS}
+     fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_file_group
+#
+# DESCRIPTION :
+# Used to get the group owner of a file
+#
+# PARAMETERS :
+# $1 filename 
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR
+#
+# OUTPUT:
+# file group
+#------------------------------------------------------------------------------
+cacao_get_file_group() {
+     ${LS} -ld $1 2>/dev/null | ${AWK} '{print $4}' 
+     if [ $? -ne 0 ]
+     then
+        return ${CACAO_CR_ERROR}
+     else
+        return ${CACAO_CR_SUCCESS}
+     fi
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_file_string_right
+# 
+# DESCRIPTION :
+# get the rights associated to a file
+# 
+# PARAMETERS :
+# the file name
+#
+# RETURN CODE: 
+# none
+#
+# NOTICE:
+# the file is supposed to exist
+#
+# OUTPUT:
+# the right of the file. i.e  'rwxr-xr-x'
+#------------------------------------------------------------------------------
+cacao_get_file_string_right() {
+    ${LS} -ld $1 2>/dev/null | ${AWK} '{print substr($1,2)}'
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_validate_boolean 
+# 
+# DESCRIPTION :
+# check that parameter is well formed boolean value
+#
+# PARAMETERS :
+# a string to validate
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+#
+# OUTPUT:
+# the validated value : CACAO_TRUE_VALUE/CACAO_FALSE_VALUE/error message
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+cacao_validate_boolean () {
+    raw_string=$1
+    
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_PROP_WRONG_BOOL_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ x${raw_string} = x ]
+    then
+	#EINVAL
+	return ${CACAO_CR_ERROR}
+    fi
+
+    iraw_string=`${ECHO} ${raw_string} | ${TR} "[:upper:]" "[:lower:]" 2>/dev/null`
+    
+    if [ "${iraw_string}" = ${CACAO_TRUE_VALUE} ]
+    then
+	${ECHO} ${CACAO_TRUE_VALUE}
+	return ${CACAO_CR_SUCCESS}
+    fi
+    if [ "${iraw_string}" = ${CACAO_FALSE_VALUE} ]
+    then
+	${ECHO} ${CACAO_FALSE_VALUE}
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_WRONG_BOOL}" "${raw_string}"
+    return ${CACAO_CR_ERROR}
+
+}
+#------------------------------------------------------------------------------
+# cacao_trim_number
+# 
+# DESCRIPTION :
+# remove leading '+' of the parameter string
+#
+# PARAMETERS :
+# a number
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# 
+# OUTPUT:
+# trimed string
+#------------------------------------------------------------------------------
+cacao_trim_number () {
+    retval=$1
+    
+    if [ $# -ge 1 ] && [ -n "$1" ]
+    then
+	first_car=`${ECHO} $1 | cut -c1`
+	if [ "${first_car}" = "+" ]
+	then
+	    retval=`${ECHO} $1 | cut -c2-`
+	fi
+    fi
+
+    ${ECHO} ${retval}
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_signed
+# 
+# DESCRIPTION :
+# check that parameter is well formed boolean value
+# signed pattern : [+/-][0-9*]
+#
+# PARAMETERS :
+# - a string to validate
+# - min value [optional] : if it is none, check is ignored
+# - max value [optional] : if it is none, check is ignored
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated value/error message
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+cacao_validate_signed () {
+    allowed_min=$1
+    allowed_max=$2
+    
+    arg_number=$3
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    if [ $# -ne 3 ]
+    then
+	shift 2
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_PROP_NUM_VALUE_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+        return ${CACAO_CR_ERROR}
+    fi
+
+    if [ x${arg_number} = x ]
+    then
+	#EINVAL
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    number=`cacao_trim_number ${arg_number}`
+
+    ${EXPR} ${number} + 0 >/dev/null 2>&1
+    if [ $? -gt 1 ]
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_NUM_VALUE}" "${number}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    if [ -n "${allowed_min}" ] && [ "${allowed_min}" != "none" ]
+    then
+	if [ ${number} -lt ${allowed_min} ]
+	then
+	    cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_OUT_OF_RANGE}" "${allowed_min}" "${allowed_max}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ -n "${allowed_max}" ] && [ "${allowed_max}" != "none" ]
+    then
+	if [ ${number} -gt ${allowed_max} ]
+	then
+	    cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_OUT_OF_RANGE}" "${allowed_min}" "${allowed_max}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+
+    ${ECHO} ${number}
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_unsigned
+# 
+# DESCRIPTION :
+# check that parameter is well formed boolean value
+# unsigned pattern : [+][0-9*]
+# PARAMETERS :
+#  a string to validate
+# - min value [optional] : if it is none, check is ignored
+# - max value [optional] : if it is none, check is ignored
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated value/error message
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+cacao_validate_unsigned () {
+    allowed_min=$1
+    allowed_max=$2
+    
+    arg_number=$3
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    if [ $# -ne 3 ]
+    then
+	shift 2
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_PROP_NUM_VALUE_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    if [ x${arg_number} = x ]
+    then
+	#EINVAL
+	return ${CACAO_CR_ERROR}
+    fi
+
+    number=`cacao_trim_number ${arg_number}`
+
+    ${EXPR} ${number} + 0 >/dev/null 2>&1
+    if [ $? -gt 1 ]
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_NUM_VALUE}" "${number}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    if [ ${number} -lt 0 ]
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_UNUM_VALUE}" "${number}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ -n "${allowed_min}" ] && [ "${allowed_min}" != "none" ]
+    then
+	if [ ${number} -lt ${allowed_min} ]
+	then
+	    cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_OUT_OF_RANGE}" "${allowed_min}" "${allowed_max}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ -n "${allowed_max}" ] && [ "${allowed_max}" != "none" ]
+    then
+	if [ ${number} -gt ${allowed_max} ]
+	then
+	    cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_OUT_OF_RANGE}" "${allowed_min}" "${allowed_max}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    ${ECHO} ${number}
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_string
+# 
+# DESCRIPTION :
+# chack that parameter is a well formaed sting
+# PARAMETERS :
+# a string to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated value/error message
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+
+cacao_validate_string() {
+    string="$@"
+    
+    if [ -z "${string}" ]
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_PROP_VALUE}" "${string}"
+	return ${CACAO_CR_ERROR}
+    fi
+    ${ECHO} ${string}
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_validate_filename
+# 
+# DESCRIPTION :
+# validate a filename
+# PARAMETERS :
+# a string to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated arg
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+
+cacao_validate_filename() {
+    filename=$1
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_FILENAME_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ ! -f "${filename}" ] 
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_WRONG_FILENAME}" "${filename}"
+	return ${CACAO_CR_ERROR}	
+    fi
+
+    ${ECHO} ${filename}
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_dirname
+# 
+# DESCRIPTION :
+# validate a directory name
+# PARAMETERS :
+# a string to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated arg
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+
+cacao_validate_dirname() {
+    dirname=$1
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_DIRNAME_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ ! -d "${dirname}" ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_DIRNAME_STR}"`
+	${ECHO} ${msg_head} "[${dirname}]."
+	return ${CACAO_CR_ERROR}	
+    fi
+
+     ${ECHO} ${dirname}
+
+    return ${CACAO_CR_SUCCESS}
+   
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_username
+# 
+# DESCRIPTION :
+# check if it is a existing user name
+# PARAMETERS :
+# a string to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+
+cacao_validate_username() {
+    user_name=$1
+    
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_USER_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #getent return any entry which contains the pattern
+    # we want only valid user
+    ${LSUSER} ${user_name} | ${GREP} "^${user_name}:" > /dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+	${ECHO} ${user_name}
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_print_message "${CACAO_MSG_ERROR_CC_WRONG_USER}" "${user_name}"
+    return ${CACAO_CR_ERROR}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_groupname
+# 
+# DESCRIPTION :
+# check if it is a existing group name
+# 
+# PARAMETERS :
+# a string to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# the validated groupname
+# 
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+
+cacao_validate_groupname() {
+    group_name=$1
+
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_GRP_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #getent return any entry which contains the pattern
+    # we want only valid user
+    ${LSGROUP} ${group_name} | ${GREP} "^${group_name}:" > /dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+	${ECHO} ${group_name}
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_print_message "${CACAO_MSG_ERROR_CC_WRONG_GRP}" "${group_name}"
+    return ${CACAO_CR_ERROR}
+}
+
+#------------------------------------------------------------------------------
+# cacao_validate_filter
+# 
+# DESCRIPTION :
+# check if it is a valid filter name
+# 
+# PARAMETERS :
+# the filter name to validate
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : validation succeed
+# CACAO_CR_ERROR   : validation failed
+# OUTPUT:
+# validated filter
+# NOTICE
+# cacao_check_param is a generic function and rely on the fact that we echo something
+#------------------------------------------------------------------------------
+
+cacao_validate_filter () {
+    raw_filter_name=$1
+    
+    # if there are spaces inide the parameter we gonna
+    # catch the error by counting number of parameter
+
+
+    if [ $# -ne 1 ]
+    then
+	msg_head=`cacao_get_localised_message "${CACAO_MSG_ERROR_CC_WRONG_FILTER_NAME_STR}"`
+	${ECHO} ${msg_head} "[" $@ "]."
+	return ${CACAO_CR_ERROR}
+    fi
+
+    filter_name=`${ECHO} "$1" | ${TR} "[:lower:]" "[:upper:]"`
+    
+    cr=${CACAO_CR_ERROR}
+    retval=""
+    
+   case "${filter_name}" in
+	"SEVERE" | "WARNING" | "INFO"  | \
+	"CONFIG" | "FINE"    | "FINER" | \
+	"FINEST" | "ALL"     | "OFF"   | "NULL")
+           cr=${CACAO_CR_SUCCESS}
+           retval="${filter_name}"
+        ;;
+        *)
+           cr=${CACAO_CR_ERROR}
+           retval=""
+        ;;
+    esac
+    if [ -z "${retval}" ]
+    then
+	cacao_print_message "${CACAO_MSG_ERROR_CC_WRONG_FILTER_NAME}" "${raw_filter_name}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${ECHO} ${retval}
+    return ${cr}
+}
+
+#--------------------------------------------------------------------
+# cacao_is_cacaoadm_valid_pid    
+# 
+# DESCRIPTION :
+# check if the pid is valid
+# the must be "alive" and the associated with a cacaoadm command
+# the parameter
+# 
+# PARAMETERS :
+# $1 : pid number
+# 
+#
+# RETURN CODE: 
+# CACAO_TRUE  :
+# CACAO_FALSE : validation failed
+# OUTPUT:
+# none.
+#
+# NOTICE WARNING
+# we are trying to be fast : some condition must be taken into account
+# - 'fname' flag of ps print only the first 8 characters
+#   if the name of cacaoadm change, mechanism may become wrong
+# - ps output should be 
+#
+#    ps -o fname -p 11626 
+#    COMMAND
+#    cacaoadm
+#   if on some platform the output is something like
+#       /bin/sh /.../bin/cacaoadm
+#   mechanism must change
+#---------------------------------------------------------------------
+
+cacao_is_cacaoadm_valid_pid () {
+    _pid=$1
+
+    if [ -z "${_pid}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    ${PS} -o fname -p $1 2>/dev/null | ${AWK} -v pattern=${CACAO_ADM_NAME} \
+                                               'BEGIN {rc=0}               \
+                                               {if ($1 == pattern ) rc=1 } \
+                                               END {exit rc}'
+
+    if [ $? -eq 1 ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}  
+
+#--------------------------------------------------------------------
+# cacao_copy_and_update_file 
+# 
+# DESCRIPTION :
+# copy a file to another destination and update some of the parameters inside
+# 
+# PARAMETERS :
+# $1 : the file to copy and update
+# $2 : the destination file (can be the same)
+# $2+i : parameter of the form "TAGi#tagi"
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS  : if update was successfull
+# CACAO_CR_ERROR : in case of failure
+# OUTPUT:
+# none.
+#
+# 
+#---------------------------------------------------------------------
+cacao_copy_and_update_file() {
+    file_to_change=$1
+    destination_file=$2
+
+    my_tmp_file=${cacao_tmp_dir}/.cacaoadm.$$
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${my_tmp_file}"
+
+    shift 2
+    sed_cmd=""
+    for elem in $*
+    do
+        pattern=`${ECHO} $elem | ${CUT} -s -d# -f1`
+        value=`${ECHO} $elem | ${CUT} -s -d# -f2`
+	if [ -z "${pattern}" ] || [ -z "${value}" ]
+	then
+            continue
+	fi
+        # Escape slashes characters if any: needed by sed command
+        _prop_val=`${ECHO} "${value}" | ${SED} -e 's?\/?\\\/?g'`
+        sed_cmd="${sed_cmd} -e 's/${pattern}/${_prop_val}/g'"
+    done
+
+    eval ${SED} ${sed_cmd} ${file_to_change} > ${my_tmp_file} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    ${CP} -f ${my_tmp_file} ${destination_file} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+                    "${my_tmp_file}" "${destination_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ${RM} "${my_tmp_file}" 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${my_tmp_file}"
+		return ${CACAO_CR_ERROR}
+    fi
+
+    ${CHOWN} "${CACAO_ADMIN_USER}":"${CACAO_ADMIN_GROUP}" ${destination_file} \
+        >/dev/null 2>&1
+	
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+
+
+

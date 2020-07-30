@@ -1,0 +1,159 @@
+#!/sbin/sh
+#
+#ident "@(#)svc-webconsole	1.4     06/22/06 SMI"
+#
+# Copyright (c) 2006 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+# SMF methods to start and stop an instance of the
+# Java Web Console defined as an SMF service instance.
+
+# Source key SMF constants and variables
+. /lib/svc/share/smf_include.sh
+
+# Fixed console configuration information
+CONF_PATH=/etc/webconsole
+CONF_FILE=config.properties
+
+# Parent service property names
+LISTEN_PROP=options/tcp_listen
+
+# Service instance property names
+USER_PROP=options/user
+DEBUG_PROP=options/debug
+LOCAL_PROP=options/local
+
+SERVICE=""
+INSTANCE=""
+CONSOLE_HOME=""
+
+#### Function to return console instance name from FMRI ####
+#### Sets service name (SERVICE) and instance name (INSTANCE) ####
+#### SMF_FMRI = service instance fmri ####
+
+getInstance() {
+
+    # Expecting format: svc:<service_name>:<instance_name>
+    SERVICE=`echo "${SMF_FMRI}" | /usr/bin/cut -f2 -d":"`
+    INSTANCE=`echo "${SMF_FMRI}" | /usr/bin/cut -f3 -d":"`
+    if [ "${SERVICE}" = "" -o "${INSTANCE}" = "" ]; then
+	echo "Unable to obtain instance name from FMRI"
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+
+}
+
+#### Function to return console home directory path for instance ####
+#### Sets console home directory path (CONSOLE_HOME) ####
+#### INSTANCE = console instance name ####
+
+getConsoleHome() {
+
+    file=${CONF_PATH}/${INSTANCE}/${CONF_FILE}
+    if [ ! -f ${file} ]; then
+	echo "Unable to find config properties file for instance \"${INSTANCE}\"."
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+    temp=`/usr/bin/grep -i "console_home" ${file}`
+    if [ $? -ne 0 ]; then
+	echo "Unable to obtain console home directory for instance \"${INSTANCE}\"."
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+    CONSOLE_HOME=`echo "${temp}" | /usr/bin/cut -f2 -d"="`
+    if [ "${CONSOLE_HOME}" = "" -o ! -d ${CONSOLE_HOME} ]; then
+	echo "Invalid console home directory \"${CONSOLE_HOME}\"."
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+
+}
+
+#### Function to return a parent service property value ####
+#### $1 = property name, SERVICE = parent service name ####
+#### Returns the property value ####
+
+getServiceProperty() {
+
+    prop=$1
+    # Get uncomposed properties set by smcwebserver command
+    temp=`/usr/bin/svcprop -C -p ${prop} ${SERVICE}`
+    if [ $? -ne 0 ]; then
+	echo "Unable to read parent service property \"${prop}\"."
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+    echo "${temp}"
+
+}
+#### Function to return a service instance property value ####
+#### $1 = property name, SMF_FMRI = service instance name ####
+#### Returns the property value ####
+
+getInstanceProperty() {
+
+    prop=$1
+    # Get uncomposed properties set by smcwebserver command
+    temp=`/usr/bin/svcprop -C -p ${prop} ${SMF_FMRI}`
+    if [ $? -ne 0 ]; then
+	echo "Unable to read service instance property \"${prop}\"."
+	exit $SMF_EXIT_ERR_CONFIG
+    fi
+    echo "${temp}"
+
+}
+
+#### Main ####
+
+case "$1" in
+
+    'start')
+
+	getInstance
+	OPT="-i ${INSTANCE}"
+	getConsoleHome
+	USER=`getInstanceProperty ${USER_PROP}`
+	if [ "${USER}" != "" ]; then
+	    OPT="${OPT} -u ${USER}"
+	fi
+	DEBUG=`getInstanceProperty ${DEBUG_PROP}`
+	if [ "${DEBUG}" = "true" ]; then
+	    OPT="${OPT} --debug"
+	fi
+	LOCAL=`getInstanceProperty ${LOCAL_PROP}`
+	MODE=`getServiceProperty ${LISTEN_PROP}`
+	if [ "${MODE}" = "false" -o "${LOCAL}" = "true" ]; then
+	    OPT="${OPT} --local"
+	fi
+	temp=`${CONSOLE_HOME}/private/bin/sjwcx status -p`
+	status=`echo "${temp}" | grep "running" | cut -f2 -d"="`
+	if [ "${status}" = "yes" ]; then
+	    echo "A console instance is already running - not started by SMF"
+	    echo "Console service is placed in maintenance state"
+	    exit $SMF_EXIT_ERR_FATAL
+	fi
+	${CONSOLE_HOME}/private/bin/sjwcx start ${OPT}
+	if [ $? -ne 0 ]; then
+	    exit $SMF_EXIT_ERR_FATAL
+	fi
+	;;
+
+    'stop')
+
+	getInstance
+	OPT="-i ${INSTANCE}"
+	getConsoleHome
+	DEBUG=`getInstanceProperty ${DEBUG_PROP}`
+	if [ "${DEBUG}" = "true" ]; then
+	    OPT="${OPT} --debug"
+	fi
+	${CONSOLE_HOME}/private/bin/sjwcx stop ${OPT}
+	if [ $? -ne 0 ]; then
+	    exit $SMF_EXIT_ERR_FATAL
+	fi
+	;;
+
+*)
+	echo "Usage: $0 { start | stop }"
+	exit $SMF_EXIT_ERR_CONFIG
+	;;
+esac
+
+exit $SMF_EXIT_OK

@@ -1,0 +1,320 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_MiniCommanderApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/mini_commander_applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج الآمر الصغير"/>
+	<oaf_attribute name="name-az" type="string" value="Kiçik-Əmr Appleti E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета MiniCommander"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на аплета Мини-командир"/>
+	<oaf_attribute name="name-bn" type="string" value="ছোট আদেশক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de MiniCommander Applet"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor apletu Mini-Commander"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri rhaglennigion Gorchymynydd Pitw"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik for kommandobropanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="MiniCommander-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Μίνι Διοικητή"/>
+	<oaf_attribute name="name-en_CA" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Miniaplicación Línea de órdenes"/>
+	<oaf_attribute name="name-et" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="MiniCommander applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Pienoiskomentotulkkisovelman tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet MiniCommander"/>
+	<oaf_attribute name="name-gu" type="string" value="નાનું આદેશકની એપ્લેટ કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון שורת פקודה קטנה"/>
+	<oaf_attribute name="name-hi" type="string" value="मिनी कमांडर अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za MiniCommander"/>
+	<oaf_attribute name="name-hu" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet MiniCommander"/>
+	<oaf_attribute name="name-ja" type="string" value="ミニコマンダーアプレット ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="작은 명령기 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="MiniCommander priedo gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="MiniCommander Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Мини-уредувач аплетот"/>
+	<oaf_attribute name="name-mn" type="string" value="Мини-Коммандер апплетийг үүсгүүр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet MiniCommander"/>
+	<oaf_attribute name="name-nl" type="string" value="MiniCommander Applet Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for kommandolinjepanelprogrammet"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for mini-kommander-applet"/>
+	<oaf_attribute name="name-pa" type="string" value="ਮਿੰਨੀ-ਕਮ੾ਡਰ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu MiniCommander"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet MiniCommander"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo MiniCommander"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory aplet MiniCommander"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения Mini-Commander"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Mini-Commander"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka Mini-upravnik"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Applet MiniKomandues"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња програмчета за Малог-наредника"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za Malog-narednika"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet MiniCommander"/>
+	<oaf_attribute name="name-ta" type="string" value="குறுங்கட்டளையாளர் குறும்பயனகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอ็พเพล็ตบรรทัดคำสั่ง"/>
+	<oaf_attribute name="name-tr" type="string" value="Küçük Komutan Uygulak Mîmârîsi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплету командного рядка"/>
+	<oaf_attribute name="name-vi" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="name-wa" type="string" value="Aplikete Mini Roye di Comande"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="迷你命令行 Applet 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="小型命令窗 Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="小型命令窗 Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع بريمج الآمر الصغير"/>
+	<oaf_attribute name="description-az" type="string" value="Kiçik-Əmr Appleti E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета MiniCommander"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика на аплета Мини-командир"/>
+	<oaf_attribute name="description-bn" type="string" value="ছোট আদেশক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de MiniCommander Applet"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor apletu Mini-Commander"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri rhaglennigion Gorchymynydd Pitw"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for kommandobropanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="MiniCommander-Applet-Fabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Μίνι Διοικητή"/>
+	<oaf_attribute name="description-en_CA" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Miniaplicación Línea de órdenes"/>
+	<oaf_attribute name="description-et" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-eu" type="string" value="MiniCommander applet-aren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Pienoiskomentotulkkisovelman tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet MiniCommander"/>
+	<oaf_attribute name="description-gu" type="string" value="નાનું આદેશકની એપ્લેટ કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן יישומון שורת פקודה קטנה"/>
+	<oaf_attribute name="description-hi" type="string" value="मिनी कमांडर अप्लेट फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za MiniCommander"/>
+	<oaf_attribute name="description-hu" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet MiniCommander"/>
+	<oaf_attribute name="description-ja" type="string" value="ミニコマンダーアプレット ファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="작은 명령기 애플릿 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="MiniCommander priedo gamykla"/>
+	<oaf_attribute name="description-lv" type="string" value="MiniCommander Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за Мини-уредувач аплетот"/>
+	<oaf_attribute name="description-mn" type="string" value="Мини-Коммандер апплетийг үүсгүүр"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet MiniCommander"/>
+	<oaf_attribute name="description-nl" type="string" value="MiniCommander Applet Fabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for kommandolinjepanelprogrammet"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for mini-kommander-applet"/>
+	<oaf_attribute name="description-pa" type="string" value="ਮਿੰਨੀ-ਕਮ੾ਡਰ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletu MiniCommander"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica da Applet MiniCommander"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo MiniCommander"/>
+	<oaf_attribute name="description-ro" type="string" value="Factory aplet MiniCommander"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика окна приложения Mini-Commander"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet Mini-Commander"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna vstavka Mini-upravnik"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e Applet MiniKomandues"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за Малог-наредника"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za Malog-narednika"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet MiniCommander"/>
+	<oaf_attribute name="description-ta" type="string" value="குறுங்கட்டளையாளர் குறும்பயனகம்"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอ็พเพล็ตบรรทัดคำสั่ง"/>
+	<oaf_attribute name="description-tr" type="string" value="Küçük Komutan Uygulak Mîmârîsi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплету командного рядка"/>
+	<oaf_attribute name="description-vi" type="string" value="MiniCommander Applet Factory"/>
+	<oaf_attribute name="description-wa" type="string" value="Aplikete Mini Roye di Comande"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="迷你命令行 Applet 工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="小型命令窗 Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="小型命令窗 Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_MiniCommanderApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_MiniCommanderApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Command Line"/>
+	<oaf_attribute name="name-ar" type="string" value="سطر الأوامر"/>
+	<oaf_attribute name="name-az" type="string" value="Əmr Sətiri"/>
+	<oaf_attribute name="name-be" type="string" value="Загадны радок"/>
+	<oaf_attribute name="name-bg" type="string" value="Команден ред"/>
+	<oaf_attribute name="name-bn" type="string" value="আদেশ রেখা"/>
+	<oaf_attribute name="name-ca" type="string" value="Línia d&apos;ordres"/>
+	<oaf_attribute name="name-cs" type="string" value="Příkazový řádek"/>
+	<oaf_attribute name="name-cy" type="string" value="Llinell Orchymyn"/>
+	<oaf_attribute name="name-da" type="string" value="Kommandolinje"/>
+	<oaf_attribute name="name-de" type="string" value="Befehlszeile"/>
+	<oaf_attribute name="name-el" type="string" value="Γραμμή Εντολών"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Command Line"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Command Line"/>
+	<oaf_attribute name="name-es" type="string" value="Línea de órdenes"/>
+	<oaf_attribute name="name-et" type="string" value="Käsurida"/>
+	<oaf_attribute name="name-eu" type="string" value="Komando-lerroa"/>
+	<oaf_attribute name="name-fi" type="string" value="Komentorivi"/>
+	<oaf_attribute name="name-fr" type="string" value="Ligne de commande"/>
+	<oaf_attribute name="name-ga" type="string" value="Líne Ordú"/>
+	<oaf_attribute name="name-gu" type="string" value="આદેશ વાક્ય"/>
+	<oaf_attribute name="name-he" type="string" value="שורת פקודה"/>
+	<oaf_attribute name="name-hi" type="string" value="कमांड लाइन"/>
+	<oaf_attribute name="name-hr" type="string" value="Naredbena linija"/>
+	<oaf_attribute name="name-hu" type="string" value="Parancssor"/>
+	<oaf_attribute name="name-it" type="string" value="Riga di comando"/>
+	<oaf_attribute name="name-ja" type="string" value="コマンドライン"/>
+	<oaf_attribute name="name-ko" type="string" value="명령줄"/>
+	<oaf_attribute name="name-lt" type="string" value="Komandinė eilutė"/>
+	<oaf_attribute name="name-lv" type="string" value="Komandrinda"/>
+	<oaf_attribute name="name-mk" type="string" value="КОмандна линија"/>
+	<oaf_attribute name="name-ml" type="string" value="ആജ്ഞമേഘല"/>
+	<oaf_attribute name="name-mn" type="string" value="Тушаалын мөр"/>
+	<oaf_attribute name="name-ms" type="string" value="Arahan Baris"/>
+	<oaf_attribute name="name-nl" type="string" value="Opdrachtregel"/>
+	<oaf_attribute name="name-nn" type="string" value="Kommandolinje"/>
+	<oaf_attribute name="name-no" type="string" value="Kommandolinje"/>
+	<oaf_attribute name="name-pa" type="string" value="ਕਮ੾ਡ ਲਾੲੀਨ"/>
+	<oaf_attribute name="name-pl" type="string" value="Wiersz poleceń"/>
+	<oaf_attribute name="name-pt" type="string" value="Linha de Comando"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Linha de comando"/>
+	<oaf_attribute name="name-ro" type="string" value="Comandă"/>
+	<oaf_attribute name="name-ru" type="string" value="Командная строка"/>
+	<oaf_attribute name="name-sk" type="string" value="Príkazový riadok"/>
+	<oaf_attribute name="name-sl" type="string" value="Ukazna vrstica"/>
+	<oaf_attribute name="name-sq" type="string" value="Rreshti i komandës"/>
+	<oaf_attribute name="name-sr" type="string" value="Наредба"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Naredba"/>
+	<oaf_attribute name="name-sv" type="string" value="Kommandorad"/>
+	<oaf_attribute name="name-ta" type="string" value="கட்டளை வரி"/>
+	<oaf_attribute name="name-th" type="string" value="บรรทัดคำสั่ง"/>
+	<oaf_attribute name="name-tr" type="string" value="Komut Satırı"/>
+	<oaf_attribute name="name-uk" type="string" value="Командний рядок"/>
+	<oaf_attribute name="name-vi" type="string" value="Dòng Lệnh"/>
+	<oaf_attribute name="name-wa" type="string" value="Roye di comande"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="命令行"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="指令列"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="指令列"/>
+	<oaf_attribute name="description" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ar" type="string" value="الآمر الصغير"/>
+	<oaf_attribute name="description-az" type="string" value="Kiçik Əmr Verici"/>
+	<oaf_attribute name="description-be" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-bg" type="string" value="Мини-командир"/>
+	<oaf_attribute name="description-bn" type="string" value="ছোট আদেশক"/>
+	<oaf_attribute name="description-ca" type="string" value="Mini-Ordinador"/>
+	<oaf_attribute name="description-cs" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-cy" type="string" value="Gorchmynydd Pitw"/>
+	<oaf_attribute name="description-da" type="string" value="Kommandobro"/>
+	<oaf_attribute name="description-de" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-el" type="string" value="Μίνι-Διοικητής"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-es" type="string" value="Línea de órdenes"/>
+	<oaf_attribute name="description-et" type="string" value="Pisi-käsurida"/>
+	<oaf_attribute name="description-eu" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-fi" type="string" value="Minikomentotulkki"/>
+	<oaf_attribute name="description-fr" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ga" type="string" value="Ceannasaí-Beag"/>
+	<oaf_attribute name="description-gl" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-gu" type="string" value="નાનું આદેશક"/>
+	<oaf_attribute name="description-he" type="string" value="שורת פקודה קטנה"/>
+	<oaf_attribute name="description-hi" type="string" value="मिनी कमांडर"/>
+	<oaf_attribute name="description-hr" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-hu" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-it" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ja" type="string" value="ミニコマンダー"/>
+	<oaf_attribute name="description-ko" type="string" value="작은 명령 실행기"/>
+	<oaf_attribute name="description-lt" type="string" value="Komandinė eilutė"/>
+	<oaf_attribute name="description-lv" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-mk" type="string" value="Мини-управувач"/>
+	<oaf_attribute name="description-mn" type="string" value="Мини-Коммандер"/>
+	<oaf_attribute name="description-ms" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-nl" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-nn" type="string" value="Kommandolinje"/>
+	<oaf_attribute name="description-no" type="string" value="Mini-kommander"/>
+	<oaf_attribute name="description-pa" type="string" value="ਮਿੰਨੀ-ਕਮ੾ਡਰ"/>
+	<oaf_attribute name="description-pl" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-pt" type="string" value="Applet Mini-Commander"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ro" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ru" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-sk" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-sl" type="string" value="Mini-upravnik"/>
+	<oaf_attribute name="description-sq" type="string" value="Mini-Komandues"/>
+	<oaf_attribute name="description-sr" type="string" value="Мали-наредник"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Mali-narednik"/>
+	<oaf_attribute name="description-sv" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-ta" type="string" value="குறுங்-கட்டளையாளர்"/>
+	<oaf_attribute name="description-th" type="string" value="แอ็พเพล็ตบรรทัดคำสั่ง"/>
+	<oaf_attribute name="description-tr" type="string" value="Küçük Komutan"/>
+	<oaf_attribute name="description-uk" type="string" value="Міні командний рядок"/>
+	<oaf_attribute name="description-vi" type="string" value="Mini-Commander"/>
+	<oaf_attribute name="description-wa" type="string" value="Mini-Comandeu"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="迷你命令行"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="小型命令窗"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="小型命令窗"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="أداة"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Карыснасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Инструменти"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="কাজের প্রোগ্রাম"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitats"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Cyfleuster"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Ohjelma"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Feidhmchlár"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગીતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="उपयोगी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Verkfæri"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Pagalbinė programa"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Aлатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Хэрэгсэл"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਉਪਯੋਿਗਤਾ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitate"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Orodje"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Помоћни алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Yardımcı"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Usteye"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-mini-commander.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="mini-commander"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="mini_commander_applet"/>
+
+</oaf_server>
+
+</oaf_info>

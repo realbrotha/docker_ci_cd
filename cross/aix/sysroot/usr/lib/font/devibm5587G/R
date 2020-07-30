@@ -1,0 +1,261 @@
+# @(#)48  1.3  src/cmdtext/usr/bin/ibm5587G/font/R, cmdtext, cmdtext530 8/1/93 03:06:32
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm5587G/font/R 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991, 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	R font for IBM 5587 with Gothic font cartridge
+#	Default "Mincho(u)" font.
+#	Note that kern values for letters are unusual because this font
+#	has no true descenders.
+name R
+spacewidth 10
+charset
+\| 5 0 000	1/6 em
+\^  2 0 000	1/12 em
+\& 0 0 000	zero-width
+! 6 2 041
+" 8 2 042
+# 10 2 043
+$ 10 2 044
+% 10 2 045
+& 10 2 046
+' 6 2 047
+( 10 2 050
+) 10 2 051
+* 10 2 052
++ 10 2 053
+, 8 0 054
+- 10 0 055
+hy "  
+\- "
+. 8 0 056
+/ 10 2 057
+sl "
+0 10 2 060
+1 10 2 061
+2 10 2 062
+3 10 2 063
+4 10 2 064
+5 10 2 065
+6 10 2 066
+7 10 2 067
+8 10 2 070
+9 10 2 071
+: 6 2 072
+; 6 2 073
+< 10 2 074
+= 10 0 075
+> 10 2 076
+? 10 2 077
+@ 10 2 0100
+A 10 2 0101
+B 10 2 0102
+C 10 2 0103
+D 10 2 0104
+E 10 2 0105
+F 10 2 0106
+G 10 2 0107
+H 10 2 0110
+I 6 2 0111
+J 8 2 0112
+K 10 2 0113
+L 10 2 0114
+M 10 2 0115
+N 10 2 0116
+O 10 2 0117
+P 10 2 0120
+Q 10 2 0121
+R 10 2 0122
+S 10 2 0123
+T 10 2 0124
+U 10 2 0125
+V 10 2 0126
+W 10 2 0127
+X 10 2 0130
+Y 10 2 0131
+Z 10 2 0132
+[ 10 2 0133
+\ 10 2 0134
+] 10 2 0135
+_ 10 0 0137
+` 10 2 0140
+a 10 0 0141
+b 10 2 0142
+c 10 0 0143
+d 10 2 0144
+e 10 0 0145
+f 8 2 0146
+g 10 0 0147
+h 10 2 0150
+i 6 2 0151
+j 8 2 0152
+k 10 2 0153
+l 6 2 0154
+m 10 0 0155
+n 10 0 0156
+o 10 0 0157
+p 10 0 0160
+q 10 0 0161
+r 8 0 0162
+s 10 0 0163
+t 8 2 0164
+u 10 0 0165
+v 10 0 0166
+w 10 0 0167
+x 10 0 0170
+y 10 0 0171
+z 10 0 0172
+{ 6 2 0173
+| 6 2 0174
+or "
+} 6 2 0175
+ts 10 0 0163 
+bu 20 0 129	lookup-table indices
+sq 20 0 110
+bx 20 0 131
+em 20 0 132
+de 20 0 133
+dg 20 0 134
+fm 20 0 135
+ct 20 0 136
+yn 20 0 137
+ps 20 0 138
+pl 20 0 139
+mi 20 0 140
+eq 20 0 141
+** 20 0 142
+sc 20 0 143
+aa 20 0 144
+\' "
+ga 20 0 145
+\` "
+*a 20 0 146
+*b 20 0 147
+*g 20 0 148
+*d 20 0 149
+*e 20 0 150
+*z 20 0 151
+*y 20 0 152
+*h 20 0 153
+*i 20 0 154
+*k 20 0 155
+*l 20 0 156
+*m 20 0 157
+*n 20 0 158
+*c 20 0 159
+*o 20 0 160
+*p 20 0 161
+*r 20 0 162
+*s 20 0 163
+*t 20 0 164
+*u 20 0 165
+*f 20 0 166
+*x 20 0 167
+*q 20 0 168
+*w 20 0 169
+*A 20 0 170
+*B 20 0 171
+*G 20 0 172
+*D 20 0 173
+*E 20 0 174
+*Z 20 0 175
+*Y 20 0 176
+*H 20 0 177
+*I 20 0 178
+*K 20 0 179
+*L 20 0 180
+*M 20 0 181
+*N 20 0 182
+*C 20 0 183
+*O 20 0 184
+*P 20 0 185
+*R 20 0 186
+*S 20 0 187
+*T 20 0 188
+*U 20 0 189
+*F 20 0 190
+*X 20 0 191
+*Q 20 0 192
+*W 20 0 193
+sr 20 0 194
+rn 20 0 195
+ua 20 0 196
+da 20 0 197
+-> 20 0 198
+<- 20 0 199
+>= 20 0 200
+<= 20 0 201
+== 20 0 202
+!= 20 0 203
+ap 20 0 204
+mu 20 0 205
+di 20 0 206
++- 20 0 207
+cu 20 0 208
+ca 20 0 209
+sb 20 0 210
+sp 20 0 211
+ib 20 0 212
+ip 20 0 213
+if 20 0 214
+pd 20 0 215
+gr 20 0 216
+no 20 0 217
+la 20 0 218
+lo 20 0 219
+is 20 0 220
+pt 20 0 221
+es 20 0 222
+mo 20 0 223
+dd 20 0 224
+pp 20 0 225
+rh 20 0 226
+lh 20 0 227
+or 20 0 228
+ci 20 0 229
+io 20 0 210
+fa 20 0 231
+te 20 0 232
+tf 20 0 233
+bt 20 0 234
+pm 20 0 235
+br 10 0 8	procedures to build characters
+lt 10 0 9
+rt 10 0 10
+lb 10 0 11
+rb 10 0 12
+lk 10 0 13
+rk 10 0 14
+bv 10 0 15
+lc 10 0 16
+rc 10 0 17
+lf 10 0 18
+rf 10 0 19
+ru 10 0 20
+ul 10 0 21
+X1 10 3 1	generic characters
+X2 20 3 1

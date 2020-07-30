@@ -1,0 +1,12 @@
+.>w
+<w+0t4=""
++/"version"16t"numports"16t"pkt_size"nXXX
++/"cmd_max"16t"dma_lim"16t"iblock"nXJJ
++/"dma_attr"16t"acc_attr"16t"bind_port"nJ56+JJ
++/"unbind_port"16t"init_pkt"16t"un_init_pkt"nJJJ
++/"els_send"16t"get_cap"16t"set_cap"nJJJ
++/"getmap"16t"transport"16t"ub_alloc"nJJJ
++/"ub_free"16t"ub_release"16t"abort"nJJJ
++/"reset"16t"port_manage"16t"get_device"nJJJ
++/"notify"16tnJ
+<w+0t240=""

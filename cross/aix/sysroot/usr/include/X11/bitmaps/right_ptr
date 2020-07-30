@@ -1,0 +1,38 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/right_ptr 1.2                   */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)47       1.2  src/gos/2d/XTOP/include/bitmaps/right_ptr, xlib, gos530 2/11/94 17:54:26 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define right_ptr_width 16
+#define right_ptr_height 16
+#define right_ptr_x_hot 12
+#define right_ptr_y_hot 1
+static char right_ptr_bits[] = {
+   0x00, 0x00, 0x00, 0x10, 0x00, 0x18, 0x00, 0x1c, 0x00, 0x1e, 0x00, 0x1f,
+   0x80, 0x1f, 0xc0, 0x1f, 0xe0, 0x1f, 0x00, 0x1f, 0x00, 0x1b, 0x80, 0x11,
+   0x80, 0x01, 0xc0, 0x00, 0xc0, 0x00, 0x00, 0x00};

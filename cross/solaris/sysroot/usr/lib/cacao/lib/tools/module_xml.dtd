@@ -1,0 +1,56 @@
+<!--
+Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+Use is subject to license terms.
+ident	"$Revision: 1.4 $	SMI"
+
+This is the XML DTD for a cacao module mbean instances 
+descriptor.
+-->
+
+
+<!--  "mbeans" element is the root element.
+      It can have one or more "mbean" sub-element.
+-->
+<!ELEMENT mbeans (mbean)*>
+
+<!--  An "mbean" element can have zero or one sub-element
+      called "parameters".
+-->
+<!ELEMENT mbean (parameters?)>
+
+<!-- An "mbean" element has 4 attributes. These are :
+
+        "type" : cacao MBean type. Possible values are
+                 for the moment : standard (only possible value).
+        "class" : MBean class to instantiate
+        "instance" : MBean instance name
+        "description" (optional) : any string 
+-->
+<!ATTLIST mbean 
+    type (standard) "standard"
+    class       CDATA #REQUIRED
+    instance    CDATA #REQUIRED
+    description CDATA #IMPLIED
+>
+
+<!-- A "parameters" element  has one or more "parameter" sub-element. 
+     It allows you to define a list of parameters that will
+     be given to MBean constructor in a map when the MBean
+     instance will be created.
+     A parameter is a couple (parameter-name, parameter-value).
+-->
+<!ELEMENT parameters (parameter*)>
+
+<!-- The "parameter" element has no sub-element.
+     It has 2 attributes : these are
+
+     name : string value
+     value: string value
+
+-->
+<!ELEMENT parameter EMPTY>
+<!ATTLIST parameter
+    param-name  CDATA #REQUIRED
+    param-value CDATA #REQUIRED
+>
+

@@ -1,0 +1,69 @@
+# @(#)37	1.4  src/cmdtext/usr/bin/ibm3816/font/S2, cmdtext, cmdtext530 7/19/91 13:50:02
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3816/font/S2 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S2
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+dd	24 2 053	double dagger   
+dg	24 2 054	dagger    
+dg	"
++	24 2 071	plus sign
+pl	"
+em	24 2 "\xe3%\x00\x08\001\074\xe2\xff\xf4\001\074\xe3\xff\xf8" 	em dash
+=	24 2 075	equal sign
+eq	"
+\-  24 2 076	current font minus
+if	24 2 077	infinity    
+/	24 2 0103	slash
+sl	"
+fm	24 2 0122	minutes symbol   
+is	24 2 0123	integral symbol   
+cu	24 2 0124	union    
+mo	24 2 "\001\125\xe2\xff\xe8\xe3%\x00\x08\001\074\xe3\xff\xf8" member of
+sb	24 2 0125	is included  in symbol
+ib	24 2 "\001\125\xe2\xff\xe8\xe3%\x00\x16\001\074\xe3\xff\xea" 
+sp	24 2 0126	includes symbol   
+ip	24 2 "\001\126\xe2\xff\xe8\xe3%\x00\x16\001\074\xe3\xff\xea" 
+lt	24 2 "\xe2%\x00\x05\001\133\xe2\xff\xfb"
+lb	24 2 "\xe2%\x00\x05\001\134\xe2\xff\xfb"
+rt	24 2 "\xe2\xff\xfb\001\137\xe2%\x00\x05"
+rb	24 2 "\xe2\xff\xfb\001\140\xe2%\x00\x05"
+gr	24 2 0157	gradient symbol
+pd	24 2 0162	partial differential  symbol 
+sq	24 2 0164	open square   
+pt	24 2 0170	proportional to  symbol 
+~=	24 2 0171	approximately equal  to symbol
+ap	24 2 0172	equivalent to  symbol 
+!=	24 2 0246	not equal  symbol 

@@ -1,0 +1,58 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.activate 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Activating a Boot Environment"`
+
+close=nop
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+altslks=true
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "The Activate selection of the Live Upgrade Configuration Menus is used to make a BE active at the next reboot. Activating a Boot Environment While the System is In-Service:"`"\n\n"\
+`gettext "While the system is in-service, you can use the Live Upgrade menu interface, \"Activate a Boot Environment\" selection. The choices selection will list all complete BEs. You can select an appropriate target BE. Upon the next reboot, the target BE will become active."`"\n\n"`gettext "Activating a Boot Environment While the System is Out-Of-Service:"`"\n"\
+`gettext "When a BE becomes corrupted to the point where it cannot be booted, an alternate BE can be specified while the system is out-of-service. Your system configuration will determine which interface must be used to activate a BE."`"\n"\
+`gettext "If your system includes StartUp System (SUS) or RBIOS Firmware, you can activate a BE by changing the Primary Boot Device to contain the SCSI address of the boot device of the desired BE."`"\n"`gettext "NOTE: From SUS menus, the BE name cannot be used. Instead, you must enter the SCSI address of the target BE's boot device. If your system has neither SUS or RBIOS Firmware, you must activate the BE in maintenance mode using the following steps:"`"\n\n"\
+`gettext " 1) Bring the machine to maintenance mode using the boot flexes."`"\n"`gettext " 2) fsck the target BE root slice and mount it to /mnt."`"\n"`gettext " 3) Run the /mnt/sbin/luactivate utility to activate the\n previously working boot environment."`"\n"`gettext " 4) Unmount /mnt."`"\n"`gettext " 5) Reboot the machine (init 6)."`"\n"
+
+`indicator -w`
+
+name=
+button=9
+action=nop 
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=nop
+name=nop
+
+name=
+button=16
+action=nop

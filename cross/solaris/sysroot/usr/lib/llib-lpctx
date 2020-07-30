@@ -1,0 +1,11 @@
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lpctx	1.2	04/02/04 SMI"
+
+#include "libpctx.h"

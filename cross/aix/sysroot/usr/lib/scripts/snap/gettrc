@@ -1,0 +1,194 @@
+#!/bin/sh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53H src/bos/usr/sbin/snap/gettrc.sh 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2005 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+# @(#)67        1.3  src/bos/usr/sbin/snap/gettrc.sh, cmdsnap, bos53H, h2005_37A6 9/9/05 15:56:58
+
+#variable initialization
+if [ -z "$SNAPDIR" ]
+then
+    SNAPDIR=/tmp/ibmsupt/trace
+fi
+
+copylmt=n
+copysystrace=n
+copycomponent=n
+
+usage () {
+echo "Usage: gettrc [-h] [-c][-C dirname] [-m][-M dirname] [-s][-S filename]" >&2
+echo "\t-h This usage." >&2
+echo "\t-c copy Component Trace default directory into $SNAPDIR" >&2
+echo "\t-C dirname copy Component Trace specified directory into $SNAPDIR" >&2
+echo "\t-m copy Memory Trace default directory into $SNAPDIR" >&2
+echo "\t-M dirname copy Memory Trace specified directory into $SNAPDIR" >&2
+echo "\t-s copy System Trace default file(s) into $SNAPDIR" >&2
+echo "\t-S dirname copy System Trace specified file(s) into $SNAPDIR" >&2
+}
+
+#Retrieve ODM attribute
+getattr () {
+  ODMVAL=`odmget -q "attribute = $1" SWservAt | awk '{print $NF}' | tail -1`
+  VALUE=`echo $ODMVAL | tr -d '\"'`
+  echo $VALUE
+}
+
+#Retrieve option from command line
+set -- `getopt hcC:mM:sS: $*`
+
+if [ $? -ne 0 ] 
+then
+        exit 1
+fi
+ 
+while [ "$1" != -- ]
+ 
+do
+ 
+        case "$1" in
+		-h) 
+				usage; 
+				exit 0;;
+		-c) 
+				ODMCTD=`getattr trace_dir`
+				if [ -z "$ODMCTD" ]
+				then
+				    echo "Can't get default Component Trace directory" >> $SCRIPTLOG
+				    echo "Using default: /var/adm/ras/trc_ct" >> $SCRIPTLOG
+				    ODMCTD=/var/adm/ras/trc_ct
+				fi
+				copycomponent=y
+				shift;;
+		-C) 
+				ODMCTD=$2
+				copycomponent=y
+				shift;shift;;
+		-m) 
+				ODMLMTD=`getattr lmt_dir`
+				if [ -z "$ODMLMTD" ]
+				then
+				    echo "Can't get default LMT directory" >> $SCRIPTLOG
+				    echo "Using default: /var/adm/ras/mtrcdir" >> $SCRIPTLOG
+				    ODMLMTD=/var/adm/ras/mtrcdir
+				fi
+				copylmt=y
+				shift;;
+		-M) 
+				ODMLMTD=$2
+				copylmt=y
+				shift;shift;;				
+		-s)  
+				ODMLF=`getattr trace_file`
+				if [ -z "$ODMLF" ]
+				then
+				    echo "Can't get default trace file" >> $SCRIPTLOG
+				    echo "Using default: /var/adm/ras/trcfile" >> $SCRIPTLOG
+				    ODMLF=/var/adm/ras/trcfile
+				fi
+				copysystrace=y
+				shift;;
+		-S)  
+				ODMLF=$2
+				copysystrace=y
+				shift;shift;;
+		*)      
+				usage; 
+				exit 3;;
+		esac
+done				
+
+
+#Check if target directory exist
+#If not, create it
+if [ ! -d $SNAPDIR ]
+then
+    mkdir -p $SNAPDIR
+    if [ $? -ne 0 ]
+    then
+	echo "Can't create directory $SNAPDIR" >&2
+	exit 1
+    fi
+fi
+
+if [ "$copysystrace" == "y" ]
+then 
+    mtrclist=$ODMLF
+    trcdir=`dirname $ODMLF`
+    trcrpt -t /usr/lib/ras/cpufmt $ODMLF |\
+    while read n fn
+    do	[ -r "$trcdir/$fn" ] && mtrclist="$mtrclist $trcdir/$fn"
+    done
+fi
+
+if [ "$PASSNO" = 1 ]
+then
+    # estimate the size
+
+    trcnmout="/tmp/trcnm.out.$$"
+    rm -f $trcnmout
+    trcnm > $trcnmout
+
+    filelist="$trcnmout /etc/trcfmt"
+
+
+    if [ "$copylmt" == "y" ]
+    then 
+        filelist="$filelist $ODMLMTD/*"
+    fi
+
+    if [ "$copycomponent" == "y" ]
+    then 
+        filelist="$filelist $ODMCTD/*"
+    fi
+
+    if [ "$copysystrace" == "y" ]
+    then 
+        filelist="$filelist $mtrclist"
+    fi
+
+    echo "Estimating size for files $filelist" >> $SCRIPTLOG
+
+    /bin/ls -l $filelist | awk '{ if ( NF > 6 ) SIZE += $5 } END { print SIZE }' > $SCRIPTSIZE
+    rm -f $trcnmout
+else
+    # $PASSNO" = 2
+    echo "Copying /etc/trcfmt" >> $SCRIPTLOG
+    cp -p /etc/trcfmt $SNAPDIR
+    echo "Creating trcnm output" >> $SCRIPTLOG
+    trcnm > $SNAPDIR/trcnm.out
+
+    #Finally copy the requested data
+    if [ "$copylmt" == "y" ]
+    then 
+	echo "Copying LMT directory ($ODMLMTD)" >> $SCRIPTLOG
+	cp -r $ODMLMTD $SNAPDIR
+    fi
+
+    if [ "$copycomponent" == "y" ]
+    then 
+	echo "Copying Component Trace log directory ($ODMCTD)" >> $SCRIPTLOG
+	cp -r $ODMCTD $SNAPDIR
+    fi
+
+    if [ "$copysystrace" == "y" ]
+    then 
+	echo "Copying system trace file(s) ($ODMLF)" >> $SCRIPTLOG
+	cp $mtrclist $SNAPDIR
+    fi
+
+fi
+
+exit 0

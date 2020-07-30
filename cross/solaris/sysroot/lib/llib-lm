@@ -1,0 +1,25 @@
+/*
+ * Copyright 01/07/04 Sun Microsystems, Inc.  All Rights Reserved.
+ */
+
+#pragma ident	"@(#)llib-lm 1.7 04/01/07 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#undef	__PRAGMA_REDEFINE_EXTNAME
+#include <math.h>
+#if defined(_STDC_C99)
+#undef isnan
+extern int isnan(double);
+extern int isnand(double);	/* LSARC/2003/670 */
+typedef union _h_val {
+        unsigned long _i[2];
+        double _d;
+} _h_val;
+extern const _h_val __huge_val;
+#endif
+#include <fenv.h>
+#include <complex.h>
+#undef	clog
+extern double complex clog(double complex);

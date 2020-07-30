@@ -1,0 +1,441 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+#pragma ident	"@(#)lumkboot.sh	5.15	05/09/06 SMI"
+# 
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        lumkboot [-l error_log] [-o outfile] -i <internal_config_file> -n "BE_NAME"
+# FUNCTION:     alters ABE so that it's ready to serve as a boot device
+# INPUT:        Internal Config File
+# OUTPUT:
+# DEV:          WLH
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+##################################################################################################
+ 
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+TMP_RESULT_FILE="/tmp/.lumkboot.results.tmp.$$"
+ICF=""
+ABE_CAN_BE_UMOUNTED=""
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts.
+
+  # 1- SIGHUP (hangup).
+  # 2- SIGINT (user interrupt).
+  # 3- SIGQUIT (user quit).
+  # 9- SIGKILL (kill process - can not be caught or ignored :).
+  # 15- SIGTERM (software termination request).
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed.
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  # Cause the script to exit.
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i <ABE_icf_file> -n \\\"BE_NAME\\\"'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3 "yes"
+  fi
+  exit_script "$1" "yes"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+#		$2 = optional suppress exit status message ("" or none = do NOT suppress)
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Make sure ABE file systems are unmounted
+  if [ -n "${ICF}" -a -s "${ICF}" -a -n "${ABE_CAN_BE_UMOUNTED}" ] ; then
+    $LUBIN/luumount -f -i $ICF
+  fi
+
+  # Remove all temporary files.
+  /bin/rm -f "${TMP_RESULT_FILE}"
+
+  # Determine the exit status code.
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  # Output the exit status message if not suppressed. 
+  if [ -z "$2" ] ; then
+    if [ "${retcode}" -ne "0" ] ; then
+      ${LUPRINTF} -lp1 "`gettext 'Making the ABE <%s> bootable FAILED.'`" "${BE_NAME}"
+    fi
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+### LU_OPTFS=${LU_OPTFS:=/etc/lu/optfs}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f ${LU_LUTAB_FILE} -o ! -s ${LU_LUTAB_FILE} ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No boot environments are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_i="" # -i n - abe icf file to use.
+flag_l="" # -l f - log file path.
+flag_n="" # -n "n" - be name.
+flag_o="" # -o f - output file path.
+flag_x="" # -x n = set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts i:l:n:o:x:X c
+  do
+    case $c in
+      i) # -i abe_icf_file
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="${OPTARG}"
+	 ICF=$OPTARG
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      n) # -n "n" - be name.
+	 lulib_cannot_duplicate_option "${flag_n}" "${OPTARG}" "-n"
+	 flag_n="${OPTARG}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+	  esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# Add command to session log file and to standard error output if debug mode enabled.
+
+${LUPRINTF} -p1D - "`gettext \"Making the ABE bootable.\"`"
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# A valid BE name must be provided.
+
+if [ -z "${flag_n}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-n> option to specify the target BE to make bootable.'`"
+  usage 3
+fi
+BE_NAME="${flag_n}"
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF file of the ABE to make bootable.'`"
+  usage 3
+fi
+
+# Validate the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+# Mount ABE
+LU_ALT="`LU_OUTPUT_FORMAT=text $LUBIN/lumount -i $ICF 2>${TMP_RESULT_FILE}`"
+retval=$?
+if [ "${retval}" -ne "0" ]; then
+  if [ "${retval}" -eq "3" ]; then
+    # if the ABE is already mounted lumount returns code '3'
+    # in this case do not try and do any recovery, simply exit
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+    exit_script 1
+  fi
+  # About 1 in 1000 async ufs creations will leave the FS state
+  # flag in superblock wrong. Do a fsck of the BE to try and fix this.
+  $LUBIN/lufsck -i $ICF
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to check file systems ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+    exit_script 1
+  fi
+  LU_ALT=`LU_OUTPUT_FORMAT=text $LUBIN/lumount -i $ICF 2>${TMP_RESULT_FILE}`
+  if [ "$?" -ne "0" ]; then
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+    exit_script 1
+  fi
+fi
+/bin/rm -f "${TMP_RESULT_FILE}"
+ABE_CAN_BE_UMOUNTED="yes"
+
+# 
+# Must now update various configuration files on the ABE to match
+# the ABEs configuration for the OS.
+#
+
+$LUBIN/luedvfstab -i "${ICF}" -m "${LU_ALT}" -n "${BE_NAME}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to configure /etc/vfstab file on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+$LUBIN/luedmnttab -i "${ICF}" -m "${LU_ALT}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to configure /etc/mnttab file on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+$LUBIN/lueddumpadm -i "${ICF}" -m "${LU_ALT}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to configure /etc/dumpadm.conf file on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Determine the ID of the BE we are configuring.
+BE_ID=`${LUETCBIN}/ludo get_be_id "${BE_NAME}" 2>&1`
+if [ "$?" -ne "0" -o -z "${BE_ID}" ] ; then
+  ${LUPRINTF} -Eelp2 '%s' "${BE_ID}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine BE ID for BE <%s>: cannle make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Determine the root device for this BE.
+ROOTDEV=`${LUETCBIN}/ludo get_boot_device_from_be_name "${BE_NAME}" 2>&1`
+# Validate the root device.
+if [ "$?" -ne '0' -o -z "${ROOTDEV}" ] ; then
+  [ -n "${ROOTDEV}" ] && ${LUPRINTF} -Eelp2 '%s' "${ROOTDEV}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Root slice device <%s> for BE <%s> was not \
+found: cannot make ABE bootable.'`" "${ROOTDEV}" "${BE_NAME}"
+elif [ ! -b "${ROOTDEV}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Root slice device <%s> for BE <%s> is not a \
+block device: cannot make ABE bootable.'`" "${ROOTDEV}" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Set the BE definition file for the BE just created.
+/bin/rm -f "${LU_ALT}/${LU_BE_CONFIG_FILE}" 2>/dev/null
+${LUPRINTF} +X -a "${LU_ALT}/${LU_BE_CONFIG_FILE}" 'LUBECF_BE_ID=%d\nLUBECF_BE_NAME=%s\nLUBECF_BE_BOOT_DEVICE=%s' "${BE_ID}" "${BE_NAME}" "${ROOTDEV}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to configure BE definition on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+/bin/chmod 444 "${LU_ALT}/${LU_BE_CONFIG_FILE}" 2>/dev/null
+
+# Copy the global database file to the BE just created.
+[ -f "${LU_ALT}/${LU_DB_GLOBAL}" ] && /bin/rm -f "${LU_ALT}/${LU_DB_GLOBAL}" 2>/dev/null
+if [ -f ${LU_DB_GLOBAL} ] ; then
+  /bin/cp -p "${LU_DB_GLOBAL}" "${LU_ALT}/${LU_DB_GLOBAL}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to create BE global database file on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+    exit_script 1
+  fi
+fi
+
+# Create the local database on the new BE and populate it with the 
+# synchronization checkpoint initial values specified in the 
+# synclist file.
+${LUETCBIN}/lusync -i -d "${LU_ALT}/${LU_DB_LOCAL}"
+${LUETCBIN}/lusync -u -d "${LU_ALT}/${LU_DB_LOCAL}" -m '/' -t 'initial' \
+-s "${LU_ALT}${LU_SYNCLIST}"
+
+# Create a valid /tmp directory on the ABE
+/bin/rm -rf "${LU_ALT}/tmp"
+/bin/mkdir -m 1777 "${LU_ALT}/tmp"
+/bin/chown root:sys "${LU_ALT}/tmp"
+
+#
+# Must update eeprom file for x86
+# In the mirrored root case, if the ABE is a GRUB (aka Newboot) BE,
+# then use meta-device path, else if a DCA boot (aka Legacy boot) BE,
+# then use the submirror physical path.
+#
+
+if [ "${LU_SYSTEM_ARCH}" = "i386" ]; then
+  dsk=""
+  ${LUPRINTF} -lp1 "`gettext 'Updating bootenv.rc on ABE <%s>.'`" "${BE_NAME}"
+  if [ -f "${LU_ALT}/${MULTI_BOOT}" -a -s "${LU_ALT}/${MULTI_BOOT}" ]; then
+    # GRUB boot, use logical (md) path
+    dsk=`/bin/cat $LU_ALT/etc/vfstab | /bin/grep -v "^#" | /bin/awk ' { if($3 == "/") { print $1 } } '`
+  else
+    # DCA aka Legacy boot, use physical path
+    if [ -f "${LU_ALT}/${LU_BE_CONFIG_FILE}" ]; then
+      dsk=`/bin/egrep "^LUBECF_BE_BOOT_DEVICE=" "${LU_ALT}/${LU_BE_CONFIG_FILE}" | /bin/cut -d'=' -f2`
+    fi
+  fi
+  if [ -n "$dsk" ]; then
+    dev=`/bin/ls -l $LU_ALT/$dsk | /bin/sed 's/.*\/devices\//\//g'`
+    rc=$LU_ALT/boot/solaris/bootenv.rc
+    /bin/grep -v "setprop bootpath" $rc > $rc.tmp
+    echo "setprop bootpath $dev" >> $rc.tmp
+    /bin/cp $rc.tmp $rc
+    /bin/rm -f $rc.tmp
+  else
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to set bootpath on ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+    exit_script 1
+  fi
+fi
+
+# Solaris, go ahead and reconfigure on new root.
+
+ERRMSG="`/bin/touch $LU_ALT/reconfigure 2>&1`"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to set up ABE <%s> to do a reconfiguration on next reboot: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Umount ABE
+
+$LUBIN/luumount -f -i $ICF
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to umount ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+ABE_CAN_BE_UMOUNTED=""
+
+# Ensure that ABE root disk has a loader and correct VTOC
+
+$LUBIN/luupd_boot -i $ICF
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to umount ABE <%s>: cannot make ABE bootable.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Successful.
+
+exit_script 0

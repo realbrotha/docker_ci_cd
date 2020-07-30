@@ -1,0 +1,159 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)init.wbem.sh	1.71	06/06/22 SMI"
+#
+
+echo $0 | /usr/bin/grep init.wbem > /dev/null
+if [ $? -eq 0 ]
+then
+	if [ "$1" != "startnow" -a "$1" != "status" ]
+	then
+            
+		if [ "$1" = "start" ]
+		then
+			svcadm enable -s application/management/wbem
+			exit 0
+
+		elif [ "$1" = "stop" ]
+		then
+			svcadm disable -s application/management/wbem
+			exit 0
+		fi            
+	fi
+fi
+
+if [ -x /usr/sadm/lib/smc/bin/smcboot ]; then
+	VIPER_HOME=/usr/sadm/lib/smc
+	export VIPER_HOME
+	if [ "$1" = "start" ]; then
+		SMC_PORT=`getent services smc | awk '{print $2}' | cut -d'/' -f1`
+	else
+		output_file=/var/run/tmp_file.$$
+		rm -f $output_file
+		getent services smc > $output_file &
+		getent_pid=$!
+		timeout=0
+		while [ true ]; do
+			if [ $timeout -gt 50 ]; then
+				kill -9 $getent_pid
+				SMC_PORT=898
+				break
+			fi
+                	still_running=`/usr/bin/ps -p $getent_pid|wc -l`
+			if [ $still_running -gt 1 ]; then
+				sleep 2
+				timeout=`(expr $timeout + 2)`
+				continue;
+			fi
+                	SMC_PORT=`cat $output_file | awk '{print $2}' | cut -d'/' -f1`
+			break
+		done
+		rm -f $output_file
+	fi
+	if [ "$SMC_PORT" = "" ]; then
+	    SMC_PORT=898
+	fi
+
+fi
+
+stopCimom () {
+    for daemon in cimbootserver cimomserver ; do
+	    pidfile=/var/sadm/wbem/logr/$daemon.pid
+	    if [ -f $pidfile ]; then
+		    pid=`/usr/bin/cat $pidfile`
+		    [ "$pid" -gt 0 ] && kill $pid >/dev/null 2>&1
+		    rm -f $pidfile
+	    fi
+    done
+}
+
+rcDir=`/usr/bin/dirname $0 | grep "/etc/rc"`
+file=`basename $0`
+
+case "$1" in
+'start')
+	if [ -n "$VIPER_HOME" ]; then
+		#
+		# Check and update service configuration
+		#
+		tcp_listen=`/usr/sbin/svccfg -s application/management/wbem listprop options/tcp_listen | /usr/bin/nawk '{print $3}'`
+		if [ ! -f /etc/smc/smcserver.config ]
+		then
+			/usr/bin/mkdir -m 0755 /etc/smc
+			cat $VIPER_HOME/policy/smcserver.config | \
+				sed "s/^remote.connections=.*$/remote.connections=${tcp_listen}/" > /etc/smc/smcserver.config
+		else
+			cat /etc/smc/smcserver.config | \
+                                sed "s/^remote.connections=.*$/remote.connections=${tcp_listen}/" > /etc/smc/smcserver.config.new
+			mv /etc/smc/smcserver.config.new /etc/smc/smcserver.config
+		fi
+		
+		$VIPER_HOME/bin/smcboot >/dev/msglog 2>&1 &
+		exit 0
+	else
+		# Stop and start the CIMOM.
+		stopCimom
+		umask 066; /usr/sadm/lib/wbem/cimomboot "$@" >/dev/msglog 2>&1 &
+		echo $! >/var/sadm/wbem/logr/cimbootserver.pid
+	fi
+	;;
+
+'stop')
+	if [ -n "$VIPER_HOME" ]; then
+		if [ -f /var/run/smc$SMC_PORT/boot.pid ]; then
+			kill -TERM `cat /var/run/smc$SMC_PORT/boot.pid`
+
+			# Need to give the killed process enough time
+			# to catch the TERM signal and clean up
+			sleep 1
+		else
+			if  [ "${file}" = "init.wbem" -a "${rcDir}" = "" ]; then
+				$VIPER_HOME/bin/smcserver -p $SMC_PORT stop
+			else
+				$VIPER_HOME/bin/smcserver -p $SMC_PORT stop > /dev/null 2>&1
+			fi
+		fi
+
+		# Directory containing socket information could still be 
+		# around if server died unexpectedly or user killed it manually.
+		# So it's important to delete it, otherwise there will be 
+		# problems on the next start.  The SMC server scripts should
+		# take care of this, so it's unlikely the directory will exist
+		# at this time.  But just in case...
+		#
+		if [ -d /var/run/smc${SMC_PORT} ]; then
+			rm -rf /var/run/smc${SMC_PORT}
+			echo "Server found to be unstable."
+			echo "It has been repaired and can now be restarted."
+		fi
+	else
+		stopCimom
+	fi
+	;;
+
+'startnow')
+	# Internal method for direct start for debugging pupopses
+        smcboot=`/bin/pgrep smcboot`
+        if [ -n "$smcboot" ]; then
+         	$0 stop
+        fi
+
+        # Start server
+        $VIPER_HOME/bin/smcwbemserver -p $SMC_PORT start 2>&1 &
+	;;
+
+status)
+	if [ -n "$VIPER_HOME" ]; then
+		$VIPER_HOME/bin/smcserver -p $SMC_PORT status
+	fi
+	;;
+
+*)
+	echo "Usage: $0 { start | stop | status }"
+	exit 1
+	;;
+esac
+exit 0

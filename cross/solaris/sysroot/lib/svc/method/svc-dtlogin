@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)svc-dtlogin.src	1.1	06/05/19 SMI"
+#
+# For modifying parameters passed to dtlogin, do not edit
+# this script. Instead use svccfg(1m) to modify the SMF
+# repository. For example:
+#
+# # svccfg
+# svc:> select application/graphical-login/cde-login
+# svc:/application/graphical-login/cde-login> setprop dtlogin/debug_level = "16"
+# svc:/application/graphical-login/cde-login> setprop dtlogin/debug_log = "/tmp/dtlogin.log"
+# svc:/application/graphical-login/cde-login> exit
+
+FMRI=svc:application/graphical-login/cde-login
+
+debug_level=`svcprop -p dtlogin/debug_level $FMRI`
+debug_log=`eval "echo \`svcprop -p dtlogin/debug_log $FMRI\`"`
+
+arg=`eval "echo \`svcprop -p dtlogin/args $FMRI\`"`
+
+if [ -x /usr/dt/bin/dtlogin ] ; then
+	if [ $debug_level -gt 0 ]; then
+		dbglvl="-debug $debug_level"
+		if [ "$debug_log" != "" ]; then
+			/usr/dt/bin/dtlogin -daemon $arg $dbglvl > $debug_log 2>&1 &
+		else
+			/usr/dt/bin/dtlogin -daemon $arg $dbglvl &
+		fi
+	else
+		/usr/dt/bin/dtlogin -daemon $arg
+	fi
+fi
+
+exit $SMF_EXIT_OK

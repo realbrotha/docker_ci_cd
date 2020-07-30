@@ -1,0 +1,35 @@
+#!/bin/ksh
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident	"$Revision: 1.2 $ SMI"
+#
+
+# 
+# This scipt, used only in solaris 10, is used to synchronize smf 
+# and the java cacao container that should print an exit code when the start of 
+# the container is finished.
+# This exit code can be 0 (success) or one between 0 and 99
+# For the moment we use 0, 1
+#
+# param taken : the  java container launch command ( should have 
+# -Dcacao.print.status=true inside for the container to print an exit code)
+#
+# Loosely inspired from /usr/sadm/lib/smc/bin/smcwbemserver
+
+$1 |&
+_pid=$!
+code=0
+while true; do
+	read -p bkg
+         # in case of kill -9 of the private container
+	 [ $? -ne 0 ] && echo "${_pid}" && return 1
+	 if expr "$bkg" : '^[0-9][0-9]*$' > /dev/null 2>&1; then
+			code=$bkg
+			break
+        fi
+done
+
+echo "${_pid}"
+return ${code}

@@ -1,0 +1,13 @@
+.="ce receive ring structure"n
++/"lock"nK
++>/l/a
++>/l/b
+*<a/"*rings"n4K
+<b/"buf_size"18t"buf_wrap_mask"18t"buf_wr_index"nX18tX18tX
+.+10/"buf_desc_ring_h"18t"buf_desc_ring_mh"18t"buf_desc_ring_vp"nK18tK18tK
++/"buf_desc_ring_pp"n4X
+.+18/"*rx_msg_ring"18t"rx_msg_spares"nK18tK
++/"rx_dma_handles"18t"rx_dma_spare_hdls"nK18tK
++/"flow_tab"18t"*taskq_tab"nK18tK
++/"ce_rxbuf_cnt"nX
+.+8/"rxbufhist_base"18t"rxbufhist"nK18tK

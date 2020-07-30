@@ -1,0 +1,11 @@
+.>z
+<z+0=""
++/"port"16t"tgt"16t"lun"nJJJ
++/"next"16t"prev"16t"fpkt"nJJJ
++/"lun_state"16t"restart"16t"link_cnt"nXXX
++/"cause"16t"cmdlen"16t"resplen"nXXX
++/"datalen"16t"retries"16t"change_cnt"nXXX
++/"nodma"16t"opcode"8tnX16+B7+
++/"fc_packet"
+.$<<fc_packet
+<z+0t496=""

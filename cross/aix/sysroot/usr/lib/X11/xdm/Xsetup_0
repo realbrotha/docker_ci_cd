@@ -1,0 +1,85 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/aixclients/xdm/config/Xsetup_0 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1992,1999 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# @(#)72        1.3  src/gos/2d/XTOP/aixclients/xdm/config/Xsetup_0, xdmcp, gos530 8/5/99 09:10:18
+
+/usr/bin/X11/xsetroot -solid grey60
+
+#								
+#  Set the X server's keyboard keysyms to the match the	
+#  engravings of the user's keyboard.			
+#
+#   - Querying odm (querykbd) to get keyboard id (e.g. En_US).
+#
+#   - If querykbd returns NULL or there is no keyboard file found,
+#  then the environment variable $LANG is used for the keymap.
+#
+#*****************************************************************
+
+. /etc/environment
+
+export LOCPATH ODMDIR NLSPATH LANG
+
+KBD=""
+XDIR=/usr/lpp/X11/defaults/xmodmap
+
+LONG_KBD_LANG=`/usr/lpp/X11/bin/querykbd`
+KBD_LANG=`echo $LONG_KBD_LANG | /usr/bin/cut -f1 -d'.'`
+
+if [ "$KBD_LANG" = "NULL" ]
+then
+    echo "xdm: Failed to query odm for keyboard id\n"
+else
+    if [ "$KBD_LANG" != "C" ]
+    then
+        if [ -r $IMKEYMAPPATH/$KBD_LANG/keyboard ]
+        then
+            KBD=$IMKEYMAPPATH/$KBD_LANG/keyboard
+        else
+            if [ "$IMKEYMAPPATH" = "/usr/lib/nls/im.alt"     	\
+                -a -r $XDIR/$KBD_LANG/keyboard.alt ]
+            then
+                KBD=$XDIR/$KBD_LANG/keyboard.alt
+            else
+                if [ -r $XDIR/$LONG_KBD_LANG/keyboard ]
+                then
+                    KBD=$XDIR/$LONG_KBD_LANG/keyboard
+                else
+                    if [ -r $XDIR/$KBD_LANG/keyboard ]
+                    then
+                        KBD=$XDIR/$KBD_LANG/keyboard
+                    fi
+                fi
+            fi
+        fi
+    fi
+fi
+
+if [ "$KBD" != "" ]
+then
+    /usr/bin/X11/xmodmap $KBD
+else
+    if [ "$IMKEYMAPPATH" = "/usr/lib/nls/im.alt"   \
+        -a -r $XDIR/$LANG/keyboard.alt ]
+    then
+        /usr/bin/X11/xmodmap $XDIR/$LANG/keyboard.alt
+    else
+        if [ -r $XDIR/$LANG/keyboard ]
+        then
+            /usr/bin/X11/xmodmap $XDIR/$LANG/keyboard
+        fi
+    fi
+fi

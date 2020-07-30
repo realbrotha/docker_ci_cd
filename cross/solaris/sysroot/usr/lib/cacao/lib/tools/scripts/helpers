@@ -1,0 +1,2625 @@
+#! /bin/sh
+
+# Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.72.2.2 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_admin                           : run the Admin client program with the given arguments
+# - cacao_admin_advance                   : run the Admin client program with the given arguments 
+#                                           and properties
+# - cacao_remove_property_from_file       : remove a property entry from property file
+# - cacao_add_property_to_file            : add/update a property value to property file
+# - cacao_get_property                    : get a property value from cacao.properties
+# - cacao_set_property                    : set a property value in cacao.properties
+# - cacao_set_property_to_file            : set a property value in a property file
+# - cacao_make_protected_file             : create a temporary file safe
+# - cacao_is_authorized_user              : check if user is authorized for current action
+# - cacao_is_running                      : check if cacao is runningscacao_print
+# - cacao_is_configured                   : check if cacao is configured (able to start)
+# - cacao_is_valid_deployment_descriptor  : check if the file is a valid deployment descriptor
+# - cacao_is_startup_action_allowed       : check if the user will be capable to do it
+# - cacao_get_pid                         : return cacao's pid find in pid file
+# - cacao_run_cmd                         : run a shell command
+# - cacao_print_level_description         : print a localized message with the level
+#                                           description for logger
+# - cacao_do_start                        : starts the container (implementation function)
+# - cacao_do_stop                         : stops the container (implementation function)
+# - cacao_do_enabled_at_boot_start        : Implementation function
+# - cacao_do_non_embedded_stop            : Implementation function
+#
+# - cacao_print_param_description         : Print a localized message with the
+#                                           description of all parameters
+# - cacao_print_params_values             : print all listable parameters with their value
+# - cacao_get_param_key                   : print a parameter's key name
+# - cacao_get_param_name                  : print a parameter's external name
+# - cacao_get_showable_param_key_byname   : check if a parameter name is supported and return
+#                                           its internal name
+# - cacao_get_param_desc_from_name        : get parameter description for a given parameter
+# - cacao_get_param_type_desc_byname      : get the param type decription from catalog
+# - cacao_module_operation                : interface Adminstration java class for module
+#                                           operation
+# - cacao_ptree                           : print a PID and its child PIDs
+# - cacao_gracefull_stop                  : stop cacao by calling its administrative interface
+# - cacao_force_stop                      : kill cacao
+# - cacao_print_container_status          : print container status in normal mode
+# - cacao_print_embedded_container_status : print embedded container status
+# - cacao_print_module_status             : print module status
+#
+# - cacao_jdk_version_to_num              : convert jdk version to parsable string
+# - cacao_jdmk_version_to_num             : convert jdmk version to parsable string
+#
+# - cacao_get_jdk_versjaion_from_java       : get the numeric version from java program
+#                                           passed in parameter
+#
+# - cacao_build_classpath_and_flags_env   : build classpath to launch the container
+# - cacao_build_admin_classpath_env       : build classpath to launch the admin command
+# - cacao_build_cmd_prefix                : build cacao launch cmd prefix according to modes
+#
+# - cacao_list_deployed_modules : lists modules currently deployed
+# - cacao_list_register_modules : lists modules currently registered
+#
+# - cacao_check_env_file        : check that owner and right are fine with env-file
+# - cacao_is_greenline_run_mode : tells if we use the greenline services 
+#                                 (smf and no upgrade)
+# - cacao_is_embedded_instance : tells if the instances is embedded
+# - cacao_is_enabled_instance : tells if the instance is enabled
+# - cacao_init_unique_name_from_property : Initialize the cacao unique name from
+#                                          the install properties file
+# - cacao_compute_unique_name  : create the cacao unique name that will be used 
+#                               for smf and initd naming
+
+#------------------------------------------------------------------------------
+# cacao_admin
+#
+# DESCRIPTION:
+# Run the Admin client program with the given arguments
+#
+# PARAMETERS:
+# Could be different depending operation invoked see Administration class
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR if a unexpected error occured
+# ADMIN_INVALID_USAGE  if usage of admin is not resoected
+# ADMIN_FAIL_TO_CONNECT if fails to Connect to the MBean server.
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_admin() {
+
+  cacao_admin_advance "-Dcacao.config.dir=${cacao_config_dir}" $*
+  return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_admin_advance
+#
+# DESCRIPTION:
+# Run the Admin client program with the given arguments
+#
+# PARAMETERS:
+# $1=properties to set in java command ie -Dcacao.config.dir=${cacao_config_dir}
+# 
+# Could be different depending operation invoked see Administration class
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR if a unexpected error occured
+# ADMIN_INVALID_USAGE  if usage of admin is not resoected
+# ADMIN_FAIL_TO_CONNECT if fails to Connect to the MBean server.
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_admin_advance() {
+
+    properties=$1
+    shift
+    parameters=$*
+    cacao_resolve_dependencies
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_MISSING}"
+	return ${cr}
+    fi
+
+    java_path=`cacao_build_admin_classpath_env`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ] || [ -z "${java_path}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_JAVA_ENV}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    launch="${cacao_java} ${java_path} \
+		"${properties}" \
+                com.sun.cacao.admin.impl.Administration ${parameters}"
+
+    ${launch}
+    cr=$?
+    
+    if [ ${cr} -ne 0 ]
+    then
+	return ${cr}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_jdk_version_to_num
+#
+# DESCRIPTION:
+# Version to convert a version string in X.Y.Z-* or
+# X.Y.X_NN format to XYZNN format so can be treated as a
+# number.
+#
+# PARAMETERS:
+# $1 = version string
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+#
+# OUTPUT:
+# Returns numerical version
+#------------------------------------------------------------------------------
+cacao_jdk_version_to_num() {
+    #micro and patch version may be missing 
+    # multiply by 10000 in any case and take 5 first digit 
+    # to right pad the number with zeros
+    ${ECHO} $1 | ${AWK} '{ver=$0 ; gsub(/[^0-9]/,"",ver); print substr(ver*10000,0,5)}'
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_jdk_version_from_java
+#
+# DESCRIPTION:
+# get the numeric version from java program passed in parameter
+#
+# PARAMETERS:
+# $1 = the java binary path
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR   if operation failed (java program path was wrong)
+# OUTPUT:
+# the numeric from of the java version
+#------------------------------------------------------------------------------
+cacao_get_jdk_version_from_java() {
+    java_bin=$1
+
+    if [ -z "${java_bin}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    #for detail on our we translate : see cacao_jdk_version_to_num()
+    num_ver=`${java_bin} -version 2>&1 | \
+           ${AWK} '/java version / {ver=$0 ; gsub(/[^0-9]/,"",ver); print substr(ver*10000,0,5)}'`
+    
+    ${ECHO} ${num_ver}
+}
+
+#------------------------------------------------------------------------------
+# cacao_jdmk_version_to_num
+#
+# DESCRIPTION:
+# Version to convert a version string in X.Y or X_Y format to a number.
+#
+# PARAMETERS:
+# $1 = version string
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# 
+# NOTICE : we assume that jdmk version number pattern is <major>.<minor>
+#
+# OUTPUT:
+# Returns numerical version
+#------------------------------------------------------------------------------
+cacao_jdmk_version_to_num() {
+    ${ECHO} "$1" | env LANG=C env LC_ALL=C ${TR} -d '[:punct:] | [:cntrl:]'
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_property
+#
+# DESCRIPTION:
+# Get a property value from cacao.properties.
+# the property is relocated if necessary
+# if the property begins with '#CACAO_RUNTIME_BASEDIR#'
+# replace token by cacao_rt_base_dir
+# if the property begins with '#CACAO_ETC_BASEDIR#'
+# replace token by cacao_etc_base_dir
+# if the property contains '#CACAO_INSTANCE_NAME#'
+# replace token by current instance name
+#
+# PARAMETERS:
+# $1 property name, mandatory, must not be empty
+# $2 property file name, optional
+# 
+		
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+#     property was found, property value may be empty
+# CACAO_CR_ESRCH
+#     property was not found
+# CACAO_CR_EINVAL
+#     If parameter not provided or empty.
+# CACAO_CR_ERROR
+#     If properties file not found.
+#
+# OUTPUT:
+# The property value.
+# ouput the first found (several occurence is an error and must be catch by 'check_config')
+#------------------------------------------------------------------------------
+cacao_get_property() {
+
+    property_name=$1
+
+    if [ -z ${property_name} ] 
+    then
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    property_file_name=$2
+
+    if [ -z "${property_file_name}" ]
+    then
+        config_file=${cacao_property_file}
+    else
+        config_file=$2
+    fi
+
+    # Property file must exist
+    if [ ! -f "${config_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${config_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    
+
+    # Filter the property's line and get all after the 1st '='
+    # Note that value may include the character '=' like for cacao.version
+    # relocate property if necessary
+    # resolve instance name if necessary
+    # remove duplicated '/'
+    prop_val=`eval "${AWK}  ' \\$0 ~ /^${property_name}=/  {
+                             _val=substr(\\$0,index(\\$0,\"=\")+1);
+                             gsub(\"#CACAO_INSTANCE_NAME#\",\"${cacao_main_instance}\",_val);
+			     sub(/^#CACAO_ETC_BASEDIR#/,\"${cacao_etc_base_dir}\",_val);
+			     sub(/^#CACAO_RUNTIME_BASEDIR#/,\"${cacao_rt_base_dir}\",_val);
+			     gsub(/\/\/*/,\"/\",_val);
+			     print _val;
+                             exit 1}' < ${config_file}"`
+
+    if [ $? -eq 0 ]
+    then
+	return ${CACAO_CR_ESRCH}
+    fi
+   
+    # WARNING: cannot use echo command as -n and -e are intrepreted as args of echo
+    ${PRINTF} "%s" "${prop_val}"
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_set_property_to_file
+#
+# DESCRIPTION:
+# Set a property value in a property file
+#
+# PARAMETERS:
+# $1 property file
+# $1 property name,  mandatory, must not be empty
+# $2 property value, mandatory
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+#     If parameters not provided or the 1st parameter is empty.
+# CACAO_CR_ERROR
+#     If the properties file or the property is not found.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_set_property_to_file() {
+    _prop_file=$1
+    _prop_name=$2
+
+    # Escape slashes characters if any: needed by sed command
+    _prop_val=`${ECHO} "$3" | ${SED} -e 's?\/?\\\/?g'`
+    
+    my_tmp_file=${cacao_tmp_dir}/.cacaoadm.$$
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${my_tmp_file}"
+
+    #first make a copy a properties file to save ownership and rights
+    #sed will truncate it antway
+    ${CP} -p "${_prop_file}" "${my_tmp_file}" 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+	    "${_prop_file}" "${my_tmp_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Make an updated copy of cacao properties file
+    ${SED} -e "s/^${_prop_name}=.*/${_prop_name}=${_prop_val}/g" \
+	"${_prop_file}" > "${my_tmp_file}"
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+   
+    # Replace cacao properties file
+    ${CP} -p -f "${my_tmp_file}" "${_prop_file}"
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+	    "${my_tmp_file}" "${_prop_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${RM} -f "${my_tmp_file}"
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${my_tmp_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+#------------------------------------------------------------------------------
+# cacao_set_property
+#
+# DESCRIPTION:
+# Set a property value in cacao.properties.
+#
+# PARAMETERS:
+# $1 property name,  mandatory, must not be empty
+# $2 property value, mandatory
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+#     If parameters not provided or the 1st parameter is empty.
+# CACAO_CR_ERROR
+#     If the properties file or the property is not found.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_set_property() {
+
+    # Parse arguments
+    if [ ${#} -ne 2 ] || [ -z "${1}" ]
+    then
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    property_name="${1}"
+    property_value="${2}"
+
+    # Properties file must exist
+    if [ ! -f "${cacao_property_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${cacao_property_file}"
+	return ${CACAO_CR_ERROR}
+
+    fi
+
+    # Property must exist
+    ${GREP} "^${property_name}=" "${cacao_property_file}" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${property_name}"
+	return ${CACAO_CR_ERROR}
+
+    fi
+
+    cacao_set_property_to_file ${cacao_property_file} "${property_name}" "${property_value}"
+    return $?
+}
+#------------------------------------------------------------------------------
+# cacao_add_property_to_file
+#
+# DESCRIPTION:
+# Set a property value in cacao.properties.
+#
+# PARAMETERS:
+# $1 property file
+# $2 property name,  mandatory, must not be empty
+# $3 property value, mandatory
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_add_property_to_file() {
+
+    prop_file="${1}"
+    prop_name="${2}"
+    prop_value="${3}"
+
+    # Properties file must exist
+    if [ ! -f "${prop_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${prop_file}"
+	return ${CACAO_CR_ERROR}
+
+    fi
+
+    return_rc=${CACAO_CR_SUCCESS}
+    
+    ${GREP} "^${prop_name}=" "${prop_file}" >/dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+	# property exists -> call set_property
+	cacao_set_property_to_file ${prop_file} "${prop_name}" "${prop_value}"
+	return_rc=$?
+    else
+	${ECHO} "${prop_name}=${prop_value}" >>  ${prop_file} 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+	    return_rc=${CACAO_CR_ERROR}
+        fi
+    fi
+    if [ ${return_rc} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_ADD}" \
+                              "${prop_name}" "${prop_file}"
+    fi
+    
+    return ${return_rc}
+}
+
+#------------------------------------------------------------------------------
+# cacao_remove_property_from_file
+#
+# DESCRIPTION:
+# remove a property entry from a file
+#
+# PARAMETERS:
+# $1 propety file
+# $2 property name,  mandatory, must not be empty
+# 
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_remove_property_from_file () {
+    
+    _prop_file="${1}"
+    prop_name="${2}"
+   
+
+    # Properties file must exist
+    if [ ! -f "${_prop_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${_prop_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ -z "${prop_name}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    my_tmp_file=${cacao_tmp_dir}/.cacaoadm.$$
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${my_tmp_file}"
+    
+    ${CP} -p "${_prop_file}" "${my_tmp_file}" 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+	    "${_prop_file}" "${my_tmp_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Make an updated copy of cacao properties file
+    ${GREP} -v "^${prop_name}=" "${_prop_file}" > "${my_tmp_file}"
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+   
+    # Replace cacao properties file
+    ${CP} -p -f "${my_tmp_file}" "${_prop_file}"
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+	    "${my_tmp_file}" "${_prop_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${RM} -f "${my_tmp_file}"
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${my_tmp_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_make_protected_file
+#
+# DESCRIPTION:
+# create a temporary file
+# safe : no access to group/other
+#
+# PARAMETERS:
+# $1   : file name
+# [$2] : access rigths  
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_make_protected_file() {
+    _file_to_create=$1
+    _new_file_mod=$2
+    
+    if [ -z "${_file_to_create}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    if [ -z "${_new_file_mod}" ]
+    then
+	_new_file_mod=${CACAO_PROTECTED_RT_TMP_MOD}
+    fi
+
+    ${TOUCH} ${_file_to_create} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_TOUCH}" "${_file_to_create}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # do not trust user env or umask
+    ${CHMOD} ${_new_file_mod} ${_file_to_create} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${_file_to_create}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_authorized_user
+#
+# DESCRIPTION:
+# Check if user is authorized.
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_authorized_user() {
+
+    if [ ${cacao_current_id} -ne ${CACAO_ADMIN_UID} ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    return ${CACAO_TRUE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_run_mode
+#
+# DESCRIPTION:
+# Return the cacao run mode: normal, pmf, ..
+# if not already set
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_PMF_RUN_MODE, CACAO_NORMAL_RUN_MODE or CACAO_GREENLINE_RUN_MODE
+#
+# OUTPUT:
+# None
+# 
+#------------------------------------------------------------------------------
+cacao_get_run_mode() {
+
+    if [ ${cacao_run_mode} -ne ${CACAO_UNKNOWN_RUN_MODE} ]
+    then
+	return ${cacao_run_mode}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+        return ${CACAO_GREENLINE_RUN_MODE}
+    fi
+
+    cacao_is_pmf_mode
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+        return ${CACAO_PMF_RUN_MODE}
+    fi
+    
+    return ${CACAO_NORMAL_RUN_MODE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_running
+#
+# DESCRIPTION:
+# Check if cacao is running or not, sets cacao_run_mode if not already done.
+# For embedded instances, this is done by attempting to connect to it: the
+# agent is assumed to be not running if the connection establishment fails.
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+#
+# CACAO_TRUE
+# CACAO_FALSE 
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_running() {
+
+    cacao_get_run_mode
+    cacao_run_mode=$?
+
+    # Embedded instance: running if and only if can connect to agent
+    if [ "${cacao_is_embedded}" = "${CACAO_TRUE_VALUE}" ]
+    then
+
+        # Don't care about uptime: need to provide any operation
+        msg=`cacao_admin ${cacao_host} uptime 2>&1`
+        case ${?} in
+
+            ${CACAO_CR_SUCCESS})
+                return ${CACAO_TRUE}
+                ;;
+            ${ADMIN_FAIL_TO_CONNECT})
+                return ${CACAO_FALSE}
+                ;;
+            *)
+                cacao_print_error_message "${msg}"
+                return ${CACAO_CR_ERROR}
+                ;;
+        esac
+    fi
+
+    case "${cacao_run_mode}" in
+
+        ${CACAO_NORMAL_RUN_MODE})
+        if [ -f "${cacao_pid_file}" ]
+        then
+            # Check that pid file is valid
+            cacao_is_pid_running `${CAT} ${cacao_pid_file}`
+	    if [ $? -eq ${CACAO_TRUE} ]; then
+                # Cacao is running under default mechanism
+                return ${CACAO_TRUE}
+            else
+                # Remove non valid file
+                ${RM} -f ${cacao_pid_file} 2>/dev/null
+                if [ $? -ne 0 ]; then
+		    cacao_print_error_message "${FAIL_RM}" "${cacao_pid_file}"
+                    return ${CACAO_CR_ERROR}
+                fi
+            fi
+        fi
+        return ${CACAO_FALSE}
+        ;;
+	${CACAO_GREENLINE_RUN_MODE})
+	cacao_service_is_running ${cacao_main_instance}
+	return $?
+	;;
+        ${CACAO_PMF_RUN_MODE})
+        # If Cacao is running, it is monitored by PMF
+        ${PMFADM} -q ${cacao_daemon_name}
+        if [ $? -eq 0 ]; then
+            return ${CACAO_TRUE}
+        else
+            return ${CACAO_FALSE}
+        fi
+        ;;
+
+        *)
+        #should not happen
+	return ${CACAO_CR_ERROR}
+    esac
+}
+     
+#------------------------------------------------------------------------------
+# cacao_is_configured
+#
+# DESCRIPTION:
+# check if cacao is configured (will be able to start and contacted by cacaoadm)
+# check that jmxmp port is well configured ( > 0)
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# cacao pid
+#------------------------------------------------------------------------------
+cacao_is_configured () {
+    #ignore error : in any case we refuse to start
+    conf_cr=${CACAO_TRUE}
+    jmxmp_current_port=`cacao_get_property ${CACAO_JMXMP_PORT_KEY}`
+    if [ -z "${jmxmp_current_port}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CC_PROP_NOT_FOUND}" "${CACAO_JMXMP_PORT}"
+	conf_cr=${CACAO_FALSE}
+    else
+	if [ ${jmxmp_current_port} -le 0 ]
+	    then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_VALUE}" \
+		"${jmxmp_current_port}"                   \
+		"${CACAO_JMXMP_PORT}"
+	    conf_cr=${CACAO_FALSE}
+	fi
+    fi
+    return ${conf_cr}
+    
+}
+#------------------------------------------------------------------------------
+# cacao_is_valid_deployment_descriptor
+#
+# DESCRIPTION:
+# check if the file is a valid deployment descriptor
+# - ends with 'xml'
+# 
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE/CACAO_FALSE
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_is_valid_deployment_descriptor() {
+    _file_to_check=$1
+
+    case "${_file_to_check}" in
+	*.xml)
+	    return ${CACAO_TRUE}
+	    ;;
+	*)
+	    return ${CACAO_FALSE}
+	    ;;
+    esac
+}
+#------------------------------------------------------------------------------
+# cacao_is_startup_action_allowed 
+#
+# DESCRIPTION:
+# check in case of non-root install if the user is root 
+# (enable/disable command must be forbid if not)
+#
+# NOTICE:
+# All instances are installed the same way
+# so we can only check for default instance.
+# depending on when we are called, the instance context may not be loaded
+# -> call cacao_get_property on default instance property file.
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_is_startup_action_allowed () {
+
+    _prop_file=${cacao_etc_instances_dir}/${CACAO_DEFAULT_INSTANCE_NAME}/private/cacao.properties
+    
+    _non_root_install=`cacao_get_property ${CACAO_INSTALL_NONROOT_KEY} ${_prop_file}`
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_INSTALL_NONROOT_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    if [ x${_non_root_install} = x${CACAO_FALSE_VALUE} ]
+    then
+	#packaging install -> done by root -> ok to go on
+	return ${CACAO_TRUE}
+    fi
+
+    _uid=`cacao_get_user_id`
+    if [ x${_uid} = x0 ]
+    then
+	# in any case when user is root it is ok
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_pid
+#
+# DESCRIPTION:
+# Has a sense only if cacao is running
+# Return the cacao pid find in pid file, 0 if no pid found 
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# None.
+#
+# OUTPUT:
+# cacao pid
+#------------------------------------------------------------------------------
+cacao_get_pid() {
+
+    if [ -s "${cacao_pid_file}" ]; then
+         # return the pid we find
+	res_pid=`${CAT} ${cacao_pid_file} 2>/dev/null`
+    else
+	res_pid="0"
+    fi
+
+    ${ECHO} "${res_pid}"
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_print_level_description
+# 
+# DESCRIPTION:
+# Print a localized message with the level description for logger
+# 
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE: 
+# None
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_print_level_description() {
+    cacao_print_message "${LOGGER_LEVEL1}" "ALL"
+    cacao_print_message "${LOGGER_LEVEL2}" "CONFIG"
+    cacao_print_message "${LOGGER_LEVEL3}" "FINE"
+    cacao_print_message "${LOGGER_LEVEL4}" "FINER"
+    cacao_print_message "${LOGGER_LEVEL5}" "FINEST"
+    cacao_print_message "${LOGGER_LEVEL6}" "INFO"
+    cacao_print_message "${LOGGER_LEVEL7}" "OFF"
+    cacao_print_message "${LOGGER_LEVEL8}" "SEVERE"
+    cacao_print_message "${LOGGER_LEVEL9}" "WARNING"
+}
+#------------------------------------------------------------------------------
+# cacao_print_params_values 
+# 
+# DESCRIPTION:
+# print all listable parameters with their value
+# 
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE: 
+# None.
+# 
+# OUTPUT:
+# See description above.
+#------------------------------------------------------------------------------
+cacao_print_params_values () {
+    ${AWK} -F: '!/^#/ && $9 ~ /listable/ {print $1,$11}' < ${cacao_param_ref_file} |\
+    while read param_key param_name
+    do
+	param_value=`cacao_get_property "${param_key}"`
+	retval=${?}
+	if [ ${retval} -ne  ${CACAO_CR_SUCCESS} ]
+	then
+	    # Unexpected internal error, not CACAO_CR_EINVALCOMMAND
+	    return ${retval}
+	fi
+	${ECHO} "${param_name}=${param_value}"
+
+    done
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_param_description
+# 
+# DESCRIPTION:
+# Print a localized message with the description of all parameters
+# Parameters refer here to a well defined sub-set of properties from cacao's
+# properties file.
+# 
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE: 
+# None.
+# 
+# OUTPUT:
+# See description above.
+#------------------------------------------------------------------------------
+cacao_print_param_description() {
+    #have to use while loop to be abel to catch localised string
+    ${AWK} -F: '!/^#/ && $9 ~ /listable/ {print $11,$13}' < ${cacao_param_ref_file} | \
+    while read ext_name description
+    do
+      # Remove first and last quote
+      desc=`echo ${description} | sed -e 's/^\"//' -e 's/\"$//'`
+      # Localize description
+      msg=`cacao_format_message "${desc}"`
+      # Print parameter
+      printf "%-26s : %s\n" "${ext_name}" "${msg}" 
+    done 
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_param_key
+# 
+# DESCRIPTION:
+# Print a parameter's key name.
+# Parameters refer here to a well defined sub-set of properties from cacao's
+# properties file. A property is specified by <key>=<value>
+# 
+# PARAMETERS:
+# $1: Parameter name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+# 
+# OUTPUT:
+# See description above.
+#------------------------------------------------------------------------------
+cacao_get_param_key() {
+
+    cr=${CACAO_CR_SUCCESS}
+    res=""
+    
+    # Parse arguments
+    if [ ${#} -ne 1 ]
+    then
+	cr=${CACAO_CR_EINVALCOMMAND}
+    else
+	param_name=$1
+	res=`${AWK} -F: -v pattern=${param_name} '!/^#/ && $11 == pattern {print $1}' < ${cacao_param_ref_file} 2>/dev/null`
+	if [ $? -ne 0 ] || [ -z "${res}" ]
+        then
+	    cr=${CACAO_CR_EINVALCOMMAND}
+        fi
+    fi
+    
+    ${ECHO} "${res}"
+    return ${cr}
+}
+#------------------------------------------------------------------------------
+# cacao_get_param_name
+# 
+# DESCRIPTION:
+# Print a parameter's external name.
+# Parameters refer here to a well defined sub-set of properties from cacao's
+# properties file. A property is specified by <key>=<value>
+# 
+# PARAMETERS:
+# $1: Parameter key
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+# 
+# OUTPUT:
+# See description above.
+#------------------------------------------------------------------------------
+cacao_get_param_name() {
+
+    cr=${CACAO_CR_SUCCESS}
+    res=""
+    
+    # Parse arguments
+    if [ ${#} -ne 1 ]
+    then
+	cr=${CACAO_CR_EINVALCOMMAND}
+    else
+	param_key=$1
+	res=`${AWK} -F: -v pattern=${param_key} '!/^#/ && $1 == pattern {print $11}' < ${cacao_param_ref_file} 2>/dev/null`
+	if [ -z "${res}" ] || [ $? -ne 0 ]
+        then
+	    cr=${CACAO_CR_EINVALCOMMAND}
+        fi
+    fi
+    
+    ${ECHO} "${res}"
+    return ${cr}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_showable_param_key_byname
+# 
+# DESCRIPTION:
+#  check if parameter specified by name is showable and return its internal key
+#
+#
+# PARAMETERS:
+# $1: Parameter name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : If the parameter is supported.
+# CACAO_CR_EINVAL  : If the parameter is not supported.
+# 
+# OUTPUT:
+# the param internal name
+#------------------------------------------------------------------------------
+cacao_get_showable_param_key_byname() {
+
+  if [ $# -ne 1 ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi 
+
+    param_name=$1
+    
+    retval=${CACAO_CR_SUCCESS}
+    
+    res=`${AWK} -F: -v pattern=${param_name} '!/^#/ && $11 == pattern && $8 ~ /showable/ {print $1}' < ${cacao_param_ref_file}`
+    if [ $? -ne 0 ] || [ -z "${res}" ]
+    then
+        retval=${CACAO_CR_EINVAL}
+    fi
+    
+    ${ECHO} "${res}"
+    return ${retval}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_param_desc_from_name
+# 
+# DESCRIPTION:
+# get the param catalog entry of a parameter
+# 
+# PARAMETERS:
+# $1: The external name of the parameter
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : If the parameter is supported.
+# CACAO_CR_ERROR   : param not found
+# 
+# OUTPUT:
+# the catalog entry
+#------------------------------------------------------------------------------
+cacao_get_param_desc_from_name() {
+    param_name=$1
+    cr=${CACAO_CR_SUCCESS}
+    
+    res=`${AWK} -F: -v pattern=${param_name} '!/^#/ && $11 == pattern {print $0}' < ${cacao_param_ref_file} 2>/dev/null`
+    if [ $? -ne 0 ] || [ -z "${res}" ]
+    then
+	cr=${CACAO_CR_ERROR}
+    fi
+    
+    ${ECHO} "${res}"
+    
+    return ${cr}
+}
+#------------------------------------------------------------------------------
+# cacao_get_param_type_desc_byname
+# 
+# DESCRIPTION:
+# get the param type decription from catalog
+# 
+# PARAMETERS:
+# $1: The external name of the parameter
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : If the parameter is supported.
+# CACAO_CR_ERROR   : param not found
+# 
+# NOTICE: 
+#  - ':' are replaced by ' '
+#  - this helper is used only for 'set-param' action 
+#    the list of param field is not complete, the function returns only the ones needed
+#    by 'set-param' action : 
+#        - internal name
+#         - can be empty ?
+#         - type
+#         - min
+#         - max
+#         - scope
+#
+# OUTPUT:
+# the type description
+#------------------------------------------------------------------------------
+cacao_get_param_type_desc_byname() {
+    param_ext_name=$1
+    
+    retval=${CACAO_CR_SUCCESS}
+
+    res=`${AWK} -F: -v pattern=${param_ext_name} '!/^#/ && $11 == pattern {print $1,$3,$4,$5,$6,$7}' < ${cacao_param_ref_file} 2>/dev/null`
+    if [ $? -ne 0 ] || [ -z "${res}" ]
+    then
+	retval=${CACAO_CR_ERROR}
+    fi
+
+    ${ECHO} "${res}"
+
+    return ${retval}
+}
+
+#------------------------------------------------------------------------------
+# cacao_module_operation
+# 
+# DESCRIPTION :
+# Interface Adminstration java class for module operation
+# 
+# PARAMETERS :
+# $1 operation name should be lock, unlock,deploy, undeploy
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is succefull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Display result of module operation
+#------------------------------------------------------------------------------
+cacao_module_operation() {
+    operation=$1
+    module_name=$2
+
+    cacao_is_running
+    result=$?
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    msg=`cacao_admin ${cacao_host} ${operation} ${module_name}`
+    case $? in
+	${CACAO_CR_SUCCESS})
+	    # Display result
+	    if [ -n "${MSG}" ]; then
+	    ${ECHO} "${MSG}"
+	    fi
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_ptree
+# 
+# DESCRIPTION :
+# Print a PID and its child PIDs
+# 
+# PARAMETERS :
+# $1 Father PID
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVALCOMMAND
+#     If parameter not provided or empty.
+#
+# OUTPUT:
+# The list of PIDs.
+#------------------------------------------------------------------------------
+cacao_ptree() {
+
+    # Father PID is mandatory
+    pid="${1}"
+    if [ -z "${pid}" ]; then
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    ${PS} -e -f | ${AWK} -v master_pid=$pid '
+
+	BEGIN {
+	    print master_pid
+	}
+
+	{ procs[$2] = $3; max_idx=0 }
+
+	END {
+	    do {
+		found = 0;
+		for (pid in procs) {
+		    if ((procs[pid] == master_pid) || \
+			(procs[pid] in pid_to_kill)) {
+			    pid_to_kill[pid] = max_idx; max_idx++;
+			    found=1;
+			    procs[pid] = 0;
+		    }
+		}
+	    }  while (found == 1);
+	    idx=0;
+	    # Must kill processes from father to child
+	    # Make sure we dump from the first entry to the last one
+	    while (idx < max_idx) {
+		for (v in pid_to_kill) {
+		    if (pid_to_kill[v] == idx) print v;
+		};
+		idx++;
+	    }
+	}'
+    if [ $? -eq 0 ] ; then
+	return ${CACAO_CR_SUCCESS}
+    else
+	return ${CACAO_CR_ERROR}
+    fi
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_gracefull_stop
+#
+# DESCRIPTION :
+# Stop cacao by calling its administrative interface.
+# In case of failure, a force stop is done.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_gracefull_stop() {
+
+    #ensure run mode is wellknown
+    cacao_get_run_mode
+    cacao_run_mode=$?
+
+    if [ ${cacao_run_mode} -eq ${CACAO_PMF_RUN_MODE} ]
+    then
+	# Don't stop pmf monitoring but set the number of retries to 0:
+	# if cacao gracefull stop fails then stop cacao through pmf
+	${CACAO_PMFADM} -m ${cacao_daemon_name} -n 0 >/dev/null 2>&1
+	if [ ${?} -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_PMF_STOP}"
+	    # Continue and do the gracefull stop
+	fi
+    fi
+
+	# read the timeout value
+    cacao_admin_timeout="`cacao_get_property ${CACAO_ADMIN_TIMEOUT_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_ADMIN_TIMEOUT_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    msg=`cacao_admin "${cacao_host}" "stop ${cacao_admin_timeout}" 2>&1`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_error_message "${msg}"
+        cacao_print_syslog_error_message "${msg}"
+	cacao_force_stop
+	return ${?}
+    fi
+
+    if [ ${cacao_run_mode} -eq ${CACAO_GREENLINE_RUN_MODE} ]
+    then
+	
+	# robustness: if users launched command wich never exit
+	# the SMF contract will not be empty and the stop will
+	# wait for all processes termination
+	# first get the contract and associated pid list
+	# even if stop succeed make sure contract is empty
+
+	cacao_kill_processes_in_contract ${cacao_main_instance}
+
+    fi
+
+    if [ ${cacao_run_mode} -eq ${CACAO_NORMAL_RUN_MODE} ] || \
+        [ ${cacao_run_mode} -eq ${CACAO_GREENLINE_RUN_MODE} ]
+    then
+	cacao_remove_file ${cacao_pid_file} 
+ 	return ${?}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_force_stop
+#
+# DESCRIPTION :
+# Kill cacao.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_force_stop() {
+
+    #ensure run mode is wellknown
+    cacao_get_run_mode
+    cacao_run_mode=$?
+
+    case "${cacao_run_mode}" in
+	${CACAO_NORMAL_RUN_MODE})
+        kill_pid=`cacao_get_pid`
+	if [ -n "${kill_pid}" ] && [ ${kill_pid} -ne 0 ]
+	then
+	    #else nothing to do
+	    cacao_kill_processes_and_wait_completion ${kill_pid}
+	    _rc=$?
+	    if [ ${_rc} -eq ${CACAO_CR_SUCCESS} ]
+	    then
+	       cacao_remove_file ${cacao_pid_file}
+	       _rc=$?
+	    else
+		cacao_print_error_message "${CACAO_MSG_ERROR_KILL_FAILED}" "${kill_pid}"
+	    fi
+        else
+	    _rc=${CACAO_CR_SUCCESS}
+	fi
+	return ${_rc}
+	;;
+	${CACAO_GREENLINE_RUN_MODE})
+	cacao_kill_processes_in_contract ${cacao_main_instance}
+	_rc=$?
+	if [ $_rc -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_KILL_CT_FAILED}"
+	fi
+	cacao_remove_file ${cacao_pid_file}
+	return ${_rc}
+	;;
+	${CACAO_PMF_RUN_MODE})
+	${CACAO_PMFADM} -w ${CACAO_PMF_TIMEOUT} -s ${cacao_daemon_name} \
+	    KILL >/dev/null 2>&1
+	if [ ${?} -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_PMF_KILL}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	return ${CACAO_CR_SUCCESS}
+	;;
+    esac 
+
+    return ${CACAO_CR_ERROR}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_build_classpath_and_flags_env
+#
+# DESCRIPTION:
+# build classpath to launch the container
+#
+# PARAMETERS:
+# none
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR   if a unexpected error occured
+# 
+# OUTPUT:
+# the classpath
+#------------------------------------------------------------------------------
+cacao_build_classpath_and_flags_env() {
+    cp_value=""
+    cr=${CACAO_CR_SUCCESS}
+
+    java_flags=""
+    java_debug_flags=""
+
+    # debug mode is not relevent for j2me
+    # java_flags may not be supported for j2me < 1.1 
+    # the user is responsible to remove java.flags from cacao.properties (cf j2me README)
+    
+    if [ ${cacao_debug_mode} -eq ${CACAO_TRUE} ] && [ "${cacao_use_j2me}" = "${CACAO_FALSE_VALUE}" ]
+    then
+	java_debug_flags=`cacao_get_property ${CACAO_JAVA_DEBUG_FLAGS_KEY}`
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    java_flags=`cacao_get_property ${CACAO_JAVA_FLAGS_KEY}`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    cp_value=${cacao_jar_dir}/cacao_cacao.jar
+
+    if [ "${cacao_use_j2me}" = "${CACAO_TRUE_VALUE}" ]
+    then
+        boot_cp_value=`${LS} -1 ${cacao_lib_dir}/j2me/*.jar 2>/dev/null | ${TR} "\n" ":"`
+	if [ $? -ne 0 ] || [ -z "${boot_cp_value}" ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+        cp_jdmk_value=`${LS} -1 ${cacao_lib_dir}/j2me/jdmk/*.jar 2>/dev/null | ${TR} "\n" ":"`
+        if [ $? -ne 0 ] || [ -z "${cp_jdmk_value}" ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_WRONG}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	cp_value="-Xbootclasspath/a:${boot_cp_value} -Djava.class.path=${cp_jdmk_value}:${cp_value}"
+
+    else
+        _java_home=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+        _java_bin=${_java_home}/bin/java
+        
+        if [ `cacao_get_jdk_version_from_java ${_java_bin}` -lt `cacao_jdk_version_to_num "1.5"` ]
+        then
+                cp_jdmk_value=`${LS} -1 ${cacao_jdmk_lib_dir}/*.jar 2>/dev/null | ${TR} "\n" ":"`
+                if [ $? -ne 0 ] || [ -z "${cp_jdmk_value}" ]
+                then
+                        cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_WRONG}"
+                        return ${CACAO_CR_ERROR}
+                fi
+        else
+                cp_jdmk_value=${cacao_jdmk_lib_dir}/jdmkrt.jar:${cacao_jdmk_lib_dir}/jmxremote_optional.jar
+        fi
+        cp_value="-classpath ${cp_jdmk_value}:${cp_value}"
+    fi
+
+    ${ECHO} "${java_flags} ${java_debug_flags} ${cp_value}"
+    return ${retval}
+}
+#------------------------------------------------------------------------------
+# cacao_build_admin_classpath_env
+#
+# DESCRIPTION:
+# build classpath to launch the the admin command
+# caller is responsible to resolve deps before calling us
+# PARAMETERS:
+# none
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR   if a unexpected error occured
+# 
+# OUTPUT:
+# the classpath
+#------------------------------------------------------------------------------
+cacao_build_admin_classpath_env() {
+
+    cp_value="${cacao_jar_dir}/cacao_cacao.jar:${cacao_jar_dir}/cacao_admin.jar:${cacao_jar_dir}/cacao_rmi.jar"
+    
+    if [ "${cacao_use_j2me}" = "${CACAO_TRUE_VALUE}" ]
+    then
+	boot_cp_value=`${LS} -1 ${cacao_lib_dir}/j2me/*.jar 2>/dev/null |${TR} '\n' ':'`
+	if [ $? -ne 0 ] || [ -z "${boot_cp_value}" ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+        cp_jdmk_value=`${LS} -1 ${cacao_lib_dir}/j2me/jdmk/*.jar 2>/dev/null | ${TR} "\n" ":"`
+        if [ $? -ne 0 ] || [ -z "${cp_jdmk_value}" ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_WRONG}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	cp_value="-Xbootclasspath/a:${boot_cp_value} -Djava.class.path=${cp_jdmk_value}${cp_value}"
+    else
+        _java_home=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+        _java_bin=${_java_home}/bin/java
+        
+        if [ `cacao_get_jdk_version_from_java ${_java_bin}` -lt `cacao_jdk_version_to_num "1.5"` ]
+        then
+                cp_jdmk_value=`${LS} -1 ${cacao_jdmk_lib_dir}/*.jar 2>/dev/null | ${TR} "\n" ":"`
+                if [ $? -ne 0 ] || [ -z "${cp_jdmk_value}" ]
+                then
+                        cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_WRONG}"
+                        return ${CACAO_CR_ERROR}
+                fi
+        else
+                _jdmk_lib_dir=${cacao_jdmk_home}/lib
+                cp_jdmk_value=${cacao_jdmk_lib_dir}/jdmkrt.jar:${cacao_jdmk_lib_dir}/jmxremote_optional.jar
+        fi
+        cp_value="-classpath ${cp_jdmk_value}:${cp_value}"
+    fi
+
+    ${ECHO} ${cp_value}
+    return ${retval}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_build_cmd_prefix
+#
+# DESCRIPTION:
+# build cacao launch cmd prefix according to modes
+# PARAMETERS:
+# none
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# echo the prefix
+#------------------------------------------------------------------------------
+cacao_build_cmd_prefix () {
+    
+    res="${cacao_private_bin_dir}/launch -w ${cacao_rt_dir}"
+   
+    if [ ${cacao_run_mode} -eq ${CACAO_PMF_RUN_MODE} ]
+    then
+	res="${res} -f"
+    else
+	res="${res} -r ${cacao_retries_file} -R ${cacao_pid_file} -s 1"
+	if [ ${cacao_debug_mode} -eq ${CACAO_TRUE} ]
+	then
+	    res="${res} -f "
+	fi
+    fi
+    
+    ${ECHO} ${res}
+    return ${CACAO_CR_SUCCESS}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_container_status
+#
+# DESCRIPTION :
+# Print a localized message with the running container status in normal mode.
+# (not embedded one)
+# Used in cacao_container_status
+#
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Status information
+#------------------------------------------------------------------------------
+cacao_print_container_status() {
+
+    instance_name=${cacao_main_instance}
+    if [ -z "${instance_name}" ]
+    then
+        instance_name=${CACAO_DEFAULT_INSTANCE_NAME}
+    fi
+
+    # Print ENABLE status
+    enabled=`cacao_get_property "${CACAO_ENABLE_KEY}"`
+    if [ "${enabled}" = "true" ]
+    then
+        cacao_print_message "${CACAO_MSG_ENABLE_TRUE}" "${instance_name}"
+    else
+        cacao_print_message "${CACAO_MSG_ENABLE_FALSE}" "${instance_name}"
+    fi
+
+    # Print Cacao not running
+    cacao_is_running
+    result=${?}
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_message "${CACAO_MSG_STATUS_NOT_RUNNING}" "${instance_name}"
+        return ${CACAO_CR_SUCCESS}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    configured_retries=`cacao_get_property "${CACAO_RETRIES_KEY}"`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_GET}" "${CACAO_RETRIES_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Print Cacao PID list
+    cacao_get_run_mode
+    case ${?} in
+        ${CACAO_NORMAL_RUN_MODE}) 
+	    # Cacao is running under default mechanism
+
+	    # print retries
+	    count=`${CAT} ${cacao_retries_file} 2>/dev/null`
+	    if [ $? -ne 0 ] || [ -z "${count}" ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CAT}" "${cacao_retries_file}"
+		return ${CACAO_CR_ERROR}
+	    fi
+	    count=`expr ${configured_retries} - ${count}`
+	    cacao_print_message "${CACAO_CURRENT_RETRY_COUNT_MSG}" ${count} ${configured_retries}
+
+	    # print pids
+            cacao_print_message "${CACAO_MSG_PROCESS_LIST}" 
+            pid=`cacao_get_pid`
+            if [ ${pid} -eq 0 ]
+            then
+                # Should not happen
+                return ${CACAO_CR_ERROR}
+            fi	
+            cacao_ptree "${pid}"
+            ;;
+
+        ${CACAO_GREENLINE_RUN_MODE})
+            # print pids
+            cacao_print_message "${CACAO_MSG_SMF_PROCESS_LIST}"
+	    cvs_contract=`cacao_smf_get_contract_num ${cacao_main_instance}`
+	    if [ -n "${cvs_contract}" ]
+            then
+		cacao_get_contract_pids ${cvs_contract}
+	    fi
+            ;;
+
+        ${CACAO_PMF_RUN_MODE})
+            # If Cacao is running, it is monitored by PMF
+
+	    #this command should not fail as is_running succeed
+	    count=`${PMFADM} -l ${cacao_daemon_name} 2>/dev/null | ${AWK} -F: '/retries/ && NF == 2 {print int($2)}'`
+	    if [ $? -ne 0 ] || [ -z "${count}" ]
+	    then
+		return ${CACAO_CR_ERROR}
+	    fi
+	    cacao_print_message "${CACAO_CURRENT_RETRY_COUNT_MSG}" ${count} ${configured_retries}
+
+            set -- `${PMFADM} -l ${cacao_daemon_name} | ${GREP} pids`
+            shift
+            cacao_print_message "${CACAO_MSG_PROCESS_LIST}"
+            for i in ${*}
+            do
+                ${ECHO} ${i}
+            done
+            ;;
+
+        *)
+            # Should not happen
+            return ${CACAO_CR_ERROR}
+    esac
+
+    # Print uptime
+    msg=`cacao_admin ${cacao_host} uptime 2>&1`
+    case ${?} in
+        ${CACAO_CR_SUCCESS})
+            ${ECHO} "${msg}"
+            return ${CACAO_CR_SUCCESS}
+            ;;
+	${ADMIN_FAIL_TO_CONNECT})
+            cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+            return ${CACAO_CR_EAGAIN}
+            ;;
+        *)
+            cacao_print_error_message "${CACAO_MSG_ERROR_UPTIME}"
+            return ${CACAO_CR_ERROR}
+            ;;
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_embedded_container_status
+#
+# DESCRIPTION :
+# Print a localized message with the running container status in embedded mode.
+# Used in cacao_container_status
+#
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Status information
+#------------------------------------------------------------------------------
+cacao_print_embedded_container_status() {
+
+    instance_name=${cacao_main_instance}
+    if [ -z "${instance_name}" ]
+    then
+        instance_name=${CACAO_DEFAULT_INSTANCE_NAME}
+    fi
+
+    # Print embedded
+    cacao_print_message "${CACAO_MSG_EMBEDDED}" "${instance_name}"
+
+    # Print uptime
+    msg=`cacao_admin ${cacao_host} uptime 2>&1`
+    case ${?} in
+        ${CACAO_CR_SUCCESS})
+            ${ECHO} "${msg}"
+            return ${CACAO_CR_SUCCESS}
+            ;;
+        ${ADMIN_FAIL_TO_CONNECT})
+            cacao_print_message "${CACAO_MSG_EMBEDDED_CONNECT}"
+            # success here since we trust the user
+            return ${CACAO_CR_SUCCESS}
+            ;;
+        *)
+            cacao_print_error_message "${CACAO_MSG_ERROR_UPTIME}"
+            return ${CACAO_CR_ERROR}
+            ;;
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_module_status
+#
+# DESCRIPTION :
+# Print a localized message with the running module container status.
+# Used in cacao_container_status
+# 
+# PARAMETERS :
+# the module name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Status information
+#------------------------------------------------------------------------------
+cacao_print_module_status() {
+
+    module_name=$1
+
+    # Cacao must be running
+    cacao_is_running
+    result=${?}
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Print module status
+    msg=`cacao_admin ${cacao_host} status "${module_name}" 2>&1`
+    case ${?} in
+	${CACAO_CR_SUCCESS})
+	    ${ECHO} "${msg}"
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_do_start
+#
+# DESCRIPTION :
+# Start the container. Logic implementation function.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_start() {    
+
+    if [ -n "$1" ] && [ "$1" = "internal" ]
+    then
+	# internal call : no checks 
+	have_to_check=0
+    else
+	have_to_check=1
+    fi
+    
+    if [ $have_to_check -eq 1 ]
+    then
+
+    # Check if Cacao is running (should not be)
+    cacao_is_running
+    is_running=$?
+    if [ ${is_running} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ESRCH}
+    fi
+
+    if [ ${is_running} -eq ${CACAO_TRUE} ]
+    then
+        pid=`cacao_get_pid`
+        # Only one instance of Cacao allowed
+        if [ ${pid} -eq 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_ALREADY_RUNNING}" \
+		"${cacao_main_action}"
+        else
+            cacao_print_error_message "${CACAO_MSG_ERROR_ALREADY_RUNNING2}" \
+		"${cacao_main_action}" "${pid}"
+        fi
+        return ${CACAO_CR_EEXIST}
+    fi
+
+    fi
+
+    #check that the current instance is well configured
+    #-> will be reachable through jmxmp
+    cacao_is_configured
+    if [ $? -ne ${CACAO_TRUE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_NOTCONFIGURED}"
+	cacao_print_syslog_error_message "${CACAO_MSG_ERROR_NOTCONFIGURED}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_resolve_dependencies
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_WRONG}"
+	return ${cr}
+    fi
+
+    # insure file access right for snmp
+    cacao_init_snmp_config ${cacao_snmp_security_dir}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return $?
+    fi
+
+    java_env=`cacao_build_classpath_and_flags_env`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ] || [ -z "${java_env}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_JAVA_ENV}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    #check if keys are ok : if not create them
+    cacao_init_keygen_vars ${cacao_security_dir}
+    cacao_is_keys_ok ${cacao_security_dir}
+    _key_ok=$?
+    
+    if [ ${_key_ok} -eq ${CACAO_CR_ESRCH} ]
+    then
+	cacao_create_keys
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+    if [ ${_key_ok} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_print_syslog_error_message "${KEY_GEN_KEY_CORRUPT_1}"
+	cacao_print_syslog_error_message "${KEY_GEN_KEY_CORRUPT_2}"
+	cacao_print_error_message "${KEY_GEN_KEY_CORRUPT_1}"
+	cacao_print_error_message "${KEY_GEN_KEY_CORRUPT_2}"
+
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #cleanup on log file
+    cacao_remove_file "${cacao_log_dir}/cacao*.lck"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    #ensure run mode is well known
+    cacao_get_run_mode
+    cacao_run_mode=$?
+
+    #greenline case
+    if [ ${cacao_run_mode} -eq ${CACAO_GREENLINE_RUN_MODE} ] && [ ${cacao_debug_mode} -eq ${CACAO_FALSE} ]
+    then
+        launch="${cacao_java} ${java_env}                                                   \
+                     -Djavax.management.builder.initial=com.sun.jdmk.JdmkMBeanServerBuilder \
+                     -Dcacao.print.status=true                                              \
+                     -Dcacao.config.dir=${cacao_etc_instances_dir}/${cacao_main_instance}   \
+                     -Dcom.sun.cacao.ssl.keystore.password.file=${cacao_etc_instances_dir}/${cacao_main_instance}/security/password -Dcacao.monitoring.mode=smf com.sun.cacao.container.impl.ContainerPrivate"
+        #catch and save the container pid
+        #get the error of the java container in case
+        _pid=`${cacao_tools_dir}/cacao_smf_start "${launch}" 2>>"${cacao_error_file}"`
+        if [ $? -ne 0 ]
+        then
+            if [ -s "${cacao_error_file}" ]
+            then
+                #print the message right now so as it is in the smf logs
+                ${CAT} "${cacao_error_file}" >&2
+            fi
+            return ${CACAO_CR_ERROR}
+        fi
+
+       
+        ${ECHO} ${_pid} >> ${cacao_pid_file} 2>/dev/null
+        if [ $? -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR}
+        fi
+
+        return ${CACAO_CR_SUCCESS}
+    fi
+        
+        
+
+    #prepare the launch command
+    launch="${cacao_java} ${java_env} \
+            -Djavax.management.builder.initial=com.sun.jdmk.JdmkMBeanServerBuilder \
+            -Dcacao.config.dir=${cacao_config_dir} \
+		com.sun.cacao.container.impl.ContainerPrivate"
+
+    
+    retries=`cacao_get_property "${CACAO_RETRIES_KEY}"`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    if [ -z "${retries}" ]
+    then
+	retries=1
+    fi
+
+
+    cacao_cmd_prefix=`cacao_build_cmd_prefix`
+    cacao_cmd_common="-U ${cacao_user} -G ${cacao_group} -i ${cacao_passwd_file} -- ${launch} "
+    
+
+    # Set umask for cacao daemon
+    umask 033
+
+
+    if [ ${cacao_debug_mode} -eq ${CACAO_TRUE} ]
+    then     
+        # no retries and no pmf in debug mode
+        retries=0
+    else
+        # pmf in normal mode only
+        if [ ${cacao_run_mode} -eq ${CACAO_PMF_RUN_MODE} ]
+        then
+            # Run Cacao PMF
+            # Number of retries set to RETRIES and during an infinite period (-t is not specified so the default is infinite period)
+            # so that the pmf will stop attempting to restart the daemon when the maximum of retries is reached.
+            # Option -C 1 has been set so that pmf will only monitor level 0 and 1 of cacao process
+            ${CACAO_PMFADM} -c ${cacao_daemon_name} -C 1 -n ${retries} -- ${cacao_cmd_prefix} ${cacao_cmd_common}
+            if [ $? -ne 0 ]; then
+                cacao_print_syslog_error_message "Error: Can't register cacao agent in PMF."
+            else
+                return ${CACAO_CR_SUCCESS}
+            fi
+        fi
+    fi
+    
+    #update the retries file in order to use the default mechanism
+    ${RM} -f "${cacao_retries_file}" 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    retries=`${EXPR} ${retries} + 1`
+    ${ECHO} "${retries}" > "${cacao_retries_file}"
+    ${CHOWN} "${CACAO_ADMIN_USER}":"${CACAO_ADMIN_GROUP}" ${cacao_retries_file} >/dev/null 2>&1
+    
+
+    ${CHOWN} -R ${cacao_user}:${cacao_group} ${cacao_log_dir} >/dev/null 2>&1
+    if [ ${?} -ne 0 ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" \
+            "${cacao_log_dir}"
+        return ${CACAO_CR_ERROR}
+    fi
+   
+    if [ ${cacao_debug_mode} -eq ${CACAO_TRUE} ]
+    then  
+    	${cacao_cmd_prefix} ${cacao_cmd_common} &
+    else
+    	${cacao_cmd_prefix} ${cacao_cmd_common}
+    fi
+
+    if [ $? -ne 0 ]
+    then
+       return ${CACAO_CR_ERROR}
+    else
+       return ${CACAO_CR_SUCCESS}
+    fi	
+}
+#------------------------------------------------------------------------------
+# cacao_do_stop
+#
+# DESCRIPTION :
+# Stop the container. Implementation function.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS, CACAO_CR_ERROR, CACAO_CR_EINVALCOMMAND,CACAO_CR_ESRCH
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_stop() {
+
+    #force option already catch at parse_arg level
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi    
+
+    #I removed the lock related to bug 5099553
+
+    #cacao must be running
+    cacao_is_running
+    is_running=$?
+    if [ ${is_running} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    #in this case there is no error
+    if [ ${is_running} -eq ${CACAO_FALSE} ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Forced stop
+    if [ ${cacao_force_mode} -eq ${CACAO_TRUE} ]
+    then
+	cacao_force_stop
+	return ${?}
+    fi
+
+    # Gracefull stop
+    cacao_gracefull_stop
+    return ${?}
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_do_enabled_at_boot_start
+#
+# DESCRIPTION :
+# Start the container if it is enabled at boot, if non enmable at boot do nothing
+# Used internally. Implementation
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull or non enabled at boot
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_enabled_at_boot_start() {
+
+    #check if enabled or not
+    enabled_at_boot="`cacao_get_property ${CACAO_ENABLE_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_ENABLE_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+    if [ "${enabled_at_boot}" = ${CACAO_FALSE_VALUE} ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_do_start
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_non_embedded_stop
+#
+# DESCRIPTION :
+# Stop the container if it is a non embedded one, if embedded do nothing
+# Used internally. Implementation.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull or embedded
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_non_embedded_stop() {
+
+    #check if embedded or not
+    if [ "${cacao_is_embedded}" = ${CACAO_TRUE_VALUE} ]
+     then
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_do_stop
+    return $?
+}
+    
+#------------------------------------------------------------------------------
+# cacao_list_registered_modules
+#
+# DESCRIPTION :
+# List modules currently registered
+# PARAMETERS :
+# none
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR   if there is an error while reading modules dir
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_list_registered_modules() {
+
+    registered_module_dir=${cacao_etc_dir}/private/modules
+
+    if [ ! -d ${registered_module_dir} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	                          "${registered_module_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    module_list=`${LS} ${registered_module_dir}/*.xml 2>/dev/null | ${SORT}`
+    for module_file in ${module_list}
+    do
+      ${BASENAME} ${module_file}
+    done
+    
+    return ${CACAO_CR_SUCCESS}
+
+}
+#------------------------------------------------------------------------------
+# cacao_list_deployed_modules
+#
+# DESCRIPTION :
+# List modules currently deployed
+# 
+# PARAMETERS :
+# List of argument for this actions. This list should be empty
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+#
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_list_deployed_modules() {
+    admin_parameters="list"
+
+    cacao_is_running
+    result=$?
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    msg=`cacao_admin ${cacao_host} ${admin_parameters}`
+    case $? in
+	${CACAO_CR_SUCCESS})
+	    ${ECHO} "${msg}"
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_greenline_run_mode
+#
+# DESCRIPTION :
+# Tells if we use the smf services, meaning that smf is present and initd
+# scripts are no longer there
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_TRUE
+# CACAO_FALSE
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------  
+cacao_is_greenline_run_mode() {
+    cacao_is_initd_service_present
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+         return ${CACAO_FALSE}
+    fi
+    cacao_is_greenline_mode
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+        return ${CACAO_TRUE}
+    fi
+    return ${CACAO_FALSE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_enable_at_boot
+#
+# DESCRIPTION :
+# Enable automatic start of cacaoadm at start up. Logic implementation
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#     Possible return code from cacao_locate_dependencies or
+#     cacao_set_property.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_enable_at_boot() {
+   
+    cacao_set_property "${CACAO_ENABLE_KEY}" true
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+	    "${CACAO_ENABLE_KEY}"
+	return ${cr}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_disable_at_boot
+#
+# DESCRIPTION :
+# Disable automatic start of cacaoadm at start up. Logic implemenation
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#     Possible return code from cacao_locate_dependencies or
+#     cacao_set_property.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_disable_at_boot() {
+
+    cacao_set_property "${CACAO_ENABLE_KEY}" false
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+	    "${CACAO_ENABLE_KEY}"
+	return ${cr}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_embedded_instance
+#
+# DESCRIPTION :
+# Tells if the instance is embedded or not
+#
+# PARAMETERS :
+#
+# $1 instance name
+#
+# RETURN CODE:
+# CACAO_TRUE if embedded
+# CACAO_FALSE if not embedded
+# CACAO_CR_ERROR if can't retrieve the embedded value
+#     
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_embedded_instance() {
+
+    instance_name=${1}
+    # Get the instance properties file name
+    cacao_property_file="${cacao_etc_instances_dir}/${instance_name}/private/cacao.properties"
+    
+    _is_embedded="`cacao_get_property ${CACAO_EMBEDDED_KEY} ${cacao_property_file}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_EMBEDDED_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+    if [ "${_is_embedded}" = "${CACAO_TRUE_VALUE}" ]
+    then
+        return ${CACAO_TRUE}
+    else
+        return ${CACAO_FALSE}
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_enabled_instance
+#
+# DESCRIPTION :
+# Tells if the instance is enabled or not
+#
+# PARAMETERS :
+#
+# $1 instance name
+#
+# RETURN CODE:
+# CACAO_TRUE if enabled
+# CACAO_FALSE if disabled
+# CACAO_CR_ERROR if can't retrieve the enabled value
+#     
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_enabled_instance() {
+
+    instance_name=${1}
+    # Get the instance properties file name
+    cacao_property_file="${cacao_etc_instances_dir}/${instance_name}/private/cacao.properties"
+    
+    _is_enabled="`cacao_get_property ${CACAO_ENABLE_KEY} ${cacao_property_file}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_ENABLE_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+    if [ "${_is_enabled}" = "${CACAO_TRUE_VALUE}" ]
+    then
+        return ${CACAO_TRUE}
+    else
+        return ${CACAO_FALSE}
+    fi
+}
+    
+
+#------------------------------------------------------------------------------
+# cacao_check_env_file
+#
+# DESCRIPTION :
+# Check that the env_file file has the right owner and right.
+# 
+# PARAMETERS :
+# $1 a file
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_BAD_OWNER if owner of the file is not cacao_current_id_name
+# CACAO_BAD_FILE_RIGHTS if rights on the file are not --- for group and other
+# CACAO_CR_EPERM cannot access the file
+#
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_check_env_file() {
+    # If env_file is not a file readable, java 
+    # will display the suitable message
+    file=$1
+    if [ -f  "${file}" ] && [ -r "${file}" ]
+    then
+	file_owner=`cacao_get_file_owner  "${file}"`
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    return  ${CACAO_CR_ERROR}
+	fi
+
+	if [ ${file_owner} != "${cacao_current_id_name}" ]
+	then
+	    return ${CACAO_BAD_OWNER}
+	fi
+
+	file_rights=`cacao_get_file_string_right  "${file}"`
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    return  ${CACAO_CR_ERROR}
+	fi
+
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    return  ${CACAO_CR_ERROR}
+	fi
+
+	other_rights=`${ECHO}  ${file_rights} | ${CUT} -c4-9`
+	if [ $? -ne 0 ]
+	then
+	    return  ${CACAO_CR_ERROR}
+	fi
+
+	if [ ${other_rights} != "------" ]
+	then
+	    return ${CACAO_BAD_FILE_RIGHTS}
+	fi
+    else
+	return ${CACAO_CR_EPERM}
+    fi 
+}
+
+#------------------------------------------------------------------------------
+# cacao_init_unique_name_from_property
+#
+# DESCRIPTION :
+# Initialize the cacao unique name from the install properties file
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS 
+# 
+# OUTPUT:
+# none.
+# 
+#------------------------------------------------------------------------------
+cacao_init_unique_name_from_property() {
+        
+    if [ -f "${cacao_install_properties_file}" ]; then
+        cacao_unique_name="`cacao_get_property ${CACAO_INSTALL_ID_KEY} ${cacao_install_properties_file}`"
+        if [ $? -ne ${CACAO_CR_SUCCESS} ] && [ -n "${cacao_unique_name}" ]; then
+            cacao_unique_name=""
+         fi
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_compute_unique_name
+#
+# DESCRIPTION :
+# create the cacao unique name that will be used for startup naming
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS 
+# 
+# OUTPUT:
+# unique cacao name without white spaces
+# 
+#------------------------------------------------------------------------------
+cacao_compute_unique_name() {
+
+    _id="`cacao_get_highest_install_id`"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]; then
+        return ${CACAO_CR_ERROR}
+    fi
+    _id="`expr ${_id} + 1`"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]; then
+        return ${CACAO_CR_ERROR}
+    fi
+    ${ECHO} "${CACAO_STARTUP_PREFIX}${_id}"
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+
+
+    

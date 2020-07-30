@@ -1,0 +1,474 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Text_View_Factory"
+	type="exe" location="/usr/lib/nautilus-text-view">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Text view factory"/>
+	<oaf_attribute name="name-af" type="string" value="Teksaangesigfabriek"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع مشهد النصوص"/>
+	<oaf_attribute name="name-az" type="string" value="Mətn nümayişi e&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць для прагляду тэкста"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за текстови преглед"/>
+	<oaf_attribute name="name-bn" type="string" value="টেক্সট দৃশ্য ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Vista de text original"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro textový pohled"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri golwg testun"/>
+	<oaf_attribute name="name-da" type="string" value="Tekstvisningsfabrik"/>
+	<oaf_attribute name="name-de" type="string" value="Textansichten-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο προβολής κειμένου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Text view factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Text view factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica para vista del texto"/>
+	<oaf_attribute name="name-et" type="string" value="Text view factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Testu-ikuspegiaren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Tekstinäkymätehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique de vue texte"/>
+	<oaf_attribute name="name-gl" type="string" value="Fábrica da vista de texto"/>
+	<oaf_attribute name="name-gu" type="string" value="લખાણના દ્રશ્યનું કારખાનુ"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן תצוגת טקסט"/>
+	<oaf_attribute name="name-hi" type="string" value="पाठ्य दश्य कारखाना"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za prikaz teksta"/>
+	<oaf_attribute name="name-hu" type="string" value="Szövegnézet factory"/>
+	<oaf_attribute name="name-id" type="string" value="Factory View Teks"/>
+	<oaf_attribute name="name-is" type="string" value="Verksmiðja textarýnis"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica della visualizzazione testo"/>
+	<oaf_attribute name="name-ja" type="string" value="テキスト表示ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="텍스트 보기 팩토리"/>
+	<oaf_attribute name="name-li" type="string" value="Teksvinster-febrik"/>
+	<oaf_attribute name="name-lt" type="string" value="Tekstinio vaizdo gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="Teksta skata ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за преглед на текстови"/>
+	<oaf_attribute name="name-ml" type="string" value="വാചക കാചകം ശാല"/>
+	<oaf_attribute name="name-mn" type="string" value="Текст харуулах үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang paparan teks"/>
+	<oaf_attribute name="name-ne" type="string" value="पाठ्य दृश्य कारखाना"/>
+	<oaf_attribute name="name-nl" type="string" value="Tekstvenster-fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for tekstframsyning"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for tekstvisning"/>
+	<oaf_attribute name="name-pa" type="string" value="ਪਾਠ ਦਰਿਸ਼ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator widoku tekstowego"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de vista de texto"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador de visualização de texto"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrică vizualizare text"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика просмотра текста"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre Textový pohľad"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna pogleda besedila"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrikë e pamjes tekst"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика за приказ текста"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika za prikaz teksta"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Фабрика за приказ текста"/>
+	<oaf_attribute name="name-sv" type="string" value="Textvyfabrik"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานมุมมองข้อความ"/>
+	<oaf_attribute name="name-tr" type="string" value="Metin görünüm üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика перегляду у вигляді тексту"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory của hiển thị văn bản"/>
+	<oaf_attribute name="name-wa" type="string" value="Oujhene pol vuwe e tecse"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="文本视图工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="文件檢視工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="文件檢視工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for text view"/>
+	<oaf_attribute name="description-af" type="string" value="Teksaangesigfabriek"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع مشهد النصوص"/>
+	<oaf_attribute name="description-az" type="string" value="Mətn nümayişi e&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для прагляду тэкста"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за текстови преглед"/>
+	<oaf_attribute name="description-bn" type="string" value="টেক্সট দৃশ্য ফ্যাক্টরি"/>
+	<oaf_attribute name="description-ca" type="string" value="Original per a la vista de text"/>
+	<oaf_attribute name="description-cs" type="string" value="Továrna pro textový pohled"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer golwg testun"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for tekstvisning"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für die Textansicht"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για προβολή κειμένου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for text view"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for text view"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para la vista del texto"/>
+	<oaf_attribute name="description-et" type="string" value="Factory for text view"/>
+	<oaf_attribute name="description-eu" type="string" value="Testu-ikuspegiaren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas, joka tuottaa tekstinäkymiä"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour la vue texte"/>
+	<oaf_attribute name="description-gl" type="string" value="Fábrica para a vista de texto"/>
+	<oaf_attribute name="description-gu" type="string" value="લખાણ જોવા માટેનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן לתצוגת הטקסט"/>
+	<oaf_attribute name="description-hi" type="string" value="टेक्स दश्य का कारखाना"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za prikaz teksta"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a szövegnézethez"/>
+	<oaf_attribute name="description-id" type="string" value="Factory untuk view text"/>
+	<oaf_attribute name="description-is" type="string" value="Verksmiðja fyrir textasýn"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per la visualizzazione testo"/>
+	<oaf_attribute name="description-ja" type="string" value="テキスト表示用ファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="텍스트 보기 팩토리"/>
+	<oaf_attribute name="description-li" type="string" value="Febrik veur &apos;t teksvinster"/>
+	<oaf_attribute name="description-lt" type="string" value="Teksto vaizdo gamykla"/>
+	<oaf_attribute name="description-lv" type="string" value="Teksta skata ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за текст преглед"/>
+	<oaf_attribute name="description-ml" type="string" value="വാചക കാഴ്ചക്കായുള്ള ശാല"/>
+	<oaf_attribute name="description-mn" type="string" value="Текст харах үйлдвэр"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang untuk melihat teks"/>
+	<oaf_attribute name="description-ne" type="string" value="पाठ्य दृश्यको कारखाना"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor het tekstvenster"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for tekstframsyning"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for tekstvisning"/>
+	<oaf_attribute name="description-pa" type="string" value="ਪਾਠ ਦਰਿਸ਼ ਲਈ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator widoku tekstowego"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para a vista de texto"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para visualização de texto"/>
+	<oaf_attribute name="description-ro" type="string" value="Fabrică pentru vizualizare text"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для экрана текста"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre textový pohľad"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za pogled besedila"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrikë për shikimin e tekstit"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика за приказ текста"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za prikaz teksta"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Фабрика за приказ текста"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för textvy"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานสำหรับมุมมองข้อความ"/>
+	<oaf_attribute name="description-tr" type="string" value="Metin görüntüleme üreticisi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика відображення тексту"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory cho hiển thị văn bản"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="文本视图的工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="文件檢視工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="文件檢視工廠"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Nautilus_Text_View" type="factory" location="OAFIID:Nautilus_Text_View_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Text view"/>
+	<oaf_attribute name="name-af" type="string" value="Teksaangesig"/>
+	<oaf_attribute name="name-am" type="string" value="የጽሑፍ ዕይታ"/>
+	<oaf_attribute name="name-ar" type="string" value="مشهد النصوص"/>
+	<oaf_attribute name="name-az" type="string" value="Mətn nümayişi"/>
+	<oaf_attribute name="name-be" type="string" value="Прагляд тэкста"/>
+	<oaf_attribute name="name-bg" type="string" value="Текстови преглед"/>
+	<oaf_attribute name="name-bn" type="string" value="টেক্সট দৃশ্য"/>
+	<oaf_attribute name="name-ca" type="string" value="Vista de text"/>
+	<oaf_attribute name="name-cs" type="string" value="Textový pohled"/>
+	<oaf_attribute name="name-cy" type="string" value="Golwg Testun"/>
+	<oaf_attribute name="name-da" type="string" value="Tekstvisning"/>
+	<oaf_attribute name="name-de" type="string" value="Textansicht"/>
+	<oaf_attribute name="name-el" type="string" value="Προβολή κειμένου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Text view"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Text view"/>
+	<oaf_attribute name="name-es" type="string" value="Vista del texto"/>
+	<oaf_attribute name="name-et" type="string" value="Tekstivaade"/>
+	<oaf_attribute name="name-eu" type="string" value="Testu-ikuspegia"/>
+	<oaf_attribute name="name-fi" type="string" value="Tekstinäkymä"/>
+	<oaf_attribute name="name-fr" type="string" value="Vue texte"/>
+	<oaf_attribute name="name-ga" type="string" value="radharc Téacs"/>
+	<oaf_attribute name="name-gl" type="string" value="Vista de texto"/>
+	<oaf_attribute name="name-gu" type="string" value="લખાણનું દ્રશ્ય"/>
+	<oaf_attribute name="name-he" type="string" value="תצוגת טקסט"/>
+	<oaf_attribute name="name-hi" type="string" value="पाठ्य दश्य"/>
+	<oaf_attribute name="name-hr" type="string" value="Pregled teksta"/>
+	<oaf_attribute name="name-hu" type="string" value="Szöveg nézet"/>
+	<oaf_attribute name="name-id" type="string" value="View Teks"/>
+	<oaf_attribute name="name-is" type="string" value="Textasýn"/>
+	<oaf_attribute name="name-it" type="string" value="Visualizzazione testo"/>
+	<oaf_attribute name="name-ja" type="string" value="テキスト表示"/>
+	<oaf_attribute name="name-ko" type="string" value="텍스트 보기"/>
+	<oaf_attribute name="name-li" type="string" value="Teksweergaaf"/>
+	<oaf_attribute name="name-lt" type="string" value="Teksto vaizdas"/>
+	<oaf_attribute name="name-lv" type="string" value="Teksta skats"/>
+	<oaf_attribute name="name-mk" type="string" value="Текст преглед"/>
+	<oaf_attribute name="name-ml" type="string" value="വാചക കാചകം"/>
+	<oaf_attribute name="name-mn" type="string" value="Текстийг унших"/>
+	<oaf_attribute name="name-ms" type="string" value="Paparan teks"/>
+	<oaf_attribute name="name-ne" type="string" value="पाठ्य दृश्य"/>
+	<oaf_attribute name="name-nl" type="string" value="Tekstweergave"/>
+	<oaf_attribute name="name-nn" type="string" value="Tekstframsyning"/>
+	<oaf_attribute name="name-no" type="string" value="Tekstvisning"/>
+	<oaf_attribute name="name-pa" type="string" value="ਪਾਠ ਦਰਿਸ਼"/>
+	<oaf_attribute name="name-pl" type="string" value="Widok tekstowy"/>
+	<oaf_attribute name="name-pt" type="string" value="Vista de texto"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Visualização de texto"/>
+	<oaf_attribute name="name-ro" type="string" value="Vizualizare text"/>
+	<oaf_attribute name="name-ru" type="string" value="Экран текста"/>
+	<oaf_attribute name="name-sk" type="string" value="Textový pohľad"/>
+	<oaf_attribute name="name-sl" type="string" value="Pogled besedila"/>
+	<oaf_attribute name="name-sq" type="string" value="Pamja tekst"/>
+	<oaf_attribute name="name-sr" type="string" value="Преглед текста"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Pregled teksta"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Преглед текста"/>
+	<oaf_attribute name="name-sv" type="string" value="Textvy"/>
+	<oaf_attribute name="name-th" type="string" value="มุมมองข้อความ"/>
+	<oaf_attribute name="name-tr" type="string" value="Metin görünüm"/>
+	<oaf_attribute name="name-uk" type="string" value="Перегляд у вигляді тексту"/>
+	<oaf_attribute name="name-vi" type="string" value="Xem văn bản"/>
+	<oaf_attribute name="name-wa" type="string" value="Vuwe e tecse"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="文字视图"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="文字檢視"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="文字檢視"/>
+	<oaf_attribute name="description" type="string" value="Text view"/>
+	<oaf_attribute name="description-af" type="string" value="Teksaangesig"/>
+	<oaf_attribute name="description-am" type="string" value="የጽሑፍ ዕይታ"/>
+	<oaf_attribute name="description-ar" type="string" value="مشهد النصوص"/>
+	<oaf_attribute name="description-az" type="string" value="Mətn nümayişi"/>
+	<oaf_attribute name="description-be" type="string" value="Прагляд тэкста"/>
+	<oaf_attribute name="description-bg" type="string" value="Текстови преглед"/>
+	<oaf_attribute name="description-bn" type="string" value="টেক্সট দৃশ্য"/>
+	<oaf_attribute name="description-ca" type="string" value="Vista de text"/>
+	<oaf_attribute name="description-cs" type="string" value="Textový pohled"/>
+	<oaf_attribute name="description-cy" type="string" value="Golwg Testun"/>
+	<oaf_attribute name="description-da" type="string" value="Tekstvisning"/>
+	<oaf_attribute name="description-de" type="string" value="Textansicht"/>
+	<oaf_attribute name="description-el" type="string" value="Προβολή κειμένου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Text view"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Text view"/>
+	<oaf_attribute name="description-es" type="string" value="Vista del texto"/>
+	<oaf_attribute name="description-et" type="string" value="Tekstivaade"/>
+	<oaf_attribute name="description-eu" type="string" value="Testu-ikuspegia"/>
+	<oaf_attribute name="description-fi" type="string" value="Tekstinäkymä"/>
+	<oaf_attribute name="description-fr" type="string" value="Vue texte"/>
+	<oaf_attribute name="description-ga" type="string" value="radharc Téacs"/>
+	<oaf_attribute name="description-gl" type="string" value="Vista de texto"/>
+	<oaf_attribute name="description-gu" type="string" value="લખાણનું દ્રશ્ય"/>
+	<oaf_attribute name="description-he" type="string" value="תצוגת טקסט"/>
+	<oaf_attribute name="description-hi" type="string" value="पाठ्य दश्य"/>
+	<oaf_attribute name="description-hr" type="string" value="Pregled teksta"/>
+	<oaf_attribute name="description-hu" type="string" value="Szöveg nézet"/>
+	<oaf_attribute name="description-id" type="string" value="View Teks"/>
+	<oaf_attribute name="description-is" type="string" value="Textasýn"/>
+	<oaf_attribute name="description-it" type="string" value="Visualizzazione testo"/>
+	<oaf_attribute name="description-ja" type="string" value="テキスト表示"/>
+	<oaf_attribute name="description-ko" type="string" value="텍스트 보기"/>
+	<oaf_attribute name="description-li" type="string" value="Teksweergaaf"/>
+	<oaf_attribute name="description-lt" type="string" value="Teksto vaizdas"/>
+	<oaf_attribute name="description-lv" type="string" value="Teksta skats"/>
+	<oaf_attribute name="description-mk" type="string" value="Текст преглед"/>
+	<oaf_attribute name="description-ml" type="string" value="വാചക കാചകം"/>
+	<oaf_attribute name="description-mn" type="string" value="Текстийг унших"/>
+	<oaf_attribute name="description-ms" type="string" value="Paparan teks"/>
+	<oaf_attribute name="description-ne" type="string" value="पाठ्य दृश्य"/>
+	<oaf_attribute name="description-nl" type="string" value="Tekstweergave"/>
+	<oaf_attribute name="description-nn" type="string" value="Tekstframsyning"/>
+	<oaf_attribute name="description-no" type="string" value="Tekstvisning"/>
+	<oaf_attribute name="description-pa" type="string" value="ਪਾਠ ਦਰਿਸ਼"/>
+	<oaf_attribute name="description-pl" type="string" value="Widok tekstowy"/>
+	<oaf_attribute name="description-pt" type="string" value="Vista de texto"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Visualização de texto"/>
+	<oaf_attribute name="description-ro" type="string" value="Vizualizare text"/>
+	<oaf_attribute name="description-ru" type="string" value="Экран текста"/>
+	<oaf_attribute name="description-sk" type="string" value="Textový pohľad"/>
+	<oaf_attribute name="description-sl" type="string" value="Pogled besedila"/>
+	<oaf_attribute name="description-sq" type="string" value="Pamja tekst"/>
+	<oaf_attribute name="description-sr" type="string" value="Преглед текста"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Pregled teksta"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Преглед текста"/>
+	<oaf_attribute name="description-sv" type="string" value="Textvy"/>
+	<oaf_attribute name="description-th" type="string" value="มุมมองข้อความ"/>
+	<oaf_attribute name="description-tr" type="string" value="Metin görünüm"/>
+	<oaf_attribute name="description-uk" type="string" value="Перегляд у вигляді тексту"/>
+	<oaf_attribute name="description-vi" type="string" value="Xem văn bản"/>
+	<oaf_attribute name="description-wa" type="string" value="Vuwe e tecse"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="文字视图"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="文字檢視"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="文字檢視"/>
+	<oaf_attribute name="bonobo:editable" type="boolean" value="true"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/plain"/>
+		<item value="text/*"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:view_as_name" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-af" type="string" value="Teks"/>
+	<oaf_attribute name="nautilus:view_as_name-am" type="string" value="ጽሑፍ"/>
+	<oaf_attribute name="nautilus:view_as_name-ar" type="string" value="نص"/>
+	<oaf_attribute name="nautilus:view_as_name-az" type="string" value="Mətn"/>
+	<oaf_attribute name="nautilus:view_as_name-be" type="string" value="Тэкст"/>
+	<oaf_attribute name="nautilus:view_as_name-bg" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-bn" type="string" value="টেক্সট"/>
+	<oaf_attribute name="nautilus:view_as_name-ca" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-cy" type="string" value="Testun"/>
+	<oaf_attribute name="nautilus:view_as_name-da" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-de" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-el" type="string" value="Κείμενο"/>
+	<oaf_attribute name="nautilus:view_as_name-en_CA" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-en_GB" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-es" type="string" value="Texto"/>
+	<oaf_attribute name="nautilus:view_as_name-et" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-eu" type="string" value="Testua"/>
+	<oaf_attribute name="nautilus:view_as_name-fi" type="string" value="Teksti"/>
+	<oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Texte"/>
+	<oaf_attribute name="nautilus:view_as_name-ga" type="string" value="Téacs"/>
+	<oaf_attribute name="nautilus:view_as_name-gl" type="string" value="Texto"/>
+	<oaf_attribute name="nautilus:view_as_name-gu" type="string" value="લખાણ"/>
+	<oaf_attribute name="nautilus:view_as_name-he" type="string" value="טקסט"/>
+	<oaf_attribute name="nautilus:view_as_name-hi" type="string" value="टेक्स्ट"/>
+	<oaf_attribute name="nautilus:view_as_name-hr" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Szöveg"/>
+	<oaf_attribute name="nautilus:view_as_name-id" type="string" value="Teks"/>
+	<oaf_attribute name="nautilus:view_as_name-is" type="string" value="Texti"/>
+	<oaf_attribute name="nautilus:view_as_name-it" type="string" value="Testo"/>
+	<oaf_attribute name="nautilus:view_as_name-ja" type="string" value="テキスト"/>
+	<oaf_attribute name="nautilus:view_as_name-ko" type="string" value="텍스트"/>
+	<oaf_attribute name="nautilus:view_as_name-li" type="string" value="Teks"/>
+	<oaf_attribute name="nautilus:view_as_name-lt" type="string" value="Tekstas"/>
+	<oaf_attribute name="nautilus:view_as_name-lv" type="string" value="Teksts"/>
+	<oaf_attribute name="nautilus:view_as_name-mk" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-ml" type="string" value="വാചകം"/>
+	<oaf_attribute name="nautilus:view_as_name-mn" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-ms" type="string" value="Teks"/>
+	<oaf_attribute name="nautilus:view_as_name-ne" type="string" value="पाठ्य"/>
+	<oaf_attribute name="nautilus:view_as_name-nl" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-nn" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-no" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-pa" type="string" value="ਪਾਠ"/>
+	<oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-pt" type="string" value="Texto"/>
+	<oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Texto"/>
+	<oaf_attribute name="nautilus:view_as_name-ro" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-ru" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-sk" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-sl" type="string" value="Besedilo"/>
+	<oaf_attribute name="nautilus:view_as_name-sq" type="string" value="Teksti"/>
+	<oaf_attribute name="nautilus:view_as_name-sr" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string" value="Tekst"/>
+	<oaf_attribute name="nautilus:view_as_name-sr@ije" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Text"/>
+	<oaf_attribute name="nautilus:view_as_name-th" type="string" value="ข้อความ"/>
+	<oaf_attribute name="nautilus:view_as_name-tr" type="string" value="Metin"/>
+	<oaf_attribute name="nautilus:view_as_name-uk" type="string" value="Текст"/>
+	<oaf_attribute name="nautilus:view_as_name-vi" type="string" value="Văn bản"/>
+	<oaf_attribute name="nautilus:view_as_name-wa" type="string" value="Tecse"/>
+	<oaf_attribute name="nautilus:view_as_name-yi" type="string" value="טעקסט"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="文字"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="文字"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="文字"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string" value="View as Text"/>
+	<oaf_attribute name="nautilus:view_as_label-af" type="string" value="Bekyk as teks"/>
+	<oaf_attribute name="nautilus:view_as_label-am" type="string" value="እንደ ጽሑፍ አሳይ"/>
+	<oaf_attribute name="nautilus:view_as_label-ar" type="string" value="عرض كنص"/>
+	<oaf_attribute name="nautilus:view_as_label-az" type="string" value="Mətn Olaraq Göstər"/>
+	<oaf_attribute name="nautilus:view_as_label-be" type="string" value="Выгляд тэкста"/>
+	<oaf_attribute name="nautilus:view_as_label-bg" type="string" value="Преглед като Текст"/>
+	<oaf_attribute name="nautilus:view_as_label-bn" type="string" value="টেক্সট হিসেবে প্রদর্শন করো"/>
+	<oaf_attribute name="nautilus:view_as_label-ca" type="string" value="Visualitza com a text"/>
+	<oaf_attribute name="nautilus:view_as_label-cs" type="string" value="Zobrazit jako text"/>
+	<oaf_attribute name="nautilus:view_as_label-cy" type="string" value="Dangos fel Testun"/>
+	<oaf_attribute name="nautilus:view_as_label-da" type="string" value="Vis som tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-de" type="string" value="Als Text anzeigen"/>
+	<oaf_attribute name="nautilus:view_as_label-el" type="string" value="Προβολή ως Κείμενο"/>
+	<oaf_attribute name="nautilus:view_as_label-en_CA" type="string" value="View as Text"/>
+	<oaf_attribute name="nautilus:view_as_label-en_GB" type="string" value="View as Text"/>
+	<oaf_attribute name="nautilus:view_as_label-es" type="string" value="Ver como texto"/>
+	<oaf_attribute name="nautilus:view_as_label-et" type="string" value="Vaata tekstina"/>
+	<oaf_attribute name="nautilus:view_as_label-eu" type="string" value="Ikusi testu gisa"/>
+	<oaf_attribute name="nautilus:view_as_label-fi" type="string" value="Näytä tekstinä"/>
+	<oaf_attribute name="nautilus:view_as_label-fr" type="string" value="Afficher en tant que texte"/>
+	<oaf_attribute name="nautilus:view_as_label-ga" type="string" value="Féach mar Téacs"/>
+	<oaf_attribute name="nautilus:view_as_label-gl" type="string" value="Ver como texto"/>
+	<oaf_attribute name="nautilus:view_as_label-gu" type="string" value="લખાણની જેમ જુઓ"/>
+	<oaf_attribute name="nautilus:view_as_label-he" type="string" value="הצג כטקסט"/>
+	<oaf_attribute name="nautilus:view_as_label-hi" type="string" value="पाठ्य की तरह देखो"/>
+	<oaf_attribute name="nautilus:view_as_label-hr" type="string" value="Gledaj kao tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-hu" type="string" value="Szövegként"/>
+	<oaf_attribute name="nautilus:view_as_label-id" type="string" value="Lihat Sebagai Teks"/>
+	<oaf_attribute name="nautilus:view_as_label-is" type="string" value="Skoða sem texta"/>
+	<oaf_attribute name="nautilus:view_as_label-it" type="string" value="Visualizza come Testo"/>
+	<oaf_attribute name="nautilus:view_as_label-ja" type="string" value="テキスト表示"/>
+	<oaf_attribute name="nautilus:view_as_label-ko" type="string" value="텍스트로 보기"/>
+	<oaf_attribute name="nautilus:view_as_label-li" type="string" value="Teksweergaaf"/>
+	<oaf_attribute name="nautilus:view_as_label-lt" type="string" value="Rodyti tekstą"/>
+	<oaf_attribute name="nautilus:view_as_label-lv" type="string" value="Parādīt kā Tekstu"/>
+	<oaf_attribute name="nautilus:view_as_label-mk" type="string" value="Прикажи како Текст"/>
+	<oaf_attribute name="nautilus:view_as_label-ml" type="string" value="വാചകമായ് കാണുക"/>
+	<oaf_attribute name="nautilus:view_as_label-mn" type="string" value="Текст мэт харах"/>
+	<oaf_attribute name="nautilus:view_as_label-ms" type="string" value="Lihat sebagai Teks"/>
+	<oaf_attribute name="nautilus:view_as_label-ne" type="string" value="पाठ्य जस्तै हेर्ने"/>
+	<oaf_attribute name="nautilus:view_as_label-nl" type="string" value="Tekstweergave"/>
+	<oaf_attribute name="nautilus:view_as_label-nn" type="string" value="Vis som tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-no" type="string" value="Vis som tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-pa" type="string" value="ਪਾਠ ਨਿਰੀਖਣ"/>
+	<oaf_attribute name="nautilus:view_as_label-pl" type="string" value="Wyświetlanie jako Tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-pt" type="string" value="Ver como Texto"/>
+	<oaf_attribute name="nautilus:view_as_label-pt_BR" type="string" value="Ver como texto"/>
+	<oaf_attribute name="nautilus:view_as_label-ro" type="string" value="Arată ca text"/>
+	<oaf_attribute name="nautilus:view_as_label-ru" type="string" value="Просмотреть как текст"/>
+	<oaf_attribute name="nautilus:view_as_label-sk" type="string" value="Zobraziť ako text"/>
+	<oaf_attribute name="nautilus:view_as_label-sl" type="string" value="Glej kot besedilo"/>
+	<oaf_attribute name="nautilus:view_as_label-sq" type="string" value="Shiko si tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-sr" type="string" value="Гледај као текст"/>
+	<oaf_attribute name="nautilus:view_as_label-sr@Latn" type="string" value="Gledaj kao tekst"/>
+	<oaf_attribute name="nautilus:view_as_label-sr@ije" type="string" value="Гледај као текст"/>
+	<oaf_attribute name="nautilus:view_as_label-sv" type="string" value="Visa som text"/>
+	<oaf_attribute name="nautilus:view_as_label-th" type="string" value="มุมมองข้อความ"/>
+	<oaf_attribute name="nautilus:view_as_label-tr" type="string" value="Metin Olarak Göster"/>
+	<oaf_attribute name="nautilus:view_as_label-uk" type="string" value="Показати як текст"/>
+	<oaf_attribute name="nautilus:view_as_label-vi" type="string" value="Xem theo văn bản"/>
+	<oaf_attribute name="nautilus:view_as_label-wa" type="string" value="Vey come do tecse"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_CN" type="string" value="文本视图"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_HK" type="string" value="以文字方式瀏覽"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_TW" type="string" value="以文字方式瀏覽"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string" value="Text Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-af" type="string" value="Teksbekyker"/>
+	<oaf_attribute name="nautilus:viewer_label-am" type="string" value="የጽሑፍ ተመልካች"/>
+	<oaf_attribute name="nautilus:viewer_label-ar" type="string" value="عارض نصوص"/>
+	<oaf_attribute name="nautilus:viewer_label-az" type="string" value="Mətn Nümayişçisi"/>
+	<oaf_attribute name="nautilus:viewer_label-be" type="string" value="Праглядальнік тэкста"/>
+	<oaf_attribute name="nautilus:viewer_label-bg" type="string" value="Текстови преглед"/>
+	<oaf_attribute name="nautilus:viewer_label-bn" type="string" value="টেক্সট প্রদর্শক"/>
+	<oaf_attribute name="nautilus:viewer_label-ca" type="string" value="Visualitzador de text"/>
+	<oaf_attribute name="nautilus:viewer_label-cs" type="string" value="Prohlížeč textu"/>
+	<oaf_attribute name="nautilus:viewer_label-cy" type="string" value="Gwelydd Destun"/>
+	<oaf_attribute name="nautilus:viewer_label-da" type="string" value="Tekstviser"/>
+	<oaf_attribute name="nautilus:viewer_label-de" type="string" value="Textanzeigeprogramm"/>
+	<oaf_attribute name="nautilus:viewer_label-el" type="string" value="Προβολή Κειμένου"/>
+	<oaf_attribute name="nautilus:viewer_label-en_CA" type="string" value="Text Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-en_GB" type="string" value="Text Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-es" type="string" value="Visor de texto"/>
+	<oaf_attribute name="nautilus:viewer_label-et" type="string" value="Teksti vaatur"/>
+	<oaf_attribute name="nautilus:viewer_label-eu" type="string" value="Testu-ikustailea"/>
+	<oaf_attribute name="nautilus:viewer_label-fi" type="string" value="Tekstikatselin"/>
+	<oaf_attribute name="nautilus:viewer_label-fr" type="string" value="Visualiseur de texte"/>
+	<oaf_attribute name="nautilus:viewer_label-ga" type="string" value="Amharcóir Téasc"/>
+	<oaf_attribute name="nautilus:viewer_label-gl" type="string" value="Visualizador de texto"/>
+	<oaf_attribute name="nautilus:viewer_label-gu" type="string" value="લખાણ બતાવનાર"/>
+	<oaf_attribute name="nautilus:viewer_label-he" type="string" value="מציג טקסט"/>
+	<oaf_attribute name="nautilus:viewer_label-hi" type="string" value="पाठ्य दिखाने वाला"/>
+	<oaf_attribute name="nautilus:viewer_label-hr" type="string" value="Preglednik teksta"/>
+	<oaf_attribute name="nautilus:viewer_label-hu" type="string" value="Szövegmegjelenítő"/>
+	<oaf_attribute name="nautilus:viewer_label-id" type="string" value="Viewer Teks"/>
+	<oaf_attribute name="nautilus:viewer_label-is" type="string" value="Textarýnir"/>
+	<oaf_attribute name="nautilus:viewer_label-it" type="string" value="Visualizzatore di testo"/>
+	<oaf_attribute name="nautilus:viewer_label-ja" type="string" value="テキストビューア"/>
+	<oaf_attribute name="nautilus:viewer_label-ko" type="string" value="텍스트 뷰어"/>
+	<oaf_attribute name="nautilus:viewer_label-li" type="string" value="Teksweergaaf"/>
+	<oaf_attribute name="nautilus:viewer_label-lt" type="string" value="Teksto peržiūros programa"/>
+	<oaf_attribute name="nautilus:viewer_label-lv" type="string" value="Teksta Skatītājs"/>
+	<oaf_attribute name="nautilus:viewer_label-mk" type="string" value="Текст Прегледувач"/>
+	<oaf_attribute name="nautilus:viewer_label-ml" type="string" value="വാചക ദ‍ര്ശിനി"/>
+	<oaf_attribute name="nautilus:viewer_label-mn" type="string" value="Текст харагч"/>
+	<oaf_attribute name="nautilus:viewer_label-ms" type="string" value="Pelihat Teks"/>
+	<oaf_attribute name="nautilus:viewer_label-ne" type="string" value="पाठ्य दृश्य"/>
+	<oaf_attribute name="nautilus:viewer_label-nl" type="string" value="Tekstweergave"/>
+	<oaf_attribute name="nautilus:viewer_label-nn" type="string" value="Tekstvisar"/>
+	<oaf_attribute name="nautilus:viewer_label-no" type="string" value="Tekstvisning"/>
+	<oaf_attribute name="nautilus:viewer_label-pa" type="string" value="ਪਾਠ ਦਰਸ਼ਕ"/>
+	<oaf_attribute name="nautilus:viewer_label-pl" type="string" value="Przeglądarka tekstowa"/>
+	<oaf_attribute name="nautilus:viewer_label-pt" type="string" value="Visualizador de Texto"/>
+	<oaf_attribute name="nautilus:viewer_label-pt_BR" type="string" value="Visualizador de texto"/>
+	<oaf_attribute name="nautilus:viewer_label-ro" type="string" value="Vizualizator text"/>
+	<oaf_attribute name="nautilus:viewer_label-ru" type="string" value="Программа просмотра текста"/>
+	<oaf_attribute name="nautilus:viewer_label-sk" type="string" value="Textový pohľad"/>
+	<oaf_attribute name="nautilus:viewer_label-sl" type="string" value="Pregledovalnik besedila"/>
+	<oaf_attribute name="nautilus:viewer_label-sq" type="string" value="Shikues teksti"/>
+	<oaf_attribute name="nautilus:viewer_label-sr" type="string" value="Преглед текста"/>
+	<oaf_attribute name="nautilus:viewer_label-sr@Latn" type="string" value="Pregled teksta"/>
+	<oaf_attribute name="nautilus:viewer_label-sr@ije" type="string" value="Преглед текста"/>
+	<oaf_attribute name="nautilus:viewer_label-sv" type="string" value="Textvisare"/>
+	<oaf_attribute name="nautilus:viewer_label-th" type="string" value="ตัวอ่านข้อความ"/>
+	<oaf_attribute name="nautilus:viewer_label-tr" type="string" value="Metin Görüntüleyici"/>
+	<oaf_attribute name="nautilus:viewer_label-uk" type="string" value="Компонент перегляду у вигляді тексту"/>
+	<oaf_attribute name="nautilus:viewer_label-vi" type="string" value="Bộ quan sát văn bản"/>
+	<oaf_attribute name="nautilus:viewer_label-wa" type="string" value="Håyneu di tecse"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_CN" type="string" value="文字查看器"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_HK" type="string" value="文字檢視器"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_TW" type="string" value="文字檢視器"/>
+</oaf_server>
+
+</oaf_info>

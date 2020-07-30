@@ -1,0 +1,19 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/grid4 1.2                       */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1997,1996          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)40	1.2  src/gos/2d/XTOP/include/bitmaps/grid4, xserver, gos530 6/21/96 14:10:03 */
+#define grid4_width 4
+#define grid4_height 4
+static char grid4_bits[] = {
+   0x05, 0x00, 0x01, 0x00};

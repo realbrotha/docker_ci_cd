@@ -1,0 +1,308 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright 2005 Sun Microsystems, Inc. All Rights Reserved.
+#	Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lutab_update.sh 5.8     05/02/23 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        lutab_update -f <internal_config_file> -i <id> [ -b bootDevice ]
+# FUNCTION:     Creates/Updates the lutab file with the information of a BE.
+# INPUT:        ICF of a BE, id (a +ve integer) of a BE.
+# OUTPUT:       None
+# DEV:          Satish
+# NOTES:        This script will be called by lucreate (lumake).
+#               Only the ROOT device of the BE will have entry in the lutab
+#               file, all other devices will not have entries.
+#               This assumes that the input ICF is intact.
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "1").
+# Example:	usage 1
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i \
+<internal_config_file> -I <BE_id>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit 1
+  fi
+  exit "$1"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly \
+(/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly \
+(${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_b="" # -b bootDevice - boot device to use. (PRIVATE)
+flag_i="" # -i n - ICF file to use.
+flag_I="" # -I n - BE ID to use to create new entry in lutab file.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts b:i:I:l:o:x:X c
+  do
+    case $c in
+      b) # -b bootDevice - boot device to use. (PRIVATE)
+	 lulib_cannot_duplicate_option "${flag_b}" "${OPTARG}" "-b"
+	 flag_b="$OPTARG"
+	 ;;
+      i) # -i n - icf file to use to fsck.
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="$OPTARG"
+	 ;;
+      I) # -I n - BE ID to use to create new entry in lutab file.
+	 lulib_cannot_duplicate_option "${flag_I}" "${OPTARG}" "-I"
+	 flag_I="$OPTARG"
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> \
+specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be \
+created or appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> \
+can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be \
+created or appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is \
+not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+lulib_must_have_option "${flag_i}" "" "-i"
+ICF="${flag_i}"
+
+lulib_must_have_option "${flag_I}" "" "-I"
+new_beId="${flag_I}"
+
+# Validate the contents of the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-f> option \
+is not a valid ICF file.'`" "${ICF}"
+  exit 2
+fi
+
+# Make sure the boot environment id is not already in use.
+
+ERRMSG="`${LUETCBIN}/ludo get_be_name \"${new_beId}\" 2>&1`"
+if [ "$?" -eq "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to add entry for BE ID <%d> - \
+the ID is already used by boot environment <%s>.'`" "${new_beId}" "${ERRMSG}"
+  exit 2
+fi
+
+# Get the bename and root device node from the ICF file.
+
+new_beName=`head -1 ${ICF} |cut -d: -f1`
+new_rootDevice=`grep ":/:" ${ICF} |cut -d: -f3`
+new_bootDevice="${new_rootDevice}"
+[ -n "${flag_b}" ] && new_bootDevice="${flag_b}"
+
+# Make sure the boot environment name is not already in use.
+
+ERRMSG="`${LUETCBIN}/ludo get_be_id \"${new_beName}\" 2>&1`"
+if [ "$?" -eq "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to add entry for BE ID <%d> - the boot \
+environment <%s> is already in use by BE ID <%d>.'`" \
+"${new_beId}" "${new_beName}" "${ERRMSG}"
+  exit 2
+fi
+
+# Make sure the root device is not already in use.
+
+if [ -f "${LU_LUTAB_FILE}" -a -s "${LU_LUTAB_FILE}" ] ; then
+  ${LUETCBIN}/ludo get_be_id_from_rootdev "${new_rootDevice}" 1>/dev/null 2>&1
+  if [ "$?" -eq "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to add entry for BE ID <%d> - the \
+root device <%s> is already in use by another boot environment.'`" \
+"${new_beId}" "${new_rootDevice}"
+    exit 2
+  fi
+else
+  ${LUPRINTF} +X -a "${LU_LUTAB_FILE}" \
+'# DO NOT EDIT THIS FILE BY HAND. This file is not a public interface.
+# The format and contents of this file are subject to change.
+# Any user modification to this file may result in the incorrect
+# operation of Live Upgrade.'
+fi
+
+# Make sure the boot device is not already in use.
+
+id=`${LUETCBIN}/ludo get_be_id_from_rootdev ${new_bootDevice}`
+if [ "$?" -eq "0" ] ; then
+  # bootdevice already in use by another BE.
+  # Find root device of the existing BE.
+  orig_md=`cat ${LU_LUTAB_FILE} | egrep "${id}:.*:1$" | cut -d ":" -f 3 | cut -d "/" -f 5`
+
+  if [ -n "$orig_md" ] ; then
+    # Find the submirror of the existing BE.
+    sub_md=`metastat -p | grep "${orig_md} -m" | sed "s%${orig_md} -m \([^ ]*\).*$%\1%g"`
+
+    if [ -n "${sub_md}" ] ; then
+      # find slice in the submirror. This slice should be the new boot device for the existing BE.
+      old_bootDevice=/dev/dsk/`metastat -p | grep "${sub_md} " | grep -v "\-m" | sed "s%.*\(c[^ ]*\)$%\1%g"`
+
+      # modify /etc/lutab file to change the boot-device of old BE.
+      prefix_str="${id}:boot-device:"
+      cat ${LU_LUTAB_FILE} | sed "s%${prefix_str}${new_bootDevice}:2%${prefix_str}${old_bootDevice}:2%g" > ${LU_LUTAB_FILE}.tmp
+      cp ${LU_LUTAB_FILE}.tmp ${LU_LUTAB_FILE}
+      rm ${LU_LUTAB_FILE}.tmp
+    fi
+  fi
+fi
+
+# Everything checks out o.k. - add the entry to the /etc/lutab file.
+# Format of each entry in the lutab file:
+#   beId:field-1:field-2:fieldType
+# Three entries will exist for each BE, all with identical BE ids, but
+# each with a unique field type.
+# Lutab field type entries:
+#   0 - BE name/BE status:
+#         beId:beName:beStatus:0
+#   1 - root slice (mount to get to /)
+#         beId:/:rootSlice:1
+#   2 - boot device (used to change boot prom)
+#         beId:bootDevice:bootDevice:2
+# Example entry when "/" is on a physical device:
+#   1:beOne:C:0
+#   1:/:/dev/dsk/c0t0d0s0:1
+#   1:bootDevice:/dev/dsk/c0t0d0s0:2
+# Example entry when "/" is on a metadevice:
+#   2:beTwo:C:0
+#   2:/:/dev/md/dsk/d10:1
+#   2:bootDevice:/dev/dsk/c0t1d0s0:2
+# If the -b option is not specified, initially the root slice and boot 
+# device are the same; if the root slice becomes a metadevice or volume 
+# (i.e. becomes encapsulated or mirrored) then field type 1 will be 
+# changed to reflect this.
+
+${LUPRINTF} -lp2D 3 "`gettext 'id <%s> bename <%s> rootdev <%s> bootdev <%s>'`" \
+"${new_beId}" "${new_beName}" "${new_rootDevice}" "${new_bootDevice}"
+
+${LUPRINTF} +X -a "${LU_LUTAB_FILE}" '%s:%s:NC:0\n%s:/:%s:1\n%s:boot-device:%s:2' "${new_beId}" \
+"${new_beName}" "${new_beId}" "${new_rootDevice}" "${new_beId}" "${new_bootDevice}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update /etc/lutab file with new \
+entries for boot environment <%s> id <%s>.'`" "${new_beName}" "${new_beId}"
+  exit 2
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'Updated /etc/lutab file with new entries for \
+boot environment <%s> id <%s>.'`" "${new_beName}" "${new_beId}"
+exit 0

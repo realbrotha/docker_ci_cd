@@ -1,0 +1,13 @@
+/*
+ * Copyright 2001-2002 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ *
+ * usr/src/lib/libipp/llib-lipp
+ */
+
+#pragma ident	"@(#)llib-lipp	1.1	02/02/26 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <libipp.h>

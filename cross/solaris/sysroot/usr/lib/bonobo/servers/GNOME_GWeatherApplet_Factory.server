@@ -1,0 +1,320 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_GWeatherApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/gweather-applet-2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج جواذر"/>
+	<oaf_attribute name="name-az" type="string" value="Gweather Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета &quot;Надвор&apos;е&quot;"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на аплета синоптик"/>
+	<oaf_attribute name="name-bn" type="string" value="জি-আবহাওয়া অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet Gweather"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro aplet Sledování počasí"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennigion Tywydd"/>
+	<oaf_attribute name="name-da" type="string" value="Vejrpanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="Gweather-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Gweather"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación del clima de Gnome"/>
+	<oaf_attribute name="name-et" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Gweather applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Gweather-sovelman tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet Gweather"/>
+	<oaf_attribute name="name-gl" type="string" value="Fábrica da applet do tempo atmosférico"/>
+	<oaf_attribute name="name-gu" type="string" value="Gweather એપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון Gweather"/>
+	<oaf_attribute name="name-hi" type="string" value="जीवेदर अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Gweather tvornica apleta"/>
+	<oaf_attribute name="name-hu" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-is" type="string" value="Tólstikuverksmiðja Gweater"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet Meteo"/>
+	<oaf_attribute name="name-ja" type="string" value="天気予報アプレット ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="날씨 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Gweather įtaiso gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="Gweather Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Gweather аплетот"/>
+	<oaf_attribute name="name-mn" type="string" value="Gweather апплетийн үдсэлэгч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Gweather"/>
+	<oaf_attribute name="name-nl" type="string" value="Gnomen Weer-applet Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk som lagar vermeldingsprogrammet"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for værmeldingsapplet"/>
+	<oaf_attribute name="name-pa" type="string" value="ਜੀ-ਮੌਸਮ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu Gweather"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet Gweather"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo Gweather"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory Aplet Gvreme"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения Gweather"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Gweather"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka Gweather"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Applet Gweather"/>
+	<oaf_attribute name="name-sr" type="string" value="Гвреме аплет фабрика"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Gvreme aplet fabrika"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet Väderrapport"/>
+	<oaf_attribute name="name-ta" type="string" value="ஜி.தட்பவெப்ப குறும்பயனகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตสภาพอากาศ"/>
+	<oaf_attribute name="name-tr" type="string" value="Gweather Uygulak Mîmârîsi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплетів погоди"/>
+	<oaf_attribute name="name-vi" type="string" value="Gweather Applet Factory"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Gnome 天气 Applet 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Gweather Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Gweather Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for creating the weather applet."/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع إنشاء بريمج حالة الطقس."/>
+	<oaf_attribute name="description-az" type="string" value="Hava apleti yaradmaq üçün e&apos;malatxana."/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для стварэньня аплета &quot;Надвор&apos;е&quot;."/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за създаване на аплет синоптик."/>
+	<oaf_attribute name="description-bn" type="string" value="আবহাওয়া অ্যাপলেট তৈরির জন্য কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a crear l&apos;applet de l&apos;oratge."/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro aplet Počasí"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri er mwyn creu y rhaglennig tywydd"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til oprettelse af vejrpanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik zum Erzeugen des Wetter-Applets"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για δημιουργία εφαρμογιδίου καιρού."/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for creating the weather applet."/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for creating the weather applet."/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para crear la miniaplicación del clima"/>
+	<oaf_attribute name="description-et" type="string" value="Factory for creating the weather applet."/>
+	<oaf_attribute name="description-eu" type="string" value="Eguraldiaren applet-a sortzeko fabrika."/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas säätietosovelman luomiseksi"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour la création de l&apos;applet météo"/>
+	<oaf_attribute name="description-gl" type="string" value="Fábrica para crear a applet do tempo atmosférico."/>
+	<oaf_attribute name="description-gu" type="string" value="હવામાન એપ્લેટ બનાવવાનું કારખાનું."/>
+	<oaf_attribute name="description-he" type="string" value="יצרן ליצירת יישומון מזג-האויר."/>
+	<oaf_attribute name="description-hi" type="string" value="मौसम एप्लेट बनाने हेतु फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za izradu appleta za vrijeme."/>
+	<oaf_attribute name="description-hu" type="string" value="Factory időjárás applet készítéséhez."/>
+	<oaf_attribute name="description-is" type="string" value="Verksmiðja sem býr til veður - tólstikuforritið"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per la creazione dell&apos;applet Meteo."/>
+	<oaf_attribute name="description-ja" type="string" value="天気予報アプレットを生成するファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="날씨 애플릿을 만드는 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Gamykla oro įtaiso sukūrimui."/>
+	<oaf_attribute name="description-lv" type="string" value="Ražotne laika ziņu paneļprogrammas veidošanai."/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за креирање на временскиот аплет"/>
+	<oaf_attribute name="description-mn" type="string" value="&quot;Цаг агаар&quot; апплетийг үдсэлэгч."/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi mencipta Aplet cuaca"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek om het gnome weer-applet te maken"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk som lagar vermeldingsprogrammet"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for oppretting av værmeldingsapplet."/>
+	<oaf_attribute name="description-pa" type="string" value="ਮੌਸਮ ਅੈਪਲਿਟ ਬਣਾੳੁਣ ਲੲੀ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator tworzący aplety pogodowe"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para criar a applet de metereologia."/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para criação de miniaplicativo meteorológico"/>
+	<oaf_attribute name="description-ro" type="string" value="Factory pentru crearea apletului meteorologic."/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для создания окна приложения Weather."/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet počasia."/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za izdelovanje vstavka o vremenu"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika për krijimin e applet së motit."/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика за прављење аплета за време."/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za pravljenje apleta za vreme."/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för skapande av väderpanelprogrammet."/>
+	<oaf_attribute name="description-ta" type="string" value="தட்பவெப்பக் குறும்பயனை உருவாக்கும் செயலகம்."/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานสร้างแอพเพล็ตสภาพอากาศ"/>
+	<oaf_attribute name="description-tr" type="string" value="Hava durumu uygulağını oluşturacak mîmârî"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для створення аплету погоди."/>
+	<oaf_attribute name="description-vi" type="string" value="Factory để tạo applet thời tiết."/>
+	<oaf_attribute name="description-zh_CN" type="string" value="用于创建天气 Applet 的工厂。"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="用來建立天氣 applet 的工廠。"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="用來建立天氣 applet 的工廠。"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GWeatherApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_GWeatherApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Weather Report"/>
+	<oaf_attribute name="name-ar" type="string" value="تقرير عن حالة الطقس"/>
+	<oaf_attribute name="name-az" type="string" value="Hava Təxmini Raportu"/>
+	<oaf_attribute name="name-be" type="string" value="Справаздача па надвор&apos;і"/>
+	<oaf_attribute name="name-bg" type="string" value="Метеорологичен бюлетин"/>
+	<oaf_attribute name="name-bn" type="string" value="আবহাওয়ার সংবাদ"/>
+	<oaf_attribute name="name-ca" type="string" value="Informe de l&apos;oratge"/>
+	<oaf_attribute name="name-cs" type="string" value="Zprávy o počasí"/>
+	<oaf_attribute name="name-cy" type="string" value="Adroddiad Tywydd"/>
+	<oaf_attribute name="name-da" type="string" value="Vejrrapport"/>
+	<oaf_attribute name="name-de" type="string" value="Wetterbericht"/>
+	<oaf_attribute name="name-el" type="string" value="Δελτίο Καιρού"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Weather Report"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Weather Report"/>
+	<oaf_attribute name="name-es" type="string" value="Previsión meteorológica"/>
+	<oaf_attribute name="name-et" type="string" value="Ilmateade"/>
+	<oaf_attribute name="name-eu" type="string" value="Eguraldi-informazioa"/>
+	<oaf_attribute name="name-fa" type="string" value="گزارش آب و هوا"/>
+	<oaf_attribute name="name-fi" type="string" value="Säätiedote"/>
+	<oaf_attribute name="name-fr" type="string" value="Rapport météo"/>
+	<oaf_attribute name="name-gl" type="string" value="Informe do tempo"/>
+	<oaf_attribute name="name-gu" type="string" value="હવામાનનો અહેવાલ"/>
+	<oaf_attribute name="name-he" type="string" value="דיווח מזג-אויר"/>
+	<oaf_attribute name="name-hi" type="string" value="मौसम रपट"/>
+	<oaf_attribute name="name-hr" type="string" value="Izvještaj o vremenu"/>
+	<oaf_attribute name="name-hu" type="string" value="Időjárásjelentés"/>
+	<oaf_attribute name="name-is" type="string" value="Veðurfregnir"/>
+	<oaf_attribute name="name-it" type="string" value="Previsioni del tempo"/>
+	<oaf_attribute name="name-ja" type="string" value="天気予報"/>
+	<oaf_attribute name="name-ko" type="string" value="날씨 보고"/>
+	<oaf_attribute name="name-lt" type="string" value="Orų prognozė"/>
+	<oaf_attribute name="name-lv" type="string" value="Laika Ziņas"/>
+	<oaf_attribute name="name-mk" type="string" value="Временски извештај"/>
+	<oaf_attribute name="name-mn" type="string" value="Цаг агаарийн мэдээлэл"/>
+	<oaf_attribute name="name-ms" type="string" value="Laporan Cuaca"/>
+	<oaf_attribute name="name-nl" type="string" value="Weerbericht"/>
+	<oaf_attribute name="name-nn" type="string" value="Vermelding"/>
+	<oaf_attribute name="name-no" type="string" value="Værmelding"/>
+	<oaf_attribute name="name-pa" type="string" value="ਮੌਸਮ ਰਿਪੋਰਟ"/>
+	<oaf_attribute name="name-pl" type="string" value="Raport pogodowy"/>
+	<oaf_attribute name="name-pt" type="string" value="Relatório Metereológico"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Relatório meteorológico"/>
+	<oaf_attribute name="name-ro" type="string" value="Raport meteorologic"/>
+	<oaf_attribute name="name-ru" type="string" value="Метеосводка"/>
+	<oaf_attribute name="name-sk" type="string" value="Správa o počasí"/>
+	<oaf_attribute name="name-sl" type="string" value="Vremensko poročilo"/>
+	<oaf_attribute name="name-sq" type="string" value="Njoftimet e Motit"/>
+	<oaf_attribute name="name-sr" type="string" value="Извештај о времену"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Izveštaj o vremenu"/>
+	<oaf_attribute name="name-sv" type="string" value="Väderrapport"/>
+	<oaf_attribute name="name-ta" type="string" value="தட்பவெப்ப அறிக்கை"/>
+	<oaf_attribute name="name-th" type="string" value="รายงานสภาพอากาศ"/>
+	<oaf_attribute name="name-tr" type="string" value="Hava Durumu"/>
+	<oaf_attribute name="name-uk" type="string" value="Зведення погоди"/>
+	<oaf_attribute name="name-vi" type="string" value="Báo cáo thời tiết"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="气象报告"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="天氣報告"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="天氣報告"/>
+	<oaf_attribute name="description" type="string" value="Monitor the current weather conditions, and forecasts"/>
+	<oaf_attribute name="description-ar" type="string" value="راقب أحوال وتوقعات الطقس الحالي"/>
+	<oaf_attribute name="description-az" type="string" value="Hazırkı hava vəziyyətini və təxmini izlə"/>
+	<oaf_attribute name="description-be" type="string" value="Адлюстраваньне бягучага надвор&apos;я й прагнозу"/>
+	<oaf_attribute name="description-bg" type="string" value="Наблюдение на времето и прогнози"/>
+	<oaf_attribute name="description-bn" type="string" value="আবহাওয়ার বর্তমান অবস্থা আর পুর্বাভাসের উপর নজর রাখুন"/>
+	<oaf_attribute name="description-ca" type="string" value="Monitoritza les condicions actuals de l&apos;oratge i les previsions"/>
+	<oaf_attribute name="description-cs" type="string" value="Sleduje aktuální počasí a předpovědi"/>
+	<oaf_attribute name="description-cy" type="string" value="Monitro cyflwr cyfredol y tywydd a rhagolygon y tywydd"/>
+	<oaf_attribute name="description-da" type="string" value="Overvåg de aktuelle vejrforhold og -prognoser"/>
+	<oaf_attribute name="description-de" type="string" value="Aktuelle Wetterberichte und -vorhersagen abrufen"/>
+	<oaf_attribute name="description-el" type="string" value="Παρακολούθηση του καιρού και προβλέψεων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Monitor the current weather conditions, and forecasts"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Monitor the current weather conditions, and forecasts"/>
+	<oaf_attribute name="description-es" type="string" value="Controlar las condiciones meteorológicas actuales e informar del pronóstico del tiempo"/>
+	<oaf_attribute name="description-et" type="string" value="Jälgi hetke ilmastikutingimusi ja ennustusi"/>
+	<oaf_attribute name="description-eu" type="string" value="Uneko eguraldia eta iragarpenak kontrolatzen ditu"/>
+	<oaf_attribute name="description-fi" type="string" value="Seuraa sääoloja ja ennusteita"/>
+	<oaf_attribute name="description-fr" type="string" value="Contrôle les conditions météo et les prévisions courantes "/>
+	<oaf_attribute name="description-gl" type="string" value="Monitoriza as condicións actuais do tempo e os prognósticos"/>
+	<oaf_attribute name="description-gu" type="string" value="વર્તમાન હવામાનની પરિસ્થિતિઓનું ધ્યાન રાખો અને અનુમાન કરો"/>
+	<oaf_attribute name="description-he" type="string" value="מציג את תנאי מזג-האויר הנוכחיים, ותחזיות"/>
+	<oaf_attribute name="description-hi" type="string" value="वर्तमान मौसम परिस्थिति पर नजर रखे और पूर्वानुमान करे"/>
+	<oaf_attribute name="description-hr" type="string" value="Praćenje trenutnih vremenskih prilika i vremenske prognoze"/>
+	<oaf_attribute name="description-hu" type="string" value="A jelenlegi és az előrejelzett időjárást figyeli"/>
+	<oaf_attribute name="description-is" type="string" value="Fylgstu með veðurskilyrðum og veðurfregnum"/>
+	<oaf_attribute name="description-it" type="string" value="Controlla le condizioni e le previsioni atmosferiche"/>
+	<oaf_attribute name="description-ja" type="string" value="現在の天気と予報をモニター"/>
+	<oaf_attribute name="description-ko" type="string" value="현재 날씨 상태를 감시하고 예보합니다."/>
+	<oaf_attribute name="description-lt" type="string" value="Stebėk esamas oro sąlygas ir prognozes"/>
+	<oaf_attribute name="description-lv" type="string" value="Novēro un ziņo par pašreizējiem laikam apstākļiem un prognozēm"/>
+	<oaf_attribute name="description-mk" type="string" value="Надгледувај ги моменталните временски услови и прогнози"/>
+	<oaf_attribute name="description-mn" type="string" value="Одоогын Цаг агаар болон таамаглалыг харах"/>
+	<oaf_attribute name="description-ms" type="string" value="Monitor keadaan cuaca semasa, dan ramalan"/>
+	<oaf_attribute name="description-nl" type="string" value="Bekijk het huidige weer, en vooruitzichten"/>
+	<oaf_attribute name="description-nn" type="string" value="Overvakar veret og vermeldingar"/>
+	<oaf_attribute name="description-no" type="string" value="Overvåk værtilstand og få værmeldinger"/>
+	<oaf_attribute name="description-pa" type="string" value="ਮੌਜੂਦਾ ਮੌਸਮ ਹਾਲਾਤ ਵੇਖੋ ਤੇ ਭਵਿੱਖਬਾਣੀ ਕਰੋ"/>
+	<oaf_attribute name="description-pl" type="string" value="Monitor aktualnych warunków pogodowych i prognoza pogody"/>
+	<oaf_attribute name="description-pt" type="string" value="Monitorize as condições atmosféricas actuais e as previsões"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Monitora as condições meteorológicas atuais e faz previsões"/>
+	<oaf_attribute name="description-ro" type="string" value="Monitorizează condiţiile meteorologice curente, şi previziunile"/>
+	<oaf_attribute name="description-ru" type="string" value="Метеосводка и прогноз погоды"/>
+	<oaf_attribute name="description-sk" type="string" value="Sleduje aktuálne počasie a predpovede"/>
+	<oaf_attribute name="description-sl" type="string" value="Nadzoruje trenutne vremenske razmere in napoved"/>
+	<oaf_attribute name="description-sq" type="string" value="Vëzhgo të dhënat e motit dhe parashikimet"/>
+	<oaf_attribute name="description-sr" type="string" value="Праћење тренутних временских прилика и временске прогнозе"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Praćenje trenutnih vremenskih prilika i vremenske prognoze"/>
+	<oaf_attribute name="description-sv" type="string" value="Övervaka aktuella väderförhållanden och väderprognoser"/>
+	<oaf_attribute name="description-ta" type="string" value="நடப்பு தட்பவெப்ப நிலைகளைக் கண்காணித்து முன்மதிப்பிடுகிறது"/>
+	<oaf_attribute name="description-th" type="string" value="ติดตามสภาพอากาศปัจจุบัน และอ่านพยากรณ์อากาศ"/>
+	<oaf_attribute name="description-tr" type="string" value="Şu andaki hava durumunu ve tahminlerini izle"/>
+	<oaf_attribute name="description-uk" type="string" value="Слідкує за поточними погодними умовами і робить прогнози"/>
+	<oaf_attribute name="description-vi" type="string" value="Theo dõi thời tiết, và dự đoán thời tiết"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="当前气象条件和气象预报监视器"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="監控目前的天氣情況及天氣預報"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="監控目前的天氣情況及天氣預報"/>
+	<oaf_attribute name="panel:category" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-am" type="string" value="አጋዥ ፕሮግራሞች"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="إكسسوارات"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Donatılar"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Зручнасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Аксесоари"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="আনুষঙ্গিক"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Accesoris"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Ategolion"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Βοηθήματα"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Tarvikud"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Gehigarriak"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Apuohjelmat"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Oiriúintí"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="સહાયકો"/>
+	<oaf_attribute name="panel:category-he" type="string" value="עזרים"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="सहायक प्रोग्राम"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Aukahlutir"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="액세서리"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Priemonės"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Aksesuāri"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Aлатки"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="സഹപ്രയോഗങ്ങള്"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Хэрэгслүүд"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Aksesori"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Tillegg"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗੀ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Accesorii"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Príslušenstvo"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomočki"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Açesorët"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Додатне алатке"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Dodatne alatke"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பின்சேர்க்கைகள்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อำนวยความสะดวก"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Donatılar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Стандартні"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Bổ sung"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="stock_weather-storm"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="gweather"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="gweather-applet-2"/>
+
+</oaf_server>
+
+</oaf_info>

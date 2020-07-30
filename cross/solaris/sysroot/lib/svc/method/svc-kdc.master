@@ -1,0 +1,23 @@
+#!/bin/sh
+#ident	"@(#)svc-kdc.master	1.1	04/07/15 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+. /lib/svc/share/krb_include.sh
+
+# Start processes required for master KDC
+
+if [ -s $KDC_CONF_DIR/kdc.conf ]; then
+	#make sure the kdc.conf is configured
+	egrep -l '^[ 	]*_[_]*default_realm_' \
+	    $KDC_CONF_DIR/kdc.conf > /dev/null 2>&1
+
+	if [ $? -gt 0 ] && kadm5_acl_configed && db_exists && \
+	    [ -x $BINDIR/kadmind ]; then
+		$BINDIR/kadmind
+		exit 0
+	fi
+fi
+exit 1

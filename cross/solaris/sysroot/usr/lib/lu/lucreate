@@ -1,0 +1,1184 @@
+#!/sbin/sh
+
+################################################################################
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+#pragma ident	"@(#)lucreate.sh	5.16	05/10/25 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice. This module is now located in /usr/lib/lu/lucreate and
+# is called by the C version /usr/sbin/lucreate (/etc/lib/lu/ludo lucreate)
+#
+# USAGE:        /usr/lib/lu/lucreate [ -A beDesc ] 
+#		[ -c PBE_Initial_Name [ -C [PBE_Boot_Device | - ] ] ]
+#		[ -d debugLevel ] [ -f exclude_from-file ]
+#		[ -I ] [ -l error_log-file ]
+#		[ -m mountpt:dev:fstyp [-m ... ] ] [ -M fsconfig-file ]
+#		-n beName [ -o session_output-file ] [ -p mntpt ]
+#		[ -s pbeName ] [ -x exclude_file ] [ -X ]
+#		[ -Y include_from-file ] [ -y include_file ]
+#		[ -z exclude_include_filter-file ] [ -Z ]
+#
+# FUNCTION:     Create new BE: Command line driver program to call ludefine, 
+#		luconfig, lunewid, lutab_update, luupdall, 
+#		and lumake
+# OPTIONS:
+#		-A beDesc - an optional "description" to be associated with this BE.
+# 		-C PBE_Boot_Device - boot device for PBE - optional only used when 
+#		   creating PBE with the -c option - only useful in cases where the
+#		   PBE's root is mirrored or encapsulated and the boot prom will not
+#		   provide the correct boot device used to boot up the system.
+#		   If "PBE_Boot_Device" "-" then this means accept the current eeprom
+#		   boot device value if its available - the default is to query the
+#		   user and ask for verification if the root file system is not a physical
+#		   device (e.g. a meta device or logical volume) and the physicalboot 
+#		   device value must be obtained from the eeprom. If the root file system
+#		   is a physical device and "-C -" is specified, it is ignored.
+#		-c PBE_Initial_Name - if PBE has not yet been named, use this name;
+#		   if not specified and PBE is not named, prompt user for name.
+#		-d debugLevel - debug level to set
+#		-f x - exclude list from file
+#		-I - suppress integrity check
+#		-i - used with "-c" - create and configure PBE only
+#		-l error_log - file where errors will be logged
+#		-m dev - one or more mount points that define contents of ABE; default
+#		   is to bring up 'luconfig' in interactive mode and allow the user to
+#		   use FMLI interface to define ABE contents. When one or more -m options
+#		   are specified, the FMLI interface is bypassed and the -m options ARE
+#		   the definition of the ABE. The format of the -m option is:
+#		   "-m mountPoint:storageDevice:fstype", e.g. "-m /:/dev/dsk/c0t0d0s0:ufs".
+#		-M file - file containing multiple dev specification (-m) options
+#		-n n - the BEname for the new BE to be created.
+#		-o session_log -  file where all session output will be logged.
+#		-p mntpt - preserve mntpt from mkfs/copy
+#		-s PBE_name - Name of the current BE to use (overrides -c option
+#		   and lookup in /etc/lutab - use if PBE isn't defined in /etc/lutab.
+#		-X - set XML mode for output
+#		-x x - exclude x from copy
+#		-Y x - include list from file
+#		-y x - include x in copy
+#		-z x - include/exclude (filter) items from file
+#		-Z - indicates invoked from FMLI interface (handles screen output
+#			differently)
+#
+# ALGORITHM:
+#
+# Check for "copy lock". If it exists, exit with message.
+# Make sure the ABE name is valid
+# Clear screen
+# Set the "copy lock".
+# Determine if the PBE is defined. If not, asks user for PBE_Name.
+# Make sure PBE_NAME is valid
+# Add the Source and Target BE names to COPY_LOCK file
+# Call ludefine to determine required and optional file systems needed.
+# Add the PBE to lutab if needed and set status to Complete.
+# Call lunewid to get a new ID for the ABE.
+# verify the all required PBE file systems are mounted
+# Call luconfig to define slices and file system types.
+# Mark devices as "used" in the device.tab
+# Call lutab_update to add the ABE to the lutab.
+# Call luupdall to copy the lutab to all defined BEs.
+# Set CL_STATUS to "SCHEDULED" so lumake starts correctly.
+# Call lumake to either immediately copy or schedule the copy for ABE.
+# exit with a good status
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+ABE_ICF=""
+INODE_ICF=""
+IBE_NAME=""
+PBE_NAME=""
+CBE_NAME=""
+TIME=""
+MAILTO=""
+ABE_NAME=""
+CONFIG_VARS_TMPFILE="/tmp/.lucreate.config.var.$$"
+TEMPLATE_TMPFILE="/tmp/.lucreate.template.$$"
+COPYLOCK_CAN_BE_DELETED=""
+LUTAB_CAN_BE_DELETED=""
+FILTER_FILE="/tmp/.lucreate.filter_one_.$$"
+FDO="/etc/lib/lu/ludo lufdo"
+
+################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "1").
+# Example:	usage 1
+# Returns:	<none> 
+################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [ -X ] [ -l error_log ] [ -o outfile ] \
+-n BE_name [ -A BE_description ] [ -c BE_name ] [ -C ( boot_device | - ) ] \
+[ -s ( - | source_BE_name ) ] [ [ -M slice_list ] | \
+[ -m mountpoint:device:fs_type [ -m... ] ] ]'`" \
+"${LU_PROG_NAME}"
+  ${LUPRINTF} -Ip2 "`gettext 'Any BE_name or BE_description should be \
+enclosed in single quotes.'`"
+  if [ -z "$1" ] ; then
+    exit_script 1
+  fi
+  exit_script "$1"
+}
+
+################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+################################################################################
+
+exit_script()
+{
+  # Remove all transient temporary files that are never a permanent result of the lucreate.
+
+  /bin/rm -f ${FILTER_FILE} ${CONFIG_VARS_TMPFILE} ${INODE_ICF} ${TEMPLATE_TMPFILE} 2>/dev/null
+
+  # Remove any copylock file
+
+  copylock_delete
+
+  # Remove the lutab file if it is marked for deletion (error during PBE naming/creation)
+
+  if [ -n "${LUTAB_CAN_BE_DELETED}" -a -f "${LU_LUTAB_FILE}" ] ; then
+    ${LUPRINTF} -Wlp2 "`gettext 'The boot environment definition file <%s> was removed because the PBE\
+ was not successfully defined and created.'`" "${LU_LUTAB_FILE}"
+    /bin/rm -f "${LU_LUTAB_FILE}" 2>/dev/null
+  fi
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  # If not a successful exit code, remove the ABE's ICF file
+
+  [ "${retcode}" -ne '0' -a -n "${ABE_ICF}" ] && /bin/rm -f "${ABE_ICF}"
+
+  exit "${retcode}"
+}
+
+################################################################################
+# Name:		create_default_bename
+# Description:	Create a "default" name that can be used to name the current
+#		boot environment
+# Local Prefix:	cdb_
+# Arguments:	none
+# Example:	IBE_NAME="`create_default_bename`"
+# Returns:	0
+# Outputs:	BE name that can be used to name the current boot environment
+# Algorithm:	First attempt to create a BE name that is the base name of
+#		the current boot device (such as c?t?d?x?) - if that fails,
+#		then create a name that represents the current OS name and
+#		version (such as SunOS5.9). If that fails, default to "current"
+################################################################################
+
+create_default_bename()
+{
+	# Attempt to determine the boot device name (device / is mounted on)
+	# devnm returns output in the form: /dev/dsk/c?t?d?s? /
+
+	cdb_name="`/usr/sbin/devnm / 2>/dev/null`"
+	if [ $? -eq 0 -a -n "${cdb_name}" ] ; then
+		# got boot device name - isolate device name from mount point
+		cdb_name="`/bin/echo ${cdb_name} | /bin/awk '{print $1}'`"
+
+		# get base name of boot device
+		cdb_name="`/bin/basename \"${cdb_name}\"`"
+	else
+		# cannot determine boot device name - get OS name and version
+		cdb_name="`/bin/uname -s 2>/dev/null``/bin/uname -r 2>/dev/null`"
+	fi
+
+	# If any previous command failed or no output was generated,
+	# return "current" as the default BE name
+
+	if [ $? -ne 0 -o -z "${cdb_name}" ] ; then
+		cdb_name='current'
+	fi
+		
+	echo "${cdb_name}"
+	return 0
+}
+
+################################################################################
+# Name:		process_slice_candidate
+# Description:	Given a candidate for a boot slice, determine if the candidate
+#		is a block device that can be booted.
+# Local Prefix:	psc_
+# Arguments:	$1 = candidate slice to check (e.g. c0t0d0s0)
+# Example:	process_slice_candidate c0t0d0s0
+# Returns:	0 - successful (stdout has full path name to candidate slide)
+#		1 - failure (stderr has error message)
+################################################################################
+
+process_slice_candidate()
+{
+	psc_device="/dev/dsk/$1"
+	if [ ! -b "${psc_device}" ] ; then
+		${LUPRINTF} -Eelp2 '<%s> is not a bootable device.' "${psc_device}"
+		return 1
+	fi
+	${LUPRINTF} -lp2D 3 '<%s> is a bootable device.' "${psc_device}"
+	${LUPRINTF} -1 '%s' "${psc_device}"
+	return 0
+}
+
+################################################################################
+# Name:		determine_md_boot_device
+# Description:	Given a meta device, return the boot device for that metadevice.
+# Local Prefix:	dmb_
+# Arguments:	$1 = metadevice to check (e.g. /dev/md/dsk/...)
+# Example:	determine_md_boot_device '/dev/md/dsk/d10'
+# Returns:	0 - successful (stdout has name of boot device)
+#		1 - unsuccessful (stderr has error message)
+################################################################################
+
+determine_md_boot_device()
+{
+	dmb_device="$1"
+	ERRMSG=`${SDS_METASTAT} -p "${dmb_device}" 2>&1 1>/tmp/metastat.out`
+	if [ "$?" -ne '0' ] ; then
+		[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+		${LUPRINTF} -Eelp2 "`gettext 'Cannot determine boot device \
+for metadevice <%s>.'`" "${dmb_device}"
+		return 1
+	fi
+
+	dmb_line=`/bin/head -1 /tmp/metastat.out`
+	${LUPRINTF} -lp2D 1 "`gettext 'Determining boot device for metadevice <%s>.'`" \
+"${dmb_device}"
+	${LUPRINTF} -lp2D 3 "`gettext 'Metadevice <%s> is <%s>.'`" "${dmb_device}" \
+"${dmb_line}"
+
+	# The only metadevices that support the root file system are a stripe
+	# with only a single disk or a mirror on a single-disk stripe.
+
+	# See if its a trans device - if so, reject.
+	# trans device format: 
+	#   d1 -t d10 d20
+	#   d10 -m d11
+	#   d11 1 1 c0t1d0s2
+	#   d12 1 1 c0t2d0s2
+	#   d20 -m d21
+	#   d21 1 1 c1t1d0s2
+	#   d22 1 1 c1t2d0s2
+	echo "${dmb_line}" | /bin/grep 'd[0-9]* -t ' 2>/dev/null 1>&2
+	if [ "$?" -eq '0' ] ; then
+		${LUPRINTF} -Eelp2 'Metadevice <%s> is a trans metadevice.' "${dmb_device}"
+		return 1
+	fi
+
+	# See if its a mirror - if so, see if its the right kind of mirror.
+	# mirror format:
+	#   d50 -m d51 d52 d53
+	#   d51 1 1 c0t1d0s2
+	#   d52 1 1 c0t2d0s2
+	#   d53 1 1 c0t3d0s2
+	echo "${dmb_line}" | /bin/grep 'd[0-9]* -m ' 2>/dev/null 1>&2
+	if [ "$?" -eq '0' ] ; then
+		${LUPRINTF} -lp2D 2 "`gettext 'Metadevice <%s> is a mirror <%s>.'`" \
+"${dmb_device}" "${dmb_line}"
+		dmb_m=`echo ${dmb_line} | /bin/cut -d' ' -f3`
+		${LUPRINTF} -lp2D 2 "`gettext 'Mirror first metadevice is <%s>.'`" "${dmb_m}"
+		dmb_y=`/bin/grep "^${dmb_m} 1 1 " /tmp/metastat.out 2>/dev/null 1>&1 | /bin/cut -d' ' -f4`
+		if [ "$?" -ne '0' -o -z "${dmb_y}" ] ; then
+			${LUPRINTF} -Eelp2 "`gettext 'Mirror <%s> submirror \
+<%s> is not single disk stripe.'`" "${dmb_device}" "${dmb_m}"
+			return 1
+		fi
+		${LUPRINTF} -lp2D 2 "`gettext 'Metadevice <%s> is <%s>.'`" "${dmb_m}" "${dmb_y}"
+		process_slice_candidate "${dmb_y}"
+		return $?
+	fi
+	
+	echo "${dmb_line}" | /bin/grep 'd[0-9]* 1 1 ' 2>/dev/null 1>&2
+	if [ "$?" -eq '0' ] ; then
+		${LUPRINTF} -lp2D 2 "`gettext 'Metadevice <%s> is concat/stripe \
+<%s>.'`" "${dmb_device}" "${dmb_line}"
+		process_slice_candidate `echo "${dmb_line}" | /bin/cut -d' ' -f4`
+		return $?
+	fi
+
+	${LUPRINTF} -Eelp2 "`gettext 'Cannot determine boot device for \
+metadevice <%s>.'`" "${dmb_device}"
+	return 1
+}
+
+
+################################################################################
+# Name:		copylock_create
+# Description:	Create a copy lock file; complain if it already exists or it can not be created.
+# Local Prefix:	clc_
+# Arguments:	$1 = variable name to set 
+#		$2 = variable value to set variable name to
+#		$3 = "yes" if ok to delete copylock when script exits; "" if not ok to delete
+# Example:      copylock_create "CL_STATUS" "UPDATING" "yes"
+# Returns:	0 - succeeded - copylock created.
+#		1 - failed.
+################################################################################
+
+copylock_create()
+{
+  clc_variableName="$1"
+  clc_variableValue="$2"
+  clc_canDelete="$3"
+  if [ -f "${COPYLOCK}" -a -s "${COPYLOCK}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create copy lock for operation; a copy lock already exists: <%s>.'`" "`/bin/cat ${COPYLOCK}`"
+    return 1
+  fi
+  ${LUPRINTF} +X -a ${COPYLOCK} "%s=\"%s\"" "${clc_variableName}" "${clc_variableValue}"
+  clc_ret="$?"
+  COPYLOCK_CAN_BE_DELETED="${clc_canDelete}"
+  return "${clc_ret}"
+}
+
+################################################################################
+# Name:		copylock_append
+# Description:	Append to a copy lock file; complain if it does not exist or it can not be updated.
+# Local Prefix:	cla_
+# Arguments:	$1 = variable name to set 
+#		$2 = variable value to set variable name to
+# Example:      copylock_append "CL_TARGET_BE" "${beName}"
+# Returns:	0 - succeeded - copylock updated.
+#		1 - failed.
+################################################################################
+
+copylock_append()
+{
+  cla_variableName="$1"
+  cla_variableValue="$2"
+  if [ ! -f "${COPYLOCK}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Internal logic error (copy lock file does not exist).'`"
+    return 1
+  fi
+  ${LUPRINTF} +X -a ${COPYLOCK} "%s=\"%s\"" "${cla_variableName}" "${cla_variableValue}"
+  cla_ret="$?"
+  return "${cla_ret}"
+}
+
+################################################################################
+# Name:		copylock_delete
+# Description:	If the copylock file exists and can be deleted, delete it.
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      copylock_delete
+# Returns:	<none>
+################################################################################
+
+copylock_delete()
+{
+  if [ -n "${COPYLOCK_CAN_BE_DELETED}" -a -f "${COPYLOCK}" ] ; then
+    /bin/rm -f ${COPYLOCK}
+  fi
+  COPYLOCK_CAN_BE_DELETED=""
+}
+
+################################################################################
+# Name:		define_pbe
+# Description:	Create the initial LUTAB file and PBE definition files
+# Local Prefix:	dpbe_
+# Arguments:	$1 = PBE boot environment Name.
+#		$2 = PBE Icf File Name to create.
+#		$3 = PBE boot environment ID.
+#		$4 = PBE BOOT device (will attempt to determine if not specified).
+#		     If "$4" is "-" then this means accept the current eeprom 
+#		     boot device value if its available.
+# Example:      define_pbe "${PBE_NAME}" "${PBE_ICF}" "${PBE_ID}" "${PBE_BOOTDEV}"
+# Returns:	<none>
+################################################################################
+
+define_pbe()
+{
+  dpbe_pbeBeName="$1"
+  dpbe_pbeIcfFileName="$2"
+  dpbe_pbeBeId="$3"
+  dpbe_pbeBootDev="$4"
+
+  ${LUPRINTF} -lp1 "`gettext 'Creating initial configuration for primary boot environment <%s>.'`" "${dpbe_pbeBeName}"
+
+  # Set the BE configuration file for the PBE - we do this now so that
+  # lucurr and other utilities that use it will find the PBE's
+  # configuration "the easy way"...
+
+  /bin/rm -f "${LU_BE_CONFIG_FILE}" 2>/dev/null
+  if [ -z "${dpbe_pbeBootDev}" ] ; then
+    dpbe_pbeBootDev="`${LUETCBIN}/lurootdev -C`"
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine the physical boot device for the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+      ${LUPRINTF} -lp2 "`gettext 'Use the <-C> command line option to specify the physical boot device for the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+      return 1
+    fi
+  elif [ "${dpbe_pbeBootDev}" = '-' ] ; then
+    dpbe_pbeBootDev="`${LUETCBIN}/lurootdev -C < /dev/null`"
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine the physical boot device for the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+      ${LUPRINTF} -lp2 "`gettext 'Use the <-C> command line option to specify the physical boot device for the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+      return 1
+    fi
+  fi
+  ${LUPRINTF} +X -a "${LU_BE_CONFIG_FILE}" 'LUBECF_BE_ID=%d\nLUBECF_BE_NAME=%s\nLUBECF_BE_BOOT_DEVICE=%s' "${dpbe_pbeBeId}" "${dpbe_pbeBeName}" "${dpbe_pbeBootDev}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create boot environment definition file <%s> for the current BE <%s>.'`" "${LU_BE_CONFIG_FILE}" "${dpbe_pbeBeName}" 
+    return 1
+  fi
+  /bin/chmod 444 "${LU_BE_CONFIG_FILE}" 2>/dev/null
+
+  # if the ${LU_LUTAB_FILE} doesn't exist, we want to send ludefine PBE
+  $LUBIN/ludefine -n "${dpbe_pbeBeName}" -O "${dpbe_pbeIcfFileName}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create the internal configuration file for the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+    return 1
+  fi
+  # Need to add PBE to lutab
+  ${LUPRINTF} -lp2D - "`gettext 'Adding <%s> to lutab.'`" "${dpbe_pbeBeName}"
+  if [ -z "${dpbe_pbeBootDev}" ] ; then
+    $LUBIN/lutab_update -i "${dpbe_pbeIcfFileName}" -I "${dpbe_pbeBeId}"
+    ret=$?
+  else
+    $LUBIN/lutab_update -i "${dpbe_pbeIcfFileName}" -I "${dpbe_pbeBeId}" -b "${dpbe_pbeBootDev}"
+    ret=$?
+  fi
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot update boot environment configuration file with the current BE <%s> information.'`" "${dpbe_pbeBeName}" 
+    return 1
+  fi
+  # Set the status to Complete
+  $LUBIN/lustat_set -n "${dpbe_pbeBeName}" -s "C"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot update the status of the current boot environment <%s>.'`" "${dpbe_pbeBeName}"
+    return 1
+  fi
+  ${LUPRINTF} -lp1 "`gettext 'PBE configuration successful: PBE name <%s> PBE Boot Device <%s>.'`" "${dpbe_pbeBeName}" "${dpbe_pbeBootDev}"
+
+  return 0
+}
+
+################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+
+if [ "$LU_SYSTEM_ARCH" = "i386" ]; then
+   lulib_check_patch
+   if [ "$?" -ne 0 ]; then
+      exit 1
+   fi
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values (PRIVATE).
+flag_A="" # -A beDesc - optional description to be associated with the BE (PRIVATE).
+flag_C="" # -C n - PBE boot device (optional only when creating PBE with -c option).
+flag_c="" # -c n - initial be name (PRIVATE).
+flag_d="" # -d n - set debug level to n (PRIVATE).
+flag_i="" # -i - initial creation of PBE name only (PRIVATE).
+flag_I="yes" # -I - no integrity check (DEFAULT: perform integrity check) (PRIVATE).
+flag_l="" # -l f - log file path (PRIVATE).
+flag_n="" # -n "n" - be name (PRIVATE).
+flag_o="" # -o f - output file path (PRIVATE).
+flag_p="" # -p n - preserve file system (PRIVATE).
+flag_s="" # -s n - pbe name (PRIVATE).
+flag_Z="" # -Z - being run from the FMLI interface (PRIVATE).
+
+# No BE description
+beDesc=""
+
+# No filter flags to pass down to lumake
+/bin/rm -f "${FILTER_FILE}"
+
+# Preload filter file if optional boot environment filter exists
+if [ -n "${LU_BE_POPULATE_CONTENT_CONTROL_FILE}" -a -s "${LU_BE_POPULATE_CONTENT_CONTROL_FILE}" ] ; then
+  ${LUPRINTF} +X -a "${FILTER_FILE}" '%R' < "${LU_BE_POPULATE_CONTENT_CONTROL_FILE}"
+fi
+
+# Ignore traps
+
+trap "" 1 2 3 9 15
+
+while [ $# -ne 0 ] ; do
+  while getopts A:C:c:d:f:Iil:M:m:n:o:p:s:Xx:Y:y:z:Z c ; do
+    case $c in
+      A) # -A "desc" - sets the "BE description" for the new BE to "desc".
+	 if [ -n "${flag_A}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'The <-A> option may not be specified \
+more than once.'`"
+	   usage 3
+	 fi
+	 beDesc="`${LUETCBIN}/ludo xml_encode_string \"${OPTARG}\"`"
+	 flag_A='yes'
+	 ;;
+
+      C) # -C n - boot device for PBE (optional only used when creating PBE with the -c option).
+	 # If "n" is "-" then this means accept the current eeprom boot device value if its available.
+	 lulib_cannot_duplicate_option "${flag_C}" "${OPTARG}" "-C"
+	 if [ "${OPTARG}" != '-' ] ; then
+	   echo "${OPTARG}" | grep "/dev/dsk/" > /dev/null 2>&1
+	   if [ "$?" -ne "0" -o ! -b "${OPTARG}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -C option must be a valid device in /dev/dsk.'`" "${OPTARG}"
+	   usage 3
+	   fi
+	 fi
+	 flag_C="${OPTARG}"
+	 ;;
+
+      c) # -c n - initial be name
+	 lulib_cannot_duplicate_option "${flag_c}" "${OPTARG}" "-c"
+	 flag_c="${OPTARG}"
+	 # 0 - the be name is valid and unused.
+	 # 1 - the be name is valid and inuse.
+	 # 2 - the be name is invalid.
+	 lulib_is_be_name_unused "${flag_c}"
+	 ret="$?"
+	 if [ "${ret}" -eq "1" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -c option must be a BE name that is not currently assigned to any boot environment.'`" "${flag_c}"
+	   usage 3
+	 elif [ "${ret}" -eq "2" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -c option must be a valid boot environment name.'`" "${flag_c}"
+	   usage 3
+	 fi
+	 IBE_NAME="${flag_c}"
+	 ;;
+
+      d) # -d n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_d}" "${OPTARG}" "-d"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -d option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_d="${OPTARG}"
+	 lulib_set_debug "${flag_d}"
+	 ;;
+
+      f) # -f x - filter
+	 ${FDO} do_x_list "${OPTARG}" >> ${FILTER_FILE}
+	 if [ $? -ne 0 ] ; then
+           ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -f option cannot append to file <%s>.'`" "${OPTARG}" "${FILTER_FILE}"
+           exit_script 3
+	 fi
+	 ;;
+
+      I) # -I - no integrity check (DEFAULT: perform integrity check)
+	 # Using -I means do NOT do an integrity check.
+	 flag_I="no"
+	 ;;
+
+      i) # -i - initial creation of PBE name only (PRIVATE)
+	 flag_i="yes"
+	 ;;
+
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+
+      M) # -M f - file system device specification file
+	 if [ ! -f "${OPTARG}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -M option files does not exist or is not a file.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 if [ -s "${OPTARG}" ] ; then
+	   /bin/cat "${OPTARG}" >> ${TEMPLATE_TMPFILE}
+	   if [ $? -ne 0 ] ; then
+	     ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -M option cannot append to file <%s>.'`" "${OPTARG}" "${TEMPLATE_TMPFILE}"
+	     exit_script 3
+	   fi
+	 fi
+	 ;;
+
+      m) # -m x - file system device specification
+	 ERRMSG=`${LUPRINTF} +X -a "${TEMPLATE_TMPFILE}" '%s' "${OPTARG}" 2>&1`
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Cannot append argument <%s> to -m to template file <%s>.'`" "${OPTARG}" "${TEMPLATE_TMPFILE}"
+	   exit_script 3
+	 fi
+	 ;;
+
+      n) # -n "n" - be name.
+	 lulib_cannot_duplicate_option "${flag_n}" "${OPTARG}" "-n"
+	 flag_n="${OPTARG}"
+	 ;;
+
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+
+      p) # -p n - preserve file system (PRIVATE).
+	 if [ ! -d "${OPTARG}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -p option is not a directory.'`" "${OPTARG}"
+	   exit_script
+	 fi
+	 [ -n "${flag_p}" ] && flag_p="${flag_p} -p ${OPTARG}"
+	 [ -z "${flag_p}" ] && flag_p="-p ${OPTARG}"
+ 	 ;;
+
+      s) # -s n - pbe name
+	 lulib_cannot_duplicate_option "${flag_s}" "${OPTARG}" "-s"
+	 flag_s="${OPTARG}"
+	 ;;
+
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+
+      x) # -x x - exclude x
+	 ERRMSG="`${LUPRINTF} +X -a \"${FILTER_FILE}\" '%s' \"- ${OPTARG}\"'`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Cannot append argument <%s> to -x to filter file <%s>.'`" "${OPTARG}" "${FILTER_FILE}"
+	   exit_script 3
+	 fi
+	 ;;
+
+      Y) # Y f - include file
+	 ${FDO} do_file_list $OPTARG >> ${FILTER_FILE}
+	 if [ $? -ne 0 ] ; then
+           ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -y option cannot append to file <%s>.'`" "${OPTARG}" "${FILTER_FILE}"
+           exit_script 3
+	 fi
+	 ;;
+
+      y) # -y x - include x
+	 ERRMSG="`${LUPRINTF} +X -a \"${FILTER_FILE}\" '%s' \"+ ${OPTARG}\"'`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Cannot append argument <%s> to -y to filter file <%s>.'`" "${OPTARG}" "${FILTER_FILE}"
+	   exit_script 3
+	 fi
+	 ;;
+
+      z) # -Z f - include/exclude file
+	 if [ ! -f "${OPTARG}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -z option files does not exist or is not a file.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 if [ -s "${OPTARG}" ] ; then
+	   /bin/cat "${OPTARG}" >> ${FILTER_FILE}
+	   if [ $? -ne 0 ] ; then
+	     ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -z option cannot append to file <%s>.'`" "${OPTARG}" "${FILTER_FILE}"
+	     exit_script 3
+	   fi
+	 fi
+	 ;;
+
+      Z) # -Z - being run from the FMLI interface.
+	 flag_Z="-Z"
+	 ;;
+
+      \?) # unknown - option
+	  usage 3
+	  ;;
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Determine the status of SDS
+lulib_discover_sds_installation
+
+# just create initial PBE configuration if -i option set
+if [ -n "${flag_i}" ] ; then
+  # if already configured, ignore option
+  [ -f "${LU_LUTAB_FILE}" -a -s "${LU_LUTAB_FILE}" ] && exit 0
+
+  # if no -c option given, create default BE name
+  if [ -z "${IBE_NAME}" ] ; then
+    IBE_NAME="`create_default_bename`"
+  fi
+
+  # Configure current boot environment with new name
+  PBE_ID="`$LUBIN/lunewid`"
+  CBE_ICF="/etc/lu/ICF.$PBE_ID"
+  define_pbe "${IBE_NAME}" "${CBE_ICF}" "${PBE_ID}" "${flag_C}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create configuration for primary boot environment.'`"
+    /bin/rm -f "${CBE_ICF}" "${LU_BE_CONFIG_FILE}" 2>/dev/null
+    exit_script 1
+  fi
+  exit_script 0
+fi
+
+# A valid BE name must be provided.
+if [ -z "${flag_n}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The required target boot environment name to create was not specified with the -n option.'`"
+  usage 3
+fi
+
+# 0 - the be name is valid and unused.
+# 1 - the be name is valid and inuse.
+# 2 - the be name is invalid.
+lulib_is_be_name_unused "${flag_n}"
+ret="$?"
+if [ "${ret}" -eq "1" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -n option must be a BE name that is not currently assigned to any boot environment.'`" "${flag_n}"
+  usage 3
+elif [ "${ret}" -eq "2" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -n option must be a valid boot environment name.'`" "${flag_n}"
+  usage 3
+fi
+
+ABE_NAME="${flag_n}"
+
+COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+
+# Checks for "copy lock". If it exists, exit with message.
+lulib_validate_lulock
+if [ -f $COPYLOCK ] ; then
+  . $COPYLOCK
+  ${LUPRINTF} -lp2D - "`gettext 'A Copy Lock file <%s> exists: Status <%s> Source BE <%s> Target BE <%s>.'`" "${COPYLOCK}" "${CL_STATUS}" "${CL_SOURCE_BE}" "${CL_TARGET_BE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Another Live Upgrade process is either running or scheduled...cannot continue.'`"
+  exit_script 2
+fi
+
+# Clear screen if invoked from the FMLI interface
+if [ -n "${flag_Z}" ] ; then
+  clear 2> /dev/null
+fi
+
+${LUPRINTF} -lp1 "`gettext 'Analyzing system configuration.'`"
+
+# Set the "copy lock".
+# At this point the lock cannot exist or we would hav exited out above.
+copylock_create "CL_STATUS" "ACTIVE" "yes"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot create copy lock file <%s>: unable to create the boot environment <%s>.'`" "${COPYLOCK}" "${ABE_NAME}"
+  exit_script 2
+fi
+
+# Determine if the PBE is defined. If not, asks user for PBE_Name.
+CBE_NAME=""
+PBE_ROOTDEV=""
+
+if [ -f "${LU_LUTAB_FILE}" -a -s "${LU_LUTAB_FILE}" ]; then
+  # check to see if there is an entry in lutab for the BE we are
+  # booted on. If not, we will need to ask the user to name it.
+  PBE_ROOTDEV="`${LUETCBIN}/lurootdev -a`"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine root slice for the current boot environment.'`"
+    exit_script 2
+  fi
+
+  PBE_ID="`${LUETCBIN}/ludo get_be_id_from_rootdev \"${PBE_ROOTDEV}\"`"  
+  if [ "$?" -eq "0" -a -n "${PBE_ID}" ] ; then
+    CBE_NAME="`${LUETCBIN}/ludo get_be_name \"$PBE_ID\" 2>&1`"
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 '%s' "${CBE_NAME}"
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine boot environment name for root device <%s>.'`" "${PBE_ROOTDEV}"
+      exit_script 2
+    fi
+  fi
+else
+  # lutab does not yet exist; therefore, set the "ok to delete" flag,
+  # which will be unset after the lutab file is successfully created -
+  # any attempts to create it that fail will result in its removal so no
+  # "partially correct" lutab is left in existence.
+  /bin/rm -f "${LU_BE_CONFIG_FILE}" "${LU_LUTAB_FILE}" 2>/dev/null
+  LUTAB_CAN_BE_DELETED="yes"
+fi
+
+# If need to get PBE name, get it now.
+if [ -z "$CBE_NAME" ] ; then
+  # The current boot environment has no name - make sure -c specifies a new name to give it to this BE.
+  ${LUPRINTF} -lp1 "`gettext 'No name for current boot environment.'`"
+  PBE_ID="`$LUBIN/lunewid`"
+
+  # if no -c option given, create default BE name
+  if [ -z "${IBE_NAME}" ] ; then
+    IBE_NAME="`create_default_bename`"
+    ${LUPRINTF} -Ilp1 "`gettext 'The current boot environment is not named - assigning name <%s>.'`" "${IBE_NAME}"
+  fi
+
+  CBE_NAME="${IBE_NAME}"
+  # Make sure CBE_NAME is valid
+  # 0 - the be name is valid and unused.
+  # 1 - the be name is valid and inuse.
+  # 2 - the be name is invalid.
+  lulib_is_be_name_unused "${CBE_NAME}"
+  ret="$?"
+  if [ "${ret}" -eq "1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The boot environment name <%s> is currently assigned to another BE.'`" "${CBE_NAME}"
+    usage 3
+  elif [ "${ret}" -eq "2" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The boot environment name <%s> is not a valid BE name.'`" "${CBE_NAME}"
+    usage 3
+  fi
+  ${LUPRINTF} -lp1 "`gettext 'Current boot environment is named <%s>.'`" "${CBE_NAME}"
+else
+  # The current boot environment is already named - if the -c option is given make sure it matches it
+  if [ -n "${IBE_NAME}" -a "${CBE_NAME}" != "${IBE_NAME}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The current boot environment is already defined and named <%s>.'`" "${CBE_NAME}"
+    ${LUPRINTF} -Eelp2 "`gettext 'The option <-c %s> cannot rename the current boot environment - use lurename.'`" "${IBE_NAME}"
+    exit_script 2
+  fi
+  IBE_NAME=""
+fi
+
+# If the PBE name override was specified via -s, use that name; otherwise, use the real name of the PBE
+PBE_NAME=${flag_s:=$CBE_NAME}
+PBE_ICF='-'
+
+${LUPRINTF} -lp2D - "`gettext 'CBE name <%s> -s name <%s> PBE name <%s> PBE ID <%d>.'`" "${CBE_NAME}" "${flag_s}" "${PBE_NAME}" "${PBE_ID}"
+
+# Add the Source and Target BE names to COPY_LOCK file
+copylock_append "CL_SOURCE_BE" "$PBE_NAME"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot update copy lock file <%s>: unable to create boot environment <%s>.'`" "${COPYLOCK}" "${ABE_NAME}"
+  exit_script 2
+fi
+
+copylock_append "CL_TARGET_BE" "$ABE_NAME"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot update copy lock file <%s>: unable to create boot environment <%s>.'`" "${COPYLOCK}" "${ABE_NAME}"
+  exit_script 2
+fi
+
+# Update the SYNCKEY file with the currently running BE NAME; by
+# placing the name of the PBE in this file, it has the side effect of
+# causing "$LUBIN/lu" to NOT run any /etc/lu/rc.d scripts when it is
+# run later in this scripts execution to see if there is sufficient
+# space on the current root slice to make the current environment a
+# BE.
+echo "$PBE_NAME" > ${SYNCKEY}
+
+# Call ludefine to determine required and optional file systems needed.
+#   Also, Add the PBE to lutab if needed.
+
+CBE_ICF="/etc/lu/ICF.$PBE_ID"
+
+if [ "${IBE_NAME}" != "" ] ; then
+  define_pbe "${IBE_NAME}" "${CBE_ICF}" "${PBE_ID}" "${flag_C}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create configuration for primary boot environment.'`"
+    /bin/rm -f "${CBE_ICF}" "${LU_BE_CONFIG_FILE}" 2>/dev/null
+    exit_script 1
+  fi
+else
+  $LUBIN/ludefine -n "$CBE_NAME" -O "$CBE_ICF"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot create the internal configuration file for the current boot environment <%s>.'`" "${CBE_NAME}"
+    /bin/rm -f ${CBE_ICF}
+    exit_script 1
+  fi
+fi
+
+if [ "$PBE_NAME" != "-" ] ; then
+  ${LUPRINTF} -flp1 "`gettext 'Comparing source boot environment <%s> file systems with \
+the file system(s) you specified for the new boot environment. Determining which file \
+systems should be in the new boot environment.'`" "${PBE_NAME}"
+  PBE_ICF="`$LUBIN/lumk_iconf -F \"$PBE_NAME\"`"
+  if [ "$?" -ne "0" -o -z "${PBE_ICF}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine disk partition configuration information for boot environment <%s>.'`" "${PBE_NAME}"
+    exit_script 1
+  fi
+fi
+
+# At this point, the lutab file either already existed or has been
+# successfully created and the PBE is properly defined - prevent it
+# from being removed on exit.
+LUTAB_CAN_BE_DELETED=""
+
+# verify the all required PBE file systems are mounted
+${LUPRINTF} -lp2D - "`gettext 'Verifying that required file systems are mounted.'`"
+lulib_check_pbe_mounts 
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'All required PBE file systems are not mounted.'`"
+  exit_script 2
+fi
+
+# Call lunewid to get a new ID for the ABE.
+# This must be done after the PBE is defined if required (when -c required).
+ABE_ID="`$LUBIN/lunewid`"
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot get a new boot environment ID.'`"
+  exit_script 2
+fi
+
+# Remove any description for this BE.
+$LUBIN/ludesc -d "${ABE_ID}"
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot delete existing description for new boot environment.'`"
+  exit_script 2
+fi
+
+### Handle existence of filter file.
+
+# Delete any existing filter from global xml database for this BE ID
+${LUETCBIN}/ludo remove_file_from_xml_db "${LU_DB_GLOBAL}" "${ABE_ID}" 'beFilterFile'
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot delete existing filters for new boot environment.'`"
+  exit_script 2
+fi
+
+# Append to filter file if mandatory boot environment filter exists
+# The mandatory boot environment specifications are appended to the
+# filter so that they cannot be overridden by any of the optional
+# boot environment file content control (filter) files or options.
+if [ -n "${LU_MANDATORY_CONTENT_CONTROL_FILE}" -a -s "${LU_MANDATORY_CONTENT_CONTROL_FILE}" ] ; then
+  ${LUPRINTF} +X -a "${FILTER_FILE}" '%R' < "${LU_MANDATORY_CONTENT_CONTROL_FILE}"
+fi
+
+# If filter exists, add filter information to global xml database for this BE ID
+if [ -s "${FILTER_FILE}" ] ; then
+  # Filter file exists - insert into global xml database.
+  ${LUETCBIN}/ludo insert_file_to_xml_db "${LU_DB_GLOBAL}" "${FILTER_FILE}" "${ABE_ID}" \
+'beFilterFile' 'beFilterFileItem'
+  if [ $? -ne 0 ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot store file system filter for new boot environment.'`"
+    exit_script 2
+  fi
+fi
+
+# Handle setting of integrity check
+${LUETCBIN}/ludo set_setting_to_xml_db "${LU_DB_GLOBAL}" "${ABE_ID}" 'beFilterSpecifications' \
+'integrityCheck' "${flag_I}"
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot store setting for new boot environment.'`"
+  exit_script 2
+fi
+
+# Determine names of ICF and INODE files for new BE and remove
+# any existing databases that may be present.
+ABE_ICF="/etc/lu/ICF.$ABE_ID"
+INODE_ICF="/etc/lu/INODE.$ABE_ID"
+VTOC_ICF="/etc/lu/vtoc.$ABE_ID"
+
+/bin/rm -f ${ABE_ICF} ${INODE_ICF} ${VTOC_ICF} 2>/dev/null 1>&2
+
+# Call luconfig to define slices and file system types.
+${LUPRINTF} -lp2D - "`gettext 'Calling luconfig to define devices and file system types.'`"
+
+if [ -s ${TEMPLATE_TMPFILE} ] ; then
+  $LUBIN/luconfig -t "${TEMPLATE_TMPFILE}" -i "$PBE_ICF" -o "$ABE_ICF" -l "$INODE_ICF" -v "$CONFIG_VARS_TMPFILE" -n "$ABE_NAME"
+  ret="$?"
+else
+  $LUBIN/luconfig -i "$PBE_ICF" -o "$ABE_ICF" -l "$INODE_ICF" -v "$CONFIG_VARS_TMPFILE" -n "$ABE_NAME"
+  ret="$?"
+fi
+
+if [ "${ret}" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Configuration of boot environment failed.'`"
+  exit_script 2
+fi
+
+# Dot in return values from luconfig.
+. $CONFIG_VARS_TMPFILE
+if [ "$CONFIG_STATUS" = "CANCEL" ] ; then
+  # User cancelled out of luconfig.  They don't want to create the
+  # ABE yet, but it twasn't an error
+  ${LUPRINTF} -lp2D - "`gettext 'User cancelled luconfig.'`"
+  exit_script 3
+elif [ "$CONFIG_STATUS" != "SUCCESS" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Configuration of boot environment failed.'`"
+  ${LUPRINTF} -lp2D - "`gettext 'Internal error with luconfig.'`"
+  exit_script 2
+else
+  copylock_append "CL_ICF" "$ABE_ICF"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot update copy lock file <%s>: unable to create boot environment <%s>.'`" "${COPYLOCK}" "${ABE_NAME}"
+    exit_script 2
+  fi
+fi
+
+if [ "$CONFIG_WHEN" = "SCHED" ] ; then
+  # Need to schedule the copy
+  TIME="$CONFIG_SPEC"
+  MAILTO="$CONFIG_MAILTO"
+fi
+
+# Get the ABE root slice.
+ABE_ROOT_SLICE=`/bin/grep "^${ABE_NAME}:/:/" "${ABE_ICF}" 2>/dev/null | /bin/tail -1 | /bin/cut -f3 -d':'`
+if [ -z "$ABE_ROOT_SLICE" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine ABE root slice from ICF file <%s>.'`" "${ICF}"
+  exit_script 2
+fi
+
+# If the ABE root slice is on a metadevice, make sure that it is bootable.
+ABE_MD_BOOT_DEVICE=''
+echo "${ABE_ROOT_SLICE}" | /bin/grep "^${SDS_DEVROOT}/dsk/" > /dev/null 2>&1
+if [ "$?" -eq '0' -a -n "${SDS_FOUND}" ] ; then
+	ABE_MD_BOOT_DEVICE=`determine_md_boot_device "${ABE_ROOT_SLICE}"`
+	if [ "$?" -ne '0' -o -z "${ABE_MD_BOOT_DEVICE}" ] ; then
+		[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+		${LUPRINTF} -fEelp2 "`gettext 'Cannot determine boot device \
+for %s metadevice <%s>. The only metadevices that support the root file system \
+are a stripe with only a single disk or a mirror on a single-disk stripe.'`" \
+"${SDS_TEXTDESCRIPTION}" "${ABE_ROOT_SLICE}"
+		exit_script 2
+	fi
+	${LUPRINTF} -lp2D 2 "`gettext 'abe <%s> metadevice root slice <%s> boot \
+device <%s>.'`" "${ABE_NAME}" "${ABE_ROOT_SLICE}" "${ABE_MD_BOOT_DEVICE}"
+else
+	${LUPRINTF} -lp2D 2 "`gettext 'abe <%s> root slice <%s>.'`" "${ABE_NAME}" \
+"${ABE_ROOT_SLICE}"
+fi
+
+${LUPRINTF} -lp1 "`gettext 'Updating system configuration files.'`"
+  
+# Call lutab_update to add the ABE to the lutab.
+${LUPRINTF} -lp2D - "`gettext 'Adding <%s> to the boot environment configuration.'`" "${ABE_NAME}"
+$LUBIN/lutab_update -i "$ABE_ICF" -I "$ABE_ID" -b "${ABE_MD_BOOT_DEVICE}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot update boot environment configuration with the new BE <%s> information.'`" "${ABE_NAME}"
+  exit_script 1
+fi
+
+# If a be description has been specified, set it here.
+if [ -n "${flag_A}" ] ; then
+  ${LUPRINTF} -lp2D - "`gettext 'Adding boot environment description for BE <%s>.'`" "${ABE_NAME}"
+  ${LUBIN}/ludesc -n "${ABE_NAME}" -N "${beDesc}"
+  [ "$?" -ne '0' ] && ${LUPRINTF} -Welp2 \
+"`gettext 'Cannot set description for the new boot environment <%s>.'`" "${ABE_NAME}"
+fi
+
+# Call luupdall to copy the lutab and ICF files to all defined BEs.
+FILES_TO_UPDATE="${LU_LUTAB_FILE} $ABE_ICF $CBE_ICF ${LU_DB_GLOBAL}"
+
+$LUBIN/luupdall "${FILES_TO_UPDATE}"
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Cannot propagate the files <%s> to all BEs.'`" "${FILES_TO_UPDATE}"
+  exit_script 1
+fi
+
+# Set CL_STATUS to "SCHEDULED" so lumake starts correctly.
+TMPLOCK="/etc/lu/tmp/COPY_LOCK.$$"
+BYPASS_ID="$$"
+grep -v "CL_BYPASS_ID=" "$COPYLOCK" > "$TMPLOCK"
+echo "CL_BYPASS_ID=\"$BYPASS_ID\"" >> "$TMPLOCK"
+mv $TMPLOCK $COPYLOCK
+
+### Call lumake
+
+if [ "$PBE_NAME" = "-" ] ; then
+  # parentless BE - set state to "not complete"
+  $LUBIN/lustat_set -n "$ABE_NAME" -s "NC"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Cannot update the status of the boot environment <%s> in the BE configuration.'`" "${ABE_NAME}"
+    exit_script 1
+  fi
+
+  # make all file systems on target BE
+  $LUBIN/lumkfs -i "${ABE_ICF}" ${flag_p}
+  COPYLOCK_CAN_BE_DELETED="yes"
+else
+  if [ "$TIME" = "" ] ; then
+    # Call lumake to setup the new ABE now
+    ${LUPRINTF} -lp2D - "`gettext 'Calling lumake to set up ABE.'`"
+    $LUBIN/lumake -b "$BYPASS_ID" -s "$PBE_NAME" -n "$ABE_NAME" -i "$INODE_ICF" ${flag_Z} ${flag_p}
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot make file systems for boot environment <%s>.'`" "${ABE_NAME}"
+      exit_script 1
+    fi
+  else
+    ${LUPRINTF} -lp2D - "`gettext 'Calling lumake to schedule the set up of the ABE.'`"
+    if [ "$MAILTO" = "" ] ; then
+      # Call lumake to schedule the setup of the new ABE for later,
+      # mail the log to root
+      $LUBIN/lumake -t "$TIME" -b "$BYPASS_ID" -s "$PBE_NAME" -n "$ABE_NAME" -i "$INODE_ICF" ${flag_Z} ${flag_p}
+    else
+      # Call lumake to schedule the setup of the new ABE for later,
+      # mail the log file to the user-specified address
+      ${LUPRINTF} -lp2D - "`gettext 'Mailing log file to <%s>.'`" "${MAILTO}"
+      $LUBIN/lumake -t "$TIME" -b "$BYPASS_ID" -s "$PBE_NAME" -n "$ABE_NAME" -i "$INODE_ICF" -m "$MAILTO" ${flag_Z} ${flag_p}
+    fi
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot schedule make file systems for boot environment <%s>.'`" "${ABE_NAME}"
+      exit_script 1
+    else
+      # We have scheduled a copy for later -- disable automatic removal of the copy lock on exit.
+      COPYLOCK_CAN_BE_DELETED=""
+    fi
+  fi
+fi
+
+# exit with a good status
+
+if [ -z "$TIME" ] ; then
+  ${LUPRINTF} -lp1 "`gettext 'Creation of boot environment <%s> successful.'`" "${ABE_NAME}"
+fi
+
+exit_script 0

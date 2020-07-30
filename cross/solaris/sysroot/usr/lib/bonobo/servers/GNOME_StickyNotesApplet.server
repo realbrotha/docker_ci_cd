@@ -1,0 +1,287 @@
+<oaf_info>
+	<oaf_server iid="OAFIID:GNOME_StickyNotesApplet_Factory" type="exe" location="/usr/lib/stickynotes_applet">
+	    <oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	    </oaf_attribute>
+	    <oaf_attribute name="name" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="name-ar" type="string" value="مصنع بريمج المذكرات اللاصقة"/>
+	    <oaf_attribute name="name-az" type="string" value="Yapışqan Qeydlər Aplet E&apos;malatxanası"/>
+	    <oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета ліпучых нататкаў"/>
+	    <oaf_attribute name="name-bg" type="string" value="Фабрика на аплета Лепкави Бележки"/>
+	    <oaf_attribute name="name-bn" type="string" value="আঠালো নোট অ্যাপলেট কারখানা"/>
+	    <oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet de notes enganxoses"/>
+	    <oaf_attribute name="name-cs" type="string" value="Generátor apletu Lepící poznámky"/>
+	    <oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennig Nodiadau Gludog"/>
+	    <oaf_attribute name="name-da" type="string" value="Fabrik til notesseddelpanelprogram"/>
+	    <oaf_attribute name="name-de" type="string" value="Klebezettel-Applet-Fabrik"/>
+	    <oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Sticky Notes"/>
+	    <oaf_attribute name="name-en_CA" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="name-en_GB" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación Notas adhesivas"/>
+	    <oaf_attribute name="name-eu" type="string" value="Ohar itsaskorren applet-aren fabrika"/>
+	    <oaf_attribute name="name-fi" type="string" value="Muistilappusovelman tehdas"/>
+	    <oaf_attribute name="name-fr" type="string" value="Fabrique de l&apos;applet de notes adhésives"/>
+	    <oaf_attribute name="name-gu" type="string" value="સ્ટીકી નોંધ એપ્લેટ કારખાનું"/>
+	    <oaf_attribute name="name-he" type="string" value="יצרן יישומון פתקיות דביקות"/>
+	    <oaf_attribute name="name-hi" type="string" value="स्टिकी नोट्स अप्लेट फैक्टरी"/>
+	    <oaf_attribute name="name-hr" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="name-hu" type="string" value="Öntapadós megjegyzések applet factory"/>
+	    <oaf_attribute name="name-it" type="string" value="Fabbrica Applet Note Adesive"/>
+	    <oaf_attribute name="name-ja" type="string" value="付箋紙アプレットのファクトリ"/>
+	    <oaf_attribute name="name-ko" type="string" value="메모지 애플릿 팩토리"/>
+	    <oaf_attribute name="name-lt" type="string" value="Lipnių raštelių priedo gamykla"/>
+	    <oaf_attribute name="name-mk" type="string" value="Фабрика за лепливи белешки"/>
+	    <oaf_attribute name="name-mn" type="string" value="Наалттай тэмдэглэгээний апплетийг үндэслэгч"/>
+	    <oaf_attribute name="name-ms" type="string" value="Kilang Aplet Nota Lekat"/>
+	    <oaf_attribute name="name-nl" type="string" value="Memo appletfabriek"/>
+	    <oaf_attribute name="name-nn" type="string" value="Fabrikk for gule lappar"/>
+	    <oaf_attribute name="name-no" type="string" value="Factory for notater"/>
+	    <oaf_attribute name="name-pa" type="string" value="ਸਟਿਕੀ ਟਿੱਪਣੀ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	    <oaf_attribute name="name-pl" type="string" value="Generator apletów notatek"/>
+	    <oaf_attribute name="name-pt" type="string" value="Fábrica da Applet de Sticky Notes"/>
+	    <oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo de notas auto-adesivas"/>
+	    <oaf_attribute name="name-ro" type="string" value="Uzina aplet Notiţe Lipicioase"/>
+	    <oaf_attribute name="name-ru" type="string" value="Фабрика апплета прикрепленных заметок"/>
+	    <oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Poznámky"/>
+	    <oaf_attribute name="name-sl" type="string" value="Tovarna vstavkov lepljivih opomb"/>
+	    <oaf_attribute name="name-sq" type="string" value="Fabrika e Applet Shënime Ngjitëse"/>
+	    <oaf_attribute name="name-sr" type="string" value="Производња програмчета за кратке белешке"/>
+	    <oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za kratke beleške"/>
+	    <oaf_attribute name="name-sv" type="string" value="Panelprogramsfabrik för klisterlappar"/>
+	    <oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตโน้ตติดกาว"/>
+	    <oaf_attribute name="name-uk" type="string" value="Фабрика аплету липких нотаток"/>
+	    <oaf_attribute name="name-vi" type="string" value="Factory Applet Ghi chú Dính"/>
+	    <oaf_attribute name="name-zh_CN" type="string" value="便签 Applet 工厂"/>
+	    <oaf_attribute name="name-zh_HK" type="string" value="黏貼式便條紙 Applet 工廠"/>
+	    <oaf_attribute name="name-zh_TW" type="string" value="黏貼式便條紙 Applet 工廠"/>
+	    <oaf_attribute name="description" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="description-ar" type="string" value="مصنع بريمج المذكرات اللاصقة"/>
+	    <oaf_attribute name="description-az" type="string" value="Yapışqan Qeydlər Aplet E&apos;malatxanası"/>
+	    <oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета ліпучых нататкаў"/>
+	    <oaf_attribute name="description-bg" type="string" value="Фабрика на аплета Лепкави Бележки"/>
+	    <oaf_attribute name="description-bn" type="string" value="আঠালো নোট অ্যাপলেট কারখানা"/>
+	    <oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;applet de notes enganxoses"/>
+	    <oaf_attribute name="description-cs" type="string" value="Generátor apletu Lepící poznámky"/>
+	    <oaf_attribute name="description-cy" type="string" value="Ffatri Rhaglennig Nodiadau Gludog"/>
+	    <oaf_attribute name="description-da" type="string" value="Fabrik til notesseddelpanelprogram"/>
+	    <oaf_attribute name="description-de" type="string" value="Klebezettel-Applet-Fabrik"/>
+	    <oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Sticky Notes"/>
+	    <oaf_attribute name="description-en_CA" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="description-en_GB" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="description-es" type="string" value="Fábrica de la miniaplicación Notas adhesivas"/>
+	    <oaf_attribute name="description-eu" type="string" value="Ohar itsaskorren applet-aren fabrika"/>
+	    <oaf_attribute name="description-fi" type="string" value="Muistilappusovelman tehdas"/>
+	    <oaf_attribute name="description-fr" type="string" value="Fabrique de l&apos;applet de notes adhésives"/>
+	    <oaf_attribute name="description-gu" type="string" value="સ્ટીકી નોંધ એપ્લેટ કારખાનું"/>
+	    <oaf_attribute name="description-he" type="string" value="יצרן יישומון פתקיות דביקות"/>
+	    <oaf_attribute name="description-hi" type="string" value="स्टिकी नोट्स अप्लेट फैक्टरी"/>
+	    <oaf_attribute name="description-hr" type="string" value="Sticky Notes Applet Factory"/>
+	    <oaf_attribute name="description-hu" type="string" value="Öntapadós megjegyzések applet factory"/>
+	    <oaf_attribute name="description-it" type="string" value="Fabbrica Applet Note Adesive"/>
+	    <oaf_attribute name="description-ja" type="string" value="付箋紙アプレットのファクトリ"/>
+	    <oaf_attribute name="description-ko" type="string" value="메모지 애플릿 팩토리"/>
+	    <oaf_attribute name="description-lt" type="string" value="Lipnių raštelių priedo gamykla"/>
+	    <oaf_attribute name="description-mk" type="string" value="Фабрика за лепливи белешки"/>
+	    <oaf_attribute name="description-mn" type="string" value="Наалттай тэмдэглэгээний апплетийг үндэслэгч"/>
+	    <oaf_attribute name="description-ms" type="string" value="Kilang Aplet Nota Lekat"/>
+	    <oaf_attribute name="description-nl" type="string" value="Memo appletfabriek"/>
+	    <oaf_attribute name="description-nn" type="string" value="Fabrikk for gule lappar"/>
+	    <oaf_attribute name="description-no" type="string" value="Factory for notater"/>
+	    <oaf_attribute name="description-pa" type="string" value="ਸਟਿਕੀ ਟਿੱਪਣੀ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	    <oaf_attribute name="description-pl" type="string" value="Generator apletów notatek"/>
+	    <oaf_attribute name="description-pt" type="string" value="Fábrica da Applet de Sticky Notes"/>
+	    <oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo de notas auto-adesivas"/>
+	    <oaf_attribute name="description-ro" type="string" value="Uzina aplet Notiţe Lipicioase"/>
+	    <oaf_attribute name="description-ru" type="string" value="Фабрика апплета прикрепленных заметок"/>
+	    <oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet Poznámky"/>
+	    <oaf_attribute name="description-sl" type="string" value="Tovarna vstavkov lepljivih opomb"/>
+	    <oaf_attribute name="description-sq" type="string" value="Fabrika e Applet Shënime Ngjitëse"/>
+	    <oaf_attribute name="description-sr" type="string" value="Производња програмчета за кратке белешке"/>
+	    <oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za kratke beleške"/>
+	    <oaf_attribute name="description-sv" type="string" value="Panelprogramsfabrik för klisterlappar"/>
+	    <oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตโน้ตติดกาว"/>
+	    <oaf_attribute name="description-uk" type="string" value="Фабрика аплету липких нотаток"/>
+	    <oaf_attribute name="description-vi" type="string" value="Factory Applet Ghi chú Dính"/>
+	    <oaf_attribute name="description-zh_CN" type="string" value="便签 Applet 工厂"/>
+	    <oaf_attribute name="description-zh_HK" type="string" value="黏貼式便條紙 Applet 工廠"/>
+	    <oaf_attribute name="description-zh_TW" type="string" value="黏貼式便條紙 Applet 工廠"/>
+	</oaf_server>
+	<oaf_server iid="OAFIID:GNOME_StickyNotesApplet" type="factory" location="OAFIID:GNOME_StickyNotesApplet_Factory">
+	    <oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	    </oaf_attribute>
+	    <oaf_attribute name="name" type="string" value="Sticky Notes"/>
+	    <oaf_attribute name="name-ar" type="string" value="مذكرات لاصقة"/>
+	    <oaf_attribute name="name-az" type="string" value="Yapışqan Qeydləri"/>
+	    <oaf_attribute name="name-be" type="string" value="Ліпучыя натакі"/>
+	    <oaf_attribute name="name-bg" type="string" value="Лепкави Бележки"/>
+	    <oaf_attribute name="name-bn" type="string" value="আঠালো নোটসমূহ"/>
+	    <oaf_attribute name="name-ca" type="string" value="Notes enganxoses"/>
+	    <oaf_attribute name="name-cs" type="string" value="Lepící poznámky"/>
+	    <oaf_attribute name="name-cy" type="string" value="Nodiaday Gludog"/>
+	    <oaf_attribute name="name-da" type="string" value="Notessedler"/>
+	    <oaf_attribute name="name-de" type="string" value="Klebezettel"/>
+	    <oaf_attribute name="name-el" type="string" value="Sticky Notes"/>
+	    <oaf_attribute name="name-en_CA" type="string" value="Sticky Notes"/>
+	    <oaf_attribute name="name-en_GB" type="string" value="Sticky Notes"/>
+	    <oaf_attribute name="name-es" type="string" value="Notas adhesivas"/>
+	    <oaf_attribute name="name-eu" type="string" value="Ohar itsaskorrak"/>
+	    <oaf_attribute name="name-fi" type="string" value="Muistilaput"/>
+	    <oaf_attribute name="name-fr" type="string" value="Notes adhésives"/>
+	    <oaf_attribute name="name-ga" type="string" value="Notaí Greamaitheach"/>
+	    <oaf_attribute name="name-gu" type="string" value="સ્ટીકી નોંધ"/>
+	    <oaf_attribute name="name-he" type="string" value="פתקיות דביקות"/>
+	    <oaf_attribute name="name-hi" type="string" value="स्टिकी नोट्स"/>
+	    <oaf_attribute name="name-hr" type="string" value="Lijepljive bilješke"/>
+	    <oaf_attribute name="name-hu" type="string" value="Öntapadós megjegyzések"/>
+	    <oaf_attribute name="name-is" type="string" value="Minnisblöð"/>
+	    <oaf_attribute name="name-it" type="string" value="Note adesive"/>
+	    <oaf_attribute name="name-ja" type="string" value="付箋紙"/>
+	    <oaf_attribute name="name-ko" type="string" value="메모지"/>
+	    <oaf_attribute name="name-lt" type="string" value="Lipnūs rašteliai"/>
+	    <oaf_attribute name="name-mk" type="string" value="Лепливи белешки"/>
+	    <oaf_attribute name="name-ml" type="string" value="സ്റ്റികി നോട്ട്സ്"/>
+	    <oaf_attribute name="name-mn" type="string" value="Наалттай тэмдэглэгээ"/>
+	    <oaf_attribute name="name-ms" type="string" value="Nota Lekat"/>
+	    <oaf_attribute name="name-nl" type="string" value="Memo&apos;s"/>
+	    <oaf_attribute name="name-nn" type="string" value="Gule lappar"/>
+	    <oaf_attribute name="name-no" type="string" value="Gule lapper"/>
+	    <oaf_attribute name="name-pa" type="string" value="ਸਟਿੱਕੀ ਟਿੱਪਣੀਅ੾"/>
+	    <oaf_attribute name="name-pl" type="string" value="Notatki"/>
+	    <oaf_attribute name="name-pt" type="string" value="Sticky Notes"/>
+	    <oaf_attribute name="name-pt_BR" type="string" value="Notas auto-adesivas"/>
+	    <oaf_attribute name="name-ro" type="string" value="Notiţe lipicioase"/>
+	    <oaf_attribute name="name-ru" type="string" value="Прикрепленные заметки"/>
+	    <oaf_attribute name="name-sk" type="string" value="Poznámky"/>
+	    <oaf_attribute name="name-sl" type="string" value="Lepljive opombe"/>
+	    <oaf_attribute name="name-sq" type="string" value="Shënime Ngjitëse"/>
+	    <oaf_attribute name="name-sr" type="string" value="Кратке белешке"/>
+	    <oaf_attribute name="name-sr@Latn" type="string" value="Kratke beleške"/>
+	    <oaf_attribute name="name-sv" type="string" value="Klisterlappar"/>
+	    <oaf_attribute name="name-th" type="string" value="โน้ตติดกาว"/>
+	    <oaf_attribute name="name-uk" type="string" value="Липкі нотатки"/>
+	    <oaf_attribute name="name-vi" type="string" value="Ghi chú Dính"/>
+	    <oaf_attribute name="name-zh_CN" type="string" value="便签"/>
+	    <oaf_attribute name="name-zh_HK" type="string" value="黏貼式便條紙"/>
+	    <oaf_attribute name="name-zh_TW" type="string" value="黏貼式便條紙"/>
+	    <oaf_attribute name="description" type="string" value="Create, view, and manage sticky notes on the desktop"/>
+	    <oaf_attribute name="description-ar" type="string" value="أنشئ و أعرض و أدر مذكرات لاصقة على سطح مكتبك"/>
+	    <oaf_attribute name="description-az" type="string" value="Masa üstündə yapışqan qeydlər yaradın, işlədin və idarə edin"/>
+	    <oaf_attribute name="description-be" type="string" value="Стварае, праглядае й кіруе ліпучымі нататкамі на стальцэ"/>
+	    <oaf_attribute name="description-bg" type="string" value="Създава, преглежда и управлява лепкавите бележки върху работното място"/>
+	    <oaf_attribute name="description-bn" type="string" value="ডেস্কটপের উপর আঠালো নোটসমূহ তৈরি করুন, দেখুন, আর সামলান"/>
+	    <oaf_attribute name="description-ca" type="string" value="Crea, visualitza i gestiona notes enganxoses a l&apos;escriptori"/>
+	    <oaf_attribute name="description-cs" type="string" value="Vytvořit, zobrazit a spravovat lepící poznámky na pracovní ploše"/>
+	    <oaf_attribute name="description-cy" type="string" value="Creu, gweld, a trefnu nodiadau gludog ar y penbwrdd"/>
+	    <oaf_attribute name="description-da" type="string" value="Opret, vis og håndtér notessedler på skrivebordet"/>
+	    <oaf_attribute name="description-de" type="string" value="Klebezettel auf dem Desktop anlegen, anzeigen und verwalten"/>
+	    <oaf_attribute name="description-el" type="string" value="Δημιουργία, προβολή και διαχείριση των sticky notes στην επιφάνεια εργασίας"/>
+	    <oaf_attribute name="description-en_CA" type="string" value="Create, view, and manage sticky notes on the desktop"/>
+	    <oaf_attribute name="description-en_GB" type="string" value="Create, view, and manage sticky notes on the desktop"/>
+	    <oaf_attribute name="description-es" type="string" value="Crear, ver y gestionar notas adhesivas en el escritorio"/>
+	    <oaf_attribute name="description-eu" type="string" value="Sortu, ikusi eta kudeatu mahaigaineko ohar itsaskorrak"/>
+	    <oaf_attribute name="description-fi" type="string" value="Luo, näytä ja hallitse muistilappuja työpöydällä"/>
+	    <oaf_attribute name="description-fr" type="string" value="Créer, afficher et gérer des notes adhésives sur le bureau"/>
+	    <oaf_attribute name="description-gu" type="string" value="ડેસ્કટૉપ ઉપર સ્ટીકી નોંધ બનાવો, બતાવો અને સંભાળો"/>
+	    <oaf_attribute name="description-he" type="string" value="צור, צפה ונהל פתקיות דביקות על שולחן העבודה"/>
+	    <oaf_attribute name="description-hr" type="string" value="Napravi, pogledaj i održavaj ljepljive biljeleške na radnoj površini"/>
+	    <oaf_attribute name="description-hu" type="string" value="Öntapadós megjegyzések létrehozása, megtekintése és kezelése"/>
+	    <oaf_attribute name="description-it" type="string" value="Crea, visualizza e gestisce le note adesive sulla scrivania"/>
+	    <oaf_attribute name="description-ja" type="string" value="デスクトップ上に付箋紙を生成、表示、管理します"/>
+	    <oaf_attribute name="description-ko" type="string" value="데스크탑에 메모지를 만들고, 보여주고, 관리해 줍니다"/>
+	    <oaf_attribute name="description-lt" type="string" value="Sukurkit, žiūrėkit ir tvarkykit lipnius darbastalio rašelius"/>
+	    <oaf_attribute name="description-mk" type="string" value="Креирај, прегледај и организирај ги лепливите-белешки на десктопот"/>
+	    <oaf_attribute name="description-mn" type="string" value="Дэлгэцэн дэхь наалттай тэмдэглэгээг үүсгэх, харах, зохицуулах"/>
+	    <oaf_attribute name="description-ms" type="string" value="Cipta, lihat dan urus nota lekat pada desktop"/>
+	    <oaf_attribute name="description-nl" type="string" value="Maak, bekijk en beheer memo&apos;s op uw bureaublad"/>
+	    <oaf_attribute name="description-nn" type="string" value="Lag, vis og handsam gule lappar på skrivebordet"/>
+	    <oaf_attribute name="description-no" type="string" value="Opprett, vis og håndter gule lapper på skrivebordet"/>
+	    <oaf_attribute name="description-pa" type="string" value="ਵਿਹੜੇ ਵਿੱਵ ਸਟਿੱਕੀ ਟਿੱਪਣੀਅ੾ ਬਣਾੳੁ, ਵੇਖੋ ਅਤੇ ਸੰਭਾਲੋ"/>
+	    <oaf_attribute name="description-pl" type="string" value="Tworzenie, przeglądanie i zarządzanie notatkami na pulpicie"/>
+	    <oaf_attribute name="description-pt" type="string" value="Criar, ver e gerir notas persistentes na área de trabalho"/>
+	    <oaf_attribute name="description-pt_BR" type="string" value="Cria, visualiza e gerencia notas auto-adesivas no desktop"/>
+	    <oaf_attribute name="description-ro" type="string" value="Creează, vizualizează şi gestionează notiţele lipicioase pentru desktop"/>
+	    <oaf_attribute name="description-ru" type="string" value="Создать, просмотреть и управлять прикрепленными заметками на рабочем столе"/>
+	    <oaf_attribute name="description-sk" type="string" value="Vytvorenie a správa poznámkových papierov na pracovnej ploche"/>
+	    <oaf_attribute name="description-sl" type="string" value="Ustvari, poglej ali upravljaj lepljive opombe na namizju"/>
+	    <oaf_attribute name="description-sq" type="string" value="Krijo, shiko dhe drejto shënime ngjitëse mbi hapësirën e punës"/>
+	    <oaf_attribute name="description-sr" type="string" value="Направите, гледајте и управљајте кратким белешкама на радној површини"/>
+	    <oaf_attribute name="description-sr@Latn" type="string" value="Napravite, gledajte i upravljajte kratkim beleškama na radnoj površini"/>
+	    <oaf_attribute name="description-sv" type="string" value="Skapa, visa och hantera klisterlappar på skrivbordet"/>
+	    <oaf_attribute name="description-th" type="string" value="สร้าง แสดง และจัดการโน้ตติดกาว บนพื้นโต๊ะ"/>
+	    <oaf_attribute name="description-uk" type="string" value="Створення, показ і керування нотатками на стільниці"/>
+	    <oaf_attribute name="description-vi" type="string" value="Tạo, xem, và quản lý ghi chú dính trên desktop"/>
+	    <oaf_attribute name="description-zh_CN" type="string" value="在桌面上创建、查看和管理便签"/>
+	    <oaf_attribute name="description-zh_HK" type="string" value="建立、檢視並管理桌面上的黏貼式便條紙"/>
+	    <oaf_attribute name="description-zh_TW" type="string" value="建立、檢視並管理桌面上的黏貼式便條紙"/>
+	    <oaf_attribute name="panel:category" type="string" value="Accessories"/>
+	    <oaf_attribute name="panel:category-am" type="string" value="አጋዥ ፕሮግራሞች"/>
+	    <oaf_attribute name="panel:category-ar" type="string" value="إكسسوارات"/>
+	    <oaf_attribute name="panel:category-az" type="string" value="Donatılar"/>
+	    <oaf_attribute name="panel:category-be" type="string" value="Зручнасьці"/>
+	    <oaf_attribute name="panel:category-bg" type="string" value="Аксесоари"/>
+	    <oaf_attribute name="panel:category-bn" type="string" value="আনুষঙ্গিক"/>
+	    <oaf_attribute name="panel:category-ca" type="string" value="Accesoris"/>
+	    <oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+	    <oaf_attribute name="panel:category-cy" type="string" value="Ategolion"/>
+	    <oaf_attribute name="panel:category-da" type="string" value="Tilbehør"/>
+	    <oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+	    <oaf_attribute name="panel:category-el" type="string" value="Βοηθήματα"/>
+	    <oaf_attribute name="panel:category-en_CA" type="string" value="Accessories"/>
+	    <oaf_attribute name="panel:category-en_GB" type="string" value="Accessories"/>
+	    <oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+	    <oaf_attribute name="panel:category-et" type="string" value="Tarvikud"/>
+	    <oaf_attribute name="panel:category-eu" type="string" value="Gehigarriak"/>
+	    <oaf_attribute name="panel:category-fi" type="string" value="Apuohjelmat"/>
+	    <oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+	    <oaf_attribute name="panel:category-ga" type="string" value="Oiriúintí"/>
+	    <oaf_attribute name="panel:category-gl" type="string" value="Accesorios"/>
+	    <oaf_attribute name="panel:category-gu" type="string" value="સહાયકો"/>
+	    <oaf_attribute name="panel:category-he" type="string" value="עזרים"/>
+	    <oaf_attribute name="panel:category-hi" type="string" value="सहायक प्रोग्राम"/>
+	    <oaf_attribute name="panel:category-hr" type="string" value="Pomoćni alati"/>
+	    <oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+	    <oaf_attribute name="panel:category-is" type="string" value="Aukahlutir"/>
+	    <oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+	    <oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+	    <oaf_attribute name="panel:category-ko" type="string" value="액세서리"/>
+	    <oaf_attribute name="panel:category-lt" type="string" value="Priemonės"/>
+	    <oaf_attribute name="panel:category-lv" type="string" value="Aksesuāri"/>
+	    <oaf_attribute name="panel:category-mk" type="string" value="Aлатки"/>
+	    <oaf_attribute name="panel:category-ml" type="string" value="സഹപ്രയോഗങ്ങള്"/>
+	    <oaf_attribute name="panel:category-mn" type="string" value="Хэрэгслүүд"/>
+	    <oaf_attribute name="panel:category-ms" type="string" value="Aksesori"/>
+	    <oaf_attribute name="panel:category-nl" type="string" value="Accessoires"/>
+	    <oaf_attribute name="panel:category-nn" type="string" value="Tillegg"/>
+	    <oaf_attribute name="panel:category-no" type="string" value="Tilbehør"/>
+	    <oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗੀ"/>
+	    <oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+	    <oaf_attribute name="panel:category-pt" type="string" value="Acessórios"/>
+	    <oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+	    <oaf_attribute name="panel:category-ro" type="string" value="Accesorii"/>
+	    <oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+	    <oaf_attribute name="panel:category-sk" type="string" value="Príslušenstvo"/>
+	    <oaf_attribute name="panel:category-sl" type="string" value="Pripomočki"/>
+	    <oaf_attribute name="panel:category-sq" type="string" value="Açesorët"/>
+	    <oaf_attribute name="panel:category-sr" type="string" value="Додатне алатке"/>
+	    <oaf_attribute name="panel:category-sr@Latn" type="string" value="Dodatne alatke"/>
+	    <oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+	    <oaf_attribute name="panel:category-ta" type="string" value="பின்சேர்க்கைகள்"/>
+	    <oaf_attribute name="panel:category-th" type="string" value="อำนวยความสะดวก"/>
+	    <oaf_attribute name="panel:category-tr" type="string" value="Donatılar"/>
+	    <oaf_attribute name="panel:category-uk" type="string" value="Стандартні"/>
+	    <oaf_attribute name="panel:category-vi" type="string" value="Bổ sung"/>
+	    <oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+	    <oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+	    <oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+	    <oaf_attribute name="panel:icon" type="string" value="stock_notes"/>
+	    <oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	    <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+	    <oaf_attribute name="bugzilla:component" type="string" value="stickynotes"/>
+	    <oaf_attribute name="bugzilla:other_binaries" type="string" value="stickynotes_applet"/>
+	</oaf_server>
+</oaf_info>
+

@@ -1,0 +1,1168 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.21.2.1 $ SMI"
+#
+
+#
+# solaris specific helpers
+#
+# - cacao_core_find_java  : find jdk installed on host
+# - cacao_core_find_nss   : find nss installed on host
+# - cacao_core_find_jdmk  : find jdmk installed on host
+# - cacao_find_jdmk_lib_dir : find jdmk jar repository
+# - cacao_is_greenline_mode  : are we running under greenline
+# - cacao_is_pmf_mode        : are we running under pmf
+# - cacao_get_etc_base_dir : return current etc/conf base directory
+# - cacao_get_var_base_dir : return current var base directory
+# - cacao_get_run_base_dir : return current run base directory
+# - cacao_is_initd_service_present  : tells if the init.d service is there
+# - cacao_do_smf_start      : starts the container through the smf service
+# - cacao_do_smf_stop       : stops the container through the smf service
+# - cacao_do_smf_enable_at_boot : enable the container start at reboot through the smf service.
+# - cacao_do_smf_disable_at_boot : disable the container start at reboot through the smf service.
+# - cacao_reset_smf_maintenance_state : reset the maintenance state
+# - cacao_greenline_exit : greenline exit code
+
+#
+# solaris specific global variables
+#
+# - cacao_stopping_instance : instance name being stopped (smf case)
+# - cacao_starting_instance : instance name being started (smf case)
+# - cacao_enabling_instance : instance name being enabled (smf case)
+# - cacao_disabling_instance : instance name being disabled (smf case)
+# - cacao_save_enabled : saved cacao enabled state (smf case)
+# - cacao_solaris_file_loaded : tells that solaris code is loaded, used to
+#   check the call to cacao_greenline_exit in case of ctrl-c before the
+#   source of the file
+
+cacao_stopping_instance=""
+cacao_starting_instance=""
+cacao_enabling_instance=""
+cacao_disabling_instance=""
+cacao_save_enabled=""
+cacao_solaris_file_loaded="true"
+
+
+
+#------------------------------------------------------------------------------
+# cacao_core_find_java
+#
+# DESCRIPTION :
+# Set cacao_java_home to a suitable Java2 runtime.
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ESRCH if we cannot find dependency
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_core_find_java() {
+    # Map to a number we can do a numerical comparison on.
+    weWant=${CACAO_MIN_JAVA_VERSION_NUM}
+    # We start by checking the presence of a JAVA 5 binary
+    jdk=SUNWj5rt
+    
+    # No need to check the version, we KNOW this is a 1.5 release
+    j5basedir=`env LANG=C LC_ALL=C ${PKGPARAM} ${jdk} BASEDIR 2>/dev/null`
+    if [ $? -eq 0 ] && [ -n "${j5basedir}" ]
+    then
+	j5binary_home=`${LS} -d ${j5basedir}/jdk/jdk1.5.* 2>/dev/null | ${SORT} | ${TAIL} -1`
+	if [ -x "${j5binary_home}" ]
+        then
+	    cacao_java_home=`cacao_clean_path ${j5binary_home}`
+	    return ${CACAO_CR_SUCCESS}
+	fi
+    fi
+	
+    # Check for a suitable Java by introspecting the SUNWj3rt package
+    jdk=SUNWj3rt
+    # Get version, and map to a number we can do a
+    # numerical comparison on.
+    version=`env LANG=C LC_ALL=C ${PKGPARAM} $jdk SUNW_PRODVERS 2>/dev/null | ${AWK} -F/ '{print $1}'`
+    if [ $? -eq 0 ] && [ -n "${version}" ]
+    then
+	weHave=`cacao_jdk_version_to_num $version`
+	if [ ${weHave} -ge ${weWant} ]
+	then
+	    j2basedir=`env LANG=C LC_ALL=C ${PKGPARAM} ${jdk} BASEDIR`
+	    if [ -x "${j2basedir}/j2se/bin/java" ]
+            then
+		    cacao_java_home=`cacao_clean_path ${j2basedir}/j2se`
+		    return ${CACAO_CR_SUCCESS}
+	    fi
+	fi
+    fi
+
+    # Support for Solaris 10 diskless
+    _basedir="${CACAO_J5RT_DEFAULT_BASEDIR}"
+    if [ -n "${_basedir}" ]
+    then
+	_java_home="`${LS} -d ${_basedir}/jdk/jdk1.5.* 2>/dev/null | \
+            ${SORT} | ${TAIL} -1`"
+	if [ -x "${_java_home}" ]
+        then
+            # Set a valid global variable
+            cacao_java_home=`cacao_clean_path ${_java_home}`
+	    return ${CACAO_CR_SUCCESS}
+	fi
+    fi
+
+    return ${CACAO_CR_ESRCH}
+}
+
+#------------------------------------------------------------------------------
+# cacao_core_find_nss
+#
+# DESCRIPTION :
+# Set cacao_nss_lib_home, cacao_nss_tools_home
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ESRCH if we cannot find dependency
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_core_find_nss() {
+    
+    tmp_lib_home=""
+    tmp_tools_home=""
+
+    # Is the SUNWtls package installed ?
+    ## NSS lib package found. Locate the home of libraries.
+    nsslibdir=`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_NSS_LIB_PKG} BASEDIR 2>/dev/null`
+    if [ $? -eq 0 ] && [ -n "${nsslibdir}" ]
+	then 
+	if [ ! -f "${nsslibdir}/${CACAO_NSS_LIB_DIR}/${CACAO_NSS_LIB_NAME}" ]
+	then 
+	    return ${CACAO_CR_ESRCH}
+	fi
+	tmp_lib_home="${nsslibdir}/${CACAO_NSS_LIB_DIR}"
+    fi
+	
+    # Is the SUNWtlsu package installed ?
+    ## NSS Tools package found. Find where is certutil
+    nsstoolsdir=`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_NSS_TOOLS_PKG} BASEDIR 2>/dev/null`
+    if [ $? -eq 0 ] && [ -n "${nsstoolsdir}" ]
+    then
+	if [ ! -x "${nsstoolsdir}/${CACAO_NSS_TOOLS_DIR}/${CACAO_NSS_TOOLS_NAME}" ]
+	then 
+	    return ${CACAO_CR_ESRCH}
+	fi
+	tmp_tools_home="${nsstoolsdir}/${CACAO_NSS_TOOLS_DIR}"
+    fi
+
+    if [ -n "${tmp_lib_home}" ] && [ -n "${tmp_tools_home}" ]
+    then
+	cacao_nss_tools_home=`cacao_clean_path ${tmp_tools_home}`
+	cacao_nss_lib_home=`cacao_clean_path ${tmp_lib_home}`
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Support for Solaris 10 diskless
+    _basedir="${CACAO_NSS_DEFAULT_BASEDIR}"
+    if [ -n "${_basedir}" ]
+    then
+        if [ -z "${tmp_lib_home}" ]
+        then
+            tmp_lib_home="${_basedir}${CACAO_NSS_LIB_DIR}"
+            if [ ! -f "${tmp_lib_home}/${CACAO_NSS_LIB_NAME}" ]
+	    then
+                return ${CACAO_CR_ESRCH}
+            fi
+        fi
+        if [ -z "${tmp_tools_home}" ]
+        then
+            tmp_tools_home="${_basedir}${CACAO_NSS_TOOLS_DIR}"
+            if [ ! -f "${tmp_tools_home}/${CACAO_NSS_TOOLS_NAME}" ]
+            then
+                return ${CACAO_CR_ESRCH}
+            fi
+        fi
+    fi
+    if [ -n "${tmp_lib_home}" ] && [ -n "${tmp_tools_home}" ]
+    then
+        # Set valid global variables
+	cacao_nss_tools_home=`cacao_clean_path ${tmp_tools_home}`
+	cacao_nss_lib_home=`cacao_clean_path ${tmp_lib_home}`
+	return ${CACAO_CR_SUCCESS}
+    else
+        return ${CACAO_CR_ESRCH}
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_find_jdmk_lib_dir
+#
+# DESCRIPTION :
+# Set cacao_jdmk_lib_dir
+#
+# PARAMETERS :
+# jdmk home path
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ESRCH
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_find_jdmk_lib_dir() {
+
+    _jdmk_home="$1"
+
+    # Priority to any JDMK bundled into Solaris
+    if [ -f "${_jdmk_home}/jdmkrt.jar" ]; then
+        # Set a valid global variable
+        cacao_jdmk_lib_dir="${_jdmk_home}"
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Do minimum checks
+    if [ -f "${_jdmk_home}/lib/jdmkrt.jar" ]; then
+        cacao_jdmk_lib_dir="${_jdmk_home}/lib"
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Not found
+    return ${CACAO_CR_ESRCH}
+}
+
+#------------------------------------------------------------------------------
+# cacao_core_find_jdmk
+#
+# DESCRIPTION :
+# Set cacao_jdmk_home
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if successful
+# CACAO_CR_ESRCH if we cannot find dependency
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_core_find_jdmk() {
+    
+    weWant=${CACAO_MIN_JDMK_VERSION_NUM}
+
+    # Priority to any JDMK bundled into Solaris
+    _basedir="`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_JDMK_BASE_PKG} BASEDIR 2>/dev/null`"
+    if [ $? -eq 0 ] && [ -n "${_basedir}" ]; then
+        _jdmk_home="${_basedir}/${CACAO_JDMK_BASE_SUB_DIR}"
+        if [ -f "${_jdmk_home}/jdmkrt.jar" ]; then
+            # Set a valid global variable
+            cacao_jdmk_home=`cacao_clean_path ${_jdmk_home}`
+            return ${CACAO_CR_SUCCESS}
+        fi
+    fi
+
+    # Are the SUNWjdmk-runtime and SUNWjdmk-runtime-jmx packages installed ?
+    cr=0
+    a_version=`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_JDMK_RT_PKG} SUNW_PRODVERS 2>/dev/null`
+    cr=`expr $cr + $?`
+    b_version=`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_JMX_RT_PKG} SUNW_PRODVERS 2>/dev/null`
+    cr=`expr $cr + $?`
+
+    
+    if [ ${cr} -eq 0 ]
+    then
+	JDMKRT_VERSION=`cacao_jdmk_version_to_num  $a_version`
+	JMXRT_VERSION=`cacao_jdmk_version_to_num $b_version`
+	
+	if [ ${JDMKRT_VERSION} -eq ${JMXRT_VERSION} ]
+        then
+	    if [ ${JDMKRT_VERSION} -ge ${weWant} ]
+            then
+		jdmkdir=`env LANG=C LC_ALL=C ${PKGPARAM} ${CACAO_JDMK_RT_PKG} BASEDIR`
+		if [ -f "${jdmkdir}/${CACAO_JDMK_OPT_SUB_DIR}/${a_version}/lib/jdmkrt.jar" ]
+                then
+		    cacao_jdmk_home=`cacao_clean_path ${jdmkdir}/${CACAO_JDMK_OPT_SUB_DIR}/${a_version}`
+		    return ${CACAO_CR_SUCCESS}
+		fi
+	    fi
+	fi		    
+    fi
+
+    # Support for Solaris 10 diskless
+    # Priority to any JDMK bundled into Solaris
+    _basedir="${CACAO_JDMK_BASE_DEFAULT_BASEDIR}"
+    if [ -n "${_basedir}" ]
+    then
+	_jdmk_home="${_basedir}/${CACAO_JDMK_BASE_SUB_DIR}"
+        if [ -f "${_jdmk_home}/jdmkrt.jar" ]
+        then
+            # Set a valid global variable
+            cacao_jdmk_home=`cacao_clean_path ${_jdmk_home}`
+            return ${CACAO_CR_SUCCESS}
+        fi
+    fi
+    # Optional JDMK
+    _basedir="${CACAO_JDMK_OPT_DEFAULT_BASEDIR}"
+    if [ -n "${_basedir}" ]
+    then
+	_jdmk_home="`${LS} -d ${_basedir}/${CACAO_JDMK_OPT_SUB_DIR}/* \
+            2>/dev/null | ${SORT} | ${TAIL} -1`"
+        if [ -n "${_jdmk_home}" ]
+        then
+            _version="`${BASENAME} ${_jdmk_home}`"
+            _number="`cacao_jdmk_version_to_num  ${_version}`"
+            if [ ${_number} -ge ${weWant} ] && [ -x "${_jdmk_home}" ] 
+            then
+                # Set a valid global variable
+                cacao_jdmk_home=`cacao_clean_path ${_jdmk_home}`
+                return ${CACAO_CR_SUCCESS}
+            fi
+        fi
+    fi
+
+    return ${CACAO_CR_ESRCH}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_pmf_mode() 
+#
+# DESCRIPTION:
+# Tells if we are on pmf mode
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE if pmf mode, CACAO_FALSE otherwise
+#
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_is_pmf_mode() {
+
+    # Catch result, avoiding echo
+    pmfd_pid=`cacao_get_process_pid ${PMF_DAEMON_NAME}`
+    if [ ${?} -eq ${CACAO_CR_SUCCESS} ]
+    then
+        # PMF Deamon is running
+        if [ -f ${CACAO_PMF_LOCK} ]
+	then
+            # RPC created a lock for PMF daemon
+            ${RPCINFO} -t ${cacao_host} ${CACAO_RPC_PROGNUM} ${CACAO_RPC_VERSNUM}  >/dev/null 2>&1
+            if [ $? -eq 0 ]
+            then
+                # Flag to indicate that PMF is available
+                return ${CACAO_TRUE}
+            fi
+        fi
+     fi
+     return ${CACAO_FALSE}
+}
+
+
+cacao_service_is_running() {
+    inst_name=$1
+    svc_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${inst_name}"
+    
+    # unless NSTATE is specified ,'*' can be append at the end
+    # of the state in case of transient case
+    # add NSTATE to be safe
+    svc_state=`${SVCS} -H -o STATE,NSTATE ${svc_name} 2>/dev/null | ${AWK} '{print $1}'`
+    
+    if [ -z "${svc_state}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+    
+    if [ ${svc_state} = "online" ]
+    then
+	return ${CACAO_TRUE}
+    else
+	return ${CACAO_FALSE}
+    fi
+   
+    return ${CACAO_FALSE}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_greenline_mode() 
+#
+# DESCRIPTION:
+# Tells if we are on greenline mode
+# calling smf_present helper function defined inside SMF_HELPER_FILE
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+#
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_is_greenline_mode() {
+
+    if [ -n "${cacao_current_id}" ] && [ ${cacao_current_id} -ne 0 ] 
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    if [ -f "${SMF_HELPER_FILE}" ]
+    then
+        . "${SMF_HELPER_FILE}"
+        smf_present
+        if [ $? -eq 0 ]
+	then 
+	    return ${CACAO_TRUE}
+        else
+            return ${CACAO_FALSE}
+	fi
+    else
+	return ${CACAO_FALSE}
+    fi
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_initd_service_present
+#
+# DESCRIPTION:
+# Tells if the initd cacao file is there
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+#
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_is_initd_service_present() {
+    if [ -f /etc/init.d/"${cacao_unique_name}" ]
+    then
+        return ${CACAO_TRUE}
+    else
+        return ${CACAO_FALSE}
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_smf_start
+#
+# DESCRIPTION :
+# Start the container through the smf service. 
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_start() {
+
+    # Check if Cacao is running (should not be)
+    # Could be smf test and no rely on pid
+    cacao_is_running
+    is_running=$?
+    if [ ${is_running} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ESRCH}
+    fi
+
+    if [ ${is_running} -eq ${CACAO_TRUE} ]
+    then
+	cvs_contract=`cacao_smf_get_contract_num ${cacao_main_instance}`
+        if [ -n "${cvs_contract}" ]
+        then
+	    pid=`cacao_get_contract_pids ${cvs_contract} | ${HEAD} -1`
+	else 
+	    pid=0
+	fi
+        # Only one instance of Cacao allowed
+        if [ ${pid} -eq 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_ALREADY_RUNNING}" \
+		"${cacao_main_action}"
+        else
+            cacao_print_error_message "${CACAO_MSG_ERROR_ALREADY_RUNNING2}" \
+		"${cacao_main_action}" "${pid}"
+        fi
+        return ${CACAO_CR_EEXIST}
+    fi
+
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_main_instance}"
+    #in case if previously in maintenance state
+    cacao_reset_smf_maintenance_state "${cacao_main_instance}"
+    if [ ${?} -ne 0 ] 
+    then    
+        cacao_print_error_message "${CACAO_MSG_ERROR_SMF_STARTING}" "${full_service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    #for ctrl-c stop in case
+    cacao_starting_instance="${cacao_main_instance}"
+    ${SVCADM} enable -st "${full_service_name}" >/dev/null 2>&1
+    if [ ${?} -ne 0 ] 
+    then    
+        cacao_starting_instance=""
+        cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_STARTING}" "${full_service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+    cacao_starting_instance=""
+}
+    
+#------------------------------------------------------------------------------
+# cacao_do_smf_stop
+#
+# DESCRIPTION :
+# Stop the container through the smf service. 
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_stop() {
+    
+    # Check if Cacao is running (should not be)
+    # Could be smf test and no rely on pid
+    cacao_is_running
+    is_running=$?
+    if [ ${is_running} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ESRCH}
+    fi
+
+    if [ ${is_running} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    #in this case there is no error
+    if [ ${is_running} -eq ${CACAO_FALSE} ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_main_instance}"
+
+    #in case if previously in maintenance state
+    cacao_reset_smf_maintenance_state "${cacao_main_instance}"
+    if [ ${?} -ne 0 ] 
+    then    
+        cacao_print_error_message "${CACAO_MSG_ERROR_SMF_STOPPING}" "${service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Forced stop
+    if [ ${cacao_force_mode} -eq ${CACAO_TRUE} ]
+    then
+        #for latter cleanup in case
+        cacao_stopping_instance="${cacao_main_instance}"
+
+        #create property group stop and property exec
+
+        ${SVCCFG} -s ${service_name} addpg stop method  >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+        ${SVCCFG} -s ${service_name} setprop stop/exec = astring: \"${cacao_tools_dir}/cacao_smf stop -f %i\"  >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+        #refresh the instance to make the change active
+        ${SVCADM} refresh ${service_name}  >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+        #call stop
+        ${SVCADM} disable -st ${service_name} >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_STOPPING}" "${service_name}"
+        fi
+        #restore previous state
+        ${SVCCFG} -s ${service_name} delpg stop  >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+        #refresh the instance to make the change active
+        ${SVCADM} refresh ${service_name} >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+        # we are sure here that the stop method is cleaned (rollback at exit if
+        # an error occurs before)
+        cacao_stopping_instance=""
+        #kill cacao process if smf has no trace of it (daemon process that was in maintenance state)
+        cacao_force_stop
+        return ${?}
+    else       
+
+        ${SVCADM} disable -st "${service_name}" >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_STOPPING}" "${service_name}"
+            return ${CACAO_CR_ERROR}
+         else
+            #case of gracefull stop that had problems, return code is 0
+            #but there is a message to print
+            if [ -s "${cacao_error_file}" ]
+            then
+                cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_STOPPING}" "${service_name}"
+            fi
+        fi
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}   
+
+#------------------------------------------------------------------------------
+# cacao_do_smf_enable_at_boot
+#
+# DESCRIPTION :
+# Enable the container start at reboot through the smf service. 
+# Logic implementation function.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_enable_at_boot() {
+
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+
+    cacao_save_enabled=`cacao_get_property "${CACAO_ENABLE_KEY}"`
+
+    cacao_do_enable_at_boot
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_enabling_instance="${instance_name}"
+
+    cacao_do_smf_enable_at_boot_internal "${cacao_main_instance}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_ENABLING}" "${full_service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_enabling_instance=""
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_smf_enable_at_boot_internal
+#
+# DESCRIPTION :
+# Enable the container start at reboot through the smf service. 
+# Logic implementation function.
+# 
+# PARAMETERS :
+# $1 the instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_enable_at_boot_internal() {
+    instance_name=${1}
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+
+    #in case if previously in maintenance state
+    cacao_reset_smf_maintenance_state "${instance_name}"
+    if [ ${?} -ne 0 ] 
+    then    
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    # Workaround for delayed enable for svcadm (see 6198442)
+    ${SVCS} -l "${service_name}" | ${GREP} "^enabled.*true" >/dev/null 2>&1
+    if [ ${?} -eq 0 ]
+    then
+        ${SVCADM} enable -st "${full_service_name}" >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+    else
+       ${SVCADM} disable -st "${full_service_name}" >/dev/null 2>&1
+       if [ ${?} -ne 0 ] 
+       then    
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+
+    ${SVCCFG} -s "${service_name}" "setprop general/enabled = true"
+    if [ ${?} -ne 0 ] 
+    then    
+        return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_smf_disable_at_boot
+#
+# DESCRIPTION :
+# Disable the container start at reboot through the smf service. 
+# Logic implementation function.
+# 
+# PARAMETERS :
+# $1 the instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_disable_at_boot() {
+
+    cacao_save_enabled=`cacao_get_property "${CACAO_ENABLE_KEY}"`
+
+    cacao_do_disable_at_boot
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    cacao_disabling_instance="${instance_name}"
+
+    cacao_do_smf_disable_at_boot_internal "${cacao_main_instance}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_smf_error_message "${CACAO_MSG_ERROR_SMF_DISABLING}" "${full_service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_disabling_instance=""
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_do_smf_disable_at_boot_internal
+#
+# DESCRIPTION :
+# Disable the container start at reboot through the smf service. 
+# Logic implementation function.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_do_smf_disable_at_boot_internal() {
+    
+    instance_name=${1}
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+
+    #in case if previously in maintenance state
+    cacao_reset_smf_maintenance_state "${instance_name}"
+    if [ ${?} -ne 0 ] 
+    then    
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Workaround for delayed enable for svcadm (see 6198442)
+    ${SVCS} -l "${service_name}" | ${GREP} "^enabled.*true" >/dev/null 2>&1
+    if [ ${?} -eq 0 ]
+    then
+        ${SVCADM} enable -t "${full_service_name}" >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            return ${CACAO_CR_ERROR}
+        fi
+    else
+       ${SVCADM} disable -t "${full_service_name}" >/dev/null 2>&1
+       if [ ${?} -ne 0 ] 
+       then    
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+
+    ${SVCCFG} -s "${service_name}" "setprop general/enabled = false"
+    if [ ${?} -ne 0 ] 
+    then    
+        return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_reset_smf_maintenance_state
+#
+# DESCRIPTION :
+# In case the state of the service is in maintenance state put
+# it in disabled state so as next smf commands (for enabling, stopping
+# starting, disabling) can work.
+# 
+# PARAMETERS :
+# $1 the instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_reset_smf_maintenance_state() {
+    instance_name=$1
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+    state=`${SVCS} -H -o STA "${full_service_name}"`
+    if [ ${?} -ne 0 ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_SMF_RESET_MAINTENANCE}" "${full_service_name}"
+        return ${CACAO_CR_ERROR}
+    fi
+    #case state in maintenance mode
+    if [ ${state} = "MNT" ] 
+    then
+        #disable the service for the instance
+        #will return a 3 error code but will work
+        #this is the only way to do a kind of clear of the
+        #maintenance state without starting the service
+        ${SVCADM} disable -st "${full_service_name}" >/dev/null 2>&1
+        if  [ ${?} -ne 3 ] && [ ${?} -ne 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_RESET_MAINTENANCE}" "${full_service_name}"
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_print_smf_error_message
+# 
+# DESCRIPTION :
+# Print smf message according to the locale in stderr
+# Same as print error message but also print the link to smf log
+# To be used after an smf call error
+#
+# PARAMETERS :
+# $1 : the default message.
+# $[2-n] : Other parameters are parameter for the message.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_print_smf_error_message() {
+    if [ -s "${cacao_error_file}" ]
+    then
+        #if there is error comming from the cacaoadm smf call
+        #then print it
+        ${CAT} "${cacao_error_file}" >&2
+        ${RM} -f ${cacao_error_file} >/dev/null 2>&1
+    else
+        #the error is purely smf
+        message="$1"
+        shift
+        parameters="$*"
+        cacao_print_error_message "${message}" "${parameters}"
+        full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+        log_file=`${SVCS} -l "${full_service_name}" | ${GREP} .log\$ | ${CUT} -f7 -d' '`
+        if [ -n "${log_file}" ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_LOG}" "${log_file}"
+        fi
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_greenline_exit
+# 
+# DESCRIPTION :
+# rollback of stop, enable, disable smf call in case of error for these calls
+#
+# PARAMETERS :
+# None
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_greenline_exit() {
+
+    if [ -n "${cacao_starting_instance}" ]
+    then
+        service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_starting_instance}"
+        #stop the running instance (crtl-c case) - no synchro here !
+        ${SVCADM} disable -t ${service_name} >/dev/null 2>&1
+         if [ ${?} -ne 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_STOPPING}" "${service_name}"
+        fi
+    fi
+
+    if [ -n "${cacao_stopping_instance}" ]
+    then
+        service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_stopping_instance}"
+        # no test on error code here since we are not sure if the property group 
+        # has been setted before (so delpg may return an error)
+        ${SVCCFG} -s ${service_name} delpg stop  >/dev/null 2>&1
+        #refresh the instance to make the change active
+        ${SVCADM} refresh ${service_name} >/dev/null 2>&1
+        if [ ${?} -ne 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_ROLLBACK}" stop "${service_name}"
+        fi
+    fi
+
+    if [ -n "${cacao_enabling_instance}" ] 
+    then
+        cacao_set_property "${CACAO_ENABLE_KEY}" "${cacao_save_enabled}"
+        if [ ${?} -ne 0 ]
+        then
+            service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_enabling_instance}"
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_ROLLBACK}" enable "${service_name}"
+        fi        
+    fi
+
+    if [ -n "${cacao_disabling_instance}" ]
+    then
+        cacao_set_property "${CACAO_ENABLE_KEY}" "${cacao_save_enabled}"
+        if [ ${?} -ne 0 ]
+        then
+            service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${cacao_disabling_instance}"
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_ROLLBACK}" disable "${service_name}"
+        fi        
+    fi
+
+    #clean the error message if not already done
+    if [ -f "${cacao_error_file}" ] && [ "${cacao_print_error_in_file}" = "${CACAO_FALSE_VALUE}" ]
+    then
+        ${RM} -f ${cacao_error_file} >/dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_error_file}"
+	fi
+    fi
+
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_etc_base_dir
+#
+# DESCRIPTION :
+# return current etc/conf base dir
+# on solaris etc base = the rt base
+# PARAMETERS :
+# None.
+# NOTICE:
+# cacao_rt_base_dir must be well known
+# RETURN CODE:
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_get_etc_base_dir () {
+    ${ECHO}  "${cacao_rt_base_dir}"
+}
+        
+#------------------------------------------------------------------------------
+# cacao_get_var_base_dir
+#
+# DESCRIPTION :
+# return current var base dir
+# on solaris var base = the rt base
+# PARAMETERS :
+# None.
+# NOTICE:
+# cacao_rt_base_dir must be well known
+# RETURN CODE:
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_get_var_base_dir () {
+    ${ECHO}  "${cacao_rt_base_dir}"
+}
+        
+#------------------------------------------------------------------------------
+# cacao_get_run_base_dir
+#
+# DESCRIPTION :
+# return current run base dir
+# on solaris run base = the rt base
+# PARAMETERS :
+# None.
+# NOTICE:
+# cacao_rt_base_dir must be well known
+# RETURN CODE:
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_get_run_base_dir () {
+    ${ECHO}  "${cacao_rt_base_dir}"
+}
+
+#------------------------------------------------------------------------------
+# cacao_smf_get_contract_num 
+#
+# DESCRIPTION :
+# get the contract associated to cacao service
+# PARAMETERS :
+# instance name
+# NOTICE:
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# OUTPUT:
+# contract number
+#------------------------------------------------------------------------------
+cacao_smf_get_contract_num () {
+    _inst_name=$1
+    
+    if [ -z "${_inst_name}" ] 
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #if the service is not running we gonna receive '   -'
+    cacao_service_is_running ${_inst_name}
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+	${ECHO} ""
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    
+
+    svc_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${_inst_name}"
+
+    res=`${SVCS} -H -o CTID ${svc_name} 2>/dev/null`
+
+    ${ECHO} "$res"
+
+    return ${CACAO_CR_SUCCESS}
+
+}
+#------------------------------------------------------------------------------
+# cacao_get_contract_pids
+#
+# DESCRIPTION :
+# get pids inside cacao contract
+# PARAMETERS :
+# contract num
+# NOTICE:
+# 
+# RETURN CODE:
+# 
+# OUTPUT:
+# pids list
+#------------------------------------------------------------------------------
+cacao_get_contract_pids() {
+    contract=$1
+    
+    if [ x${contract} = x ]
+    then
+	return
+    fi 
+
+    ${PS} -e -o ctid,pid 2>/dev/null | ${AWK} -v conid=${contract} '$1 == conid {print $2}'
+    
+}
+
+cacao_kill_processes_in_contract() {
+    cur_instance=$1
+    if [ -z "${cur_instance}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ct=`cacao_smf_get_contract_num ${cur_instance}`
+    
+    if [ -z "${ct}" ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    ps_retries=3
+
+    while [ ${ps_retries} -gt 0 ]
+    do
+      pid_list=`cacao_get_contract_pids ${ct}`
+
+      if [ -z "${pid_list}" ]
+      then
+	  # no more process in the contract
+	  return ${CACAO_CR_SUCCESS}
+      fi
+      
+      for proc_pid in "${pid_list}"
+	do
+	cacao_is_pid_running ${proc_pid}
+	if [ $? -eq ${CACAO_TRUE} ]
+	    then
+	    ${KILL} -9 ${proc_pid} 2>/dev/null
+	fi
+      done
+
+      ps_retries=`${EXPR} ${ps_retries} - 1`
+
+    done
+    
+    return ${CACAO_CR_ERROR}
+}

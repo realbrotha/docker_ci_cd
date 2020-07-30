@@ -1,0 +1,41 @@
+# @(#)18        1.1  src/bos/usr/lib/pios/ibmNetColor.attach, cmdpios, bos530 11/5/96 00:34:56
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/pios/ibmNetColor.attach 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1996 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDPIOS
+#
+#   FUNCTIONS:#		
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1996
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+	# IBM Network Color Printer attachment
+	description	=	piobe.cat,4,51;IBM Network Color Printer
+	seq_num		=	8
+	add_queue	=	ps_makncp_prt
+	add_printer     =   	ps_makncp_prt
+	submit_job	=	ps_qprt_fileName
+	change_queue	=	ps_chpq_attachName
+	change_filters	=	ps_pqfilters_ghostName
+	remove_queue	=	ps_rmpq_ghostname_ncp

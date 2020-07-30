@@ -1,0 +1,459 @@
+#!/sbin/sh
+
+################################################################################
+#
+#	Copyright 2006 Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lu_init_d.sh 5.17     06/04/11 SMI"
+#
+# USAGE:        /usr/lib/lu/lu_init_d ( start | stop )
+#
+# This script is called at system startup and shutdown - it is intended to be called
+# from the appropriate scripts installed in the appropriate /etc/*.d directories and
+# called only during system startup and shutdown. Typically, "/etc/init.d/lu" will
+# contain the "master" init script that has links to it placed in /etc/rc*.d/{S,K}*lu
+# as appropriate. As the system is brought up or shut down, that /etc/init.d/lu script
+# will be called, which in turn will call this script with a single command line argument
+# of either "start" (on system startup) or "stop" (on system shutdown).
+#
+# If no BEs are defined, this script will exit and not perform any operations.
+# If one or more BEs are defined, this script will perform the following functions:
+#
+# On startup:
+# 1. Determine name of the current boot environment.
+# 2. Determine which BE was active before the last reboot.
+# 3. update the /etc/lu/sync.log file to reflect which BE was booted (only if LU_DEBUG set).
+# 4. If a switch of BEs was done (current BE is not prior BE), then:
+# 4a. Execute any "S*" scripts in /etc/lu/rc.d
+# 4b. run "lusync" on the last BE - this causes files listed in "LU_SYNC_FILES" to be
+#	copied from the prior BE to this BE, synchronizing critical system files.
+# 5. Update name of active BE to the current boot environment.
+#
+# On shutdown:
+# 1. Determine name of the current boot environment.
+# 2. Determine which BE will be booted up next.
+# 3. If a switch of BEs is about to be done (current BE is not next BE), then:
+# 3a. Mount the next boot environment to be booted.
+# 3b. Determine if new boot environment needs to be synchronized.
+# 3c. Umount the next boot environment.
+# 3d. If (3b) is true, execute any "K*" scripts in /etc/lu/rc.d
+# 4. if luactivate created a "delayed update" script on the current boot
+#	environment, run it now.
+################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+LOG="/etc/lu/lustartup.log"
+LU_LOG_FILES_LIST="${LOG}"
+MAX_LOG_SIZE="2000"
+BE_CONFIG_FILE="/etc/lu/jumpstart-profile-options.xml"
+
+################################################################################
+# Name:		check_sync_issues
+# Description:	Check to see if any synchronization issues will occur when the
+#		BE is synchronized.
+# Local Prefix:	csi_
+# Arguments:	$1 = current BE name.
+#		$2 = previous BE name.
+# Example:      check_sync_issues mntpt
+# Returns:	<none>
+################################################################################
+
+check_sync_issues() 
+{
+	csi_currBe="$1"
+	csi_prevBe="$2"
+
+	# Bail if no local db.
+	[ -s "${LU_DB_LOCAL}" ] || return 
+
+	# Check to see if any 'sourcetarget' synchronization files are 
+	# in conflict.
+	ERRMSG="`${LUETCBIN}/lusync -R sourcetarget -d \"${LU_DB_LOCAL}\"`"
+	[ -z "${ERRMSG}" ] && return
+
+	# A file has changed on the source and on the target - warn user.
+	${LUPRINTF} -fWp1 "`gettext 'The following files have changed on \
+both the current boot environment <%s> and the previous boot environment \
+<%s>:'`" "${csi_currBe}" "${csi_prevBe}"
+	echo "${ERRMSG}" | while read line ; do
+		${LUPRINTF} -p1 '   %s' "${line}"
+	done
+
+	${LUPRINTF} -fIp1 "`gettext 'The files listed above are in \
+conflict between the current boot environment <%s> and the previous boot \
+environment <%s>. These files were not automatically synchronized.'`" \
+"${csi_currBe}" "${csi_prevBe}" 
+}
+
+#
+# lu_start: process live upgrade "system startup" condition
+#
+lu_start()
+{
+	# See if we need to sync up files from previous be and then 
+	# execute the Live Upgrade "rc exec" startup scripts.
+	if [ -f "${LU_LUTAB_FILE}" -a -s "${LU_LUTAB_FILE}" ] ; then
+		lu_start_sync
+		return $?
+	else
+		lu_start_create
+		return $?
+	fi
+}
+
+#
+# lu_start_sync: process live upgrade system startup sync operation
+#
+lu_start_sync()
+{
+	CURR_BE="`lulib_lucurr`"
+	if [ "$?" -eq "0" -a -n "${CURR_BE}" -a -f "${SYNCKEY}" -a -s "${SYNCKEY}" ] ; then
+		LAST_BE="`cat ${SYNCKEY}`"
+		if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -gt "0" ]; then
+			echo "LAST_BE=${LAST_BE}" >> ${LU_SYNC_LOG_FILE}
+			echo "CURR_BE=${CURR_BE}" >> ${LU_SYNC_LOG_FILE}
+		fi
+		# SYNCKEY/LAST_BE is only different from CURR_BE
+		# on the first boot to a newly created BE or
+		# to a BE that was activated with the sync option.
+		# Subsequent boots to this or the previous BE
+		# will not trigger an lusync. Also, /etc/lu/rc.d
+		# scripts are only executed in this sync mode.
+		if [ "${LAST_BE}" != "${CURR_BE}" ] ; then
+			# Indicate to console log and system logs that activation is about to happen.
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Synchronizing new boot environment.'`"
+
+			# Assure that /tmp exists
+			if [ ! -d "/tmp" ] ; then
+				/bin/mkdir -m 1777 /tmp
+			else
+				/bin/chmod 1777 /tmp
+			fi
+			/bin/chown root:sys /tmp
+
+			# Execute any ABE startup scripts
+			for f in /etc/lu/rc.d/S* ; do
+				if [ -s "${f}" ] ; then
+					case ${f} in
+						*.sh) # source it
+							. ${f}
+							;;
+						*) # sub shell
+							/sbin/sh ${f} start
+							;;
+					esac
+				fi
+			done
+
+			# Report on any synchronization conflicts.
+			check_sync_issues "${CURR_BE}" "${LAST_BE}" >> ${LU_SYNC_LOG_FILE} 2>&1
+
+			# Synchronize the boot environment.
+			${LUETCBIN}/lusync "${LAST_BE}" >> ${LU_SYNC_LOG_FILE} 2>&1
+
+			# Clear out any first time boot database information.
+			${LUETCBIN}/lusync -i -d ${LU_DB_LOCAL} >> ${LU_SYNC_LOG_FILE} 2>&1
+
+			#Touch LU_DB_SYNC_LOCAL file
+			[ -f "${LU_DB_SYNC_LOCAL}" ] && /bin/touch "${LU_DB_SYNC_LOCAL}" > /dev/null 2>&1
+
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+			"`gettext 'Live Upgrade: Creating synchronization snapshot of current boot environment.'`"
+
+			#Create an initial "initial" snapshot of newly activated BE
+			${LUETCBIN}/lusync -u -d "${LU_DB_SYNC_LOCAL}" -m '/' -t 'initial' -s "${LU_SYNCLIST}"
+
+			#Copy the temporary sync file to the local database of the current BE.
+			/bin/cp  "${LU_DB_SYNC_LOCAL}" "${LU_DB_LOCAL}"
+
+			#Remove the temporary sync file from the current BE.
+			/bin/rm -f  ${LU_DB_SYNC_LOCAL}
+
+			LASTBE_ID=`${LUETCBIN}/ludo get_be_id "${LAST_BE}"`
+			LASTBE_MNTPT=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i /etc/lu/ICF.${LASTBE_ID}`
+
+			[ -f "${LASTBE_MNTPT}/${LU_DB_SYNC_LOCAL}" ] && /bin/touch "${LASTBE_MNTPT}/${LU_DB_SYNC_LOCAL}" > /dev/null 2>&1
+
+			#Clear out any first time boot database information from the last BE.
+			${LUETCBIN}/lusync -i -d "${LASTBE_MNTPT}/${LU_DB_LOCAL}" >> ${LU_SYNC_LOG_FILE} 2>&1
+
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+			"`gettext 'Live Upgrade: Creating synchronization snapshot of previously active boot environment.'`"
+
+			#Create an initial "initial" snapshot of the last BE
+			${LUETCBIN}/lusync -u -d "${LASTBE_MNTPT}/${LU_DB_SYNC_LOCAL}" -m '/' -t 'initial' -s "${LASTBE_MNTPT}${LU_SYNCLIST}"
+
+			#Copy the temporary sync file to the local database of the last BE.
+			/bin/cp  "${LASTBE_MNTPT}/${LU_DB_SYNC_LOCAL}" "${LASTBE_MNTPT}/${LU_DB_LOCAL}"
+
+			#Remove the temporary sync file of the last BE.
+			/bin/rm -f  "${LASTBE_MNTPT}/${LU_DB_SYNC_LOCAL}"
+
+			#Unmount the last BE.
+			${LUBIN}/luumount -f -i /etc/lu/ICF.${LASTBE_ID}
+
+			# Indicate to console and system logs that activation is completed.
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Previous boot environment was <%s>.'`" "${LAST_BE}"
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Current boot environment is now <%s>.'`" "${CURR_BE}"
+		fi
+	fi
+
+	# Place current BE name in the SYNCKEY file so there will be no
+	# further attempts to synchronize this BE from another different BE.
+	echo "${CURR_BE}" > ${SYNCKEY}
+
+	# There is no "next active BE".
+	/bin/rm -f ${NEXT_ACTIVE}
+
+	# Synchronize the current BE's root slice entries in case they have 
+	# changed since the last boot. This handles the case where the current
+	# root slice has been newly mirrored or encapsulated.
+	${LUETCBIN}/lusync -b "${CURR_BE}" >> ${LU_SYNC_LOG_FILE} 2>&1
+
+	# Return success
+	return 0
+}
+
+#
+# lu_start_create: process live upgrade system startup BE create operation
+#
+lu_start_create()
+{
+	# return success if boot environment config file does not exist
+	[ -n "${BE_CONFIG_FILE}" -a -f "${BE_CONFIG_FILE}" ] || return 0 
+
+	# remove BE config file and return success if file exists but is empty
+	if [ ! -s "${BE_CONFIG_FILE}" ] ; then
+		/bin/rm -f "${BE_CONFIG_FILE}"
+		return 0
+	fi
+
+	# configure current boot environment if it is not already configured
+	if [ ! -s "${LU_LUTAB_FILE}" ] ; then
+		${LUPRINTF} +X -a "${LOG}" "`gettext 'Initializing Live Upgrade <%s>.'`" \
+"`/bin/date`"
+		ERRMSG="`${LUBIN}/lucreate -i 2>&1`"
+		if [ "$?" -eq "0" ] ; then
+			CURR_BE="`lulib_lucurr`"
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: primary boot environment configured as <%s>.\n'`" "${CURR_BE}"
+		else
+			echo "${ERRMSG}" | while read line ; do
+				${LUPRINTF} +X -W1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: %s'`" "${line}"
+			done
+			${LUPRINTF} +X -W1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: unable to configure primary boot environment.\n'`"
+		fi
+	fi
+
+	# BE config file exists - process file
+	${LUPRINTF} +X -a "${LOG}" "`gettext 'Processing boot environment requests <%s>.'`" \
+"`/bin/date`"
+	${LUETCBIN}/ludo process_be_config_file ${BE_CONFIG_FILE}
+	rc="$?"
+	/bin/rm -f "${BE_CONFIG_FILE}"
+	return ${rc}
+}
+
+#
+# lu_stop: process live upgrade "system shutdown" condition
+#
+lu_stop()
+{
+	# Execute luactivate's delayupdate processing, if any.
+	# Actually the term 'delayupdate' is a misnomer; 'delay_till_shutdown'
+	# is a better descriptor.
+	[ -f "${LU_LUTAB_FILE}" -a -s "${LU_LUTAB_FILE}" ] || return 1
+
+	CURR_BE="`lulib_lucurr`"
+	if [ "$?" -eq "0" -a -n "${CURR_BE}" -a -f "${NEXT_ACTIVE}" -a -s "${NEXT_ACTIVE}" ] ; then
+		NEXT_BE="`cat ${NEXT_ACTIVE}`"
+		if [ "${NEXT_BE}" != "${CURR_BE}" ] ; then
+			# Indicate to console log and system logs that deactivation is about to happen.
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Deactivating current boot environment <%s>.'`" "${CURR_BE}"
+
+			# Force the next be to be unmounted just in case the user
+			# had the BE mounted before the init/shutdown command.
+			${LUBIN}/luumount -f "${NEXT_BE}" 2>/dev/null 1>&2
+
+			# A BE change is in order. The lu/rc.d
+			# scripts should only be run in this case
+			# if this target BE is new or was activated
+			# with the sync option.
+			NEXTBE_ID=`${LUETCBIN}/ludo get_be_id "$NEXT_BE"`
+			NEXTBEMNTPT=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i /etc/lu/ICF.${NEXTBE_ID}`
+			rc="$?"
+
+			# If the next BE was successfully mounted, check to see
+			# if the sync key on the BE indicates the next BE - if 
+			# so this means the current BE has been activated and
+			# synchronization cannot be done.
+			if [ "${rc}" -eq '0' ] ; then
+				/bin/cat ${NEXTBEMNTPT}/${SYNCKEY} 2>/dev/null | \
+/bin/awk '{print $1}' | grep -w "$NEXT_BE" >/dev/null
+				[ "$?" -eq '0' ] && rc=1
+			fi
+
+			# If synchronization can be done, and the first time boot
+			# information is in the local database on the next BE, then
+			# cause the synchronization information in the database to
+			# be updated with the current information at the time the
+			# current BE was shut down.
+			if [ "${rc}" -eq '0' -a -s "${NEXTBEMNTPT}/${LU_DB_LOCAL}" ] ; then
+				# Compute source and target synchronization file
+				# values if required.
+				/bin/grep '^<beSyncList type="initial" ' \
+${NEXTBEMNTPT}/${LU_DB_LOCAL} 2>/dev/null 1>&2
+				if [ "$?" -eq '0' ] ; then
+					${LUETCBIN}/lusync -u -d \
+"${NEXTBEMNTPT}/${LU_DB_LOCAL}" -m '/' -t 'source' \
+-s "${NEXTBEMNTPT}${LU_SYNCLIST}"
+					${LUETCBIN}/lusync -u -d \
+"${NEXTBEMNTPT}/${LU_DB_LOCAL}" -m "${NEXTBEMNTPT}/" -t 'target' \
+-s "${NEXTBEMNTPT}${LU_SYNCLIST}"
+					# Remove db entries for current BE.
+					${LUETCBIN}/lusync -i -d "${LU_DB_LOCAL}"
+				fi
+			fi
+
+			# Unmount the next BE.
+			${LUBIN}/luumount -f -i /etc/lu/ICF.${NEXTBE_ID}
+
+			# If synchronization is possible, execute synchronization
+			# shutdown scripts on the current BE.
+			if [ "$rc" -eq '0' ] ; then
+				# Sync option active..Execute startup scripts
+				${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Executing Stop procedures for boot environment <%s>.'`" "${CURR_BE}" 
+
+				for f in /etc/lu/rc.d/K* ; do
+					if [ -s ${f} ]; then
+						case ${f} in
+							*.sh) # source it
+								. ${f}
+								;;
+							*) # sub shell
+								/sbin/sh ${f} stop
+								;;
+						esac
+					fi
+				done
+			fi
+
+			# Indicate to console and system logs that activation is completed.
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: Current boot environment is <%s>.'`" "${CURR_BE}"
+			${LUPRINTF} +X -1S ${LU_SYSLOG_FACILITY}.${LU_SYSLOG_PRIORITY} \
+"`gettext 'Live Upgrade: New boot environment will be <%s>.'`" "${NEXT_BE}"
+		fi
+	fi
+	
+	# If luactivate has left behind an activation script
+	# then now is the time to run it - right before system
+	# shutdown.
+	
+	DELAY_UPD_DIR="/etc/lu/DelayUpdate"
+	DELAY_UPD_SCRIPT="${DELAY_UPD_DIR}/activate.sh"
+	DELAY_UPD_SCRIPT_EXEC="${DELAY_UPD_DIR}/exec_activate.sh"
+	if [ -f "${DELAY_UPD_SCRIPT_EXEC}" -a -s "${DELAY_UPD_SCRIPT_EXEC}" -a -x "${DELAY_UPD_SCRIPT_EXEC}" ] ; then
+		${DELAY_UPD_SCRIPT_EXEC}
+		/bin/rm -f "${DELAY_UPD_SCRIPT_EXEC}" "${DELAY_UPD_SCRIPT}" 2> /dev/null 1>&2
+	fi
+
+	# Synchronize the current BE's root slice entries in case they have 
+	# changed since the system was booted. This handles the case where 
+	# the current root slice has been newly mirrored or encapsulated.
+	# Note: look for the root slice in the 'vfstab' file (-S vfstab)
+	# because on shutdown the root slice may have been changed in the
+	# vfstab file due to the root being mirrored or encapsulated.
+	${LUETCBIN}/lusync -b "${CURR_BE}" -S 'vfstab' >> ${LU_SYNC_LOG_FILE} 2>&1
+
+	# Return success
+	return "0"
+}
+
+#
+# check_log_size: do not allow any of the log files grow beyond a certain size
+#
+check_log_size()
+{
+	for ilog in ${LU_LOG_FILES_LIST} ; do
+		blocks="`/bin/du -s ${ilog} 2>${LOG} | /bin/cut -f1 2>>${LOG}`"
+		if [ -n "${blocks}" -a "${blocks}" -gt "${MAX_LOG_SIZE}" ]; then
+			if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -gt "0" ]; then
+				echo "${LU_PROG_NAME}: ""`gettext 'Information: Live Upgrade clearing log file: '`" "${ilog}"
+			fi
+			>$ilog
+		fi
+	done
+}
+
+################################################################################
+# main
+################################################################################
+
+# Setting this environment variable causes live upgrade to not alter
+# any scheduling priorities
+
+_LU__SCHEDULING_PRIORITY_SET_="yes"; export _LU__SCHEDULING_PRIORITY_SET_
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+	echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade product is not \
+installed properly (/etc/default/lu not found).'`"
+	exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+	echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade product is not \
+installed properly (${LUBIN}/lulib not found).'`"
+	exit 1
+fi
+
+. $LUBIN/lulib
+
+# Following should be set in ludefault; override only if not set
+
+SYNCKEY=${SYNCKEY:=/etc/lu/.SYNCKEY}
+NEXT_ACTIVE=${NEXT_ACTIVE:=/etc/lu/.NEXT_ACTIVE}
+LU_DEBUG=${LU_DEBUG:=0}; export LU_DEBUG
+LUPRINTF=${LUPRINTF:=echo}; export LUPRINTF
+LU_SYSLOG_FACILITY="${LU_SYSLOG_FACILITY:=local0}"
+LU_SYSLOG_PRIORITY="${LU_SYSLOG_PRIORITY:=notice}"
+
+# Don't allow the ${LOG} to get too big.
+check_log_size
+
+# Direct processing according to mode
+
+case $1 in
+	'stop')
+		[ ! -s "${LU_LUTAB_FILE}" ] && exit 0
+		lu_stop
+		exit "$?"
+		;;
+	'start')
+		lu_start
+		exit "$?"
+		;;
+	*)
+		echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade given \
+unknown or unspecified direction: '`""$1"
+		exit 1
+esac
+exit 1

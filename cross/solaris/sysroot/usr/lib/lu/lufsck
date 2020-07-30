@@ -1,0 +1,280 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lufsck.sh 5.6     03/01/29 SMI"
+#
+# USAGE:        lufsck -i <internal_config_file>
+# FUNCTION:     performs fsck on ABE file systems
+#		(Assumes ABE is unmounted.)
+# INPUT:        Internal Config File
+# OUTPUT:
+# DEV:          WLH
+#
+# ALGORITHM:
+# 1. Determine cdevice and fstyp of each ABE file system
+# 2. Execute fsck on each file system
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+LU_PROG_NAME=`basename $0`
+ICF=""
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts
+
+  # 1- SIGHUP (hangup)
+  # 2- SIGINT (user interrupt)
+  # 3- SIGQUIT (user quit)
+  # 9- SIGKILL (kill process - can not be caught or ignored :)
+  # 15- SIGTERM (software termination request)
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'Usage: %s [-l error_log] [-o outfile] -i icf_file_name'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit_script 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_i="" # -i n - ICF file to use to fsck.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts l:o:i:x:X c
+  do
+    case $c in
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      i) # -i n - icf file to use to fsck.
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="$OPTARG"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+lulib_must_have_option "${flag_i}" "" "-i"
+ICF="${flag_i}"
+
+# Validate the ICF file
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# Determine the name of current BE (PBE).
+CURR_BE="`lulib_lucurr`"
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active boot environment.'`"
+  exit_script 1
+fi
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+CBE_ICF="`$LUBIN/lumk_iconf -F \"${CURR_BE}\"`"
+if [ "$?" -ne "0" -o -z "${CBE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine disk partition configuration information for BE <%s>.'`" "${CURR_BE}"
+  exit_script 1
+fi
+
+# 1. Determine cdevice and fstyp of each ABE file system and run fsck
+
+${LUETCBIN}/ludo filter_shared_and_swap $CBE_ICF $ICF | /bin/nawk -F: '{ printf("%s %s %s\n", $2, $3, $4) }' |
+( 
+  while read mntpt bdevice fstyp ; do
+    if [ -z "$bdevice" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Device for mount point <%s> from current boot environment configuration information file <%s> is invalid.'`" "${mntpt}" "${CBE_ICF}"
+	exit_script 1
+    fi
+
+    cdevice="`lulib_get_cdevice $bdevice`"
+    if [ -z "$cdevice" ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Cannot determine character device node for <%s>.'`" "${bdevice}"
+	exit_script 1
+    fi
+
+    if [ ! -c $cdevice ]; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Device <%s> is not a character device for device <%s>.'`" "${cdevice}" "${bdevice}"
+	exit_script 1
+    fi
+
+    ${LUPRINTF} -lp1 "`gettext 'Performing file system check of device <%s>.'`" "${cdevice}"
+    /usr/sbin/fsck -y -F $fstyp $cdevice
+  done 
+)
+
+exit_script 0

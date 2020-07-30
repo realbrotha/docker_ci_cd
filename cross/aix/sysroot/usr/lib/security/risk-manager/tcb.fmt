@@ -1,0 +1,390 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/bin/tcbck/risk-manager/tcb.fmt 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2001 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+FORMAT TCB_HEADER
+%t %s tcbck: %s*
+rm_Timestamp $1
+rm_TimestampFmt TIME2
+rm_SensorHostname $2
+END
+
+FORMAT TCB_Needs_A_Value FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-003 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Needs_An_Attribute FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-091 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_All_or_Tree FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-004 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_No_More_Args FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-005 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_P_N_or_Y FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-006 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Duplicate_Stanza FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-007 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Duplicate_Name FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-008 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Duplicate_Object FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-009 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Linked_Directory FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-010 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Illegal_Attribute FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-055 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Invalid_Value FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-077 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Invalid_Attribute FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-083 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_No_Program FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-011 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Program_Error FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-012 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Verify_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-013 %s*
+rm_Signature $3
+END
+
+FORMAT TCB_Illegal_Entry FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-015 %s*
+rm_Signature $3
+END 
+
+FORMAT TCB_Illegal_Type FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-056 %s* 
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Permission FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-076 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Update_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-078 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Database_Error FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-084 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Input_File_Error FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-093 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Last_Stanza FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-085 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Last_Stanza FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-086 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Register_Device FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-103 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Open_Temp_File_Error FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-104 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Update_Temp_File_Error FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-105 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Register_Trusted FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-106 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_Type FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-016 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_SUID_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-017 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_SGID_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-054 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_Device FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-018 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_TCB_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-019 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_TP_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-052 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_Priv_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-053 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Such_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-020 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Donot_Know_How FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-021 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Donot_Know_What FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-057 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_File_Type FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-022 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_File_Modes FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-023 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_File_Owner FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-024 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_File_Group FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-025 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_Link_Count FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-026 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_TCB_Flag FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-027 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_TP_Flag FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-051 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_Checksum FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-028 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_Size FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-049 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_ACL FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-029 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Wrong_PCL FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-030 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Such_Link FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-031 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Such_Symlink FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-087 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Such_Source FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-080 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Illegal_Link FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-032 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Illegal_Symlink FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-089 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Incorrect_Link FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-033 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Incorrect_SymLink FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-088 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Absolute_File FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-035 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Absolute_Link FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-036 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Absolute_Program FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-037 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Absolute_Source FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-079 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Copy_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-059 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Create_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-092 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Chmod_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-060 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Not_Trusted_Machine FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-101 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Corrupted_Machine FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-102 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_User FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-038 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_Group FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-039 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Unknown_Mode FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-040 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Too_Many_Links FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-041 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Out_Of_Memory FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-042 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Use_Tree_Option FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-043 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Del_Failed FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-046 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_File_Matched FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-047 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_No_Class_Matched FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-048 %s*
+rm_Signature $3
+END
+ 
+FORMAT TCB_Open_An_Apar FOLLOWS TCB_HEADER
+%t %s tcbck: 3001-090 %s*
+rm_Signature $3
+END

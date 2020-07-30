@@ -1,0 +1,199 @@
+# @(#)28  1.1  src/cmdtext/usr/bin/ibm5584/font/GB, cmdtext, cmdtext530 8/3/93 01:05:53
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm5584/font/GB 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991, 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	GB font for IBM 5584 with Gothic font cartridge
+#	Gothic font with emphasis
+name GB
+spacewidth 10
+charset
+\| 5 0 000	1/6 em
+\^  2 0 000	1/12 em
+\& 0 0 000	zero-width
+! 6 2 041
+" 8 2 042
+# 10 2 043
+$ 10 2 044
+% 10 2 045
+& 10 2 046
+' 6 2 047
+( 10 2 050
+) 10 2 051
+* 10 2 052
++ 10 2 053
+, 8 0 054
+- 10 0 055
+hy "  
+\- "
+. 8 0 056
+/ 10 2 057
+sl "
+0 10 2 060
+1 10 2 061
+2 10 2 062
+3 10 2 063
+4 10 2 064
+5 10 2 065
+6 10 2 066
+7 10 2 067
+8 10 2 070
+9 10 2 071
+: 6 2 072
+; 6 2 073
+< 10 2 074
+= 10 0 075
+> 10 2 076
+? 10 2 077
+@ 10 2 0100
+A 10 2 0101
+B 10 2 0102
+C 10 2 0103
+D 10 2 0104
+E 10 2 0105
+F 10 2 0106
+G 10 2 0107
+H 10 2 0110
+I 6 2 0111
+J 8 2 0112
+K 10 2 0113
+L 10 2 0114
+M 10 2 0115
+N 10 2 0116
+O 10 2 0117
+P 10 2 0120
+Q 10 2 0121
+R 10 2 0122
+S 10 2 0123
+T 10 2 0124
+U 10 2 0125
+V 10 2 0126
+W 10 2 0127
+X 10 2 0130
+Y 10 2 0131
+Z 10 2 0132
+[ 10 2 0133
+\ 10 2 0134
+] 10 2 0135
+_ 10 0 0137
+` 10 2 0140
+a 10 0 0141
+b 10 2 0142
+c 10 0 0143
+d 10 2 0144
+e 10 0 0145
+f 8 2 0146
+g 10 0 0147
+h 10 2 0150
+i 6 2 0151
+j 8 2 0152
+k 10 2 0153
+l 6 2 0154
+m 10 0 0155
+n 10 0 0156
+o 10 0 0157
+p 10 0 0160
+q 10 0 0161
+r 8 0 0162
+s 10 0 0163
+t 8 2 0164
+u 10 0 0165
+v 10 0 0166
+w 10 0 0167
+x 10 0 0170
+y 10 0 0171
+z 10 0 0172
+{ 6 2 0173
+| 6 2 0174
+or "
+} 6 2 0175
+ts 10 0 0163 
+¡  10   3  0241   Beginning of single byte, single width katakana
+¢  10   3  0242
+£  10   3  0243
+¤  10   3  0244
+¥  10   3  0245
+¦  10   3  0246   wo
+§  10   3  0247   small a
+¨  10   3  0250   small i
+©  10   3  0251   small u
+ª  10   3  0252   small e
+«  10   3  0253   small o
+¬  10   3  0254   small ya
+­  10   3  0255   small yu
+®  10   3  0256   small yo
+¯  10   3  0257   small tsu
+°  10   3  0260
+±  10   3  0261   a
+²  10   3  0262   i
+³  10   3  0263   u
+´  10   3  0264   e
+µ  10   3  0265   o
+¶  10   3  0266   ka
+·  10   3  0267   ki
+¸  10   3  0270   ku
+¹  10   3  0271   ke
+º  10   3  0272   ko
+»  10   3  0273   sa
+¼  10   3  0274   shi
+½  10   3  0275   su
+¾  10   3  0276   se
+¿  10   3  0277   so
+À  10   3  0300   ta
+Á  10   3  0301   chi
+Â  10   3  0302   tsu
+Ã  10   3  0303   te
+Ä  10   3  0304   to
+Å  10   3  0305   na
+Æ  10   3  0306   ni
+Ç  10   3  0307   nu
+È  10   3  0310   ne
+É  10   3  0311   no
+Ê  10   3  0312   ha
+Ë  10   3  0313   hi
+Ì  10   3  0314   fu
+Í  10   3  0315   he
+Î  10   3  0316   ho
+Ï  10   3  0317   ma
+Ð  10   3  0320   mi
+Ñ  10   3  0321   mu
+Ò  10   3  0322   me
+Ó  10   3  0323   mo
+Ô  10   3  0324   ya
+Õ  10   3  0325   yu
+Ö  10   3  0326   yo
+×  10   3  0327   ra
+Ø  10   3  0330   ri
+Ù  10   3  0331   ru
+Ú  10   3  0332   re
+Û  10   3  0333   ro
+Ü  10   3  0334   wa
+Ý  10   3  0335   n
+Þ  10   3  0336   
+ß  10   3  0337   
+X1 10 3 1	generic characters
+X2 20 3 1

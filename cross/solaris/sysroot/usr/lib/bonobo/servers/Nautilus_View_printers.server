@@ -1,0 +1,95 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Printers_View"
+	type="shlib" location="/usr/lib/bonobo/libnautilus-printers-view.so">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="description" type="string" value="Printers view for nautilus"/>
+	<oaf_attribute name="description-cs" type="string" value="Tiskárny pro Nautilus"/>
+	<oaf_attribute name="description-de" type="string" value="Druckeransicht für Nautilus"/>
+	<oaf_attribute name="description-es" type="string" value="Vista de las impresoras en Nautilus"/>
+	<oaf_attribute name="description-fr" type="string" value="Vue des imprimantes pour nautilus"/>
+	<oaf_attribute name="description-hu" type="string" value="Nyomtató nézet a Nautilus számára"/>
+	<oaf_attribute name="description-it" type="string" value="Visualizzazione stampanti di Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus のプリンタ表示"/>
+	<oaf_attribute name="description-ko" type="string" value="노틸러스의 프린터 보기"/>
+	<oaf_attribute name="description-pl" type="string" value="Widok drukarek dla nautilusa"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Visualização de impressoras no Nautilus"/>
+	<oaf_attribute name="description-ru" type="string" value="Просмотр принтеров в Nautilus"/>
+	<oaf_attribute name="description-sv" type="string" value="Skrivarvy för Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="用于 nautilus 的打印机视图"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Nautilus 的印表機檢視"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Nautilus 的印表機檢視"/>
+	<oaf_attribute name="name" type="string" value="Printers View"/>
+	<oaf_attribute name="name-cs" type="string" value="Tiskárny"/>
+	<oaf_attribute name="name-de" type="string" value="Druckeransicht"/>
+	<oaf_attribute name="name-es" type="string" value="Vista de las impresoras"/>
+	<oaf_attribute name="name-fr" type="string" value="Vue des imprimantes"/>
+	<oaf_attribute name="name-hu" type="string" value="Nyomtatók nézet"/>
+	<oaf_attribute name="name-it" type="string" value="Visualizzazione stampanti"/>
+	<oaf_attribute name="name-ja" type="string" value="プリンタ表示"/>
+	<oaf_attribute name="name-ko" type="string" value="프린터 보기"/>
+	<oaf_attribute name="name-pl" type="string" value="Widok drukarek"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Visualização de impressoras"/>
+	<oaf_attribute name="name-ru" type="string" value="Просмотр принтеров"/>
+	<oaf_attribute name="name-sv" type="string" value="Skrivarvy"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="打印机视图"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="印表機檢視"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="印表機檢視"/>
+	<oaf_attribute name="bonobo:supported_uri_schemes" type="stringv">
+		<item value="printers"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:view_as_name" type="string" value="Printers"/>
+	<oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Tisk"/>
+	<oaf_attribute name="nautilus:view_as_name-de" type="string" value="Drucker"/>
+	<oaf_attribute name="nautilus:view_as_name-es" type="string" value="Impresoras"/>
+	<oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Imprimantes"/>
+	<oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Nyomtatók"/>
+	<oaf_attribute name="nautilus:view_as_name-it" type="string" value="Stampanti"/>
+	<oaf_attribute name="nautilus:view_as_name-ja" type="string" value="プリンタ"/>
+	<oaf_attribute name="nautilus:view_as_name-ko" type="string" value="프린터"/>
+	<oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Drukarki"/>
+	<oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Impressoras"/>
+	<oaf_attribute name="nautilus:view_as_name-ru" type="string" value="Принтеры"/>
+	<oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Skrivare"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="打印机"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="印表機"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="印表機"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string" value="View as Printers"/>
+	<oaf_attribute name="nautilus:view_as_label-cs" type="string" value="Zobrazit jako tiskárny"/>
+	<oaf_attribute name="nautilus:view_as_label-de" type="string" value="Wie Drucker anzeigen"/>
+	<oaf_attribute name="nautilus:view_as_label-es" type="string" value="Ver como impresoras"/>
+	<oaf_attribute name="nautilus:view_as_label-fr" type="string" value="Afficher comme imprimantes"/>
+	<oaf_attribute name="nautilus:view_as_label-hu" type="string" value="Megjelenítés nyomtatókként"/>
+	<oaf_attribute name="nautilus:view_as_label-it" type="string" value="Visualizza come stampanti"/>
+	<oaf_attribute name="nautilus:view_as_label-ja" type="string" value="プリンタ表示"/>
+	<oaf_attribute name="nautilus:view_as_label-ko" type="string" value="프린터로 보기"/>
+	<oaf_attribute name="nautilus:view_as_label-pl" type="string" value="Pokaż jako drukarki"/>
+	<oaf_attribute name="nautilus:view_as_label-pt_BR" type="string" value="Ver como impressoras"/>
+	<oaf_attribute name="nautilus:view_as_label-ru" type="string" value="Просмотр как принтеров"/>
+	<oaf_attribute name="nautilus:view_as_label-sv" type="string" value="Visa som skrivare"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_CN" type="string" value="查看打印机"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_HK" type="string" value="檢視為印表機"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_TW" type="string" value="檢視為印表機"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string" value="Printer Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-cs" type="string" value="Správa tisku"/>
+	<oaf_attribute name="nautilus:viewer_label-de" type="string" value="Drucker-Anzeigeprogramm"/>
+	<oaf_attribute name="nautilus:viewer_label-es" type="string" value="Visor de impresoras"/>
+	<oaf_attribute name="nautilus:viewer_label-fr" type="string" value="Visualiseur d&apos;imprimante"/>
+	<oaf_attribute name="nautilus:viewer_label-hu" type="string" value="Listanéző"/>
+	<oaf_attribute name="nautilus:viewer_label-it" type="string" value="Visualizzatore stampanti"/>
+	<oaf_attribute name="nautilus:viewer_label-ja" type="string" value="プリンタビューア"/>
+	<oaf_attribute name="nautilus:viewer_label-ko" type="string" value="프린터 뷰어"/>
+	<oaf_attribute name="nautilus:viewer_label-pl" type="string" value="Przeglądarka drukarek"/>
+	<oaf_attribute name="nautilus:viewer_label-pt_BR" type="string" value="Visualizador de impressoras"/>
+	<oaf_attribute name="nautilus:viewer_label-ru" type="string" value="Компонент просмотра принтеров"/>
+	<oaf_attribute name="nautilus:viewer_label-sv" type="string" value="Skrivarvisare"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_CN" type="string" value="打印机查看器"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_HK" type="string" value="印表機檢視器"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_TW" type="string" value="印表機檢視器"/>
+</oaf_server>
+
+</oaf_info>

@@ -1,0 +1,191 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory"
+	    type="exe"
+	    location="/usr/lib/evolution/1.4/evolution-ldif-importer">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+		       value="Evolution LDIF importer"/>
+	<oaf_attribute name="name-be" type="string"
+		       value="Імпарт LDIF &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Importér Evolution z LDIF"/>
+	<oaf_attribute name="name-da" type="string"
+		       value="Evolution LDIF-importerer"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Evolution-LDIF-Importeur"/>
+	<oaf_attribute name="name-el" type="string"
+		       value="Εφαρμογή εισαγωγής LDIF του Evolution."/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Importador de LDIF de Evolution."/>
+	<oaf_attribute name="name-fi" type="string"
+		       value="Evolution LDIF-tuoja"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Assistant d&apos;importation LDIF d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Evolution LDIF-importáló"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Importatore LDIF di Evolution."/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Evolution LDIF インポータ"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Evolution LDIF 가져오기"/>
+	<oaf_attribute name="name-mk" type="string"
+		       value="Evolution LDIF импортер"/>
+	<oaf_attribute name="name-ms" type="string"
+		       value="Pengimport LDIF Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+		       value="Evolution LDIF import assistent"/>
+	<oaf_attribute name="name-no" type="string"
+		       value="LDIF-import for Evolution"/>
+	<oaf_attribute name="name-pl" type="string"
+		       value="Importer danych LDIF programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+		       value="Importador LDIF Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Importador de LDIF do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+		       value="Программа импорта LDIF Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+		       value="Еволуција LDIF увозник"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+		       value="Evolucija LDIF uvoznik"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Evolutions LDIF-importör"/>
+	<oaf_attribute name="name-tr" type="string"
+		       value="Evolution LDIF alıcısı"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Evolution LDIF 导入器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Evolution LDIF 匯入器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Evolution LDIF 匯入器"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:menu_name" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-be" type="string"
+		       value="Фармат узаемаабмену даньнямі LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-cs" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-da" type="string"
+		       value="LDAP-dataudvækslingsformat (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-de" type="string"
+		       value="LDAP-Data-Interchange-Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-el" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-es" type="string"
+		       value="Formato de intercambio de datos LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-fi" type="string"
+		       value="LDAP-tiedon välitysmuoto (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-fr" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-hu" type="string"
+		       value="LDAP Adatcserélő Formátum (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-it" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-ja" type="string"
+		       value="LDAP データ交換フォーマット (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-ko" type="string"
+		       value="LDAP 데이터 교환 형식 (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-mk" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-ms" type="string"
+		       value="Format Saling Tukar Data LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-nl" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-no" type="string"
+		       value="LDAP data interchange format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-pl" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-pt" type="string"
+		       value="Formato Intercâmbio Dados LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-pt_BR" type="string"
+		       value="Formato de troca de dados LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-ru" type="string"
+		       value="Формат обмена данными LDAP (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-sr" type="string"
+		       value="LDAP формат размене података"/>
+	<oaf_attribute name="evolution:menu_name-sr@Latn" type="string"
+		       value="LDAP format razmene podataka"/>
+	<oaf_attribute name="evolution:menu_name-sv" type="string"
+		       value="LDAP Data Interchange Format (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-tr" type="string"
+		       value="LDAP Veri Aktarım Biçim (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-zh_CN" type="string"
+		       value="LDAP 数据交换格式(.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-zh_HK" type="string"
+		       value="LDAP 資料交換格式 (.ldif)"/>
+	<oaf_attribute name="evolution:menu_name-zh_TW" type="string"
+		       value="LDAP 資料交換格式 (.ldif)"/>
+	<oaf_attribute name="name" type="string"
+		       value="Evolution LDIF importer"/>
+	<oaf_attribute name="name-be" type="string"
+		       value="Імпарт LDIF &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Importér Evolution z LDIF"/>
+	<oaf_attribute name="name-da" type="string"
+		       value="Evolution LDIF-importerer"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Evolution-LDIF-Importeur"/>
+	<oaf_attribute name="name-el" type="string"
+		       value="Εφαρμογή εισαγωγής LDIF του Evolution."/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Importador de LDIF de Evolution."/>
+	<oaf_attribute name="name-fi" type="string"
+		       value="Evolution LDIF-tuoja"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Assistant d&apos;importation LDIF d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Evolution LDIF-importáló"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Importatore LDIF di Evolution."/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Evolution LDIF インポータ"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Evolution LDIF 가져오기"/>
+	<oaf_attribute name="name-mk" type="string"
+		       value="Evolution LDIF импортер"/>
+	<oaf_attribute name="name-ms" type="string"
+		       value="Pengimport LDIF Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+		       value="Evolution LDIF import assistent"/>
+	<oaf_attribute name="name-no" type="string"
+		       value="LDIF-import for Evolution"/>
+	<oaf_attribute name="name-pl" type="string"
+		       value="Importer danych LDIF programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+		       value="Importador LDIF Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Importador de LDIF do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+		       value="Программа импорта LDIF Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+		       value="Еволуција LDIF увозник"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+		       value="Evolucija LDIF uvoznik"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Evolutions LDIF-importör"/>
+	<oaf_attribute name="name-tr" type="string"
+		       value="Evolution LDIF alıcısı"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Evolution LDIF 导入器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Evolution LDIF 匯入器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Evolution LDIF 匯入器"/>
+</oaf_server>
+
+</oaf_info>

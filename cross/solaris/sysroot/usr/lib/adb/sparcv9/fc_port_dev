@@ -1,0 +1,17 @@
+.>l
+<l+0=""
++/"dtype"8tnB3+
++/"type"16t8X
++/"state"16tnX
++/"did"
+.$<<port_id
+<l+0t44=""
++/"hard_addr"
+.$<<hard_addr
+<l+0t48=""
++/"pwwn"
+.$<<la_wwn
+<l+0t56=""
++/"nwwn"
+.$<<la_wwn
+<l+0t64=""

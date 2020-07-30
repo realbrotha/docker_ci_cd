@@ -1,0 +1,788 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+          
+  <meta name="author" content="Karl Park">
+  <title>OnLine Help For Korean Input Method</title>
+</head>
+<body>
+<h2>OnLine Help For Korean Input Method</h2>
+<a href="index.html">Korean Version<a>
+<h2>Table of Contents</h2>
+1. <b><a href="#title_Introduction">Introduction</a></b>
+<p>&#160;&#160;&#160; 1.1 <a href="#1.1._Supported_Character_Sets">Supported Character Sets</a></p>
+<p>2. <b><a href="#2._Input_Window_Areas">Input Window Areas</a></b></p>
+<p>&#160;&#160;&#160; 2.1 <a href="#2.1._Preedit_Area">Preedit Areas</a></p>
+<p>&#160;&#160;&#160; 2.2 <a href="#2.2._Status_Area">Status Area</a></p>
+<p>&#160;&#160;&#160; 2.3 <a href="#2.3._Lookup_Choice_Area">LookupChoice Area</a></p>
+<p>&#160;&#160;&#160; 2.4 <a href="#2.4._Auxiliary_Window_Area">Auxiliary Window Area</a></p>
+<p>3. <b><a href="#3._Basic_Functions_for_Korean_Input">Basic Functions for
+Korean Input Method</a></b></p>
+<p>&#160;&#160;&#160; 3.1 <a href="#3.1._Starting_to_input_Hangul">Starting to input Hangul</a></p>
+<p>&#160;&#160;&#160; 3.2 <a href="#3.2._Switching_Keyboard_Layouts">Switching Keyboard
+Layouts</a></p>
+<p>&#160;&#160;&#160; 3.3 <a href="#3.3._Using_HangulHanja_conversion_to">Using Hangul/Hanja
+conversion to enter Hanja</a></p>
+<p>&#160;&#160;&#160; 3.4 <a href="#3.4._Entering_Special_Symbol_Characters">Entering Special
+Symbol Characters</a></p>
+<p>&#160;&#160;&#160; 3.5 <a href="#3.5._Entering_Hangul_Character_using">Entering Hangul
+Character using Hex Input Mode</a></p>
+<p>&#160;&#160;&#160; 3.6 <a href="#3.6._Switching_Between_Half_width">Switching Between
+Half width Character Mode and Full width character Mode</a></p>
+<p>4. <b><a href="#4._Auxiliary_Windows_for_Korean_Input">Auxiliary Windows
+for Korean Input Method</a></b></p>
+<p>&#160;&#160;&#160; 4.1<a href="#4.1._Palette_Auxiliary_Window"> </a><a
+ href="#4.1._Palette_Auxiliary_Window">Palette Auxiliary Window</a></p>
+<p>&#160;&#160;&#160; 4.2 <a href="#4.2._Input_Method_Options_Auxiliary">Input Method Options
+Auxiliary Window</a></p>
+<p>&#160;&#160;&#160; 4.3 <a href="#4.3._Virtual_Keyboard_Auxiliary_Window">Virtual Keyboard
+Auxiliary Window</a></p>
+<p>&#160;&#160;&#160; 4.4 <a href="#4.4._Lookup_Table_Auxiliary_Window">Lookup Table Auxiliary
+Window</a></p>
+<p>&#160;&#160;&#160; 4.5 <a href="#4.5._Input_Method_Help">Input Method Help</a></p>
+<p><big><big><big><b><div>1.</div><a name="title_Introduction"></a><div>
+Introduction</div></b></big></big></big></p>
+<div name="misc">This section describes Korean Solaris mechanisms
+for typing Korean characters.  All of the following character types can be
+entered:
+<ul>
+	<li>ASCII/English</li>
+	<li>Hangul</li>
+	<li>Hanja</li>
+	<li>Special symbols</li>
+</ul>
+All of these character types can be entered in input regions of various application
+sub windows as follows:
+<ul>
+  <li>Terminal emulation (TTY) windows, such as a Terminal</li>
+  <li>Text entry subwindows, such as those used by Text Editor or Mailer</li>
+  <li>Control panel subwindows, such as those used by File Manager for typing
+a file name</li>
+  <li>Other special use subwindows, such as pop-ups</li>
+</ul>
+</div>
+<big><big><div></div><a name="1.1._Supported_Character_Sets"></a><div>1.1.
+Supported Character Sets</div></big></big>
+<div>Korean User can input all of the 11,172 Korean characters
+that can be composed by the Hangul combination principle. The characters that
+user can actually input depends on which locale user is using, because the
+current locale determines the characters available. That is, if user is under
+ko_KR.EUC locale, user can input all the characters that are defined in the
+KS X 1001, and if under ko_KR.UTF-8 locale, user can input all the 11,172
+characters that can be composed by Johap principle. Below are brief summaries
+of encoding standard where those available characters are defined and its
+relevant locale of Solaris.<br>
+<br>
+</div>
+<table cellspacing="1" cellpadding="1" border="1">
+  <tbody>
+    <tr>
+      <td colspan="3" bgcolor="#ffffcc">ko_KR.EUC(or
+ko) locale:</td>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+      <td>Wansung code</td>
+      <td>This two-byte code is specified in Korean Industry
+Standard  			KS X 1001(known as KS C 5601-1987) for Hangul, Hanja, and other
+characters.  			In the Korean Solaris software these KS X 1001 characters
+			are in EUC codeset, and all the characters from this code set can be entered.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" bgcolor="#ffffcc">ko_KR.UTF-8(or
+ko.UTF-8) locale:</td>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+      <td>Johap or Packed code</td>
+      <td>This two-byte code consists of a leading bit followed
+by                         three 5-bit fields.                         These
+three fields contain the codes or a leading consonant,                   
+     followed by a vowel, followed by a final consonant (if any)        
+                for a Hangul character. This two-byte code is specified in
+Korean                         Industry Standard KS C 5601-1992-3.</td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+      <td>ko_KR.UTF-8</td>
+      <td>Korean Universal Multiple Octet Coded Character
+Set (UCS)                         Transmission Format. <br>
+ko.UTF-8 supports all the characters of KS C 5601                       
+ and 11,172 characters from Johap, as well as all Korean-related        
+                Unicode 2.0 characters and fonts. ko_KR.UTF-8 supports the
+following                         subset of Unicode:                    
+    Basic Latin and Latin-i (190 characters) - Row 00 of BMP (Basic Multilingual
+Plane)                         Symbolic characters - Row 20 to Row 27, and
+Row 32 of BMP including box (line)                                      
+  drawing characters that are defined in KS C 5601                      
+  Numerals that are defined in KS C 5601 (20 characters) - Row 21 and Row
+FF of BMP                         Roman, Greek, Japanese, and Cyrillic alphabet
+characters that are defined i                                 in KS C 5601
+(362 characters) - Row 02, Row 04, Row 30 and Row FF of BMP             
+           Jamo (Hangul alphabet) characters (94 characters) - Row 31 of
+BMP                         Pre-composed Hangul syllables (11,172 characters)
+- From Row AC to Row D7 of BMP                         Hanja characters defined
+in KS C 5601 (4,888 characters) - From Row 4E to                        
+                Row 9F and from Row F9 to Row FA of BMP </td>
+    </tr>
+  
+  </tbody>
+</table>
+<br>
+ <br>
+<big><big><big><big><big><div></div><a
+ name="2._Input_Window_Areas"></a><div>2. Input Window Areas</div></big></big></big></big></big><br>
+<div>Four separate areas of an application subwindow are used
+in entering characters. These areas are typically displayed, named, and used
+as follows:</div>
+<div>
+<ul>
+  <li>Preedit area--Highlighted (inverse video) entry display</li>
+  <li>Status area--Lower left corner input conversion mode display</li>
+  <li>Lookup choice area--Popup displaying multiple character or word choices</li>
+  <li>Auxiliary window area</li>
+</ul>
+</div>
+<big><big><big><div></div><a name="2.1._Preedit_Area"></a><small><div>2.1.
+Preedit Area<br>
+<br>
+</div></small></big></big></big>
+<div>The preedit area is a reverse video highlighted area that
+displays characters as they are entered or converted. It holds formations
+of characters before they are committed to the application, that is, before
+they are put in the text block being assembled for the application. <br>
+<div><br>
+<big><big><a name="2.2._Status_Area"></a>2.2. Status Area</big></big></div><br>
+<br>
+The status area shows what the current input conversion mode is and what
+is the active keyboard layout is.  Several modes are available, as discussed
+in following sections. <div><br>
+<big><big><br>
+<a name="2.3._Lookup_Choice_Area"></a>2.3. Lookup Choice Area</big></big></div><br>
+<br>
+The lookup choice area is a popup that displays multiple Hanja or special
+character choices available for conversion of character(s) in the preedit
+area. <div><br>
+<big><big><br>
+<a name="2.4._Auxiliary_Window_Area"></a>2.4. Auxiliary Window Area</big></big></div><br>
+<br>
+The Auxiliary Window Area is a windows that helps input Korean characters
+in a way a user want.  <br>
+<div><br>
+<big><big><big><big><a name="3._Basic_Functions_for_Korean_Input"></a>3. Basic
+Functions for Korean Input Method</big></big></big></big></div><div><br>
+<br>
+<big><big><a name="3.1._Starting_to_input_Hangul"></a>3.1. Starting to input
+Hangul<br>
+</big></big></div><i><big><big><div>&#160;&#160;&#160; 3.1.1. ASCII/English Input
+Mode</div></big></big></i>
+<div><br>
+The initial default setting is basic ASCII/English mode.<br>
+Typing on the keyboard simply enters ASCII characters.  <br>
+The status region in the lower left corner shows ASCII/English input mode:</div>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/ascii-mode.gif"><br>
+<br>
+<big><big><i><div></div></i><div><i>&#160;&#160;&#160; 3.1.2 Switching to
+Hangul Input Mode</i><br>
+<br>
+</div></big></big>
+<div>The first step in entering any Korean character(s) is to
+turn on Hangul input conversion. <br>
+Type <span>Control-Space</span>, or if you have a Hangul keyboard
+type the key labeled Hangul/English. (These keys toggle on/off Hangul input
+conversion.)<br>
+The status region then shows that the current input status is for Hangul
+input and auxiliary window show up.<br>
+<br>
+</div>
+&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/hangul-mode-main.gif"><br>
+<br>
+<div>This status regions informs the currently active keyboard
+layout as well.</div>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/hangul-mode-palette.gif"><br>
+<br>
+<big><big><big><div><small>&#160;&#160;&#160; <i>3.1.3 Entering Hangul Characters</i></small><br>
+</div></big></big></big>
+<div><br>
+With Hangul input conversion on, typing appropriate sequences of keys composes<br>
+Hangul characters in the preedit area on the screen.</div>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/entering-hangul.gif"><div><br>
+<br>
+&#160;&#160; &#160;<i><big><big>3.1.4 backspacing and Deleting Characters</big></big></i></div>
+<div><br>
+Backspace and Delete keys delete characters. But using one in the preedit
+area deletes only the last character (JaMo) in the current syllable. This
+and following examples demonstrate Backspace/Delete operation.</div>
+<div><br>
+<ul>
+  <li>Let's suppose there's this text being composed, which is typo.</li>
+</ul>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/delete-1.gif"></p>
+</div>
+<div>
+<ul>
+  <li>Enter one backspace.  The input appears like this:</li>
+</ul>
+<p>      &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/delete-2.gif"></p>
+</div>
+<div>
+<ul>
+  <li>Type another backspace.  The input appears like this:</li>
+</ul>
+<p>      &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/delete-3.gif"></p>
+</div>
+<div>
+<ul>
+  <li>Type another backspace.  The input appears like this:</li>
+</ul>
+<p>      &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/delete-4.gif"></p>
+</div>
+<div>
+<ul>
+  <li>Type two backspaces.</li>
+</ul>
+<p>      &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/delete-5.gif"></p>
+</div>
+<i><big><big><div>&#160;&#160;&#160; 3.1.5 Committing Hangul Input</div></big></big></i>
+<div><br>
+The folowing preedit region contains five Hangul syllables that have not
+yet been committed.</div>
+<div>That is, they have not yet been added to the text block
+being assembled for the application.</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/preedit-5chars.gif"></p>
+<div>These syllables could be committed to the application by
+typing <span>Control-K</span>. This nonprinting character is not
+committed in the input along with the syllables, for example:</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/committed-1.gif"></p>
+<div>Otherwise these syllables could be committed by typing
+the Space bar or a number, punctuation mark, or other printable character
+that is not part of a valid Hangul character.</div>
+<div>Unlike Control-K, a printable character (like a question
+mark) is committed in the input along with the Hangul syllables, for example:
+</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/committed-2.gif"><div>a.6 Returning to ASCII/English
+Input Mode</div></p>
+<div>Pressing <span>control+space</span> changes the input mode
+to ASCII/English Input mode, finishing Hangul Input mode.</control></div>
+<div><br>
+<big><big><a name="3.2._Switching_Keyboard_Layouts"></a>3.2. Switching Keyboard
+Layouts</big></big></div><div><br>
+<br>
+<big><big>&#160;&#160;&#160; <i>3.2.1 Switching to different the Keyboard layout</i></big></big></div>
+<div>Currently following 3 most commonly used keyboard layout
+is supported.</div>
+<ul>
+  <li>2 beol sik</li>
+  <li>3 beol sik 390</li>
+  <li>3 beol sik final</li>
+</ul>
+<div>User can switch between keyboard these 3 layouts by pressing
+Shift + F2 key combination, and currently active  keyboard layout name will
+be shown at status region.<br>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; <img
+ src="images/status-2beol.gif"><br>
+<br>
+</div>
+&#160;&#160; &#160;&#160;&#160; &#160;<img
+ src="images/status-3beol-390.gif"><br>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; <img
+ src="images/status-3beol-final.gif">
+&#160;&#160;&#160; <br>
+<div><br>
+<br>
+<big><big><a name="3.3._Using_HangulHanja_conversion_to"></a>3.3. Using Hangul/Hanja
+conversion to enter Hanja</big></big></div>
+<div><br>
+Entering Hanja can be done in several ways. 
+<p>One of the most common way is to convert Hangul input  to Hanja, on a character
+by character basis  or word by word basis.</p>
+</div>
+<div>There are 2 major ways to convert the Hangul in preedit
+area to Hanja</div>
+<ul>
+  <li>By selecting one of the candidate(s) from the lookup choice window</li>
+  <li>By switching the Hanja candidate through all the available list one
+by one.</li>
+</ul>
+<div><br>
+The following examples shows how to convert a Hangul character to a Hanja
+character. Same method is used to convert Hangul characters(word) to Hanja
+characters(word).</div>
+<i><big><big><div>&#160;&#160;&#160; &#160;&#160;&#160; 3.3.1 Hanja Lookup Mode</div></big></big></i>
+<ul>
+  <li>With Hangul input conversion on, type an appropriate sequence of keys(pronunciation
+of the Hanja that    you want to input) to compose a Hangul character in the
+preedit area on the screen:     
+    <p><img src="images/hanja-conv-1.gif"></p>
+  </li>
+  <li>Type <span>Control+W</span>, then the lookup window pops up.
+	(Depending on the user's setting, this may automatically commit the Hanj
+a candidate if there's 	only one candidate entry in dictionary)     
+    <p><img src="images/hanja-conv-2.gif"></p>
+  </li>
+  <li>You can navigate page to page by pressing the keys show below</li>
+  
+  <table border="1">
+    <tbody>
+      <tr>
+        <td bgcolor="#ffffcc">Key Sequence</td>
+ <td bgcolor="#ffffcc">Operation</td>
+      </tr>
+      <tr>
+        <td>Ctrl + N</td>
+        <td>Next Page</td>
+      </tr>
+      <tr>
+        <td>Page Up</td>
+        <td>Next Page</td>
+      </tr>
+      <tr>
+        <td>Ctrl + P</td>
+        <td>Previous Page</td>
+      </tr>
+      <tr>
+        <td>Page Down</td>
+        <td>Previous Page</td>
+      </tr>
+    
+    </tbody>  
+  </table>
+  <li>If the current page contains the character that you are looking for,
+you can either press the label of the character 	or you can press the space
+key to move the highlighted area to the Hanja you want and then press enter
+	or you can use your mouse to click the Hanja you want.</li>
+  <li>You can do exactly same by pressing Control + Q, Control + E, Control
++ R instead pressing Control + W, with the difference of format of committed
+string as shown below     
+    <p>    
+    <table border="1">
+      <tbody>
+        <tr>
+          <td bgcolor="#ffffcc">Key Sequence</td>
+          <td bgcolor="#ffffcc">Committed Format</td>
+        </tr>
+        <tr>
+          <td>Ctrl + Q</td>
+          <td>Hanja</td>
+        </tr>
+        <tr>
+          <td>Ctrl + W</td>
+          <td>By the format set by the OptionAux window</td>
+        </tr>
+        <tr>
+          <td>Ctrl + E</td>
+          <td>Hangul(Hanja)</td>
+        </tr>
+        <tr>
+          <td>Ctrl + R</td>
+          <td>Hanja(Hangul)</td>
+        </tr>
+      
+      </tbody>    
+    </table>
+    </p>
+  </li>
+  <li>In case you want to abort this lookup mode, you can press Control +
+A to exit     from this lookup mode.</li>
+</ul>
+<i><big><big><div>&#160;&#160;&#160; &#160;&#160;&#160; 3.3.2 Hanja Character Step Mode</div></big></big></i>
+<ul>
+  <li>With Hangul input conversion on, type an appropriate sequence of keys(pronunciation
+of the Hanja that 	you want to input) to compose a Hangul character in the
+preedit area on the screen:<img src="images/hanja-step-1.gif"></li>
+  <li>Type Control-N to convert it to a possible Hanja choice.     
+    <p>   Status region shows that you are now in hanja conversion mode.</p>
+    
+    <p>   Typing Control-N again and again converts the Hangul character through
+the series of possible Hanja    choices, one at a time (until the original
+Hangul reappears after all Hanjas have been displayed).     Control-P converts
+back to the previous choice.</p>
+    
+    <p><img src="images/hanja-step-2.gif"></p>
+    
+    <p>    
+    <table border="1">
+      <tbody>
+        <tr>
+          <td bgcolor="#ffffcc">Key Sequence</td>
+          <td bgcolor="#ffffcc">Operation</td>
+        </tr>
+        <tr>
+          <td>Ctrl + N</td>
+          <td>Next Character</td>
+        </tr>
+        <tr>
+          <td>Ctrl + P</td>
+          <td>Previous Character</td>
+        </tr>
+      
+      </tbody>    
+    </table>
+    </p>
+  </li>
+  <li>Type Control+K when you have the Hanja character you want in the preedit
+area.     
+    <p><img src="images/hanja-step-3.gif"></p>
+  </li>
+</ul>
+<div>   This commits the Hanja in the preedit area to the application.
+</div>
+<div>   You can also press any other nonprinting character except
+Control-N or Control-P.     Then a new preedit area next to the just-committed
+Hanja is ready for the next Hangul input.</div>
+<div>   To commit the Hanja plus a space, number, punctuation
+mark, or other printable character,     type the character's key. It and the
+highlighted Hanja are then both committed and a new preedit area     next
+to the just-committed space, number, etc. is ready for the next Hangul input.<br>
+<br>
+</div>
+<i><big><big><div>&#160;&#160;&#160; &#160;&#160;&#160; 3.3.3 Hanja Word Conversion Modes</div></big></big></i>
+<div>Hangul to Hanja conversion can be done also word by word
+just as it is done character by character (described in the preceding section).</div>
+<div>The steps for Hangul to Hanja word conversion are the same
+except conversion is not turned on until the preedit area contains a Hangul
+word.</div>
+<div><span>Control-N(step mode) or <span>Control-W</span></span> (lookup choice mode) turns on
+Hanja conversion choices.</div>
+<div> The Hanja choices are a list of possible Hanja words plus a list
+of Hanja characters for only the last syllable of the Hangul word.</div>
+<div>A display like the following appears after typing a Hangul
+word followed by Control-W:<br>
+<br>
+</div>
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/hanja-word-conv-1.gif">
+<div>The above list contains three Hanja word choices for converting
+the Hangul word in the preedit area.</div>
+<div><br>
+<br>
+<big><big><a name="3.4._Entering_Special_Symbol_Characters"></a>3.4. Entering
+Special Symbol Characters</big></big><i><big><big><br>
+<br>
+</big></big></i></div>
+<div>Users can enter non-Hangul/Hanja characters that cannot
+be typed directly on the keyboard.</div>
+<div>It works the same as "Hanja Character Lookup Choice Mode"
+</div>
+<ul>
+  <li>Typing Control-N or Control-P pages forward or back through the lookup
+choice area display</li>
+  <li>Typing the letter of the choice makes/commits the choice and returns
+to Hangul input mode</li>
+  <li>Typing Control-A at any time aborts the current lookup choice pages
+without choosing  	and returns to Hangul input conversion mode.</li>
+</ul>
+To start to enter Special Symbols, 
+<ul>
+  <li>With Hangul input conversion on, type Control-J. The status
+area shows that    you are now in symbol input mode and input method server
+pops up a page of category choices:<br>
+    <br>
+  </li>
+  <img src="images/special-symbol-1.gif"><br>
+  <br>
+  <li>Type the letter of a category (a in the following example)
+to display the first page of choices,    or press enter after scrolling down
+the list using space key to do the same thing.<br>
+    <br>
+  </li>
+	<img src="images/special-symbol-2.gif"><br>
+  <br>
+  <li>After Control-N has been typed six times the following
+is displayed:<br>
+    <br>
+       <img src="images/special-symbol-3.gif"><br>
+    <br>
+  </li>
+  <li>Type k to choose/commit the displayed character and return
+to Hangul input mode:<br>
+    <br>
+  </li>
+      <img src="images/special-symbol-4.gif"><br>
+  <br>
+  <li>In case user wants to abort the symbol lookup mode, user
+can press Control + A to exit from the symbol input mode.</li>
+</ul>
+<big><big><div></div><a
+ name="3.5._Entering_Hangul_Character_using"></a><div>3.5.&#160; Entering
+Hangul Character using Hex Input Mode<br>
+<br>
+</div></big></big>
+<div>Any character that are defined at the current locale can
+be entered directly by entering their encoding values from its character set.</div>
+<div>In ko_KR.EUC locale, user can use the ecoding value of
+KS X 1001 to input all the characters defined for the character set.</div>
+<div>In ko_KR.UTF-8 locale, user can use the encoding values
+of following  character set to input all the characters defined in it.</div>
+<ul>
+  <li>KS X 1001 (known as ks c 5601-1987)</li>
+  <li>UTF-8 Encoding</li>
+  <li>Unicode</li>
+</ul>
+<div>Below is the table that describes how you can use each
+encoding values to enter a character.<br>
+<blockquote><br>
+</blockquote>
+</div>
+<blockquote>
+  <table border="1">
+  <tbody>
+    <tr>
+	<td bgcolor="#ffffcc">current locale</td>
+      <td bgcolor="#ffffcc">Key sequence</td>
+      <td bgcolor="#ffffcc">character set to use</td>
+    </tr>
+    <tr>
+	<td>ko_KR.EUC</td>
+      <td>Contrl+X</td>
+      <td>KS X 1001</td>
+    </tr>
+    <tr>
+	<td>ko_KR.UTF-8</td>
+      <td>Control+X</td>
+      <td>KS X 1001</td>
+    </tr>
+    <tr>
+	<td>ko_KR.UTF-8</td>
+      <td>Control+Shift+X</td>
+      <td>UTF-8</td>
+    </tr>
+  
+    </tbody>
+  </table>
+</blockquote>
+<br>
+<br>
+<div>To use the hex input mode, you can use the <span>Control[+Shift]+X</span>
+key sequence to active hex input mode or select the Hex input mode from the
+PaletteAux window.</div>
+&#160;&#160;&#160; &#160;&#160;&#160; <img src="images/hex-input-palette.gif">
+<div>Under ko_KR.EUC locale, or ko_KR.UTF-8 locale, to enter
+Hangul character using Hex value from KS X 1001,</div>
+<ol>
+  <li>Make sure Hangul input conversion is on:</li>
+  <li>Then toggle hex mode on by typing Control-X. <br>
+The status shows that now you are in hex input mode. It also tells you that
+you are using KS X 1001 encoding values to input Hangul characters.     
+    <p><img src="images/hex-input-status-1.gif"></p>
+    
+    <p>And the Palette Window's input mode window changes to show the current
+input mode.</p>
+    
+    <p><img src="images/hex-input-palette-1.gif"></p>
+    
+    <p>   The only keys that have any effect at this point are delete keys,
+letters a through f, numbers 0 through 9,    and Control-X (which toggles
+hex mode off again). </p>
+  </li>
+  <li>Type the first three keys of the hex code of the character, for example
+a2d, in the preedit area.    The screen appears as follows after the first
+three numbers are typed:     
+    <p><img src="images/hex-input-main-1.gif"></p>
+  </li>
+  <li>Type d.    The designated character is then displayed and automatically
+committed after the fourth number is typed:<img
+ src="images/hex-input-main-2.gif"></li>
+  <li>Hex mode remains on until toggled off by <span>Control-X</span>.
+  </li>
+  <li>A character can be entered using UTF-8 encoding after pressing <span>Control+Shift+X</span>.
+  </li>
+</ol>
+<big><big><div></div><a
+ name="3.6._Switching_Between_Half_width"></a><div>3.6. Switching Between
+Half width Character Mode and Full width character Mode.<br>
+<br>
+</div></big></big>
+<div>In Korean Input mode, Type <span>[Shift+Spacebar]</span>
+to switch between Half_width Character Mode and Full_width Character Mode.<br>
+<br>
+</div>
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160; <img src="images/half-width-1.gif"><br>
+<br>
+<div>When in Full_width mode, the Full_width character of the
+input key will be committed to applications.</div>
+<div>For example: Inputting 'a' when in Full_width mode, the
+fullwidth character of 'a' will be committed to application as shown below:
+</div>
+<br>
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/half-width-2.gif"><div><br>
+<br>
+<big><big><big><a name="4._Auxiliary_Windows_for_Korean_Input"></a>4. Auxiliary
+Windows for Korean Input Method</big></big></big></div><div><br>
+<br>
+<br>
+<big><big><a name="4.1._Palette_Auxiliary_Window"></a>4.1. Palette Auxiliary
+Window</big></big></div>
+<div>PaletteAux window consists of following buttons</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/palette-buttons.gif"></p>
+<ul>
+  <li>Grabber:Click this button to  move the pallette window</li>
+  <li>Input Mode selector: Click this button to select the input mode that
+you want<br>
+	Upon click on this button, submenu appears that includes 	     
+    <ul>
+	<li>Normal Hangul input mode</li>
+	<li>Hex Input mode</li>
+	<li>Symbol input mode</li>
+	<li>Symbol input mode</li>
+	     
+    </ul>
+	</li>
+  <li>Half_width/Full_width mode selector:click this button to toggle between
+Half width and Full width input mode</li>
+  <li>Hangul-&gt;Hanaj convertor:Click this button to convert the current
+Hangul character(s) in the preedit area into Hanja character(s)</li>
+  <li>Visual Keyboard Launcher:Click this button to show Visual Keyboard Window</li>
+  <li>Utility Button</li>
+</ul>
+<!--
+############################################################
+	The input method system is in Full_width Character Mode when the button appears as below:
+<img src="images/aux_palette.gif"></img>
+	The input method system is in Half_width Character Mode when the button appears as below:
+<img src="images/aux_palette.gif"></img>
+
+	When in Full_width mode, the Full_width character of the input key will be committed to applications.
+
+	For example: Inputting 'a' when in Full_width mode, the fullwidth character of 'a' 
+	will be committed to application as shown below: 
+
+Visual Keyboard Launcher
+	Clicking this button pops up a submenu which contains following options
+	- 2 beol sik
+	- 3 beol sik 390
+	- 3 beol sik final
+	Click one of these menus to popup the Visual Keyboard window. 
+	User can click each key(button) on the Visual Keyboard to input characters, instead of 
+	typing the (real) keyboard. 
+
+Utility Button
+ Click this Utilities button to display submenu which allows you to access to following auxiliary windows.
+	- Input Method Property Window(OptionAux)
+	- Lookup Utility Window(LookupAux)
+	For details of these auxiliary windows, see below.
+############################################################
+-->
+<big><big><div></div><a
+ name="4.2._Input_Method_Options_Auxiliary"></a><div>4.2. Input Method
+Options Auxiliary Window<br>
+<br>
+</div></big></big>
+<div>To Launch this window, click Utilities button from Palette
+Auxiliary window and select  "Input Method Property Configuration" menu. The
+OptionsAux Auxiliary window shows up.</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/palette-lookup-menu.gif"></p>
+<div>Use this window to save your preference settings and make
+them available by default. This window provides the following options for
+you to specify.</div>
+<p>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; <img src="images/option-aux-1.gif"></p>
+<ul>
+  <li>Default Keyboard Layout to use</li>
+	   
+  <ul>
+	<li>2 beol sik</li>
+	<li>3 beol sik 390</li>
+	<li>3 beol sik final</li>
+	   
+  </ul>
+  <li>Default Hangul to Hanja conversion format</li>
+	   
+  <ul>
+	<li>Hangul -&gt; Hanja</li>
+	<li>Hangul -&gt; Hangul(Hanja)</li>
+	<li>Hangul -&gt; Hanja(Hangul)</li>
+	   
+  </ul>
+  <li>Automatic commit on a character basis<br>
+		     
+    <div>This option allows you to commit a character in the
+preedit buffer as soon as  		the single character is completed.</div>
+    </li>
+  <li>Automatic commit on a single candidate conversion<br>
+		     
+    <div>This option allows you to commit a converted Hanja
+character(s) automatically if 		there is only one candidate available for
+this conversion.</div>
+    </li>
+</ul>
+<big><big><div></div><a
+ name="4.3._Virtual_Keyboard_Auxiliary_Window"></a><div>4.3. Virtual
+Keyboard Auxiliary Window<br>
+<br>
+</div></big></big>
+<div>To Launch this window, click Visual Keyboard Launch from
+the Palette Auxiliary window. The selected Virtual Keyboard Auxiliary window
+shows up.</div>
+<ul>
+  <li>2 Beol Sik     
+    <p><img src="images/vk-1.gif"></p>
+  </li>
+  <li>3 Beol Sik 390     
+    <p><img src="images/vk-2.gif"></p>
+  </li>
+  <li>3 Beol Sik Final     
+    <p><img src="images/vk-3.gif"></p>
+    
+    <div>You can click the keyboard button on the Virtual Auxiliary
+window to enter the character on the keyboard button.</div>
+    
+    <div>To close the Virtual Keyboard Auxiliary window, chose
+the 'Close Keyboard' menu of  Visual Keyboard Launcher submenu.<br>
+    <br>
+    </div>
+    <big><big><div></div><a
+ name="4.4._Lookup_Table_Auxiliary_Window"></a><div>4.4. Lookup Table
+Auxiliary Window</div></big></big>    
+    <div><br>
+To Launch this window, click Utilities button from the Palette Auxiliary
+window, and select Code Point Table menu.</div>
+    
+    <p><img src="images/palette-lookup-menu.gif"></p>
+    
+    <div>The Lookup Table Auxiliary Windows shows up.</div>
+    
+    <p><img src="images/lookup-window.gif"></p>
+    
+    <div>Use this window to find/input any characters that are
+available from the current locale. Depending on the current locale, all the
+characters included in the current locale are displayed.</div>
+    
+    <div>This window contains 2 tabs of following</div>
+    
+    <ul>
+      <li>Character table: show all the characters contained in the current
+character set 			sorted by code point value.</li>
+      <li>Symbol table: shows special characters grouped by category. The
+list of categories are 		same as the ones that you will see when you press
+'Ctrl + J' to start the 		symbol input mode<br>
+        <br>
+      </li>
+    
+    </ul>
+    <img src="images/lookup-window-symbol-tab.gif">    
+    <div><br>
+To input any of those from the table, double click a character, or select
+a character and press the 'Insert' Button at the right hand side of the window</div>
+    <big><big><div><br>
+    <br>
+    </div><a name="4.5._Input_Method_Help"></a><div>4.5. Input
+Method Help<br>
+    <br>
+    </div></big></big>    
+    <div>To access the online help of Korean Input method, click
+the input method help item from the utilities menu, a browser such as Netscape
+will appear and display the help information for input methods.     </div>
+  </li>
+</ul>
+</div>
+<br>
+<br>
+</body>
+</html>

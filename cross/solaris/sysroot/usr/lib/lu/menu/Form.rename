@@ -1,0 +1,90 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.rename 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.rename
+################################################################################
+
+form=`gettext "Change the name of a Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+altslks=true
+
+close=`rm -f $ARG1;
+	rm -f /tmp/name.${VPID}`
+done=`
+indicator -w;
+run $LUBIN/lurename -e "$F1" -n "$F2";
+if [ "$RET" = "0" ];
+then
+	set -l CMD="open text $OBJ_DIR/Text.success Rename";
+else
+	set -l CMD="open text $OBJ_DIR/Text.fail Rename";
+fi;`$CMD
+	
+name=`gettext "Existing name of the Boot Environment:"`
+lininfo=Sub1Help.rename
+nrow=1
+ncol=3
+frow=1
+fcol=48
+rows=1
+columns=28
+# The choices should display the names of all BEs.
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`fmlgrep '^'$F1'$' $ARG1`
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "New name of the Boot Environment:"`
+lininfo=Sub1Help2.rename
+nrow=2
+ncol=3
+frow=2
+fcol=48
+rows=1
+columns=28
+#Here the validations should include:
+# 1. Name of the BE should not contain : and " characters.
+# 2. BE name should not be greater than 80 characters.
+# 3. BE name should not already exist in lutab file.
+valid=`if [ "$F2" = "$F1" ];
+	then echo FALSE;
+	else $LUBIN/luname_valid "$F2" 2>/tmp/name.${VPID};
+	fi;`
+invalidmsg=`if [ -s /tmp/name.${VPID} ];
+then gettext "ERROR: ";echo "";readfile /tmp/name.${VPID};
+else gettext "ERROR: The existing and new names of the BE should not be same"; echo "";
+fi;`
+
+name= 
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

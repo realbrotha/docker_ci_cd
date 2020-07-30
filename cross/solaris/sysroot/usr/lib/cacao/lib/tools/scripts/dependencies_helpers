@@ -1,0 +1,909 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.10.2.1 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_find_java                       : find jdk installed on host
+# - cacao_load_java_dependencies          : locate java depdendencies
+# - cacao_check_dep_java                  : check java dependensies
+# - cacao_resolve_java_dependencies        : resolve java dependencies
+#
+# - cacao_find_nss                        : find nss installed on host
+# - cacao_load_nss_dependencies           : locate nss depdendencies
+# - cacao_check_dep_nss                   : check nss dependensies
+# - cacao_resolve_nss_dependencies        : resolve nss dependencies
+#
+# - cacao_find_jdmk                       : find jdmk installed on host
+# - cacao_load_jdmk_dependencies          : locate jdmk depdendencies
+# - cacao_check_dep_jdmk                  : check jdmk dependensies
+# - cacao_unjar_jdmk_version              : get jdmk version using jar command
+# - cacao_unzip_jdmk_version              : get jdmk version using unzip command
+# - cacao_resolve_jdmk_dependencies       : resolve jmdk dependencies
+#
+# - cacao_load_dependencies               : locate nss, jdmk and jdk depdendencies
+# - cacao_check_dependencies              : check cacao external dependencies
+# - cacao_resolve_dependencies            : resolve all dependencies
+
+
+#------------------------------------------------------------------------------
+# cacao_find_java
+#
+# DESCRIPTION:
+# Set cacao_java_home to a suitable Java2 runtime.
+# 
+# NOTICE:
+# - if the java home is found, the cacao.properties file is updated
+# - we are not supposed to be here in case of j2me mode
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : if operation is successful
+# CACAO_CR_ERROR   : an error occured during set of property
+# CACAO_CR_ESRCH   : java was not found
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_find_java() {
+    
+    if [ "${cacao_use_j2me}" = "${CACAO_TRUE_VALUE}" ] ; then
+	# we are not supposed to be here in j2me is actived
+	# for j2me, java.home properties MUST come from the file
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_core_find_java
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${cr}
+    fi
+
+    # cacao_java_home is set by cacao_core_find_java
+    # if we are here we are in j2se mode : java is ${cacao_java_home}/bin/java
+    # in j2me mode, the property is set properly inside cacao_load_dependencies
+    # don't check anything here , trust cacao_core_find_java
+    cacao_java=${cacao_java_home}/bin/java
+
+    # if we are here, that mean that the property was missing
+    # so if we found it, we update the cacao.property file
+    # this update is only valid for privileged mode
+    
+    if [ ${cacao_is_privileged_mode} -eq ${CACAO_FALSE} ]
+    then
+	# return now, we won't be able to touch the properties file
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_set_property ${CACAO_JAVA_HOME_KEY} ${cacao_java_home}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_java=""
+	cacao_java_home=""
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_find_nss
+#
+# DESCRIPTION:
+# Set cacao_nss_lib_home, cacao_nss_tools_home
+# if nss is found, the cacao.properties file is updated
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS if operation is successful
+# CACAO_CR_ERROR if we cannot find dependency
+# CACAO_CR_ESRCH  : nss was not found
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_find_nss() {
+    
+    cacao_core_find_nss
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${cr}
+    fi
+    
+    # we trust ' cacao_core_find_nss' : if we have xx_lib_home -> we have xx_tools_home
+
+    if [ ${cacao_is_privileged_mode} -eq ${CACAO_FALSE} ]
+    then
+	# return now, we won't be able to touch the properties file
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_set_property ${CACAO_NSS_LIB_HOME_KEY} "${cacao_nss_lib_home}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_nss_lib_home=""
+	cacao_nss_tools_home=""
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    cacao_set_property ${CACAO_NSS_TOOLS_HOME_KEY} "${cacao_nss_tools_home}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_nss_lib_home=""
+	cacao_nss_tools_home=""
+	return ${CACAO_CR_ERROR}
+    fi
+    
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_find_jdmk
+#
+# DESCRIPTION :
+# find a suitable jdmk 
+# if jdmk is found, the cacao.properties file is updated
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : if successful
+# CACAO_CR_ERROR   : error occured during set/get
+# CACAO_CR_ESRCH  : jdmk was not found
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_find_jdmk() {
+    cacao_core_find_jdmk
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${cr}
+    fi
+   
+    # if cacao_core_find_jdmk succeed, we are supposed to receive an empty string
+    # this update is only valid for privileged mode
+
+    if [ ${cacao_is_privileged_mode} -eq ${CACAO_FALSE} ]
+    then
+	# return now, we won't be able to touch the properties file
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_set_property ${CACAO_JDMK_HOME_KEY} "${cacao_jdmk_home}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_jdmk_home=""
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+#------------------------------------------------------------------------------
+# cacao_load_jdmk_dependencies
+#
+# DESCRIPTION :
+# load dependenciy found in properties file
+#
+# NOTICE:
+# can be called only once
+#
+# PARAMETERS :
+# None.
+# 
+# CACAO_CR_ERROR   : error occured during read of the file
+# CACAO_CR_SUCCESS : everything was loaded.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_load_jdmk_dependencies() {
+
+    if [ ${cacao_jdmk_already_loaded} -eq ${CACAO_TRUE} ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    tmp_jdmk_home=`cacao_get_property ${CACAO_JDMK_HOME_KEY}`
+    retval=${?}
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${retval}
+    fi
+
+    if [ -n "${tmp_jdmk_home}" ]
+    then
+	cacao_jdmk_home=${tmp_jdmk_home}
+    fi
+    
+    cacao_jdmk_already_loaded=${CACAO_TRUE} 
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_load_nss_dependencies
+#
+# DESCRIPTION :
+# load dependenciy foudn in properties file
+#
+# NOTICE:
+# can be called only once
+#
+# PARAMETERS :
+# None.
+# 
+# CACAO_CR_ERROR   : error occured during read of the file
+# CACAO_CR_SUCCESS : everything was loaded.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_load_nss_dependencies() {
+
+    if [ ${cacao_nss_already_loaded} -eq ${CACAO_TRUE} ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_nss_lib_home=`cacao_get_property ${CACAO_NSS_LIB_HOME_KEY}`
+    retval=${?}
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	return ${retval}
+    fi
+    
+    cacao_nss_tools_home=`cacao_get_property ${CACAO_NSS_TOOLS_HOME_KEY}`
+    retval=${?}
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	return ${retval}
+    fi
+    
+    cacao_nss_already_loaded=${CACAO_TRUE} 
+    
+    return ${CACAO_CR_SUCCESS}
+}
+#------------------------------------------------------------------------------
+# cacao_load_java_dependencies
+#
+# DESCRIPTION :
+# load the java dependeny we have in the property file
+#
+# NOTICE: 
+#  - cacao_java is set according to the j2me flag
+#  - this function can be called only once
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : error occured during read of the file
+# CACAO_CR_SUCCESS : everything was loaded.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_load_java_dependencies() {
+    
+    if [ ${cacao_java_already_loaded} -eq ${CACAO_TRUE} ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # load dependencies
+    tmp_j_home=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+    retval=${?}
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        #unrecoverable error
+        return ${retval}
+    fi
+    
+    tmp_j2me=`cacao_get_property ${CACAO_USE_J2ME}`
+    retval=${?}
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+    then
+      # Do not confuse the caller by let the var set
+	return ${retval}
+    fi
+
+
+    #if java_home is not set in the properties file
+    # it is not an error , but don't go further
+    if [ -z "${tmp_j_home}" ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    else
+	if [ x${tmp_j2me} = xtrue ]
+	    then
+	    tmp_java=${tmp_j_home}/bin/cvm
+	else
+	    tmp_java=${tmp_j_home}/bin/java
+	fi
+    fi	
+    
+    cacao_use_j2me=${tmp_j2me}
+    cacao_java_home=${tmp_j_home}
+    cacao_java=${tmp_java}
+
+    cacao_java_already_loaded=${CACAO_TRUE} 
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_load_dependencies
+#
+# DESCRIPTION :
+# load dependencies set in the cacao.properties file
+# this is done only once. 
+# NOTICE : the purpose of this is to loaded the file
+#          no update or additional find are performed
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything ok
+# CACAO_CR_ERROR   : something wnet wrong during load from file
+# 
+# NOTICE:
+#   . global vars of our dependencies may remain empty
+#     the goal of this function is only to load properties 
+#   . only mandatories dependencies are loaded
+# OUTPUT: 
+# None.
+#------------------------------------------------------------------------------
+cacao_load_dependencies() {
+    # dependencies already found ?
+    
+    cacao_load_java_dependencies
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${retval}
+    fi
+    
+    cacao_load_jdmk_dependencies
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${retval}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_dependencies_ok
+#
+# DESCRIPTION :
+# check that all our dependencies are set in our config
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_is_dependencies_ok() {
+    
+    
+    #all global vars should be set
+
+    if [ -z "${cacao_java}" ] || [ -z "${cacao_java_home}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+    if [ -z "${cacao_jdmk_home}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    return ${CACAO_TRUE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_check_dependencies
+#
+# DESCRIPTION:
+# check all defined dependencies in cacao.properties
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_check_dependencies() {
+
+    #at this stage , checks on files and on properties are passed
+    #don't check error on 'cacao_get_property'
+    
+    cr=0
+
+    cacao_check_dep_java
+    cr=`${EXPR} ${cr} + $?`
+    
+    #we need to have good java home to check jdmk
+    if [ ${cr} -eq 0 ]
+    then
+	 check_arg=${CACAO_TRUE}
+    else
+	check_arg=${CACAO_FALSE}
+    fi
+    
+    cacao_check_dep_jdmk ${check_arg}
+    cr=`${EXPR} ${cr} + $?`
+
+    cacao_check_dep_nss
+    cr=`${EXPR} ${cr} + $?`
+
+    if [ ${cr} -gt 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_check_dep_java
+#
+# DESCRIPTION:
+# check java dependensies
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : java.home property point to a wrong directory/java version
+# CACAO_CR_SUCCESS : java.home property is correct
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_check_dep_java() {
+     _java_home=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+     _java_bin=${_java_home}/bin/java
+     
+     if [ -z "${_java_home}" ]
+     then
+	 return ${CACAO_CR_ERROR}
+     fi
+
+     if [ ! -x ${_java_bin} ]
+     then
+	 cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_JAVA_HOME}" \
+                    "bin/java" "${_java_home}"
+	 return ${CACAO_CR_ERROR}
+     fi
+
+     #ignore j2me case
+
+     cur_version=`cacao_get_jdk_version_from_java ${_java_bin}`
+     if [ -z "${cur_version}" ]
+     then
+	 cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_JAVA_VER}" \
+	     ${_java_home}                                              \
+	     ${CACAO_MIN_JAVA_VERSION}
+	 return ${CACAO_CR_ERROR}
+     fi
+
+     if [ ${cur_version} -lt ${CACAO_MIN_JAVA_VERSION_NUM} ]
+     then
+	 cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_JAVA_VER}" \
+	     ${_java_home}                                              \
+	     ${CACAO_MIN_JAVA_VERSION}
+	 return ${CACAO_CR_ERROR}
+     fi
+     
+     return ${CACAO_CR_SUCCESS}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_unjar_jdmk_version          
+#
+# DESCRIPTION:
+# get jdmk version using jar command
+#
+# PARAMETERS:
+# $1 : path to  jar command
+# $2 : jar file
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : version not found
+# CACAO_CR_SUCCESS : version found
+# 
+# OUTPUT:
+# version found
+#------------------------------------------------------------------------------
+cacao_unjar_jdmk_version() {
+    jar_cmd_to_use=$1
+    jar_to_use=$2
+
+    if [ -z "${jar_to_use}" ] || [ -z "${jar_cmd_to_use}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi 
+    
+    cacao_tmp_dir_list="${cacao_tmp_dir_list} ${cacao_tmp_dir}/META-INF/"
+
+    _pwd=`pwd`
+    cd ${cacao_tmp_dir} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CANNOT_CD_TO}" "${cacao_tmp_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${jar_cmd_to_use} xf ${jar_to_use} META-INF/MANIFEST.MF 2>/dev/null
+    
+    if [ ! -f META-INF/MANIFEST.MF ]
+    then
+	#something went wrong: give up
+	cd ${_pwd} 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CANNOT_CD_TO}" "${_pwd}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cur_ver=`${AWK} '/^Specification-Version:/ {print $2}' < META-INF/MANIFEST.MF`
+
+    ${RM} -rf META-INF/ 2>/dev/null
+     if [ $? -ne 0 ]
+    then
+	cacao_print_error_message ${CACAO_MSG_ERROR_FILE_RM} "META-INF/"
+    fi
+    
+    cd ${_pwd} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message ${CANNOT_CD_TO} "${_pwd}"
+	return ${CACAO_CR_ERROR}
+    fi
+   
+    ${PRINTF} "%s" "${cur_ver}"
+
+}
+#------------------------------------------------------------------------------
+# cacao_unzip_jdmk_version          
+#
+# DESCRIPTION:
+# get jdmk version using unzip command
+#
+# PARAMETERS:
+# $1 : jar file
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : version not found
+# CACAO_CR_SUCCESS : version found
+# 
+# OUTPUT:
+# version found
+#------------------------------------------------------------------------------
+cacao_unzip_jdmk_version() {
+    jar_to_use=$1
+
+    if [ -z "${jar_to_use}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi 
+
+    cur_ver=`${UNZIP} -c ${jar_to_use}  META-INF/MANIFEST.MF 2>/dev/null | ${AWK} '/^Specification-Version:/ {print $2}'`
+    
+    ${PRINTF} "%s" "${cur_ver}"
+}
+#------------------------------------------------------------------------------
+# cacao_check_dep_jdmk
+#
+# DESCRIPTION:
+# check jdmk dependensies
+#
+# PARAMETERS:
+# $1 : flag to known if we have a valid java home
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : jdmk.home property point to a wrong directory/java version
+# CACAO_CR_SUCCESS : jdmk.home property is correct
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_check_dep_jdmk() {
+    
+    with_java_home=$1
+
+    if [ ${with_java_home} -eq ${CACAO_TRUE} ]
+    then
+	_java_home=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+	#check if we found a jre install
+	#we need jar command , use unzip otherwise 
+	_jar_bin=${_java_home}/bin/jar
+	if [ ! -x ${_jar_bin} ]
+	then
+	    #will use unzip
+	    with_java_home=${CACAO_FALSE}
+	fi
+    fi
+
+    _jdmk_home=`cacao_get_property ${CACAO_JDMK_HOME_KEY}`
+
+    if [ -z "${_jdmk_home}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_find_jdmk_lib_dir "${_jdmk_home}" 
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]; then
+        cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_JDMK_HOME}" \
+                                  "jdmkrt.jar" "${_jdmk_home}"
+        return ${CACAO_CR_ERROR}
+    fi
+    _jar_file="${cacao_jdmk_lib_dir}/jdmkrt.jar"
+
+    if [ ${with_java_home} -eq ${CACAO_FALSE} ]
+    then
+	string_version=`cacao_unzip_jdmk_version ${_jar_file}`
+    else
+	string_version=`cacao_unjar_jdmk_version ${_jar_bin} ${_jar_file}`
+    fi
+    
+    if [ $? -ne ${CACAO_CR_SUCCESS} ] || [ -z "${string_version}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_WARNING_CC_JDMK_HOME}" ${CACAO_MIN_JDMK_VERSION}
+	return ${CACAO_CR_ERROR}
+    fi
+
+    dep_jdmk_cr=${CACAO_CR_SUCCESS}
+
+    cur_ver=`cacao_jdmk_version_to_num ${string_version}` 
+    
+    if [ ${cur_ver} -lt ${CACAO_MIN_JDMK_VERSION_NUM} ]
+    then
+	 cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_JDMK_VER}" "${_jdmk_home}" ${CACAO_MIN_JDMK_VERSION}
+	 dep_jdmk_cr=${CACAO_CR_ERROR}
+    fi
+    
+    return ${dep_jdmk_cr}
+
+}
+#------------------------------------------------------------------------------
+# cacao_check_dep_nss
+#
+# DESCRIPTION:
+# check nss dependensies
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_ERROR   : nss.home property point to a wrong directory/java version
+# CACAO_CR_SUCCESS : nss.home property is correct
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_check_dep_nss () {
+    _nss_lib_home=`cacao_get_property ${CACAO_NSS_LIB_HOME_KEY}`
+    _nss_tools_home=`cacao_get_property ${CACAO_NSS_TOOLS_HOME_KEY}`
+
+    dep_nss_cr=${CACAO_CR_SUCCESS}
+
+    if [ -n "${_nss_lib_home}" ]
+    then
+	if [ ! -f "${_nss_lib_home}/${CACAO_NSS_LIB_NAME}" ]
+	 then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_NSS_L_HOME}" \
+                    "${CACAO_NSS_LIB_NAME}" "${_nss_lib_home}"
+	    dep_nss_cr=${CACAO_CR_ERROR}
+	fi
+    fi
+    if [ -n "${_nss_tools_home}" ]
+    then
+	if [ ! -f "${_nss_tools_home}/${CACAO_NSS_TOOLS_NAME}" ]
+	 then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CC_WRONG_NSS_T_HOME}" \
+                    "${CACAO_NSS_TOOLS_NAME}" "${_nss_tools_home}"
+	    dep_nss_cr=${CACAO_CR_ERROR}
+	fi
+    fi
+
+    return ${dep_nss_cr}
+}
+
+#------------------------------------------------------------------------------
+# cacao_resolve_dependencies
+#
+# DESCRIPTION:
+# resolve our mandatory dependencies
+# dependencies are loaded from property file
+# for missing deps we perform a find
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : all dependencies are resolved
+# CACAO_CR_ESRCH   : (cf cacao_find_[jdmk|java]) dependencies not found
+# CACAO_CR_ERROR   : (cf cacao_find_[jdmk|java]) error reading file
+# 
+# NOTICE:
+# . only mandatories dependencies are resolved
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_resolve_dependencies() {
+
+    cacao_resolve_java_dependencies
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_resolve_jdmk_dependencies
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+
+}
+#------------------------------------------------------------------------------
+# cacao_resolve_jdmk_dependencies
+#
+# DESCRIPTION:
+# resolve jdmk_home property
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : dependency is resolved
+# CACAO_CR_ERROR   : dependency not found neither inside the file neither on the
+#                    host
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_resolve_jdmk_dependencies() {
+    cacao_load_jdmk_dependencies
+    if [ -z "${cacao_jdmk_home}" ]
+    then
+	cacao_find_jdmk
+	cr=$?
+	if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${MISSING_JDMK}" "${CACAO_MIN_JDMK_VERSION}"
+	    cacao_print_syslog_error_message "${MISSING_JDMK}" "${CACAO_MIN_JDMK_VERSION}"
+	    return ${cr}
+	fi
+    fi
+    cacao_find_jdmk_lib_dir "${cacao_jdmk_home}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]; then
+	cacao_print_error_message "${MISSING_JDMK}" "${CACAO_MIN_JDMK_VERSION}"
+        cacao_print_syslog_error_message "${MISSING_JDMK}" "${CACAO_MIN_JDMK_VERSION}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+    
+}
+#------------------------------------------------------------------------------
+# cacao_resolve_nss_dependencies
+#
+# DESCRIPTION:
+# resolve nss tolls/lib home property
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : dependency is resolved
+# CACAO_CR_ERROR   : dependency not found neither inside the file neither on the
+#                    host
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_resolve_nss_dependencies() {
+    cacao_load_nss_dependencies
+    if [ -z "${cacao_nss_lib_home}" ] || [ -z "${cacao_nss_tools_home}" ]
+    then
+	cacao_find_nss
+	cr=$?
+	if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    #be quite here, depending on the current action performed
+	    # nss may be optional
+	    return ${cr}
+	fi
+    else
+	# the property was found inside the file
+	# do minimum checks
+	if [ ! -f ${cacao_nss_lib_home}/${CACAO_NSS_LIB_NAME} ]    || \
+	   [ ! -x ${cacao_nss_tools_home}/${CACAO_NSS_TOOLS_NAME} ]
+	then
+	    #be quite here, depending on the current action performed
+	    # nss may be optional
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+	
+    return ${CACAO_CR_SUCCESS}
+}
+#------------------------------------------------------------------------------
+# cacao_resolve_java_dependencies
+#
+# DESCRIPTION:
+# resolve java home property
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : dependency is resolved
+# CACAO_CR_ERROR   : dependency not found neither inside the file neither on the
+#                    host
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_resolve_java_dependencies() {
+    cacao_load_java_dependencies
+    if [ -z "${cacao_java}" ]
+    then
+	cacao_find_java
+	cr=$?
+	if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${MISSING_JAVA}" "${CACAO_MIN_JAVA_VERSION}"
+    	    cacao_print_syslog_error_message "${MISSING_JAVA}" "${CACAO_MIN_JAVA_VERSION}"
+	    return ${cr}
+	fi
+    else
+	# the property was found inside the file
+	# do minimum checks
+	if [ ! -d ${cacao_java_home} ] || [ ! -x ${cacao_java} ] 
+	then
+            # Try to find a good one
+            cacao_find_java
+            cr=$?
+            if [ ${cr} -eq ${CACAO_CR_SUCCESS} ]
+            then
+                cacao_print_syslog_notice_message "${NOTICE_UPDATED_JAVA}" "${cacao_java_home}"
+            else
+                cacao_print_error_message "${MISSING_JAVA}" "${CACAO_MIN_JAVA_VERSION}"
+                cacao_print_syslog_error_message "${MISSING_JAVA}" "${CACAO_MIN_JAVA_VERSION}"
+                return ${CACAO_CR_ERROR}
+            fi
+	fi
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+    
+}

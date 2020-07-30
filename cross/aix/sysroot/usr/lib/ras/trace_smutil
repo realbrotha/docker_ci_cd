@@ -1,0 +1,228 @@
+#!/bin/bsh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53L src/bos/usr/sbin/trace/trace_smutil.sh 1.20 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1988,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)99 1.20 src/bos/usr/sbin/trace/trace_smutil.sh, cmdtrace, bos53L, l2006_48A1 11/21/06 17:47:48
+#
+# COMPONENT_NAME: CMDTRACE SMIT shell interface program
+# 
+# FUNCTIONS: interfaces to trclist, trace, cat, catpr
+# 
+# ORIGINS: 27 83 
+# 
+# (C) COPYRIGHT International Business Machines Corp. 1988, 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# LEVEL 1, 5 Years Bull Confidential Information
+#
+
+# this file
+TRACE_SMUTIL=/usr/lib/ras/trace_smutil
+
+[ $# -gt 0 ] || { exit 0 ; }
+
+# Set language to C
+LANG=C; export LANG
+NL_MESSAGES=C; export NL_MESSAGES
+
+trap "exit 5" 2
+
+UTILNAME=$1
+shift
+
+case $UTILNAME in
+
+#
+# trclist.
+# Used to list current trace groupings
+#
+# First get all the ..._trcgrpdesc values from ODM.
+# Then use awk to output the lines as follows:
+#   the function qt sets "str" to the string without the quotes.
+#   When an attribute is found, extract the name (the stuff before
+#   the "_", and pad it to 9 characters so the display will line up.
+#   The "value" clause then puts out the line.
+trclist)
+
+odmget -q 'attribute like ?*_trcgrpdesc' SWservAt |\
+awk '\
+  function qt(s) {;\
+	for (len=length(s); (len>2) && substr(s,len,1)!="\""; len-=1);\
+	str=substr(s,2,len-2);\
+	return 0;\
+  };\
+  $1 == "attribute" {\
+	k=index($3,"_");\
+	name=substr($3,2,k-2);\
+	len=length(name);\
+	if (len<9) filler=substr("       ",1,9-len);\
+	else {\
+		filler="";\
+		name=substr(name,1,9);\
+	};\
+  };\
+  $1 == "value" && NF > 2 {\
+	qt(substr($0,index($0,"\"")));\
+	printf("%s%s %s\n",name,filler,str);\
+  }'
+
+;;
+
+trace)
+rc=0
+ARGS=`echo $* | sed s'/-./& /g'`
+OPTIONS="`getopt bBfladshcq1234567j:k:m:o:T:L:J: $ARGS`"
+set -- $OPTIONS
+
+CMDLINE=/usr/sbin/trace
+while [ -n "$1" ]; do
+	ARG=`echo $1 | sed s'/^-//'`
+	case $ARG in
+	b|B|f|l|a|d|s|h|c|1|2|3|4|5|6|7)
+		CMDLINE="$CMDLINE -$ARG"
+		shift
+		;;
+	# special case: -n is interpreted by the echo command
+	# use -q in the SMIT dialog and shell script interface
+	# and translate it into -n flag to pass to the trace command
+	q)
+		CMDLINE="$CMDLINE -n"
+		shift
+		;;
+	
+	m|o|T|L)
+		CMDLINE="$CMDLINE -$ARG $2"
+		shift 2
+		;;
+	j|k)
+		CMDLINE="$CMDLINE -$ARG \""
+		shift
+		while [ -n "$1" ]; do
+			case $1 in
+			--)
+				shift
+				;;
+			
+			-*)
+				break
+				;;
+
+                        *)
+				CMDLINE="$CMDLINE $1"
+				shift
+				;;
+			esac
+		done
+		CMDLINE="$CMDLINE \""
+		;;
+	J)
+		shift
+		Jflag=0
+		while [ -n "$1" ]; do
+			case $1 in
+			--)
+				shift
+				;;
+			-*)
+				CMDLINE=$CMDLINE" "
+				break
+				;;
+			*)
+				# Get selected groups from SWservAt in ODM.
+				# More than one <name>_trcgrp attribute 
+				# may exist for each group.
+				L=`\
+	  			  odmget -q "attribute like $1_trcgrp" SWservAt |\
+	  			  sed 's/"//g' |\
+	  			  awk '\
+				    BEGIN {first_sw=1};
+				    $1 == "value" {\
+				      if (!first_sw) printf(",");
+				      first_sw=0;
+				      printf("%s",$3)}'`
+				if [ -n "$L" ]; then
+				  if [ $Jflag -eq 0 ]; then
+				    # first time through
+				    CMDLINE="$CMDLINE -j "$L
+				    Jflag=1
+				  else
+				    CMDLINE=$CMDLINE","$L
+				  fi
+				else
+				  dspmsg cmdtrace.cat 525 '0454-078 No hooks found for trace group %1$s.\n' $1
+				  # Return an error when done
+				  rc=1 
+				fi
+
+				shift
+				;;
+			esac
+		done
+		;;
+	-)
+		shift
+		break
+		;;
+	esac
+done
+
+[ $rc -ne 0 ] && exit $rc
+eval $CMDLINE
+exit $?
+
+;;
+
+
+cat)
+	FILE=$1
+	if [ "$FILE" = "" ] ; then
+		cat
+		RC=$?
+	else
+		FILE=`echo $FILE | sed 's/^Z//' `
+		cat > $FILE
+		RC=$?
+	fi
+	exit $RC
+;;
+
+catpr)
+	PRINTER=$1
+	if [ "$PRINTER" = "" ] ; then
+		cat
+		RC=$?
+	else
+		PRINTER=`echo $PRINTER | sed 's/^Z//' `
+		lp -d $PRINTER
+		RC=$?
+	fi
+	exit $RC
+;;
+
+# Get the log file and buffer size defaults
+getdflts)
+	# The values are at the ends of the lines.
+	# The order is buffer size, file size, file name, non-root max buffer size.
+	set `trace -S | awk '{print $NF}'`
+	echo "#tbufsize:lbufsize:logfile:nrbufmax"
+	echo "$1:$2:$3:$4"
+;;
+
+esac
+
+exit 0

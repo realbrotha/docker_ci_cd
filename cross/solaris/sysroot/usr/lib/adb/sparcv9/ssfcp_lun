@@ -1,0 +1,20 @@
+.>z
+<z+0t16=""
++/"mutex"
+.$<<mutex
+<z+0t8=""
++/"addr"16t"pkt_head"16t"pkt_tail"nJJJ
++/"cip"16t"fcp_tgt"16t"state"nJJX
++/"type"8t"tgt_count"8t"num"nBB8tx
++/"next"16t"prev"16t"hba_tran"nJJJ
++/"insert_event:"nK" "K
++/"remove_event:"nK" "K
+<z+0t112=""
++/"mpxio"16t"wwn_size"16t"wwn"nX4+JJ
+<z+0t136=""
++/"trace"16t"cap"8tnXB
+<z+0t141=""
++/"inq:"nK" "K" "K" "K" "K" "K
+<z+0t192=""
++/"sector_sz"16tnX
+<z+0t200=""

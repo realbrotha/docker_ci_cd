@@ -1,0 +1,21 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/programs/xsm/system.xsm 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1996 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! SCCSID_BEGIN_TAG
+! @(#)95  1.1  src/gos/2d/XTOP/programs/xsm/system.xsm, xsample, gos530 7/16/96 11:53:21
+! SCCSID_END_TAG
+! $XConsortium: system.xsm,v 1.5 94/12/27 17:57:25 mor Exp $
+twm
+smproxy
+xterm

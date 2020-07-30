@@ -1,0 +1,18 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/programs/xlogo/XLogo.ad 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1996 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! SCCSID_BEGIN_TAG
+! @(#)05  1.1  src/gos/2d/XTOP/programs/xlogo/XLogo.ad, xsample, gos530 7/16/96 11:19:59
+! SCCSID_END_TAG
+XLogo.input: false

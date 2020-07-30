@@ -1,0 +1,25 @@
+* @(#)85 1.5 src/bos/kernext/iocp/iocp.exp, sysxiocp, bos53Q, q2008_13B1 2/29/08 18:13:25
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53Q src/bos/kernext/iocp/iocp.exp 1.5 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* COPYRIGHT International Business Machines Corp. 1999,2008 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+#!/unix
+CreateIoCompletionPort          syscall3264
+GetQueuedCompletionStatus       syscall3264
+GetMultipleCompletionStatus     syscall3264
+PostQueuedCompletionStatus      syscall3264
+ReadFile                        syscall3264
+WriteFile                       syscall3264
+AcceptIOCP                      syscall3264

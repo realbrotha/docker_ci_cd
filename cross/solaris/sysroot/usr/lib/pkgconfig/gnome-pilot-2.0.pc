@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Gnome Pilot
+Description: 
+Version: 2.0.13 (pilot-link version ..)
+Requires: libgnome-2.0 libgnomeui-2.0
+Libs: -L${libdir} -lgpilotd -lgpilotdcm -lgpilotdconduit -lpisock -lpisync
+Cflags: -I${includedir} 

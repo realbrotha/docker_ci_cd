@@ -1,0 +1,45 @@
+#/bin/sh
+#############################################################################
+# Copyright (C)2005, Sun Microsystems Inc. All rights reserved.
+# Use is subject to license terms.
+# 
+
+# Note: This script will use a SMF/svcadm utility program to run cc-client-adm
+# since the utility program  will detach all the processes started by cc-client-adm
+# from the cacao process group.
+# pragma ident $Id: start-xprt.sh,v 1.1.2.1 2006/01/09 23:57:33 czhang Exp $
+###########################################################################
+
+#Check if OS is Solaris 8 or 9, we will not run ctrun.
+   contract_present() {
+
+       # SunOS?
+       os_type=`/usr/bin/uname -s 2>/dev/null`
+       if  [ x${os_type} != xSunOS ]
+       then
+          return 0
+       fi
+
+       # S10 or later?
+       os_rev=`/usr/bin/uname -r 2>/dev/null | /usr/bin/cut -s -d. -f2`
+       if [ x${os_rev} = x ] || [ ${os_rev} -lt 10 ]
+       then
+          return 0
+       fi
+
+       return 1
+   }
+
+   cmd_prefix=""
+   cmd_suffix="&"
+
+   contract_present
+   if [ $? -eq 1 ]
+   then
+     cmd_prefix="/usr/bin/ctrun -l  none -o pgrponly"
+     cmd_suffix=""
+   fi
+
+# Now start the child process
+#/usr/bin/nohup /usr/bin/ctrun -l none -o pgrponly  /usr/lib/cc-cfw/framework/lib/cc-client-adm start
+/usr/bin/nohup ${cmd_prefix} /usr/lib/cc-cfw/framework/lib/cc-client-adm start  ${cmd_suffix}

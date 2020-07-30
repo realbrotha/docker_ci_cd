@@ -1,0 +1,38 @@
+#! /usr/bin/sh
+#
+# Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#  
+# ident	"@(#)bootlog-cgi	1.1	03/04/16 SMI"
+#
+
+# cgi script to handle bootlog messages
+#   formats the message:
+#             replaces <time> placemarker by local time
+#             removes '\' inserted by cgi gateway
+#   writes the message to a log file
+
+BOOTLOG_PATH="/tmp/"
+BOOTLOG_FILE_PREFIX="bootlog"
+hostname=$2
+
+# disable filename globbing
+set -f
+
+bootlog_file=${BOOTLOG_PATH}${BOOTLOG_FILE_PREFIX}.$hostname
+
+# write date in bootlog format
+echo "`date '+%b %d %H:%M:%S'` \c" >> $bootlog_file
+# remove backslashes inserted by CGI gateway
+# and remove time placeholder
+echo $* | sed 's/\\//g;s/<time>//g'  >> $bootlog_file
+
+# Do not change these lines vvv
+echo Content-type: text/plain
+echo Content-length: 32
+echo
+
+echo CGI/1.0 bootlog script report:
+echo
+# Do not change these lines ^^^
+

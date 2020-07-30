@@ -1,0 +1,249 @@
+<oaf_info>
+
+
+<oaf_server iid="OAFIID:Nautilus_Adapter_Factory_Factory"
+	type="exe" location="/usr/lib/nautilus-adapter">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="name-af" type="string" value="Fabriek vir die Nautilus-aanpassingsfabrieke"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع لمصانع مكيّفات أجزاء نوتلس"/>
+	<oaf_attribute name="name-az" type="string" value="Nautilus tərkib hissəsi adapter e&apos;malatxanaları üçün e&apos;malatxana"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць для вытворчасьцяў адаптараў кампанэнтаў &quot;Наўтылюса&quot;"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за фабрика на компонент за адаптер на Nautilus"/>
+	<oaf_attribute name="name-bn" type="string" value="নটিলাস কম্পোনেন্ট অ্যাডাপ্টর ফ্যাক্টরি তৈরির ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria per a les factories d&apos;adaptadors de components del Nautilus"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro generátory komponentových adaptérů Nautilu"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri ar gyfer ffatriau addasyddion cydran Nautilus"/>
+	<oaf_attribute name="name-da" type="string" value="Nautilus-fabrik for komponentindpasningsfabrikker"/>
+	<oaf_attribute name="name-de" type="string" value="Fabrik für Nautilus-Komponentenadapter-Fabriken"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο για εργοστάσια προσαρμοστών συστατικών του Ναυτίλου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica para los orígenes del componente adaptador Nautilus"/>
+	<oaf_attribute name="name-eu" type="string" value="Nautilus-eko osagai egokitzaileen fabriken fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Tehdas, joka tuottaa Nautiluksen komponenttisovitintehtaita"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour les fabriques d&apos;adaptateurs de composants Nautilus"/>
+	<oaf_attribute name="name-gu" type="string" value="નોટિલસના ભાગોને અનૂકુળ કરનાર કારખાનાઓ માટેનું કારખાનુ"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן למתאם יצרני הרכיבים של נאוטילוס"/>
+	<oaf_attribute name="name-hi" type="string" value="नॉटिलस अवयवों के अडेप्टर कारखाने के लिए कारखाना"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za Nautilus komponente"/>
+	<oaf_attribute name="name-hu" type="string" value="Factory a Nautilus komponensadapter factory-khoz"/>
+	<oaf_attribute name="name-id" type="string" value="Factory untuk factory adapter komponen Nautilus"/>
+	<oaf_attribute name="name-is" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica per le fabbriche di componenti adattatori per Nautilus"/>
+	<oaf_attribute name="name-ja" type="string" value="Nautilus コンポーネントアダプタファクトリのファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="Nautilus용 구성요소 어댑터 팩토리"/>
+	<oaf_attribute name="name-li" type="string" value="Febrik veur Nautilus componentadapter-febrike"/>
+	<oaf_attribute name="name-lv" type="string" value="Ražotne Nautilus komponentu adapteru ražotnēm"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Nautilus компоненти адаптерски фабрики"/>
+	<oaf_attribute name="name-ml" type="string" value="നോട്ടിലസ് ഫാക്ടറി"/>
+	<oaf_attribute name="name-mn" type="string" value="Наутилусын бүрэлдхүүний адаптеруудыг боловсруулагчийн үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang bagi kilang penyesuai komponen Nautilus"/>
+	<oaf_attribute name="name-ne" type="string" value="नटिलस कम्पोनेन्ट अडेप्टर कारखानाको लागी कारखाना"/>
+	<oaf_attribute name="name-nl" type="string" value="Fabriek voor Nautilus componentadapter-fabrieken"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for Nautilus komponentadapter-fabrikkar"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for Nautilus komponent-adapter factories"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨਾਟਲਿਸ ਸੰਦਾ ਦੇ ਐਡਪਟਰਾ ਦੀਆਂ ਫੈਕਟਰੀਆਂ ਦੀ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator generatorów komponentów opakowujących menedżera Nautilus"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica para as fábricas de adaptadores de componentes para o Nautilus"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador para geradores de adaptadores de componentes do Nautilus"/>
+	<oaf_attribute name="name-ro" type="string" value="Uzină pentru componenta Nautilus de uzine de adaptare"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика для фабрик, адаптирующих компонент Nautilus"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre vytváracie rozhranie pre komponentové adaptéry Nautilus"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna za tovarne adapterjev Nautilusovih komponent"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrikë për fabrikat e komponentëve adaptues për Nautilius"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika za Nautilus komponente"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för Nautilus komponentadapterfabriker"/>
+	<oaf_attribute name="name-tr" type="string" value="Nautilus bileşen denetleyici üreticileri için fabrika"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика для фабрик адаптерів компонентів Наутілус"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory cho các factory của bộ điều hợp thành phần Nautilus"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Nautilus 元件組合工廠的工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Nautilus 元件組合工廠的工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for Nautilus component adapter factories "/>
+	<oaf_attribute name="description-af" type="string" value="Fabriek vir die Nautilus-aanpassingsfabrieke "/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع لمصانع مكيّفات أجزاء نوتلس"/>
+	<oaf_attribute name="description-az" type="string" value="Nautilus tərkib hissəsi adapter e&apos;malatxanaları üçün e&apos;malatxana "/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для вытворчасьцяў адаптараў кампанэнтаў &quot;Наўтылюса&quot;"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за фабрика на компонент за адаптер на Nautilus "/>
+	<oaf_attribute name="description-bn" type="string" value="নটিলাস কম্পোনেন্ট অ্যাডাপ্টর ফ্যাক্টরি তৈরির ফ্যাক্টরি "/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a les factories d&apos;adaptadors de components del Nautilus "/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro generátory komponentových adaptérů Nautilu "/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer ffatrïoedd addasyddion cydran Nautilus "/>
+	<oaf_attribute name="description-da" type="string" value="Nautilus-fabrik for komponentindpasningsfabrikker "/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für Nautilus-Komponentenadapter-Fabriken "/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για εργοστάσια προσαρμοστών συστατικών των Ναυτίλου "/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for Nautilus component adapter factories "/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for Nautilus component adapter factories "/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para los orígenes del componente adaptador Nautilus"/>
+	<oaf_attribute name="description-eu" type="string" value="Nautilus-eko osagai egokitzaileen fabriken fabrika "/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas, joka tuottaa Nautiluksen komponenttisovitintehtaita"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour les fabriques d&apos;adaptateurs de composants Nautilus "/>
+	<oaf_attribute name="description-gu" type="string" value="નોટિલસ ભાગોને અનૂકુળ કરનાર કારખાનાઓ માટેનું કારખાનુ "/>
+	<oaf_attribute name="description-he" type="string" value="יצרן למתאם יצרני הרכיבים של נאוטילוס "/>
+	<oaf_attribute name="description-hi" type="string" value="नॉटिलस अवयवों के अडेपटर कारखाने के लिए कारखाना"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za Nautilus komponente"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a Nautilus komponensadapter factory-khoz "/>
+	<oaf_attribute name="description-id" type="string" value="Factory untuk factory adapter komponen Nautilus"/>
+	<oaf_attribute name="description-is" type="string" value="Factory for Nautilus component adapter factories "/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per le fabbriche di componenti adattatori per Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus コンポーネントアダプタファクトリのファクトリ "/>
+	<oaf_attribute name="description-ko" type="string" value="Nautilus용 구성요소 어댑터 팩토리"/>
+	<oaf_attribute name="description-li" type="string" value="Febrik veur Nautilus componentadapter-febrike"/>
+	<oaf_attribute name="description-lv" type="string" value="Ražotne Nautilus komponentu adapteru ražotnēm "/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за Nautilus компонентни адаптерски фабрики "/>
+	<oaf_attribute name="description-ml" type="string" value="നോട്ടിലസ് ഫാക്ടറി"/>
+	<oaf_attribute name="description-mn" type="string" value="Наутилусын бүрэлдхүүний адаптеруудыг боловсруулагчийн үйлдвэр"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi kilang penyesuai komponen Nautilus"/>
+	<oaf_attribute name="description-ne" type="string" value="नटिलस कम्पोनेन्ट अडेप्टर कारखानाको लागी कारखाना"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor Nautilus componentadapter-fabrieken"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for Nautilus komponentadapter-fabrikkar "/>
+	<oaf_attribute name="description-no" type="string" value="Factory for Nautilus komponent-adapter factories "/>
+	<oaf_attribute name="description-pa" type="string" value="ਨਾਟਲਿਸ ਸੰਦਾ ਦੇ ਐਡਪਟਰਾ ਦੀਆਂ ਫੈਕਟਰੀਆਂ ਦੀ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator generatorów komponentów opakowujących menedżera Nautilus "/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para as fábricas de adaptadores de componentes para o Nautilus "/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para geradores de adaptadores de componentes do Nautilus "/>
+	<oaf_attribute name="description-ro" type="string" value="Uzină pentru componenta Nautilus de uzine de adaptare "/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для фабрик, адаптирующих компонент Nautilus "/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre vytváracie rozhranie pre komponentové adaptéry Nautilus "/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za tovarne adapterjev Nautilusovih komponent "/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrikë për fabrikat e komponentëve adaptues për Nautilius "/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za Nautilus komponente"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för Nautilus komponentadapterfabriker "/>
+	<oaf_attribute name="description-tr" type="string" value="Nautilus bileşen denetleyici üreticileri için üretici"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для фабрик адаптерів компоненту Наутілус"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory cho các factory của bộ điều hợp thành phần Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Factory for Nautilus component adapter factories"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Nautilus 元件組合工廠的工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Nautilus 元件組合工廠的工廠"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Nautilus_Adapter_Factory" type="factory" location="OAFIID:Nautilus_Adapter_Factory_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Nautilus/ComponentAdapterFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Nautilus component adapter factory"/>
+	<oaf_attribute name="name-af" type="string" value="Aanpassingsfabriek: Nautilus-komponent"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع مكيّفات أجزاء نوتلس"/>
+	<oaf_attribute name="name-az" type="string" value="Nautilus tərkib hissəsi adapteri e&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць адаптэра кампанэнта Наўтылюса"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на Nautilus за компоненти на адаптер"/>
+	<oaf_attribute name="name-bn" type="string" value="নটিলাস কম্পোনেন্ট অ্যাডাপ্টর ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria del component adaptador del Nautilus"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor komponentového adaptéru Nautilu"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri addasyddion cydran Nautilus"/>
+	<oaf_attribute name="name-da" type="string" value="Komponentindpasningsfabrik til Nautilus"/>
+	<oaf_attribute name="name-de" type="string" value="Nautilus-Komponentenadapter-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο υποδοχής συστατικών του Ναυτίλου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Nautilus component adapter factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Nautilus component adapter factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica del componente adaptador Nautilus"/>
+	<oaf_attribute name="name-et" type="string" value="Nautiluse osade kohandus vabrik"/>
+	<oaf_attribute name="name-eu" type="string" value="Nautilus-eko osagai egokitzaileen fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Nautiluksen komponenttisovitintehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour les adaptateurs de composants Nautilus"/>
+	<oaf_attribute name="name-gu" type="string" value="નોટિલસ ભાગોને અનૂકુળ કરનાર કારખાનુ"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן מתאם רכיבי נאוטילוס"/>
+	<oaf_attribute name="name-hi" type="string" value="नॉटिलस अवयव अडेपटर कारखाना"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za Nautilus komponente"/>
+	<oaf_attribute name="name-hu" type="string" value="Nautilus komponensadapter factory"/>
+	<oaf_attribute name="name-id" type="string" value="factory adapter komponen Nautilus"/>
+	<oaf_attribute name="name-is" type="string" value="Nautilus component adapter factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica di componenti adattatori per Nautilus"/>
+	<oaf_attribute name="name-ja" type="string" value="Nautilus コンポーネントアダプタファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="Nautilus 구성요소 어댑터 팩토리"/>
+	<oaf_attribute name="name-li" type="string" value="Nautilus komponentadapterfebrik"/>
+	<oaf_attribute name="name-lv" type="string" value="Nautilus componentu adapteru ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Nautilus фабрика за адаптери за компоненти "/>
+	<oaf_attribute name="name-ml" type="string" value="നോട്ടിലസ് ഫാക്ടറി"/>
+	<oaf_attribute name="name-mn" type="string" value="Наутилусын бүрэлдхүүний адаптерын үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang penyesuai komponen nautilus"/>
+	<oaf_attribute name="name-ne" type="string" value="नटिलस कम्पोनेन्ट अडेप्टर कारखाना"/>
+	<oaf_attribute name="name-nl" type="string" value="Nautilus componentadapterfabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Nautilus komponentadapterfabrikk"/>
+	<oaf_attribute name="name-no" type="string" value="Nautilus komponent-adapter factory"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨਾਟਲਿਸ ਸੰਦਾ ਦੇ ਐਡਪਟਰਾ ਦੀ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator komponentów opakowujących menedżera Nautilus"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de adaptadores de componentes Nautilus"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador de adaptadores de componentes do Nautilus"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrica de adaptoare componente Nautilus"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика, адаптирующая компонент Nautilus"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre komponentové adaptéry Nautilus"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna adapterjev Nautilusovih komponent"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrikë komponentesh adaptues për Nautilus"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika za Nautilus komponente"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Фабрика за Наутилус компоненте"/>
+	<oaf_attribute name="name-sv" type="string" value="Nautilus komponentadapterfabrik"/>
+	<oaf_attribute name="name-tr" type="string" value="Nautilus bileşen denetleyici üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика адаптеру компонента Наутілус"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory của bộ điều hợp thành phần Nautilus"/>
+	<oaf_attribute name="name-wa" type="string" value="Oujhene d&apos; adapteus di componints Nautilus"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Nautilus 部件适配器工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Nautilus 元件組合工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Nautilus 元件組合工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for objects that wrap ordinary Bonobo Controls or Embeddables to look like Nautilus Views"/>
+	<oaf_attribute name="description-af" type="string" value="Fabriek vir voorwerpe wat gewone Bonobo-kontroles of inbedbare voorwerpe omvou om soos Nautilus-aansigte te lyk"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع الكائنات اللافة لقطع بونوبو عادية أو لمضمنات حتى تبدو بشكل مشاهد نوتلس"/>
+	<oaf_attribute name="description-az" type="string" value="Sıravi Bonobo İdarələrini və ya Hopdurulmuş elementlərini Nautilus Nümayişlərinə çevirən mərkəz"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для аб&apos;ектаў, якія даюць магчымасьць звычайным элемэнтам кіраваньня Bonobo ці аб&apos;ектам здольным убудоўвацца ў выгляды Наўтылюса"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за обекти, даваща възможност на различни Bonobo управления или внедрени обекти да се вграждат в инерфейса на Nautilus "/>
+	<oaf_attribute name="description-bn" type="string" value="যে সব অবজেক্ট সাধারণ বনোবো নিয়ন্ত্রণ বা এম্বেডেবলকে নটিলাস উপযোগী করে দেখায়, তাদের ফ্যাক্টরি"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per als objectes que ajusten els controls Bonobo ordinaris o incrustats per tenir un aspecte semblant a les vistes del Nautilus"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro objekty, které zabalí normální Bonobo Controls nebo Embeddable, aby vypadaly jako pohledy Nautilu"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer gwrthrychau i amlapio Rheola neu Mewnadeiladau cyffredin Bonobo i edrych fel syllwyr Nautilus"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for objekter som lader normale Bonobo-kontroller eller indlejrbare se ud some Nautilus-visninger"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für Objekte, die gewöhnliche Bonobo-Steuerelemente oder -Embeddables so verpacken, dass sie wie Nautilus-Ansichten aussehen"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο αντικειμένων που πακετάρουν συνήθη Συστατικά Bonobo ή Προσαρτήσιμα ώστε να φαίνονται ως όψεις του Ναυτίλου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for objects that wrap ordinary Bonobo Controls or Embeddables to look like Nautilus Views"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for objects that wrap ordinary Bonobo Controls or Embeddables to look like Nautilus Views"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para los objetos que ajustan controles Bonobo ordinarios o incrustables para que se vean como vistas de Nautilus"/>
+	<oaf_attribute name="description-eu" type="string" value="Bonobo-ren kontrol arruntak edo kapsulagarriak Nautilus-en ikuspegien itxura hartzeko egokitzen dituzten objektuen fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas, jonka tuottamat oliot ympäröivät tavalliset Bonobo-säätimet ja upotteet näyttämään Nautiluksen näkymiltä "/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour objets ajustant les contrôles ou objets incorporables ordinairesBonobo pour qu&apos;ils ressemblent à des vues Nautilus"/>
+	<oaf_attribute name="description-gu" type="string" value="વસ્તુઓ માટેનું કારખાનુ કે જે નોટિલસ જેવુ દેખાવા માટે સામાન્ય બોનોેબો નિયંત્રક અથવા જડિત કરેલી વસ્તુઓને લપેટે છે"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן לאובייקטים שעוטפים בקרי Bonobo רגילים או מוטבעים כדי שיראו כמו תצוגות נאוטילוס"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica objekata koji omataju obične Bonobo kontrole ili uključive elemente kako bi izgledali kao Nautilus pogledi"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory olyan objektumok részére, amelyek wrapper-ként szolgálnak a közönséges Bonobo vezérlőkhöz vagy az beágyazhatókhoz, hogy ezek Nautilus-szerűen nézzenek ki."/>
+	<oaf_attribute name="description-id" type="string" value="Factory untuk object yang membungkus kontrol Bonobo biasa atau Embeddables supaya seperti View Nautilus"/>
+	<oaf_attribute name="description-is" type="string" value="Factory for objects that wrap ordinary Bonobo Controls or Embeddables to look like Nautilus Views"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per oggetti che inglobano controlli Bonobo (semplici o incorporabili) per farli sembrare delle visualizzazioni di Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus のような外観にするための、通常の Bonobo コントロールあるいは組込みへのラッパーオブジェクトのファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="일반 Bonobo 컨트롤 또는 Embeddables를 래핑하여 Nautilus 보기처럼보이게 하는 객체 팩토리"/>
+	<oaf_attribute name="description-li" type="string" value="Febrik veur objekte die gewoene Bonobo-controls of &quot;embeddables&quot; d&apos;roet laote zeen wie ein Nautilusweergaaf"/>
+	<oaf_attribute name="description-lv" type="string" value="Ražotne objektiem, kas ietin parastas Bonabo Kontroles vai Iesaistes, lai izskatītos kā Nautilus Skati"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за објекти кои ги обвиткуваат вообичаените Bonobo контроли или Embeddables за да изгледаат како Nautilus погледи"/>
+	<oaf_attribute name="description-mn" type="string" value="Bonobo-Тохируулгууд болон -Embeddables-уудыг наутилусынх мэт үзэгдэхүйц болгож тохируулдаг объектын фабрик."/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi objek yang membalut Kawalan Bonobo biasa atau yang boleh diembed kelihatan seperti Paparan Nautilus"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor objecten die gewone Bonobo-controls of &quot;embeddables&quot; eruit laten zien als een Nautilusweergave"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for objekt som pakkar inn vanlege Bonobo-kontrollar eller innebyggbare kontrollar slik at dei ser ut som Nautilus-visingar"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for objekter som pakker inn vanlige Bonobo-kontroller eller &quot;Embeddables&quot; og lar dem se ut som Nautilus visninger"/>
+	<oaf_attribute name="description-pa" type="string" value="ਉਹਨਾਂ ਆਬਜੈਕਟ ਲਈ ਫੈਕਟਰੀ ਜੋ ਸਧਾਰਨ ਬੋਨਬੋ ਕੰਟਰੋਲ ਨੂੰ ਲਪੇਟਦੇ ਹਨ ਜਾਂ ਨਾਟਲਿਸ ਦਰਿਸ਼ ਵਰਗੇ ਲਗਦੇ ਹਨ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator obiektów opakowujących zwykłe komponenty Control lub Embeddable, tak aby wyglądały jak widok menedżera Nautilus"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para objectos que encapsulam Controlos ou Imbutidos Bonobo comuns por forma a que se assemelhem a Vistas Nautilus"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para objetos que envolvem controles do Bonobo comuns ou Embeddables para que tenham a aparência de visualizações do Nautilus"/>
+	<oaf_attribute name="description-ro" type="string" value="Uzină pentru obiecte ce determină vizualizarea controalelor Bonobo ca Vizualizatori Nautilus"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для объектов, при помощи оболочек которых обычные элементы управления Bonobo или внедряемые объекты выглядят как экраны Nautilus"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre objekty, ktoré obaľujú štandardné objekty Bonobo Control alebo Embedable, aby vyzerali ako pohľady Nautilu"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna, ki ovije običajne kontrole Bonobo ali Vgradnike, da izgledajo kot Nautilusovi pogledi"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika për objekte që u japin mundësinë kontrolleve të zakonshëm Bonobo apo kontrolleve që afrojnë këtë mundësi të marrin pamjen e Nautilus"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика објеката који заокружују обичне Бонобо елементе или укључиве елементе како би изгледали као Наутилус погледи"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika objekata koji zaokružuju obične Bonobo elemente ili uključive elemente kako bi izgledali kao Nautilus pogledi"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Фабрика објеката који заокружују обичне Бонобо елементе или укључиве елементе како би изгледали као Наутилус погледи"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för objekt som låter vanliga Bonobo Controls eller Embeddables se ut som Nautilus-vyer"/>
+	<oaf_attribute name="description-tr" type="string" value="Sıra ile kaydırılmış Bonobo Kontrolleri ve Gömülebilirler nesneleri Nautilus Görünümü gibi olması için üretici"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для об&apos;єктів, що надають можливість звичайним керуючим елементам Bonobo або вкладеним об&apos;єктам вбудовуватись у інтерфейс Наутілуса"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory cho các đối tượng bao Bonobo Controls hoặc Embeddables thông thường để trông giống như các hiển thị Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="用于包装普通 Bonobo 控件或可嵌入式组件使之看起来像 Nautilus 视图的对象的工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="以下類型物件的工廠：該類物件可包含 Bonobo 控制元件或可嵌入式物件，使之成為 Nautilus 檢視"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="以下類型物件的工廠：該類物件可包含 Bonobo 控制元件或可嵌入式物件，使之成為 Nautilus 檢視"/>
+</oaf_server>
+
+</oaf_info>

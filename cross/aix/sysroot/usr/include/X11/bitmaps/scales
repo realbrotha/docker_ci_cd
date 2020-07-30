@@ -1,0 +1,36 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/scales 1.2                      */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)58       1.2  src/gos/2d/XTOP/include/bitmaps/scales, xlib, gos530 2/11/94 17:54:37 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define scales_width 16
+#define scales_height 16
+static char scales_bits[] = {
+   0x10, 0x10, 0x10, 0x10, 0x28, 0x28, 0xc7, 0xc7, 0x01, 0x01, 0x01, 0x01,
+   0x82, 0x82, 0x7c, 0x7c, 0x10, 0x10, 0x10, 0x10, 0x28, 0x28, 0xc7, 0xc7,
+   0x01, 0x01, 0x01, 0x01, 0x82, 0x82, 0x7c, 0x7c};

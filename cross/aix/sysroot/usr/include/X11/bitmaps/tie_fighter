@@ -1,0 +1,36 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/tie_fighter 1.2                 */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)93       1.2  src/gos/2d/XTOP/include/bitmaps/tie_fighter, xlib, gos530 2/11/94 17:55:18 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define tie_fighter_width 16
+#define tie_fighter_height 16
+static char tie_fighter_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x08, 0x10, 0x04, 0x20, 0x02, 0x40, 0x02, 0x40,
+   0xe2, 0x47, 0x3e, 0x7c, 0x12, 0x48, 0x3e, 0x7c, 0xe2, 0x47, 0x02, 0x40,
+   0x42, 0x42, 0x64, 0x26, 0x28, 0x14, 0x00, 0x00};

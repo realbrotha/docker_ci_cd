@@ -1,0 +1,1356 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.18 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_init_keygen_vars         : keygen global variable init
+# - cacao_generate_randoms         : generate all secure numbers (password)
+# - cacao_is_security_present      : is security already setup ? 
+# - cacao_is_keys_ok               : are all keys already setup ?
+# - cacao_clean_security_files     : clean of all security files created
+# - cacao_do_keys_init             : pre actions of key creation
+# - cacao_do_keys_fini             : post actions of key creation
+# - cacao_nss_do_keys              : create keys using nss libs
+# - cacao_do_keys                  : create keys
+# - cacao_generate_keys            : main entry point for kay generation
+
+#global vars used durgin key generation
+#we source that here to avoid confusion with cacaoadm main script globals
+cacao_kg_tmp_out=""
+cacao_kg_jsse_secdir=""
+cacao_kg_nss_secdir=""
+cacao_kg_localca_secdir=""
+cacao_kg_unknown_secdir=""
+cacao_kg_wellknown_secdir=""
+cacao_kg_jsse_files=""
+cacao_kg_localca_files=""
+cacao_kg_unknown_files=""
+cacao_kg_wellknown_files=""
+cacao_kg_tmp_password_file=""
+cacao_kg_password_file=""
+cacao_kg_trust_password=""
+cacao_kg_unknown_password=""
+cacao_kg_nsseed_size=""
+cacao_kg_password_seed_size=""
+cacao_kg_tmp_nsseed=""
+cacao_kg_certutil_cmd=""
+cacao_kg_keytool_cmd=""
+cacao_kg_dn_prefix=""
+
+#variables holding passwords
+cacao_kg_master_password=""
+cacao_kg_localca_keys_seed=""
+cacao_kg_wellknown_keys_seed=""
+cacao_kg_wellknown_csr_seed=""
+
+#variables holding serial numbers
+cacao_kg_localca_serialnumber=""
+cacao_kg_agent_serialnumber=""
+cacao_kg_wellknown_serialnumber=""
+
+#------------------------------------------------------------------------------
+# cacao_init_keygen_vars
+# 
+# DESCRIPTION :
+# initialize all variables needed ny keygen
+# PARAMETERS :
+# none
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# none.
+#------------------------------------------------------------------------------
+cacao_init_keygen_vars() {
+    
+    local_output_dir=$1
+
+    if [ -n "${cacao_kg_password_file}" ]
+    then
+	# already done
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # temp files for command output
+    cacao_kg_tmp_out="${cacao_tmp_dir}/tmp.$$"
+    
+    # sub-directories for jsse and nss keys and certificates
+    cacao_kg_jsse_secdir="${local_output_dir}/jsse"
+    cacao_kg_nss_secdir="${local_output_dir}/nss"
+    cacao_kg_localca_secdir="${cacao_kg_nss_secdir}/localca"
+    cacao_kg_unknown_secdir="${cacao_kg_nss_secdir}/unknown"
+    cacao_kg_wellknown_secdir="${cacao_kg_nss_secdir}/wellknown"
+    
+    # security files managed by this script
+    cacao_kg_jsse_files="${cacao_kg_jsse_secdir}/keystore   \
+                         ${cacao_kg_jsse_secdir}/agent.cert \
+                         ${cacao_kg_jsse_secdir}/truststore"
+    
+    cacao_kg_localca_files="${cacao_kg_localca_secdir}/localca.cert \
+                            ${cacao_kg_localca_secdir}/cert8.db     \
+                            ${cacao_kg_localca_secdir}/key3.db      \
+                            ${cacao_kg_localca_secdir}/secmod.db"
+    
+    cacao_kg_unknown_files="${cacao_kg_unknown_secdir}/cert8.db \
+                            ${cacao_kg_unknown_secdir}/key3.db  \
+                            ${cacao_kg_unknown_secdir}/secmod.db"
+
+    cacao_kg_wellknown_files="${cacao_kg_wellknown_secdir}/wellknown.cert \
+                              ${cacao_kg_wellknown_secdir}/cert8.db       \
+                              ${cacao_kg_wellknown_secdir}/key3.db        \
+                              ${cacao_kg_wellknown_secdir}/secmod.db"
+
+    # passwords
+    cacao_kg_tmp_password_file="${cacao_tmp_dir}/password.tmp.$$"
+    cacao_kg_password_file="${local_output_dir}/password"
+    cacao_kg_trust_password="trustpass"
+    cacao_kg_unknown_password="unknownpass"
+    
+    cacao_kg_nsseed_size=24
+    cacao_kg_password_seed_size=128
+    # seed file for nss key generation
+    cacao_kg_tmp_nsseed="${cacao_tmp_dir}/tmp.nsseed"
+
+    cacao_kg_certutil_cmd=""
+    cacao_kg_keytool_cmd=""
+    
+    # Define the DN prefix to use for keys generation
+    cacao_kg_host=`cacao_get_host_name`
+    cacao_kg_dn_prefix="${cacao_kg_host}"
+    if [ -n "${cacao_main_instance}" ] && [ "${cacao_main_instance}" != "${CACAO_DEFAULT_INSTANCE_NAME}" ]
+    then
+        cacao_kg_dn_prefix="${cacao_kg_host}_${cacao_main_instance}"
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_generate_randoms
+#
+# DESCRIPTION :
+# generate all secure random numbers
+# this function assign the followings variables:
+# - cacao_kg_master_password
+# - cacao_kg_localca_keys_seed
+# - cacao_kg_wellknown_keys_seed
+# - cacao_kg_wellknown_csr_seed
+# - cacao_kg_localca_serialnumber
+# - cacao_kg_agent_serialnumber
+# - cacao_kg_wellknown_serialnumber
+#
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none.
+#------------------------------------------------------------------------------
+cacao_generate_randoms() {
+    
+    # we for the java.security.egd property to a fake raddom device 
+    # to be sure that the SeedGenerator will use the Vm thread algorythm
+    # see CR 6253995
+    pass_results=`${cacao_java} -Djava.security.egd="a_random_which_does_not_exist"   \
+	-Dcacao.generation.timeout=3000                                               \
+	-classpath ${cacao_jar_dir}/cacao_cacao.jar                                   \
+	com.sun.cacao.agent.auth.impl.SecurePassword ${cacao_kg_password_seed_size}        \
+	                                             ${cacao_kg_nsseed_size}               \
+	                                             ${cacao_kg_nsseed_size}               \
+	                                             ${cacao_kg_nsseed_size} 2>/dev/null`
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ -z "${pass_results}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    set -- ${pass_results}
+    cacao_kg_master_password=$1
+    cacao_kg_localca_keys_seed=$2
+    cacao_kg_wellknown_keys_seed=$3
+    cacao_kg_wellknown_csr_seed=$4
+
+    # generate 3 different serial numbers for 
+    # NSS and JSSE certificates such as we avoid collisions due to the 
+    # weaknesses of certutil when generating a serial number
+    # See CR 6338890
+    serial_numbers=`${cacao_java} \
+        -classpath ${cacao_jar_dir}/cacao_cacao.jar \
+        com.sun.cacao.agent.auth.impl.SerialNumberGenerator 3 2>/dev/null`
+
+    if [ $? -ne 0 ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ -z "${serial_numbers}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    set -- ${serial_numbers}
+    cacao_kg_localca_serialnumber=$1
+    cacao_kg_agent_serialnumber=$2
+    cacao_kg_wellknown_serialnumber=$3
+
+    # do not trust umask end user env on this 
+    # must be sure that files used during generation are not readabla
+    cacao_make_protected_file ${cacao_kg_tmp_password_file}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # file containing master password is needed fro several commands later
+    ${PRINTF} "%s" ${cacao_kg_master_password} > ${cacao_kg_tmp_password_file} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_security_present
+#
+# DESCRIPTION :
+# check if security is setup : check if we need to generate keys
+# 'the current security dir'    must be present and valid
+# 'CACAO_SECURITY_PASSWD' file must be present and valid
+#
+# PARAMETERS :
+# $1 : security directory to use
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_is_security_present() {
+    
+    local_directory=$1
+    
+    if [ ! -d ${local_directory} ]
+    then
+	return ${CACAO_FALSE}
+    fi
+    
+    if [ ! -s ${cacao_kg_password_file} ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    return ${CACAO_TRUE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_keys_ok
+#
+# DESCRIPTION :
+# check if security is setup : check if we need to generate keys
+# 'the current security dir'    must be present and valid
+#   -> owned by the administrator
+#   -> not writable by g and o
+# 'cacao_kg_password_file' file must be present and valid
+#   -> owned by the administrator
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS  : everything ok
+# CACAO_CR_ESRCH    : keys missing
+# CACAO_CR_ERROR    : keys corrupted
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_is_keys_ok() {
+    
+    local_dir=$1
+    
+    cacao_is_security_present ${local_dir}
+    if [ $? -ne ${CACAO_TRUE} ]
+    then
+	return ${CACAO_CR_ESRCH}
+    fi
+
+    owner=`cacao_get_file_owner ${local_dir}`
+    if [ x${owner} != x${CACAO_ADMIN_USER} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_NOT_OWNED}" \
+                                  "${local_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    file_right=`cacao_get_file_string_right ${local_dir}`
+    if [ x${file_right} != x${CACAO_SECURITY_DIR_RIGTH} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RIGTH}" \
+                                  "${local_dir}" "${file_right}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    file_right=`cacao_get_file_string_right ${cacao_kg_password_file}`
+    if [ x${file_right} != x${CACAO_PASSWD_FILE_MOD_STR} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RIGTH}" \
+                                  "${cacao_kg_password_file}" "${file_right}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_clean_security_files
+# clean up all security files and dirs
+#
+# DESCRIPTION :
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : ok
+# CACAO_CR_ERROR   : error while removes
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_clean_security_files() {
+
+    
+
+    # Remove JSSE security files
+    # Remove CA security files
+    # Remove security files for well-known clients
+    # Remove security files for unknown clients 
+    # Remove the NSS seed file
+    # Remove the keygen command out file
+    
+    ${RM} -f ${cacao_kg_jsse_files}      \
+             ${cacao_kg_localca_files}   \
+             ${cacao_kg_unknown_files}   \
+             ${cacao_kg_wellknown_files} \
+             ${cacao_kg_tmp_out}         \
+             ${cacao_kg_password_file} 2>/dev/null
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_keys_init
+# 
+# DESCRIPTION :
+# pre action needed by cacao_do_keys/cacao_nss_do_keys
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR : move of files failed
+#
+# NOTICE:
+# none
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+
+cacao_do_keys_init() {
+    ${MKDIR} -p ${cacao_kg_jsse_secdir} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" "${cacao_kg_jsse_secdir}"
+	return ${CACAO_CR_ERROR}
+    fi 
+    
+
+    cacao_make_protected_file ${cacao_kg_tmp_out}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+    # Generate key pair for agent (validity -> 7304 days == 20 years)
+    ${PRINTF} "%s\n%s\n" ${cacao_kg_master_password} ${cacao_kg_master_password} | \
+		${cacao_kg_keytool_cmd} \
+		    -genkey \
+		    -alias cacao_agent \
+		    -keyalg RSA \
+		    -keysize 1024 \
+		    -keystore ${cacao_kg_jsse_secdir}/keystore \
+		    -dname "CN=${cacao_kg_dn_prefix}_agent" \
+		    -validity 7304 \
+	            > ${cacao_kg_tmp_out} 2>&1
+
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${AGENT_KEY_FAILED}" "${cacao_kg_tmp_out}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_keys_fini
+# 
+# DESCRIPTION :
+#  post action needed by cacao_nss_do_keys/cacao_do_keys
+#
+# PARAMETERS :
+# none
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# none.
+#------------------------------------------------------------------------------
+cacao_do_keys_fini() {
+    current_umask=`umask`
+
+    umask ${CACAO_PASSWD_FILE_UMASK}
+
+    
+    cacao_make_protected_file ${cacao_kg_password_file}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${PRINTF} "%s" ${cacao_kg_master_password} > ${cacao_kg_password_file} 2> /dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CREATE}" "${cacao_kg_password_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # The following is to align the group id of security files
+    # according to the way we generate keys, nss directory
+    # may not be present
+    
+    ${CHGRP} -R ${CACAO_SECURITY_FILE_OWNER_GROUP} ${cacao_kg_password_file} \
+        ${cacao_kg_jsse_secdir} > /dev/null 2>&1
+
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CHGRP_FAIL}" \
+                                  "${CACAO_SECURITY_FILE_OWNER_GROUP}" \
+                                  "${cacao_kg_password_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ -d "${cacao_kg_nss_secdir}" ]
+    then
+	${CHGRP} -R ${CACAO_SECURITY_FILE_OWNER_GROUP} ${cacao_kg_nss_secdir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CHGRP_FAIL}" \
+		"${CACAO_SECURITY_FILE_OWNER_GROUP}" \
+		"${cacao_kg_nss_secdir}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+    umask ${current_umask}
+
+    ${RM} -f ${cacao_kg_tmp_out} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_kg_tmp_out}"
+	# In the old version of cacaoadm this was not an error
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_nss_do_keys
+#
+# DESCRIPTION :
+# start key generation using nss
+#
+# NOTICE:
+#
+# PARAMETERS :
+# 
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_nss_do_keys () {
+    current_umask=`umask`
+    
+    umask ${CACAO_SECURITY_RT_UMASK}
+
+    # Generate the NSS directory (if necessary)
+    ${MKDIR} -p ${cacao_kg_nss_secdir} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message ${CACAO_MSG_ERROR_DIR_CREATE} "${cacao_kg_nss_secdir}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # Create the CA directory (if necessary)
+    ${MKDIR} -p ${cacao_kg_localca_secdir} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message ${CACAO_MSG_ERROR_DIR_CREATE} "${cacao_kg_localca_secdir}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    
+    cacao_make_protected_file ${cacao_kg_tmp_out}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # Generate the CA db files
+    ${cacao_kg_certutil_cmd} \
+	-N \
+	-d ${cacao_kg_localca_secdir} \
+	-f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${LOCAL_CA_DB_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    cacao_make_protected_file ${cacao_kg_tmp_nsseed}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+    # Generate the seed file for generating local CA keys
+    ${ECHO} ${cacao_kg_localca_keys_seed} > ${cacao_kg_tmp_nsseed} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${SEED_GENERATION_FOR_CA_FAILED}" ""
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}	
+    fi
+    
+	# Generate the local self-signed certificate authority
+    ${cacao_kg_certutil_cmd} \
+	-S \
+	-n cacao_ca \
+	-k rsa \
+	-g 1024 \
+	-s "CN=${cacao_kg_dn_prefix}_ca" \
+	-x \
+	-v 240 \
+	-t "uCT,uCT,uCT" \
+    -m ${cacao_kg_localca_serialnumber} \
+	-z ${cacao_kg_tmp_nsseed} \
+	-d ${cacao_kg_localca_secdir} \
+	-f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${GENERATION_CA_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+	# Export the local CA certificate
+    ${cacao_kg_certutil_cmd} \
+	-L \
+	-n cacao_ca \
+	-a \
+	-o ${cacao_kg_localca_secdir}/localca.cert \
+	-d ${cacao_kg_localca_secdir} \
+	-f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${EXPORT_CA_CERTIF_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}	
+    fi
+    
+    
+	# Create a certificate signing request for the agent
+    ${PRINTF} "%s\n%s\n" ${cacao_kg_master_password} ${cacao_kg_master_password} | \
+	${cacao_kg_keytool_cmd} \
+	-certreq \
+	-alias cacao_agent \
+	-sigalg MD5withRSA \
+	-file ${cacao_kg_jsse_secdir}/agent.crq \
+	-keystore ${cacao_kg_jsse_secdir}/keystore > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${CREATION_CSR_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+	# Sign the agent certificate with the local CA
+    ${cacao_kg_certutil_cmd} \
+	-C \
+	-c cacao_ca \
+	-v 240 \
+	-a \
+	-m ${cacao_kg_agent_serialnumber} \
+	-i ${cacao_kg_jsse_secdir}/agent.crq \
+	-o ${cacao_kg_jsse_secdir}/agent.cert \
+	-d ${cacao_kg_localca_secdir} \
+	-f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${SIGNING_CSR_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+	
+	# Import trusted certificate authority in the keystore
+    ${PRINTF} "%s\n" ${cacao_kg_master_password} | ${cacao_kg_keytool_cmd} \
+	-import \
+	-noprompt \
+	-alias cacao_ca \
+	-file ${cacao_kg_localca_secdir}/localca.cert \
+	-keystore ${cacao_kg_jsse_secdir}/keystore > ${cacao_kg_tmp_out} 2>&1
+    
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${IMPORT_CSR_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+	# Import certificate reply
+    ${PRINTF} "%s\n%s\n" ${cacao_kg_master_password} ${cacao_kg_master_password} | \
+	${cacao_kg_keytool_cmd} \
+	-import \
+	-alias cacao_agent \
+	-file ${cacao_kg_jsse_secdir}/agent.cert \
+	-keystore ${cacao_kg_jsse_secdir}/keystore > ${cacao_kg_tmp_out} 2>&1
+
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${IMPORT_CERTIF_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+    
+	
+	# Remove the agent certificate request
+    ${RM} -f ${cacao_kg_jsse_secdir}/agent.crq 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_kg_jsse_secdir}/agent.crq"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi 
+    
+	# Remove trusted certificate authority from the keystore
+	# It was only here to be able to import the certificate reply
+	# Not removing the certificate is not a show-stopper
+        ${PRINTF} "%s\n" ${cacao_kg_master_password} | ${cacao_kg_keytool_cmd} \
+	-delete \
+	-alias cacao_ca \
+	-keystore ${cacao_kg_jsse_secdir}/keystore > ${cacao_kg_tmp_out} 2>&1
+
+	# Create the truststore containing the local CA public certificate
+	${cacao_kg_keytool_cmd} \
+		    -import \
+		    -alias cacao_ca \
+		    -keypass ${cacao_kg_trust_password} \
+		    -storepass ${cacao_kg_trust_password} \
+		    -file ${cacao_kg_localca_secdir}/localca.cert \
+		    -keystore ${cacao_kg_jsse_secdir}/truststore \
+		    -noprompt > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${CREATION_TRUST_STORE_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+	
+
+	# Create the directory for well-known clients (if necessary)
+	${MKDIR} -p ${cacao_kg_wellknown_secdir} 2>/dev/null
+	if [ $? -ne 0 ]
+	then 
+	    cacao_print_error_message ${CACAO_MSG_ERROR_DIR_CREATE} "${cacao_kg_wellknown_secdir}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+        fi
+
+	# Generate the well-known clients db files
+	${cacao_kg_certutil_cmd} \
+		    -N \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${CREATION_TRUST_STORE_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+
+	# Generate the seed file for generating well-known client keys
+	${ECHO}  ${cacao_kg_wellknown_keys_seed} > ${cacao_kg_tmp_nsseed} 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${SEED_GENERATION_FOR_WELLKNOWN_FAILED}" ""
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR} 
+        fi
+	
+	
+	# Generate the well-known client keys and original self-signed
+	# certificate 
+	# Cannot use -G because it does not support -z option
+
+	${cacao_kg_certutil_cmd} \
+		    -S \
+		    -n cacao_wellknown \
+		    -x \
+		    -k rsa \
+		    -g 1024 \
+		    -s "CN=${cacao_kg_dn_prefix}_wellknown" \
+		    -v 20 \
+		    -t "u,u,u" \
+		    -m ${cacao_kg_wellknown_serialnumber} \
+		    -z ${cacao_kg_tmp_nsseed} \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+	then
+	    print_keygen_error_message "${GENERATION_KEY_WELLKNOWN_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+	
+	# Now delete the self-signed certificate that we didn't want
+	${cacao_kg_certutil_cmd} \
+		    -D \
+		    -n cacao_wellknown \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${DELETION_SELF_SIGNED_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+	
+	# Generate the seed file for generating well-known CSR
+	${ECHO} ${cacao_kg_wellknown_csr_seed} > ${cacao_kg_tmp_nsseed} 2>/dev/null
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${SEED_GENERATION_FOR_WELLKNOWN_FAILED}" ""
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+	
+	# Generate a CSR for well-known clients
+	${cacao_kg_certutil_cmd} \
+		    -R \
+		    -n cacao_wellknown \
+		    -k rsa \
+		    -s "CN=${cacao_kg_dn_prefix}_wellknown" \
+		    -a \
+		    -z ${cacao_kg_tmp_nsseed} \
+		    -o ${cacao_kg_wellknown_secdir}/wellknown.crq \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${GENERATION_CSR_WELLKNOWN_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+
+	# Remove the seed file the script does not need anymore
+	${RM} -f ${cacao_kg_tmp_nsseed} 2>/dev/null
+	if [ $? -ne 0 ]
+        then
+	    cacao_print_error_message "${CANNOT_REMOVE_SECFILE}" "${cacao_kg_jsse_secdir}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+        fi
+	
+	# Sign the CSR with the local CA certificate
+	${cacao_kg_certutil_cmd} \
+		    -C \
+		    -c cacao_ca \
+		    -v 240 \
+		    -a \
+		    -m ${cacao_kg_wellknown_serialnumber} \
+		    -i ${cacao_kg_wellknown_secdir}/wellknown.crq \
+		    -o ${cacao_kg_wellknown_secdir}/wellknown.cert \
+		    -d ${cacao_kg_localca_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+		print_keygen_error_message "${SIGNING_CSR_WELLKNOWN_FAILED}" "${cacao_kg_tmp_out}"
+		umask ${current_umask}
+		return ${CACAO_CR_ERROR}
+	fi
+	
+	# Import the local CA certificate into the well-known security store
+	${cacao_kg_certutil_cmd} \
+		    -A \
+		    -n cacao_ca \
+		    -t "CT,CT,CT" \
+		    -a \
+		    -i ${cacao_kg_localca_secdir}/localca.cert \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${IMPORT_CA_CERTIF_WELLKOWN}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+		
+	# Promote the new certificate as the well-known client certificate
+	${cacao_kg_certutil_cmd} \
+		    -A \
+		    -n cacao_wellknown \
+		    -t "u,u,u" \
+		    -a \
+		    -i ${cacao_kg_wellknown_secdir}/wellknown.cert \
+		    -d ${cacao_kg_wellknown_secdir} \
+		    -f ${cacao_kg_tmp_password_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${IMPORT_CERTIF_REPLY_WELLKNOWN_FAILED}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+		
+	# Remove the wellknown CSR
+	# It was not an error in cacaoadm 1.0 to failed here
+	${RM} ${cacao_kg_wellknown_secdir}/wellknown.crq 2>/dev/null
+	
+	# Create the directory for unknown clients (if necessary)
+	${MKDIR} -p ${cacao_kg_unknown_secdir} 2>/dev/null
+
+	# Create the password file for unknown security store
+	tmp_unknown_passwd_file=${cacao_kg_unknown_secdir}/password
+	
+	cacao_make_protected_file ${tmp_unknown_passwd_file}
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${PASSWDS_FAILED}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	${ECHO} ${cacao_kg_unknown_password} > ${tmp_unknown_passwd_file}
+	
+	# Generate the unknown clients db files
+	${cacao_kg_certutil_cmd} \
+		    -N \
+		    -d ${cacao_kg_unknown_secdir} \
+		    -f ${tmp_unknown_passwd_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${UNKNOWN_CLIENT}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+
+	# Import the local CA certificate into the unknown security store
+	${cacao_kg_certutil_cmd} \
+		    -A \
+		    -n cacao_ca \
+		    -t "CT,CT,CT" \
+		    -a \
+		    -i ${cacao_kg_localca_secdir}/localca.cert \
+		    -d ${cacao_kg_unknown_secdir} \
+		    -f ${tmp_unknown_passwd_file} > ${cacao_kg_tmp_out} 2>&1
+
+	if [ $? -ne 0 ]
+        then
+	    print_keygen_error_message "${IMPORT_CA_UNKNOWN}" "${cacao_kg_tmp_out}"
+	    umask ${current_umask}
+	    return ${CACAO_CR_ERROR}
+	fi
+		
+		
+	# Remove the password file for unknown security store
+	# It was not an error in cacaoadm 1.0 to failed here
+	${RM} ${tmp_unknown_passwd_file} 2>/dev/null
+	
+	# Even if the mask is correct, every file created by certutil has a 
+	# restricted set of permissions. So enforce the permissions really required
+	# do ti in one shot: chmod will not stop if one file is missing
+	${CHMOD} ${CACAO_SECURITY_RT_MOD} ${cacao_kg_localca_files} \
+                                            ${cacao_kg_unknown_files} \
+					    ${cacao_kg_jsse_files} \
+	                                    ${cacao_kg_wellknown_files} 2>/dev/null
+	
+	if [ $? -ne 0 ]
+	then
+	    # It was not an error in cacaoadm 1.0 to failed here
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" 
+	fi 
+
+	${CHMOD} ${CACAO_SECURITY_RT_DIRECTORY_MOD} ${cacao_kg_jsse_secdir} \
+                                                      ${cacao_kg_nss_secdir} \
+						      ${cacao_kg_localca_secdir} \
+					              ${cacao_kg_unknown_secdir} \
+	                                              ${cacao_kg_wellknown_secdir} 2>/dev/null
+	
+	if [ $? -ne 0 ]
+	then
+	    # It was not an error in cacaoadm 1.0 to failed here
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" 
+	fi 
+	
+	
+	umask ${current_umask}
+	return ${CACAO_CR_SUCCESS}
+
+}
+#------------------------------------------------------------------------------
+# cacao_do_keys
+#
+# DESCRIPTION :
+# start key generation without nss
+#
+# NOTICE:
+#
+# PARAMETERS :
+# 
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_do_keys () {
+
+    current_umask=`umask`
+    
+    umask ${CACAO_SECURITY_RT_UMASK}
+
+    cacao_make_protected_file ${cacao_kg_tmp_out}
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Export the public certificate from this private key
+    ${PRINTF} "%s\n%s\n" ${cacao_kg_master_password} ${cacao_kg_master_password} | \
+	${cacao_kg_keytool_cmd} \
+	-export \
+	-alias cacao_agent \
+	-keystore ${cacao_kg_jsse_secdir}/keystore \
+	-rfc \
+	-file ${cacao_kg_jsse_secdir}/agent.cert > ${cacao_kg_tmp_out} 2>&1
+
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${EXPORT_CERTIF_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+
+	# Create the truststore from this public certificate
+        ${cacao_kg_keytool_cmd} \
+	-import \
+	-alias cacao_agent \
+	-keypass ${cacao_kg_trust_password} \
+	-storepass ${cacao_kg_trust_password} \
+	-file ${cacao_kg_jsse_secdir}/agent.cert \
+	-keystore ${cacao_kg_jsse_secdir}/truststore \
+	-noprompt > ${cacao_kg_tmp_out} 2>&1
+
+    if [ $? -ne 0 ]
+    then
+	print_keygen_error_message "${CREATION_TRUST_STORE_FAILED}" "${cacao_kg_tmp_out}"
+	umask ${current_umask}
+	return ${CACAO_CR_ERROR}
+    fi
+
+    umask ${current_umask}
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_key_without_nss
+#
+# DESCRIPTION :
+# key generation without nss
+#
+# PARAMETERS :
+# None
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_create_key_without_nss () {
+    
+    cr=${CACAO_CR_SUCCESS}
+    error_occured=${CACAO_FALSE}
+
+    #to be sure that we start with new files
+    cacao_clean_security_files
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    cacao_do_keys_init
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${KEY_GEN_INIT_FAILED}"
+	error_occured=${CACAO_TRUE}
+    fi
+    
+    if [ ${error_occured} -eq ${CACAO_FALSE} ]
+    then
+	 cacao_do_keys
+	 tmp_cr=$?
+	 if [ ${tmp_cr} -ne ${CACAO_CR_SUCCESS} ]
+	 then
+	     cr=${tmp_cr}
+	     error_occured=${CACAO_TRUE}
+	 fi
+    fi
+   
+    
+    if [ ${error_occured} -eq ${CACAO_TRUE} ]
+    then
+	#emergency cleanup
+	cacao_clean_security_files
+    fi
+
+    # Even if the mask is correct, every file created by certutil has a 
+    # restricted set of permissions. So enforce the permissions really required
+    # do it in one shot: chmod will not stop if one file is missing
+    ${CHMOD} ${CACAO_SECURITY_RT_MOD} ${cacao_kg_jsse_files}  2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	# It was not an error in cacaoadm 1.0 to failed here
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" 
+    fi 
+
+    ${CHMOD} ${CACAO_SECURITY_RT_DIRECTORY_MOD} ${cacao_kg_jsse_secdir} 2>/dev/null
+	
+    if [ $? -ne 0 ]
+    then
+	# It was not an error in cacaoadm 1.0 to failed here
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" 
+    fi 
+	
+    
+    return ${cr}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_key_with_nss
+#
+# DESCRIPTION :
+# key generation with nss
+#
+# PARAMETERS :
+# None
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_create_key_with_nss () {
+    cacao_kg_certutil_cmd=${cacao_nss_tools_home}/certutil
+    current_ld_path=${LD_LIBRARY_PATH}
+    
+    LD_LIBRARY_PATH=${cacao_nss_lib_home}:${LD_LIBRARY_PATH}
+    export LD_LIBRARY_PATH
+    
+    cr=${CACAO_CR_SUCCESS}
+    error_occured=${CACAO_FALSE}
+
+    #to be sure that we start with new files
+    cacao_clean_security_files
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	LD_LIBRARY_PATH=${current_ld_path}
+	export LD_LIBRARY_PATH
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_do_keys_init
+    tmp_cr=$?
+    if [ ${tmp_cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cr=${tmp_cr}
+	cacao_print_error_message "${KEY_GEN_INIT_FAILED}"
+	error_occured=${CACAO_TRUE}
+    fi
+    if [ ${error_occured} -eq ${CACAO_FALSE} ]
+    then
+	 cacao_nss_do_keys
+	 tmp_cr=$?
+	 if [ ${tmp_cr} -ne ${CACAO_CR_SUCCESS} ]
+	 then
+	     cr=${tmp_cr}
+	     error_occured=${CACAO_TRUE}
+	 fi
+    fi
+   
+    if [ ${error_occured} -eq ${CACAO_TRUE} ]
+    then
+	#emergency cleanup
+	cacao_clean_security_files
+    fi
+
+    if [ -f ${cacao_kg_tmp_nsseed} ]
+    then
+	${RM} -f ${cacao_kg_tmp_nsseed} 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CANNOT_REMOVE_SECFILE}" \
+		"${cacao_kg_tmp_nsseed}"
+	fi
+    fi
+    
+
+    LD_LIBRARY_PATH=${current_ld_path}
+    export LD_LIBRARY_PATH
+
+    return ${cr}
+}
+#------------------------------------------------------------------------------
+# cacao_generate_keys
+#
+# DESCRIPTION :
+#
+# NOTICE:
+# WARNING: use is responsible to call 'cacao_is_keys_ok()'
+#          before to check if key generation is needed
+# 
+#
+# PARAMETERS :
+# boolean flag to know if we use nss
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_generate_keys() {
+
+    have_to_use_nss=$1
+    output_dir=$2
+
+    if [ -z "${output_dir}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    cr=${CACAO_CR_SUCCESS}
+    error_occured=${CACAO_FALSE}
+    
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${cacao_kg_tmp_password_file}"
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${cacao_kg_tmp_nsseed}"
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${cacao_kg_tmp_out}"
+
+    current_pwd=`pwd`
+
+    # the security directory which will receive the keys must be present and safe
+    # we may come here because of corruption of keys so we need to regenerate. 
+    # -> check if directory is present and perform chmod on it
+
+    if [ -d ${output_dir} ]
+    then
+	_d_right=`cacao_get_file_string_right ${output_dir}`
+	if [ x${_d_right} != x${CACAO_SECURITY_DIR_RIGTH} ]
+	then
+	    ${CHMOD} ${CACAO_SECURITY_RT_DIRECTORY_MOD} ${output_dir} 2>/dev/null
+	    if [ $? -ne 0 ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${output_dir}"
+		return ${CACAO_CR_ERROR}
+	    fi
+	fi
+    else
+	cacao_print_error_message "${CACAO_MSG_ERROR_DIR_NOT_FOUND}" "${output_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cd ${output_dir} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CANNOT_CD_TO}" "${output_dir}"
+	return ${CACAO_CR_ERROR}
+    fi 
+
+    # most security files can be read by any user
+    current_umask=`umask`
+    umask ${CACAO_SECURITY_UMASK}
+
+    cacao_kg_keytool_cmd=${cacao_java_home}/bin/keytool
+    
+    #generate all required passwords
+    cacao_generate_randoms
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${PASSWDS_FAILED}"
+    	umask ${current_umask}
+    	cd ${current_pwd} 2>/dev/null
+    	return ${CACAO_CR_ERROR}
+    fi
+    
+    # first try with nss, if nss failed try the 'normal way'
+    
+    # at this stage all we know about dependencies are resolved
+    # cacao_core_find_nss already check existence of ${cacao_nss_tools_home}/certutil
+    
+    if [ ${error_occured} -eq ${CACAO_FALSE} ]
+    then
+	if [ ${have_to_use_nss} -eq ${CACAO_TRUE} ]
+	then
+	    cacao_create_key_with_nss
+	    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${KEY_GEN_FAILED_RETRY_WO_NSS}"
+		# give it a second try, trigger generation without nss
+		have_to_use_nss=${CACAO_FALSE}
+		error_occured=${CACAO_FALSE}
+	    fi
+	fi
+    fi
+    
+    if [ ${error_occured} -eq ${CACAO_FALSE} ]
+    then
+	if [ ${have_to_use_nss} -eq ${CACAO_FALSE} ]
+	then
+	    cacao_create_key_without_nss
+	    tmp_cr=$?
+	    if [ ${tmp_cr} -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${KEY_GEN_FAILED_RETRY_WO_NSS}"
+		error_occured=${CACAO_TRUE}
+		cr=${tmp_cr}
+	    fi
+	fi
+    fi
+
+    if [ ${error_occured} -eq ${CACAO_FALSE} ]
+    then
+	cacao_do_keys_fini
+	tmp_cr=$?
+	if [ ${tmp_cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cr=${tmp_cr}
+	    cacao_print_error_message "${KEY_GEN_FINI_FAILED}"
+	fi
+    fi
+    
+    #this file cannot be cleaned up inside cacao_clean_security_files function
+    # we use it several times and we may need to use it if generation without nss
+    # failed.
+    # plus cacao_do_keys_fini may failed and leave that file behind
+    # -> try to remove in any case
+    if [ -f ${cacao_kg_tmp_password_file} ]
+    then
+	${RM} -f ${cacao_kg_tmp_password_file} 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CANNOT_REMOVE_SECFILE}" \
+                                      "${cacao_kg_tmp_password_file}"
+	fi
+    fi
+    
+
+    umask ${current_umask}
+    cd ${current_pwd} 2>/dev/null
+    
+    return ${cr}
+
+}
+
+#------------------------------------------------------------------------------
+# print_keygen_error_message
+#
+# DESCRIPTION :
+# Prints a key generation error message on stdout and syslog
+#
+# PARAMETERS :
+# $1 the message summary
+# $2 the file containing key generation errors
+#
+# RETURN CODE:
+# none
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+print_keygen_error_message() {
+    msg=$1
+    file=$2
+    dbg_msg=""
+    if [ -f "${file}" ]
+    then
+         dbg_msg=`${CAT} ${file}`
+    fi
+
+    # get the localized prefix message
+    loc_msg=`cacao_get_localised_message "${msg}"`
+    # build the complete message
+    complete_msg="${loc_msg} ${dbg_msg}"
+
+    cacao_print_error_message "${complete_msg}"
+    cacao_print_syslog_error_message "${complete_msg}"
+}

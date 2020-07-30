@@ -1,0 +1,43 @@
+# @(#)20	1.4  src/cmdtext/usr/bin/hplj/font/SM7, cmdtext, cmdtext530 5/3/91 18:25:27
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/SM7 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Times-Roman, for HP LazerJet series II printer with K cartridge
+# Math7 symbol set
+# created 06/26/89, Interactive Systems Corporation
+name SM7
+
+special
+ligatures 0
+spacewidth 30
+charset
+û	18 3 49
+ü	18 3 51
+ý	18 3 50
+ô	24 3 64
+ÿ

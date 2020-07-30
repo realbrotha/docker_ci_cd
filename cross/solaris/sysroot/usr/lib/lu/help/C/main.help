@@ -1,0 +1,145 @@
+\f4Live Upgrade (Live Upgrade) Configuration Help\f1
+
+Using this screen you can configure a New Boot environment (New BE) for 
+your system.
+
+You need to select the devices and file system types for all directories
+of New Boot Environment. The configuration (file system layout) of the 
+Active Boot Environment (Active BE) can be used as a reference.
+
+The cursor can be moved using the UP, DOWN, RIGHT & LEFT arrow keys.
+
+Press the \f2Choices\f1 (F2) key to obtain the valid device and filesystem
+choices. If no valid free devices exist on your system, then please use 
+the \f2Slice\f1 (F4) key to create devices of size more than or equal to 
+the Recommended Min Size.
+
+\f4Please read the following HELP text for better understanding of the\f1
+\f4Live Upgrade configuration screen. \f1
+
+
+
+\f4Active Boot Environment\f1
+Note that the Active Boot Environment section of the screen lists only
+mount points which are considered "system" directories which currently
+reside on a separate file system. The configuration information in the
+Active BE portion of the screen cannot be changed.
+
+Other "non-system" directories which are mounted don't appear in the
+Active Boot Environment window, but they will be shared between all
+Boot Environments. For example, if /export/home is currently mounted on
+a separate file system, it will not appear in the Active Boot Environment
+window. However, /export/home will be automatically mounted when you boot
+to the New Boot Environment.
+
+By pressing \f2CONTROL-X\f1 key,  you can switch between the New Boot 
+Environment and Active Boot Environment windows of the display.
+
+\f4New Boot Environment\f1
+The New BE file system layout defaults to the configuration used by the
+Active BE. If the New BE file system layout is not acceptable, you can
+change configuration of the New BE using the \f2Merge\f1 and \f2Split\f1 keys.
+
+\f4Mount Point\f1
+The \f2Mount Point\f1 column specifies which directories will be mounted 
+as separate file systems in the New BE. At least one directory must be
+named: /.
+
+\f4Device\f1
+Upon determining the directory names which will be part of your New BE,
+you must associate a storage device with each mount point. Pressing
+\f2Choices\f1 shows a list of free devices of suitable size in a popup
+menu. Move the cursor to the device which should house the new file system
+and press "Enter" to make the selection.
+
+\f4FS Type\f1
+By default, the \f2FS Type\f1 in the New BE will be the same as the
+directory in the Active BE. If you would like to change the file system
+type, move the cursor to the \f2FS Type\f1 column and press \f2Choices\f1. 
+All file system types will be displayed and you should move the
+cursor to the desired choice and press "Enter" to make the selection.
+
+\f4Size\f1
+The \f2Size\f1 column is automatically filled when a device is selected.
+This field may not be edited.
+
+\f4Recommended Min Size\f1
+The Recommended Min Size field shows the minimum size required on a New
+BE directory (FileSystem), to hold the New BE contents in that directory.
+
+\f4Help\f1
+Pressing \f2Help\f1 will give a context sensitive help. \f2Help\f1 can be
+invoked from any sub-window of the configuration screen.
+
+\f4Choices\f1
+Pressing \f2Choices\f1 with the cursor in the Device field, will list 
+(in bold) all the free devices of size more than the Recommended Minsize
+of the Mount Point on which the cursor presently lies. If no devices of
+suitable size are available, then you can use \f2Slice\f1 to create the 
+free devices.
+
+Pressing \f2Choices\f1 with the cursor in the FS Type field will list all
+the available file system types.
+
+\f4Save+Exit\f1
+When you select the \f2Save+Exit\f1 command, you will exit this screen. 
+Immediately upon exiting, the New BE will be initialized (i.e. file 
+systems will be made on each of the named devices) and the contents of the 
+Active BE will be copied to the New BE.
+
+\f4Slice\f1
+From the configuration screen you may choose to run 'format', the
+system administration disk partitioning and maintenance utility
+(reference format(1M)). From there you will be allowed to configure 
+storage devices. Any devices configured via format which are also 
+regarded as "free" will be displayed when the \f2Choices\f1 command 
+is executed from the \f2Devices\f1 column.
+
+\f4SaveScrn\f1
+The \f2SaveScrn\f1 command will prompt you to name an output file. The
+information currently displayed on the configuration screen will be
+written to the named file as ascii text.
+
+\f4Abort\f1
+In the main menu choosing \f2Abort\f1 will cause the configuration screen 
+to exit. None of the configuration will be saved, nor will any files or file 
+systems be altered when the \f2Abort\f1 command is executed.
+But in any other sub-window of the configuration screen, choosing 
+\f2Abort\f1 will bring the control back to the main menu.
+
+\f4Schd+Exit\f1
+When you select the \f2Schd+Exit\f1 command, you will be asked to enter 
+a time at which the New BE should be initialized and populated. The
+time should be the same format as the "at" (reference at(1) man page) 
+command expects.
+
+Upon selecting a time, you will exit the configuration screen and a job
+will be scheduled to initialize the New BE (i.e. file systems will be
+made on each of the named devices) and to copy the contents of the
+Active BE to the New BE.
+
+\f4Split\f1
+The \f2Split\f1 command is used to create a mount point in the New BE.
+When you press \f2Split\f1, you will be asked for the new mount point name.
+Upon verifying the name, a new line will be added to the New BE section. 
+You should assign a device for the mount point, and also specify the file
+system type.
+
+\f4NOTE:\f1 When splitting a directory into multiple mount points,
+existing hard links will not be maintained across file systems.  For
+example, if /usr/stuff1/foo is hard linked to /usr/stuff2/foo, and
+/usr/stuff1 and /usr/stuff2 are split into separate file systems, the
+link between the files will no longer exist.
+
+\f4Merge\f1
+The \f2Merge\f1 command is used to delete a mount point in the New BE. 
+When you press \f2Merge\f1, the \f4Mount Point\f1 on which the cursor lies
+will be merged into its parent directory. That is the contents of the 
+selected directory will become part of the "parent" file system. Before 
+doing the \f2Merge\f1 a confirmation will be asked. 
+
+\f4Clear\f1
+The \f2Clear\f1 command is used to unselect a device choice for a mount
+point on which the cursor lies in the new BE. After Clear, the device that 
+is unselected will be shown in choices. \f2Clear\f1 command can typically
+be used to shuffle the devices among the various mount points.

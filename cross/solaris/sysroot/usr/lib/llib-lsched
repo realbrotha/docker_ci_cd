@@ -1,0 +1,16 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 1997-2003 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lsched	1.3	03/05/15 SMI"
+
+#include <schedctl.h>
+
+/* schedctl.c */
+schedctl_t	*schedctl_init(void);
+schedctl_t	*schedctl_lookup(void);
+void		schedctl_exit(void);

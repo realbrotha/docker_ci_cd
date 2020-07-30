@@ -1,0 +1,16 @@
+#
+# Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#pragma ident	"@(#)tswtclmt.types	1.1	02/02/26 SMI"
+
+fmt_version 1.0
+mod_version 1.0
+
+params	red_action_name		action
+params	yellow_action_name	action
+params	green_action_name	action
+params	committed_rate		uint32
+params	peak_rate		uint32
+params	window			uint32

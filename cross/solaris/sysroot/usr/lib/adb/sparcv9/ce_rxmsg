@@ -1,0 +1,9 @@
+.="ce receive message structure"n
++/"lock"nK
++/"in_use"nX
++/"ref_cnt"18t"freeb"nX18t2K
++/"old_frtn_t"18t"old_frtn_t1"n2X
++/"dma_physaddr"n4X
+.+18/"bytes_arrived"nK
++/"*buffer"18t"size"18t"pri"nK18tK18tX
+.+18/"rx_message"nK

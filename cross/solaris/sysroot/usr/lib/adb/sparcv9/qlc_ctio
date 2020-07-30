@@ -1,0 +1,9 @@
+./"entry_type"8t"entry_count"8t"sys_define"nB8tB8tB
++/"entry_status"8t"handle_l_l"8t"handle_l_h"nB8tB8tB
++/"handle_h"8t"reserved"8t"initiator_id"nx8tB8tB
++/"rx_id"8t"flags_l"8t"flags_h"nxBB
++/"status_l"8t"status_h"8t"timeout_l"nB8tB8tB
++/"timeout_h"8t"dseg_count_l"8t"dseg_count_h"nB8tB8tB
++/"relative_offset"16t"residual_transfer_length"8tnXX16t
++/"reserved_1"8t4B
++/"type"16tnX

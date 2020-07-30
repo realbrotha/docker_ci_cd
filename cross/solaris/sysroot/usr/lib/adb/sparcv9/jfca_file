@@ -1,0 +1,12 @@
+.>X
+.=n"JniFile:"16tK
+<X+0=""
+="file lock"24tJ
+<X+0t8=""
+="file bfr handle list"24tJ
+<X+0t72=""
+/"curr bfr handle ptr"24tJ
+<X+0t80=""
++/"used data len"16t"total len"16t"start offset"nUUU
++/"curr file mem offset"8t"curr bfr offset"16t"lock_enabled"nU8tU16tU
+<X+0t104=""

@@ -1,0 +1,179 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)luupdall.sh 5.8     03/03/31 SMI"
+#
+# USAGE:        luupdall file1 [file2 ...]
+# FUNCTION:     Copies input file(s) to all complete BEs.
+# INPUT:        none
+# OUTPUT:       none
+# DEV:          Satish
+# NOTES:	All the input files should be on ROOT filesystem.
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+usage()
+{
+    echo "Usage:    $PROG file1 [file2 ...]" >& 2
+}
+
+# Ignore all the interrupts. This ensures that all /tmp files are cleared up.
+trap "" 1 2 3 15
+
+PROG=`/bin/basename $0`
+TMP_MNTPT=/tmp/.alt.luupdall.$$
+MNTPT=$TMP_MNTPT
+ERR_MSG_LOG=/tmp/luupdall.err
+
+IN_FILES=$*
+
+[ -s /etc/default/lu ] && . /etc/default/lu
+LUBIN=${LUBIN:=/usr/lib/lu}
+. $LUBIN/lulib
+
+if [ $# -eq 0 ]
+then
+    usage
+    exit 1
+fi
+
+# validate input files
+for FILE in $IN_FILES
+do
+    if [ ! -r "$FILE" -o -d "$FILE" ]; then
+	echo "$PROG: "`gettext "ERROR: file not readable:"`" $FILE" >&2
+	exit 2
+    fi
+done
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f ${LU_LUTAB_FILE} -o ! -s ${LU_LUTAB_FILE} ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No boot environments are configured on this system.'`"
+  exit 1
+fi
+
+# determine the active BE of the system.
+curr_be=`lulib_lucurr` 
+if [ $? -ne 0 ]
+then
+    echo "$PROG: "`gettext "ERROR: Could not get the name of current BE."` >&2
+    /bin/rm -f $ERR_MSG_LOG
+    exit 2
+fi
+
+# for all the valid and complete BEs mount the root and copy the input files
+$LUBIN/lunames_get | 
+while read be_name
+do
+
+    # if the BE is active, then no need of copying.
+    [ "$be_name" = "$curr_be" ] && continue
+
+    # determine the status of the target BE.
+    status="`${LUETCBIN}/ludo get_be_status_from_be_name \"$be_name\"`"
+    if [ $? -ne 0 ] ; then
+	echo "\n$PROG: "`gettext "ERROR: Cannot get the status of BE:"`"\"$be_name\"." >&2
+	continue
+    fi
+
+    # if the status of this BE is not 'C' then we should not copy.
+    [ "$status" != 'C' ] && continue
+
+    # get the ROOT slice for the BE.
+    # if the root slice for the BE cannot be obtained then continue.
+    RSLICE="`${LUETCBIN}/ludo get_root_slice_from_be_name \"${be_name}\"`"
+    if [ "$?" -ne '0' -o -z "$RSLICE" ] ; then
+	echo "\n$PROG: "`gettext "WARNING: "``gettext "the ROOT slice could not be determined for BE:"`" \"$be_name\"." >&2
+	continue
+    fi
+
+    # continue if the root device node for BE does not exist.
+    if [ ! -b "$RSLICE" ] ; then
+	echo "$PROG: "`gettext "WARNING: "`"\"$be_name\": "`gettext "cannot access the ROOT device"` >&2
+	continue
+    fi
+
+    # determine the filesystem type of the root device of be
+    R_FST="`lulib_fstyp $RSLICE`"
+    if [ -z "$R_FST" ] ; then
+	echo "$PROG: "`gettext "WARNING: Could not determine the Root FStype for BE:"`"\"$be_name\"." >&2
+	continue
+    fi
+
+    # Check to see if the file system is already mounted. If it is, we
+    # will not mount it.
+    MOUNTED="`${LUETCBIN}/ludo get_mntpt_from_root_slice \"${RSLICE}\" 2>/dev/null`"
+    if [ "$?" -eq '0' -a -n "${MOUNTED}" ] ; then
+	MNTPT=$MOUNTED
+	UMOUNT=NO
+    else
+	UMOUNT=YES
+	# Check whether the mountpoint is busy.
+	BAD_DEV="`${LUETCBIN}/ludo get_root_slice_from_mntpt \"${MNTPT}\" 2>/dev/null`"
+	if [ "$?" -eq '0' ] ; then
+	    echo "$PROG: "`gettext "ERROR: "``gettext "mount point is already in use."` >&2
+	    /bin/rm -f $ERR_MSG_LOG
+	    exit 2
+	fi
+
+	# If the mountpoint does not exist then create it.
+	[ ! -d "$MNTPT" ] && /bin/mkdir -p "$MNTPT"
+
+	/usr/sbin/mount -F $R_FST $RSLICE $MNTPT 2>$ERR_MSG_LOG
+	if [ $? -ne 0 ]
+	then
+	     echo "$PROG: "`gettext "WARNING: Could not mount the Root Slice of BE:"`"\"$be_name\"." >&2
+	    [ -s "$ERR_MSG_LOG" ] && cat $ERR_MSG_LOG >& 2
+	    continue
+	fi
+			
+    fi
+
+    # Copy the input file(s).
+    for FILE in $IN_FILES
+    do
+	/bin/cp -p $FILE ${MNTPT}/${FILE}
+	if [ $? -ne 0 ]; then
+	    echo "\n$PROG: "`gettext "WARNING: "`"$FILE "`gettext "copy failed for the BE:"`"\"$be_name\"." >&2
+	fi
+    done
+
+    # Unmount the root of the BE.
+    if [ "$UMOUNT" != "NO" ]
+    then
+	# sync data to storage medium before unmounting
+	/bin/sync
+	# force log to be flushed before unmounting
+	if [ -x "/usr/sbin/lockfs" ] ; then
+		/usr/sbin/lockfs -f "${MNTPT}" 1>/dev/null 2>&1
+	fi
+	# unmount the root of the BE
+	/usr/sbin/umount "${MNTPT}"
+	ret=$?
+	if [ $ret -ne 0 ] ; then
+		/usr/sbin/umount -f "${MNTPT}"
+		ret=$?
+	fi
+	if [ $? -ne 0 ] ; then
+	    echo "$PROG: "`gettext "ERROR: Could not umount the Root Slice of BE:"`"\"$be_name\"." >&2
+	    /bin/rm -f $ERR_MSG_LOG
+	    exit 2
+	fi
+    else
+    	MNTPT=$TMP_MNTPT
+    fi
+
+done
+
+[ $? -ne 0 ] && exit 1
+/bin/rm -f $ERR_MSG_LOG
+[ -d "$MNTPT" ] && /bin/rmdir $MNTPT
+exit 0

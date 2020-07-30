@@ -1,0 +1,82 @@
+# @(#)36	1.5  src/cmdtext/usr/bin/ibm3816/font/S1, cmdtext, cmdtext530 7/19/91 13:49:55
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3816/font/S1 1.5 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S1
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+bu	24 2 047	bullet    
+ci	24 0 051	circle    
+õ	24 2 065	section symbol   
+sc	"
+ua	24 2 070	up arrow   
+da	24 2 071	down    
+->	24 2 072	right arrow   
+rh	"
+<-	24 2 073	left arrow   
+lh	"
+î	24 2 0243	overbar    
+rn	24 2 "\xe2\xff\xf9\xe3\xff\xfe\001\243\xe2\xff\xf5\001\243\xe3%\x00\x02\xe2\xff\xfb"
+*a	24 2 0274	alpha
+*G	24 2 0275	GAMMA
+*p  24 2 0276	pi
+*S	24 2 0277	SIGMA
+*s	24 2 0300	sigma
+*t	24 2 0301	tau
+*F	24 2 0302	PHI
+*H	24 2 0303	THETA
+*W	24 2 0304	OMEGA
+*d	24 2 0305	delta
+*f  24 2 0307	phi
+*e	24 2 0310	epsilon
+*D	24 2 0323	DELTA
+*L  24 2 0324	LAMBDA
+*C  24 2 0325	XI
+*P  24 2 0326	PI
+*Q  24 2 0327	PSI
+*b  24 2 0337	beta
+*g	24 2 0340	gamma
+*z	24 2 0341	zeta
+*y	24 2 0342	eta
+*h	24 2 0343	theta
+*i  24 2 0344   iota
+*l  24 2 0346   lambda
+*u	24 2 0347	upsilon
+*c	24 2 0350	xi
+*r	24 2 0351	rho
+*n  24 2 0364	nu
+*x	24 2 0365	chi
+*q  24 2 0366	psi
+*w  24 2 0367	omega
+

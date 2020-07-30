@@ -1,0 +1,39 @@
+# @(#)97        1.4  src/bos/usr/lib/pios/hpJetDirect.attach, cmdpios, bos530 3/14/94 18:12:03
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/pios/hpJetDirect.attach 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDPIOS
+#
+#   FUNCTIONS:#		
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1993
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+	# JetDirect attachment
+	description	=	piobe.cat,4,22;HP JetDirect Printer Attached to Local System
+	seq_num		=	5
+	add_queue	=	ps_not_installed_error_ghostName
+	add_printer     =   	ps_makhp_prt
+	submit_job	=	ps_qprt_fileName
+	change_queue	=	ps_chpq_attachName
+	change_filters	=	ps_pqfilters_ghostName
+	remove_queue	=	ps_rmpq_ghostname_jetdirect

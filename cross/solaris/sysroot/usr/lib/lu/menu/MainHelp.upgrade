@@ -1,0 +1,58 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.upgrade 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Perform an upgrade on an alternate boot environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu selection allows you to select an upgrade method, an alternate boot environment, and the media device for the purpose of upgrading software on an alternate boot environment."`"\n"\
+`gettext "If the chosen media is the Solaris foundation media, then the user is allowed to perform a full Solaris Operating System upgrade."`\
+`gettext "If the media is not the Solaris foundation but is in the standard Solaris media format, the user can select an installation program from the root directory of the media. Any executable install program could be selected from the root directory of the media. If no install program is available, the user may choose to enter a shell prompt on the target alternate boot environment where they may, manually, execute any desired install utilities (like pkgadd, pkgrm, patchadd, patchrm)."`"\n"\
+`gettext "If the media is not in the Standard Solaris format, the user is expected to provide a full path to the pkgadd packages. Live Upgrade will then create a shell prompt on the target alternate boot environment where the user may, manually, execute any desired install utilities (like pkgadd, pkgrm, patchadd, patchrm)."`"\n"\
+`gettext "If a Solaris Operating System upgrade is selected and a Live Upgrade create/copy operation is pending (scheduled), the upgrade will be scheduled to occur after the Live Upgrade create/copy is complete. A scheduled create/copy and upgrade may be desired if the user wishes to perform the Live Upgrade processes during off-hours when system use is at a minimum."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

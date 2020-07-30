@@ -1,0 +1,13 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+idldir=${prefix}/share/idl/bonobo-2.0
+idlinclude=${prefix}/share/idl/bonobo-2.0 ${prefix}/share/idl/bonobo-activation-2.0
+
+Name: libbonobo
+Description: libbonobo
+Requires: glib-2.0 ORBit-2.0 bonobo-activation-2.0
+Version: 2.6.1
+Libs: -L${libdir} -lbonobo-2
+Cflags: -I${includedir}/libbonobo-2.0

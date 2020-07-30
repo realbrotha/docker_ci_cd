@@ -1,0 +1,244 @@
+<oaf_info>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_Viewer_Factory" type="exe" 
+	    location="/usr/sfw/lib/gthumb-image-viewer">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Image Viewer Factory"/>
+
+	<oaf_attribute name="description" type="string" 
+		       value="Factory for the GThumb image viewer control"/>
+</oaf_server>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_Viewer" type="factory" 
+	    location="OAFIID:GNOME_GThumb_Viewer_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Persist:1.0"/>
+		<item value="IDL:Bonobo/PersistStream:1.0"/>
+		<item value="IDL:Bonobo/PropertyBag:1.0"/>
+		<item value="IDL:Bonobo/Zoomable:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Image Viewer control"/>
+	<oaf_attribute name="description" type="string" 
+		       value="GThumb Image Viewer control"/>
+
+	<oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+                <item value="image/bmp"/>
+		<item value="image/jpeg"/>
+		<item value="image/gif"/>
+		<item value="image/png"/>
+		<item value="image/tiff"/>
+                <item value="image/x-bmp"/>
+                <item value="image/x-cmu-raster"/>
+      	        <item value="image/x-ico"/>
+                <item value="image/x-png"/>
+                <item value="image/x-portable-anymap"/>
+                <item value="image/x-portable-bitmap"/>
+                <item value="image/x-portable-graymap"/>
+                <item value="image/x-portable-pixmap"/>
+                <item value="image/x-tga"/>
+                <item value="image/x-xpixmap"/>
+                <item value="image/xpm"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="nautilus:view_as_name" type="string"
+		       value="GThumb Image"/>
+	<oaf_attribute name="nautilus:view_as_name-am" type="string"
+		       value="የGThumb ምስል"/>
+	<oaf_attribute name="nautilus:view_as_name-ca" type="string"
+		       value="Imatge del GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-cs" type="string"
+		       value="Obrázek gThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-da" type="string"
+		       value="GThumb-billede"/>
+	<oaf_attribute name="nautilus:view_as_name-de" type="string"
+		       value="GThumb-Bild"/>
+	<oaf_attribute name="nautilus:view_as_name-en_GB" type="string"
+		       value="GThumb Image"/>
+	<oaf_attribute name="nautilus:view_as_name-es" type="string"
+		       value="Imagen GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-fr" type="string"
+		       value="Image GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-ga" type="string"
+		       value="Íomha GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-hr" type="string"
+		       value="GThumb slika"/>
+	<oaf_attribute name="nautilus:view_as_name-hu" type="string"
+		       value="GThumb kép"/>
+	<oaf_attribute name="nautilus:view_as_name-it" type="string"
+		       value="Immagine gThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-ja" type="string"
+		       value="GThumb 画像"/>
+	<oaf_attribute name="nautilus:view_as_name-ko" type="string"
+		       value="GThumb 이미지"/>
+	<oaf_attribute name="nautilus:view_as_name-lv" type="string"
+		       value="GThumb Attēls"/>
+	<oaf_attribute name="nautilus:view_as_name-mk" type="string"
+		       value="GThumb слика"/>
+	<oaf_attribute name="nautilus:view_as_name-ms" type="string"
+		       value="Imej GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-nl" type="string"
+		       value="GThumb afbeelding"/>
+	<oaf_attribute name="nautilus:view_as_name-no" type="string"
+		       value="GThumb-bilde"/>
+	<oaf_attribute name="nautilus:view_as_name-pl" type="string"
+		       value="Obraz GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-pt" type="string"
+		       value="Imagem GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-pt_BR" type="string"
+		       value="Imagem GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-ru" type="string"
+		       value="GThumb Image"/>
+	<oaf_attribute name="nautilus:view_as_name-sr" type="string"
+		       value="GThumb слика"/>
+	<oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string"
+		       value="GThumb slika"/>
+	<oaf_attribute name="nautilus:view_as_name-sv" type="string"
+		       value="GThumb-bild"/>
+	<oaf_attribute name="nautilus:view_as_name-uk" type="string"
+		       value="Зображення GThumb"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_CN" type="string"
+		       value="GThumb 图像"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_HK" type="string"
+		       value="GThumb 圖像"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_TW" type="string"
+		       value="GThumb 圖像"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string"
+		       value="View with GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-am" type="string"
+		       value="በGThumb አሳይ"/>
+	<oaf_attribute name="nautilus:view_as_label-ca" type="string"
+		       value="Visualitza amb el GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-cs" type="string"
+		       value="Prohlížet aplikací gThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-da" type="string"
+		       value="Vís med GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-de" type="string"
+		       value="GThumb-Ansicht"/>
+	<oaf_attribute name="nautilus:view_as_label-en_GB" type="string"
+		       value="View with GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-es" type="string"
+		       value="Ver con GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-fr" type="string"
+		       value="Afficher avec GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-ga" type="string"
+		       value="Feach ar GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-hu" type="string"
+		       value="Megtekintés a GThumbbal"/>
+	<oaf_attribute name="nautilus:view_as_label-it" type="string"
+		       value="Mostra con GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-ja" type="string"
+		       value="GThumb で表示"/>
+	<oaf_attribute name="nautilus:view_as_label-ko" type="string"
+		       value="GThumb로 보기"/>
+	<oaf_attribute name="nautilus:view_as_label-lv" type="string"
+		       value="Skatīt ar GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-mk" type="string"
+		       value="Види со GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-ms" type="string"
+		       value="Lihat dengan GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-nl" type="string"
+		       value="Weergeven met GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-no" type="string"
+		       value="Vis med GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-pl" type="string"
+		       value="Wyświetl przy użyciu GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-pt" type="string"
+		       value="Ver com GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-pt_BR" type="string"
+		       value="Ver com GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-ru" type="string"
+		       value="Просмотр с помощью gThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-sr" type="string"
+		       value="Погледати са GThumb-ом"/>
+	<oaf_attribute name="nautilus:view_as_label-sr@Latn" type="string"
+		       value="Pogledati sa GThumb-om"/>
+	<oaf_attribute name="nautilus:view_as_label-sv" type="string"
+		       value="Visa med GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-uk" type="string"
+		       value="Переглянути за допомогою GThumb"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_CN" type="string"
+		       value="以 GThumb 查看"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_HK" type="string"
+		       value="以 GThumb 方式顯示"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_TW" type="string"
+		       value="以 GThumb 方式顯示"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string"
+		       value="GThumb Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-am" type="string"
+		       value="የGThumb ተመልካች"/>
+	<oaf_attribute name="nautilus:viewer_label-ca" type="string"
+		       value="Visualitzador del GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-cs" type="string"
+		       value="Prohlížeč gThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-da" type="string"
+		       value="Gthumb-fremviser"/>
+	<oaf_attribute name="nautilus:viewer_label-de" type="string"
+		       value="GThumb-Bildansicht"/>
+	<oaf_attribute name="nautilus:viewer_label-en_GB" type="string"
+		       value="GThumb Viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-es" type="string"
+		       value="Visor GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-fr" type="string"
+		       value="Visualiseur GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-ga" type="string"
+		       value="Amharcóir GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-hr" type="string"
+		       value="GHtumb preglednik"/>
+	<oaf_attribute name="nautilus:viewer_label-hu" type="string"
+		       value="Gthumb megjelenítő"/>
+	<oaf_attribute name="nautilus:viewer_label-it" type="string"
+		       value="Visualizzatore gThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-ja" type="string"
+		       value="GThumb ビューア"/>
+	<oaf_attribute name="nautilus:viewer_label-ko" type="string"
+		       value="GThumb 뷰어"/>
+	<oaf_attribute name="nautilus:viewer_label-lv" type="string"
+		       value="GThumb Skatītājs"/>
+	<oaf_attribute name="nautilus:viewer_label-mk" type="string"
+		       value="GThumb гледач"/>
+	<oaf_attribute name="nautilus:viewer_label-ms" type="string"
+		       value="Pelihat GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-nl" type="string"
+		       value="GThumb viewer"/>
+	<oaf_attribute name="nautilus:viewer_label-no" type="string"
+		       value="GThumb-visning"/>
+	<oaf_attribute name="nautilus:viewer_label-pl" type="string"
+		       value="Przeglądarka GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-pt" type="string"
+		       value="Visualizador GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-pt_BR" type="string"
+		       value="Visualizador"/>
+	<oaf_attribute name="nautilus:viewer_label-ru" type="string"
+		       value="Просмотрщик gThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-sr" type="string"
+		       value="GThumb прегледач"/>
+	<oaf_attribute name="nautilus:viewer_label-sr@Latn" type="string"
+		       value="GThumb pregledač"/>
+	<oaf_attribute name="nautilus:viewer_label-sv" type="string"
+		       value="Gthumb-visare"/>
+	<oaf_attribute name="nautilus:viewer_label-uk" type="string"
+		       value="Переглядач GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_CN" type="string"
+		       value="GThumb 图像浏览器"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_HK" type="string"
+		       value="GThumb 圖像顯示模式"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_TW" type="string"
+		       value="GThumb 圖像顯示模式"/>
+</oaf_server>
+
+
+</oaf_info>

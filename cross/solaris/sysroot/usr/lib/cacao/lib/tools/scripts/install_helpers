@@ -1,0 +1,426 @@
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.11.2.1 $ SMI"
+#
+
+
+# script functions list:
+#
+# cacao_create_core_instances : create core defaults instances
+# cacao_do_sys_config          : create core default instances and 
+#                                configure the startup management for all instances
+# cacao_create_install_properties_file : Create an install properties file and
+#                                        write into it an install id
+# cacao_do_sys_unconfig        : stop all the instances and unconfigure the startup management
+# cacao_mark_as_configured     : mark cacao as configured 
+# cacao_mark_as_unconfigured   : mark cacao as unconfigured
+# cacao_is_install_configured          : tell if cacao is configured or not
+
+
+#------------------------------------------------------------------------------
+# cacao_mark_as_unconfigured
+#
+# DESCRIPTION :
+# mark cacao as configured (touch the configured file)
+# 
+# PARAMETERS :
+# none
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_mark_as_configured() {
+    if [ ! -f "${cacao_configured_file}" ]
+    then
+        ${TOUCH} ${cacao_configured_file} 2>/dev/null
+        if [ ${?} -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_mark_as_unconfigured
+#
+# DESCRIPTION :
+# mark cacao as unconfigured (remove configured file)
+# 
+# PARAMETERS :
+# none
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_mark_as_unconfigured() {
+     if [ -f "${cacao_configured_file}" ]
+     then
+        ${RM} -f ${cacao_configured_file}
+        if [ ${?} -ne 0 ]
+        then
+            return ${CACAO_CR_ERROR}
+        fi
+     fi
+     return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_install_configured
+#
+# DESCRIPTION :
+# tells if cacao as configured (check presence of  the configured file)
+# 
+# PARAMETERS :
+# none
+# 
+# RETURN CODE: 
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_install_configured() {
+   if [ -f "${cacao_configured_file}" ]
+   then
+       return ${CACAO_TRUE}
+   else
+       return ${CACAO_FALSE}
+   fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_update_java_flags
+#
+# DESCRIPTION :
+# modify a java flag inside cacao.properties:
+# - add -Dcom.sun.cacao.debug to java.debug.flags if not already set
+# See defects 6461406
+#
+# PARAMETERS :
+# $1: Cacao instance name
+# $2: property key
+# $3: flag name, like file.encoding or com.sun.cacao.debug
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_update_java_flags() {
+
+    _instance="${1}"
+    _key="${2}"
+
+    # Example: -Dcom.sun.cacao.debug
+    _pattern="\-D${3}"
+    _flag="-D${3}"
+
+    _file="${cacao_etc_instances_dir}/${_instance}/private/cacao.properties"
+    _old_value="`cacao_get_property ${_key} ${_file}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Don't duplicate if flag already set
+    ${ECHO} "${_old_value}" | ${GREP} "${_pattern}" >/dev/null 2>&1
+    if [ ${?} -eq 0 ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Append flag
+    _new_value="${_old_value} ${_flag}"
+    cacao_set_property_to_file "${_file}" "${_key}" "${_new_value}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    cacao_print_syslog_notice_message "${NOTICE_UPDATED_CONF}" "${_i}" \
+        "${_key}" "${_old_value}" "${_new_value}"
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_do_sys_config
+#
+# DESCRIPTION :
+# create the default core instances if needed.
+# sys config all the startup management when unconfigured (.configured file
+# not present) and mark it as configured (.config file present). Implementation
+# function
+# 
+# PARAMETERS :
+# None
+# 
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_do_sys_config() {
+
+    # take admin lock
+    cacao_lock ${cacao_admin_lock_file}
+    lock_rc=$?
+    if [ ${lock_rc} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_LOCK}"
+	cacao_print_error_message "${CACAO_LOCK2}" "${cacao_admin_lock_file}"
+	cacao_exit ${lock_cr}
+    fi  
+
+    # if already configured returns
+    cacao_is_install_configured
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+        cacao_unlock
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # migrate already existing instances if any
+    _instances_list="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ ${?} -eq 0 ] && [ -n "${_instances_list}" ]
+    then
+        for _i in ${_instances_list}
+        do
+
+            # Do nothing if properties file doesn't exist
+            _file="${cacao_etc_instances_dir}/${_i}/private/cacao.properties"
+            if [ ! -f "${_file}" ]
+            then
+                continue
+            fi
+
+            # Add Cacao java flags is not already specified
+            cacao_update_java_flags "${_i}" "${CACAO_JAVA_DEBUG_FLAGS_KEY}" \
+                "com.sun.cacao.debug"
+            if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+            then
+                return ${CACAO_CR_ERROR}
+            fi
+        done
+    fi
+
+    # create the default instances
+    cacao_create_core_instances ${cacao_etc_instances_dir}
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Compute a unique name for startup resources
+    cacao_unique_name="`cacao_compute_unique_name`"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+            return ${CACAO_CR_ERROR} 
+    fi
+
+    # if we are in non-root install mode
+    # do not try install startup config
+    cacao_is_startup_action_allowed
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+        # configure startup for the instances
+	cacao_create_instance_startup
+	if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+        then
+            # Rollback
+	    cacao_delete_startup
+	    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+            then
+		return ${CACAO_CR_ERROR} 
+	    fi
+	fi
+    fi
+
+    # Store the install id
+    cacao_create_install_properties_file
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_delete_startup
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_mark_as_configured
+
+    #unlock
+    cacao_unlock
+    
+    return ${cr_res}
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_install_properties_file
+#
+# DESCRIPTION :
+# Create an install properties file and write into it an install id
+# 
+# PARAMETERS :
+# None
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_create_install_properties_file() {
+
+    ${TOUCH} ${cacao_install_properties_file} 2>/dev/null
+    if [ ${?} -ne 0 ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_TOUCH}" ${cacao_install_properties_file}
+        return ${CACAO_CR_ERROR}
+    fi
+    ${ECHO} "${CACAO_INSTALL_ID_KEY}=${cacao_unique_name}" >${cacao_install_properties_file} 2>/dev/null
+    if [ ${?} -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_sys_unconfig
+#
+# DESCRIPTION :
+# stop all the instances and 
+# unsys config all the startup management  and mark it as not configured 
+# (.config file removed). Implementation function
+# 
+# PARAMETERS :
+# None
+# 
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_do_sys_unconfig() {
+
+    # take admin lock
+    cacao_lock ${cacao_admin_lock_file}
+    lock_rc=$?
+    if [ ${lock_rc} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_LOCK}"
+	cacao_print_error_message "${CACAO_LOCK2}" "${cacao_admin_lock_file}"
+	cacao_exit ${lock_cr}
+    fi  
+   
+    #stop the instances
+    cr_res=${CACAO_CR_SUCCESS}
+    instances="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ ${?} -ne 0 ]
+    then
+        cr_res=${CACAO_CR_ERROR}
+    fi
+    for i in ${instances}
+    do
+        cacao_is_embedded_instance ${i}
+        # don't stop embedded stuff
+        if [ ${?} -eq ${CACAO_FALSE} ]
+        then
+            ${cacao_rt_dir}/bin/cacaoadm stop -i ${i}
+            if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+            then
+                cr_res=${CACAO_CR_ERROR}
+            fi
+        fi
+    done
+    
+    # if we are in non-root install mode
+    # do not try to remove startup config
+    cacao_is_startup_action_allowed
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+        # delete the startup stuff
+	cacao_delete_startup
+	if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cr_res=${CACAO_CR_ERROR}
+	fi
+    fi
+
+    # Clear install id property (even in case of error)
+    ${RM} -f ${cacao_install_properties_file} 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+        cr_res=${CACAO_CR_ERROR} 
+    fi
+    
+    # set unconfigured state (even in case of error for the moment)
+    cacao_mark_as_unconfigured
+  
+    cacao_unlock
+
+    return ${cr_res}
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_core_instances
+#
+# DESCRIPTION :
+# create core defaults instances
+# looks for ${cacao_tools_dir}/instance_definition_xx.cfg files
+# and creates associated instances.
+#
+# PARAMETERS :
+# none
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_create_core_instances() {
+
+    _final_rc=${CACAO_CR_SUCCESS}
+
+    for inst_cfg in ${cacao_tools_dir}/instance_definition_*.cfg
+    do
+      instance_name=`${BASENAME} ${inst_cfg} .cfg | ${CUT} -s -d_ -f3`
+      if [ -n "${instance_name}" ]
+      then
+	  cacao_is_instance_exists "${instance_name}"
+	  if [ ${?} -eq ${CACAO_FALSE} ]
+	  then
+            cacao_do_create_instance ${instance_name} ${CACAO_FALSE_VALUE}
+             _final_rc=$?
+            if [ ${_final_rc} -ne ${CACAO_CR_SUCCESS} ]
+            then
+	      #even if error, go on for others core ones
+	      cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_CORE_INSTALL}" \
+                                        "${instance_name}"
+            fi
+          fi
+      fi
+    done
+    
+    return ${_final_rc}
+}
+
+

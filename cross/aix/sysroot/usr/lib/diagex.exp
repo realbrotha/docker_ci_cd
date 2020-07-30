@@ -1,0 +1,55 @@
+#!/unix
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos530 src/bos/kernext/exp/diagex.exp 1.6 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 1993,1995 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)96      1.6  src/bos/kernext/exp/diagex.exp, sysxdiag, bos530 4/4/02 16:28:17
+*
+*
+* COMPONENT_NAME: (sysxdiag) Diagnostic Kernel Extension
+*
+* FUNCTIONS: Diagnostic Kernel Extension Interface Export Symbols
+*
+* ORIGINS: 27
+*
+* (C) COPYRIGHT International Business Machines Corp. 1993,1995
+* All Rights Reserved
+* Licensed Materials - Property of IBM
+*
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*
+
+diag_cntl
+diag_open               syscall
+diag_intr               syscall
+diag_watch4intr         syscall
+diag_close              syscall
+diag_dma_master         syscall
+diag_dma_complete       syscall
+diag_read_handle        syscall
+diag_io_write           syscall
+diag_io_read            syscall
+diag_io_wr_stream       syscall
+diag_io_rd_stream       syscall
+diag_mem_write          syscall
+diag_mem_read           syscall
+diag_mem_wr_stream      syscall
+diag_mem_rd_stream      syscall
+e_wakeup                syscall
+diag_special_io_write   syscall
+diag_special_io_read    syscall
+diag_map_page         	syscall
+diag_unmap_page         syscall
+diag_map_enable         syscall
+diag_map_disable      	syscall

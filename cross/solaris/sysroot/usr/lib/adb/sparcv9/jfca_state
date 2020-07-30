@@ -1,0 +1,17 @@
+*JfcaState>T
+*(*<T)="jfca instance 0 ->"ttKnn
+*(*<T),##*(*<T)$<<jfca_dev
+*(*<T+0t8)="jfca instance 1 ->"ttKnn
+*(*<T+0t8),##*(*<T+0t8)$<<jfca_dev
+*(*<T+(2*0t8))="jfca instance 2 ->"ttKnn
+*(*<T+(2*0t8)),##*(*<T+(2*0t8))$<<jfca_dev
+*(*<T+(3*0t8))="jfca instance 3 ->"ttKnn
+*(*<T+(3*0t8)),##*(*<T+(3*0t8))$<<jfca_dev
+*(*<T+(4*0t8))="jfca instance 4 ->"ttKnn
+*(*<T+(4*0t8)),##*(*<T+(4*0t8))$<<jfca_dev
+*(*<T+(5*0t8))="jfca instance 5 ->"ttKnn
+*(*<T+(5*0t8)),##*(*<T+(5*0t8))$<<jfca_dev
+*(*<T+(6*0t8))="jfca instance 6 ->"ttKnn
+*(*<T+(6*0t8)),##*(*<T+(6*0t8))$<<jfca_dev
+*(*<T+(7*0t8))="jfca instance 7 ->"ttKnn
+*(*<T+(7*0t8)),##*(*<T+(7*0t8))$<<jfca_dev

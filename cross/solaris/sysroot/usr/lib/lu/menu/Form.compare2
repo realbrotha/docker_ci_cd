@@ -1,0 +1,100 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.compare2 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.compare2
+################################################################################
+
+form=`gettext "Compare a BE contents with its original contents"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+altslks=true
+close=`rm -f $ARG1`
+done=`
+run $LUBIN/lucompare -o "$F3" -C "/etc/lu/compare/$F1:$F2" "$F1";
+if [ "$RET" = "0" ];
+then
+        set -l CMD="open text $OBJ_DIR/Text.success Compare";
+else
+        set -l CMD="open text $OBJ_DIR/Text.fail Compare";
+fi;`$CMD
+
+name=`gettext "Name of the Parent Boot Environment:"`
+lininfo=Sub1Help.compare2
+nrow=1
+ncol=1
+frow=1
+fcol=47
+rows=1
+columns=30
+rmenu={ `/usr/bin/ls /etc/lu/compare | /usr/bin/awk -F":" ' { print $1 } ' | sed 's/___/ /g' | /usr/bin/uniq` }
+menuonly=true
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "Name of the Child Boot Environment:"`
+lininfo=Sub1Help2.compare2
+nrow=2
+ncol=1
+frow=2
+fcol=47
+rows=1
+columns=30
+rmenu={ `/usr/bin/ls /etc/lu/compare | /usr/bin/awk -F":" ' { print $2 } ' | sed 's/___/ /g' | /usr/bin/uniq` }
+valid=`echo "/etc/lu/compare/$F1:$F2" | /usr/bin/sed 's/ /___/g' | /usr/bin/xargs /usr/bin/ls`
+menuonly=true
+invalidmsg=`gettext "ERROR: not a child of given parent. Please choose again."`
+
+name=`gettext "Enter full pathname of the file to store output:"`
+lininfo=Sub1Help5.compare
+nrow=3
+ncol=1
+frow=3
+fcol=55
+rows=1
+columns=20
+scroll=true
+valid=`valpath -a "$F3";
+if [ $RET = 0 ];
+then
+   dirname "$F3" |set -l DIRNAME;
+   if [ -d $DIRNAME -a ! -d "$F3" ]; 
+   then echo TRUE;
+   else echo FALSE;
+   fi;
+else
+	echo FALSE;
+fi;`
+invalidmsg=`gettext "ERROR: The filename should be absolute & should exist."`
+
+name=
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

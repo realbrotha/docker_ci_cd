@@ -1,0 +1,119 @@
+#
+#ident	"@(#)Form.flash.lt	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Form.flash.lt
+#       Arguments:    $ARG1 - The next archive_id to use when adding archive.
+#############################################################################
+# This form asks for the required information for retrieving flash archives
+# from a local tape device.
+#############################################################################
+
+# Form-wide infomation.
+
+form=`gettext "Local Tape Retrieval"`
+help=OPEN TEXT $OBJ_DIR/Sub1Help.lt
+altslks=true
+
+############################################################################
+# This block is run when the user attempts to accept what they
+# have entered.  For tape, we don't actually run pfinstall since it
+# might take forever and reposition the tape.  We just look to make
+# sure the tape device is a valid path.
+############################################################################
+done=`
+	message -w;
+	set -l LOCSPEC="archive_location local_tape ${F1}";
+	if [ -n "$F2" ];
+	then
+		set -l LOCSPEC="${LOCSPEC} $F2";
+	fi;
+	set -l SPEC="${ARG1}|Local Tape|${F1}:${F2}|${LOCSPEC}";
+	echo $SPEC >> ${ARCHIVELIST};
+	set -l CMD="close";
+	fi;`$CMD
+
+############################################################################
+# Field: Tape Device
+# Format: "Tape Device:  _________"
+# Validation: Must be a valid file
+############################################################################
+# i18n: should be 15 characters or less
+name=`gettext "Tape Device"`":"
+nrow=1
+ncol=2
+frow=1
+fcol=18
+rows=1
+columns=50
+scroll=true
+
+# default value, not localized
+value="/dev/rmt/0"
+
+# check to see if it's a real device
+valid=`if [ -r "${F1}" ] ; then
+		echo TRUE;
+	else
+		echo FALSE;
+	fi;`
+
+invalidmsg=`gettext "ERROR: Device ${F1} cannot be accessed"`
+
+############################################################################
+# Field: Position
+# Format: "Position:  _________"
+# Validation: Must be numeric
+############################################################################
+name=`gettext "Position"`":"
+nrow=2
+ncol=3
+frow=2
+fcol=15
+rows=1
+columns=50
+valid=`if [ -n "${F2}" ] ; then
+		regex -v "$F2" '[0-9].*';
+	else
+		echo TRUE;
+	fi;`
+
+invalidmsg=`gettext "ERROR: Position must be numeric"`
+
+
+############################################################################
+# SLK Buttons.  Only save, cancel, and help do stuff.
+############################################################################
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=help
+
+name=`gettext "HELP"`
+button=16
+action=help

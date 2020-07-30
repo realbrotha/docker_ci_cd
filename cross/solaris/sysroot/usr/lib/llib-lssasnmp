@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) 2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lssasnmp	1.1	01/11/20 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Strange as it seems, all of the public interfaces are in <impl.h>.
+ */
+#include <impl.h>

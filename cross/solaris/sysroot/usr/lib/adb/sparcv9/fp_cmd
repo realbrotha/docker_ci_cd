@@ -1,0 +1,13 @@
+.>e
+<e+0=""
++/"dflags"8tnx6+
++/"sema"
+.$<<sema
+<e+0t24=""
++/"flags"16t"retry_count"16t"retry_interval"nXXX4+
++/"pkt"
+.$<<fc_packet
+<e+0t424=""
++/"port"16t"private"16t"next"nJJJ
++/"ulp_pkt"16t"job"16t"transport"nJJJ
+<e+0t472=""

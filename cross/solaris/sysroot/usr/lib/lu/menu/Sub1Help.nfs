@@ -1,0 +1,54 @@
+#
+#ident	"@(#)Sub1Help.nfs	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+title=`gettext "NFS Retrieval Method"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "The NFS Retrieval method allows you to retrieve an archive from an NFS server.  You can specify the following  options:"`"\n"\
+`gettext "NFS Location:\tThis is a typical host:path specification that will be used to retrieve the archive.  It is of the form <host>:<path>"`"\n"\
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

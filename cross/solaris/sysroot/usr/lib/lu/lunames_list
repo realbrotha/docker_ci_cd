@@ -1,0 +1,259 @@
+#!/sbin/sh
+
+################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lunames_list.sh 5.7     03/01/29 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE: luname_list [ [ -a | -A ] [ -c | -C ] [ -d | -D ] ]
+#		-a - BE is active.
+#		-A - BE is not active (is inactivate).
+#		-c - BE is complete.
+#		-C - BE is not complete (is incomplete).
+#		-d - BE can be deleted.
+#		-D - BE can not be deleted.
+# If no options are specified, all BEs are listed.
+#
+# INPUT: NONE
+# OUTPUT: Names of BEs are written to stdout
+# DEV: Satish
+# NOTES: This script is written to generate choices in FMLI scripts
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best 
+# performance over /bin/sh and /bin/ksh.
+#
+################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to 
+#		terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'Usage: %s [-l error_log] [-o outfile] \
+[ [ -a | -A ] [ -c | -C ] [ -d | -D ] ]'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit 3
+  fi
+  exit "$1"
+}
+
+################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at 
+#		script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that 
+#		invoked this script.
+################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly \
+ (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not \
+installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+NEXT_ACTIVE=${NEXT_ACTIVE:=/etc/lu/.NEXT_ACTIVE}
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_a="" # -a - BE is active.
+flag_A="" # -A - BE is inactivate.
+flag_c="" # -c - BE is complete.
+flag_C="" # -C - BE is incomplete.
+flag_d="" # -d - BE can be deleted.
+flag_D="" # -D - BE can not be deleted.
+flag_l="" # -l f - log file path.
+flag_o="" # -o f - output file path.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts aAcCdDl:o:x:X c
+  do
+    case $c in
+      a) # -a - BE is active.
+	 flag_a="yes"
+	 ;;
+      A) # -A - BE is inactivate.
+	 flag_A="yes"
+	 ;;
+      c) # -c - BE is complete.
+	 flag_c="yes"
+	 ;;
+      C) # -C - BE is incomplete.
+	 flag_C="yes"
+	 ;;
+      d) # -d - BE can be deleted.
+	 flag_d="yes"
+	 ;;
+      D) # -D - BE can not be deleted.
+	 flag_D="yes"
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> \
+specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be \
+created or appended to: <%s>.'`" "${OPTARG}" "${ERRMSG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> \
+can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be \
+created or appended to: <%s>.'`" "${OPTARG}" "${ERRMSG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a \
+number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Make sure only one output option specification given
+lulib_cannot_have_conflicting_option "${flag_a}" "-a" "${flag_A}" "-A"
+lulib_cannot_have_conflicting_option "${flag_c}" "-c" "${flag_C}" "-C"
+lulib_cannot_have_conflicting_option "${flag_d}" "-d" "${flag_D}" "-D"
+
+# Get the current BE name only if option requires it (-n, -i, -d only)
+
+CURR_BE=`lulib_lucurr`
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active boot environment.'`"
+  exit 1
+fi
+
+# Get name of next active BE (if available)
+ACTIVE=""
+if [ -f "${NEXT_ACTIVE}" -a -s "${NEXT_ACTIVE}" ] ; then
+  ACTIVE=`/bin/cat ${NEXT_ACTIVE} 2> /dev/null`
+fi
+
+$LUBIN/lunames_get |
+while read BE_NAME ; do
+  STATUS="`${LUETCBIN}/ludo get_be_status_from_be_name \"${BE_NAME}\"`"
+
+  # -a - BE is active.
+  [ -n "${flag_a}" -a "${BE_NAME}" != "${CURR_BE}" ] && continue
+
+  # -A - BE is inactivate.
+  [ -n "${flag_A}" -a "${BE_NAME}" = "${CURR_BE}" ] && continue
+
+  # -c - BE is complete.
+  [ -n "${flag_c}" -a "${STATUS}" != "C" ] && continue
+
+  # -C - BE is incomplete.
+  [ -n "${flag_C}" -a "${STATUS}" = "C" ] && continue
+
+  if [ -n "${flag_d}" ] ; then
+    # -d - BE can be deleted.
+    [ "${BE_NAME}" = "${CURR_BE}" ] && continue
+    [ -n "${ACTIVE}" -a "${BE_NAME}" = "${ACTIVE}" ] && continue
+  elif [ -n "${flag_D}" ] ; then
+    # -D - BE can not be deleted.
+    if [ "${BE_NAME}" != "${CURR_BE}" ] ; then
+      [ -z "${ACTIVE}" -o "${BE_NAME}" != "${ACTIVE}" ] && continue
+    fi
+  fi
+
+  echo "${BE_NAME}"
+done
+
+exit 0

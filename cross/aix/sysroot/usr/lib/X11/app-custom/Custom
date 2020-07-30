@@ -1,0 +1,112 @@
+! @(#)61        1.8  src/gos/apps/custom/app-custom/Custom.nls, custom, gos530 2/4/94 12:54:08
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/Custom.nls 1.8 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! COMPONENT_NAME: (custom) AIXwindows Customizing Tool 
+! 
+! FUNCTIONS: app-custom file
+!
+! ORIGINS: 27 
+! 
+! (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+! All Rights Reserved 
+! Licensed Materials - Property of IBM 
+! 
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+! 
+! Custom data file for the custom application 
+! 
+"Colors" Color *background "window interior\nbackground" ; 
+"Colors" Color *foreground "window interior\nforeground (text, etc.)" ; 
+"Colors" Color *menubar*background "menu bar" ; 
+"Colors" Color *menubar*foreground "menu bar text" ; 
+"Colors" Color *topEditHighlight 
+"top shadow highlight\nof browser button" ; 
+"Colors" Color *bottomEditHighlight 
+"bottom shadow highlight\nof browser button" ; 
+"Colors" Color *foregroundEditHighlight 
+"foreground highlight\nof browser button" ; 
+"Colors" Color *backgroundEditHighlight 
+"background highlight\nof browser button" ; 
+
+"Fonts" Font *fontList "window interior" ; 
+"Fonts" Font *menubar*fontList "menu bar" ; 
+"Fonts" Font *appClass.fontList "class name of application\nbeing customized" ; 
+"Fonts" Font *scrolledGroup*fontList "main scrolled area" ; 
+"Fonts" Font *copyright.fontList "copyright" ; 
+"Fonts" Font *helpDialog*scrolledHelp*fontList "help text" ; 
+
+"Size and Location" Number .width "width" ; 
+"Size and Location" Number .height "height" ; 
+"Size and Location" SelectOne .geometry "window location" 
+	+0+0 = "top left" 
+	-0+0 = "top right" 
+	+0-0 = "bottom left" 
+	-0-0 = "bottom right" ; 
+
+"Icon" Picture $MWM**iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color $MWM**iconImageBackground "icon picture background *" ; 
+"Icon" Color $MWM**iconImageForeground "icon picture foreground *" ; 
+"Icon" String *iconName "icon name" ; 
+"Icon" SelectOne *initialState "window state on\nstartup (iconified)" 
+	NormalState = "full window" 
+	IconicState = "iconified" ; 
+
+"Graphics" String .title "window title" ;
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" " 
+	all = "turn on all decorations" 
+	resizeh = "resize border" 
+	border = "plain border" 
+	menu = "window menu button" 
+	title = "title bar" 
+	minimize = "minimize button" 
+	maximize = "maximize button" 
+	none = "turn off all decorations" ; 
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" " 
+	all = "turn on all operations" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	none = "turn off all operations" ; 
+"Graphics" Cursor *menuCursor "menu cursor" ; 
+
+"Behaviors" SelectOne $MWM**focusAutoRaise 
+	"raise window *\nwhen mouse enters" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" String *appCustomPath 
+	"list of locations for\napp-custom files\n(see documentation)" ; 
+"Behaviors" SelectOne *windowSearchDepth 
+	"search for top application\nwindow to this depth\nin window hierarchy" 
+	1 = "1" 
+	2 = "2" 
+	3 = "3 is default" 
+	4 = "4" 
+	5 = "5" ; 
+"Behaviors" Filename *resourceFile 
+	"pathname of resource file\n(usually $HOME/.Xdefaults)" ; 
+"Behaviors" Number *timeout 
+	"time to wait for\napplication to communicate (ms)" ; 
+"Behaviors" String .listOfApps 
+	"pairs of applications\nand app-custom files\n(xcalc:XCalc,xterm:XTerm ...)" ; 
+"Behaviors" SelectOne *pictureEditor.editor 
+	"pixel editor to\nuse in Picture Browser" 
+	/usr/bin/X11/bitmap = "bitmap " 
+	/usr/dt/bin/dticon = "dticon" ; 

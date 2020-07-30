@@ -1,0 +1,40 @@
+# @(#)26	1.3  src/cmdtext/usr/bin/hplj/font/SS, cmdtext, cmdtext530 5/3/90 13:16:55
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/SS 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# soft font from hplj, this is downloaded during initialization.
+# created 06/26/89, Interactive Systems Corporation
+name SS
+
+special
+ligatures 0
+spacewidth 30
+charset
+br	0 3 201
+ru	25 3 202
+ul	25 3 203

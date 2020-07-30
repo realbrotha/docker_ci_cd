@@ -1,0 +1,112 @@
+#
+#ident	"@(#)Form.create	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+################################################################################
+#	Module Name:  Form.create
+################################################################################
+
+form=`gettext "Create a Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+altslks=true
+done=`
+indicator -w;
+if [ -f /etc/lutab ];
+then
+run $LUBIN/lucreate -n "$F2" -o $LOGFILE -l /tmp/err.${VPID} -Z;
+else
+run $LUBIN/lucreate -c "$F1" -n "$F2" -o$LOGFILE -l/tmp/err.${VPID} -Z;
+fi;
+if [ "$RET" = "0" ] ; then
+	set -l CMD="open text $OBJ_DIR/Text.ok /tmp/err.${VPID} Create";
+elif [ "$RET" != "3" ] ; then
+	set -l CMD="open text $OBJ_DIR/Text.err /tmp/err.${VPID} Create";
+fi;update $OBJ_DIR/Menu.lu true`$CMD
+	
+close=`rm -f /tmp/err.${VPID};
+	rm -f /tmp/name.${VPID}`
+
+name=`gettext "Name of Current Boot Environment"`":"
+lininfo=Sub1Help.create
+nrow=1
+ncol=3
+frow=1
+fcol=48
+rows=1
+columns=28
+#Here the validations should include:
+# 1. Name of the BE should not contain : and " characters.
+# 2. BE name should not be greater than 80 characters.
+inactive=` if [ -f /etc/lutab ];
+        then echo TRUE;
+        else echo FALSE;
+        fi`
+value=`$LUBIN/lucurr 2>/dev/null`
+valid=`if [ -f /etc/lutab ];
+	then echo TRUE;
+	else 
+		if [ "$F1" = "$F2" ];
+		then echo FALSE;
+		else $LUBIN/luname_valid "$F1" 2>/tmp/name.${VPID};
+		fi;
+	fi`
+invalidmsg=`if [ -s /tmp/name.${VPID} ];
+then gettext "ERROR: ";echo "";readfile /tmp/name.${VPID};
+else gettext "ERROR: Current and New BE names should not be same"; echo "";
+fi;`
+
+name=`gettext "Name of New Boot Environment"`":"
+lininfo=Sub1Help2.create
+nrow=2
+ncol=3
+frow=2
+fcol=48
+rows=1
+columns=28
+#Here the validations should include:
+# 1. Name of the BE should not contain : and " characters.
+# 2. BE name should not be greater than 80 characters.
+# 3. BE name should be already exist in lutab file.
+valid=`if [ "$F2" = "$F1" ];
+	then echo FALSE;
+	else $LUBIN/luname_valid "$F2" 2>/tmp/name.${VPID};
+	fi;`
+invalidmsg=`if [ -s /tmp/name.${VPID} ];
+then gettext "ERROR: ";echo "";readfile /tmp/name.${VPID};
+else gettext "ERROR: Current and New BE names should not be same"; echo "";
+fi;`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=help
+
+name=`gettext "HELP"`
+button=16
+action=help

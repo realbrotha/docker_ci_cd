@@ -1,0 +1,48 @@
+# @(#)11	1.4  src/cmdtext/usr/share/lib/ms/README, cmdtext, cmdtext530 10/29/90 15:25:48
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 26
+#
+This directory contains various macro files used by the -ms package,
+along with a script that may be useful for text formatting.  This
+script is not a supported command -- it is an example to assist you
+with document preparation. The script, endnote, is described below.
+
+endnote
+-------
+This program takes -ms footnotes (text placed between .FS and .FE
+macros) and moves them to the end of your output.  It should be
+used with numbered footnotes, which are entered like this:
+
+	this is best explained by Hodgkins.\**
+	.FS
+	Arthur Hodgkins, \fIThe Bone Marrow,\fP
+	Johns Hopkins Press, Baltimore, 1982.
+	.FE
+
+When you want to produce numbered endnotes instead of footnotes,
+you can run the program as follows:
+
+	 sh /usr/lib/ms/endnote filename(s) | nroff -ms
+
+Other nroff options, such as -T to specify terminal type, may
+also be given.  If you're using refer, tbl, or eqn, they should
+follow /usr/lib/ms/endnote, in the proper order.  The endnote
+script creates the file "endnotes" in the working directory;
+the file is removed after endnote finishes.  If this file
+already exists, the program exits with an error message.
+
+You may find it more convenient to copy this script to a directory
+on your search path, rather than saying "sh /usr/lib/ms/endnote" every
+time you want to run it.  For example, assuming the directory /mydir is
+already on the search path, type:
+
+	cp /usr/lib/ms/endnote /mydir/endnote
+	chmod +x /mydir/endnote
+
+The first command will copy endnote into /mydir, and the second will 
+make it executable.
+

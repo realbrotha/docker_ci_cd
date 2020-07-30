@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) 1999, 2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lsecdb	1.2	01/04/02 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <auth_attr.h>
+#include <exec_attr.h>
+#include <prof_attr.h>
+#include <user_attr.h>
+#include <secdb.h>

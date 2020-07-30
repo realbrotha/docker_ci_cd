@@ -1,0 +1,647 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_GGV_Factory"
+	type="exe" location="/usr/lib/ggv/ggv-postscript-viewer">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/GenericFactory:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="name-af" type="string"
+                 value="GGV PostScript-aansigfabriek"/>
+  <oaf_attribute name="name-am" type="string"
+                 value="የGGV ፖስትስክሪፕት የተመልካች ፋብሪካ"/>
+  <oaf_attribute name="name-ar" type="string"
+                 value="مصنع عارض GGV PostScript"/>
+  <oaf_attribute name="name-az" type="string"
+                 value="GGV PostScript nümayişçi e&apos;malatxanası"/>
+  <oaf_attribute name="name-be" type="string"
+                 value="GGV, Вытворчасьць PostScript праглядальніка"/>
+  <oaf_attribute name="name-bg" type="string"
+                 value="Фабрика за прегледа на PostScript "/>
+  <oaf_attribute name="name-bn" type="string"
+                 value="জিজিভি পোস্টস্ক্রিপ্ট প্রদর্শক ফ্যাক্টরি"/>
+  <oaf_attribute name="name-ca" type="string"
+                 value="Factoria del visualitzador de PostScript GGV"/>
+  <oaf_attribute name="name-cs" type="string"
+                 value="Generátor prohlížeče PostScriptu GGV"/>
+  <oaf_attribute name="name-cy" type="string"
+                 value="ffatri golygfa PostScript GGV"/>
+  <oaf_attribute name="name-da" type="string"
+                 value="GGV Ghostscript-fremviserfabrik"/>
+  <oaf_attribute name="name-de" type="string"
+                 value="GGV: PostScript-Anzeigefabrik"/>
+  <oaf_attribute name="name-el" type="string"
+                 value="Εργοστάσιο εμφάνισης PostScript GGV"/>
+  <oaf_attribute name="name-en_CA" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="name-en_GB" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="name-es" type="string"
+                 value="Factoría del visor de PostScript GGV"/>
+  <oaf_attribute name="name-et" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="name-eu" type="string"
+                 value="GGV PostScript ikustailearen fabrika"/>
+  <oaf_attribute name="name-fi" type="string"
+                 value="GGV:n PostScript-näkymätehdas"/>
+  <oaf_attribute name="name-fr" type="string"
+                 value="Fabrique pour la visionneuse PostScript GGV "/>
+  <oaf_attribute name="name-gl" type="string"
+                 value="Fábrica de visualizador de PostScript GGV"/>
+  <oaf_attribute name="name-gu" type="string"
+                 value="GGV પોેસ્ટસ્ક્રિપ્ટ બતાવનાર કારખાનું"/>
+  <oaf_attribute name="name-he" type="string"
+                 value="יצרן מציג GGV PostScript"/>
+  <oaf_attribute name="name-hi" type="string"
+                 value="जिजिव पोस्ट सकरिप्ट वीवर कार्खाना"/>
+  <oaf_attribute name="name-hr" type="string"
+                 value="GGV PostScript tvornica pregleda"/>
+  <oaf_attribute name="name-hu" type="string"
+                 value="GGV PostScript-néző factory"/>
+  <oaf_attribute name="name-id" type="string"
+                 value="GGV Factory penampil PostScript"/>
+  <oaf_attribute name="name-is" type="string"
+                 value="GGV PostScript-sjáasmiðja"/>
+  <oaf_attribute name="name-it" type="string"
+                 value="Fabbrica di visualizzatori PostScript GGV"/>
+  <oaf_attribute name="name-ja" type="string"
+                 value="GGV PostScript ビューアファクトリ"/>
+  <oaf_attribute name="name-ko" type="string"
+                 value="GGV 포스트스크립트 뷰어 팩토리"/>
+  <oaf_attribute name="name-lt" type="string"
+                 value="GGV PostScript peržiūros gamykla"/>
+  <oaf_attribute name="name-lv" type="string"
+                 value="GGV PostScript skatītāja ražotne"/>
+  <oaf_attribute name="name-mk" type="string"
+                 value="GGV PostScript фабрика за прегледувач"/>
+  <oaf_attribute name="name-ml" type="string"
+                 value="ജി.ജി.വി പോസ്റ്റ്സ്‌ക്രിപ്റ്റ് ദ‌ര്ശിനി"/>
+  <oaf_attribute name="name-mn" type="string"
+                 value="GGV: PostScript-харагч үйлдвэр"/>
+  <oaf_attribute name="name-ms" type="string"
+                 value="Kilang pelihat PostScript GGV"/>
+  <oaf_attribute name="name-nl" type="string"
+                 value="GGV PostScript-weergavefabriek"/>
+  <oaf_attribute name="name-nn" type="string"
+                 value="Fabrikk for GGV PostScript visning"/>
+  <oaf_attribute name="name-no" type="string"
+                 value="Factory for GGV PostScript visning"/>
+  <oaf_attribute name="name-pa" type="string"
+                 value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਰਸ਼ਕ ਫੈਕਟਰੀ"/>
+  <oaf_attribute name="name-pl" type="string"
+                 value="GGV - generator przeglądarki PostScript"/>
+  <oaf_attribute name="name-pt" type="string"
+                 value="Fábrica de vista de PostScript GGV"/>
+  <oaf_attribute name="name-pt_BR" type="string"
+                 value="Gerador de visualização de PostScript do GGV"/>
+  <oaf_attribute name="name-ro" type="string"
+                 value="Fabrică de vizualizare PostScript GGV"/>
+  <oaf_attribute name="name-ru" type="string"
+                 value="Фабрика просмотра PostScript GGV"/>
+  <oaf_attribute name="name-sk" type="string"
+                 value="Vytváracie rozhranie pre prehliadač PostScript dokumentov GGV"/>
+  <oaf_attribute name="name-sl" type="string"
+                 value="GGV tovarna PostScript prikazovalnikov"/>
+  <oaf_attribute name="name-sq" type="string"
+                 value="GGV fabrikë për shikues PostScript"/>
+  <oaf_attribute name="name-sr" type="string"
+                 value="GGV PostScript творница прегледа"/>
+  <oaf_attribute name="name-sr@Latn" type="string"
+                 value="GGV PostScript tvornica pregleda"/>
+  <oaf_attribute name="name-sv" type="string"
+                 value="GGV-PostScript-visarfabrik"/>
+  <oaf_attribute name="name-th" type="string"
+                 value="โรงงาน GGV ตัวอ่านโพสต์สคริปต์"/>
+  <oaf_attribute name="name-tr" type="string"
+                 value="GGV PostScript gösterici fabrikası"/>
+  <oaf_attribute name="name-uk" type="string"
+                 value="Фабрика переглядача документів PostScript"/>
+  <oaf_attribute name="name-vi" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="name-zh_CN" type="string"
+                 value="GGV PostScript 查看器工厂"/>
+  <oaf_attribute name="name-zh_HK" type="string"
+                 value="GGV PostScript 檢視程式的元件工廠"/>
+  <oaf_attribute name="name-zh_TW" type="string"
+                 value="GGV PostScript 檢視程式的元件工廠"/>
+  <oaf_attribute name="description" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="description-af" type="string"
+                 value="GGV PostScript-aansigfabriek"/>
+  <oaf_attribute name="description-am" type="string"
+                 value="የGGV ፖስትስክሪፕት የተመልካች ፋብሪካ"/>
+  <oaf_attribute name="description-ar" type="string"
+                 value="مصنع عارض GGV PostScript"/>
+  <oaf_attribute name="description-az" type="string"
+                 value="GGV PostScript nümayişçi e&apos;malatxanası"/>
+  <oaf_attribute name="description-be" type="string"
+                 value="GGV, Вытворчасьць PostScript праглядальніка"/>
+  <oaf_attribute name="description-bg" type="string"
+                 value="Фабрика за прегледа на PostScript "/>
+  <oaf_attribute name="description-bn" type="string"
+                 value="জিজিভি পোস্টস্ক্রিপ্ট প্রদর্শক ফ্যাক্টরি"/>
+  <oaf_attribute name="description-ca" type="string"
+                 value="Factoria del visualitzador de PostScript GGV"/>
+  <oaf_attribute name="description-cs" type="string"
+                 value="Generátor prohlížeče PostScriptu GGV"/>
+  <oaf_attribute name="description-cy" type="string"
+                 value="ffatri golygfa PostScript GGV"/>
+  <oaf_attribute name="description-da" type="string"
+                 value="GGV Ghostscript-fremviserfabrik"/>
+  <oaf_attribute name="description-de" type="string"
+                 value="GGV: PostScript-Anzeigefabrik"/>
+  <oaf_attribute name="description-el" type="string"
+                 value="Εργοστάσιο εμφάνισης PostScript GGV"/>
+  <oaf_attribute name="description-en_CA" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="description-en_GB" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="description-es" type="string"
+                 value="Factoría del visor de PostScript GGV"/>
+  <oaf_attribute name="description-et" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="description-eu" type="string"
+                 value="GGV PostScript ikustailearen fabrika"/>
+  <oaf_attribute name="description-fi" type="string"
+                 value="GGV:n PostScript-näkymätehdas"/>
+  <oaf_attribute name="description-fr" type="string"
+                 value="Fabrique pour la visionneuse PostScript GGV "/>
+  <oaf_attribute name="description-gl" type="string"
+                 value="Fábrica de visualizador de PostScript GGV"/>
+  <oaf_attribute name="description-gu" type="string"
+                 value="GGV પોેસ્ટસ્ક્રિપ્ટ બતાવનાર કારખાનું"/>
+  <oaf_attribute name="description-he" type="string"
+                 value="יצרן מציג GGV PostScript"/>
+  <oaf_attribute name="description-hi" type="string"
+                 value="जिजिव पोस्ट सकरिप्ट वीवर कार्खाना"/>
+  <oaf_attribute name="description-hr" type="string"
+                 value="GGV PostScript tvornica pregleda"/>
+  <oaf_attribute name="description-hu" type="string"
+                 value="GGV PostScript-néző factory"/>
+  <oaf_attribute name="description-id" type="string"
+                 value="GGV Factory penampil PostScript"/>
+  <oaf_attribute name="description-is" type="string"
+                 value="GGV PostScript-sjáasmiðja"/>
+  <oaf_attribute name="description-it" type="string"
+                 value="Fabbrica di visualizzatori PostScript GGV"/>
+  <oaf_attribute name="description-ja" type="string"
+                 value="GGV PostScript ビューアファクトリ"/>
+  <oaf_attribute name="description-ko" type="string"
+                 value="GGV 포스트스크립트 뷰어 팩토리"/>
+  <oaf_attribute name="description-lt" type="string"
+                 value="GGV PostScript peržiūros gamykla"/>
+  <oaf_attribute name="description-lv" type="string"
+                 value="GGV PostScript skatītāja ražotne"/>
+  <oaf_attribute name="description-mk" type="string"
+                 value="GGV PostScript фабрика за прегледувач"/>
+  <oaf_attribute name="description-ml" type="string"
+                 value="ജി.ജി.വി പോസ്റ്റ്സ്‌ക്രിപ്റ്റ് ദ‌ര്ശിനി"/>
+  <oaf_attribute name="description-mn" type="string"
+                 value="GGV: PostScript-харагч үйлдвэр"/>
+  <oaf_attribute name="description-ms" type="string"
+                 value="Kilang pelihat PostScript GGV"/>
+  <oaf_attribute name="description-nl" type="string"
+                 value="GGV PostScript-weergavefabriek"/>
+  <oaf_attribute name="description-nn" type="string"
+                 value="Fabrikk for GGV PostScript visning"/>
+  <oaf_attribute name="description-no" type="string"
+                 value="Factory for GGV PostScript visning"/>
+  <oaf_attribute name="description-pa" type="string"
+                 value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਰਸ਼ਕ ਫੈਕਟਰੀ"/>
+  <oaf_attribute name="description-pl" type="string"
+                 value="GGV - generator przeglądarki PostScript"/>
+  <oaf_attribute name="description-pt" type="string"
+                 value="Fábrica de vista de PostScript GGV"/>
+  <oaf_attribute name="description-pt_BR" type="string"
+                 value="Gerador de visualização de PostScript do GGV"/>
+  <oaf_attribute name="description-ro" type="string"
+                 value="Fabrică de vizualizare PostScript GGV"/>
+  <oaf_attribute name="description-ru" type="string"
+                 value="Фабрика просмотра PostScript GGV"/>
+  <oaf_attribute name="description-sk" type="string"
+                 value="Vytváracie rozhranie pre prehliadač PostScript dokumentov GGV"/>
+  <oaf_attribute name="description-sl" type="string"
+                 value="GGV tovarna PostScript prikazovalnikov"/>
+  <oaf_attribute name="description-sq" type="string"
+                 value="GGV fabrikë për shikues PostScript"/>
+  <oaf_attribute name="description-sr" type="string"
+                 value="GGV PostScript творница прегледа"/>
+  <oaf_attribute name="description-sr@Latn" type="string"
+                 value="GGV PostScript tvornica pregleda"/>
+  <oaf_attribute name="description-sv" type="string"
+                 value="GGV-PostScript-visarfabrik"/>
+  <oaf_attribute name="description-th" type="string"
+                 value="โรงงาน GGV ตัวอ่านโพสต์สคริปต์"/>
+  <oaf_attribute name="description-tr" type="string"
+                 value="GGV PostScript gösterici fabrikası"/>
+  <oaf_attribute name="description-uk" type="string"
+                 value="Фабрика переглядача документів PostScript"/>
+  <oaf_attribute name="description-vi" type="string"
+                 value="GGV PostScript viewer factory"/>
+  <oaf_attribute name="description-zh_CN" type="string"
+                 value="GGV PostScript 查看器工厂"/>
+  <oaf_attribute name="description-zh_HK" type="string"
+                 value="GGV PostScript 檢視程式的元件工廠"/>
+  <oaf_attribute name="description-zh_TW" type="string"
+                 value="GGV PostScript 檢視程式的元件工廠"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GGV_Control" type="factory"
+            location="OAFIID:GNOME_GGV_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    <item value="IDL:Bonobo/Zoomable:1.0"/>
+    <item value="IDL:Bonobo/Control:1.0"/>
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+    <item value="IDL:Bonobo/Persist:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="GGV PostScript Document Control"/>
+  <oaf_attribute name="name-af" type="string" value="GGV PostScript-dokumentbeheer"/>
+  <oaf_attribute name="name-am" type="string" value="የፖስትስክሪፕት ሰነድ ቁጥጥር"/>
+  <oaf_attribute name="name-ar" type="string" value="متحكم مستندات GGV PostScript"/>
+  <oaf_attribute name="name-az" type="string" value="GGV PostScript Sənəd İdarəsi"/>
+  <oaf_attribute name="name-be" type="string" value="GGV, Кантроль PostScript дакумэнта"/>
+  <oaf_attribute name="name-bg" type="string" value="GGV Контрол на документ в PostScript"/>
+  <oaf_attribute name="name-bn" type="string" value="জিজিভি পোস্টস্ক্রিপ্ট ডকুমেন্ট নিয়ন্ত্রণ"/>
+  <oaf_attribute name="name-ca" type="string" value="Control de documents PostScript GGV"/>
+  <oaf_attribute name="name-cs" type="string" value="Ovládání postscriptového dokumentu GGV"/>
+  <oaf_attribute name="name-cy" type="string" value="Rheolydd Dogfen PostScript GGV"/>
+  <oaf_attribute name="name-da" type="string" value="GGV Postscript-dokument"/>
+  <oaf_attribute name="name-de" type="string" value="GGV-Steuerung für PostScript-Dokument"/>
+  <oaf_attribute name="name-el" type="string" value="Έλεγχος Εγγράφου PostScript GGV"/>
+  <oaf_attribute name="name-en_CA" type="string" value="GGV PostScript Document Control"/>
+  <oaf_attribute name="name-en_GB" type="string" value="GGV PostScript Document Control"/>
+  <oaf_attribute name="name-es" type="string" value="Control del documento de Postscript GGV"/>
+  <oaf_attribute name="name-et" type="string" value="GGV PostScript dokumentide juhtimine"/>
+  <oaf_attribute name="name-eu" type="string" value="GGV PostScript dokumentuen kontrola"/>
+  <oaf_attribute name="name-fi" type="string" value="GGV:n PostScript-asiakirjasäädin"/>
+  <oaf_attribute name="name-fr" type="string" value="Contrôle de document PostScript GGV "/>
+  <oaf_attribute name="name-gl" type="string" value="Control de Documento PostScript GGV"/>
+  <oaf_attribute name="name-gu" type="string" value="GGV પોેસ્ટસ્ક્રિપ્ટ દસ્તાવેજનું નિયંત્રણ"/>
+  <oaf_attribute name="name-he" type="string" value="בקרת מסמך GGV PostScript"/>
+  <oaf_attribute name="name-hi" type="string" value="जिजिवी पोस्ट सकरिप्ट दस्तावेज नियंत्रण"/>
+  <oaf_attribute name="name-hr" type="string" value="GGV PostSript kontrola dokumenta"/>
+  <oaf_attribute name="name-hu" type="string" value="GGV PostScript dokumentumkezelő"/>
+  <oaf_attribute name="name-id" type="string" value="GGV Kontrol Dokumen Postscript"/>
+  <oaf_attribute name="name-is" type="string" value="GGV PostScript-skjalastjórnun"/>
+  <oaf_attribute name="name-it" type="string" value="Controllo documenti PostScript GGV"/>
+  <oaf_attribute name="name-ja" type="string" value="GGV PostScript ドキュメントコントロール"/>
+  <oaf_attribute name="name-ko" type="string" value="GGV 포스트스크립트 문서 컨트롤"/>
+  <oaf_attribute name="name-lt" type="string" value="GGV PostScript Documento Valdymas"/>
+  <oaf_attribute name="name-lv" type="string" value="GGV PostScript Documenta Kontrole"/>
+  <oaf_attribute name="name-mk" type="string" value="GGV PostScript контрола на документи"/>
+  <oaf_attribute name="name-mn" type="string" value="PostScript-баримтын GGV удирдлага"/>
+  <oaf_attribute name="name-ms" type="string" value="Kawalan Dokumen PostScript GGV"/>
+  <oaf_attribute name="name-nl" type="string" value="GGV PostScript-document Control"/>
+  <oaf_attribute name="name-nn" type="string" value="GGV PostScript dokumentkontroll"/>
+  <oaf_attribute name="name-no" type="string" value="GGV PostScript dokumentkontroll"/>
+  <oaf_attribute name="name-pa" type="string" value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਸਤਾਵੇਜ਼ ਕੰਟਰੋਲ"/>
+  <oaf_attribute name="name-pl" type="string" value="GGV - formant dokumentów PostScript"/>
+  <oaf_attribute name="name-pt" type="string" value="Controlo de Documento PostScript GGV"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Controle de Documento PostScript do GGV"/>
+  <oaf_attribute name="name-ro" type="string" value="Control GGV de documente PostScript"/>
+  <oaf_attribute name="name-ru" type="string" value="Управление PostScript-документами через интерфейс GGV"/>
+  <oaf_attribute name="name-sk" type="string" value="Ovládací prvok pre PostScript dokumenty GGV"/>
+  <oaf_attribute name="name-sl" type="string" value="GGV kontrola za prikaz PostScript dokumentov"/>
+  <oaf_attribute name="name-sq" type="string" value="GGV Kontrolluesi i dokumenteve PostScript"/>
+  <oaf_attribute name="name-sr" type="string" value="GGV PostSript контрола документа"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="GGV PostSript kontrola dokumenta"/>
+  <oaf_attribute name="name-sv" type="string" value="GGV-PostScript-dokumentkontroll"/>
+  <oaf_attribute name="name-th" type="string" value="GGV ตัวควบคุมเอกสารโพสต์สคริปต์"/>
+  <oaf_attribute name="name-tr" type="string" value="GGV PostScript Belge Denetimi"/>
+  <oaf_attribute name="name-uk" type="string" value="Елемент керування переглядача документів PostScript"/>
+  <oaf_attribute name="name-vi" type="string" value="Điều khiển tài liệu PostScript GGV"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="GGV PostScript 文档控制"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="GGV PostScript 文件控制項"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="GGV PostScript 文件控制項"/>
+  <oaf_attribute name="description" type="string"
+                 value="GGV PostScript Document Control"/>
+  <oaf_attribute name="description-af" type="string"
+                 value="GGV PostScript-dokumentbeheer"/>
+  <oaf_attribute name="description-am" type="string"
+                 value="የፖስትስክሪፕት ሰነድ ቁጥጥር"/>
+  <oaf_attribute name="description-ar" type="string"
+                 value="متحكم مستندات GGV PostScript"/>
+  <oaf_attribute name="description-az" type="string"
+                 value="GGV PostScript Sənəd İdarəsi"/>
+  <oaf_attribute name="description-be" type="string"
+                 value="GGV, Кантроль PostScript дакумэнта"/>
+  <oaf_attribute name="description-bg" type="string"
+                 value="GGV Контрол на документ в PostScript"/>
+  <oaf_attribute name="description-bn" type="string"
+                 value="জিজিভি পোস্টস্ক্রিপ্ট ডকুমেন্ট নিয়ন্ত্রণ"/>
+  <oaf_attribute name="description-ca" type="string"
+                 value="Control de documents PostScript GGV"/>
+  <oaf_attribute name="description-cs" type="string"
+                 value="Ovládání postscriptového dokumentu GGV"/>
+  <oaf_attribute name="description-cy" type="string"
+                 value="Rheolydd Dogfen PostScript GGV"/>
+  <oaf_attribute name="description-da" type="string"
+                 value="GGV Postscript-dokument"/>
+  <oaf_attribute name="description-de" type="string"
+                 value="GGV-Steuerung für PostScript-Dokument"/>
+  <oaf_attribute name="description-el" type="string"
+                 value="Έλεγχος Εγγράφου PostScript GGV"/>
+  <oaf_attribute name="description-en_CA" type="string"
+                 value="GGV PostScript Document Control"/>
+  <oaf_attribute name="description-en_GB" type="string"
+                 value="GGV PostScript Document Control"/>
+  <oaf_attribute name="description-es" type="string"
+                 value="Control del documento de Postscript GGV"/>
+  <oaf_attribute name="description-et" type="string"
+                 value="GGV PostScript dokumentide juhtimine"/>
+  <oaf_attribute name="description-eu" type="string"
+                 value="GGV PostScript dokumentuen kontrola"/>
+  <oaf_attribute name="description-fi" type="string"
+                 value="GGV:n PostScript-asiakirjasäädin"/>
+  <oaf_attribute name="description-fr" type="string"
+                 value="Contrôle de document PostScript GGV "/>
+  <oaf_attribute name="description-gl" type="string"
+                 value="Control de Documento PostScript GGV"/>
+  <oaf_attribute name="description-gu" type="string"
+                 value="GGV પોેસ્ટસ્ક્રિપ્ટ દસ્તાવેજનું નિયંત્રણ"/>
+  <oaf_attribute name="description-he" type="string"
+                 value="בקרת מסמך GGV PostScript"/>
+  <oaf_attribute name="description-hi" type="string"
+                 value="जिजिवी पोस्ट सकरिप्ट दस्तावेज नियंत्रण"/>
+  <oaf_attribute name="description-hr" type="string"
+                 value="GGV PostSript kontrola dokumenta"/>
+  <oaf_attribute name="description-hu" type="string"
+                 value="GGV PostScript dokumentumkezelő"/>
+  <oaf_attribute name="description-id" type="string"
+                 value="GGV Kontrol Dokumen Postscript"/>
+  <oaf_attribute name="description-is" type="string"
+                 value="GGV PostScript-skjalastjórnun"/>
+  <oaf_attribute name="description-it" type="string"
+                 value="Controllo documenti PostScript GGV"/>
+  <oaf_attribute name="description-ja" type="string"
+                 value="GGV PostScript ドキュメントコントロール"/>
+  <oaf_attribute name="description-ko" type="string"
+                 value="GGV 포스트스크립트 문서 컨트롤"/>
+  <oaf_attribute name="description-lt" type="string"
+                 value="GGV PostScript Documento Valdymas"/>
+  <oaf_attribute name="description-lv" type="string"
+                 value="GGV PostScript Documenta Kontrole"/>
+  <oaf_attribute name="description-mk" type="string"
+                 value="GGV PostScript контрола на документи"/>
+  <oaf_attribute name="description-mn" type="string"
+                 value="PostScript-баримтын GGV удирдлага"/>
+  <oaf_attribute name="description-ms" type="string"
+                 value="Kawalan Dokumen PostScript GGV"/>
+  <oaf_attribute name="description-nl" type="string"
+                 value="GGV PostScript-document Control"/>
+  <oaf_attribute name="description-nn" type="string"
+                 value="GGV PostScript dokumentkontroll"/>
+  <oaf_attribute name="description-no" type="string"
+                 value="GGV PostScript dokumentkontroll"/>
+  <oaf_attribute name="description-pa" type="string"
+                 value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਸਤਾਵੇਜ਼ ਕੰਟਰੋਲ"/>
+  <oaf_attribute name="description-pl" type="string"
+                 value="GGV - formant dokumentów PostScript"/>
+  <oaf_attribute name="description-pt" type="string"
+                 value="Controlo de Documento PostScript GGV"/>
+  <oaf_attribute name="description-pt_BR" type="string"
+                 value="Controle de Documento PostScript do GGV"/>
+  <oaf_attribute name="description-ro" type="string"
+                 value="Control GGV de documente PostScript"/>
+  <oaf_attribute name="description-ru" type="string"
+                 value="Управление PostScript-документами через интерфейс GGV"/>
+  <oaf_attribute name="description-sk" type="string"
+                 value="Ovládací prvok pre PostScript dokumenty GGV"/>
+  <oaf_attribute name="description-sl" type="string"
+                 value="GGV kontrola za prikaz PostScript dokumentov"/>
+  <oaf_attribute name="description-sq" type="string"
+                 value="GGV Kontrolluesi i dokumenteve PostScript"/>
+  <oaf_attribute name="description-sr" type="string"
+                 value="GGV PostSript контрола документа"/>
+  <oaf_attribute name="description-sr@Latn" type="string"
+                 value="GGV PostSript kontrola dokumenta"/>
+  <oaf_attribute name="description-sv" type="string"
+                 value="GGV-PostScript-dokumentkontroll"/>
+  <oaf_attribute name="description-th" type="string"
+                 value="GGV ตัวควบคุมเอกสารโพสต์สคริปต์"/>
+  <oaf_attribute name="description-tr" type="string"
+                 value="GGV PostScript Belge Denetimi"/>
+  <oaf_attribute name="description-uk" type="string"
+                 value="Елемент керування переглядача документів PostScript"/>
+  <oaf_attribute name="description-vi" type="string"
+                 value="Điều khiển tài liệu PostScript GGV"/>
+  <oaf_attribute name="description-zh_CN" type="string"
+                 value="GGV PostScript 文档控制"/>
+  <oaf_attribute name="description-zh_HK" type="string"
+                 value="GGV PostScript 文件控制項"/>
+  <oaf_attribute name="description-zh_TW" type="string"
+                 value="GGV PostScript 文件控制項"/>
+  <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="application/postscript"/>
+    <!-- <item value="application/pdf"/>
+ -->
+  </oaf_attribute>
+  <oaf_attribute name="nautilus:view_as_name" type="string" value="GGV Postscript Document Control"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GGV_PostScriptView" type="factory"
+            location="OAFIID:GNOME_GGV_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:GNOME/GGV/PostScriptView:1.0"/>
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+    <item value="IDL:Bonobo/Persist:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="GGV PostScript View"/>
+  <oaf_attribute name="name-af" type="string" value="GGV PostScript-aansig"/>
+  <oaf_attribute name="name-am" type="string" value="የGGV ፖስትስክሪፕት ዕይታ"/>
+  <oaf_attribute name="name-ar" type="string" value="مشهد GGV PostScript"/>
+  <oaf_attribute name="name-az" type="string" value="GGV PostScript Nümayişi"/>
+  <oaf_attribute name="name-be" type="string" value="GGV, Прагляд PostScript"/>
+  <oaf_attribute name="name-bg" type="string" value="GGV Преглед на PostScript"/>
+  <oaf_attribute name="name-bn" type="string" value="জিজিভি পোস্টস্ক্রিপ্ট দৃশ্য"/>
+  <oaf_attribute name="name-ca" type="string" value="Vista Postscript GGV"/>
+  <oaf_attribute name="name-cs" type="string" value="Prohlížeč PostScriptu GGV"/>
+  <oaf_attribute name="name-cy" type="string" value="Golygfa PostScript GGV"/>
+  <oaf_attribute name="name-da" type="string" value="GGV Ghostscript-fremvisning"/>
+  <oaf_attribute name="name-de" type="string" value="GGV: PostScript-Anzeige"/>
+  <oaf_attribute name="name-el" type="string" value="Όψη PostScript GGV"/>
+  <oaf_attribute name="name-en_CA" type="string" value="GGV PostScript View"/>
+  <oaf_attribute name="name-en_GB" type="string" value="GGV PostScript View"/>
+  <oaf_attribute name="name-es" type="string" value="Visor de PostScript GGV"/>
+  <oaf_attribute name="name-et" type="string" value="GGV PostScript vaade"/>
+  <oaf_attribute name="name-eu" type="string" value="GGV PostScript ikuspegia"/>
+  <oaf_attribute name="name-fi" type="string" value="GGV:n PostScript-näkymä"/>
+  <oaf_attribute name="name-fr" type="string" value="Vue PostScript GGV "/>
+  <oaf_attribute name="name-ga" type="string" value="Amharc PostScript do GGV"/>
+  <oaf_attribute name="name-gl" type="string" value="Vista de PostScript GGV"/>
+  <oaf_attribute name="name-gu" type="string" value="GGV પોેસ્ટસ્ક્રિપ્ટનો દેખાવ"/>
+  <oaf_attribute name="name-he" type="string" value="תצוגת GGV PostScript"/>
+  <oaf_attribute name="name-hi" type="string" value="जिजिव पोसट सकरिप्ट नजारा"/>
+  <oaf_attribute name="name-hr" type="string" value="GGV PostScript pregled"/>
+  <oaf_attribute name="name-hu" type="string" value="GGV PostScript nézet"/>
+  <oaf_attribute name="name-id" type="string" value="GGV Penampil File PostScript"/>
+  <oaf_attribute name="name-is" type="string" value="GGV PostScript-skoðun"/>
+  <oaf_attribute name="name-it" type="string" value="Visualizzazione PostScript GGV"/>
+  <oaf_attribute name="name-ja" type="string" value="GGV PostScript ビュー"/>
+  <oaf_attribute name="name-ko" type="string" value="GGV 포스트스크립트 보기"/>
+  <oaf_attribute name="name-lt" type="string" value="GGV PostScript Peržiūra"/>
+  <oaf_attribute name="name-lv" type="string" value="GGV PostScript Skatīt"/>
+  <oaf_attribute name="name-mk" type="string" value="GGV PostScript прегледувач"/>
+  <oaf_attribute name="name-ml" type="string" value="ജി.ജി.വി പോസ്റ്റ്സ്‌ക്രിപ്റ്റ് കാഴ്ച"/>
+  <oaf_attribute name="name-mn" type="string" value="GGV: PostScript-харагч"/>
+  <oaf_attribute name="name-ms" type="string" value="Paparan PostScript GGV"/>
+  <oaf_attribute name="name-nl" type="string" value="GGV PostScript-beeld"/>
+  <oaf_attribute name="name-nn" type="string" value="GGV PostScript visning"/>
+  <oaf_attribute name="name-no" type="string" value="GGV PostScript visning"/>
+  <oaf_attribute name="name-pa" type="string" value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਿ੍ਸ਼"/>
+  <oaf_attribute name="name-pl" type="string" value="GGV - przeglądarka PostScript"/>
+  <oaf_attribute name="name-pt" type="string" value="Vista de PostScript GGV"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Visualização de PostScript do GGV"/>
+  <oaf_attribute name="name-ro" type="string" value="Vizualizare Postscript GGV"/>
+  <oaf_attribute name="name-ru" type="string" value="Окно PostScript GGV"/>
+  <oaf_attribute name="name-sk" type="string" value="Prehliadač pre PostScript GGV"/>
+  <oaf_attribute name="name-sl" type="string" value="GGV prikazovalnik PostScript dokumentov"/>
+  <oaf_attribute name="name-sq" type="string" value="Shikuesi i PostScript GGV"/>
+  <oaf_attribute name="name-sr" type="string" value="GGV PostScript Преглед"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="GGV PostScript Pregled"/>
+  <oaf_attribute name="name-sv" type="string" value="GGV-PostScript-vy"/>
+  <oaf_attribute name="name-th" type="string" value="GGV มุมมองโพสต์สคริปต์"/>
+  <oaf_attribute name="name-tr" type="string" value="GGV PostScript görünümü"/>
+  <oaf_attribute name="name-uk" type="string" value="Вікно перегляду документів PostScript"/>
+  <oaf_attribute name="name-vi" type="string" value="Bộ xem PostScript GGV"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="GGV PostScript 视图"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="GGV PostScript 檢視"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="GGV PostScript 檢視"/>
+  <oaf_attribute name="description" type="string"
+                 value="GGV PostScript View"/>
+  <oaf_attribute name="description-af" type="string"
+                 value="GGV PostScript-aansig"/>
+  <oaf_attribute name="description-am" type="string"
+                 value="የGGV ፖስትስክሪፕት ዕይታ"/>
+  <oaf_attribute name="description-ar" type="string"
+                 value="مشهد GGV PostScript"/>
+  <oaf_attribute name="description-az" type="string"
+                 value="GGV PostScript Nümayişi"/>
+  <oaf_attribute name="description-be" type="string"
+                 value="GGV, Прагляд PostScript"/>
+  <oaf_attribute name="description-bg" type="string"
+                 value="GGV Преглед на PostScript"/>
+  <oaf_attribute name="description-bn" type="string"
+                 value="জিজিভি পোস্টস্ক্রিপ্ট দৃশ্য"/>
+  <oaf_attribute name="description-ca" type="string"
+                 value="Vista Postscript GGV"/>
+  <oaf_attribute name="description-cs" type="string"
+                 value="Prohlížeč PostScriptu GGV"/>
+  <oaf_attribute name="description-cy" type="string"
+                 value="Golygfa PostScript GGV"/>
+  <oaf_attribute name="description-da" type="string"
+                 value="GGV Ghostscript-fremvisning"/>
+  <oaf_attribute name="description-de" type="string"
+                 value="GGV: PostScript-Anzeige"/>
+  <oaf_attribute name="description-el" type="string"
+                 value="Όψη PostScript GGV"/>
+  <oaf_attribute name="description-en_CA" type="string"
+                 value="GGV PostScript View"/>
+  <oaf_attribute name="description-en_GB" type="string"
+                 value="GGV PostScript View"/>
+  <oaf_attribute name="description-es" type="string"
+                 value="Visor de PostScript GGV"/>
+  <oaf_attribute name="description-et" type="string"
+                 value="GGV PostScript vaade"/>
+  <oaf_attribute name="description-eu" type="string"
+                 value="GGV PostScript ikuspegia"/>
+  <oaf_attribute name="description-fi" type="string"
+                 value="GGV:n PostScript-näkymä"/>
+  <oaf_attribute name="description-fr" type="string"
+                 value="Vue PostScript GGV "/>
+  <oaf_attribute name="description-ga" type="string"
+                 value="Amharc PostScript do GGV"/>
+  <oaf_attribute name="description-gl" type="string"
+                 value="Vista de PostScript GGV"/>
+  <oaf_attribute name="description-gu" type="string"
+                 value="GGV પોેસ્ટસ્ક્રિપ્ટનો દેખાવ"/>
+  <oaf_attribute name="description-he" type="string"
+                 value="תצוגת GGV PostScript"/>
+  <oaf_attribute name="description-hi" type="string"
+                 value="जिजिव पोसट सकरिप्ट नजारा"/>
+  <oaf_attribute name="description-hr" type="string"
+                 value="GGV PostScript pregled"/>
+  <oaf_attribute name="description-hu" type="string"
+                 value="GGV PostScript nézet"/>
+  <oaf_attribute name="description-id" type="string"
+                 value="GGV Penampil File PostScript"/>
+  <oaf_attribute name="description-is" type="string"
+                 value="GGV PostScript-skoðun"/>
+  <oaf_attribute name="description-it" type="string"
+                 value="Visualizzazione PostScript GGV"/>
+  <oaf_attribute name="description-ja" type="string"
+                 value="GGV PostScript ビュー"/>
+  <oaf_attribute name="description-ko" type="string"
+                 value="GGV 포스트스크립트 보기"/>
+  <oaf_attribute name="description-lt" type="string"
+                 value="GGV PostScript Peržiūra"/>
+  <oaf_attribute name="description-lv" type="string"
+                 value="GGV PostScript Skatīt"/>
+  <oaf_attribute name="description-mk" type="string"
+                 value="GGV PostScript прегледувач"/>
+  <oaf_attribute name="description-ml" type="string"
+                 value="ജി.ജി.വി പോസ്റ്റ്സ്‌ക്രിപ്റ്റ് കാഴ്ച"/>
+  <oaf_attribute name="description-mn" type="string"
+                 value="GGV: PostScript-харагч"/>
+  <oaf_attribute name="description-ms" type="string"
+                 value="Paparan PostScript GGV"/>
+  <oaf_attribute name="description-nl" type="string"
+                 value="GGV PostScript-beeld"/>
+  <oaf_attribute name="description-nn" type="string"
+                 value="GGV PostScript visning"/>
+  <oaf_attribute name="description-no" type="string"
+                 value="GGV PostScript visning"/>
+  <oaf_attribute name="description-pa" type="string"
+                 value="ਜੀਜੀਵੀ ਪੋਸਟ-ਸਕਰਿਪਟ ਦਿ੍ਸ਼"/>
+  <oaf_attribute name="description-pl" type="string"
+                 value="GGV - przeglądarka PostScript"/>
+  <oaf_attribute name="description-pt" type="string"
+                 value="Vista de PostScript GGV"/>
+  <oaf_attribute name="description-pt_BR" type="string"
+                 value="Visualização de PostScript do GGV"/>
+  <oaf_attribute name="description-ro" type="string"
+                 value="Vizualizare Postscript GGV"/>
+  <oaf_attribute name="description-ru" type="string"
+                 value="Окно PostScript GGV"/>
+  <oaf_attribute name="description-sk" type="string"
+                 value="Prehliadač pre PostScript GGV"/>
+  <oaf_attribute name="description-sl" type="string"
+                 value="GGV prikazovalnik PostScript dokumentov"/>
+  <oaf_attribute name="description-sq" type="string"
+                 value="Shikuesi i PostScript GGV"/>
+  <oaf_attribute name="description-sr" type="string"
+                 value="GGV PostScript Преглед"/>
+  <oaf_attribute name="description-sr@Latn" type="string"
+                 value="GGV PostScript Pregled"/>
+  <oaf_attribute name="description-sv" type="string"
+                 value="GGV-PostScript-vy"/>
+  <oaf_attribute name="description-th" type="string"
+                 value="GGV มุมมองโพสต์สคริปต์"/>
+  <oaf_attribute name="description-tr" type="string"
+                 value="GGV PostScript görünümü"/>
+  <oaf_attribute name="description-uk" type="string"
+                 value="Вікно перегляду документів PostScript"/>
+  <oaf_attribute name="description-vi" type="string"
+                 value="Bộ xem PostScript GGV"/>
+  <oaf_attribute name="description-zh_CN" type="string"
+                 value="GGV PostScript 视图"/>
+  <oaf_attribute name="description-zh_HK" type="string"
+                 value="GGV PostScript 檢視"/>
+  <oaf_attribute name="description-zh_TW" type="string"
+                 value="GGV PostScript 檢視"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="application/postscript"/>
+    <!-- <item value="application/pdf"/>
+ -->
+  </oaf_attribute>
+</oaf_server>
+
+</oaf_info>

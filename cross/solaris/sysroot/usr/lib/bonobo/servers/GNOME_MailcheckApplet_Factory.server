@@ -1,0 +1,299 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_MailcheckApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/mailcheck-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Inbox Monitor Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع مراقب صندوق البريد"/>
+	<oaf_attribute name="name-az" type="string" value="Poçt Qutusu İzləyicsi E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць паштовага назіральніка"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за следене·на·пощенската·кутия"/>
+	<oaf_attribute name="name-bn" type="string" value="ইনবক্স মনিটর কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de Montor d&apos;inbox"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor Sledování poštovní schránky"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Monitr Blwch Derbyn"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik til indbakkeovervågere"/>
+	<oaf_attribute name="name-de" type="string" value="Fabrik zum Erzeugen einer E-Mail-Eingangsüberwachung"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο παρακολούθησης αλληλογραφίας"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Inbox Monitor Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Inbox Monitor Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de supervisores de la bandeja de entrada"/>
+	<oaf_attribute name="name-eu" type="string" value="Sarrerako ontziaren monitorearen fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Postilaatikon tarkkailijan tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique de moniteur de boîte de réception"/>
+	<oaf_attribute name="name-gu" type="string" value="ઈનબોક્ષનું ધ્યાન રાખનાર કારખાનુ"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן צג תיבת דואר נכנס"/>
+	<oaf_attribute name="name-hi" type="string" value="इनबाक्स मानीटर फैक्ट्री"/>
+	<oaf_attribute name="name-hr" type="string" value="Inbox Monitor Factory"/>
+	<oaf_attribute name="name-hu" type="string" value="Postaláda-figyelő factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica del controllo della posta"/>
+	<oaf_attribute name="name-ja" type="string" value="受信箱モニターのファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="받은 편지함 감시 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Inbox stebyklės gamykla"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Inbox монитор"/>
+	<oaf_attribute name="name-mn" type="string" value="Шуудан харуулагчийн үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Monitor PetiMasuk"/>
+	<oaf_attribute name="name-nl" type="string" value="Postbus-monitor fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for innboksovervakarar"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for innboksmonitor"/>
+	<oaf_attribute name="name-pa" type="string" value="ੲਿੰਬਾਕਸ ਮਾਨੀਟਰ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator monitorów skrzynki odbiorczej"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Monitor de Caixa de Correio"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do monitor da caixa de entrada"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory Monitor Inbox"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика мониторов входящей почты"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre sledovanie novej pošty"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna nadzornikov dohodne pošte"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Vëzhguesve të Postës"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња праћења сандучета"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja praćenja sandučeta"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för inkorgsövervakare"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานติดตามอีเมลใหม่"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика моніторів пошти"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory Bộ theo dõi Hộp thư"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="收件箱监视器车间"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="件匣監控程式工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="件匣監控程式工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for creating inbox monitors."/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع لإنشاء مراقبي صناديق البريد."/>
+	<oaf_attribute name="description-az" type="string" value="Poçt qutusu izləyiciləri yaradmaq üçün e&apos;malatxana."/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для стварэньня назіральніка за паштай."/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за създаване на наблюдател за пощенската кутия."/>
+	<oaf_attribute name="description-bn" type="string" value="ইনবক্স মনিটর তৈরির জন্য কারখানা।"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a crear monitors d&apos;inbox."/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro vytváření sledování poštovní schránky."/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri er mwyn creu monitrau blwch derbyn"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til oprettelse af indbakkeovervågere."/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik zum Erzeugen von Applets zur E-Mail-Eingangsüberwachung."/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για δημιουργία εφαρμογιδίου παρακολούθησης αλληλογραφίας."/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for creating inbox monitors."/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for creating inbox monitors."/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para la creación de supervisores de la bandeja de entrada."/>
+	<oaf_attribute name="description-eu" type="string" value="Sarrerako ontziaren monitoreak sortzeko fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas saapuvien kansion luomiseksi."/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique de création de moniteurs de boîte de réception."/>
+	<oaf_attribute name="description-gu" type="string" value="ઈનબોક્ષનું ધ્યાન રાખનાર બનાવવા માટેનું કારખાનુ"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן ליצירת צגי תיבות דואר נכנס."/>
+	<oaf_attribute name="description-hi" type="string" value="इनबाक्स मोनिटर बनाने हेतु फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Proizvodnja za praćenje dolazne pošte."/>
+	<oaf_attribute name="description-hu" type="string" value="Factory postaláda-figyelő készítéséhez."/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per creare i controlli della posta"/>
+	<oaf_attribute name="description-ja" type="string" value="受信箱モニターを生成するためのファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="받은 편지함 감시를 만드는 팩토리."/>
+	<oaf_attribute name="description-lt" type="string" value="Gamykla inbox stebyklių kūrimui."/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за креирање на inbox монитори"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi mencipta monitor petimasuk."/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek om het e-mailmonitors te maken"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk som lagar innboksovervakarar."/>
+	<oaf_attribute name="description-no" type="string" value="Factory for oppretting av innboksmonitor."/>
+	<oaf_attribute name="description-pa" type="string" value="ੲਿੰਬਾਕਸ ਮਾਨੀਟਰ ਬਣਾੳੁਣ ਲੲੀ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator tworzenia monitorów skrzynki odbiorczej."/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para criar monitores de caixa de correio."/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para criar monitores da caixa de entrada."/>
+	<oaf_attribute name="description-ro" type="string" value="Factory pentru crearea monitorului inbox."/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для создания мониторов входящей почты."/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre sledovanie novej pošty."/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za izdelovanje vstavkov nadzora dohodne pošte"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika për krijimin e vëzhguesve të postës"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за праћење сандучета."/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za praćenje sandučeta."/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för skapande av inkorgsövervakare."/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานสำหรับสร้างตัวติดตามอีเมลใหม่"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для створення моніторів пошти."/>
+	<oaf_attribute name="description-vi" type="string" value="Factory tạo applet theo dõi hộp thư."/>
+	<oaf_attribute name="description-zh_CN" type="string" value="用于创建收件箱监视器的车间。"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="建立收件匣監控程式的工廠。"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="建立收件匣監控程式的工廠。"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_MailcheckApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_MailcheckApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Inbox Monitor"/>
+	<oaf_attribute name="name-ar" type="string" value="مراقب صندوق البريد"/>
+	<oaf_attribute name="name-az" type="string" value="Poçt Qutusu İzləyicsi"/>
+	<oaf_attribute name="name-be" type="string" value="Назіральнік за поштай"/>
+	<oaf_attribute name="name-bg" type="string" value="Следене на пощенската кутия"/>
+	<oaf_attribute name="name-bn" type="string" value="ইনবক্স মনিটর"/>
+	<oaf_attribute name="name-ca" type="string" value="Monitor d&apos;inbox"/>
+	<oaf_attribute name="name-cs" type="string" value="Sledování poštovní schránky"/>
+	<oaf_attribute name="name-cy" type="string" value="Monitr Blwch Derbyn"/>
+	<oaf_attribute name="name-da" type="string" value="Indbakkeovervåger"/>
+	<oaf_attribute name="name-de" type="string" value="E-Mail-Eingangsüberwachung"/>
+	<oaf_attribute name="name-el" type="string" value="Παρακολούθηση αλληλογραφίας"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Inbox Monitor"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Inbox Monitor"/>
+	<oaf_attribute name="name-es" type="string" value="Supervisor de la bandeja de entrada"/>
+	<oaf_attribute name="name-eu" type="string" value="Sarrerako ontziaren monitorea"/>
+	<oaf_attribute name="name-fi" type="string" value="Postilaatikon tarkkailija"/>
+	<oaf_attribute name="name-fr" type="string" value="Moniteur de boîte de réception"/>
+	<oaf_attribute name="name-gu" type="string" value="ઈનબોક્ષનું ધ્યાન રાખનાર"/>
+	<oaf_attribute name="name-he" type="string" value="צג תיבת דואר נכנס"/>
+	<oaf_attribute name="name-hi" type="string" value="इनबाक्स मानीटर"/>
+	<oaf_attribute name="name-hr" type="string" value="Praćenje sandučića"/>
+	<oaf_attribute name="name-hu" type="string" value="Postaláda-figyelő"/>
+	<oaf_attribute name="name-it" type="string" value="Controllo della posta"/>
+	<oaf_attribute name="name-ja" type="string" value="受信箱モニター"/>
+	<oaf_attribute name="name-ko" type="string" value="받은 편지함 감시"/>
+	<oaf_attribute name="name-lt" type="string" value="Inbox stebyklė"/>
+	<oaf_attribute name="name-mk" type="string" value="Inbox монитор"/>
+	<oaf_attribute name="name-ml" type="string" value="എഴുത്ത് പെട്ടി സൂചകന്"/>
+	<oaf_attribute name="name-mn" type="string" value="Шуудан харуулагч"/>
+	<oaf_attribute name="name-ms" type="string" value="Monitor PetiMasuk"/>
+	<oaf_attribute name="name-nl" type="string" value="Postbus-monitor"/>
+	<oaf_attribute name="name-nn" type="string" value="Innboksovervakar"/>
+	<oaf_attribute name="name-no" type="string" value="Overvåking av innboks"/>
+	<oaf_attribute name="name-pa" type="string" value="ੲਿੰਬਾਕਸ ਮਾਨੀਟਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Monitor skrzynki odbiorczej"/>
+	<oaf_attribute name="name-pt" type="string" value="Monitor de Caixa de Correio"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Monitor da caixa de entrada"/>
+	<oaf_attribute name="name-ro" type="string" value="Monitor Inbox"/>
+	<oaf_attribute name="name-ru" type="string" value="Индикатор входящей почты"/>
+	<oaf_attribute name="name-sk" type="string" value="Sledovanie novej pošty"/>
+	<oaf_attribute name="name-sl" type="string" value="Nadzornik dohodne pošte"/>
+	<oaf_attribute name="name-sq" type="string" value="Vëzhguesi i Postës"/>
+	<oaf_attribute name="name-sr" type="string" value="Праћење сандучета"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Praćenje sandučeta"/>
+	<oaf_attribute name="name-sv" type="string" value="Inkorgsövervakare"/>
+	<oaf_attribute name="name-th" type="string" value="ติดตามอีเมลใหม่"/>
+	<oaf_attribute name="name-tr" type="string" value="Posta Kutusu İzleyici"/>
+	<oaf_attribute name="name-uk" type="string" value="Монітор пошти"/>
+	<oaf_attribute name="name-vi" type="string" value="Bộ theo dõi Hộp thư"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="收件箱监视器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="收件匣檢查"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="收件匣檢查"/>
+	<oaf_attribute name="description" type="string" value="Alert you when new mail arrives"/>
+	<oaf_attribute name="description-ar" type="string" value="ينبهك عند وصول بريد جديد"/>
+	<oaf_attribute name="description-az" type="string" value="Yeni məktub gələndə xəbər ver"/>
+	<oaf_attribute name="description-be" type="string" value="Паведамляць Вам, калі атрымана новая пошта"/>
+	<oaf_attribute name="description-bg" type="string" value="Получаване на сигнал при нова електронна поща"/>
+	<oaf_attribute name="description-bn" type="string" value="আপনার নতুন চিঠি এলে আপনাকে জানায়"/>
+	<oaf_attribute name="description-ca" type="string" value="Alerta quan arriba nou correu"/>
+	<oaf_attribute name="description-cs" type="string" value="Upozornit vás, když přijde nová pošta"/>
+	<oaf_attribute name="description-cy" type="string" value="Eich hysbysu pan mae ebost newydd yn cyrraedd"/>
+	<oaf_attribute name="description-da" type="string" value="Bekendtgør når der kommer ny post"/>
+	<oaf_attribute name="description-de" type="string" value="Benachrichtigt Sie beim Eintreffen neuer E-Mails"/>
+	<oaf_attribute name="description-el" type="string" value="Ειδοποίηση όταν καταφθάνει νέα αλληλογραφία"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Alert you when new mail arrives"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Alert you when new mail arrives"/>
+	<oaf_attribute name="description-es" type="string" value="Avisar cuando llegue nuevo correo"/>
+	<oaf_attribute name="description-eu" type="string" value="Abisatu mezu berriak iristen direnean"/>
+	<oaf_attribute name="description-fi" type="string" value="Ilmoita kun uutta sähköpostia saapuu"/>
+	<oaf_attribute name="description-fr" type="string" value="Vous avertit lorsquent arrivent de nouveaux emails"/>
+	<oaf_attribute name="description-gu" type="string" value="જ્યારે નવા મેઈલ આવે ત્યારે તમને ચેતવે"/>
+	<oaf_attribute name="description-he" type="string" value="התרע אותך כאשר דואר חדש מגיע"/>
+	<oaf_attribute name="description-hi" type="string" value="जब नया डाक मिले तब चेताएं"/>
+	<oaf_attribute name="description-hr" type="string" value="Obavijesti kada stigne nova pošta"/>
+	<oaf_attribute name="description-hu" type="string" value="Figyelmeztetés új levél érkezésekor"/>
+	<oaf_attribute name="description-is" type="string" value="Tilkynnir þér hvenær nýr póstur berst"/>
+	<oaf_attribute name="description-it" type="string" value="Avvisa quando arriva nuova posta"/>
+	<oaf_attribute name="description-ja" type="string" value="新しいメールが届いた時に音を鳴らします"/>
+	<oaf_attribute name="description-ko" type="string" value="새 편지를 받았을 때 알려주기"/>
+	<oaf_attribute name="description-lt" type="string" value="Įspėti kai gaunamas naujas paštas"/>
+	<oaf_attribute name="description-mk" type="string" value="Извести ме кога ќе пристигне поштата"/>
+	<oaf_attribute name="description-ml" type="string" value="പുതിയ കത്തുകള് വരുമ്പോള് ശ്രദ്ദിപ്പിക്കുക"/>
+	<oaf_attribute name="description-ms" type="string" value="Maklum saya bila mel baru tiba"/>
+	<oaf_attribute name="description-nl" type="string" value="Waarschuwing bij nieuwe e-mail"/>
+	<oaf_attribute name="description-nn" type="string" value="Meld ifrå når det kjem ny e-post"/>
+	<oaf_attribute name="description-no" type="string" value="Meld fra når ny e-post ankommer"/>
+	<oaf_attribute name="description-pa" type="string" value="ਚੇਤਵਾਨੀ ਜਦੋ ਕਿ ਨਵ੾ ਪੱਤਰ ਅਾਵੇ"/>
+	<oaf_attribute name="description-pl" type="string" value="Włącza alert po nadejściu nowej wiadomości"/>
+	<oaf_attribute name="description-pt" type="string" value="Alertar ao chegar novo email"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alertar quando chegar uma nova mensagem"/>
+	<oaf_attribute name="description-ro" type="string" value="Te alertează la sosirea unui nou mail"/>
+	<oaf_attribute name="description-ru" type="string" value="Оповещает о приходе новой почты"/>
+	<oaf_attribute name="description-sk" type="string" value="Upozorniť pri príchode novej pošty"/>
+	<oaf_attribute name="description-sl" type="string" value="Opozori me, ko prispe nova pošta"/>
+	<oaf_attribute name="description-sq" type="string" value="Sinjalizon kur vjen mesazh i ri"/>
+	<oaf_attribute name="description-sr" type="string" value="Обавести када стигне нова пошта"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Obavesti kada stigne nova pošta"/>
+	<oaf_attribute name="description-sv" type="string" value="Varna då ny e-post anländer"/>
+	<oaf_attribute name="description-th" type="string" value="แจ้งเมื่อมีอีเมลใหม่"/>
+	<oaf_attribute name="description-tr" type="string" value="Yeni e-posta geldiğinde uyarır"/>
+	<oaf_attribute name="description-uk" type="string" value="Повідомляти про прибуття нової пошти"/>
+	<oaf_attribute name="description-vi" type="string" value="Báo động nến thư mới đến"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="当新邮件到达时提示"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="通知您收到新郵件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="通知您收到新郵件"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-mailcheck.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-am" type="string" value="ኢንተርኔት"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="الإنترنت"/>
+	<oaf_attribute name="panel:category-az" type="string" value="İnternet"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Інтарнэт"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="ইন্টারনেট"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Rhyngrwyd"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Διαδίκτυο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Idirlíon"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઈન્ટરનૅટ"/>
+	<oaf_attribute name="panel:category-he" type="string" value="אינטרנט"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="इन्टरनेट"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Internetið"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="インターネット"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="인터넷"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Internetas"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="വിവരമണ്ഡലം"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Internett"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Internett"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਇੰਟਰਨੈਟ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="இணையம்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อินเทอร์เน็ต"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="İnternet"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Інтернет"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Daegntoele"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="互联网"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="網際網路"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="網際網路"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Mailcheck Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="mailcheck-applet"/>
+
+</oaf_server>
+
+</oaf_info>

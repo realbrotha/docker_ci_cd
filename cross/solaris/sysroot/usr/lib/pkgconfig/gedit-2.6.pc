@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: gedit
+Description: gedit
+Requires: libgnomeui-2.0 libglade-2.0 libgnomeprintui-2.2 eel-2.0 gtksourceview-1.0
+Version: 2.6.2
+Cflags: -I${includedir}/gedit-2.6

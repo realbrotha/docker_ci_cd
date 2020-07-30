@@ -1,0 +1,53 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-scheduler	1.1	06/05/29 SMI"
+#
+# Set default scheduling class
+#
+
+. /lib/svc/share/smf_include.sh
+
+[ -f /etc/dispadmin.conf ] || exit $SMF_EXIT_OK
+if  [ -x /usr/sbin/dispadmin ] && [ -x /usr/bin/priocntl ]; then
+	ERROR="$0: cannot set default scheduling class to "
+	DISPADMIN_D=`/usr/sbin/dispadmin -d`
+
+	if [ $? -eq 0 ]; then
+		#
+		# Inform the kernel about the default scheduling class.
+		#
+		/usr/sbin/dispadmin -u
+
+		DEFAULT_SCHEDULER=`echo $DISPADMIN_D | /usr/bin/cut -f1 -d' '`
+
+		/usr/bin/priocntl -s -c $DEFAULT_SCHEDULER -i all
+		if [ $? -ne 0 ]; then
+			echo $ERROR $DEFAULT_SCHEDULER
+			exit $SMF_EXIT_ERR_FATAL
+		else
+			#
+			# Also need to move init process explicitly
+			# because it was ignored by "-i all".
+			#
+			/usr/bin/priocntl -s -c $DEFAULT_SCHEDULER -i pid 1
+			if [ $? -ne 0 ]; then
+				echo $ERROR $DEFAULT_SCHEDULER
+				exit $SMF_EXIT_ERR_FATAL
+			fi
+		fi
+	else
+		#
+		# Default scheduling class from dispadmin.conf is
+		# invalid or not available.
+		#
+		exit $SMF_EXIT_ERR_CONFIG
+	fi	
+else
+	# dispadmin or priocntl commands can't be executed 
+	echo "$0: cannot execute command"
+	exit $SMF_EXIT_ERR_FATAL
+fi
+exit $SMF_EXIT_OK

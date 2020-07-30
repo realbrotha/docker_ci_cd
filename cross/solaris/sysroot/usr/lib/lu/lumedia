@@ -1,0 +1,26 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lumedia.sh 5.2     03/01/29 SMI"
+#
+# USAGE:        lumedia 
+# FUNCTION:     list possible media devices on a system (like Solaris CD or NFS)
+# INPUT:        none
+# OUTPUT:	media mount points
+# DEV:          DNB
+#
+#################################################################################################
+
+rm -f /tmp/updevs1.$$ /tmp/updevs2.$$
+/usr/sbin/df -F nfs | awk ' { print $1 } ' > /tmp/updevs2.$$
+/usr/sbin/df -F hsfs | awk ' { print $1 } ' >> /tmp/updevs2.$$
+cat /tmp/updevs2.$$ | /usr/bin/awk -F"(" ' { if ( NR==1 ) { printf "/usr/bin/ls -d " }; { printf "%s ", $1 } } ' 2> /dev/null >/tmp/updevs1.$$
+echo "" >> /tmp/updevs1.$$;
+/usr/bin/sed 's/\/\.install_config//g' /tmp/updevs1.$$ > /tmp/updevs2.$$;
+/sbin/sh /tmp/updevs2.$$ | awk ' { printf "%s\n", $1 } ' 
+rm -f /tmp/updevs1.$$ /tmp/updevs2.$$
+exit 0

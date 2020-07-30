@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.	 All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-sckmd	1.1	06/06/08 SMI"
+#
+
+#
+# Startup script for the Key Management Daemon
+#
+
+. /lib/svc/share/smf_include.sh
+
+platform=${_INIT_UTS_PLATFORM:-`/sbin/uname -i`}
+starcat="SUNW,Sun-Fire-15000" 
+opl="SUNW,SPARC-Enterprise" 
+sckmd="/usr/platform/sun4u/lib/sckmd"
+
+if [ ${platform} = "${starcat}" -o  \
+     ${platform} = "${opl}" ]; then
+	if [ -x ${sckmd} ]; then 
+		${sckmd}
+		exit $SMF_EXIT_OK
+	fi
+fi
+exit $SMF_EXIT_MON_OFFLINE

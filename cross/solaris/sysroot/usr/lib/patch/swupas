@@ -1,0 +1,100 @@
+#!/usr/bin/sh
+#
+# ident	"%Z%%M%	%I%	%E% SMI"
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+umask 022
+
+DO_CHECKIN=false
+SWUPAS_LOG=/var/log/swupas/swupas.log
+SWUPAS_ERR_LOG=/var/log/swupas/swupas.error.log
+SWUPAS_LOG_BAK=/var/log/swupas/swupas.log.1
+CCR=/usr/lib/cc-ccr/bin/ccr
+
+/usr/bin/cp /dev/null $SWUPAS_ERR_LOG
+
+CheckZones()
+{
+    ZONENAME=/usr/bin/zonename
+    if [ -f ${ZONENAME} ] ; then
+        if [ `${ZONENAME}` != "global" ]; then
+            echo "Swup not supported in zone: $ZONENAME" >> $SWUPAS_ERR_LOG
+            echo "Swup Agent is only supported in the global zone. Exiting..." >> $SWUPAS_ERR_LOG
+            logger -tswupas -p2 "Non global zone not supported. zone: $ZONENAME. Exiting"
+            exit 1
+        fi
+    fi 
+}
+
+# Swup Agent will only run in the global zone
+CheckZones
+
+if [ ! -f $CCR ]; then
+    echo "Swup Agent error: " `/usr/bin/date` >> $SWUPAS_ERR_LOG
+    echo "swup agent error: CCR is not installed, can't check in for portal commands" >> $SWUPAS_ERR_LOG
+    exit 1
+fi
+
+# get the last checkin time from CCR
+LAST_CHECKIN=`$CCR -g cns.swup.lastCheckin 2> /dev/null`
+if [ $? -ne 0 ]; then
+    echo "Swup Agent error: " `/usr/bin/date` >> $SWUPAS_ERR_LOG
+    echo "swup agent error: Unable to read cns.swup.lastCheckin from CCR" >> $SWUPAS_ERR_LOG
+    exit 1
+fi
+
+# if we've never checked in yet then we need to
+if [ "$LAST_CHECKIN" = "0" ]; then
+    DO_CHECKIN=true
+
+else
+    # else we need to compare the checkin interval with the last time
+    # we checked in to see if its time
+
+    CHECK_INTERVAL=`$CCR -g cns.swup.checkinInterval 2> /dev/null`
+
+    if [ $? -ne 0 ]; then
+        echo "Swup Agent error: " `/usr/bin/date` >> $SWUPAS_ERR_LOG
+        echo "swup agent error: unable to get cns.swup.checkinInterval time from CCR" >> $SWUPAS_ERR_LOG
+        exit 1
+    fi
+
+    # change checkin interval from minutes to hours
+    CHECK_INTERVAL=`echo "$CHECK_INTERVAL * 60" | /usr/bin/bc`
+
+    # get current time
+    CUR_TIME=`/usr/bin/perl -le "print time"`
+    CUR_TIME=`echo "$CUR_TIME / 60" | /usr/bin/bc`
+
+    # get time since last checkin
+    ELAPSED_MINS=`echo "$CUR_TIME - $LAST_CHECKIN" | /usr/bin/bc`
+
+    # is it time?
+    if [ $ELAPSED_MINS -ge $CHECK_INTERVAL ]; then
+        DO_CHECKIN=true
+    fi
+
+fi
+
+# if we are in debug mode then run anyway
+if [ $# -gt 0 ]; then
+    for aug in $@
+    do
+        if [ "$aug" = "-debug" ]; then
+            DO_CHECKIN=true
+        fi
+    done
+fi
+
+if [ "$DO_CHECKIN" = "true" ]; then
+
+    # save the previous log file
+    /usr/bin/cp $SWUPAS_LOG $SWUPAS_LOG_BAK
+
+    echo "Swup Agent run: " `/usr/bin/date` > $SWUPAS_LOG
+    /usr/bin/java -jar /usr/lib/patch/swupa.jar -debug "$@" >> $SWUPAS_LOG 2>&1
+    echo "Swup Agent finish: " `/usr/bin/date` >> $SWUPAS_LOG
+fi

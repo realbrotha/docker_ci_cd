@@ -1,0 +1,132 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory"
+            type="exe"
+            location="/usr/lib/evolution/1.4/evolution-alarm-notify">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Calendar alarm notification service"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Паслуга нагадваньня сыгнала каляндара &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Sloužba upozornění na alarm kalendáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution kalenderalarmbekendgørelsestjeneste"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Evolution-Kalender-Alarmbenachrichtigungsdienst"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Υπηρεσία υπενθύμισης ειδοποίησης του Ημερολογίου του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Servicio de notificación por alarma de la agenda de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution kalenterin hälyty"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Service de notification d&apos;alarme du calendrier d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Naptár riasztószolgáltatás"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Servizio di notifica dell&apos;avviso sonoro del calendario di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution カレンダアラーム通知サービス"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 달력 알림 서비스"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Развоен календар известувачка улога за аларми"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Khidmat pemberitahuan penggera Kalendar Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution kalender alarmweergave"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Notifikasjonstjeneste for alarmer i Evolution kalender"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Usługa powiadamiania o alarmie kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Serviço de alarme de notificação de Calendário Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Serviço de notificação de alarme da agenda do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Служба срочного уведомления Календаря Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Сервис за аларм обавештења Еволуција календара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Servis za alarm obaveštenja Evolucija kalendara"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutionkalenderns alarmunderrättelsetjänst"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Takvim alarm bildirim servisi"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 日历提醒通知服务"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 行事曆提醒通知服務"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 行事曆提醒通知服務"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_AlarmNotify"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory">
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Calendar alarm notification service"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Паслуга нагадваньня сыгнала каляндара &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Sloužba upozornění na alarm kalendáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution kalenderalarmbekendgørelsestjeneste"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Evolution-Kalender-Alarmbenachrichtigungsdienst"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Υπηρεσία υπενθύμισης ειδοποίησης του Ημερολογίου του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Servicio de notificación por alarma de la agenda de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution kalenterin hälyty"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Service de notification d&apos;alarme du calendrier d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Naptár riasztószolgáltatás"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Servizio di notifica dell&apos;avviso sonoro del calendario di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution カレンダアラーム通知サービス"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 달력 알림 서비스"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Развоен календар известувачка улога за аларми"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Khidmat pemberitahuan penggera Kalendar Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution kalender alarmweergave"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Notifikasjonstjeneste for alarmer i Evolution kalender"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Usługa powiadamiania o alarmie kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Serviço de alarme de notificação de Calendário Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Serviço de notificação de alarme da agenda do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Служба срочного уведомления Календаря Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Сервис за аларм обавештења Еволуција календара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Servis za alarm obaveštenja Evolucija kalendara"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutionkalenderns alarmunderrättelsetjänst"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Takvim alarm bildirim servisi"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 日历提醒通知服务"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 行事曆提醒通知服務"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 行事曆提醒通知服務"/>
+</oaf_server>
+
+</oaf_info>

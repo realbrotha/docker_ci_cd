@@ -1,0 +1,19 @@
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident "$Revision: 1.4 $	SMI"
+
+#
+# The userEntry contains entries for secure users. Each entry uses the following format:
+# userEntry=localEngineID,<user name>,<security name>, <auth algorithm>,<auth key>,<priv algorithm>,<priv key>,<storage type>
+# The authentication algorithms can be either usmHMACMD5AuthProtocol or usmHMACSHAAuthProtocol.
+# The storage type is defined by User Security Model to have a default value of 3 (nonVolatile).
+#
+# Uncomment one of the following userEntry settings to allow authentication or
+# encryption for the user "defaultuser".
+#
+# Default configuration for defaultuser. Authentication only:
+# userEntry=localEngineID,defaultuser,null,usmHMACMD5AuthProtocol,mypasswd,,,3
+
+# Default configuration for defaultuser. Authentication and encryption:
+# userEntry=localEngineID,defaultuser,null,usmHMACMD5AuthProtocol,mypasswd,usmDESPrivProtocol,defaultpasswd,3

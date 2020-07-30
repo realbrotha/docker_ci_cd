@@ -1,0 +1,11 @@
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lmilter	1.1	04/01/29 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include "libmilter.h"

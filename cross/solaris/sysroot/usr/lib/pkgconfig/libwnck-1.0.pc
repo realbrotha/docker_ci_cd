@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libwnck
+Description: Window Navigator Construction Kit library
+Version: 2.6.0
+Requires: gtk+-2.0 libstartup-notification-1.0
+Libs: -L${libdir} -lwnck-1
+Cflags: -I${includedir}/libwnck-1.0
+

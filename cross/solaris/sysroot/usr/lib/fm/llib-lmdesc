@@ -1,0 +1,11 @@
+/*
+ * Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lmdesc	1.1	05/12/12 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <sys/mdesc.h>

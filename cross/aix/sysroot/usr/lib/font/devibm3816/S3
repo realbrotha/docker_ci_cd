@@ -1,0 +1,84 @@
+# @(#)34	1.4 7/19/91 13:47:43
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3816/font/S3 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S3
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+A	24 2 0101	capital alpha
+*A	"
+B	24 2 0102	capital beta
+*B	"
+*G	24 0 0342	capital gamma   
+E	24 2 0105	capital epsilon
+*E	"
+Z	24 2 0132	capital zeta
+*Z	"
+H	24 2 0110	capital eta
+*Y	"
+*H	24 0 0351	capital theta   
+I	24 2 0111	capital iota
+*I	"
+K	24 2 0113	capital kappa
+*K	"
+M	24 2 0115	capital mu
+*M	"
+N	24 2 0116	capital nu
+*N	"
+O	24 2 0117	capital omicron
+*O	"
+P	24 2 0120	capital rho
+*R	"
+*S	24 0 0344	capital sigma   
+T	24 2 0124	capital tau
+*T	"
+*F	24 0 0350	capital phi   
+X	24 2 0130	capital chi
+*X	"
+*W	24 0 0352	capital omega   
+*a	24 0 0340	small alpha   
+*b	24 0 0341	small beta   
+*d	24 0 0353	small delta   
+*e	24 0 0356	small epsilon   
+æ	24 0 0346	small mu   
+*m	"
+*p	24 0 0343	small pi   
+*s	24 0 0345	small sigma   
+*t	24 0 0347	small tau   
+*f	24 0 0355	small phi   
+ca	24 0 0357	intersection symbol   
+== 	24 2 0360	identity symbol   
+>=	24 2 0362	greater-than-equal-to sign   
+<=	24 2 0363	less-than-equal-to sign   
+sr	24 2 0373	radical symbol   

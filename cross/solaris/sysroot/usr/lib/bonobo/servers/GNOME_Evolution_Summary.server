@@ -1,0 +1,326 @@
+<oaf_info>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ComponentFactory"
+	      type="shlib"
+	      location="/usr/lib/evolution/1.4/components/libevolution-executive-summary.so">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:Bonobo/GenericFactory:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+                   value="Evolution Summary"/>
+    <oaf_attribute name="name-be" type="string"
+                   value="Агульныя зьвесткі &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+                   value="Evolution Souhrn"/>
+    <oaf_attribute name="name-da" type="string"
+                   value="Evolution sammenfatning"/>
+    <oaf_attribute name="name-de" type="string"
+                   value="Evolution-Zusammenfassung"/>
+    <oaf_attribute name="name-el" type="string"
+                   value="Περίληψη Evolution"/>
+    <oaf_attribute name="name-es" type="string"
+                   value="Resumen de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+                   value="Evolutionin Yhteenveto"/>
+    <oaf_attribute name="name-fr" type="string"
+                   value="Résumé d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+                   value="Evolution Összefoglaló"/>
+    <oaf_attribute name="name-it" type="string"
+                   value="Sommario di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+                   value="Evolution サマリ"/>
+    <oaf_attribute name="name-ko" type="string"
+                   value="Evolution 요약"/>
+    <oaf_attribute name="name-ms" type="string"
+                   value="Ringkasan Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+                   value="Evolution samenvatting"/>
+    <oaf_attribute name="name-no" type="string"
+                   value="Evolution sammendrag."/>
+    <oaf_attribute name="name-pl" type="string"
+                   value="Zestawienie Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+                   value="Resumo Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+                   value="Resumo do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+                   value="Evolution Summary"/>
+    <oaf_attribute name="name-sr" type="string"
+                   value="Еволуција сажетак"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+                   value="Evolucija sažetak"/>
+    <oaf_attribute name="name-sv" type="string"
+                   value="Evolutionsammanfattning"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+                   value="Evolution 概要组件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+                   value="Evolution 摘要"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+                   value="Evolution 摘要"/>
+
+  </oaf_server>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponent"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Summary_ComponentFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Summary component"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Кампанэнт агульных зьвестак &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Komponenta souhrnu Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution sammenfatningskomponent."/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-Zusammenfassungskomponente"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Componente del resumen de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution Yhteenveto-komponentti"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant Résumé d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Összefoglaló komponens"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Componente del Sommario di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution サマリコンポーネント"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 요약 구성 요소"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Komponen Ringkasan Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution samenvatting-component"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Komponent for Evolution sammendrag"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Komponent Zestawienia Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Componente de Resumo Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Componente Resumo do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Компонент Evolution Summary"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Компонента Еволуција сажетка"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Komponenta Evolucija sažetka"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions sammanfattningskomponent"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 概要组件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 摘要元件"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 摘要元件"/>
+
+    <oaf_attribute name="evolution:shell_component_icon" type="string"
+		   value="evolution-today.png"/>
+    <oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		   value="4"/>
+
+  </oaf_server>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControl"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Summary_ComponentFactory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:title" type="string"
+		   value="Summary Preferences"/>
+    <oaf_attribute name="evolution:config_item:title-be" type="string"
+		   value="Уласьцівасьці вынікаў"/>
+    <oaf_attribute name="evolution:config_item:title-cs" type="string"
+		   value="Nastavení souhrnu"/>
+    <oaf_attribute name="evolution:config_item:title-da" type="string"
+		   value="Sammenfatningsindstillinger"/>
+    <oaf_attribute name="evolution:config_item:title-de" type="string"
+		   value="Zusammenfassungseinstellungen"/>
+    <oaf_attribute name="evolution:config_item:title-el" type="string"
+		   value="Ρυθμίσεις Περίληψης"/>
+    <oaf_attribute name="evolution:config_item:title-es" type="string"
+		   value="Configuración del resumen"/>
+    <oaf_attribute name="evolution:config_item:title-fi" type="string"
+		   value="Yhteenvedon asetukset"/>
+    <oaf_attribute name="evolution:config_item:title-fr" type="string"
+		   value="Préférence du résumé"/>
+    <oaf_attribute name="evolution:config_item:title-hu" type="string"
+		   value="Összefoglaló beállításai"/>
+    <oaf_attribute name="evolution:config_item:title-it" type="string"
+		   value="Preferenze Sommario"/>
+    <oaf_attribute name="evolution:config_item:title-ja" type="string"
+		   value="サマリの設定"/>
+    <oaf_attribute name="evolution:config_item:title-ko" type="string"
+		   value="요약 환경 설정"/>
+    <oaf_attribute name="evolution:config_item:title-lv" type="string"
+		   value="Kopsavilkuma preferences"/>
+    <oaf_attribute name="evolution:config_item:title-ms" type="string"
+		   value="Keutamaan Ringkasan"/>
+    <oaf_attribute name="evolution:config_item:title-nl" type="string"
+		   value="Samenvatting instellingen"/>
+    <oaf_attribute name="evolution:config_item:title-no" type="string"
+		   value="Brukervalg for sammendrag"/>
+    <oaf_attribute name="evolution:config_item:title-pl" type="string"
+		   value="Ustawienia zestawienia"/>
+    <oaf_attribute name="evolution:config_item:title-pt" type="string"
+		   value="Preferências Resumo"/>
+    <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		   value="Preferências do resumo"/>
+    <oaf_attribute name="evolution:config_item:title-ru" type="string"
+		   value="Настройки компонента Evolution Summary"/>
+    <oaf_attribute name="evolution:config_item:title-sk" type="string"
+		   value="Nastavenie súhrnu"/>
+    <oaf_attribute name="evolution:config_item:title-sr" type="string"
+		   value="особоне сажетка"/>
+    <oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		   value="osobone sažetka"/>
+    <oaf_attribute name="evolution:config_item:title-sv" type="string"
+		   value="Sammanfattningsinställningar"/>
+    <oaf_attribute name="evolution:config_item:title-tr" type="string"
+		   value="Özet Tercihleri"/>
+    <oaf_attribute name="evolution:config_item:title-uk" type="string"
+		   value="Вподобання Зведення"/>
+    <oaf_attribute name="evolution:config_item:title-vi" type="string"
+		   value="Thông số Tóm tắt"/>
+    <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		   value="概要首选项"/>
+    <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		   value="摘要偏好設定"/>
+    <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		   value="摘要偏好設定"/>
+
+    <oaf_attribute name="evolution:config_item:description" type="string"
+		   value="Configure the appearance of the Evolution Summary here"/>
+    <oaf_attribute name="evolution:config_item:description-be" type="string"
+		   value="Тутака наладжваецца вонкавы выгляд вынікаў &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="evolution:config_item:description-cs" type="string"
+		   value="Zde se nastavuje vzhled souhrnu Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-da" type="string"
+		   value="Konfigurér udseendet af Evolution-sammenfatningerne."/>
+    <oaf_attribute name="evolution:config_item:description-de" type="string"
+		   value="Hier können Sie das Erscheinungsbild der Evolution-Zusammenfassung konfigurieren"/>
+    <oaf_attribute name="evolution:config_item:description-el" type="string"
+		   value="Ρυθμίστε εδώ την εμφάνιση της περίληψης του Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-es" type="string"
+		   value="Configure la apariencia del Resumen de Evolution aquí"/>
+    <oaf_attribute name="evolution:config_item:description-fi" type="string"
+		   value="Muokkaa Evolution Koosteen ulkoasua tästä"/>
+    <oaf_attribute name="evolution:config_item:description-fr" type="string"
+		   value="Configurez ici l&apos;apparence du résumé d&apos;Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-hu" type="string"
+		   value="Itt állítható be az Evolution Összefoglaló"/>
+    <oaf_attribute name="evolution:config_item:description-it" type="string"
+		   value="Configura qui l&apos;aspetto del Sommario di Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-ja" type="string"
+		   value="ここで Evolution サマリの外観を設定します。"/>
+    <oaf_attribute name="evolution:config_item:description-ko" type="string"
+		   value="여기에서 Evolution 요약의 모양을 구성합니다."/>
+    <oaf_attribute name="evolution:config_item:description-lv" type="string"
+		   value="Šeit konfigurējiet Evolution Kopsavilkuma izskatu"/>
+    <oaf_attribute name="evolution:config_item:description-ms" type="string"
+		   value="Buat konfigurasi Ringkasan Evolution di sini"/>
+    <oaf_attribute name="evolution:config_item:description-nl" type="string"
+		   value="Hier kunt u het uiterlijk van de Evolution samenvatting instellen"/>
+    <oaf_attribute name="evolution:config_item:description-no" type="string"
+		   value="Konfigurer utseende for Evolution sammendrag her"/>
+    <oaf_attribute name="evolution:config_item:description-pl" type="string"
+		   value="Konfiguracja wyglądu Zestawienia Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-pt" type="string"
+		   value="Configure aqui a aparência do Resumo Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		   value="Configure a aparência do resumo do Evolution aqui"/>
+    <oaf_attribute name="evolution:config_item:description-ru" type="string"
+		   value="Настройте вид компонента Evolution Summary здесь"/>
+    <oaf_attribute name="evolution:config_item:description-sk" type="string"
+		   value="Tu nastavte vzhľad súhrnu Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-sr" type="string"
+		   value="Подесите овде изглед Еволуција сажетка"/>
+    <oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		   value="Podesite ovde izgled Evolucija sažetka"/>
+    <oaf_attribute name="evolution:config_item:description-sv" type="string"
+		   value="Konfigurera utseendet för Evolutionsammanfattningen här."/>
+    <oaf_attribute name="evolution:config_item:description-uk" type="string"
+		   value="Налаштовування вигляду Зведення Evolution"/>
+    <oaf_attribute name="evolution:config_item:description-vi" type="string"
+		   value="Cấu hình diện mạo Tóm tắt Evolution ở đây"/>
+    <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		   value="配置 Evolution 概要的外观"/>
+    <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		   value="在此設定 Evolution 摘要的外觀"/>
+    <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		   value="在此設定 Evolution 摘要的外觀"/>
+
+    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+		   value="evolution-today.png"/>
+
+    <oaf_attribute name="evolution:config_item:type" type="stringv">
+	<item value="summary"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-5"/>
+    
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Summary configuration control"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Сродак канфігураваньня агульных зьвестак &quot;Эвалюцыі&quot;."/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Ovládací prvek nastavení souhrnu Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution sammenfatnings-styreelement"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Bedienelement zur Konfiguration der Evolution-Zusammenfassung"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Componente de configuración del Resumen de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution Yhteenvedon asetustyökalu"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant de configuration du résumé d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Összefoglaló konfigurációvezérlő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Controllo di configurazione del Sommario di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution サマリ設定コントロール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 요약 구성 제어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Kawalan konfigurasi Ringkasan Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution samenvattingseigenschappen"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Konfigurasjonkontroll for Evolution sammendrag"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Narzędzie do konfiguracji podsumowania programu Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Componente configuração de Resumo Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Controle de configuração do resumo do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Управление настройкой сводки Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Контрола подешавања Еволуција сажетка"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Kontrola podešavanja Evolucija sažetka"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions sammanfattningskonfigurationskontroll"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 概要配置控件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 摘要組態控制項"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 摘要組態控制項"/>
+
+  </oaf_server>
+
+</oaf_info>

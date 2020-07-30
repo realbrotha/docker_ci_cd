@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Command line options
+JAVA_PATH=/usr/java5/bin
+JAVA_BIN=java
+JAVA_VERSION=15
+JVM_ARGS=-Xmx1024m
+CLASSPATH=/usr/lib/perf/tprof2xml.jar
+JAVA_LIBPATH=/usr/lib/perf
+IBM_JAVA_OPTIONS=
+
+# Check Java Path
+if [ -f $JAVA_PATH/$JAVA_BIN ]; then
+
+	VER_NUM=`$JAVA_PATH/$JAVA_BIN -version 2>&1 | grep version | head -n 1 | cut -c 15,17`
+     	if [[ ${VER_NUM} = ${JAVA_VERSION} ]]; then
+		JAVA_BIN=$JAVA_PATH/$JAVA_BIN
+	fi
+fi
+
+# Check	Java
+JAVA_VER=`$JAVA_BIN -version 2>&1 | grep version | head -n 1`
+VER_STR=`echo $JAVA_VER	| cut -c -12`
+if [[ "${VER_STR}" != "java version" ]]; then
+     echo Java not found in PATH.
+     echo Please install Java first.
+     exit -1
+fi
+
+# Check	Java version
+VER_NUM=`echo $JAVA_VER	| cut -c 15,17`
+if [[ ${VER_NUM} -lt 14	]]; then
+     echo Java of version 1.4 or higher	is not found.
+     echo Please install Java first.
+     exit -1
+fi
+
+# Launch tprof2xml
+$JAVA_BIN $JVM_ARGS -Djava.library.path=$JAVA_LIBPATH -classpath $CLASSPATH com.ibm.vpa.tr.aix.AixConvert "$1" "$2" "$3" "$4" "$5"	"$6" "$7" "$8" "$9" "${10}" "${11}" "{$12}" "{$13}" "${14}" "${15}" "${16}" "${17}" "${18}" "${19}" "${20}"
+

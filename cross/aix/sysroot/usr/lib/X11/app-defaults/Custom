@@ -1,0 +1,108 @@
+! @(#)71	1.14  src/gos/apps/custom/app-defaults/Custom.base, custom, gos530 9/28/94 19:05:02 
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-defaults/Custom.base 1.14 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1994 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+!
+! COMPONENT_NAME:  (custom) AIXwindows Customizing Tool
+!
+! FUNCTIONS:
+!
+! ORIGINS:  27
+!
+! (C) COPYRIGHT International Business Machines Corp. 1992,1994
+! All Rights Reserved
+! Licensed Materials - Property of IBM
+!
+! US Government Users Restricted Rights - Use, duplication or
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+!
+
+! search for the application window to this depth
+!*windowSearchDepth:		3
+
+! time to wait for application to communicate (ms)
+!*timeout:			10000
+
+! location of app-custom files
+!*appCustomPath:	$HOME/%T/%L/%N:$HOME/%T/%N:/usr/lib/X11/%T/%L/%N:/usr/lib/X11/%T/%N
+
+! list all applications and their app-custom file
+Custom.listOfApps:	aixterm:Aixterm,custom:Custom,info:Info_gr,msmit:Msmit,mwm:Mwm,oclock:Clock,xbiff:XBiff,xcalc:XCalc,xclock:xclock,xload:XLoad,xlock:xlock,xmh:Xmh,xterm:XTerm
+
+! initial height
+Custom.height:		450
+
+! default font
+*FontList:		-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+! application class being Customized
+*appClass.fontList:	-dt-interface system-medium-r-normal-XXL*-*-*-*-*-*-*-*-*:
+
+! copyright font
+*copyright.fontList:	-dt-interface system-medium-r-normal-S*-*-*-*-*-*-*-*-*:
+
+! resource descriptions label alignment
+*scrolledGroupForm*XmLabelGadget.alignment:	alignment_beginning
+
+!
+! turn pushbutton and text tabgroups on to provide keyboard traversal
+!
+*XmPushButton.navigationType:	none
+*XmPushButton.traversalOn:	true
+*XmTextField.traversalOn:	true
+*XmTextField.navigationType:	none
+
+!
+! define the default colors for the application
+!
+*topEditHighlight:		white
+*bottomEditHighlight:		black
+*foregroundEditHighlight:	black
+*backgroundEditHighlight:	grey75
+
+! popup dialog position - if this is set to false
+!	geometry can be set on the dialogs
+*defaultPosition:			True
+*warningDialog.defaultPosition:		True
+*promptDialog.defaultPosition:		True
+*errorDialog.defaultPosition:		True
+*saveDialog.defaultPosition:		True
+
+! help facility resources
+*helpDialog.width:		850
+*helpDialog.geometry:		+10+10
+*listHelp.width:		175
+*listHelp.height:		175
+*scrolledHelp.width:		600
+*scrolledHelp.height:		300
+
+! font browser resources
+! *fontEditor*fontMessage.fontList:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+! picture browser resources
+! *pictureEditor*pictureMessage.fontList:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+*pictureEditor_popup.minWidth:		350
+*pictureEditor*editor:                  /usr/dt/bin/dticon -f \n\
+                                        /usr/bin/X11/bitmap
+*pictureEditor*directory:		/usr/include/X11/bitmaps
+*pictureDisplay_popup.minWidth:		250
+*pictureDisplay_popup.minHeight:	300
+
+! color browser resources
+! *colorEditor*colorMessage.fontList:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+*colorEditor_popup.minWidth:		350
+
+! cursor browser resources
+*cursorEditor_popup.minWidth:		250
+

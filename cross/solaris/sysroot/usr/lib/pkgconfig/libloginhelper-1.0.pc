@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+idldir=${prefix}/share/idl/at-spi-1.0
+
+Name: liblogin-helper
+Description: Login-Helper library for assistive technologies
+Requires: libbonobo-2.0 atk gtk+-2.0 libspi-1.0
+Version: 1.6.2
+Libs: -L${libdir} -lloginhelper
+Cflags: -I${includedir}/at-spi-1.0

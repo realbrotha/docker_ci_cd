@@ -1,0 +1,318 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_CharpickerApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/charpick_applet2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج منتقي الرموز"/>
+	<oaf_attribute name="name-az" type="string" value="Hərfseçici Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета Збор знакаў"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на пинсетата за символи"/>
+	<oaf_attribute name="name-bn" type="string" value="অক্ষরনির্বাচক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria Charpicker Applet"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro Paletu znaků"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennig Dewis Nodau"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik for tegnvælgerpanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="Zeichenwähler-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Επιλογέα Χαρακτήρων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación Tabla de caracteres"/>
+	<oaf_attribute name="name-et" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Karaktere-taularen applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Merkkivalitsimen tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet charpicker"/>
+	<oaf_attribute name="name-gl" type="string" value="Fábrica da applet de selección de caracteres"/>
+	<oaf_attribute name="name-gu" type="string" value="Charpicker અેપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון בוחר תווים"/>
+	<oaf_attribute name="name-hi" type="string" value="कैरपिकर एप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za applet za odabir znakova"/>
+	<oaf_attribute name="name-hu" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet Selettore caratteri"/>
+	<oaf_attribute name="name-ja" type="string" value="文字パレットアプレット ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="문자 선택 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Charpicker įtaiso gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="Charpicker Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Charpicker-аплетот"/>
+	<oaf_attribute name="name-mn" type="string" value="Тэмдэгт сонгогч апплетыг үндсэлэгч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Charpicker"/>
+	<oaf_attribute name="name-nl" type="string" value="Karakterkiezer Applet Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for teiknveljarprogrammet"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for tegnvelger"/>
+	<oaf_attribute name="name-pa" type="string" value="ਕੈਰਪਿਕਰ ਐਪਲਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu Charpicker"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet de Selecção de Caracteres"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo Charpicker"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory aplet selcar"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения выбора символов"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Charpicker"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka za izbiro znakov"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Applet për Zgjedhësin e Shkronjave"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика за аплет за избор знакова"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika za aplet za izbor znakova"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för teckenväljarpanelprogram"/>
+	<oaf_attribute name="name-ta" type="string" value="வரியுருதெரிவியின் குறும்பயனகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตตัวเลือกอักขระ"/>
+	<oaf_attribute name="name-tr" type="string" value="Harf Seçici Uygulak Mîmârîsi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплету вибору символів"/>
+	<oaf_attribute name="name-vi" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="字符拾取 Applet 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="字元選擇 Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="字元選擇 Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع بريمج منتقي الرموز"/>
+	<oaf_attribute name="description-az" type="string" value="Hərfseçici Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета Збор знакаў"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика на пинсетата за символи"/>
+	<oaf_attribute name="description-bn" type="string" value="অক্ষরনির্বাচক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria Charpicker Applet"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro Paletu znaků"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri Rhaglennig Dewis Nodau"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for tegnvælgerpanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="Zeichenwähler-Applet-Fabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Επιλογέα Χαρακτήρων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de la miniaplicación Tabla de caracteres"/>
+	<oaf_attribute name="description-et" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-eu" type="string" value="Karaktere-taularen applet-aren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Merkkivalitsimen tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet charpicker"/>
+	<oaf_attribute name="description-gl" type="string" value="Fábrica da applet de selección de caracteres"/>
+	<oaf_attribute name="description-gu" type="string" value="Charpicker અેપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן יישומון בוחר תווים"/>
+	<oaf_attribute name="description-hi" type="string" value="कैरपिकर एप्लेट फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za applet za odabir znakova"/>
+	<oaf_attribute name="description-hu" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet Selettore caratteri"/>
+	<oaf_attribute name="description-ja" type="string" value="文字パレットアプレット ファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="문자 선택 애플릿 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Charpicker įtaiso gamykla"/>
+	<oaf_attribute name="description-lv" type="string" value="Charpicker Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за Charpicker-аплетот"/>
+	<oaf_attribute name="description-mn" type="string" value="Тэмдэгт сонгогч апплетыг үндсэлэгч"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet Charpicker"/>
+	<oaf_attribute name="description-nl" type="string" value="Karakterkiezer Applet Fabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for teiknveljarprogrammet"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for tegnvelger"/>
+	<oaf_attribute name="description-pa" type="string" value="ਕੈਰਪਿਕਰ ਐਪਲਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletu Charpicker"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica da Applet de Selecção de Caracteres"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo Charpicker"/>
+	<oaf_attribute name="description-ro" type="string" value="Factory aplet selcar"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика окна приложения выбора символов"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet Charpicker"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna vstavka za izbiro znakov"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e Applet për Zgjedhësin e Shkronjave"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика за аплет за избор знакова"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za aplet za izbor znakova"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för teckenväljarpanelprogram"/>
+	<oaf_attribute name="description-ta" type="string" value="வரியுருதெரிவியின் குறும்பயனகம்"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตตัวเลือกอักขระ"/>
+	<oaf_attribute name="description-tr" type="string" value="Harf Seçici Uygulak Mîmârîsi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплету вибору символів"/>
+	<oaf_attribute name="description-vi" type="string" value="Charpicker Applet Factory"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="字符拾取 Applet 工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="字元選擇 Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="字元選擇 Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_CharpickerApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_CharpickerApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Character Palette"/>
+	<oaf_attribute name="name-ar" type="string" value="لوحة الرموز"/>
+	<oaf_attribute name="name-az" type="string" value="Hərf Palitrası"/>
+	<oaf_attribute name="name-be" type="string" value="Збор знакаў"/>
+	<oaf_attribute name="name-bg" type="string" value="Палитра с букви"/>
+	<oaf_attribute name="name-bn" type="string" value="অক্ষর প্যালেট"/>
+	<oaf_attribute name="name-ca" type="string" value="Paleta de caràcters"/>
+	<oaf_attribute name="name-cs" type="string" value="Paleta znaků"/>
+	<oaf_attribute name="name-cy" type="string" value="Palet Nodau"/>
+	<oaf_attribute name="name-da" type="string" value="Tegnpalet"/>
+	<oaf_attribute name="name-de" type="string" value="Zeichenpalette"/>
+	<oaf_attribute name="name-el" type="string" value="Επιλογέας Χαρακτήρων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Character Palette"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Character Palette"/>
+	<oaf_attribute name="name-es" type="string" value="Tabla de caracteres"/>
+	<oaf_attribute name="name-et" type="string" value="Märgipalett"/>
+	<oaf_attribute name="name-eu" type="string" value="Karaktere-paleta"/>
+	<oaf_attribute name="name-fi" type="string" value="Merkkipaletti"/>
+	<oaf_attribute name="name-fr" type="string" value="Palette de caractères"/>
+	<oaf_attribute name="name-ga" type="string" value="Paléid Caractar"/>
+	<oaf_attribute name="name-gl" type="string" value="Táboa de caracteres"/>
+	<oaf_attribute name="name-gu" type="string" value="અક્ષરની પેલેટ"/>
+	<oaf_attribute name="name-he" type="string" value="פלטת תווים"/>
+	<oaf_attribute name="name-hi" type="string" value="अक्षर पैलेट"/>
+	<oaf_attribute name="name-hr" type="string" value="Paleta znakova"/>
+	<oaf_attribute name="name-hu" type="string" value="Karakterpaletta"/>
+	<oaf_attribute name="name-it" type="string" value="Selettore caratteri"/>
+	<oaf_attribute name="name-ja" type="string" value="文字パレット"/>
+	<oaf_attribute name="name-ko" type="string" value="문자표"/>
+	<oaf_attribute name="name-lt" type="string" value="Simbolių rinkiklis"/>
+	<oaf_attribute name="name-lv" type="string" value="Rakstzīmju Palete"/>
+	<oaf_attribute name="name-mk" type="string" value="Лента на карактери"/>
+	<oaf_attribute name="name-ml" type="string" value="അക്ഷര തട്ട്"/>
+	<oaf_attribute name="name-mn" type="string" value="Тэмдэгтийн цуглуулагч"/>
+	<oaf_attribute name="name-ms" type="string" value="Palet Aksara"/>
+	<oaf_attribute name="name-nl" type="string" value="Karakterpalet"/>
+	<oaf_attribute name="name-nn" type="string" value="Teiknveljar"/>
+	<oaf_attribute name="name-no" type="string" value="Tegnpalett"/>
+	<oaf_attribute name="name-pa" type="string" value="ਅੱਖਰ ਰੰਗ-ਪੱਟੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Paleta znaków"/>
+	<oaf_attribute name="name-pt" type="string" value="Paleta de Caracteres"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Paleta de caracteres"/>
+	<oaf_attribute name="name-ro" type="string" value="Selector caractere"/>
+	<oaf_attribute name="name-ru" type="string" value="Набор символов"/>
+	<oaf_attribute name="name-sk" type="string" value="Paleta znakov"/>
+	<oaf_attribute name="name-sl" type="string" value="Paleta znakov"/>
+	<oaf_attribute name="name-sq" type="string" value="Zgjedhësi i Simboleve"/>
+	<oaf_attribute name="name-sr" type="string" value="Палета знакова"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Paleta znakova"/>
+	<oaf_attribute name="name-sv" type="string" value="Teckenpalett"/>
+	<oaf_attribute name="name-th" type="string" value="ตารางอักขระ"/>
+	<oaf_attribute name="name-tr" type="string" value="Karakter Paleti"/>
+	<oaf_attribute name="name-uk" type="string" value="Палітра символів"/>
+	<oaf_attribute name="name-vi" type="string" value="Bảng ký tự"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="字符调色板"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="字元選擇盤"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="字元選擇盤"/>
+	<oaf_attribute name="description" type="string" value="Insert characters"/>
+	<oaf_attribute name="description-ar" type="string" value="إدراج رموز"/>
+	<oaf_attribute name="description-az" type="string" value="Hərf daxil et"/>
+	<oaf_attribute name="description-be" type="string" value="Уставіць знакі"/>
+	<oaf_attribute name="description-bg" type="string" value="Вмъкнване на символите"/>
+	<oaf_attribute name="description-bn" type="string" value="অক্ষর সন্নিবেশ করা হোক"/>
+	<oaf_attribute name="description-ca" type="string" value="Insereix caràcters"/>
+	<oaf_attribute name="description-cs" type="string" value="Vkládání znaků"/>
+	<oaf_attribute name="description-cy" type="string" value="Mewnosod nodau"/>
+	<oaf_attribute name="description-da" type="string" value="Indsæt tegn"/>
+	<oaf_attribute name="description-de" type="string" value="Zeichen einfügen"/>
+	<oaf_attribute name="description-el" type="string" value="Εισαγωγή χαρακτήρων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Insert characters"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Insert characters"/>
+	<oaf_attribute name="description-es" type="string" value="Insertar caracteres"/>
+	<oaf_attribute name="description-et" type="string" value="Lisa märke"/>
+	<oaf_attribute name="description-eu" type="string" value="Txertatu karaktereak"/>
+	<oaf_attribute name="description-fi" type="string" value="Lisää merkkejä"/>
+	<oaf_attribute name="description-fr" type="string" value="Insérer des caractères"/>
+	<oaf_attribute name="description-gl" type="string" value="Inserir caracteres"/>
+	<oaf_attribute name="description-gu" type="string" value="અક્ષરો ઉમેરો"/>
+	<oaf_attribute name="description-he" type="string" value="הכנס תווים"/>
+	<oaf_attribute name="description-hi" type="string" value="अक्षर घुसाएं"/>
+	<oaf_attribute name="description-hr" type="string" value="Unesite znakove"/>
+	<oaf_attribute name="description-hu" type="string" value="Karakterek beszúrása"/>
+	<oaf_attribute name="description-it" type="string" value="Inserisci caratteri"/>
+	<oaf_attribute name="description-ja" type="string" value="文字を挿入"/>
+	<oaf_attribute name="description-ko" type="string" value="문자 삽입"/>
+	<oaf_attribute name="description-lt" type="string" value="Įterpti simbolius"/>
+	<oaf_attribute name="description-lv" type="string" value="Ievietot rakstzīmes"/>
+	<oaf_attribute name="description-mk" type="string" value="Вметни карактери"/>
+	<oaf_attribute name="description-ml" type="string" value="അക്ഷരങ്ങള്‍ ഉള്‍പ്പെടുത്തുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Тэмдэгтийг оруулах"/>
+	<oaf_attribute name="description-ms" type="string" value="Selit Aksara"/>
+	<oaf_attribute name="description-nl" type="string" value="Karakters invoegen"/>
+	<oaf_attribute name="description-nn" type="string" value="Set inn teikn"/>
+	<oaf_attribute name="description-no" type="string" value="Sett inn tegn"/>
+	<oaf_attribute name="description-pa" type="string" value="ਅੱਖਰ ਵਿੱਚ ਲਿਖੋ"/>
+	<oaf_attribute name="description-pl" type="string" value="Narzędzie do wstawiania znaków"/>
+	<oaf_attribute name="description-pt" type="string" value="Inserir caracteres"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Inserir caracteres"/>
+	<oaf_attribute name="description-ro" type="string" value="Inserează caracterele"/>
+	<oaf_attribute name="description-ru" type="string" value="Вставить символы"/>
+	<oaf_attribute name="description-sk" type="string" value="Vkladanie znakov"/>
+	<oaf_attribute name="description-sl" type="string" value="Vstavi znake"/>
+	<oaf_attribute name="description-sq" type="string" value="Fut shkronja"/>
+	<oaf_attribute name="description-sr" type="string" value="Унесите знакове"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Unesite znakove"/>
+	<oaf_attribute name="description-sv" type="string" value="Infoga tecken"/>
+	<oaf_attribute name="description-th" type="string" value="แทรกอักขระ"/>
+	<oaf_attribute name="description-tr" type="string" value="Karakter ekle"/>
+	<oaf_attribute name="description-uk" type="string" value="Вставка символів"/>
+	<oaf_attribute name="description-vi" type="string" value="Chèn ký tự"/>
+	<oaf_attribute name="description-wa" type="string" value="Sititchî caracteres"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="插入字符"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="插入字元"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="插入字元"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="أداة"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Карыснасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Инструменти"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="কাজের প্রোগ্রাম"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitats"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Cyfleuster"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Ohjelma"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Feidhmchlár"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગીતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="उपयोगी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Verkfæri"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Pagalbinė programa"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Aлатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Хэрэгсэл"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਉਪਯੋਿਗਤਾ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitate"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Orodje"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Помоћни алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Yardımcı"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Usteye"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="charpick.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="charpick"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="charpick_applet2"/>
+
+</oaf_server>
+
+</oaf_info>

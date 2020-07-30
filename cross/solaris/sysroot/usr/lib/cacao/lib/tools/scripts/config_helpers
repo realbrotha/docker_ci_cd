@@ -1,0 +1,600 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.16 $ SMI"
+#
+
+# Script functions list:
+#
+# - cacao_check_properties         : check cacao.properties file
+# - validate_property_value        : validate a property value against its type
+# - cacao_check_files_rights       : validate file attributes against catalog
+# - cacao_check_properties_unicity : check that there is no redundant properties insides groups
+# - cacao_init_snmp_config         : Check that acl files for snmp config have the good read rights 
+# - cacao_check_rt_ids             : Checks that user/group properties are valid
+
+#------------------------------------------------------------------------------
+# cacao_check_properties
+#
+# DESCRIPTION:
+# check all cacao.properties against properties files reference 
+#
+# PARAMETERS:
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything is good
+# CACAO_CR_ERROR   : some properties were wrong
+#
+# OUTPUT:
+# error/warning message when some check fails
+#------------------------------------------------------------------------------
+
+cacao_check_properties() {
+
+    unset local_cr
+    ${AWK} -F: ' !/^#/ {if(NF > 5)printf "%s %s %s %s %s %s\n",$1,$2,$3,$4,$5,$6 }' < ${cacao_param_ref_file} |\
+    while true
+    do 
+      if [ -z "${local_cr}" ]
+      then
+	  # first time: init variable
+	  local_cr=${CACAO_CR_SUCCESS}
+      fi
+
+      read name must_be_present can_be_empty type min_value max_value
+      if [ $? -ne 0 ]
+      then
+	  # we reached EOF
+	  return ${local_cr}
+      fi
+      if [ -z "${name}" ]
+      then
+	  #empty line
+	  continue
+      fi
+      
+      current_param_value=`cacao_get_property ${name}`
+      case "$?" in
+	  "${CACAO_CR_ESRCH}")
+	      if [ "${must_be_present}" = "yes" ]
+	      then
+		  cacao_print_error_message "${CACAO_MSG_ERROR_CC_PROP_NOT_FOUND}" "${name}"
+		  local_cr=${CACAO_CR_ERROR}
+	      fi
+	   ;;
+	   "${CACAO_CR_ERROR}")
+	   	#should not happend here
+	   	cacao_print_error_message "${CACAO_MSG_ERROR_CC_FILE_ERROR}"
+		local_cr=${CACAO_CR_ERROR}
+	   ;;
+	   "${CACAO_CR_SUCCESS}")
+	   	if [ -z "${current_param_value}" ]
+		then
+		 if [ "${can_be_empty}" = "no" ]
+		 then
+		 	cacao_print_error_message "${CACAO_MSG_ERROR_CC_PROP_EMPTY}" "${name}"
+			local_cr=${CACAO_CR_ERROR}
+		 fi
+	        else
+		  err_msg=`validate_property_value ${type} ${min_value} ${max_value} ${current_param_value}`
+		  if [ $? -ne ${CACAO_CR_SUCCESS} ]
+		  then
+		      msg=`cacao_format_message "${CACAO_MSG_ERROR_CC_PROP_VALUE}" "${name}"`
+		      cacao_echo_error_message "${msg}" "${err_msg}"
+		     local_cr=${CACAO_CR_ERROR}
+		  fi
+		fi
+	   ;;
+	esac
+    done
+
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# validate_property_value
+#
+# DESCRIPTION:
+# validate a property value against its type
+#
+# PARAMETERS:
+# - the property value
+# - the property type
+# - the property min value
+# - the property max value
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything is good
+# CACAO_CR_ERROR   : some properties were wrong
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+
+validate_property_value () {
+	prop_type=$1
+	prop_min=$2
+	prop_max=$3
+	
+	shift 3
+	prop_value="$@"
+
+	case "${prop_type}" in
+	  "bool")
+	  	msg=`cacao_validate_boolean ${prop_value}`
+	  ;;
+	  "signed")
+	  	msg=`cacao_validate_signed ${prop_min} ${prop_max} ${prop_value}`
+	  ;;
+	  "unsigned")
+	  	msg=`cacao_validate_unsigned ${prop_min} ${prop_max} ${prop_value}`
+	  ;;
+	  "string")
+	  	msg=`cacao_validate_string ${prop_value}`
+	  ;;
+          "filename")
+		msg=`cacao_validate_filename ${prop_value}`
+	  ;;
+	  "dirname")
+		msg=`cacao_validate_dirname ${prop_value}`
+	  ;;
+	  "username")
+		msg=`cacao_validate_username ${prop_value}`
+	  ;;
+	  "groupname")
+		msg=`cacao_validate_groupname ${prop_value}`
+	  ;;
+	  "log_level")
+		msg=`cacao_validate_filter ${prop_value}`
+	  ;;
+	  *)
+	  	return ${CACAO_CR_ERROR}
+	  ;;
+	esac
+
+	res=$?
+
+	${ECHO} "${msg}"
+      
+	return ${res}
+	
+}
+
+#------------------------------------------------------------------------------
+# cacao_check_files_rights
+#
+# DESCRIPTION:
+# check files attributs against file_catalog.cfg file
+# 
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything is good
+# CACAO_CR_ERROR   : some properties were wrong
+#
+# OUTPUT:
+# warning and error according to file attributes missmatches
+#------------------------------------------------------------------------------
+cacao_check_files_rights() {
+    
+    # we may need to check properties against cacao runtime user
+    # cacao_user/cacao_group : are initialised during cacaoadm inits()
+    
+    unset local_cr
+
+    ${GREP} -v "^#" ${cacao_files_ref_file} | \
+    while true
+    do
+      if [ -z "${local_cr}" ]
+      then
+	  # first time: init variable
+	  local_cr=${CACAO_CR_SUCCESS}
+      fi
+      
+      read filename filebase present filetype right right_can_change owner owner_can_change group group_can_change
+      if [ $? -ne 0 ]
+      then
+	  # we reached EOF
+	  return ${local_cr}
+      fi
+
+      if [ -z "${filename}" ]
+      then
+	  # empty line
+	  continue
+      fi
+      cacao_check_file_rights ${filename} ${filebase} ${present} ${filetype} ${right} ${right_can_change} \
+	                      ${owner} ${owner_can_change} ${group} ${group_can_change}
+      local_cr=`${EXPR} $? + ${local_cr} 2>/dev/null`      
+    done
+    return ${local_cr}
+}
+#------------------------------------------------------------------------------
+# cacao_check_files_rights
+#
+# DESCRIPTION:
+# check files attributs against file_catalog.cfg file
+# 
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything is good
+# CACAO_CR_ERROR   : some properties were wrong
+#
+# OUTPUT:
+# warning and error according to file attributes missmatches
+#------------------------------------------------------------------------------
+cacao_check_file_rights () {
+    fname=$1
+    fbase=$2
+    fpresent=$3
+    ftype=$4
+    fright=$5
+    fright_t=$6
+    fowner=$7
+    fowner_t=$8
+    fgroup=$9
+    
+    #warning : otherwise, will be interpreted as ${1}0
+    shift 1
+    fgroup_t=$9
+
+    cr=${CACAO_CR_SUCCESS}
+
+    case "${fbase}" in
+	"rt_dir")
+	    prefix="${cacao_rt_dir}"
+	;;
+	"var_dir")
+	    prefix="${cacao_var_dir}"
+	;;
+	"etc_dir")
+	    prefix="${cacao_etc_dir}"
+	;;
+	"lib_dir")
+	    prefix="${cacao_lib_dir}"
+	;;
+	"etc_base")
+	    prefix=${cacao_etc_base_dir}
+	;;
+	"rt_base")
+	    prefix=${cacao_rt_base_dir}
+	    ;;
+	*)
+	    #should not happen
+	    return ${CACAO_CR_ERROR}
+	;;
+    esac
+
+    if [ ${fowner} = "cacao_rt_user" ]
+    then
+    	fowner=${cacao_user}
+    fi
+    if [ ${fgroup} = "cacao_rt_group" ]
+    then
+    	fgroup=${cacao_group}
+    fi
+
+    full_file_name=${prefix}/${fname}
+
+    if [ ${ftype} = "file" ]
+    then
+	_test="-f"
+    else
+	_test="-d"
+    fi
+    
+    if [ ! ${_test} ${full_file_name} ]
+    then
+	if [ ${fpresent} = "yes" ]
+	then
+	    err_msg="${CACAO_MSG_ERROR_CF_FILE_MISSING}"
+	fi
+	if [ ${fpresent} = "should" ]
+	then
+	    err_msg="${CACAO_MSG_WARNING_CF_FILE_MISSING}"
+	fi
+	
+	cacao_print_error_message "${err_msg}" "${full_file_name}"
+	
+	return ${CACAO_CR_ERROR}
+    fi
+
+    file_right=`cacao_get_file_string_right "${full_file_name}"`
+    if [ "${file_right}" != ${fright} ]
+    then	
+	if [ ${fright_t} = "yes" ]
+	then
+	    err_msg="${CACAO_MSG_WARNING_CF_WRONG_RIGHT}"
+	fi
+	if [ ${fright_t} = "no" ]
+	then
+	    err_msg="${CACAO_MSG_ERROR_CF_WRONG_RIGHT}"
+	fi
+	cacao_print_error_message "${err_msg}" "${full_file_name}" "${file_right}" "${fright}"
+
+        cr=${CACAO_CR_ERROR}        
+    fi
+
+    file_owner=`cacao_get_file_owner "${full_file_name}"`
+    if [ "${file_owner}" != ${fowner} ]
+    then	
+	if [ ${fowner_t} = "yes" ]
+	then
+	    err_msg="${CACAO_MSG_WARNING_CF_WRONG_OWNER}"
+	fi
+	if [ ${fowner_t} = "no" ]
+	then
+	    err_msg="${CACAO_MSG_ERROR_CF_WRONG_OWNER}"
+	fi
+	cacao_print_error_message "${err_msg}" "${full_file_name}" "${file_owner}" "${fowner}"
+
+        cr=${CACAO_CR_ERROR}
+    fi
+
+   file_group=`cacao_get_file_group "${full_file_name}"`
+    if [ "${file_group}" != ${fgroup} ]
+    then	
+	if [ ${fgroup_t} = "yes" ]
+	then
+	    err_msg="${CACAO_MSG_WARNING_CF_WRONG_GROUP}"
+	fi
+	if [ ${fgroup_t} = "no" ]
+	then
+	    err_msg="${CACAO_MSG_ERROR_CF_WRONG_GROUP}"
+	fi
+	cacao_print_error_message "${err_msg}" "${full_file_name}" "${file_group}" "${fgroup}"
+
+        cr=${CACAO_CR_ERROR}
+    fi
+   
+    return ${cr}
+}
+
+
+#------------------------------------------------------------------------------
+#  cacao_check_properties_unicity
+#
+# DESCRIPTION:
+# check that there is no redundant properties insides groups
+# more test may be implemented
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_CR_SUCCESS : everything is good
+# CACAO_CR_ERROR   : some properties were wrong
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_check_properties_unicity() {
+    cr=${CACAO_CR_SUCCESS}
+
+    #first build properties instance file list
+    #warning : we may be called with '-i' instance and loose
+    # global instance proparties file
+    
+    properties_files=""
+    _instance_list="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ ${?} -ne 0 ]; then
+        return ${CACAO_CR_ERROR}
+    fi
+    for name in ${_instance_list}; do
+        properties_files="${properties_files} ${cacao_etc_instances_dir}/${name}/private/cacao.properties"
+    done
+
+    my_temp_file=${cacao_tmp_dir}/.check_config.$$
+    
+    cacao_tmp_file_list="${cacao_tmp_file_list} ${my_temp_file}"
+
+    for prop_group in ${CACAO_PROP_GROUPS_UNIQUE}
+    do
+      ${CP} /dev/null ${my_temp_file} > /dev/null 2>&1
+      if [ $? -ne 0 ]
+      then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CREATE}" "${my_temp_file}"
+	return ${CACAO_CR_ERROR}
+      fi
+     
+
+      # the tmp file must contain entries like <filename>:<property name>=<value>
+      # if we have only one cacao.properties file, grep won't print the filename
+      # in front of the grep result
+      # we use '-h' to prevent append of file file and do it our self
+ 
+      #warning: we don't use get_property helpers : we want to catch redundency error
+      for prop in `${GREP} ":${prop_group}:" ${cacao_param_ref_file} | ${CUT} -d':' -f 1`
+      do
+	
+	for cur_file in ${properties_files}
+	do
+	 # if there is more then one occurence of the porperties in the file
+	 # the algorythm will fail. use 'head'  to be sure
+	 
+	 local_res=`${GREP} -h "^${prop}=" ${cur_file} | ${HEAD} -1`
+	 if [ -n "${local_res}" ]
+	 then
+	       ${ECHO} "${cur_file}:${local_res}" >> ${my_temp_file}
+	 fi
+	done
+      done
+    
+      #check unicity inside group
+      ${CAT} ${my_temp_file} | ${AWK} -F: 'BEGIN {return_code=0} {                                         \
+              file=$1;                                                                                     \
+              split($2,prop,"=");                                                                          \
+              value=prop[2];                                                                               \
+              param=prop[1];                                                                               \
+              if (length(prop_catched[value]) > 0) {                                                       \
+                  print sprintf("redundancy detected:\n %s: %s <=> %s", param, file ,prop_catched[value]); \
+                  return_code=1;                                                                           \
+              } else {                                                                                     \
+                  prop_catched[value]=sprintf("%s: %s",file,param);                                        \
+              }                                                                                            \
+      } END { exit return_code }'
+
+      if [ $? -ne 0 ]
+      then
+	  cr=${CACAO_CR_ERROR}
+      fi
+     
+     #for prop_group in ${CACAO_PROP_GROUPS_UNIQUE}
+     done
+    
+    ${RM} -f ${my_temp_file} >/dev/null 2>&1
+    
+    return ${cr}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_init_snmp_config
+# 
+# DESCRIPTION :
+# Check that acl files for snmp config have the good read rights given the
+# user that will be used 
+# Look for jdmk.acl, jdmk.security jdmk.uacl
+# 
+# PARAMETERS :
+# $1 the directory containing the acl files
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR if can't find one of the acls or can't change the rights
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_init_snmp_config() {
+
+    snmp_security_dir=$1
+
+    #first check that snmpv3 module will be deployed
+    if [ ! -f ${cacao_jdmk_snmpv3_deployement_descriptor} ] 
+    then
+        return ${CACAO_CR_SUCESS}
+    fi
+
+   jdmk_acl_file_path="${snmp_security_dir}/jdmk.acl"
+   jdmk_uacl_file_path="${snmp_security_dir}/jdmk.uacl"
+   jdmk_security_file_path="${snmp_security_dir}/jdmk.security"
+
+   #check file existence and access
+
+   if [ -d "${snmp_security_dir}" ]
+   then
+        #check read access
+        cacao_set_file_attributes "${snmp_security_dir}" ${cacao_user} "755" ${cacao_group} 
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_ATTR}" "${cacao_user}" "${cacao_group}" "${snmp_security_dir}"
+            return ${CACAO_CR_ERROR}
+        fi
+   else
+        cacao_print_error_message "${INVALID_JDMK_SNMP_DIR_OWNER}" "${snmp_security_dir}"
+        return ${CACAO_CR_ERROR}
+   fi
+  
+   if [ -f ${jdmk_acl_file_path} ]
+   then
+        #check read access
+        cacao_set_file_attributes ${jdmk_acl_file_path} ${cacao_user} "600" ${cacao_group}
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_ATTR}" "${cacao_user}" "${cacao_group}" "${jdmk_acl_file_path}"
+            return ${CACAO_CR_ERROR}
+        fi
+   else
+        cacao_print_error_message "${INVALID_JDMK_SNMP_SECURITY_FILE}" "${jdmk_acl_file_path}"
+        return ${CACAO_CR_ERROR}
+   fi
+   
+   if [ -f ${jdmk_uacl_file_path} ]
+   then
+        #check read/write access
+        cacao_set_file_attributes ${jdmk_uacl_file_path} "${cacao_user}" "600" ${cacao_group}
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_ATTR}" "${cacao_user}" "${cacao_group}" "${jdmk_uacl_file_path}"
+            return ${CACAO_CR_ERROR}
+        fi
+    else
+        cacao_print_error_message "${INVALID_JDMK_SNMP_SECURITY_FILE}" "${jdmk_uacl_file_path}"
+        return ${CACAO_CR_ERROR}
+   fi
+
+   if [ -f ${jdmk_security_file_path} ]
+   then
+        #check read/write access
+        cacao_set_file_attributes ${jdmk_security_file_path} ${cacao_user} "600" ${cacao_group}
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_ATTR}" "${cacao_user}" "${cacao_group}" "${jdmk_security_file_path}"
+            return ${CACAO_CR_ERROR}
+        fi
+   else
+        cacao_print_error_message "${INVALID_JDMK_SNMP_SECURITY_FILE}" "${jdmk_security_file_path}"
+        return ${CACAO_CR_ERROR}
+   fi
+ 
+   return ${CACAO_CR_SUCCESS}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_check_rt_ids          
+# 
+# DESCRIPTION :
+# Checks that user/group properties are valid
+#  - user must be part of group
+#
+# PARAMETERS :
+# none
+# 
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR if can't find one of the acls or can't change the rights
+#
+# OUTPUT:
+# None
+#------------------------------------------------------------------------------
+cacao_check_rt_ids () {
+
+    # load property from file
+    # if properties are missing, or if they point to invalid names 
+    # the error is already reported during cacao_check_properties function
+    # ignore them
+    _rt_user=`cacao_get_property ${CACAO_PROCESS_USERNAME_KEY}`
+    _rt_group=`cacao_get_property ${CACAO_PROCESS_GROUPNAME_KEY}`
+
+    cr=0
+
+    if [ -z "${_rt_user}" ] || [ -z "${_rt_group}" ]
+    then
+	# cannot go further
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    group_is_ok=${CACAO_FALSE}
+    for group_found in `${GROUPSLIST} ${_rt_user} 2>/dev/null`
+    do
+      if [ "${group_found}" = "${_rt_group}" ] 
+      then
+	  group_is_ok=${CACAO_TRUE}
+	  break
+      fi
+    done
+    
+    if [ ${group_is_ok} -ne ${CACAO_TRUE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CC_USER_GROUP_MISMATCH}" \
+	                          "${_rt_user}" "${_rt_group}"
+        cr=${CACAO_CR_ERROR}
+    fi
+
+    return ${cr}
+}

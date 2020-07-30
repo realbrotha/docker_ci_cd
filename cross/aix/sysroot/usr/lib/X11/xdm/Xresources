@@ -1,0 +1,66 @@
+! @(#)14        1.18  src/gos/2d/XTOP/aixclients/xdm/config/Xresources, xdmcp, gos530 2/26/98 16:23:35
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/aixclients/xdm/config/Xresources 1.18 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1998 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+!
+!
+Chooser*fontList:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+Chooser*geometry:	500x500
+#ifdef COLOR
+Chooser*Foreground:	antiquewhite1
+Chooser*Background:	grey60
+Xlogin*Foreground:	antiquewhite1
+Xlogin*Background:	grey60
+Xlogin*greetColor:      antiquewhite1
+Xlogin*promptColor:     antiquewhite1
+#else
+! Black and White
+Chooser*Foreground:	black
+Chooser*Background:	white
+Xlogin*Foreground:	black
+Xlogin*Background:	white
+Xlogin*greetColor:      black
+Xlogin*promptColor:     black
+#endif
+
+Xlogin*titleMessage:	CLIENTHOST
+Xlogin*titleFont:	-dt-interface system-medium-r-normal-XXL*-*-*-*-*-*-*-*-*:
+
+Xlogin*greeting:	X Windows Environment
+Xlogin*greetFont:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+Xlogin*namePrompt:	Username:
+Xlogin*passwdPrompt:	Password:
+Xlogin*promptFont:	-dt-interface system-medium-r-normal-XL*-*-*-*-*-*-*-*-*:
+
+Xlogin*failPrompt:	Use system default login
+Xlogin*failFont:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+Xlogin*cancelPrompt:	Cancel Session
+Xlogin*cancelFont:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+Xlogin*fail:		Login failed, please try again.
+Xlogin*disallow:	Only root login allowed at this time.
+Xlogin*messageFontList:	-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+Xlogin*fontList:        -dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+
+Xlogin*XmText.translations:	#override\n\
+	Ctrl<Key>b: backward-character()\n\
+	Ctrl<Key>a: beginning-of-line()\n\
+	Ctrl<Key>e: end-of-line()\n\
+	Ctrl<Key>f: forward-character()\n\
+	Ctrl<Key>d: kill-next-character()\n\
+	Ctrl<Key>k: kill-to-end-of-line()\n\
+	Ctrl<Key>u: kill-to-start-of-line()\n

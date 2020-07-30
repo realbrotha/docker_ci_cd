@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<le>
+   <!--
+       <name> 
+          child directives: <num_hotkey_profiles>, <hotkey_profile> ..
+    -->
+    <name>UNIT</name>
+    <num_hotkey_profiles>1</num_hotkey_profiles>
+    <!--
+        <hotkey_profile> 
+          child directives: <id>, <scope>, <num_hotkeys>, <hotkey> ..
+    -->
+    <hotkey_profile>
+       <id>2</id>
+       <!--
+           Contents of <scope> can be : GLOBAL_HOTKEY 
+                                            (or)
+                                        SESSION_SPECIFIC_HOTKEY 
+       -->
+       <scope>1</scope>
+       <num_hotkeys>2</num_hotkeys>
+       <!--
+           <hotkey> 
+           child directives: <id>, <state_flag>, <action_flag>,
+                             <label>, <num_keys>, <key> ..
+                               
+        -->
+       <hotkey>
+          <id>1</id>
+          <state_flag>0</state_flag>
+          <action_flag>1</action_flag>
+          <label>COMPOSE_KEY</label>
+          <num_keys>17</num_keys>
+           <!--
+               <key> 
+                   child directives: <keycode>, <modifier>
+                   Contents of <keycode> and <modifier> are the 
+                   "IM Virtual Keycodes" defined in ~/im-sdk/include/iml/SunIM.h
+           -->
+          <key>
+             <keycode>IM_VK_COMPOSE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_GRAVE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_ACUTE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_CIRCUMFLEX</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_TILDE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_MACRON</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_BREVE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_ABOVEDOT</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_DIAERESIS</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_ABOVERING</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_DOUBLEACUTE</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_CARON</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_CEDILLA</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_OGONEK</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_IOTA</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_VOICED_SOUND</keycode>
+             <modifier>0</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_DEAD_SEMIVOICED_SOUND</keycode>
+             <modifier>0</modifier>
+          </key>
+       </hotkey>
+       <hotkey>
+          <id>2</id>
+          <state_flag>0</state_flag>
+          <action_flag>1</action_flag>
+          <label>EURO_SYMBOL</label>
+          <num_keys>4</num_keys>
+          <key>
+             <keycode>IM_VK_E</keycode>
+             <modifier>IM_ALT_GRAPH_MASK</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_E</keycode>
+             <modifier>IM_SHIFT_MASK|IM_ALT_GRAPH_MASK</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_4</keycode>
+             <modifier>IM_ALT_GRAPH_MASK</modifier>
+          </key>
+          <key>
+             <keycode>IM_VK_5</keycode>
+             <modifier>IM_ALT_GRAPH_MASK</modifier>
+          </key>
+       </hotkey>
+    </hotkey_profile>
+</le>

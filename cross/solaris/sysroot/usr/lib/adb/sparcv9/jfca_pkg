@@ -1,0 +1,12 @@
+.>X
+.=n"Package"16tKn
+<X+0=""
++/"type"16t"SubType"16t"timeout"nXXE
++/"priority"16t"src"16t"owner"nXUU
++/"status"16t"global"16t"priv"nXJJ
++/"handle"16t"alloc_flag"16t"pre_ptr"nJX4+J
+<X+0t72=""
+.>T
+<T/"systime"16tD
+(*lbolt-*<T+(*/i/hz%2))%*/i/hz="age(secs)"16tD
+<X+0t80=""

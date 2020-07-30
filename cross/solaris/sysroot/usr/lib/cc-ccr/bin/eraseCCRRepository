@@ -1,0 +1,73 @@
+#!/bin/sh
+##############################################################################
+#
+#	Usage: 	erases all CCR repository values
+#           by truncating *privileged.properties files
+#           if arg is '-u' or if no arg is specified.
+#
+#	Copyright (C)2004, Sun Microsystems Inc.
+#	All rights reserved.
+#
+##############################################################################
+
+
+eraseRepository() {
+	# need to running as root
+	userid=`id | cut -f2 -d'(' | cut -f1 -d')'`
+	
+	if [ ! "$userid" = "root" ]
+	then
+		echo "eraseCCRRepository:  You must be root to erase the CCR repository"
+		exit 1
+	fi
+	
+	# These two files are part of package, but have 0 len on install
+	privPath="/var/cc-ccr/privileged.properties"
+	nonprivPath="/var/cc-ccr/nonprivileged.properties"
+	
+	if [ -f ${privPath} ]
+	then
+	   echo '# This file is maintained by a program. Do not edit.' > ${privPath}
+	fi
+	
+	if [ -f ${nonprivPath} ]
+	then
+	   echo  '# This file is maintained by a program. Do not edit.' > ${nonprivPath}
+	fi
+}
+
+usage() {
+    echo "Usage (as root):"
+    echo "   $0      ## for stand-alone & /etc/flash/postdeployment; erase repository"
+    echo "   $0 -u   ## for sys-unconfig; erase repository"
+    echo "   $0 -c   ## for sysidconfig; do nothing, exit 0"
+}
+
+if [ -n "$2" ]; then
+    usage
+    exit 1
+fi
+
+case "$1" in
+'-c')
+    # Called from sysidconfig when initializing system
+    # Don't do anything
+    ;;
+
+'-u')
+    # Called from sys-unconfig when uninitializing system
+    eraseRepository
+    ;;
+
+'')
+    # Called from /etc/flash/postdeployment/eraseCCRRepository
+    eraseRepository
+    ;;
+*)
+    usage
+    exit 1
+    ;;
+
+esac
+
+exit 0

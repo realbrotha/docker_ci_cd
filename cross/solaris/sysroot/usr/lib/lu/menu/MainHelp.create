@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.create 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Create a Boot Environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "The process of creating a BE is initiated from the menus by selecting \"Create a BE\". From the command line, a BE is created using lucreate(1M)."`"\n\n"`gettext "This is an interactive program which uses a combination of text and curses-based screens to determine the directory names and associated storage devices to be used in the new BE."`"\n\n"\
+`gettext "If this is the first time you have configured a BE, you will be asked to name the Active Boot Environment. You will be asked to name the New Boot Environment which you are creating."`"\n\n"`gettext "The \"Create a BE\" operation is not applicable if some BE is being created or a BE is scheduled for creation (that is, a Live Upgrade copy lock exists on the system)."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

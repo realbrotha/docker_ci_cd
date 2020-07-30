@@ -1,0 +1,68 @@
+#
+#ident	"@(#)Text.flash.nomedia	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Text.flash.delete
+#       Arguments: $ARG1 - Textfile explaining why media was invalid
+#############################################################################
+# Text frame telling the user they have not specified any media location.
+# Nothing fancy here, but a separate file is needed due to FMLI 4.0's lack
+# of support for the 'textframe' descriptor.
+#
+#############################################################################
+
+#############################################################################
+# Text and formatting directives
+#############################################################################
+title=`gettext "Error"`
+
+wrap=true
+altslks=true
+close=nop
+
+begrow=any
+begcol=any
+rows=8
+columns=70
+
+`gettext "Strike the CANCEL function key to return." | message`
+framemsg=`gettext "Strike the CANCEL function key to return."`
+
+text="\n"`gettext "Error: No Media specified or media invalid.  Please specify a valid media location before choosing this selection.  Reason:"`"\n"`cat $ARG1`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

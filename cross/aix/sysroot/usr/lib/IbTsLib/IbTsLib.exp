@@ -1,0 +1,19 @@
+#!/usr/lib/IbTsLib.a(shr.o)
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* rspc53H src/rspc/usr/lib/IbTsLib/IbTsLib.exp 1.1 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 2005 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)76  1.1  src/rspc/usr/lib/IbTsLib/IbTsLib.exp, pcitsib, rspc53H, h2005_47A9 11/14/05 15:08:29
+IbDllGetFuncList

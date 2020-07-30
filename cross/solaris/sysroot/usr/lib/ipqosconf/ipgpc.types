@@ -1,0 +1,28 @@
+#
+# Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#pragma ident	"@(#)ipgpc.types	1.2	02/05/09 SMI"
+
+fmt_version 1.0
+mod_version 1.0
+
+#PERM_CLASS	default
+
+filter	name		string
+filter	if_groupname	string
+filter	user		user
+filter	projid		int32
+filter	if_name		ifname
+filter	direction       enum { LOCAL_IN=0x01, LOCAL_OUT=0x02, FWD_IN=0x04, FWD_OUT=0x08 }
+filter	protocol	protocol
+filter	dsfield		uint8
+filter	dsfield_mask	uint8
+filter	saddr		address
+filter	daddr		address
+filter	sport		port
+filter	dport		port
+filter	priority	uint32
+filter	precedence	uint32
+filter	ip_version	enum { V4=0x01, V6=0x02 }

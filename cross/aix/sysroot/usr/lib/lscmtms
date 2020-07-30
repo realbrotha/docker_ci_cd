@@ -1,0 +1,168 @@
+#!/usr/bin/perl
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+#  
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2002,2008 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# "@(#)75   1.5   src/csm/core/cmds/lscmtms.perl, sysman, csm_rhig, rhig0911a 7/10/02 14:33:26"
+#
+#####################################################################
+# Module: lscmtms 
+#
+# Description: Display the pSeries Cluster mtms Identification Number
+#
+# Inputs and Parameters: None
+#
+# Output: MT:xxxx-yyy MS:zzzzzzzzz 
+#	where 	xxxx is the 4 digit cluster machine type
+#		yyy is the 3 digit  cluster model number
+#		zzz is up to 9 digit cluster serial number
+#	 If they are not found, NULL (empty string) will be displayed, 
+#	 as in MT: MS:
+#
+# Return Codes:
+#	0 Successful
+#	1 Error, cmtm or csn is NULL
+#	2 Error, Internal call returned error.
+#	There are no error messages
+#
+# External Ref:
+# 	SDRGetObjects
+#	lsrsrc
+#	lssrc
+#	mgmtsvr
+#
+#####################################################################
+#
+# This module is called by Inventory Scout or Diagnostics on AIX.
+# lscmtms is shipped by PSSP and CSM, and is identical in both.
+# The initial value of the cluster mtm is 9078-160.
+# It determines if PSSP is running by checking
+# that the sdr is active. If so, the values are retrieved from the SDR
+# or NULL are returned.
+# If CSM is running, then lsrsrc is called for the cmtms, and the 
+# values or NULL are returned.
+#
+#####################################################################
+
+use strict;
+my ($SDRGO,$LSSRC,$LSRSRC_API,$cmtm,$csn,$output,$null,$rc);
+my (@DMS_ACTIVE,@CSMAgent_ACTIVE,$subsystem,$group,$PID,$DMSstate,$NodeState);
+$cmtm = "";
+$csn  = "";
+$SDRGO = "/usr/lpp/ssp/bin/SDRGetObjects";
+$LSSRC = "/usr/bin/lssrc";
+$LSRSRC_API ="/usr/bin/lsrsrc-api";
+
+&pssp_check();		# returns 0 if SDR running, 2 if not running
+$rc = $?;	
+if ($rc) {
+	&csm_check();	# returns 0 if CSM running, 2 if not running
+	$rc = $?;	
+	if ($rc) {	# if neither is running, quit now.
+		print "MT:$cmtm MS:$csn\n";
+	        exit 2;
+		}
+	}
+&endgame();		# displays results, exits 0 if both fields have data
+			# exits 1 if one or more of the fields are blank	
+
+# --------------------------------------------------------------------------
+sub csm_check  {
+# if IBM.DMSRM (ms) or IBM.CSMAgentRM (node) is active then csm may be running.
+# IBM.CSMAgentRM is shipped with csm.clients in AIX so it will be active on
+# a PSSP system also.
+
+# lssrc produces a header row and the data row, we want the state which
+# is active or inactive, in the data row.
+#
+chop(@DMS_ACTIVE=`$LSSRC -s IBM.DMSRM 2>/dev/null`);
+foreach (@DMS_ACTIVE) {
+	s/^\s*//;	# remove blanks
+	($subsystem, $group, $PID, $DMSstate) = split(/\s+/);
+	}
+
+chop(@CSMAgent_ACTIVE=`$LSSRC -s IBM.CSMAgentRM 2>/dev/null`);
+foreach (@CSMAgent_ACTIVE) {
+	s/^\s*//;	# remove blanks
+	($subsystem, $group, $PID, $NodeState) = split(/\s+/);
+	}
+
+if ($DMSstate eq "active") {
+	#
+	# it is a mgmt server
+	# run mgmt server version of lsrsrc
+	#
+	chop($output = `$LSRSRC_API -s IBM.DmsCtrl::::ClusterTM::ClusterSNum 2>/dev/null`);
+	if ($? > 0) {
+		return 2;	# lsrsrc-api call failed
+	        }
+	#
+ 	# parse the output. it has the form xxxx-yyy::zzzzz, cmtm::csn
+	#
+	($cmtm, $null, $csn) = split(/:/,$output);	# print later
+
+} elsif  ($NodeState eq "active") { 
+	#
+	# it is not a ms, see if it is a node
+	#
+  	chop($output = `$LSRSRC_API -s IBM.ManagementServer::"ManagerType=='CSM'"::ClusterTM::ClusterSNum 2>/dev/null`);
+	if ($? > 0) {
+		return 2;	# lsrsrc-api call failed
+	        }
+	#
+ 	# parse the output. it has the form xxxx-yyy::zzzzz, cmtm::csn
+	#
+	($cmtm, $null, $csn) = split(/:/,$output);	# print later
+
+} else { return 2;}	# neither DMSstate or NodeState active.
+
+return 0;		
+}
+
+# --------------------------------------------------------------------------
+sub pssp_check {
+	#
+	# determine if PSSP is running by checking if the SDR call returns 0
+	# while getting the cmtm from the sdr
+	chop($cmtm = `$SDRGO -x SP Cluster_type_model 2>/dev/null`);
+	$cmtm =~ s/\s*//g;	# remove blanks
+	if ($? > 0) {
+		return 2;	# SDR call failed, not running
+	        }
+	if ($cmtm eq "\"\"") {$cmtm = "";}	# convert SDR version of NULL
+
+	# get the csn from the sdr
+	chop($csn = `$SDRGO -x SP Cluster_serial_number 2>/dev/null`);
+	$csn =~ s/\s*//g;	# remove blanks
+	if ($? > 0) {
+		return 2;	# SDR call failed, not running
+		}
+	if ($csn eq "\"\"") {$csn = "";}	# convert SDR version of NULL
+
+return 0;
+}
+
+# --------------------------------------------------------------------------
+sub endgame {
+#
+# either csm or pssp found the cmtms, so display it
+#
+print "MT:$cmtm MS:$csn\n";
+if (($cmtm eq "") || ($csn eq "") ) {
+	exit 1;
+	}
+exit 0;
+}

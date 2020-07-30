@@ -1,0 +1,63 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_PilotApplet_Factory"
+            type="exe"
+            location="/usr/lib/gpilot-applet">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="PilotApplet Factory"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_PilotApplet"
+            type="factory"
+            location="OAFIID:GNOME_PilotApplet_Factory">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+                <item value="IDL:Bonobo/Control:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+
+        <oaf_attribute name="name" type="string" value="Pilot Applet"/>
+
+        <oaf_attribute name="panel:category" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-az" type="string" value="Tə&apos;minat"/>
+        <oaf_attribute name="panel:category-cs" type="string" value="Pomůcka"/>
+        <oaf_attribute name="panel:category-cy" type="string" value="Cyfleuster"/>
+        <oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+        <oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-es" type="string" value="Utilidad"/>
+        <oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+        <oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+        <oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+        <oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+        <oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+        <oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+        <oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+        <oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+        <oaf_attribute name="panel:category-nb" type="string" value="Verktøy"/>
+        <oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+        <oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+        <oaf_attribute name="panel:category-pa" type="string" value="ਉਪਯੋਗਤਾ"/>
+        <oaf_attribute name="panel:category-pl" type="string" value="Narzędzie"/>
+        <oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+        <oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+        <oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+        <oaf_attribute name="panel:category-sr" type="string" value="Користан алат"/>
+        <oaf_attribute name="panel:category-sr@Latn" type="string" value="Koristan alat"/>
+        <oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+        <oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+        <oaf_attribute name="panel:category-xh" type="string" value="Ukuba luncedo"/>
+        <oaf_attribute name="panel:category-zh_CN" type="string" value="实用程序"/>
+        <oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+        <oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+        <oaf_attribute name="panel:icon" type="string" value="sync_icon.png"/>
+
+</oaf_server>
+
+</oaf_info>

@@ -1,0 +1,70 @@
+lb_find - GLBs List
+
+The GLBs List (lb_find) lists global location broker processes and their
+attributes. It sends out inquiries to the NCS location broker processes and
+gathers the responses.
+
+If on the workstation where you issue the command there are not the two 
+files:
+
+glb_site.txt
+glb_obj.txt
+
+lb_find finds all the GLB processes of the same subnet, or all the GLB
+processes it can reach via broadcast.
+
+If you want to see GLB processes of a different subnetwork you must have
+those two files. In such a case lb_find finds all the GLB processes that
+run on the hosts whose addresses are in the glb_site.txt, situated in the
+cell specified in the glb_obj.txt. If the glb_obj.txt is not on the
+workstation, the default cell is taken.
+
+The results are analyzed to determine whether or not the global location
+broker can be replicated, and which cell each daemon serves. After 10
+seconds, the results are summarized, showing the server host's network
+address, the port number, the global location broker type, a cell name of
+either default or alternate_n, where n is a number greater than or equal to
+1, and the cell's UUID.
+
+Syntax
+
+lb_find [ -dl ] [ -f ip | -q ] [ -h ] [ -v ]
+
+Parameters
+
+-dl
+     Turn on RPC remote procedure call (RPC) debugging while searching for
+     GLB servers.
+
+-f
+     Query for the global location broker servers that communicate with the
+     specified protocol in all the cells.
+
+-q
+     Query for a global location broker server using the standard RPC
+     mechanism. At most, one global location broker server is printed, and
+     only servers in the current machine's cell are searched. The program
+     exits with a status of 0 if a global location broker server is found;
+     otherwise, the status is nonzero.
+
+-h
+     Print out the help for the command.
+
+-v
+     Print out the NCS version string.
+
+Example
+
+A network contains two global location broker processes (glbd) in the
+default NCS cell.
+
+lb_find
+
+This is the output:
+
+       sent to broadcast address ip:#9.87.220.255
+       waiting for replies
+       ip:server5(9.87.220.5) 1024 replicatable default
+       333b91c50000.0d.00.00.87.84.00.00.00
+       ip:server3(9.87.220.3) 1072 replicatable default
+       333b91c50000.0d.00.00.87.84.00.00.00

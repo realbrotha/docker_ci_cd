@@ -1,0 +1,258 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_NetstatusApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/gnome-netstatus-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Network Monitor Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع مراقب الشبكة"/>
+	<oaf_attribute name="name-az" type="string" value="Şəbəkə İzləyicisi E&apos;malatxanası"/>
+	<oaf_attribute name="name-bn" type="string" value="নেটওয়ার্ক-এ তথ্য আদানপ্রদান নজরকারী ফ্যাক্টরী"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria del monitor de la xarxa"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor Sledování sítě"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Fonitro Rhwydwaith"/>
+	<oaf_attribute name="name-da" type="string" value="Netværksovervågerfabrik"/>
+	<oaf_attribute name="name-de" type="string" value="Fabrik für Netzwerküberwachung"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Παρακολούθησης Δικτύου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Network Monitor Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Network Monitor Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica del Monitor de red"/>
+	<oaf_attribute name="name-fi" type="string" value="Verkonseurantatehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique du Moniteur de réseau"/>
+	<oaf_attribute name="name-hi" type="string" value="नेटवर्क निरीक्षक फ़क्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Proizvodnja nadzornika mreže"/>
+	<oaf_attribute name="name-hu" type="string" value="Hálózatfigyelő factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica di Controllo rete"/>
+	<oaf_attribute name="name-ja" type="string" value="ネットワークモニターファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="네트워크 감시기 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Tinklo monitoriaus gamykla"/>
+	<oaf_attribute name="name-mn" type="string" value="Сүлжээг чагнах үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Monitor Rangkaian"/>
+	<oaf_attribute name="name-nl" type="string" value="Netwerkmonitor fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Nettverksovervakarfabrikk"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for nettverksmonitor"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨੈਟਵਰਕ ਜਾਂਚ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator Monitora sieci"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Monitor de Rede"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do Monitor de Rede"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrică monitor reţea"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика для апплета &quot;Монитор сети&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Továreň Sieťového sledovača"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrikë për monitorimin e rrjetit"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња надзорника мреже"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja nadzornika mreže"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för Nätverksövervakare"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานติดตามการใช้เครือข่าย"/>
+	<oaf_attribute name="name-tr" type="string" value="Ağ İzleyici Üretecisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика монітора мережі"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory bộ theo dõi mạng"/>
+	<oaf_attribute name="name-wa" type="string" value="Oujhene di corwaitoes del rantoele"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="网络监视器工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="網路監控工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="網路監控工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for Network Monitor applet"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع لبريمج مراقب الشبكة"/>
+	<oaf_attribute name="description-az" type="string" value="Şəbəkə İzləyici applet üçün e&apos;malatxana"/>
+	<oaf_attribute name="description-bn" type="string" value="নেটওয়ার্ক মনিটর অ্যাপ্লেটের জন্য ফ্যাকট্রি"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a la miniaplicació del monitor de xarxa"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor apletu Sledování sítě"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer rhaglennig Monitro Rhwydwaith"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til netværksovervågerpanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für das Applet Netzwerküberwachung"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για το εφαρμογίδιο Παρακολούθησης Δικτύου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for Network Monitor applet"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for Network Monitor applet"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para el aplique Monitor de red"/>
+	<oaf_attribute name="description-fi" type="string" value="Verkonseurantasovelman tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet Moniteur de réseau"/>
+	<oaf_attribute name="description-hr" type="string" value="Proizvodnja programa za nadziranje mreže"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a Hálózatfigyelő kisalkalmazáshoz"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica dell&apos;applet Controllo rete"/>
+	<oaf_attribute name="description-ja" type="string" value="ネットワークモニターアプレットのファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="네트워크 감시기 애플릿용 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Tinklo stebėjimo įtaiso gamykla"/>
+	<oaf_attribute name="description-mn" type="string" value="Сүлжээг чагнах аплетийн үйлдвэр"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang bagi Aplet Monitor Rangkaian"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor Netwerkmonitor applet"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for nettverksovervakar-panelprogram"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for Nettverksmonitor"/>
+	<oaf_attribute name="description-pa" type="string" value="ਨੈਟਵਰਕ ਜਾਂਚ ਐਪਲਟ ਵਾਸਤੇ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletów Monitora sieci"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica de applet de Monitor de Rede"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo de Monitor de Rede"/>
+	<oaf_attribute name="description-ro" type="string" value="Fabrică pentru monitorul de reţea"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для апплета &quot;Монитор сети&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Továreň pre applet Sieťového sledovača"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrikë për instrumentin e Monitorimit të Rrjetit"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за надзирање мреже"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za nadziranje mreže"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet Nätverksövervakare"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตติดตามการใช้งานเครือข่าย"/>
+	<oaf_attribute name="description-tr" type="string" value="Ağ İzleyici uygulamacığı için üretici"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплету монітора мережі"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory cho applet bộ theo dõi mạng"/>
+	<oaf_attribute name="description-wa" type="string" value="Oujhene po des apliketes corwaitoe del rantoele"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="网络监视器工厂小程序"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="網路監控 Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="網路監控 Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_NetstatusApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_NetstatusApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Network Monitor"/>
+	<oaf_attribute name="name-ar" type="string" value="مراقب الشبكة"/>
+	<oaf_attribute name="name-az" type="string" value="Şəbəkə İzləyicisi"/>
+	<oaf_attribute name="name-bn" type="string" value="নেটওয়ার্ক-এ তথ্য আদানপ্রদান নজরকারী"/>
+	<oaf_attribute name="name-ca" type="string" value="Monitor de la xarxa"/>
+	<oaf_attribute name="name-cs" type="string" value="Sledování sítě"/>
+	<oaf_attribute name="name-cy" type="string" value="Monitr Rhwydwaith"/>
+	<oaf_attribute name="name-da" type="string" value="Netværksovervåger"/>
+	<oaf_attribute name="name-de" type="string" value="Netzwerküberwachung"/>
+	<oaf_attribute name="name-el" type="string" value="Παρακολούθηση Δικτύου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Network Monitor"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Network Monitor"/>
+	<oaf_attribute name="name-es" type="string" value="Monitor de red"/>
+	<oaf_attribute name="name-fi" type="string" value="Verkonseuranta"/>
+	<oaf_attribute name="name-fr" type="string" value="Moniteur de réseau"/>
+	<oaf_attribute name="name-ga" type="string" value="Monatóir Líon"/>
+	<oaf_attribute name="name-hi" type="string" value="नेटवर्क निरीक्षक"/>
+	<oaf_attribute name="name-hr" type="string" value="Nadzornik mreže"/>
+	<oaf_attribute name="name-hu" type="string" value="Hálózatfigyelő"/>
+	<oaf_attribute name="name-it" type="string" value="Controllo rete"/>
+	<oaf_attribute name="name-ja" type="string" value="ネットワークモニター"/>
+	<oaf_attribute name="name-ko" type="string" value="네트워크 감시기"/>
+	<oaf_attribute name="name-lt" type="string" value="Tinklo monitorius"/>
+	<oaf_attribute name="name-mn" type="string" value="Сүлжээний чагнагч"/>
+	<oaf_attribute name="name-ms" type="string" value="Monitor Rangkaian"/>
+	<oaf_attribute name="name-nl" type="string" value="Netwerkmonitor"/>
+	<oaf_attribute name="name-nn" type="string" value="Nettverksovervakar"/>
+	<oaf_attribute name="name-no" type="string" value="Nettverksmonitor"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨੈਟਵਰਕ ਜਾਂਚ ਯੰਤਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Monitor sieci"/>
+	<oaf_attribute name="name-pt" type="string" value="Monitor de Rede"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Monitor de Rede"/>
+	<oaf_attribute name="name-ro" type="string" value="Monitor reţea"/>
+	<oaf_attribute name="name-ru" type="string" value="Монитор сети"/>
+	<oaf_attribute name="name-sk" type="string" value="Sieťový sledovač"/>
+	<oaf_attribute name="name-sq" type="string" value="Monitori i rrjetit"/>
+	<oaf_attribute name="name-sr" type="string" value="Надзорник мреже"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Nadzornik mreže"/>
+	<oaf_attribute name="name-sv" type="string" value="Nätverksövervakare"/>
+	<oaf_attribute name="name-th" type="string" value="ติดตามการใช้เครือข่าย"/>
+	<oaf_attribute name="name-tr" type="string" value="Ağ İzleci"/>
+	<oaf_attribute name="name-uk" type="string" value="Монітор мережі"/>
+	<oaf_attribute name="name-vi" type="string" value="Bộ theo dõi mạng"/>
+	<oaf_attribute name="name-wa" type="string" value="Corwaitoe del rantoele"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="网络监视器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="網路監控"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="網路監控"/>
+	<oaf_attribute name="description" type="string" value="Monitor network activity"/>
+	<oaf_attribute name="description-ar" type="string" value="حالة نشاط مراقب الشبكة"/>
+	<oaf_attribute name="description-az" type="string" value="Şəbəkə fəaliyyətini izlə"/>
+	<oaf_attribute name="description-bn" type="string" value="নেটওয়ার্ক-এ তথ্য আদানপ্রদানের উপর নজর রাখুন"/>
+	<oaf_attribute name="description-ca" type="string" value="Monitoritza l&apos;activitat de la xarxa"/>
+	<oaf_attribute name="description-cs" type="string" value="Aktivita sledování sítě"/>
+	<oaf_attribute name="description-cy" type="string" value="Monitro gweithgaredd rhwydwaith"/>
+	<oaf_attribute name="description-da" type="string" value="Overvåg netværksaktivitet"/>
+	<oaf_attribute name="description-de" type="string" value="Netzwerkaktivität überwachen"/>
+	<oaf_attribute name="description-el" type="string" value="Παρακολούθηση δραστηριότητας δικτύου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Monitor network activity"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Monitor network activity"/>
+	<oaf_attribute name="description-es" type="string" value="Supervisar la actividad de la red"/>
+	<oaf_attribute name="description-fi" type="string" value="Seuraa verkon toimintaa"/>
+	<oaf_attribute name="description-fr" type="string" value="Activité du Moniteur de réseau"/>
+	<oaf_attribute name="description-hi" type="string" value="नेटवर्क क्रिया निरीक्षण करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Praćenje mrežne aktivnosti"/>
+	<oaf_attribute name="description-hu" type="string" value="Hálózati aktivitás figyelése"/>
+	<oaf_attribute name="description-it" type="string" value="Controlla l&apos;attività della rete"/>
+	<oaf_attribute name="description-ja" type="string" value="ネットワーク活動を監視"/>
+	<oaf_attribute name="description-ko" type="string" value="네트워크 활동 감시"/>
+	<oaf_attribute name="description-lt" type="string" value="Stebėti tinklo aktyvumą"/>
+	<oaf_attribute name="description-mn" type="string" value="Сүлжээний идэвхижилтийг чагна"/>
+	<oaf_attribute name="description-ms" type="string" value="Aktiviti monitor rangkaian"/>
+	<oaf_attribute name="description-nl" type="string" value="Netwerkactiviteit bijhouden"/>
+	<oaf_attribute name="description-nn" type="string" value="Overvak nettverksaktivitet"/>
+	<oaf_attribute name="description-no" type="string" value="Overvåk nettverksaktivitet"/>
+	<oaf_attribute name="description-pa" type="string" value="ਨੈਟਵਰਕ ਦੀ ਸਰਗਰਮੀ ਜਾਂਚੋ"/>
+	<oaf_attribute name="description-pl" type="string" value="Monitoruj aktywność sieci"/>
+	<oaf_attribute name="description-pt" type="string" value="Monitorizar a actividade de rede"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Monitorar atividade da rede"/>
+	<oaf_attribute name="description-ro" type="string" value="Monitorizaţi activitatea în reţea"/>
+	<oaf_attribute name="description-ru" type="string" value="Контроль работы сети"/>
+	<oaf_attribute name="description-sk" type="string" value="Sledovať aktivitu siete"/>
+	<oaf_attribute name="description-sq" type="string" value="Monitoro aktivitetin e rrjetit"/>
+	<oaf_attribute name="description-sr" type="string" value="Праћење мрежне активности"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Praćenje mrežne aktivnosti"/>
+	<oaf_attribute name="description-sv" type="string" value="Övervaka nätverksaktivitet"/>
+	<oaf_attribute name="description-th" type="string" value="ติดตามการใช้งานเครือข่าย"/>
+	<oaf_attribute name="description-tr" type="string" value="Ağ etkinliğini izle"/>
+	<oaf_attribute name="description-uk" type="string" value="Спостереження за активністю мережі"/>
+	<oaf_attribute name="description-vi" type="string" value="Theo dõi hoạt động mạng"/>
+	<oaf_attribute name="description-wa" type="string" value="Corwaitî l&apos; activité sol rantoele"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="监视网络活动"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="監控網路活動"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="監控網路活動"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-netstatus-tx.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="الإنترنت"/>
+	<oaf_attribute name="panel:category-az" type="string" value="İnternet"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="ইন্টারনেট"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Rhyngrwyd"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Διαδίκτυο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Idirlíon"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="इन्टरनेट"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="インターネット"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="인터넷"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Internetas"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Интернэт"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Internett"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Internett"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਇੰਟਰਨੈਟ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Интернет"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อินเทอร์เน็ต"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="İnternet"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Інтернет"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Internet"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Rantoele"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="互联网"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="網際網路"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="網際網路"/>
+
+</oaf_server>
+
+</oaf_info>

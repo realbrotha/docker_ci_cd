@@ -1,0 +1,13 @@
+.="ce open stream"n
+./"sb_nextp"18t"sb_ce_nextp"18t"sb_pstr_nxt"nK18tK18tK
++/"sb_mstr_nxt"18t"sb_sap_nextp"nK18tK
++/"sb_rq"nK
++/"sb_cep"18t"sb_state"18t"sb_sap"nK18tX18tX
++="filter"n
++/"promiscuous_cnt"18t"all_milticast_cnt"18t"all_sap_cnt"nX18tX18tX
++/"sb_flags"18t"sb_notifictions"18t"sb_minor"nX18tX18tX
+.+c="sb_mctab"n
++/"bucket_list"18t"buckets_used"nK18tX
++/"sb_lock"nK
+.+c/"sb_canputp"18t"sb_putp"nK18tK
++/"sb_start"nK

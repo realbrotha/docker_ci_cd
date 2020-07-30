@@ -1,0 +1,3269 @@
+#! /bin/sh
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.74.2.1 $ SMI"
+#
+
+
+# script functions list:
+# - cacao_start                 : starts the container (interface point for CLI)
+# - cacao_stop                  : stops the container (interface point for CLI)
+# - cacao_restart               : restarts the container (interface point for CLI)
+#
+# - cacao_smf_start             : starts the container (interface point for SMF)
+# - cacao_smf_stop              : stops the container (interface point for SMF)
+#
+# - cacao_enabled_at_boot_start : sarts the container only if enabled at boot
+#                                 success returned otherwise, used in init.d
+#                                 (interface point for etc/init/d/cacao)
+# - cacao_non_embedded_stop     : stop the container only if non embedded
+#                                 success returned otherwise, used in preremove
+#                                 (interface point for etc/init/d/cacao)                                 
+# - cacao_display_version       : display cacaoadm version
+# - cacao_display_usage         : display cacaoadm usage 
+#
+# - cacao_enable_at_boot        : enables the start of the container at boot time
+# - cacao_disable_at_boot       : disables the start of the container at boot time
+#
+# - cacao_set_param             : gets a parameter from cacao.properties
+# - cacao_get_param             : sets a parameter from cacao.properties
+# - cacao_list_params           : lists cacao.properties parameters
+#
+# - cacao_container_status      : gives the running container status
+#
+# - cacao_list_modules          : lists modules deployed/registered
+# - cacao_deploy_module         : deploy a module inside the container
+# - cacao_undeploy_module       : undeploy a module from the container
+# - cacao_lock_module           : locks a module
+# - cacao_unlock_module         : unlocks a module
+#
+# - cacao_get_filter            : gets a filter
+# - cacao_set_filter            : sets a filter
+# - cacao_list_filters          : lists filters of the agent
+# - cacao_list_filters_from_file: lists filters inside a logger file
+#
+# - cacao_create_keys           : creates keys
+# - cacao_create_keys_sc        : creates keys, keep
+#
+# - cacao_show_trusted_cert       : prints a requested cert
+# - cacao_add_trusted_cert       : adds a certifcate
+# - cacao_list_trusted_certs               : list certicate
+# - cacao_show_cert_chain : shows daemon certificate
+#
+# - cacao_create_instance  : Create a given cacao instance in the repository.
+# - cacao_list_instance    : Display cacao multiple instance's names and paths.
+# - cacao_delete_instance  : Remove a given cacao instance from the repository.
+# - cacao_verify_config     : check cacao configuration
+#
+# - cacao_register_module         : register a module
+# - cacao_hard_register_module    : copy an XML descriptor to the ${etc_dir}/modules 
+#                                   to make is persistent directory
+# - cacao_soft_register_module    : create a link an XML descriptor to the ${etc_dir}/modules 
+#                                   to make is persistent directory
+# - cacao_unregister_module       : remove the XML descriptor from the ${etc_dir}/modules
+# - cacao_reconfigure_dependencies : perform a search on all our dependencies
+# - cacao_sys_unconfig              : stop all the instances and unconfigure the startup management
+
+
+#------------------------------------------------------------------------------
+# cacao_display_usage
+#
+# DESCRIPTION :
+# Display the usage of cacao
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# None.
+# 
+# OUTPUT:
+# usage of cacao
+#------------------------------------------------------------------------------
+cacao_display_usage() {
+    cacao_do_display_usage
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_display_version
+#
+# DESCRIPTION :
+# Display the version of cacao
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# None.
+# 
+# OUTPUT:
+# Display cacao version
+#------------------------------------------------------------------------------
+cacao_display_version() {
+    # we do not check for remaining option/args
+    # CLIP compliance : whatever the user enter, if version opt is set : display version
+    
+    installed_version=`cacao_get_property "${CACAO_VERSION_KEY}" \
+                      "${cacao_template_config_dir}/private/cacao.properties"`
+    retval=$?
+    
+    ${ECHO} "${installed_version}"
+    
+    return ${retval}
+  
+}
+
+#------------------------------------------------------------------------------
+# cacao_enable_at_boot
+#
+# DESCRIPTION :
+# Enable automatic start of cacaoadm at start up.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+#     Possible return code from cacao_set_property.
+# CACAO_CR_ERROR
+#     Possible return code from cacao_locate_dependencies or
+#     cacao_set_property.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_enable_at_boot() {
+
+    cacao_is_startup_action_allowed
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_NONROOT_NOT_ALLOWED}"
+	return ${CACAO_CR_EPERM}
+    fi
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # We do not need dependency for this operation but we do not want to allow
+    # this operation if dependencies are wrong. It prevents failure at system
+    # boot.
+   
+    cacao_resolve_dependencies
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_MISSING}"
+	return ${cr}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then
+        cacao_do_enable_at_boot
+        return ${?}
+    else
+        cacao_do_smf_enable_at_boot
+        return ${?}
+    fi
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_disable_at_boot
+#
+# DESCRIPTION :
+# Disable automatic start of cacaoadm at start up.
+#
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+#     Possible return code from cacao_set_property.
+# CACAO_CR_ERROR
+#     Possible return code from cacao_locate_dependencies or
+#     cacao_set_property.
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_disable_at_boot() {
+    
+    cacao_is_startup_action_allowed
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_NONROOT_NOT_ALLOWED}"
+	return ${CACAO_CR_EPERM}
+    fi
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    # Provide user experience coherent with cacao_enable_at_boot()
+    cacao_resolve_dependencies
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_DEPENDENCIES_MISSING}" 
+	return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then
+        cacao_do_disable_at_boot
+        return ${?}
+    else
+        cacao_do_smf_disable_at_boot
+        return ${?}
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_param
+#
+# DESCRIPTION :
+# Print a parameter value.
+# If option -v is specified, only the value is printed.
+# Otherwise the parameter name is also printed: <param>=<value>
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVAL
+#     Invalid parameter.
+# CACAO_CR_EINVALCOMMAND
+# 
+# OUTPUT:
+# See description above.
+#------------------------------------------------------------------------------
+cacao_get_param() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    #check for --value option
+    cacao_get_option "--value"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	display_only_value=${CACAO_TRUE}
+    else
+	display_only_value=${CACAO_FALSE}
+    fi
+
+    cacao_get_next_arg_elem
+    param_name=${cacao_option_parser_res}
+    if [ -z "${param_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    #args buffer should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # Check if this is a valid parameter
+    
+    param_key=`cacao_get_showable_param_key_byname "${param_name}"`
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ] || [ -z "${param_key}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PARAM_INVALID}" \
+	    "${param_name}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    param_value=`cacao_get_property "${param_key}"`
+    if [ $? -ne  ${CACAO_CR_SUCCESS} ]
+    then
+	# Unexpected internal error, not CACAO_CR_EINVALCOMMAND
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ ${display_only_value} -eq ${CACAO_TRUE} ] 
+    then
+	${ECHO} "${param_value}"
+    else
+	${ECHO} "${param_name}=${param_value}"
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_set_param
+#
+# DESCRIPTION :
+# Set a parameter.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVAL
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EEXIST
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_set_param() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    #for set param, multiple string argument is allowed
+    # cannot rely on number of argument to raise error
+    #only check if remaining option
+    
+    #it a special case
+    #for java-flags/java-debug-flags , set_param must accept
+    # to have token like '-Xabc' in the argument string
+    # like in "cacaoadm set-param java-flags=-Xms5M -Xmx65M"
+    #  error is raise by "cacao_is_remainings_known_options" because of '-X'
+    # the user is suppose to run cacaoadm set-param -- java-flags=-Xms5M -Xmx65M
+    # for compatibility raeson we cannot do that
+    # for now -> we do not check for remainings option inside arg string 
+
+    #cacao_is_remainings_known_options
+    #if [ $? -eq ${CACAO_TRUE} ]
+    #then
+    #	cacao_display_usage
+    #	return ${CACAO_CR_EINVALCOMMAND}
+    #fi
+    
+    cacao_flush_arg_elems
+    argument=${cacao_option_parser_res}
+    if [ -z "${argument}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # Cacao must be stopped
+    cacao_is_running
+    retval=${?}
+    if [ ${retval} -eq ${CACAO_TRUE} ] 
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_WHEN_RUNNING}"
+	return ${CACAO_CR_EEXIST}
+    fi
+    if [ ${retval} -eq ${CACAO_CR_ERROR} ]
+    then
+	# Unexpected internal error, not CACAO_CR_EINVALCOMMAND
+	return ${CACAO_CR_ERROR}
+    fi
+    
+
+    arg_param_key=`${ECHO} ${argument}   | ${CUT} -s -d= -f1`
+    arg_param_value=`${ECHO} ${argument} | ${CUT} -s -d= -f2-`
+
+    if [ -z "${arg_param_key}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cat_entry=`cacao_get_param_type_desc_byname "${arg_param_key}"`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ] || [ -z "${cat_entry}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PARAM_INVALID}" \
+	    "${arg_param_key}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    
+    cr=${CACAO_CR_SUCCESS}
+    ${ECHO} ${cat_entry} | \
+    while read param_int_key param_can_be_empty param_type param_min param_max param_scope
+    do
+      # parameter must be public, and value must match parameter type and boundaries
+    
+      if [ "${param_scope}" != "public" ]
+	  then
+	  cacao_print_error_message "${CACAO_MSG_ERROR_PARAM_INVALID}" \
+	      "${arg_param_key}"
+	  return ${CACAO_CR_EACCES}
+      fi
+      
+      if [ -z "${arg_param_value}" ] && [ "${param_can_be_empty}" = "no" ]
+      then
+	  cacao_print_error_message "${CACAO_MSG_ERROR_PARAM_VALUE}" "empty"
+	  return ${CACAO_CR_EINVAL}
+      fi
+
+      if [ -n "${arg_param_value}" ]
+      then
+	  err_msg=`validate_property_value ${param_type} ${param_min} ${param_max} ${arg_param_value}`
+	  if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	  then
+	      msg=`cacao_format_message "${CACAO_MSG_ERROR_CC_PROP_VALUE_2}" "${name}"`
+	      cacao_echo_error_message "${msg}" "${err_msg}"
+	      return ${CACAO_CR_EINVAL}
+	  else
+	      #update with validate value
+	      arg_param_value=${err_msg}
+	  fi
+      fi
+
+      # Set the property
+      cacao_set_property "${param_int_key}" "${arg_param_value}"
+      if [ ${?} -ne  ${CACAO_CR_SUCCESS} ]
+      then
+	# Unexpected internal error
+	  return ${CACAO_CR_ERROR}
+      fi
+    
+    done
+    # return with cr of while command
+    return $?
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_list_params
+#
+# DESCRIPTION :
+# With the description option, display a description of all parameters.
+# Otherwise, display all parameters with their value.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# See the description above.
+#------------------------------------------------------------------------------
+cacao_list_params() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # only --description  argument for this action
+    
+    cacao_get_option "--description"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	only_description=${CACAO_TRUE}
+    else
+	only_description=${CACAO_FALSE}
+    fi
+
+    #args buffer should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${only_description} -eq ${CACAO_TRUE} ]
+    then
+	# Option to display a description of all parameters
+	cacao_print_param_description
+	list_param_cr=$?
+    else
+	# Without option: display all parameters with their value
+	cacao_print_params_values
+	list_param_cr=$?
+    fi
+
+    return ${list_param_cr}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_container_status
+#
+# DESCRIPTION :
+# Print a localized message with the running container status.
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Status information
+#------------------------------------------------------------------------------
+cacao_container_status() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    #Only <module name> argument may be allowed
+
+    cacao_get_next_arg_elem
+    status_module_name=${cacao_option_parser_res}
+
+    #args buffer should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # No module name provided
+    # -----------------------
+    if [ -z "${status_module_name}" ]
+    then
+        if [ "${cacao_is_embedded}" = "${CACAO_TRUE_VALUE}" ]
+        then
+            cacao_print_embedded_container_status
+            return $?
+        else
+            cacao_print_container_status
+            return $?
+        fi
+    else
+	cacao_print_module_status ${status_module_name}
+	return $?
+    fi
+    
+}
+
+#------------------------------------------------------------------------------
+# cacao_list_modules
+#
+# DESCRIPTION :
+# List modules currently registered or deployed
+# PARAMETERS :
+# if '-r' is specified list registered modules
+# list deployed modules otherwise
+# 
+# RETURN CODE: 
+# return code of called function
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_list_modules() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option "--registered"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	only_registered=${CACAO_TRUE}
+    else
+	only_registered=${CACAO_FALSE}
+    fi
+
+    #args buffer should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${only_registered} -eq ${CACAO_TRUE} ]
+    then
+	cacao_list_registered_modules
+	cr=$?
+    else
+	cacao_list_deployed_modules
+	cr=$?
+    fi
+
+    return ${cr}
+
+}
+#------------------------------------------------------------------------------
+# cacao_list_filters_from_file
+#
+# DESCRIPTION :
+# list filters configured inside logger file
+# 
+# PARAMETERS :
+# $1 : logger file
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR file not found
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_list_filters_from_file() {
+    _logger_prop_file=$1
+    if [ ! -f "${_logger_prop_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${_logger_prop_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ${AWK} '$0 !~ /^#/ {if ($0 != "") {sub(".level","",$0);print $0} }' < ${_logger_prop_file} 2>/dev/null
+    if [ $? -eq 0 ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    else
+	return ${CACAO_CR_ERROR}
+    fi    
+}
+#------------------------------------------------------------------------------
+# cacao_list_filters
+#
+# DESCRIPTION :
+# List filter level currently deployed
+# 
+# PARAMETERS :
+# List of argument for this action.
+# This list should be empty.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is succefull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_list_filters() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_get_option "--levels"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	with_filter_levels=${CACAO_TRUE}
+    else
+	with_filter_levels=${CACAO_FALSE}
+    fi
+
+    cacao_get_option "--persistent"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	do_it_persistent=${CACAO_TRUE}
+    else
+	do_it_persistent=${CACAO_FALSE}
+    fi
+
+
+    #args buffer should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${with_filter_levels} -eq ${CACAO_TRUE} ]
+    then
+	cacao_print_level_description
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    if [ ${do_it_persistent} -eq ${CACAO_TRUE} ]
+    then
+	cacao_list_filters_from_file ${cacao_logger_file}
+	return $?
+    fi
+
+    cacao_is_running
+    result=$?
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    msg=`cacao_admin ${cacao_host} ${ADMIN_LOGGING_CMD}`
+    case $? in
+	${CACAO_CR_SUCCESS})
+              ${ECHO} "${msg}"
+              return ${CACAO_CR_SUCCESS}
+              ;;
+        ${ADMIN_FAIL_TO_CONNECT})
+              cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+              return ${CACAO_CR_EAGAIN}
+              ;;
+        *)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+  
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_filter
+#
+# DESCRIPTION :
+# Get a filter.
+# 
+# PARAMETERS :
+# List of argument for this action.
+# It should contains a filter name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is succefull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Display <filter-name>=<value>. If -v option is present, display only <value>
+# 
+#------------------------------------------------------------------------------
+cacao_get_filter() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    #check for --value option
+    cacao_get_option "--value"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	display_only_value=${CACAO_TRUE}
+    else
+	display_only_value=${CACAO_FALSE}
+    fi
+
+    cacao_get_option "--persistent"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	do_it_persistent=${CACAO_TRUE}
+    else
+	do_it_persistent=${CACAO_FALSE}
+    fi
+
+    #args buffer should be empty now
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_get_next_arg_elem
+    filter_name=${cacao_option_parser_res}
+    if [ -z "${filter_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # if -p : just get the value inside the logger property file
+    if [ ${do_it_persistent} -eq ${CACAO_TRUE} ]
+    then
+	_filter_name="${filter_name}.level"
+	msg=`cacao_get_property "${_filter_name}" "${cacao_logger_file}"`
+	get_cr=$?
+
+	if [ ${get_cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILTER_NOT_FOUND}" "${filter_name}"
+        else    
+	    if [ ${display_only_value} -eq ${CACAO_TRUE} ]
+	    then
+		${ECHO} "${msg}"
+	    else 
+		${ECHO} "${filter_name}=${msg}"
+	    fi
+        fi
+	return ${get_cr}
+    fi
+
+    cacao_is_running
+    result=$?
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    msg=`cacao_admin ${cacao_host} ${ADMIN_LOGGING_CMD} ${filter_name}`
+    case $? in
+	${CACAO_CR_SUCCESS})
+	    if [ ${display_only_value} -eq ${CACAO_TRUE} ]
+	    then
+		${ECHO} "${msg}"
+	    else 
+		${ECHO} "${filter_name}=${msg}"
+	    fi
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_set_filter
+#
+# DESCRIPTION :
+# Set filter.
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is succefull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_set_filter() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option "--persistent"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	do_it_persistent=${CACAO_TRUE}
+    else
+	do_it_persistent=${CACAO_FALSE}
+    fi
+
+
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_get_next_arg_elem
+    input=${cacao_option_parser_res}
+    if [ -z "${input}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    
+    param=`${ECHO} ${input}   | ${CUT} -s -d= -f1`
+    value=`${ECHO} ${input}   | ${CUT} -s -d= -f2-`
+    
+    if [ -z "${param}" ] || [ -z "${value}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    filter_value=`cacao_validate_filter "${value}"`
+    cr=$?
+    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+	then
+	msg=`cacao_format_message "${CACAO_MSG_ERROR_CC_WRONG_FILTER_NAME}" "${value}"`
+	cacao_echo_error_message "${msg}" "${err_msg}"
+	return ${CACAO_CR_EINVAL}
+    fi
+    
+    if [ ${do_it_persistent} -eq ${CACAO_TRUE} ]
+    then
+	#log levels have '.level' as suffix
+	param="${param}.level"
+	if [ "${filter_value}" != "NULL" ]
+	then
+	    cacao_add_property_to_file "${cacao_logger_file}" "${param}" "${filter_value}"
+	    _cr=$?
+	else
+	    cacao_remove_property_from_file "${cacao_logger_file}" "${param}"
+	    _cr=$?
+	fi
+	return ${_cr}
+    fi
+    
+    cacao_is_running
+    result=$?
+    if [ ${result} -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_running
+	return ${CACAO_CR_ESRCH}
+    elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+
+    msg=`cacao_admin ${cacao_host} ${ADMIN_LOGGING_CMD} ${param} ${filter_value}`
+    case $? in
+	${CACAO_CR_SUCCESS})
+	    if [ -n "${msg}" ] 
+	    then
+		${ECHO} "${msg}"
+	    fi
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${MISSING_LOGGER}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_deploy_module
+#
+# DESCRIPTION :
+# Deploy a module inside the container.
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# cf return code of 'cacao_module_operation'
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_deploy_module() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    
+    cacao_get_next_arg_elem
+    module_filename=${cacao_option_parser_res}
+    if [ -z "${module_filename}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_module_operation deploy ${module_filename}
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_undeploy_module
+#
+# DESCRIPTION :
+# Undeploy a module inside the container.
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_undeploy_module() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_get_next_arg_elem
+    module_name=${cacao_option_parser_res}
+    if [ -z "${module_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_module_operation undeploy ${module_name}
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_lock_module
+#
+# DESCRIPTION :
+# Lock a module.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_lock_module() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_get_next_arg_elem
+    module_name=${cacao_option_parser_res}
+    if [ -z "${module_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_module_operation lock ${module_name}
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_unlock_module
+#
+# DESCRIPTION :
+# Unlock a module.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# CACAO_CR_EINVALCOMMAND if parameters are not valid
+# CACAO_CR_ESRCH if command is invoked and cacao is not running
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_unlock_module() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_get_next_arg_elem
+    module_name=${cacao_option_parser_res}
+    if [ -z "${module_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_module_operation unlock ${module_name}
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_debug
+#
+# DESCRIPTION :
+# Start the container in debug mode
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_debug() {
+
+    cacao_debug_mode=${CACAO_TRUE}
+    cacao_do_start
+    return $?
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_restart
+#
+# DESCRIPTION :
+# Restart cacao container
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_restart() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then   
+        cacao_do_stop
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            return "${?}"
+        else
+            cacao_do_start
+            return "${?}"
+        fi
+    else
+       cacao_do_smf_stop
+        if [ $? -ne ${CACAO_CR_SUCCESS} ]
+        then
+            return "${?}"
+        else
+            cacao_do_smf_start
+            return "${?}"
+        fi
+    fi
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_create_keys
+#
+# DESCRIPTION :
+# create security environement for cacaoadm
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_create_keys () {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option "--nonss"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	no_nss_flag_present=${CACAO_TRUE}
+    else
+	no_nss_flag_present=${CACAO_FALSE}
+    fi
+    
+    cacao_get_option_with_arg "--directory"
+    getopt_cr=$?
+
+    if [ ${getopt_cr} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_cr} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	directory_to_use=${cacao_option_parser_res}
+    else
+	directory_to_use=${cacao_security_dir}
+    fi
+	
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    cacao_is_running
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_WHEN_RUNNING}"
+	return ${CACAO_CR_EEXIST}
+    fi
+
+    cacao_init_keygen_vars ${directory_to_use}
+
+    
+
+    #force mode set at parse_arg level
+    if [ ${cacao_force_mode} -ne ${CACAO_TRUE} ]
+    then
+	cacao_is_keys_ok ${directory_to_use}
+	if [ $? -eq ${CACAO_CR_SUCCESS} ]
+	then
+	    # everything s already done
+            # The user attempted to create keys in a directory already having
+            # keys. If we do not warn the user that the keys already exists, he
+            # might believe that the tool has generated new keys, which is wrong.
+            # So we display a warning message to tell so
+            cacao_print_error_message "${CACAO_MSG_WARNING_KEYS_ALREADY_DEFINED}" "${directory_to_use}"
+	    return ${CACAO_CR_SUCCESS}
+	fi
+    fi
+    
+    if [ ${no_nss_flag_present} -eq ${CACAO_TRUE} ]
+    then
+    	with_nss=${CACAO_FALSE}
+    else
+    	cacao_resolve_nss_dependencies
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then 
+	    with_nss=${CACAO_FALSE}
+	else
+	    with_nss=${CACAO_TRUE}
+	fi 
+    fi
+    
+    #don't care about CR, we have to find anyway
+    cacao_resolve_java_dependencies
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${MISSING_JAVA}" "${CACAO_MIN_JAVA_VERSION}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #the cacao_use_j2me flag is set during resolve of java dependencies
+    if [ "${cacao_use_j2me}" = "${CACAO_TRUE_VALUE}" ]
+    then
+	#j2me does not support key generation, do not go further
+	cacao_print_error_message "${CACAO_MSG_ERROR_J2ME_ENOTSUP}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # in any case of error of abort from user
+    # we need to remove this file to force generation the next start or create-keys ops
+    cacao_generating_password=${directory_to_use}/password
+
+    # Workaround to restore correct umask since not well handled in
+    # the generation of keys
+    workaround_current_umask=`umask`
+    cacao_generate_keys ${with_nss} ${directory_to_use}
+    cr=$?
+    umask ${workaround_current_umask} > /dev/null 2>&1
+    
+    cacao_generating_password=""
+
+    return ${cr}
+    
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_keys_sc
+#
+# DESCRIPTION :
+# hidden compatibility for Sun Cluster 3.1U3
+# we just call cacao_create_keys
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_create_keys_sc () {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_get_next_arg_elem
+     next_token=${cacao_option_parser_res}
+     if [ ${next_token} != "key" ]
+     then
+	 cacao_display_usage
+	 return ${CACAO_CR_EINVALCOMMAND}
+     fi
+     
+     #arg string should be empty now
+     cacao_is_remainings_options_arg
+     if [ $? -eq ${CACAO_TRUE} ]
+	 then
+	 cacao_display_usage
+	 return ${CACAO_CR_EINVALCOMMAND}
+     fi
+     
+     cacao_create_keys
+     
+     return $?
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_show_trusted_cert
+#
+# DESCRIPTION :
+# Prints a requested certificate
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Display on stdout or print in a file certicate information
+# 
+#------------------------------------------------------------------------------
+cacao_show_trusted_cert() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option_with_arg "--url"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_url=${cacao_option_parser_res}
+    else
+	selected_url=""
+    fi
+
+
+    cacao_get_option_with_arg "--connection-env"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	env_file=${cacao_option_parser_res}
+    else
+	env_file=""
+    fi
+
+    cacao_get_option_with_arg "--file"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_output_file=${cacao_option_parser_res}
+    else
+	selected_output_file=""
+    fi
+
+    cacao_get_option "--verbose"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_verbose_mode="verbose"
+    else
+	selected_verbose_mode=""
+    fi
+
+    cacao_get_next_arg_elem
+    cert_alias=${cacao_option_parser_res}
+    if [ -z "${cert_alias}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ] 
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    # Check option selected can be use together
+    if [ -n "${selected_output_file}" ] && [ -n "${selected_verbose_mode}" ]
+    then
+	cacao_print_error_message "${FILE_OR_VERBOSE}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${cacao_instance_mode} -eq ${CACAO_TRUE} ] && [ -n "${selected_url}" ]
+    then
+	cacao_print_error_message "${URL_OR_INSTANCE}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+
+    if [ -n "${env_file}" ] && [ -z "${selected_url}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_ENV_AND_URL}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ]
+    then
+	cacao_check_env_file "${env_file}"
+	case ${?} in
+	    ${CACAO_CR_ERROR})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CANNOT_CHECK_ENV_FILE}" "${env_file}"
+		return ${CACAO_CR_ERROR}
+		;;
+	    ${CACAO_BAD_OWNER})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_NOT_OWNED}" "${env_file}" "${cacao_current_id_name}"
+		;;
+	    ${CACAO_BAD_FILE_RIGHTS})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_WRONG_RIGHT}" "${env_file}"
+		;;
+	    *)
+		# Do nothing all is ok or suitable message will 
+		# be displayed by the java code.
+	esac
+    fi
+
+    #file must not exist
+    if [ -n "${selected_output_file}" ]
+    then
+	if [ -f "${selected_output_file}" ]
+	then
+	    cacao_print_error_message "${FILE_EXIST}" "${selected_output_file}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+    
+    if [ -z "${selected_url}"  ]
+    then
+	# When --url is selected do not check 
+	cacao_is_running
+	result=$?
+	if [ ${result} -eq ${CACAO_FALSE} ]
+	then
+            cacao_print_error_running
+	    return ${CACAO_CR_ESRCH}
+	elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ -n "${selected_url}" ]
+    then
+	connection_param="${CACAO_SERVICE_URL_PREFIX}${selected_url}"
+    else
+	connection_param="${cacao_host}"
+    fi
+
+    properties="-Dcacao.config.dir=${cacao_config_dir}"
+    if [ -n "${env_file}" ]
+    then
+	properties="${properties} -Dcacao.connection=${env_file}"
+    fi
+
+    # Add user name as a properties of this operation
+    properties="${properties} -Dcacao.username=${cacao_current_id_name}"
+
+    msg=`cacao_admin_advance "${properties}" \
+	    "${connection_param}" getCertificate ${cert_alias} "${selected_verbose_mode}"`
+    case ${?} in
+	${CACAO_CR_SUCCESS})
+	    if [ -z "${selected_output_file}" ]
+	    then
+		${ECHO} "${msg}"
+            else
+		current_umask=`umask`
+		umask 333
+		${ECHO_NOT_BUILTIN} "${msg}" 2>/dev/null > ${selected_output_file}
+		if [ $? -ne 0 ]
+		then
+		    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CREATE}" "${selected_output_file}"
+		    umask ${current_umask}
+		    return ${CACAO_CR_ERROR}
+		fi
+		umask ${current_umask}
+	    fi
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    if [ -n "${cacao_main_instance}" ] && [ "${cacao_main_instance}" != "${CACAO_DEFAULT_INSTANCE_NAME}" ]
+	    then 
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    else
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT_SERVICE_URL}"
+	    fi
+
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_add_trusted_cert
+#
+# DESCRIPTION :
+# Adds a certifcate
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+
+cacao_add_trusted_cert() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option_with_arg "--url"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_url=${cacao_option_parser_res}
+    else
+	selected_url=""
+    fi
+
+    cacao_get_option_with_arg "--connection-env"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	env_file=${cacao_option_parser_res}
+    else
+	env_file=""
+    fi
+
+
+    cacao_get_option_with_arg "--file"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_input_file=${cacao_option_parser_res}
+    else
+	selected_input_file=""
+    fi
+
+    cacao_get_next_arg_elem
+    cert_alias=${cacao_option_parser_res}
+    if [ -z "${cert_alias}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ] 
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ ${cacao_instance_mode} -eq ${CACAO_TRUE} ] && [ -n "${selected_url}" ]
+    then
+	cacao_print_error_message "${URL_OR_INSTANCE}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ] && [ -z "${selected_url}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_ENV_AND_URL}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ]
+    then
+	cacao_check_env_file "${env_file}"
+	case ${?} in
+	    ${CACAO_CR_ERROR})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CANNOT_CHECK_ENV_FILE}" "${env_file}"
+		return ${CACAO_CR_ERROR}
+		;;
+	    ${CACAO_BAD_OWNER})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_NOT_OWNED}" "${env_file}" "${cacao_current_id_name}"
+		;;
+	    ${CACAO_BAD_FILE_RIGHTS})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_WRONG_RIGHT}" "${env_file}"
+		;;
+	    *)
+		# Do nothing all is ok or suitable message will 
+		# be displayed by the java code.
+	esac
+    fi
+
+    if [ -z "${selected_url}"  ]
+    then
+	# When --url is selected do not check 
+	cacao_is_running
+	result=$?
+	if [ ${result} -eq ${CACAO_FALSE} ]
+	then
+            cacao_print_error_running
+	    return ${CACAO_CR_ESRCH}
+	elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+    
+    selected_input_file_is_temp=${CACAO_FALSE}
+
+    if [ -z "${selected_input_file}" ]
+    then
+	selected_input_file_is_temp=${CACAO_TRUE}
+	current_umask=`umask`
+	umask 111
+	selected_input_file="${cacao_tmp_dir}/certificate.$$"
+	cacao_tmp_file_list="${cacao_tmp_file_list} ${selected_input_file}"
+	# read stdin
+	while read line
+	do
+	    ${ECHO_NOT_BUILTIN} ${line}
+	done 2>/dev/null >> ${selected_input_file}
+
+	umask ${current_umask}
+    fi
+
+    if [ -n "${selected_url}" ]
+    then
+	connection_param="${CACAO_SERVICE_URL_PREFIX}${selected_url}"
+    else
+	connection_param="${cacao_host}"
+    fi
+
+    properties="-Dcacao.config.dir=${cacao_config_dir}"
+    if [ -n "${env_file}" ]
+    then
+	properties="${properties} -Dcacao.connection=${env_file}"
+    fi
+
+    # Add user name as a properties of this operation
+    properties="${properties} -Dcacao.username=${cacao_current_id_name}"
+
+    add_cert_retval=${CACAO_TRUE}
+
+    msg=`cacao_admin_advance "${properties}" "${connection_param}" addCertificate ${cert_alias} "${selected_input_file}"`
+    case ${?} in
+	${CACAO_CR_SUCCESS})
+	    ${ECHO} "${msg}"
+	    add_cert_retval=${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    if [ -n "${cacao_main_instance}" ] && [ "${cacao_main_instance}" != "${CACAO_DEFAULT_INSTANCE_NAME}" ]
+	    then 
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    else
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT_SERVICE_URL}"
+	    fi
+	    add_cert_retval=${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    add_cert_retval=${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    if [ ${selected_input_file_is_temp} -eq ${CACAO_TRUE} ]
+    then
+	${RM} -f ${selected_input_file} 2>/dev/null
+    fi
+    
+    return ${add_cert_retval}
+}
+
+#------------------------------------------------------------------------------
+# cacao_list_trusted_certs
+#
+# DESCRIPTION :
+# List alias or alias and certificate info depending on option selected
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+
+cacao_list_trusted_certs() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_get_option_with_arg "--url"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_url=${cacao_option_parser_res}
+    else
+	selected_url=""
+    fi
+
+    cacao_get_option_with_arg "--connection-env"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	env_file=${cacao_option_parser_res}
+    else
+	env_file=""
+    fi
+
+    cacao_get_option "--verbose"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_verbose_mode="verbose"
+    else
+	selected_verbose_mode=""
+    fi
+
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ] 
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ ${cacao_instance_mode} -eq ${CACAO_TRUE} ] && [ -n "${selected_url}" ]
+    then
+	cacao_print_error_message "${URL_OR_INSTANCE}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ -n "${env_file}" ] && [ -z "${selected_url}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_ENV_AND_URL}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ]
+    then
+	cacao_check_env_file "${env_file}"
+	case ${?} in
+	    ${CACAO_CR_ERROR})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CANNOT_CHECK_ENV_FILE}" "${env_file}"
+		return ${CACAO_CR_ERROR}
+		;;
+	    ${CACAO_BAD_OWNER})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_NOT_OWNED}" "${env_file}" "${cacao_current_id_name}"
+		;;
+	    ${CACAO_BAD_FILE_RIGHTS})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_WRONG_RIGHT}" "${env_file}"
+		;;
+	    *)
+		# Do nothing all is ok or suitable message will 
+		# be displayed by the java code.
+	esac
+    fi
+
+    if [ -z "${selected_url}"  ]
+    then
+	# When --url is selected do not check 
+	cacao_is_running
+	result=$?
+	if [ ${result} -eq ${CACAO_FALSE} ]
+	then
+            cacao_print_error_running
+	    return ${CACAO_CR_ESRCH}
+	elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ -n "${selected_url}" ]
+    then
+	connection_param="${CACAO_SERVICE_URL_PREFIX}${selected_url}"
+    else
+	connection_param="${cacao_host}"
+    fi
+
+    properties="-Dcacao.config.dir=${cacao_config_dir}"
+    if [ -n "${env_file}" ]
+    then
+	properties="${properties} -Dcacao.connection=${env_file}"
+    fi
+
+    # Add user name as a properties of this operation
+    properties="${properties} -Dcacao.username=${cacao_current_id_name}"
+
+
+    msg=`cacao_admin_advance "${properties}" "${connection_param}" getCertificates ${selected_verbose_mode}`
+    case ${?} in
+	${CACAO_CR_SUCCESS})
+	    ${ECHO} "${msg}"
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    if [ -n "${cacao_main_instance}" ] && [ "${cacao_main_instance}" != "${CACAO_DEFAULT_INSTANCE_NAME}" ]
+	    then 
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    else
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT_SERVICE_URL}"
+	    fi
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_show_cert_chain
+#
+# DESCRIPTION :
+# Display all the certificate chain of the agent
+# 
+# PARAMETERS :
+# List of argument for this action.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EAGAIN if Cacao is started, but cannot connect to cacao
+# 
+# OUTPUT:
+# Print all certicate on diaplay or in files depending on option selected
+# 
+#------------------------------------------------------------------------------
+
+cacao_show_cert_chain() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+   cacao_get_option_with_arg "--url"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_url=${cacao_option_parser_res}
+    else
+	selected_url=""
+    fi
+
+    cacao_get_option_with_arg "--connection-env"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	env_file=${cacao_option_parser_res}
+    else
+	env_file=""
+    fi
+
+    cacao_get_option_with_arg "--directory"
+    getopt_res=$?
+    if [ ${getopt_res} -eq ${CACAO_CR_ERROR} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ ${getopt_res} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	selected_dir=${cacao_option_parser_res}
+    else
+	selected_dir=""
+    fi
+
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ] 
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ ${cacao_instance_mode} -eq ${CACAO_TRUE} ] && [ -n "${selected_url}" ]
+    then
+	cacao_print_error_message "${URL_OR_INSTANCE}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ] && [ -z "${selected_url}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_ENV_AND_URL}"
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    if [ -n "${env_file}" ]
+    then
+	cacao_check_env_file "${env_file}"
+	case ${?} in
+	    ${CACAO_CR_ERROR})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CANNOT_CHECK_ENV_FILE}" "${env_file}"
+		return ${CACAO_CR_ERROR}
+		;;
+	    ${CACAO_BAD_OWNER})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_NOT_OWNED}" "${env_file}" "${cacao_current_id_name}"
+		;;
+	    ${CACAO_BAD_FILE_RIGHTS})
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECTION_WRONG_RIGHT}" "${env_file}"
+		;;
+	    *)
+		# Do nothing all is ok or suitable message will 
+		# be displayed by the java code.
+	esac
+    fi
+
+    if [ -z "${selected_url}"  ]
+    then
+	# When --url is selected do not check 
+	cacao_is_running
+	result=$?
+	if [ ${result} -eq ${CACAO_FALSE} ]
+	then
+            cacao_print_error_running
+	    return ${CACAO_CR_ESRCH}
+	elif [ ${result} -eq ${CACAO_CR_ERROR} ]
+	then
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ -n "${selected_url}" ]
+    then
+	connection_param="${CACAO_SERVICE_URL_PREFIX}${selected_url}"
+    else
+	connection_param="${cacao_host}"
+    fi
+
+
+    properties="-Dcacao.config.dir=${cacao_config_dir}"
+    if [ -n "${env_file}" ]
+    then
+	properties="${properties} -Dcacao.connection=${env_file}"
+    fi
+
+    # Add user name as a properties of this operation
+    properties="${properties} -Dcacao.username=${cacao_current_id_name}"
+
+
+    msg=`cacao_admin_advance "${properties}" "${connection_param}" showCertificateChain "${selected_dir}"`
+    case ${?} in
+	${CACAO_CR_SUCCESS})
+	    ${ECHO} "${msg}"
+	    if [ -n "${selected_dir}" ]
+	    then
+		${CHMOD} 444 ${selected_dir}/certificate*
+	    fi
+	    return ${CACAO_CR_SUCCESS}
+	    ;;
+	${ADMIN_FAIL_TO_CONNECT})
+	    if [ -n "${cacao_main_instance}" ] && [ "${cacao_main_instance}" != "${CACAO_DEFAULT_INSTANCE_NAME}" ]
+	    then 
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT}"
+	    else
+		cacao_print_error_message "${CACAO_MSG_ERROR_CONNECT_SERVICE_URL}"
+	    fi
+	    return ${CACAO_CR_EAGAIN}
+	    ;;
+	*)
+	    cacao_print_error_message "${msg}"
+	    return ${CACAO_CR_ERROR}
+	    ;;
+    esac
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_create_instance
+#
+# DESCRIPTION :
+# Create a given cacao instance under var_dir/instances.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EINVAL
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_create_instance() {
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+
+    cacao_get_option "--embedded"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	create_as_embedded=${CACAO_TRUE_VALUE}
+    else
+	create_as_embedded=${CACAO_FALSE_VALUE}
+    fi
+    
+    cacao_get_next_arg_elem
+    instance_name=${cacao_option_parser_res}
+    if [ -z "${instance_name}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    #arg string should be empty now
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    #Check instance name pattern
+    cacao_instance_name_check "${instance_name}"
+    res=${?}
+    if [ ${res} -eq ${CACAO_CR_ERROR} ]
+    then
+        return ${res}
+    elif [ ${res} -ne ${CACAO_TRUE} ]
+    then 
+       cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_NAME_WRONG_PATTERN}" \
+		"${instance_name}" 
+       return ${CACAO_CR_EINVAL}
+    fi
+    
+    # User stub to create an instance
+    # user not allowed to create one of our own
+    cacao_is_core_instance "${instance_name}"
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+       cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_CORE_CREATE}" "${instance_name}"
+       return ${CACAO_CR_EINVAL}
+    fi
+
+    # Instance name must not exist
+    cacao_is_instance_exists "${instance_name}"
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_NAME}" \
+		"${instance_name}"
+        return ${CACAO_CR_EINVAL}
+    fi
+
+
+    #error messages displayed by function called
+    cacao_do_create_instance "${instance_name}" "${create_as_embedded}"
+    cr_res=${?}
+
+    #create the instance startup files
+    #error messages displayed by function called
+    if [ ${cacao_current_id} -eq 0 ] && [ "${create_as_embedded}" = ${CACAO_FALSE_VALUE} ]
+    then
+        cacao_create_instance_startup "${_instance_name_to_create}"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+        then
+	    cr_res=${CACAO_CR_ERROR}
+        fi
+    fi
+    
+    return ${cr_res}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_list_instance
+#
+# DESCRIPTION :
+# Display cacao multiple instance's names and if it is embeeded.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVALCOMMAND
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_list_instance() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    _instance_list="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ ${?} -ne 0 ]; then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    for each in ${_instance_list}; do          
+        _instance_dir="${cacao_etc_instances_dir}/${each}"
+        _property_file="${_instance_dir}/private/cacao.properties"
+        if [ ! -f "${_property_file}" ]; then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${_property_file}"
+            return ${CACAO_CR_ERROR}
+        fi
+        embedded="`cacao_get_property ${CACAO_EMBEDDED_KEY} ${_property_file}`"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]; then
+            cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND_FOR_INSTANCE}" \
+	    "${CACAO_EMBEDDED_KEY}" "${each}"
+            return ${CACAO_CR_ERROR}
+        fi
+        if [ "${embedded}" = "${CACAO_TRUE_VALUE}" ]
+        then
+            ${PRINTF} "%s [%s]\n" "${each}" "${CACAO_EMBEDDED_INSTANCE_TAG}"
+        else
+            ${PRINTF} "%s\n" "${each}"
+        fi
+    done
+	
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_delete_instance
+#
+# DESCRIPTION :
+# Remove a given cacao instance from the repository.
+# The instance should be not be running.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EEXIST
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_EINVAL
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_delete_instance() {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    
+    # No argument
+    # --instance option already catched at global parsing level
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+    
+    if [ -z "${cacao_main_instance}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # First check user dir is correct
+    cacao_instance_check_userdir "${cacao_main_instance}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Then check user do not delete the default instance
+    cacao_is_core_instance "${cacao_main_instance}"
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+       cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_CORE_DELETE}" \
+                                 "${cacao_main_instance}"
+       return ${CACAO_CR_ERROR}
+    fi
+
+    # Cacao must be stopped
+    cacao_is_running
+    retval=${?}
+    if [ ${retval} -eq ${CACAO_TRUE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_WHEN_RUNNING}"
+	return ${CACAO_CR_EEXIST}
+    fi
+    if [ ${retval} -eq ${CACAO_CR_ERROR} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # May be used in cacao_exit if not cleaned at the end of instance
+    # deletion (when interrupted for instance)
+    cacao_deleting_instance=${instance_name}
+
+    # Delete the instance directories
+    cacao_instance_files_delete "${cacao_main_instance}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_deleting_instance=""
+    return ${CACAO_CR_SUCCESS}
+}
+#------------------------------------------------------------------------------
+# cacao_uninstall_instance
+#
+# DESCRIPTION :
+# remove an instance and do cleanup
+# internal call : from postinstall or internal use
+# 
+# PARAMETERS :
+# None. : instance context already loaded
+# 
+# RETURN CODE: 
+# 
+# NOTICE
+# we are in 'force' mode do nothing gracefully
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_uninstall_instance () {
+    #enough for now
+    cacao_is_running
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+        return ${CACAO_CR_SUCCESS}
+    fi
+    cacao_force_stop
+    return $?
+}
+#------------------------------------------------------------------------------
+# cacao_start
+#
+# DESCRIPTION :
+# Start the container. This function is the general interface point to start
+# the container.
+#
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_start() {
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then       
+        cacao_do_start
+        return ${?}
+    else
+        cacao_do_smf_start
+        return ${?}
+    fi
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_smf_start
+#
+# DESCRIPTION :
+# Start the container. This function is the SMF interface point to start
+# the container.
+#
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_smf_start() {
+
+    #tells to print the error in a file (we are in a smf call)
+    #this file will be then printed by upper call
+    cacao_print_error_in_file="${CACAO_TRUE_VALUE}"
+    
+    #clean previous error file
+    if [ -f "${cacao_error_file}" ]
+    then
+        ${RM} -f "${cacao_error_file}" > /dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_error_file}"
+         fi
+    fi
+
+    # we are called from SMF
+    # inside cacao_do_start we may have to call svcs
+    # to get cacao state. svcs does not support re-entrance
+    # if we are here that meens that the instance is locked
+    # and not running : disable checks
+    cacao_do_start "internal"
+    return $?
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_stop
+#
+# DESCRIPTION :
+# Stop the container. This function is the general interface point to stop
+# the container.
+#
+# On platforms supporting SMF, it invokes the disable method on the SMF service.
+# On other platforms, it invoke the implementation function.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_stop() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_is_greenline_run_mode
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then
+        cacao_do_stop
+        return ${?}
+    else
+        cacao_do_smf_stop
+        return ${?}
+    fi
+    
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_smf_stop
+#
+# DESCRIPTION :
+# Stop the container. This function is the general interface point to stop
+# the container.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_smf_stop() {
+
+    #tells to print the error in a file (we are in a smf call)
+    #this file will be then printed by upper call
+    cacao_print_error_in_file="${CACAO_TRUE_VALUE}"
+
+    #clean previous error file
+    if [ -f "${cacao_error_file}" ]
+    then
+        ${RM} -f "${cacao_error_file}" > /dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_error_file}"
+         fi
+    fi
+
+    cacao_do_non_embedded_stop
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_enabled_at_boot_start
+#
+# DESCRIPTION :
+# Start the container if it is enabled at boot, if non enable at boot do nothing
+# Used internally. Entry point
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull or non enabled at boot
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_enabled_at_boot_start() {
+    
+    cacao_do_enabled_at_boot_start
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_non_embedded_stop
+#
+# DESCRIPTION :
+# Stop the container if it is a non embedded one, if embedded do nothing
+# Used internally. Implementation.
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull or embedded
+# CACAO_CR_ERROR if there is an error when executing the command
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_non_embedded_stop() {
+    
+    cacao_do_non_embedded_stop
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_verify_config
+#
+# DESCRIPTION :
+# check cacao configuration
+# 
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR   if there is an error during check
+# 
+# OUTPUT:
+# none
+# 
+#------------------------------------------------------------------------------
+cacao_verify_config () {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    res=${CACAO_CR_SUCCESS}
+    
+    cacao_check_files_rights
+    res=`${EXPR} $? + ${res} 2>/dev/null`
+
+    cacao_check_properties
+    res=`${EXPR} $? + ${res} 2>/dev/null`
+
+    cacao_check_properties_unicity
+    res=`${EXPR} $? + ${res} 2>/dev/null`
+
+    cacao_check_dependencies
+    res=`${EXPR} $? + ${res} 2>/dev/null`
+
+    cacao_check_rt_ids
+    res=`${EXPR} $? + ${res} 2>/dev/null`
+
+    #we may need to know how many error was found
+    # don't use it for now
+    if [ ${res} -gt ${CACAO_CR_SUCCESS} ]
+    then
+	res=${CACAO_CR_ERROR}
+    fi
+
+    return ${res}
+}
+
+#------------------------------------------------------------------------------
+# cacao_reconfigure_dependencies
+#
+# DESCRIPTION :
+# perform a search on all our dependencies
+# if one dependencies value is not equal to the result of the search 
+# the value inside cacao.properties is updated
+#
+# PARAMETERS :
+# none.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS if the operation is successfull
+# CACAO_CR_ERROR   if there is an error while reading the file
+# 
+# NOTICE:
+# this is a best effort command, no error raised, only output
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_reconfigure_dependencies () {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_is_running
+    diag=$?
+    if [ ${diag} -eq ${CACAO_CR_ERROR} ]
+    then
+      return ${CACAO_CR_ERROR}
+    fi
+
+    if [ ${diag} -eq ${CACAO_TRUE} ]
+    then
+      cacao_print_error_message "${CACAO_MSG_ERROR_WHEN_RUNNING}"
+      return ${CACAO_CR_EEXIST}
+    fi
+
+
+    # update the java home property
+    # skip the update in case of j2me (we cannot locate it)
+    if [ "${cacao_use_j2me}" = "${CACAO_FALSE_VALUE}" ]
+    then
+	cacao_core_find_java
+	if [ $? -eq ${CACAO_CR_SUCCESS} ] && [ -n "${cacao_java_home}" ]
+	then
+	    old_value=`cacao_get_property ${CACAO_JAVA_HOME_KEY}`
+	    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_GET}" "${CACAO_JAVA_HOME_KEY}"
+	    else
+		if [ "${old_value}" != "${cacao_java_home}" ]
+		then
+		    cacao_set_property ${CACAO_JAVA_HOME_KEY} "${cacao_java_home}"
+		    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+		    then
+			cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" "${CACAO_JAVA_HOME_KEY}"
+		    else
+			_p_name=`cacao_get_param_name ${CACAO_JAVA_HOME_KEY}`
+			cacao_print_message "${CACAO_MSG_INFO_PROPERTY_UPDATE}" "${_p_name}"
+                    fi
+                fi
+	    fi
+        fi
+    fi
+
+    cacao_core_find_jdmk
+    if [ $? -eq ${CACAO_CR_SUCCESS} ] && [ -n "${cacao_jdmk_home}" ]
+    then
+	old_value=`cacao_get_property ${CACAO_JDMK_HOME_KEY}`
+	if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_GET}" "${CACAO_JDMK_HOME_KEY}"
+	else
+	    if [ "${old_value}" != "${cacao_jdmk_home}" ]
+	    then
+		cacao_set_property ${CACAO_JDMK_HOME_KEY} "${cacao_jdmk_home}"
+		if [ $? -ne ${CACAO_CR_SUCCESS} ]
+		then
+		    cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" "${CACAO_JDMK_HOME_KEY}"
+                else
+		    _p_name=`cacao_get_param_name ${CACAO_JDMK_HOME_KEY}`
+		    cacao_print_message "${CACAO_MSG_INFO_PROPERTY_UPDATE}" "${_p_name}"
+		fi
+	    fi
+	fi
+    fi
+
+    cacao_core_find_nss
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # we trust core_find_nss : cacao_nss_[lib|tools]_home are not empty
+    # NOTICE : we have no way to update lib and tools separatly as we should
+
+    lib_old_value=`cacao_get_property ${CACAO_NSS_LIB_HOME_KEY}`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_GET}" "${CACAO_NSS_LIB_HOME_KEY}"
+    else
+	if [ "${lib_old_value}" != "${cacao_nss_lib_home}" ]
+	then
+	    cacao_set_property ${CACAO_NSS_LIB_HOME_KEY} "${cacao_nss_lib_home}"
+	    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" "${CACAO_NSS_LIB_HOME_KEY}"
+	    else
+		_p_name=`cacao_get_param_name ${CACAO_NSS_LIB_HOME_KEY}`
+		cacao_print_message "${CACAO_MSG_INFO_PROPERTY_UPDATE}" "${_p_name}"
+	    fi
+	fi
+    fi
+    
+    tools_old_value=`cacao_get_property ${CACAO_NSS_TOOLS_HOME_KEY}`
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_GET}" "${CACAO_NSS_TOOLS_HOME_KEY}"
+    else
+	if [ "${tools_old_value}" != "${cacao_nss_tools_home}" ]
+	then
+	    cacao_set_property ${CACAO_NSS_TOOLS_HOME_KEY} "${cacao_nss_tools_home}"
+	    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" "${CACAO_NSS_TOOLS_HOME_KEY}"
+	    else
+		_p_name=`cacao_get_param_name ${CACAO_NSS_TOOLS_HOME_KEY}`
+		cacao_print_message "${CACAO_MSG_INFO_PROPERTY_UPDATE}" "${_p_name}"
+	    fi
+	fi
+    fi
+    
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_hard_register_module
+#
+# DESCRIPTION :
+# copy an XML descriptor in the common repository ${etc_dir}/private/modules
+# to make is persistent directory. 
+# create a file <module-name>.properties which contains the canonical path
+# to the initial module.xml
+# 
+# PARAMETERS :
+# $1 : the full path name of the XML file
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVAL
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_hard_register_module () {
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_get_next_arg_elem
+    xml_filename=${cacao_option_parser_res}
+    if [ -z "${xml_filename}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+	cacao_do_hard_register_module "${xml_filename}" "${cacao_etc_dir}"
+	
+    return $?
+}
+
+#------------------------------------------------------------------------------
+# cacao_soft_register_module
+#
+# DESCRIPTION :
+# Resolve absolute path of XML descriptor and create a link 
+# on it in the common repository ${etc_dir}/modules
+# to make is persistent directory.
+# 
+# PARAMETERS :
+# $1 : the full path name of the XML file
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVAL
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_soft_register_module () {
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_get_next_arg_elem
+    xml_filename=${cacao_option_parser_res}
+    if [ -z "${xml_filename}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    case ${xml_filename} in
+	/*)
+	    real_xml_filename=${xml_filename}
+	    ;;
+	*)
+	    our_cwd=`pwd 2>/dev/null`
+	    if [ $? -ne 0 ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_DIR_PWD}"
+		return ${CACAO_CR_ERROR}
+	    fi
+	    real_xml_filename=`cacao_clean_path "${our_cwd}/${xml_filename}"`
+	    ;;
+    esac
+
+
+    if [ ! -f "${real_xml_filename}" ] || [ ! -r "${real_xml_filename}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_INVALID}" "${real_xml_filename}"
+	return ${CACAO_CR_EINVAL}
+    fi
+    
+    filename=`${BASENAME} ${real_xml_filename}`
+    
+    ${LN} -s ${real_xml_filename} ${cacao_etc_dir}/private/modules/${filename} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_LN}" "${cacao_etc_dir}/private/modules/${filename}"\
+                                                               "${real_xml_filename}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_register_module
+#
+# DESCRIPTION :
+#  call cacao_hard_register_module or cacao_soft_register_module
+#  according to parameters
+# 
+# PARAMETERS :
+#
+# TO BE DEFINED
+# 
+# RETURN CODE: 
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_register_module() {
+    cacao_hard_register_module
+    return $?
+}
+#------------------------------------------------------------------------------
+# cacao_unregister_module
+#
+# DESCRIPTION :
+# Remove an XML descriptor from the ${cacao_etc_dir}/private/modules.
+# Not allowed on core modules.
+# 
+# PARAMETERS :
+# $1 : the XML file name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_EINVAL
+# CACAO_CR_EINVALCOMMAND
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_unregister_module () {
+    
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+    
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_get_next_arg_elem
+    xml_filename=${cacao_option_parser_res}
+    if [ -z "${xml_filename}" ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    # Must be already registered
+    xml_full_filename=${cacao_etc_dir}/private/modules/${xml_filename}
+    if [ ! -f "${xml_full_filename}" ] 
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_INVALID}" \
+            "${xml_full_filename}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    # Not allowed on core modules
+    if [ -f "${cacao_template_config_dir}/modules/${xml_filename}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_OPERATION_NOT_ALLOWED}" \
+            "${xml_filename}"
+	return ${CACAO_CR_EINVAL}
+    fi
+    
+    unregister_error=${CACAO_FALSE}
+    ${RM} -f "${xml_full_filename}" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" \
+            "${xml_full_filename}"
+	unregister_error=${CACAO_TRUE}
+    fi
+    
+    # Remove potential property associated with the module descriptor
+
+    module_name=`${BASENAME} ${xml_filename} ".xml"`
+    path_to_xml=${cacao_etc_dir}/private/modules/
+    path_to_properties="${path_to_xml}/${module_name}.properties"
+
+
+    if [ -f "${path_to_properties}" ] 
+    then
+	${RM} -f "${path_to_properties}" >/dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" \
+		"${module_name}"
+	    unregister_error=${CACAO_TRUE}
+	fi
+    fi
+
+    if [ ${unregister_error} -ne ${CACAO_FALSE} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_sys_unconfig
+#
+# DESCRIPTION :
+# stop all the instances and unsys config all the startup management  
+# and mark it as not configured (.config file removed). 
+# 
+# PARAMETERS :
+# None
+# 
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# CACAO_CR_EINVALCOMMAND
+#
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_sys_unconfig() {
+
+    cacao_get_option "--help"
+    if [ $? -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    # No argument and no option
+    cacao_is_remainings_options_arg
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	cacao_display_usage
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_do_sys_unconfig
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_UNCONFIG_FAILED}"
+        return ${CACAO_CR_ERROR}
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+   
+

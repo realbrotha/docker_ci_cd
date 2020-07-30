@@ -1,0 +1,631 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Factory"
+            type="shlib"
+            location="/usr/lib/evolution/1.4/components/libevolution-calendar.so">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Calendar and Tasks"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Каляндар і заданьні &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Evolution Kalendář a úkoly"/>
+	<oaf_attribute name="name-cy" type="string"
+                       value="Calendr a Tasgau Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution kalender og opgaver"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Evolution Kalender und Aufgaben"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Ημερολόγιο και Εργασίες του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Agenda y tareas de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution Kalenteri ja tehtävät"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Calendrier et tâches d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Naptár és Feladatok"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Calendario e attività di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution カレンダとタスク"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 달력 및 작업"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Развоен календар и задачи"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Kalendar dan Tugas Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution kalender en taken"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Evolution kalender og oppgaver"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Zadania i kalendarz programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Calendário e Tarefas Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Agenda e tarefas do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Календарь и Задачи Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Еволуција календар и задужења"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Evolucija kalendar i zaduženja"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutions kalender och -uppgifter"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Takvim ve Görevler"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 日历和任务"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 行事曆與工作"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 行事曆與工作"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_iTip_Control"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Control:1.0"/>
+	        <item value="IDL:Bonobo/PersistStream:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/calendar"/>
+		<item value="text/x-calendar"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+		       value="Evolution Calendar scheduling message viewer"/>
+	<oaf_attribute name="name-be" type="string"
+		       value="Праглядальнік паведамленьня плянаваньня каляндара &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Prohlížeč naplánovaných zpráv kalendáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+		       value="Evolution kalendertilrettelægnings-beskedvisning"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Terminplan-Nachrichtenbetrachter des Evolution-Kalenders"/>
+	<oaf_attribute name="name-el" type="string"
+		       value="Εφαρμογή προβολής μυνημάτων ραντεβού του ημερολογίου του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Visor de mensajes de horario de la agenda de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+		       value="Evalution kalenteri käynnistää viestinäkymää"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Afficheur de message de planification du calendrier d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Evolution Naptár ütemezőüzenet-megtekintő"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Visualizzatore di messaggi di scadenze del calendario di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Evolution カレンダスケジュールメッセージビューア"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Evolution 달력 일정 메시지 뷰어"/>
+	<oaf_attribute name="name-mk" type="string"
+		       value="Развоен календар прегледувач на пораки од распоредот"/>
+	<oaf_attribute name="name-ms" type="string"
+		       value="Pemandang mesej penjadualan Kalendar Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+		       value="Evolution kalender planingsberichtenweergave"/>
+	<oaf_attribute name="name-no" type="string"
+		       value="Evolution kalender meldingsvisning for avtaler"/>
+	<oaf_attribute name="name-pl" type="string"
+		       value="Przeglądarka komunikatów harmonogramu kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+		       value="Visualizador mensagem de agendamento do Calendário Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Visualizador de mensagens de agendamento da agenda do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+		       value="Настраиваемый компонент просмотра сообщений Календаря Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+		       value="Прегледник заказаних порука Еволуција календара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+		       value="Preglednik zakazanih poruka Evolucija kalendara"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Evolutionkalenderns schemaläggningsmeddelandevisare"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Evolution 日历调度邮件查看器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Evolution 行事曆排定郵件檢視器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Evolution 行事曆排定郵件檢視器"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ShellComponent"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+	               value="Evolution Calendar and Tasks component"/>
+	<oaf_attribute name="name-be" type="string"
+	               value="Кампанэнт каляндара і заданьняў &quot;Эвалюцыі&quot;."/>
+	<oaf_attribute name="name-cs" type="string"
+	               value="Komponenta Kalendář a úkoly Evolution."/>
+	<oaf_attribute name="name-da" type="string"
+	               value="Evolution kalender-og-opgaver-komponent"/>
+	<oaf_attribute name="name-de" type="string"
+	               value="Evolution-Komponente für Kalender und Aufgaben"/>
+	<oaf_attribute name="name-el" type="string"
+	               value="Στοιχείο Ημερολογίου και Εργασιών του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+	               value="Componente de la agenda y tareas de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+	               value="Evolutionin kalenteri- ja tehtäväkomponentti"/>
+	<oaf_attribute name="name-fr" type="string"
+	               value="Composant Calendrier et tâches d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+	               value="Evolution Naptár és Feladatok komponens"/>
+	<oaf_attribute name="name-it" type="string"
+	               value="Componente di Evolution per il calendario e le attività"/>
+	<oaf_attribute name="name-ja" type="string"
+	               value="Evolution カレンダとタスクのコンポーネント"/>
+	<oaf_attribute name="name-ko" type="string"
+	               value="Evolution 달력 및 작업 구성 요소"/>
+	<oaf_attribute name="name-mk" type="string"
+	               value="Развоен календар и компоненти на задачите"/>
+	<oaf_attribute name="name-ms" type="string"
+	               value="Komponen Kalendar dan Tugas Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+	               value="Evolution kalender en taken-component"/>
+	<oaf_attribute name="name-no" type="string"
+	               value="Evolution kalender- og oppgavekomponent"/>
+	<oaf_attribute name="name-pl" type="string"
+	               value="Komponent zadań i kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+	               value="Componente de Calendário e Tarefas Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+	               value="Componente de agenda e tarefas do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+	               value="Компонент Календарь и Задачи Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+	               value="Еволуција део за календар и задужења"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+	               value="Evolucija deo za kalendar i zaduženja"/>
+	<oaf_attribute name="name-sv" type="string"
+	               value="Evolutions kalender- och uppgiftskomponent"/>
+	<oaf_attribute name="name-tr" type="string"
+	               value="Evolution Takvim ve Görev bileşeni"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+	               value="Evolution 日历和任务组件"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+	               value="Evolution 行事曆與工作元件"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+	               value="Evolution 行事曆與工作元件"/>
+
+	<oaf_attribute name="evolution:shell_component_icon" type="string"
+		       value="evolution-calendar.png"/>
+	<oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		       value="3"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Control"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/calendar-control:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	        <item value="IDL:Bonobo/PropertyBag:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/calendar"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+	               value="Evolution Calendar viewer"/>
+	<oaf_attribute name="name-be" type="string"
+	               value="Праглядальнік каляндара &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+	               value="Prohlížeč kalendáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+	               value="Evolution kalendervisning"/>
+	<oaf_attribute name="name-de" type="string"
+	               value="Evolution-Kalenderbetrachter"/>
+	<oaf_attribute name="name-el" type="string"
+	               value="Εφαρμογή προβολής Ημερολογίου Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+	               value="Visor de la agenda de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+	               value="Evolution kalenterin näkymä"/>
+	<oaf_attribute name="name-fr" type="string"
+	               value="Afficheur de calendrier d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+	               value="Evolution Naptár megtekintő"/>
+	<oaf_attribute name="name-it" type="string"
+	               value="Visualizzatore del calendario di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+	               value="Evolution カレンダビューア"/>
+	<oaf_attribute name="name-ko" type="string"
+	               value="Evolution 달력 뷰어"/>
+	<oaf_attribute name="name-mk" type="string"
+	               value="Прегледувач на развоениот календар"/>
+	<oaf_attribute name="name-ms" type="string"
+	               value="Pemandang Kalendar Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+	               value="Evolution kalenderweergave"/>
+	<oaf_attribute name="name-no" type="string"
+	               value="Evolution kalender-visning"/>
+	<oaf_attribute name="name-pl" type="string"
+	               value="Przeglądarka kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+	               value="Visualizador Calendário Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+	               value="Visualizador da agenda do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+	               value="Компонент просмотра Календаря Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+	               value="Прегледник Еволуција календара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+	               value="Preglednik Evolucija kalendara"/>
+	<oaf_attribute name="name-sv" type="string"
+	               value="Evolutionkalenderns visare"/>
+	<oaf_attribute name="name-tr" type="string"
+	               value="Evolution Takvim görüntüleyici"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+	               value="Evolution 日历查看器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+	               value="Evolution 行事曆檢視器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+	               value="Evolution 行事曆檢視器"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Tasks_Control"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/tasks-control:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	        <item value="IDL:Bonobo/PropertyBag:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/calendar"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+	               value="Evolution Tasks viewer"/>
+	<oaf_attribute name="name-be" type="string"
+	               value="Праглядальнік заданьняў &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+	               value="Prohlížeč úkolů Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+	               value="Evolution opgavevisning"/>
+	<oaf_attribute name="name-de" type="string"
+	               value="Evolution-Aufgabenbetrachter"/>
+	<oaf_attribute name="name-el" type="string"
+	               value="Εφαρμογή προβολής Εργασιών του Evolution "/>
+	<oaf_attribute name="name-es" type="string"
+	               value="Visor de tareas de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+	               value="Evolution tehtävänäkymä"/>
+	<oaf_attribute name="name-fr" type="string"
+	               value="Afficheur de tâches d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+	               value="Evolution Feladatnéző"/>
+	<oaf_attribute name="name-it" type="string"
+	               value="Visualizzatore delle attività di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+	               value="Evolution タスクビューア"/>
+	<oaf_attribute name="name-ko" type="string"
+	               value="Evolution 작업 뷰어"/>
+	<oaf_attribute name="name-mk" type="string"
+	               value="Прегледувач на развојните задачи"/>
+	<oaf_attribute name="name-ms" type="string"
+	               value="Pemandang Tugas Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+	               value="Evolution taakbeheer"/>
+	<oaf_attribute name="name-no" type="string"
+	               value="Evolution oppgavevisning"/>
+	<oaf_attribute name="name-pl" type="string"
+	               value="Przeglądarka zadań programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+	               value="Visualizador Tarefas Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+	               value="Visualizador de tarefas do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+	               value="Компонент просмотра Задач Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+	               value="Прегледник Еволуција задужења"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+	               value="Preglednik Evolucija zaduženja"/>
+	<oaf_attribute name="name-sv" type="string"
+	               value="Evolutions uppgiftsvisare"/>
+	<oaf_attribute name="name-tr" type="string"
+	               value="Evolution Görev izleyici"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+	               value="Evolution 任务查看器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+	               value="Evolution 工作檢視器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+	               value="Evolution 工作檢視器"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_CompEditorFactory"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Calendar/CompEditorFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Calendar/Task editor"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Рэдактар каляндара/заданьня &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Editor kalendáře/úkolů Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution kalender/opgave-redigering"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Evolution-Kalender-/Aufgabeneditor"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Επεξεργαστής Ημερολογίου/Εργασιών του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Editor de la agenda/tareas de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution kalenterin ja tehtävien muokkain"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Éditeur de calendrier/tâches d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Naptár/Feladat-szerkesztő"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Editor del calendario/attività di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution カレンダ/タスクエディタ"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 달력/작업 편집기"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Развоен календар/Уредувач на задачи"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Editor Kalendar/Tugas Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution kalender- / taakbeheer"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Evolution kalender-/oppgaveredigering"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Edytor kalendarza/zadań programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Editor Calendário/Tarefas Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Editor da agenda e tarefas do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Редактор Календаря и Задач Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Уредник Еволуција календара/задужења"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Urednik Evolucija kalendara/zaduženja"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutions kalender-/uppgiftsredigerare"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Takvim/Görev düzenleyici"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 日历/任务新闻编辑器"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 行事曆與工作編輯器"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 行事曆與工作編輯器"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ConfigControl"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Calendar_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:title" type="string"
+		       value="Calendar and Tasks"/>
+	<oaf_attribute name="evolution:config_item:title-be" type="string"
+		       value="Каляндар і заданьні"/>
+	<oaf_attribute name="evolution:config_item:title-cs" type="string"
+		       value="Kalendář a úkoly"/>
+	<oaf_attribute name="evolution:config_item:title-cy" type="string"
+		       value="Calendr a Tasgau"/>
+	<oaf_attribute name="evolution:config_item:title-da" type="string"
+		       value="Kalender og opgaver"/>
+	<oaf_attribute name="evolution:config_item:title-de" type="string"
+		       value="Kalender und Aufgaben"/>
+	<oaf_attribute name="evolution:config_item:title-el" type="string"
+		       value="Ημερολόγιο και Εργασίες"/>
+	<oaf_attribute name="evolution:config_item:title-es" type="string"
+		       value="Calendario y tareas"/>
+	<oaf_attribute name="evolution:config_item:title-fi" type="string"
+		       value="Kalenteri ja tehtävät"/>
+	<oaf_attribute name="evolution:config_item:title-fr" type="string"
+		       value="Calendrier et tâches"/>
+	<oaf_attribute name="evolution:config_item:title-hu" type="string"
+		       value="Naptár és Feladatok"/>
+	<oaf_attribute name="evolution:config_item:title-it" type="string"
+		       value="Calendario e attività"/>
+	<oaf_attribute name="evolution:config_item:title-ja" type="string"
+		       value="カレンダとタスク"/>
+	<oaf_attribute name="evolution:config_item:title-ko" type="string"
+		       value="달력과 작업"/>
+	<oaf_attribute name="evolution:config_item:title-lv" type="string"
+		       value="Kalendārs un uzdevumi"/>
+	<oaf_attribute name="evolution:config_item:title-mk" type="string"
+		       value="Календар и задачи"/>
+	<oaf_attribute name="evolution:config_item:title-ms" type="string"
+		       value="Kalendar dan Tugas"/>
+	<oaf_attribute name="evolution:config_item:title-nl" type="string"
+		       value="Kalender en Taken"/>
+	<oaf_attribute name="evolution:config_item:title-no" type="string"
+		       value="Kalender og oppgaver"/>
+	<oaf_attribute name="evolution:config_item:title-pl" type="string"
+		       value="Kalendarz i zadania"/>
+	<oaf_attribute name="evolution:config_item:title-pt" type="string"
+		       value="Calendário e Tarefas"/>
+	<oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		       value="Agenda e tarefas"/>
+	<oaf_attribute name="evolution:config_item:title-ru" type="string"
+		       value="Календарь и задачи"/>
+	<oaf_attribute name="evolution:config_item:title-sk" type="string"
+		       value="Kalendár a úlohy"/>
+	<oaf_attribute name="evolution:config_item:title-sr" type="string"
+		       value="Календар и задаци"/>
+	<oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		       value="Kalendar i zadaci"/>
+	<oaf_attribute name="evolution:config_item:title-sv" type="string"
+		       value="Kalender och uppgifter"/>
+	<oaf_attribute name="evolution:config_item:title-tr" type="string"
+		       value="Takvim ve Görevler"/>
+	<oaf_attribute name="evolution:config_item:title-uk" type="string"
+		       value="Календар та завдання"/>
+	<oaf_attribute name="evolution:config_item:title-vi" type="string"
+		       value="Công việc và Lịch"/>
+	<oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		       value="日历和任务"/>
+	<oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		       value="行事曆與工作"/>
+	<oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		       value="行事曆與工作"/>
+
+	<oaf_attribute name="evolution:config_item:description" type="string"
+		       value="Configure your timezone, Calendar and Task List here "/>
+	<oaf_attribute name="evolution:config_item:description-be" type="string"
+		       value="Наладка вашае часавае зоны, каляндара і сьпісу задачаў"/>
+	<oaf_attribute name="evolution:config_item:description-cs" type="string"
+		       value="Nastavení vaší časové zóny, Kalendáře a Seznamu úloh"/>
+	<oaf_attribute name="evolution:config_item:description-da" type="string"
+		       value="Konfigurér din tidszone, kalender og opgaveliste her "/>
+	<oaf_attribute name="evolution:config_item:description-de" type="string"
+		       value="Hier können Sie Ihre Zeitzone, den Kalender und die Aufgabenliste konfigurieren"/>
+	<oaf_attribute name="evolution:config_item:description-el" type="string"
+		       value="Ρυθμίστε εδώ την Ζώνη ώρας, Ημερολόγιο και Λίστα Εργασιών σας."/>
+	<oaf_attribute name="evolution:config_item:description-es" type="string"
+		       value="Configure su zona horaria, Agenda y Lista de tareas aquí"/>
+	<oaf_attribute name="evolution:config_item:description-fi" type="string"
+		       value="Määrittele aikavyöhyke, kalenteri ja tehtävälista tästä"/>
+	<oaf_attribute name="evolution:config_item:description-fr" type="string"
+		       value="Configurez ici votre fuseau horaire, votre calendrier et votre liste de tâches"/>
+	<oaf_attribute name="evolution:config_item:description-hu" type="string"
+		       value="Itt állíthatja be az időzónáját, Naptárát és Feladatlistáját"/>
+	<oaf_attribute name="evolution:config_item:description-it" type="string"
+		       value="Configura qui il tuo fuso orario, il calendario e l&apos;elenco attività "/>
+	<oaf_attribute name="evolution:config_item:description-ja" type="string"
+		       value="ここで使用中のタイムゾーンやカレンダ、タスク一覧を設定します"/>
+	<oaf_attribute name="evolution:config_item:description-ko" type="string"
+		       value="여기에서 시간대, 달력 및 작업 목록을 구성하십시오."/>
+	<oaf_attribute name="evolution:config_item:description-lv" type="string"
+		       value="Šeit konfigurējiet jūsu laika zonu, kalendāru un uzdevumu sarakstu"/>
+	<oaf_attribute name="evolution:config_item:description-mk" type="string"
+		       value="Овде подеси ја твојата временска зона, календар и листа на задачи "/>
+	<oaf_attribute name="evolution:config_item:description-ms" type="string"
+		       value="Buat konfigurasi zon waktu, Kalendar dan Senarai Tugas anda di sini "/>
+	<oaf_attribute name="evolution:config_item:description-nl" type="string"
+		       value="Configureer uw tijdzone, kalender en taaklijst hier "/>
+	<oaf_attribute name="evolution:config_item:description-no" type="string"
+		       value="Konfigurer din tidssone, kalender og oppgaveliste her "/>
+	<oaf_attribute name="evolution:config_item:description-pl" type="string"
+		       value="Konfiguracja strefy czasowej, kalendarza i listy zadań."/>
+	<oaf_attribute name="evolution:config_item:description-pt" type="string"
+		       value="Configure o seu fuso-horário. Calendário e Lista de Tarefas aqui "/>
+	<oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		       value="Configure o seu fuso horário, agenda e lista de tarefas aqui "/>
+	<oaf_attribute name="evolution:config_item:description-ru" type="string"
+		       value="Здесь настраивается часовой пояс, календарь и список задач"/>
+	<oaf_attribute name="evolution:config_item:description-sk" type="string"
+		       value="Nastavenie časovej zóny, kalendára a zoznamu úloh"/>
+	<oaf_attribute name="evolution:config_item:description-sr" type="string"
+		       value="Подесите вашу временску зону, календар и листу задатака овде "/>
+	<oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		       value="Podesite vašu vremensku zonu, kalendar i listu zadataka ovde "/>
+	<oaf_attribute name="evolution:config_item:description-sv" type="string"
+		       value="Konfigurera din tidszon, kalender och uppgiftslista här "/>
+	<oaf_attribute name="evolution:config_item:description-uk" type="string"
+		       value="Налаштуйте ваш часовий пояс, Календар та Список завдань "/>
+	<oaf_attribute name="evolution:config_item:description-vi" type="string"
+		       value="Cấu hình múi giờ, lịch và danh sách công việc ở đây "/>
+	<oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		       value="在此配置您的时区、日历和任务列表 "/>
+	<oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		       value="在這裡設定您的時區、行事曆與工作清單"/>
+	<oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		       value="在這裡設定您的時區、行事曆與工作清單"/>
+
+	<oaf_attribute name="evolution:config_item:icon_name" type="string"
+		       value="evolution-calendar.png"/>
+
+	<oaf_attribute name="evolution:config_item:type" type="stringv">
+		<item value="calendar"/>
+		<item value="tasks"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
+    
+	<oaf_attribute name="name" type="string"
+		       value="Evolution Calendar configuration control"/>
+	<oaf_attribute name="name-be" type="string"
+		       value="Сродак кіраваньня каляндаром &quot;Эвалюцыі&quot;"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Ovládací prvek nastavení kalendáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+		       value="Evolution kalender-opsætnings-styringselement"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Bedienelement zur Konfiguration des Evolution-Kalenders"/>
+	<oaf_attribute name="name-el" type="string"
+		       value="Έλεγχος ρυθμίσεων του Ημερολογίου του Evolution"/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Control de configuración de la agenda de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+		       value="Evolution kalenterin asetustyökalu"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Composant de configuration du calendrier d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Evolution Naptár beállítás vezérlő"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Controllo di configurazione del calendario di Evolution."/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Evolution カレンダ設定コントロール"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Evolution 달력 구성 제어"/>
+	<oaf_attribute name="name-mk" type="string"
+		       value="Развоен календар и контрола на конфигурациите"/>
+	<oaf_attribute name="name-ms" type="string"
+		       value="Kawalan konfigurasi Kalendar Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+		       value="Evolution kalenderconfiguratie"/>
+	<oaf_attribute name="name-no" type="string"
+		       value="Konfigurasjonskontroll for Evolution kalender"/>
+	<oaf_attribute name="name-pl" type="string"
+		       value="Narzędzie do konfiguracji kalendarza programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+		       value="Controlo de configuração de Calendário Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Controle de configuração da agenda do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+		       value="Компонент настройки Календаря Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+		       value="Контрола подешавања Еволуција календара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+		       value="Kontrola podešavanja Evolucija kalendara"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Evolutionkalenderns konfigurationskontroll"/>
+	<oaf_attribute name="name-tr" type="string"
+		       value="Evolution Takvim yapılandırma denetimi"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Evolution 日历配置控件"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Evolution 行事曆組態控制項"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Evolution 行事曆組態控制項"/>
+
+</oaf_server>
+
+</oaf_info>

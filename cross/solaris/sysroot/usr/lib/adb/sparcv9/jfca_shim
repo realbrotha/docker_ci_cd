@@ -1,0 +1,23 @@
+.>T
+<T+0=""
++/"base addr"16t"sequencer base mem"8t"pci config addr"nJJ8tJ
++/"rom base"16t"control block"16t"done queue"nJJJ
++/"doneq handle"16t"first tcb"16t"first tcb handle"nJJJ
++/"primitive tcb"16t"primitive tcb handle"8t"dma"nJJ8tJ
++/"dma handle"16t"ulm info"16t"control_blk_size"nJJu
++/"done_q_size"8t"first_tcb_index"8t"start gap"nu8tu8tu
++/"stop gap"8t"number of tcbs"8t"number of unsol tcbs"nu8tu8tu
++/"slimhim_version"8t"slimhim_eng_version"8t"sequencer_version"nx8tx16tx
++/"sequencer_eng_version"8t"recv_payload_size"8t"send_payload_size"nx16tu16tu
++/"recv_resp_size"8t"emerald_states_size"8tnu8tu16t
++/"al_pa"8t3B1+
++/"flag"8t"port_configuration"8t"doneq_elem_size"nxB16tb
++/"link_speed"8t"lip_timeout"8t"al_latency_timeout"nb8tb8tb
++/"chip_version"8t"hcommand0"8t"hcommand1"nB8tB8tB
++/"sp_bridge_support"8t"address_width"8t"mainline_nport_code_ptr"nX8tu8t6+J
++/"mainline_nport_code_size"8t"rom_size"16t"rom_mgmt_base"nu24t2+UJ
++/"rom_mgmt_size"16t"rom_nvram_base"16t"rom_nvram_size"nU4+JU
++/"rom_mfg_id"16t"rom_type_id"16t"rom_sector_size"nXXU
++/"rom_access_method"8t"pSeqCtrlStat"16t"current_page"nX8t4+J16t512+u2+
++/"unpause_sequencer"8t"genport_value"8t"timer_int_period_ms"nX8tB8t1+u
+<T+0t768=""

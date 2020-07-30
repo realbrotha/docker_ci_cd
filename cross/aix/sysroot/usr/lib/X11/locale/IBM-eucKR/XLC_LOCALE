@@ -1,0 +1,472 @@
+# @(#)44	1.4  src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/IBM-eucKR, xlib, gos53H, h2005_34B5 8/26/05 14:11:35
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos53H src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/IBM-eucKR 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1996,2005 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#  
+#    XLC_FONTSET category
+#  
+XLC_FONTSET
+
+#    fs0 class 
+fs0     {
+        charset         UCS2.CJK_KOREA-0:GL
+        font            UCS2.CJK_KOREA-0:GL
+	subset          [0x0000_0x007f]
+}
+#    fs1 class 
+fs1     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x0080_0x0fff]
+}
+#    fs2 class 
+fs2     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x1000_0x1fff]
+}
+#    fs3 class 
+fs3     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x2000_0x2fff]
+}
+#    fs4 class 
+fs4     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x3000_0x3fff]
+}
+#    fs5 class 
+fs5     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x4000_0x4fff]
+}
+#    fs6 class 
+fs6     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x5000_0x5fff]
+}
+#    fs7 class 
+fs7     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x6000_0x6fff]
+}
+#    fs8 class 
+fs8     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x7000_0x7fff]
+}
+#    fs9 class 
+fs9     {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x8000_0x8fff]
+}
+#    fs10 class 
+fs10    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0x9000_0x9fff]
+}
+#    fs11 class 
+fs11    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xa000_0xafff]
+}
+#    fs12 class 
+fs12    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xb000_0xbfff]
+}
+#    fs13 class 
+fs13    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xc000_0xcfff]
+}
+#    fs14 class 
+fs14    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xd000_0xdfff]
+}
+#    fs15 class 
+fs15    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xe000_0xefff]
+}
+#    fs16 class 
+fs16    {
+        charset         UCS2.CJK_KOREA-0:GR 
+        font            UCS2.CJK_KOREA-0:GR
+	subset          [0xf000_0xffff]
+}
+
+#    fs17 class 
+fs17    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x0000_0x0fff]
+}
+#    fs18 class 
+fs18    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x1000_0x1fff]
+}
+#    fs19 class 
+fs19    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x2000_0x2fff]
+}
+#    fs20 class 
+fs20    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x3000_0x3fff]
+}
+#    fs21 class 
+fs21    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x4000_0x4fff]
+}
+#    fs22 class 
+fs22    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x5000_0x5fff]
+}
+#    fs23 class 
+fs23    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x6000_0x6fff]
+}
+#    fs24 class 
+fs24    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x7000_0x7fff]
+}
+#    fs25 class 
+fs25    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x8000_0x8fff]
+}
+#    fs26 class 
+fs26    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0x9000_0x9fff]
+}
+#    fs27 class 
+fs27    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xa000_0xafff]
+}
+#    fs28 class 
+fs28    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xb000_0xbfff]
+}
+#    fs29 class 
+fs29    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xc000_0xcfff]
+}
+#    fs30 class 
+fs30    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xd000_0xdfff]
+}
+#    fs31 class 
+fs31    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xe000_0xefff]
+}
+#    fs32 class 
+fs32    {
+        charset         UNICODE-2:GR 
+        font            UNICODE-2:GR
+	subset          [0xf000_0xffff]
+}
+
+object_name unicode
+on_demand_loading True
+
+END XLC_FONTSET
+
+#  
+#    XLC_XLOCALE category
+#  
+
+XLC_XLOCALE
+encoding_name           GB18030
+mb_cur_max              4
+state_depend_encoding   False
+wc_encoding_mask        \x0000f000
+wc_shift_bits           12
+
+#    cs0 class
+cs0     {
+        side            GL:Default
+        length          2
+        wc_encoding     \x00000000
+        ct_encoding     UCS2.CJK_KOREA-0:GL; ISO8859-1:GL
+}
+
+#    cs1 class
+cs1     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00000000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+
+#    cs2 class
+cs2     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00001000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs3 class
+cs3     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00002000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs4 class
+cs4     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00003000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs5 class
+cs5     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00004000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs6 class
+cs6     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00005000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs7 class
+cs7     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00006000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs8 class
+cs8     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00007000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs9 class
+cs9     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00008000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs10 class
+cs10    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00009000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs11 class
+cs11    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000a000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs12 class
+cs12    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000b000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs13 class
+cs13    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000c000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs14 class
+cs14    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000d000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs15 class
+cs15    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000e000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs16 class
+cs16    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0000f000
+        ct_encoding     UCS2.CJK_KOREA-0:GR
+}
+#    cs17 class
+cs17    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00020000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs18 class
+cs18    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00021000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs19 class
+cs19    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00022000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs20 class
+cs20    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00023000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs21 class
+cs21    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00024000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs22 class
+cs22    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00025000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs23 class
+cs23    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00026000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs24 class
+cs24    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00027000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs25 class
+cs25    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00028000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs26 class
+cs26    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00029000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs27 class
+cs27    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002a000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs28 class
+cs28    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002b000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs29 class
+cs29    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002c000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs30 class
+cs30    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002d000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs31 class
+cs31    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002e000
+        ct_encoding     UNICODE-2:GR
+}
+#    cs32 class
+cs32    {
+        side            GR:Default
+        length          2
+        wc_encoding     \x0002f000
+        ct_encoding     UNICODE-2:GR
+}
+
+END XLC_XLOCALE
+

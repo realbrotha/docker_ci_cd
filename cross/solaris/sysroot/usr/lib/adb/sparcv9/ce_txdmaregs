@@ -1,0 +1,20 @@
+.="ce Tx DMA register structure"n
+./"config"nX
+.+10/"fifo_wr_ptr"18t"fifo_swr_ptr"nX18tX
++/"fifo_rd_ptr"18t"fifo_srd_ptr"nX18tX
++/"fifo_pkt_cntr"18t"state_mch1"18t"state_mch2"nX18tX18tX
++/"data_ptr"n2X
++/"kick_1"18t"kick_2"nX18tX
++/"kick_3"18t"kick_4"nX18tX
++/"completion_1"18t"completion_2"nX18tX
++/"completion_3"18t"completion_4"nX18tX
++/"comp_wb"n2X
++/"descriptors1_pp"n2X
++/"descriptors2_pp"n2X
++/"descriptors3_pp"n2X
++/"descriptors4_pp"n2X
++/"max_burst1"18t"max_burst2"nX18tX
++/"max_burst3"18t"max_burst4"nX18tX
+.+7c/"fifo_addr"18t"fifo_tag"nX18tX
++/"fifo_data_l"18t"fifo_data_ht0"18t"fifo_data_ht1"nX18tX18tX
++/"fifo_size"18t"rambist_c_s"nX18tX

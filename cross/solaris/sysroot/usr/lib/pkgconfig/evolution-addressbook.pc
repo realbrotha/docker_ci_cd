@@ -1,0 +1,17 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+idldir=${prefix}/share/idl/evolution-1.4
+IDL_INCLUDES=-I ${idldir} -I /usr/share/idl/bonobo-2.0 -I /usr/share/idl/bonobo-activation-2.0
+
+privlibdir=${libdir}/evolution/1.4
+privincludedir=${includedir}/evolution-1.4
+
+Name: evolution-addressbook
+Description: libraries needed for Evolution addressbook backends
+Version: 1.4.6.325
+Requires: gconf-2.0 libbonobo-2.0 gal-2.0 >= 1.99.8 libgnome-2.0 camel = 1.4.6.325
+Libs: -L${privlibdir} -lpas -lebook -lename -lversit -ledb3util
+Cflags: -I${privincludedir}

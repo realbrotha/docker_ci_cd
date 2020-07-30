@@ -1,0 +1,13 @@
+#
+# Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#pragma ident	"@(#)dscpmk.types	1.1	02/02/26 SMI"
+
+fmt_version 1.0
+mod_version 1.0
+
+params	next_action		action
+params	dscp_map		int_array	64,0-63
+params	dscp_detailed_stats	boolean

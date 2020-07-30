@@ -1,0 +1,5 @@
+.="ce task queue structure"n
++/"cep"nK
++/"*drain_queue"18t"drain_pending"nK18tX
+.+c/"flows_pending"18t"wr_index"18t"rd_index"nX18tX18tX
+.+c="flow_tab[MAX_FLOWS_PENDING]"nK

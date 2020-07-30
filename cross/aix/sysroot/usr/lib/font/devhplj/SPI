@@ -1,0 +1,45 @@
+# @(#)25	1.4  src/cmdtext/usr/bin/hplj/font/SPI, cmdtext, cmdtext530 5/3/91 18:26:01
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/SPI 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Times-Roman, for HP LazerJet series II printer with K cartridge
+# PI FONT-A symbol set
+# created 06/26/89, Interactive Systems Corporation
+name SPI
+
+special
+ligatures 0
+spacewidth 30
+charset
+©	25 3 44
+rg	"
+¸	25 3 45
+co	"
+sq	25 3 108
+bx	25 3 124
+bs	25 3 125

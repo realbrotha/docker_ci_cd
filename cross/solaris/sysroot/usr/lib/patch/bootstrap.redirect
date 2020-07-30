@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ -f /usr/bin/updatemanager ]; then
+    /usr/bin/updatemanager
+fi

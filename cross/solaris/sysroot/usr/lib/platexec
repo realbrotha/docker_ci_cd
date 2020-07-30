@@ -1,0 +1,27 @@
+#!/usr/bin/sh
+#
+# Copyright (c) 2001 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+#pragma ident	"@(#)platexec.sh	1.1	01/09/26 SMI"
+#
+# Execute the platform-dependent version of a program, if it exists.
+#
+
+cmd=`basename $0`
+platform=`/usr/bin/uname -i 2> /dev/null`
+
+if [ $? -ne 0 ]
+then
+	echo "$cmd: could not determine platform" >& 2
+else
+	truepath=/usr/platform/$platform/sbin/$cmd
+
+	if [ -x $truepath ]; then
+		exec $truepath "$@"
+	else
+		echo "$cmd: not implemented on $platform" >& 2
+	fi
+fi
+
+exit 255

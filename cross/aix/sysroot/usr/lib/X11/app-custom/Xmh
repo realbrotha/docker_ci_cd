@@ -1,0 +1,144 @@
+! @(#)74        1.7  src/gos/apps/custom/app-custom/Xmh.nls, custom, gos530 12/14/93 13:49:42
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/Xmh.nls 1.7 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! COMPONENT_NAME: (custom) AIXwindows Customizing Tool 
+! 
+! FUNCTIONS: app-custom file
+!
+! ORIGINS: 27 
+! 
+! (C) COPYRIGHT International Business Machines Corp. 1992, 1993 
+! All Rights Reserved 
+! Licensed Materials - Property of IBM 
+! 
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+! 
+! Xmh data file for the xmh application 
+! 
+"Colors" Color *background "window interior\nbackground" ; 
+"Colors" Color *foreground "window interior\nforeground (text, etc.)" ; 
+
+"Fonts" Font *font "window interior" ; 
+
+"Size and Location" Number .width "width" ; 
+"Size and Location" Number .height "height" ; 
+"Size and Location" SelectOne .geometry "window location" 
+	+0+0 = "top left" 
+	-0+0 = "top right" 
+	+0-0 = "bottom left" 
+	-0-0 = "bottom right" ; 
+"Size and Location" String *compGeometry "geometry for compositions" ; 
+"Size and Location" String *pickGeometry "pick window geometry" ; 
+"Size and Location" String *tocGeometry "table of contents geometry" ; 
+"Size and Location" String *viewGeometry "view window geometry" ; 
+
+"Icon" Picture $MWM**iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color $MWM**iconImageBackground "icon picture background *" ; 
+"Icon" Color $MWM**iconImageForeground "icon picture foreground *" ; 
+"Icon" String *iconName "icon name" ; 
+"Icon" SelectOne *initialState "window state on\nstartup (iconified)" 
+	NormalState = "full window" 
+	IconicState = "iconified" ; 
+
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" "
+	all = "turn on all decorations" 
+	resizeh = "resize border" 
+	border = "plain border" 
+	menu = "window menu button" 
+	title = "title bar" 
+	minimize = "minimize button" 
+	maximize = "maximize button" 
+	none = "turn off all decorations" ; 
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" "
+	all = "turn on all operations" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	none = "turn off all operations" ; 
+"Graphics" Cursor *cursor "cursor" ; 
+"Graphics" Color *pointerColor "cursor color" ; 
+"Graphics" SelectOne *blockEventsOnBusy 
+"show busy cursor\nwhile processing" 
+	true = "true" 
+	false = "false" ; 
+"Graphics" Cursor *busyCursor "busy cursor" ; 
+"Graphics" Color *busyPointerColor "busy cursor color" ; 
+"Graphics" SelectOne *stickyMenu 
+"place cursor on most\nrecent command menu item" 
+	true = "true" 
+	false = "false" ; 
+"Graphics" SelectOne *mailWaitingFlag 
+"indication in icon\nthat mail is waiting" 
+	true = "true" 
+	false = "false" ; 
+"Graphics" Number *tocPercentage 
+"percentage of main\nwindow used to display\ntable of contents" ; 
+
+"Behaviors" SelectOne $MWM**focusAutoRaise 
+"raise window *\nwhen mouse enters" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" SelectOne *checkNewMail "check new mail" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" Number *checkFrequency 
+"how often to check\nfor new mail" ; 
+"Behaviors" String *banner "default label of folder" ; 
+"Behaviors" Number *commandButtonCount "number of command buttons" ; 
+"Behaviors" SelectOne *makeCheckpoints 
+"save checkpoints of\nvolatile information" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" SelectOne *prefixWmAndIconName 
+"prefix window and icon\nwith 'xmh: '" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" String *printCommand 
+"shell command to\nprint a message" ; 
+"Behaviors" String *replyInsertFilter 
+"shell command executed\nwhen insert is pressed" ; 
+"Behaviors" SelectOne *reverseReadOrder "reverse the read order" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" Number *tocWidth 
+"number of characters\nfor each message\nin table of contents" ; 
+
+"Messages" SelectOne *hideBoringHeaders "hide mail headers" 
+	true = "true" 
+	false = "false" ; 
+"Messages" SelectOne *skipCopied "skip messages\nmarked for copying" 
+	true = "true" 
+	false = "false" ; 
+"Messages" SelectOne *skipDeleted "skip messages\nmarked for deletion" 
+	true = "true" 
+	false = "false" ; 
+"Messages" SelectOne *skipMoved "skip messages\nmarked for moving" 
+	true = "true" 
+	false = "false" ; 
+"Messages" Number *sendBreakWidth "maximum characters per line" ; 
+"Messages" Number *sendWidth "maximum characters\nper split line" ; 
+
+"Files" Filename *initialIncFile "initial include file" ; 
+"Files" String *initialFolder "initial folder" ; 
+"Files" Filename *mailPath "location of mail folders" ; 
+"Files" Filename *mhPath "directory of MH commands" ; 
+"Files" Filename *tempDir "store temporary directories" ; 
+"Files" String *draftsFolder "drafts folder" ; 

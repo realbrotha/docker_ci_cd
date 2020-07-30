@@ -1,0 +1,6 @@
+.="ce transmit rings structure"n
++>/l/a
+.+8>/l/b
+*<a/"*rings"n4K
+<b/"comp_wrb_h"18t"comp_wrb_mh"18t"comp_wrb_vp"nK18tK18tK
++/"comp_wrb_pp"n4X

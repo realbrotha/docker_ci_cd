@@ -1,0 +1,54 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Sub1Help.compare2 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Name of the parent Boot Environment to compare"`
+
+close=nop
+#wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "Enter the name of the boot environment (BE) whose content needs to be compared with a previous snap-shot of the BE. The choices key will list the names of all BEs that have snap-shots. A snap-shot is created for an active BE when an alternate (inactive) BE is created from that active BE. If no BEs have been created then there will not be any available snap-shots."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

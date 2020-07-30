@@ -1,0 +1,9 @@
+\f2Help on FS Type Choices.\f1
+
+By default, the \f2FS Type\f1 in the New BE will be the same as the 
+corresponding directory in the Active BE. If you would like to change 
+the file system type, move the cursor using UP and DOWN arrow keys
+and select a desired file system by Pressing ENTER (Carriage Return). 
+
+You can escape to the main menu with out selecting a fs type using the
+\f4Abort\f1 key.

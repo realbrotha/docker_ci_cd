@@ -1,0 +1,6 @@
+./"cmd"
+.$<<qlc_link
++/"devq"16t"type"8t"initiator_id"nJBB
++/"rx_id"8t"status_l"8t"status_h"nxB8tB
++/"task_flags_l"8t"task_flags_h"8t"execution_codes"nB8tB8tB
++/"busy"8t"free"8t"state"nBB1+X

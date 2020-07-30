@@ -1,0 +1,42 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/contrib/programs/xditview/Xdit-chrtr.ad 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1996 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! SCCSID_BEGIN_TAG
+! @(#)12  1.1  src/gos/2d/XTOP/contrib/programs/xditview/Xdit-chrtr.ad, xsample, gos530 10/24/96 15:17:14
+! SCCSID_END_TAG
+#include "Xditview"
+*Dvi.fontMap:\
+R	-*-charter-medium-r-normal--*-*-*-*-*-*-iso8859-1\n\
+I	-*-charter-medium-i-normal--*-*-*-*-*-*-iso8859-1\n\
+B	-*-charter-bold-r-normal--*-*-*-*-*-*-iso8859-1\n\
+F	-*-charter-bold-i-normal--*-*-*-*-*-*-iso8859-1\n\
+BI	-*-charter-bold-i-normal--*-*-*-*-*-*-iso8859-1\n\
+C	-*-courier-medium-r-normal--*-*-*-*-*-*-iso8859-1\n\
+CO	-*-courier-medium-o-normal--*-*-*-*-*-*-iso8859-1\n\
+CB	-*-courier-bold-r-normal--*-*-*-*-*-*-iso8859-1\n\
+CF	-*-courier-bold-o-normal--*-*-*-*-*-*-iso8859-1\n\
+H	-*-helvetica-medium-r-normal--*-*-*-*-*-*-iso8859-1\n\
+HO	-*-helvetica-medium-o-normal--*-*-*-*-*-*-iso8859-1\n\
+HB	-*-helvetica-bold-r-normal--*-*-*-*-*-*-iso8859-1\n\
+HF	-*-helvetica-bold-o-normal--*-*-*-*-*-*-iso8859-1\n\
+N	-*-new century schoolbook-medium-r-normal--*-*-*-*-*-*-iso8859-1\n\
+NI	-*-new century schoolbook-medium-i-normal--*-*-*-*-*-*-iso8859-1\n\
+NB	-*-new century schoolbook-bold-r-normal--*-*-*-*-*-*-iso8859-1\n\
+NF	-*-new century schoolbook-bold-i-normal--*-*-*-*-*-*-iso8859-1\n\
+A	-*-charter-medium-r-normal--*-*-*-*-*-*-iso8859-1\n\
+AI	-*-charter-medium-i-normal--*-*-*-*-*-*-iso8859-1\n\
+AB	-*-charter-bold-r-normal--*-*-*-*-*-*-iso8859-1\n\
+AF	-*-charter-bold-i-normal--*-*-*-*-*-*-iso8859-1\n\
+S	-*-symbol-medium-r-normal--*-*-*-*-*-*-adobe-fontspecific\n\
+S2	-*-symbol-medium-r-normal--*-*-*-*-*-*-adobe-fontspecific\n

@@ -1,0 +1,47 @@
+#!/sbin/sh
+# Copyright 1991-2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+
+#	Copyright (c) 1984, 1986, 1987, 1988, 1989 AT&T
+#	  All Rights Reserved
+
+#	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T
+#	The copyright notice above does not evidence any
+#	actual or intended publication of such source code.
+
+#ident	"@(#)turnacct.sh	1.9	02/02/13 SMI"
+#	"control process accounting (must be root)"
+#	"turnacct on	makes sure it's on"
+#	"turnacct off	turns it off"
+#	"turnacct switch	switches pacct to pacct?, starts fresh one"
+#	"/var/adm/pacct is always the current pacct file"
+PATH=/usr/lib/acct:/usr/bin:/usr/sbin
+cd /var/adm
+case "$1"  in
+on)
+	if test ! -r pacct
+	then
+		nulladm pacct
+	fi
+	accton pacct
+	_rc=$?
+	;;
+off)
+	accton
+	_rc=$?
+	;;
+switch)
+	pfexec /usr/sbin/logadm -p now /var/adm/pacct
+	if test ! -r pacct
+	then
+		nulladm pacct
+		accton pacct
+	fi
+	_rc=$?
+	;;
+*)
+	echo "Usage: turnacct on|off|switch" >&2
+	_rc=1
+	;;
+esac
+exit ${_rc}

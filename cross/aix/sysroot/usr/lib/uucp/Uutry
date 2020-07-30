@@ -1,0 +1,118 @@
+#!/usr/bin/bsh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/bin/uucp/Uutry 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1985,1996 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)77	1.7  src/bos/usr/bin/uucp/Uutry, cmduucp, bos530 3/20/96 16:22:39
+# 
+# COMPONENT_NAME: CMDUUCP Uutry
+# 
+# FUNCTIONS: 
+#
+# ORIGINS: 10  27  3 
+#
+# (C) COPYRIGHT International Business Machines Corp. 1985, 1996
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	This shell will start a uucico for the system given.
+#	Options:
+#	  -xN the debugging level for uucico (-x5 default)
+#	  -r  force the removal of the status file
+#	The output is put in /tmp/Name where Name is the name
+#	of the system name.  A tail -f is performed after uucico is started.
+
+STATUS=/var/spool/uucp/.Status
+CMD=`basename $0`
+
+if [ -x "./uucico" ]; then
+	UUCICO=./uucico
+else
+	UUCICO=/usr/sbin/uucp/uucico
+fi
+
+REMOVE=""
+X="-x5"
+SYS=
+while [ $# -gt 0 ]
+do
+	case $1 in
+	-x)  shift; X="-x$1"; shift;;
+	-x*) X=$1; shift;;
+	-r) REMOVE="y"; shift;;
+        -*) if [ -x /usr/bin/dspmsg ];
+                then
+                     MSG=`dspmsg uucp.cat 7 "%s: Invalid argument %s.\n" $CMD $1;`
+                     echo $MSG;
+                     MSG=`dspmsg uucp.cat 8 "Usage: %s [ -xDebugLevel ] [ -r ] SystemName\n" $CMD;`
+                     echo $MSG;
+                else
+                     MSG="$CMD: Invalid argument $1.\n";
+                     echo $MSG;
+                     MSG="Usage: Uutry [ -xDebugLevel ] [ -r ] SystemName\n";
+                     echo $MSG;
+            fi
+            exit 1;;
+	*) SYS="$1"; shift;;
+	esac
+done
+
+if [ -z "$SYS" ]
+then
+     	if [ -x /usr/bin/dspmsg ];
+		then
+                     MSG=`dspmsg uucp.cat 1 "%s:  system name required\n" $CMD;`
+                     echo $MSG;
+                     MSG=`dspmsg uucp.cat 8 "Usage: %s [ -xDebugLevel ] [ -r ] SystemName\n" $CMD;`
+                     echo $MSG;
+                else
+                     MSG="$CMD:  system name required\n";
+                     echo $MSG;
+                     MSG="Usage: Uutry [ -xDebugLevel ] [ -r ] SystemName\n";
+                     echo $MSG;
+        fi
+	exit 1
+fi
+
+#  check for existence in Systems
+#  We require an exact match since some names can be prefixes of others.
+FULLNAME=`uuname | grep "^${SYS}$"  2>/dev/null`
+if [ "${FULLNAME}XX" = "XX" ]
+then
+    if [ -x /usr/bin/dspmsg ];
+        then
+            MSG=`dspmsg uucp.cat 2 "Invalid system name \"%s\"" $SYS;`
+        else
+            MSG="Invalid system name \"$SYS\""
+    fi
+    echo $MSG
+    exit 1
+fi
+
+STMP=/tmp/$FULLNAME
+rm -f $STMP
+> $STMP
+chmod 660 $STMP
+#  remove old status file
+if [ -n "$REMOVE" ]; then
+    rm -f $STATUS/${FULLNAME}
+fi
+
+echo "$UUCICO -r1 -s$FULLNAME  $X >$STMP 2>&1&"
+$UUCICO  -r1 -s$FULLNAME  $X >$STMP 2>&1&
+
+echo "tmp=$STMP"
+tail -f $STMP

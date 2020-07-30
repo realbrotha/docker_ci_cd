@@ -1,0 +1,35 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/weird_size 1.2                  */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)16       1.2  src/gos/2d/XTOP/include/bitmaps/weird_size, xlib, gos530 2/11/94 17:55:34 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define weird_size_width 7
+#define weird_size_height 13
+static char weird_size_bits[] = {
+   0x07, 0x05, 0x07, 0x01, 0x75, 0x45, 0x74, 0x44, 0x74, 0x00, 0x10, 0x38,
+   0x10};

@@ -1,0 +1,28 @@
+.nr _0 \n(c.
+.\" @(#)15	1.2 11/21/89 11:42:35
+.\"
+.\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+.\"
+.\" FUNCTIONS:
+.\"
+.\" ORIGINS: 26
+.\"
+.\"	@(#)deltext.me	2.1	8/18/80
+.\"	%beginstrip%
+.de (d			\" *** begin delayed text
+.am |d )d
+.sp \\n(bsu
+..
+.de )d			\" *** end delayed text
+.if \\n# \
+.	nr $d +1
+.ds # [\\n($d]\k#
+.rr #
+..
+.de pd			\" *** print delayed text
+.|d
+.rm |d
+.nr $d 1 1
+.ds # [1]\k#
+..
+.nr c. \n(_0

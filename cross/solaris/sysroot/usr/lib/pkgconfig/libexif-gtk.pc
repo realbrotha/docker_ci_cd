@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=${prefix}/include
+
+Name: libexif-gtk
+Description: GTK-widgets for libexif
+Requires: libexif
+Version: 0.3.3
+Libs: -L${libdir} -lexif -lexif-gtk -lm
+Cflags: -I${includedir}/libexif -I${includedir}

@@ -1,0 +1,205 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_GDictApplet_Factory"
+            type="exe"
+            location="/usr/lib/gdict-applet">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="GDict Applet Factory"/>
+        <oaf_attribute name="description" type="string" value="GDict Applet Factory"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GDictApplet"
+            type="factory"
+            location="OAFIID:GNOME_GDictApplet_Factory">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+                <item value="IDL:Bonobo/Control:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="Dictionary Lookup"/>
+        <oaf_attribute name="name-ar" type="string" value="بحث في المعجم"/>
+        <oaf_attribute name="name-az" type="string" value="Lüğətdə Axtarış"/>
+        <oaf_attribute name="name-be" type="string" value="Пошук у слоўніку"/>
+        <oaf_attribute name="name-bg" type="string" value="Търсене в Речник"/>
+        <oaf_attribute name="name-bn" type="string" value="অভিধানে সন্ধান"/>
+        <oaf_attribute name="name-ca" type="string" value="Cerca al diccionari"/>
+        <oaf_attribute name="name-cs" type="string" value="Vyhledání ve slovníku"/>
+        <oaf_attribute name="name-cy" type="string" value="Chwiliad Geiriadur"/>
+        <oaf_attribute name="name-da" type="string" value="Ordbogsopslag"/>
+        <oaf_attribute name="name-de" type="string" value="Wörterbuchsuche"/>
+        <oaf_attribute name="name-el" type="string" value="Αναζήτηση Λεξικού"/>
+        <oaf_attribute name="name-en_CA" type="string" value="Dictionary Lookup"/>
+        <oaf_attribute name="name-en_GB" type="string" value="Dictionary Lookup"/>
+        <oaf_attribute name="name-es" type="string" value="Buscar en diccionario"/>
+        <oaf_attribute name="name-et" type="string" value="Otsing sõnaraamatust"/>
+        <oaf_attribute name="name-eu" type="string" value="Hiztegiko bilaketa"/>
+        <oaf_attribute name="name-fi" type="string" value="Sanakirjahaku"/>
+        <oaf_attribute name="name-fr" type="string" value="Rechercher dans un dictionnaire"/>
+        <oaf_attribute name="name-gu" type="string" value="શબ્દકોષ જુઓ"/>
+        <oaf_attribute name="name-he" type="string" value="חיפוש במילון"/>
+        <oaf_attribute name="name-hi" type="string" value="डिक्शनरी देखें"/>
+        <oaf_attribute name="name-hr" type="string" value="Pretraga u rječniku"/>
+        <oaf_attribute name="name-hu" type="string" value="Keresés a szótárban"/>
+        <oaf_attribute name="name-id" type="string" value="Cari di Kamus"/>
+        <oaf_attribute name="name-it" type="string" value="Ricerca nel dizionario"/>
+        <oaf_attribute name="name-ja" type="string" value="辞書検索"/>
+        <oaf_attribute name="name-ko" type="string" value="사전 찾기"/>
+        <oaf_attribute name="name-lt" type="string" value="Paieška žodyne"/>
+        <oaf_attribute name="name-lv" type="string" value="Vārdnīcas Meklēšana"/>
+        <oaf_attribute name="name-mk" type="string" value="Пребарување речник"/>
+        <oaf_attribute name="name-ml" type="string" value="നിഘണ്ടു നോക്കുക"/>
+        <oaf_attribute name="name-mn" type="string" value="Толь бичиг - Хайх"/>
+        <oaf_attribute name="name-ms" type="string" value="Carian Kamus"/>
+        <oaf_attribute name="name-nl" type="string" value="Zoekopdracht woordenboek"/>
+        <oaf_attribute name="name-nn" type="string" value="Oppslag i ordbok"/>
+        <oaf_attribute name="name-no" type="string" value="Oppslag i ordbok"/>
+        <oaf_attribute name="name-pa" type="string" value="ਸ਼ਬਦ-ਕੋਸ਼ ਛਾਣਬੀਨ"/>
+        <oaf_attribute name="name-pl" type="string" value="Wyszukiwanie w słowniku"/>
+        <oaf_attribute name="name-pt" type="string" value="Procurar no Dicionário"/>
+        <oaf_attribute name="name-pt_BR" type="string" value="Procura no dicionário"/>
+        <oaf_attribute name="name-ro" type="string" value="Căutare dicţionar"/>
+        <oaf_attribute name="name-ru" type="string" value="Поиск в словаре"/>
+        <oaf_attribute name="name-sk" type="string" value="Hľadanie v slovníku"/>
+        <oaf_attribute name="name-sl" type="string" value="Poizvedba v slovarju"/>
+        <oaf_attribute name="name-sq" type="string" value="Kërkim në fjalor"/>
+        <oaf_attribute name="name-sr" type="string" value="Претрага речника"/>
+        <oaf_attribute name="name-sr@Latn" type="string" value="Pretraga rečnika"/>
+        <oaf_attribute name="name-sv" type="string" value="Slå upp i ordbok"/>
+        <oaf_attribute name="name-th" type="string" value="พจนานุกรม"/>
+        <oaf_attribute name="name-tr" type="string" value="Sözlükte Ara"/>
+        <oaf_attribute name="name-uk" type="string" value="Пошук в словнику"/>
+        <oaf_attribute name="name-vi" type="string" value="Tìm từ điển"/>
+        <oaf_attribute name="name-wa" type="string" value="Cweraedje dins l&apos; diccionaire"/>
+        <oaf_attribute name="name-zh_CN" type="string" value="查字典"/>
+        <oaf_attribute name="name-zh_HK" type="string" value="字典檢索"/>
+        <oaf_attribute name="name-zh_TW" type="string" value="字典檢索"/>
+        <oaf_attribute name="description" type="string" value="Lookup words in an online dictionary"/>
+        <oaf_attribute name="description-ar" type="string" value="بحث عن كلمات في قاموس إنترنت"/>
+        <oaf_attribute name="description-az" type="string" value="Sözü internetdəki lüğətdə axtar"/>
+        <oaf_attribute name="description-be" type="string" value="Пошук слова ў аддаленым слоўніку"/>
+        <oaf_attribute name="description-bg" type="string" value="Търсене на думи в речник"/>
+        <oaf_attribute name="description-bn" type="string" value="অনলাইন অভিধানে শব্দ সন্ধান করো"/>
+        <oaf_attribute name="description-ca" type="string" value="Cercar paraules a un diccionari on-line"/>
+        <oaf_attribute name="description-cs" type="string" value="Vyhledávání slov v on-line slovníku"/>
+        <oaf_attribute name="description-cy" type="string" value="Chwilio am eiriau mewn geiriadur ar-lein"/>
+        <oaf_attribute name="description-da" type="string" value="Slå ord op i en ordbog på internettet"/>
+        <oaf_attribute name="description-de" type="string" value="Wörter im Online-Wörterbuch nachschlagen"/>
+        <oaf_attribute name="description-el" type="string" value="Αναζήτηση λέξης σε λεξικό του Διαδικτύου"/>
+        <oaf_attribute name="description-en_CA" type="string" value="Lookup words in an online dictionary"/>
+        <oaf_attribute name="description-en_GB" type="string" value="Lookup words in an online dictionary"/>
+        <oaf_attribute name="description-es" type="string" value="Busca palabras en un diccionario en línea"/>
+        <oaf_attribute name="description-et" type="string" value="Otsi sõnu onlain-sõnaraamatust"/>
+        <oaf_attribute name="description-eu" type="string" value="Bilatu hitzak lineako hiztegi batean"/>
+        <oaf_attribute name="description-fa" type="string" value="جستجوی لغات در یک لغت‌نامه‌ی اینترنتی"/>
+        <oaf_attribute name="description-fi" type="string" value="Etsi sanoja etäsanakirjasta"/>
+        <oaf_attribute name="description-fr" type="string" value="Rechercher des mots dans un dictionnaire en ligne"/>
+        <oaf_attribute name="description-gu" type="string" value="ઓનલાઇન શબ્દકોષમાં શબ્દો જુઓ"/>
+        <oaf_attribute name="description-he" type="string" value="חפש מילים במילון המקוון"/>
+        <oaf_attribute name="description-hi" type="string" value="आन लाइन डिक्शनरी में शब्द देखें"/>
+        <oaf_attribute name="description-hr" type="string" value="Traženje riječi u online rječniku"/>
+        <oaf_attribute name="description-hu" type="string" value="Szavak keresése egy online szótárban"/>
+        <oaf_attribute name="description-id" type="string" value="Cari kata di dalam kamus online"/>
+        <oaf_attribute name="description-it" type="string" value="Cerca una parola nel dizionario"/>
+        <oaf_attribute name="description-ja" type="string" value="オンライン辞書で単語を検索します"/>
+        <oaf_attribute name="description-ko" type="string" value="온라인 사전에서 단어 찾기"/>
+        <oaf_attribute name="description-lt" type="string" value="Ieškoti žodžių tinkliniame žodyne"/>
+        <oaf_attribute name="description-lv" type="string" value="Lūkoties pēc vārda tiešsaites vārdnīcā"/>
+        <oaf_attribute name="description-mk" type="string" value="Пребарувај зборови во поврзан (мрежен) речник"/>
+        <oaf_attribute name="description-mn" type="string" value="Үгийг онлайн толь бичгээс хайх"/>
+        <oaf_attribute name="description-ms" type="string" value="Cari perkataan pada kamus dalamtalian"/>
+        <oaf_attribute name="description-nl" type="string" value="Woorden opzoeken in een online woordenboek"/>
+        <oaf_attribute name="description-nn" type="string" value="Slå opp ord i ordliste på nettet"/>
+        <oaf_attribute name="description-no" type="string" value="Slå opp ord i en ordbok på nett"/>
+        <oaf_attribute name="description-pa" type="string" value="ਅਾਨਲਾੲੀਨ ਸ਼ਬਦ-ਕੋਸ਼ ਵਿੱਚ ਸ਼ਬਦ ਵੇਖੋ"/>
+        <oaf_attribute name="description-pl" type="string" value="Wyszukuje słowo w słowniku sieciowym"/>
+        <oaf_attribute name="description-pt" type="string" value="Procurar palavras num dicionário online"/>
+        <oaf_attribute name="description-pt_BR" type="string" value="Procurar palavras em um dicionário on-line"/>
+        <oaf_attribute name="description-ro" type="string" value="Caută cuvântul într-un dicţionar online"/>
+        <oaf_attribute name="description-ru" type="string" value="Поиск слов в сетевом словаре"/>
+        <oaf_attribute name="description-sk" type="string" value="Hľadá slovo v on-line slovníku"/>
+        <oaf_attribute name="description-sl" type="string" value="Poišči besedo v slovarju na mreži"/>
+        <oaf_attribute name="description-sq" type="string" value="Kërko fjalët tek një fjalor online"/>
+        <oaf_attribute name="description-sr" type="string" value="Пронађи речи у речнику који је на мрежи"/>
+        <oaf_attribute name="description-sr@Latn" type="string" value="Pronađi reči u rečniku koji je na mreži"/>
+        <oaf_attribute name="description-sv" type="string" value="Slå upp ord i en onlineordbok"/>
+        <oaf_attribute name="description-th" type="string" value="หาคำในพจนานุกรมออนไลน์"/>
+        <oaf_attribute name="description-tr" type="string" value="Sözcükleri çevrimiçi bir sözlükte ara"/>
+        <oaf_attribute name="description-uk" type="string" value="Пошук слів в словнику"/>
+        <oaf_attribute name="description-vi" type="string" value="Tìm từ trong từ điển trực tuyến"/>
+        <oaf_attribute name="description-wa" type="string" value="Cweri on mot dins on diccionaire so fyis"/>
+        <oaf_attribute name="description-zh_CN" type="string" value="在在线字典中查询单词"/>
+        <oaf_attribute name="description-zh_HK" type="string" value="在線上字典中檢索單字"/>
+        <oaf_attribute name="description-zh_TW" type="string" value="在線上字典中檢索單字"/>
+        <oaf_attribute name="panel:category" type="string" value="Accessories"/>
+        <oaf_attribute name="panel:category-am" type="string" value="አጋዥ ፕሮግራሞች"/>
+        <oaf_attribute name="panel:category-ar" type="string" value="إكسسوارات"/>
+        <oaf_attribute name="panel:category-az" type="string" value="Ləvazimatlar"/>
+        <oaf_attribute name="panel:category-be" type="string" value="Зручнасьці"/>
+        <oaf_attribute name="panel:category-bg" type="string" value="Аксесоари"/>
+        <oaf_attribute name="panel:category-bn" type="string" value="আনুষঙ্গিক"/>
+        <oaf_attribute name="panel:category-ca" type="string" value="Accessoris"/>
+        <oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+        <oaf_attribute name="panel:category-cy" type="string" value="Ategolion"/>
+        <oaf_attribute name="panel:category-da" type="string" value="Tilbehør"/>
+        <oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+        <oaf_attribute name="panel:category-el" type="string" value="Βοηθήματα"/>
+        <oaf_attribute name="panel:category-en_CA" type="string" value="Accessories"/>
+        <oaf_attribute name="panel:category-en_GB" type="string" value="Accessories"/>
+        <oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+        <oaf_attribute name="panel:category-et" type="string" value="Tarvikud"/>
+        <oaf_attribute name="panel:category-eu" type="string" value="Gehigarriak"/>
+        <oaf_attribute name="panel:category-fi" type="string" value="Apu"/>
+        <oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+        <oaf_attribute name="panel:category-ga" type="string" value="Oiriuntí"/>
+        <oaf_attribute name="panel:category-gu" type="string" value="સહાયક કાર્યક્રમો"/>
+        <oaf_attribute name="panel:category-he" type="string" value="עזרים"/>
+        <oaf_attribute name="panel:category-hi" type="string" value="अतिरिक्त सहायता सामान"/>
+        <oaf_attribute name="panel:category-hr" type="string" value="Pomoćni alati"/>
+        <oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+        <oaf_attribute name="panel:category-id" type="string" value="Aksesoris"/>
+        <oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+        <oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+        <oaf_attribute name="panel:category-ko" type="string" value="액세서리"/>
+        <oaf_attribute name="panel:category-lt" type="string" value="Priemonės"/>
+        <oaf_attribute name="panel:category-lv" type="string" value="Aksesuāri"/>
+        <oaf_attribute name="panel:category-mk" type="string" value="Алатки"/>
+        <oaf_attribute name="panel:category-ml" type="string" value="സഹപ്രയോഗങ്ങള്"/>
+        <oaf_attribute name="panel:category-mn" type="string" value="Хэрэгсэлүүд"/>
+        <oaf_attribute name="panel:category-ms" type="string" value="Aksesori"/>
+        <oaf_attribute name="panel:category-nl" type="string" value="Accessoires"/>
+        <oaf_attribute name="panel:category-nn" type="string" value="Hjelpemiddel"/>
+        <oaf_attribute name="panel:category-no" type="string" value="Tilbehør"/>
+        <oaf_attribute name="panel:category-pa" type="string" value="ਸਹਾੲਿਕ"/>
+        <oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+        <oaf_attribute name="panel:category-pt" type="string" value="Acessórios"/>
+        <oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+        <oaf_attribute name="panel:category-ro" type="string" value="Accesorii"/>
+        <oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+        <oaf_attribute name="panel:category-sk" type="string" value="Príslušenstvo"/>
+        <oaf_attribute name="panel:category-sl" type="string" value="Pripomočki"/>
+        <oaf_attribute name="panel:category-sq" type="string" value="Instrumentë shtesë"/>
+        <oaf_attribute name="panel:category-sr" type="string" value="Допунски програми"/>
+        <oaf_attribute name="panel:category-sr@Latn" type="string" value="Dopunski programi"/>
+        <oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+        <oaf_attribute name="panel:category-th" type="string" value="อำนวยความสะดวก"/>
+        <oaf_attribute name="panel:category-tr" type="string" value="Araçlar"/>
+        <oaf_attribute name="panel:category-uk" type="string" value="Допоміжні"/>
+        <oaf_attribute name="panel:category-vi" type="string" value="Đồ phụ tùng"/>
+        <oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+        <oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+        <oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+        <oaf_attribute name="panel:icon" type="string" value="gdict"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-utils"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="gdict"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="gdict-applet"/>
+
+</oaf_server>
+
+</oaf_info>

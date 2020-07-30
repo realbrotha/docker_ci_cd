@@ -1,0 +1,47 @@
+# @(#)59	1.7  src/bos/usr/lib/pios/mbcs.tbl, cmdpios, bos530 5/5/03 15:17:09
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/pios/mbcs.tbl 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDPIOS
+#
+#   FUNCTIONS: mbcs.tbl
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1993, 1997
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+En_US Ja_JP     kji lips2+ lips3 kps
+en_US ja_JP     kji lips2+ lips3 kps
+En_US ko_KR     kor
+en_US ko_KR     kor
+En_US zh_TW     cht
+en_US zh_TW     cht
+Ja_JP     C     asc gl pcl ps 630 855 pro eps pri
+ja_JP     C     asc gl pcl ps 630 855 pro eps pri
+Ja_JP ko_KR     kor
+ja_JP ko_KR     kor
+Ja_JP zh_TW     cht
+ja_JP zh_TW     cht
+ko_KR     C     asc gl pcl ps 630 855 pro eps pri
+ko_KR ja_JP     kji lips2+ lips3 kps
+ko_KR zh_TW     cht
+zh_TW     C     asc gl pcl ps 630 855 pro eps pri
+zh_TW ja_JP     kji lips2+ lips3 kps
+zh_TW ko_KR     kor

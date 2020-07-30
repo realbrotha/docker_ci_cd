@@ -1,0 +1,22 @@
+#!/bin/ksh
+
+dir=$(/bin/mktemp -d -t pmw.XXXXXX 2> /dev/null)
+
+if [[ $? -ne 0 ]]; then
+	exit 1
+fi
+
+TT_FILE=$dir/ttauth
+X_FILE=$dir/xauth
+
+set -A tt $(xprop -root -notype TT_SESSION)
+if [[ ${tt[1]} != "=" ]]; then
+	/usr/openwin/bin/ttauth extract $TT_FILE netid=${tt[4]}/${tt[5]}/${tt[8]}/${tt[9]}
+	export TTAUTHORITY=$TT_FILE
+fi
+
+/usr/openwin/bin/xauth extract $X_FILE $DISPLAY
+
+XAUTHORITY=$X_FILE /usr/dt/bin/dtaction PrinterAdministratorSu
+
+/bin/rm -rf $dir

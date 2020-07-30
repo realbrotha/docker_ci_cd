@@ -1,0 +1,202 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_History_View"
+	type="shlib" location="/usr/lib/bonobo/libnautilus-history-view">
+	<oaf_attribute name="repo_ids" type="stringv">
+ 		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="description" type="string" value="History side pane for Nautilus"/>
+	<oaf_attribute name="description-af" type="string" value="Geskiedenis-sypaneel vir Nautilus"/>
+	<oaf_attribute name="description-ar" type="string" value="لوح التاريخ الجانبي لنوتلس"/>
+	<oaf_attribute name="description-az" type="string" value="Nautilus üçün keçmiş yan çubuğu"/>
+	<oaf_attribute name="description-be" type="string" value="Бакавая панэля гісторыі для &quot;Наўтылюса&quot;"/>
+	<oaf_attribute name="description-bg" type="string" value="Страничен панел на Nautilus за история"/>
+	<oaf_attribute name="description-bn" type="string" value="নটিলাসের ব্রাউজ-ইতিহাস প্রদর্শনকরী সাইড পেন"/>
+	<oaf_attribute name="description-ca" type="string" value="Barra lateral de l&apos;historial per al Nautilus"/>
+	<oaf_attribute name="description-cs" type="string" value="Boční panel historie pro Nautilus"/>
+	<oaf_attribute name="description-cy" type="string" value="Panel ochr hanes ar gyfer Nautilus"/>
+	<oaf_attribute name="description-da" type="string" value="Historiksidepanel til Nautilus"/>
+	<oaf_attribute name="description-de" type="string" value="Protokoll-Seitenfenster für Nautilus"/>
+	<oaf_attribute name="description-el" type="string" value="Πλευρικό ταμπλώ ιστορικού του Ναυτίλου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="History side pane for Nautilus"/>
+	<oaf_attribute name="description-en_GB" type="string" value="History side pane for Nautilus"/>
+	<oaf_attribute name="description-es" type="string" value="Panel lateral del historial para Nautilus"/>
+	<oaf_attribute name="description-et" type="string" value="Nautiluse ajaloo küljepaan"/>
+	<oaf_attribute name="description-eu" type="string" value="Nautilus-en historiaren albo-panela"/>
+	<oaf_attribute name="description-fi" type="string" value="Nautiluksen historiikkisivupaneeli"/>
+	<oaf_attribute name="description-fr" type="string" value="Volet latéral Historique pour Nautilus"/>
+	<oaf_attribute name="description-ga" type="string" value="Pána Stair le haighaidh Nautilus"/>
+	<oaf_attribute name="description-gu" type="string" value="નોટિલસ માટે બાજુમાં ઇતિહાસ માટેની તકતી"/>
+	<oaf_attribute name="description-he" type="string" value="חלונית צד היסטוריה לנאוטילוס"/>
+	<oaf_attribute name="description-hr" type="string" value="Bočna okvir povijesti za Nautilus"/>
+	<oaf_attribute name="description-hu" type="string" value="A Nautilus előzmény-oldalpanele"/>
+	<oaf_attribute name="description-id" type="string" value="Pane samping history untuk Nautilus"/>
+	<oaf_attribute name="description-is" type="string" value="Feril síðustika fyrir Nautilus"/>
+	<oaf_attribute name="description-it" type="string" value="Riquadro laterale cronologia per Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus の履歴サイド区画"/>
+	<oaf_attribute name="description-ko" type="string" value="Nautilus의 내역 사이드 창"/>
+	<oaf_attribute name="description-li" type="string" value="Historie-ziejpeniel veur Nautilus"/>
+	<oaf_attribute name="description-lt" type="string" value="Nautilus istorijos šoninis skydelis"/>
+	<oaf_attribute name="description-lv" type="string" value="Nautilus Vēstures sāna rūts"/>
+	<oaf_attribute name="description-mk" type="string" value="Историја странична-лента за Nautilus"/>
+	<oaf_attribute name="description-ml" type="string" value="നോട്ടിലസിനുവേണ്ടിയുള്ള ചരിത്ര പാര്ശ്വ-തലം"/>
+	<oaf_attribute name="description-mn" type="string" value="Наутилусын түүхэн бичгийн хажуугийн самбар"/>
+	<oaf_attribute name="description-ms" type="string" value="Jendela tepi sejarah bagi Nautilus"/>
+	<oaf_attribute name="description-ne" type="string" value="नटिलस इतिहासको किनारा पेन "/>
+	<oaf_attribute name="description-nl" type="string" value="Geschiedenis-zijpaneel voor Nautilus"/>
+	<oaf_attribute name="description-nn" type="string" value="Nautilus-sidepanel som viser loggen"/>
+	<oaf_attribute name="description-no" type="string" value="Historikk-sidepanel for Nautilus"/>
+	<oaf_attribute name="description-pa" type="string" value="ਨਾਟਲਿਸ ਲਈ ਅਤੀਤ ਦੀ ਪੱਟੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Panel boczny historii menedżera Nautilus"/>
+	<oaf_attribute name="description-pt" type="string" value="Painel lateral de histórico para o Nautilus"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Painel lateral do histórico do Nautilus"/>
+	<oaf_attribute name="description-ro" type="string" value="Panou lateral Istorie pentru Nautilus"/>
+	<oaf_attribute name="description-ru" type="string" value="Боковая панель хронологии Nautilus"/>
+	<oaf_attribute name="description-sk" type="string" value="Panel histórie pre bočný panel Nautilu"/>
+	<oaf_attribute name="description-sl" type="string" value="Stranski pult zgodovine za Nautilusa"/>
+	<oaf_attribute name="description-sq" type="string" value="Paneli anësor Kronollogjia për Nautilus"/>
+	<oaf_attribute name="description-sr" type="string" value="Оквир постранце за историјат за Наутилус"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Okvir postrance za istorijat za Nautilus"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Оквир постранце за историјат за Наутилус"/>
+	<oaf_attribute name="description-sv" type="string" value="Historiksidopanel för Nautilus"/>
+	<oaf_attribute name="description-th" type="string" value="หน้าต่างประวัติสำหรับ Nautilus"/>
+	<oaf_attribute name="description-tr" type="string" value="Nautilus için geçmiş yan paneli"/>
+	<oaf_attribute name="description-uk" type="string" value="Бічна панель історії для Наутілуса"/>
+	<oaf_attribute name="description-vi" type="string" value="Ô vạch lề biên sử cho Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Nautilus 的历史侧栏窗格"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Nautilus 的歷史側邊窗格"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Nautilus 的歷史側邊窗格"/>
+	<oaf_attribute name="name" type="string" value="History side pane"/>
+	<oaf_attribute name="name-af" type="string" value="Geskiedenis-sypaneel"/>
+	<oaf_attribute name="name-ar" type="string" value="لوح التاريخ الجانبي"/>
+	<oaf_attribute name="name-az" type="string" value="Keçmiş yan çubuğu"/>
+	<oaf_attribute name="name-be" type="string" value="Бакавая панэля гісторыі"/>
+	<oaf_attribute name="name-bg" type="string" value="Страничен панел за история"/>
+	<oaf_attribute name="name-bn" type="string" value="ব্রাউজ-ইতিহাস প্রদর্শনকারী সাইড পেন"/>
+	<oaf_attribute name="name-ca" type="string" value="Barra lateral de l&apos;historial"/>
+	<oaf_attribute name="name-cs" type="string" value="Boční panel historie"/>
+	<oaf_attribute name="name-cy" type="string" value="Panel ochr hanes"/>
+	<oaf_attribute name="name-da" type="string" value="Historiksidepanel"/>
+	<oaf_attribute name="name-de" type="string" value="Protokoll-Seitenfenster"/>
+	<oaf_attribute name="name-el" type="string" value="Πλευρικό ταμπλώ ιστορικού"/>
+	<oaf_attribute name="name-en_CA" type="string" value="History side pane"/>
+	<oaf_attribute name="name-en_GB" type="string" value="History side pane"/>
+	<oaf_attribute name="name-es" type="string" value="Panel lateral del historial"/>
+	<oaf_attribute name="name-et" type="string" value="Ajaloo küljepaan"/>
+	<oaf_attribute name="name-eu" type="string" value="Historiaren albo-panela"/>
+	<oaf_attribute name="name-fi" type="string" value="Historiikkisivupaneeli"/>
+	<oaf_attribute name="name-fr" type="string" value="Sous-fenêtre latérale Historique"/>
+	<oaf_attribute name="name-ga" type="string" value="Pána Stair"/>
+	<oaf_attribute name="name-gu" type="string" value="બાજુમાં ઇતિહાસ માટે તકતી"/>
+	<oaf_attribute name="name-he" type="string" value="חלונית צד היסטוריה"/>
+	<oaf_attribute name="name-hr" type="string" value="Bočna okvir povijesti"/>
+	<oaf_attribute name="name-hu" type="string" value="Előzmények oldalpanel"/>
+	<oaf_attribute name="name-id" type="string" value="Pane samping history"/>
+	<oaf_attribute name="name-is" type="string" value="Feril síðustika"/>
+	<oaf_attribute name="name-it" type="string" value="Riquadro laterale cronologia"/>
+	<oaf_attribute name="name-ja" type="string" value="履歴サイド区画"/>
+	<oaf_attribute name="name-ko" type="string" value="내역 사이드 창"/>
+	<oaf_attribute name="name-li" type="string" value="Historie-ziejpeniel"/>
+	<oaf_attribute name="name-lt" type="string" value="Istorijos šoninis skydelis"/>
+	<oaf_attribute name="name-lv" type="string" value="Vēstures sāna rūts"/>
+	<oaf_attribute name="name-mk" type="string" value="Историја странична-лента панел"/>
+	<oaf_attribute name="name-ml" type="string" value="ചരിത്ര പാര്ശ്വ-തലം"/>
+	<oaf_attribute name="name-mn" type="string" value="Түүхэн бичгийн хажуугийн самбар"/>
+	<oaf_attribute name="name-ms" type="string" value="Jendela tepi sejarah"/>
+	<oaf_attribute name="name-ne" type="string" value="इतिहास किनाराको पेन "/>
+	<oaf_attribute name="name-nl" type="string" value="Geschiedenis-zijpaneel"/>
+	<oaf_attribute name="name-nn" type="string" value="Loggpanel"/>
+	<oaf_attribute name="name-no" type="string" value="Historikk-sidepanel"/>
+	<oaf_attribute name="name-pa" type="string" value="ਅਤੀਤ ਦੀ ਪੱਟੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Panel boczny historii"/>
+	<oaf_attribute name="name-pt" type="string" value="Painel lateral de histórico"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Painel lateral do histórico"/>
+	<oaf_attribute name="name-ro" type="string" value="Panou lateral Istorie"/>
+	<oaf_attribute name="name-ru" type="string" value="Боковая панель хронологии"/>
+	<oaf_attribute name="name-sk" type="string" value="Panel histórie pre bočný panel"/>
+	<oaf_attribute name="name-sl" type="string" value="Stranski pult zgodovine"/>
+	<oaf_attribute name="name-sq" type="string" value="Paneli anësor Kronollogjia"/>
+	<oaf_attribute name="name-sr" type="string" value="Оквир постранце за историјат"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Okvir postrance za istorijat"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Оквир постранце за историјат"/>
+	<oaf_attribute name="name-sv" type="string" value="Historiksidopanel"/>
+	<oaf_attribute name="name-th" type="string" value="หน้าต่างประวัติ"/>
+	<oaf_attribute name="name-tr" type="string" value="Geçmiş yan paneli"/>
+	<oaf_attribute name="name-uk" type="string" value="Бічна панель історії"/>
+	<oaf_attribute name="name-vi" type="string" value="Ô vạch lề biên sử"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="历史侧窗格"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="歷史側邊窗格"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="歷史側邊窗格"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name" type="string" value="History"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-af" type="string" value="Geskiedenis"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-am" type="string" value="ታሪክ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ar" type="string" value="تاريخ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-az" type="string" value="Keçmiş"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-be" type="string" value="Гісторыя"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bg" type="string" value="История"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bn" type="string" value="ব্রাউজ-ইতিহাস"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ca" type="string" value="Historial"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cs" type="string" value="Historie"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cy" type="string" value="Hanes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-da" type="string" value="Historik"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-de" type="string" value="Protokoll"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-el" type="string" value="Ιστορικό"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_CA" type="string" value="History"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_GB" type="string" value="History"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-es" type="string" value="Historial"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-et" type="string" value="Ajalugu"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-eu" type="string" value="Historia"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fi" type="string" value="Historiikki"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fr" type="string" value="Historique"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ga" type="string" value="Stair"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gl" type="string" value="Historia"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gu" type="string" value="ઇતિહાસ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-he" type="string" value="היסטוריה"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hi" type="string" value="इतिहास"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hr" type="string" value="Povijest"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hu" type="string" value="Előzmények"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-id" type="string" value="History"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-is" type="string" value="Ferill"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-it" type="string" value="Cronologia"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ja" type="string" value="履歴"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ko" type="string" value="내역"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-li" type="string" value="Historie"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lt" type="string" value="Istorija"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lv" type="string" value="Vēsture"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mk" type="string" value="Историја"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ml" type="string" value="ചരിത്രം"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mn" type="string" value="Түүхэн бичиг"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ms" type="string" value="Sejarah"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ne" type="string" value="इतिहास"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nl" type="string" value="Geschiedenis"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nn" type="string" value="Logg"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-no" type="string" value="Historikk"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pa" type="string" value="ਅਤੀਤ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pl" type="string" value="Historia"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt" type="string" value="Histórico"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt_BR" type="string" value="Histórico"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ro" type="string" value="Istorie"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ru" type="string" value="Хронология"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sk" type="string" value="História"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sl" type="string" value="Zgodovina"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sq" type="string" value="Kronollogjia"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr" type="string" value="Историјат"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@Latn" type="string" value="Istorijat"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@ije" type="string" value="Историјат"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sv" type="string" value="Historik"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-th" type="string" value="ประวัติ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-tr" type="string" value="Geçmiş"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-uk" type="string" value="Історія"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-vi" type="string" value="Biên sử"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-wa" type="string" value="Istwere"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_CN" type="string" value="历史"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_HK" type="string" value="紀錄"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_TW" type="string" value="紀錄"/>
+	<oaf_attribute name="nautilus:recommended_uri_schemes" type="stringv">
+		<item value="*"/>
+	</oaf_attribute>
+</oaf_server>
+
+</oaf_info>

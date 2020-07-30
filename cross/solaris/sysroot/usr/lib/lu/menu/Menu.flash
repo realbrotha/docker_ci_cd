@@ -1,0 +1,133 @@
+#       Copyright (c) 2001 by Sun Microsystems, Inc. All Rights Reserved.
+#
+#ident "@(#)Menu.flash 5.5     01/11/15 SMI"
+#
+#############################################################################
+#	Module Name:  Menu.flash
+#       Arguments: $ARG1 - Path of miniroot of selected media path
+#############################################################################
+# Menu for building a list of archives to flash.  As each archive is added,
+# it appears on the Menu, and is able to be deleted if desired.
+# This menu is dynamically generated each time it is visited.  It is
+# generated based on the ARCHIVELIST file.  The format of that file
+# is:
+#
+# archive_id|archive_retr1|archive_desc1|archive_profile_spec1
+# archive_id|archive_retr2|archive_desc2|archive_profile_spec2
+# ...
+# archive_id|archive_retrN|archive_descN|archive_profile_specN
+#
+# where archive_id    = unique id used for identifying archives
+#       archive_retrN = Retrieval type for Archive # N
+#       archive_desc  = Textual Description of Archive # N
+#       archive_retrN = Line that ends up in the jumpstart profile
+#
+#############################################################################
+
+# the MRPATH comes from Form.flash.  Yes, this is ugly.  I wish
+# SVR4.0 FMLI supported embedded backquoted expressions.  sigh.
+`set -l MRPATH=${ARG1}`
+
+# list of archives
+`set -l ARCHIVELIST=/tmp/archives.${VPID}`
+
+#############################################################################
+# Menu-wide information
+#############################################################################
+menu=`gettext "Archive Selection"`
+HELP=open text $OBJ_DIR/Sub1Help.flash
+# we want to re-read this menu as needed to update
+# its contents.
+reread=true
+altslks=true
+
+framemsg=`gettext "To add a new archive, select ADD.  Select SAVE when finished"`
+
+# When this menu is "saved" (closed), this is run.  Here we generate
+# the partial jumpstart profile based on the list of archives in the
+# ARCHIVELIST file.  This file is then read by luupgrade later (see
+# Form.flash).
+close=`if [ -f ${ARCHIVELIST} -a -s ${ARCHIVELIST} ] ; then
+	fmlcut -d\| -f4 ${ARCHIVELIST} > /tmp/archiveprofile.${VPID};
+	rm -f ${ARCHIVELIST};
+	fi;`nop
+
+#############################################################################
+# Menu items
+#############################################################################
+
+# The first item is the header, and is read-only
+name=`gettext "Location"`
+description=`gettext "Retrieval Method"`
+inactive=true
+
+# The second item is a separator
+# i18n: This set of dashes should be the same length as "Location"
+name=`gettext "--------"`
+# i18n: This set of dashes should be the same length as "Retrieval Method"
+description=`gettext "----------------"`
+inactive=true
+
+# The third item says "no archives" if there are no archives.  This
+# item only show if no archives have been added.
+name=`gettext '<No Archives added>'`
+description=`gettext 'Select ADD to add archives'`
+show=`if [ -f ${ARCHIVELIST} -a -s ${ARCHIVELIST} ] ; then
+		echo FALSE;
+	else
+		echo TRUE;
+	fi`
+
+# Now we dynamically build the rest of the menu items based on the
+# ARCHIVELIST file.  Again, using a file isn't the best transport for
+# this type of transient information, but alas, FMLI forces us.
+# lininfo is set to the archive_id of each archive, so that we can
+# call Text.flash.delete with the appropriate id when DELETE is selected.
+`cat ${ARCHIVELIST} | regex '^(.*)$0|(.*)$1|(.*)$2|(.*)$3$' '
+   name=`echo "$m2"|fmlcut -c1-40`
+   lininfo="$m0"
+   description="$m1"' nop`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+# The ADD button opens up the menu to let the user select the retrieval
+# type.  We don't actually do any file modification in this menu.
+name=`gettext "ADD"`
+button=9
+action=open menu $OBJ_DIR/Menu.flash.retr
+
+# The delete option just opens the Text.flash.delete text form, which
+# actually does what you would expect (grep -v ARCHIVE_ID).
+name=`gettext "DELETE"`
+button=10
+action=`if [ -f ${ARCHIVELIST} -a -s ${ARCHIVELIST} ] ; then
+		set -l CMD="open text $OBJ_DIR/Text.flash.delete $LININFO";
+	else
+		set -l CMD="open text $OBJ_DIR/Text.flash.noarchive";
+	fi;`$CMD
+
+name=`gettext "SAVE"`
+button=11
+action=close
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

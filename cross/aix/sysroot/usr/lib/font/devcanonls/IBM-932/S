@@ -1,0 +1,191 @@
+# @(#)04  1.1  src/cmdtext/usr/bin/canonls/font/IBM-850/S, cmdtext, cmdtext530 8/3/93 04:26:25
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/canonls/font/IBM-850/S 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDTEXT
+#
+# FUNCTIONS:
+#
+# ORIGINS: 27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	S font for Canon LASER SHOT LIPS III mode
+#
+name S
+special
+ligatures fi fl 0
+spacewidth 50
+charset
+em 208 0 01
+hy 69 0 02
+ul 208 0 03
+ru 208 0 04
+br 0 0 05
+bu 95 0 06
+sq 208 0 07
+bx 208 0 010
+ci 208 0 011
+14 208 0 012
+12 208 0 013
+34 208 0 014
+de 83 0 015
+dg 104 0 016
+dd 104 0 017
+sc 104 0 020
+pp 94 0 021
+fm 37 0 022
+ct 104 0 023
+ps 104 0 024
+yn 104 0 025
+rg 164 0 066
+co 164 0 067
+tm 185 0 070
+?? 92 0 026
+I? "
+!! 69 0 027
+I! "
+ss 104 0 030
+ui 57 0 031
+d< 104 0 032
+d> 104 0 033
+aa 69 0 034
+be 69 0 035
+cd 69 0 036
+ga 69 0 037
+hc 69 0 0200
+mc 69 0 0201
+og 69 0 0202
+ri 69 0 0203
+.. 69 0 0204
+um "
+ae 138 0 0205
+AE 185 0 0206
+oe 150 0 0207
+OE 185 0 0208
+fi 115 0 0209
+fl 115 0 0210
+pl 114 0 053
+mi 114 0 055
+\- "
+eq 114 0 075
+** 104 0 052
+sl 57 0 057
+*a 131 0 0141
+*b 114 0 0142
+*g 85 0 0147
+*d 102 0 0144
+*e 91 0 0145
+*z 102 0 0172
+*y 125 0 0150
+*h 108 0 0161
+*i 68 0 0151
+*k 114 0 0153
+*l 114 0 0154
+*m 120 0 0155
+*n 108 0 0156
+*c 102 0 0170
+*o 114 0 0157
+*p 114 0 0160
+*r 114 0 0162
+*s 125 0 0163
+ts 91 0 0126
+*t 91 0 0164
+*u 120 0 0165
+*f 125 0 0146
+*x 114 0 0143
+*q 142 0 0171
+*w 142 0 0167
+*A 150 0 0101
+*B 138 0 0102
+*G 125 0 0107
+*D 127 0 0104
+*E 127 0 0105
+*Z 127 0 0132
+*Y 150 0 0110
+*H 154 0 0121
+*I 69 0 0111
+*K 150 0 0113
+*L 142 0 0114
+*M 185 0 0115
+*N 150 0 0116
+*C 134 0 0130
+*O 150 0 0117
+*P 160 0 0120
+*R 115 0 0122
+*S 123 0 0123
+*T 127 0 0124
+*U 143 0 0125
+*F 158 0 0106
+*X 150 0 0103
+*Q 165 0 0131
+*W 160 0 0127
+sr 114 0 0326
+rn 208 0 XXX
+>= 114 0 0263
+<= 114 0 0242
+== 114 0 0272
+~= 114 0 0273
+ap 114 0 0176
+!= 114 0 0271
+-> 205 0 0256
+<- 205 0 0254
+ua 125 0 0255
+da 125 0 0257
+mu 114 0 0264
+di 114 0 0270
++- 114 0 0261
+cu 160 0 0310
+ca 160 0 0307
+sb 148 0 0314
+sp 148 0 0311
+ib 148 0 0315
+ip 148 0 0312
+la 125 0 0331
+lo 125 0 0332
+or 41 0 0174
+no 148 0 0330
+l< 68 0 0341
+l> 68 0 0361
+fa 148 0 042
+te 114 0 044
+tf 179 0 0134
+al 171 0 0300
+if 148 0 0245
+pd 102 0 0266
+gr 148 0 0321
+is 57 0 0362
+pt 148 0 0265
+es 171 0 0306
+mo 148 0 0316
+dm 156 0 0250
+lh 205 0 0334
+rh 205 0 0336
+lt 102 0 0354
+lb 102 0 0356
+rt 102 0 0374
+rb 102 0 0376
+lk 102 0 0355
+rk 102 0 0375
+bv 102 0 0347
+lc 102 0 0351
+lf 102 0 0353
+rc 102 0 0371
+rf 102 0 0373

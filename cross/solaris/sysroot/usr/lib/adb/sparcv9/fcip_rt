@@ -1,0 +1,16 @@
+.>a
+<a+0=""
++/"next"16tnJ
++/"pwwn"
+.$<<la_wwn
+<a+0t16=""
++/"nwwn"
+.$<<la_wwn
+<a+0t24=""
++/"d_id"
+.$<<port_id
+<a+0t32=""
++/"pd"16tnJ
++/"ipaddr"8t16B
++/"state"16t"invalid_timeout"16t"fca_dev"nX4+JJ
+<a+0t80=""

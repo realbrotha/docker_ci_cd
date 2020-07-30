@@ -1,0 +1,1234 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Wncklet_Factory"
+	    type="exe"
+	    location="/usr/lib/wnck-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-af" type="string" value="Miniprogramfabriek: Vensternavigasie"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج تصفح النوافذ"/>
+	<oaf_attribute name="name-az" type="string" value="Pəncərə Gəzinti Appletləri E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета хадні паміж вокнамі"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за Аплетите за Навигация между Прозорците"/>
+	<oaf_attribute name="name-bn" type="string" value="উইন্ডো ন্যাভিগেশন অ্যাপ্লেট ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria d&apos;applets de navegació de finestres"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor appletu navigace mezi okny"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennigion Llywio Ffenestri"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik til panelprogrammer til vinduesnavigation"/>
+	<oaf_attribute name="name-de" type="string" value="Fabrik für Fensternavigationsapplet"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο εφαρμογιδίου περιήγησης παραθύρου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de miniaplicaciones de navegación de las ventanas"/>
+	<oaf_attribute name="name-et" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Leiho-nabigazioko applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Ikkunanavigointisovelmatehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet de navigation entre fenêtres"/>
+	<oaf_attribute name="name-gu" type="string" value="વિન્ડોમાં શોધખોળ કરવા માટેના એપ્લેટોનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון ניווט חלונות"/>
+	<oaf_attribute name="name-hr" type="string" value="Proizvodnja appleta za odabir prozora"/>
+	<oaf_attribute name="name-hu" type="string" value="Ablak Navigációs kisalkalmazás Factory"/>
+	<oaf_attribute name="name-id" type="string" value="Pabrik Applet Navigasi Window"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica delle applet navigazione tra finestre"/>
+	<oaf_attribute name="name-ja" type="string" value="ウィンドウナビゲーションアプレットのファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="창 네비게이션 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-mk" type="string" value="Аплет за навигација низ прозорци"/>
+	<oaf_attribute name="name-mn" type="string" value="Цонх жолоодогч апплет үүсгүүр"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Navigasi Tetingkap"/>
+	<oaf_attribute name="name-nl" type="string" value="Vensternavigatie-appletfabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for vindaugenavigeringshjelpeprogram "/>
+	<oaf_attribute name="name-no" type="string" value="Factory for applet for vindunavigering"/>
+	<oaf_attribute name="name-pa" type="string" value="ਝਰੋਖੇ ਵਿਚ ਜਾਣ ਵਾਲੀ ਅੈਪਲੈਟ ਕਾਰਖਾਨਾ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletów nawigacji okien"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Applet de Navegação de Janela"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do mini-aplicativo de navegação de janelas"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrica progrămelelor de navigare ferestre"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика апплетов навигации между окнами"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet navigácie v oknách"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavkov navigacije med okni"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Programit për Lundrimin në Dritare"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња програмчета за избор прозора"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za izbor prozora"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Производња програмчета за избор прозора"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för fönsternavigeringspanelprogrammet"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตการนำทางหน้าต่าง"/>
+	<oaf_attribute name="name-tr" type="string" value="Pencere Dolaşımı Uygulamacıkları Üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплетів перемикання між вікнами"/>
+	<oaf_attribute name="name-vi" type="string" value="Window Navigation Applet Factory"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="窗口导航小程序工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="視窗瀏覽面板程式工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="視窗瀏覽面板程式工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for the window navigation related applets"/>
+	<oaf_attribute name="description-af" type="string" value="Fabriek vir vensternavigasie-miniprogramme"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع لبريمجات مرتبطة بتصفح النوافذ"/>
+	<oaf_attribute name="description-az" type="string" value="Pəncərə gəzinti appletləri yaradmaq üçün e&apos;malatxana"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для віджэтаў, што зьвязаны з перамяшчэньнем паміж вокнамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за създаването на аплетите за навигация между прозорците"/>
+	<oaf_attribute name="description-bn" type="string" value="উইন্ডো ন্যাভিগেশন সম্বন্ধীয় অ্যাপ্লেট-এর জন্য ফ্যাক্টরি"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a les applets relatives a la navegació de finestres"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro aplety související s navigací mezi okny"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri creu rhaglennigion yn gysylltiedig llywio ffenestri"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til oprettelse af vinduesnavigations-relaterede panelprogrammer"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für die Fensternavigationsapplets"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για τη δημιουργία εφαρμογιδίων σχετικά με την περιήγηση παραθύρων."/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for the window navigation related applets"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for the window navigation related applets"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para las miniaplicaciones de la navegación de las ventanas"/>
+	<oaf_attribute name="description-et" type="string" value="Factory for the window navigation related applets"/>
+	<oaf_attribute name="description-eu" type="string" value="Leiho-nabigazioko applet-en fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas ikkunanavigointiin liittyvien sovelmien luomiseen"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour les applets liées à la navigation dans les fenêtres"/>
+	<oaf_attribute name="description-gu" type="string" value="વિન્ડોમાં શોધખોળ માટેના સંબંધિત એપ્લેટોનું કારખાનું "/>
+	<oaf_attribute name="description-he" type="string" value="יצרן ליישומונים הקשורים בניווט בין חלונות"/>
+	<oaf_attribute name="description-hr" type="string" value="Proizvodnja programa za odabir prozora"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory az ablak navigációval kapcsolatos kisalkalmazások számára"/>
+	<oaf_attribute name="description-id" type="string" value="Pabrik applet navigasi window yang berhubungan"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica delle applet relative alla navigazione tra finestre"/>
+	<oaf_attribute name="description-ja" type="string" value="アプレットに関連したウィンドウナビゲーションのファクトリです"/>
+	<oaf_attribute name="description-ko" type="string" value="창 네비게이션과 관련된 애플릿을 위한 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Factory for the window navigation related applets"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за креирање на некои општи аплети"/>
+	<oaf_attribute name="description-ms" type="string" value="kilang untuk navigasi tetingkap berkaitan aplet"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor vensternavigatie-gerelateerde applets"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for hjelpeprogram som har å gjera med vindaugenavigering"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for appleter relatert til vindusnavigering"/>
+	<oaf_attribute name="description-pa" type="string" value="ਝਰੋਖਿਅ੾ ਨਾਲ ਸੰਬੰਧਿਤ ਅੈਪਲੈਟ ਵਿਚ ਜਾਣ ਲੲੀ ਫੈਕਟਰੀ "/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletów związanych z nawigacją po oknach"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para as applets relacionadas com a navegação de janelas"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para mini-aplicativos relacionados à janela de navegação"/>
+	<oaf_attribute name="description-ro" type="string" value="Fabrica progrămelelor de navigare ferestre"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для создания апплетов навигации между окнами"/>
+	<oaf_attribute name="description-sk" type="string" value="Vvytváracie rozhranie pre navigačné applety"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za vstavke povezane z navigacijo med okni"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrikë për programet në lidhje me lundrimin në dritare"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за избор прозора"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za izbor prozora"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Производња програмчета за избор прозора"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för de panelprogram som är relaterade till fönsternavigering"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานสำหรับการนำทางหน้าต่างที่เกี่ยวกับแอพเพล็ต"/>
+	<oaf_attribute name="description-tr" type="string" value="Pencere dolaşımı ile alakalı uygulamacıkların üreticisi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для створення аплетів навігації між вікнами"/>
+	<oaf_attribute name="description-vi" type="string" value="factory tạo các applet liên quan đến việc duyệt cửa sổ"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="创建有关窗口导航的小程序的工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="用來產生和視窗瀏覽有關的面板程式的工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="用來產生和視窗瀏覽有關的面板程式的工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_WindowMenuApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Window Selector"/>
+	<oaf_attribute name="name-af" type="string" value="Vensterselekteerder"/>
+	<oaf_attribute name="name-ar" type="string" value="منتقي النوافذ"/>
+	<oaf_attribute name="name-az" type="string" value="Pəncərə Seçicisi"/>
+	<oaf_attribute name="name-be" type="string" value="Пераключальнік вокнаў"/>
+	<oaf_attribute name="name-bn" type="string" value="উইন্ডো নির্বাচক"/>
+	<oaf_attribute name="name-ca" type="string" value="Selector de finestres"/>
+	<oaf_attribute name="name-cs" type="string" value="Výběr oken"/>
+	<oaf_attribute name="name-cy" type="string" value="Dewiswr Ffenesttri"/>
+	<oaf_attribute name="name-da" type="string" value="Vinduesvælger"/>
+	<oaf_attribute name="name-de" type="string" value="Fensterwähler"/>
+	<oaf_attribute name="name-el" type="string" value="Επιλογέας Παραθύρων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Window Selector"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Window Selector"/>
+	<oaf_attribute name="name-es" type="string" value="Selector de ventanas"/>
+	<oaf_attribute name="name-eu" type="string" value="Leiho hautatzailea"/>
+	<oaf_attribute name="name-fi" type="string" value="Ikkunanvalitsin"/>
+	<oaf_attribute name="name-fr" type="string" value="Sélecteur de fenêtre"/>
+	<oaf_attribute name="name-ga" type="string" value="Roghnóir Fhuinneoga"/>
+	<oaf_attribute name="name-gu" type="string" value="વિન્ડો પસંદગીકારક"/>
+	<oaf_attribute name="name-hi" type="string" value="खिड़की चयनक"/>
+	<oaf_attribute name="name-hr" type="string" value="Odabir prozora"/>
+	<oaf_attribute name="name-hu" type="string" value="Ablakválasztó"/>
+	<oaf_attribute name="name-id" type="string" value="Pemilih Jendela Program"/>
+	<oaf_attribute name="name-it" type="string" value="Selettore finestre"/>
+	<oaf_attribute name="name-ja" type="string" value="ウィンドウセレクタ"/>
+	<oaf_attribute name="name-ko" type="string" value="창 선택기"/>
+	<oaf_attribute name="name-lt" type="string" value="Langų parinkiklis"/>
+	<oaf_attribute name="name-mn" type="string" value="Цонх сонгогч"/>
+	<oaf_attribute name="name-ms" type="string" value="Pemilih Tetingkap"/>
+	<oaf_attribute name="name-nl" type="string" value="Vensterselectiescherm"/>
+	<oaf_attribute name="name-nn" type="string" value="Vindaugeveljar"/>
+	<oaf_attribute name="name-no" type="string" value="Vinduvelger"/>
+	<oaf_attribute name="name-pa" type="string" value="ਝਰੋਖਾ ਚੋਣਕਾਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Menu okien"/>
+	<oaf_attribute name="name-pt" type="string" value="Selector de Janela"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Seletor de Janelas"/>
+	<oaf_attribute name="name-ro" type="string" value="Selector ferestre"/>
+	<oaf_attribute name="name-ru" type="string" value="Список окон"/>
+	<oaf_attribute name="name-sq" type="string" value="Zgjedhësi i Dritareve"/>
+	<oaf_attribute name="name-sr" type="string" value="Избор прозора"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Izbor prozora"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Избор прозора"/>
+	<oaf_attribute name="name-sv" type="string" value="Fönsterväljare"/>
+	<oaf_attribute name="name-ta" type="string" value="சாளரம் தெரிவு"/>
+	<oaf_attribute name="name-th" type="string" value="ตัวเลือกรายการหน้าต่าง"/>
+	<oaf_attribute name="name-tr" type="string" value="Pencere Seçici"/>
+	<oaf_attribute name="name-uk" type="string" value="Вибір вікон"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="窗口选择器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="視窗選擇器"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="視窗選擇器"/>
+	<oaf_attribute name="description" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-af" type="string" value="Wissel tussen oop vensters"/>
+	<oaf_attribute name="description-ar" type="string" value="تحول بين النوافذ المفتوحة"/>
+	<oaf_attribute name="description-az" type="string" value="Açıq pəncərələr arasında keç"/>
+	<oaf_attribute name="description-be" type="string" value="Пераключэньне між адкрытымі вокнамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Превключва между отворените прозорци"/>
+	<oaf_attribute name="description-bn" type="string" value="খোলা উইন্ডোগুলির মধ্যে অদলবদল করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Canvia entre finestres obertes"/>
+	<oaf_attribute name="description-cs" type="string" value="Přepínat mezi otevřenými okny"/>
+	<oaf_attribute name="description-cy" type="string" value="Newid rhwng ffenestri agored"/>
+	<oaf_attribute name="description-da" type="string" value="Skift mellem åbne vinduer"/>
+	<oaf_attribute name="description-de" type="string" value="Zwischen geöffneten Fenstern wechseln"/>
+	<oaf_attribute name="description-el" type="string" value="Εναλλαγή μεταξύ ανοικτών παραθύρων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-eo" type="string" value="Ŝaltu inter malfermaj fenestroj"/>
+	<oaf_attribute name="description-es" type="string" value="Cambiar entre las ventanas abiertas"/>
+	<oaf_attribute name="description-et" type="string" value="Lülita avatud akende vahel"/>
+	<oaf_attribute name="description-eu" type="string" value="Aldatu irekitako leiho batetik bestera"/>
+	<oaf_attribute name="description-fi" type="string" value="Siirry avoimien ikkunoiden välillä"/>
+	<oaf_attribute name="description-fr" type="string" value="Basculer entre les fenêtres ouvertes"/>
+	<oaf_attribute name="description-ga" type="string" value="Aistrigh idir fuinneoga oscailte"/>
+	<oaf_attribute name="description-gl" type="string" value="Seleccionar as distintas fiestras abertas"/>
+	<oaf_attribute name="description-gu" type="string" value="ખુલેલી વિન્ડો વચ્ચે ફેરબદલી કરો"/>
+	<oaf_attribute name="description-he" type="string" value="החלף בין חלונות פתוחים"/>
+	<oaf_attribute name="description-hi" type="string" value="खुली खिड़कियों के बीच स्विच करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Sljedeći otvoreni prozor"/>
+	<oaf_attribute name="description-hu" type="string" value="Átváltás a nyitott ablakok között"/>
+	<oaf_attribute name="description-id" type="string" value="Penukar jendela program yang terbuka"/>
+	<oaf_attribute name="description-it" type="string" value="Si sposta tra le finestre aperte"/>
+	<oaf_attribute name="description-ja" type="string" value="開いたウインドウ間を切り換え"/>
+	<oaf_attribute name="description-ko" type="string" value="열려 있는 창 간에 전환"/>
+	<oaf_attribute name="description-li" type="string" value="Wissel tösje aope vinsters"/>
+	<oaf_attribute name="description-lt" type="string" value="Šokinėti tarp atidarytų langų"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārslēgties starp atvērtajiem logiem"/>
+	<oaf_attribute name="description-mk" type="string" value="Скокај помеѓу отворените прозори"/>
+	<oaf_attribute name="description-ml" type="string" value="തുറന്ന ജാലകങ്ങളില് മാറി മാറി കടക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Нээлттэй цонхнуудын хооронд сэлгэгч"/>
+	<oaf_attribute name="description-mr" type="string" value="उघड्या विंडोजमधील बटण सूरु करा"/>
+	<oaf_attribute name="description-ms" type="string" value="Tukar antara tetingkap dibuka"/>
+	<oaf_attribute name="description-nl" type="string" value="Wisselen tussen open vensters"/>
+	<oaf_attribute name="description-nn" type="string" value="Skift mellom opne vindauge"/>
+	<oaf_attribute name="description-no" type="string" value="Bytt mellom åpne vinduer"/>
+	<oaf_attribute name="description-pa" type="string" value="ਖੁਲੇ ਝਰੋਖਿਅ੾ ਵਿਚ ਜਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Przełącza pomiędzy otwartymi oknami"/>
+	<oaf_attribute name="description-pt" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-ro" type="string" value="Schimbă fereastra activă"/>
+	<oaf_attribute name="description-ru" type="string" value="Переключиться между открытыми окнами"/>
+	<oaf_attribute name="description-sk" type="string" value="Prepínanie medzi oknami"/>
+	<oaf_attribute name="description-sl" type="string" value="Preklopi med odprtimi okni"/>
+	<oaf_attribute name="description-sq" type="string" value="Kalo midis dritareve të hapura"/>
+	<oaf_attribute name="description-sr" type="string" value="Следећи отворени прозор"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sledeći otvoreni prozor"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сљедећи отворени прозор"/>
+	<oaf_attribute name="description-sv" type="string" value="Växla mellan öppna fönster"/>
+	<oaf_attribute name="description-ta" type="string" value="திறந்திருக்கும் சாளரங்களுக்குல் மாறுக"/>
+	<oaf_attribute name="description-th" type="string" value="สลับเปลี่ยนระหว่างหน้าต่างที่เปิดอยู่"/>
+	<oaf_attribute name="description-tr" type="string" value="Açık pencereler arasında geçiş yap"/>
+	<oaf_attribute name="description-uk" type="string" value="Аплет перемикає фокус між вікнами відкритими вікнами"/>
+	<oaf_attribute name="description-vi" type="string" value="Chuyển cửa sổ"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在打开的窗口间切换"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="panel:icon" type="string" value="panel-window-menu.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Nutsprogram"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="مرفق"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Уціліты"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Полезни"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="প্রয়োজনীয়তা"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitat"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroje"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Teclyn"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Ilo"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Työkalut"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગિતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="यूटिलिटी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Utilitas"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Hulppregram"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Įrankiai"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Алатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Утилит"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="उपयुक्तता"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitare"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomoček"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Alati"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Araçlar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Window Selector Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_PagerApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-af" type="string" value="Werkruimtewisselaar"/>
+	<oaf_attribute name="name-am" type="string" value="የመሥሪያ ቦታ መቀያየሪያ"/>
+	<oaf_attribute name="name-ar" type="string" value="محول مساحات العمل"/>
+	<oaf_attribute name="name-az" type="string" value="Masa Üstü Dəyişdiricisi"/>
+	<oaf_attribute name="name-be" type="string" value="Пераключальнік працоўных прастораў"/>
+	<oaf_attribute name="name-bg" type="string" value="Превключвател на работни места"/>
+	<oaf_attribute name="name-bn" type="string" value="কর্মক্ষেত্র অদলবদলকারী"/>
+	<oaf_attribute name="name-ca" type="string" value="Canviador d&apos;espais de treball"/>
+	<oaf_attribute name="name-cs" type="string" value="Přepínač pracovních ploch"/>
+	<oaf_attribute name="name-cy" type="string" value="Cyfnewidydd Gweithfannau"/>
+	<oaf_attribute name="name-da" type="string" value="Arbejdsområdeskifter"/>
+	<oaf_attribute name="name-de" type="string" value="Arbeitsflächen-Umschalter"/>
+	<oaf_attribute name="name-el" type="string" value="Εναλλάκτης Χώρων Εργασίας"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-eo" type="string" value="Laborkadra ŝaltilo"/>
+	<oaf_attribute name="name-es" type="string" value="Selector de áreas de trabajo"/>
+	<oaf_attribute name="name-et" type="string" value="Töölauahaldur"/>
+	<oaf_attribute name="name-eu" type="string" value="Laneko arearen aldatzailea"/>
+	<oaf_attribute name="name-fi" type="string" value="Työtilanvaihdin"/>
+	<oaf_attribute name="name-fr" type="string" value="Changeur d&apos;espace de travail"/>
+	<oaf_attribute name="name-ga" type="string" value="Aistreathóir Spáis Oibre"/>
+	<oaf_attribute name="name-gl" type="string" value="Selector de escritorio"/>
+	<oaf_attribute name="name-gu" type="string" value="કામ કરવાની જગ્યાઓ વચ્ચે ફેરબદલી કરનાર"/>
+	<oaf_attribute name="name-he" type="string" value="מחליף סביבות עבודה"/>
+	<oaf_attribute name="name-hi" type="string" value="कार्यक्षेत्र स्विचर"/>
+	<oaf_attribute name="name-hr" type="string" value="Mjenjač radnih površina"/>
+	<oaf_attribute name="name-hu" type="string" value="Munkaterület-váltó"/>
+	<oaf_attribute name="name-id" type="string" value="Pengalih Area Kerja"/>
+	<oaf_attribute name="name-it" type="string" value="Selettore aree di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="ワークスペーススイッチ"/>
+	<oaf_attribute name="name-ko" type="string" value="작업 공간 전환"/>
+	<oaf_attribute name="name-li" type="string" value="Wirkblaadwisselaer"/>
+	<oaf_attribute name="name-lt" type="string" value="Darbo erdvių keitiklis"/>
+	<oaf_attribute name="name-lv" type="string" value="Darba Vietu Pārslēdzējs"/>
+	<oaf_attribute name="name-mk" type="string" value="Скокач помеѓу простори за работа"/>
+	<oaf_attribute name="name-ml" type="string" value="പണിയറ തിരഞ്ഞെടുക്കുക"/>
+	<oaf_attribute name="name-mn" type="string" value="Ажлын талбар сонгуур"/>
+	<oaf_attribute name="name-mr" type="string" value="कार्यक्षेत्र सुरू करणारे बटण"/>
+	<oaf_attribute name="name-ms" type="string" value="Penukar RuangKerja"/>
+	<oaf_attribute name="name-nl" type="string" value="Werkbladwisselaar"/>
+	<oaf_attribute name="name-nn" type="string" value="Arbeidsområdeskiftar"/>
+	<oaf_attribute name="name-no" type="string" value="Bytt arbeidsområde"/>
+	<oaf_attribute name="name-pa" type="string" value="ਵਰਕਸਪੇਸ ਸਵਿੱਚਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Przełącznik obszarów roboczych"/>
+	<oaf_attribute name="name-pt" type="string" value="Alternador de Áreas de Trabalho"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Alternador de áreas de trabalho"/>
+	<oaf_attribute name="name-ro" type="string" value="Comutator ecrane"/>
+	<oaf_attribute name="name-ru" type="string" value="Переключатель рабочих областей"/>
+	<oaf_attribute name="name-sk" type="string" value="Prepínanie plôch"/>
+	<oaf_attribute name="name-sl" type="string" value="Preklopnik med delovnimi površinami"/>
+	<oaf_attribute name="name-sq" type="string" value="Zgjedhësi i hapësirës së punës"/>
+	<oaf_attribute name="name-sr" type="string" value="Измена радних површина"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Izmena radnih površina"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Измјена радних површина"/>
+	<oaf_attribute name="name-sv" type="string" value="Arbetsytebytare"/>
+	<oaf_attribute name="name-ta" type="string" value="வேலையிட மாற்றி"/>
+	<oaf_attribute name="name-th" type="string" value="ตัวสลับพื้นทีทำงาน"/>
+	<oaf_attribute name="name-tr" type="string" value="Çalışma Alanı Geçişi"/>
+	<oaf_attribute name="name-uk" type="string" value="Перемикач робочих областей"/>
+	<oaf_attribute name="name-vi" type="string" value="Bộ chuyển vùng làm việc"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="工作区切换器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="工作區切換程式"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="工作區切換程式"/>
+	<oaf_attribute name="description" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-af" type="string" value="Wissel tussen werkruimtes"/>
+	<oaf_attribute name="description-ar" type="string" value="تحول بين مساحات العمل"/>
+	<oaf_attribute name="description-az" type="string" value="İş Sahələri arasında keç"/>
+	<oaf_attribute name="description-be" type="string" value="Пераключэньне між працоўнымі прасторамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Превключва между работните места"/>
+	<oaf_attribute name="description-bn" type="string" value="কর্মক্ষেত্রের মধ্যে অদলবদল করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Canvia entre espais de treball"/>
+	<oaf_attribute name="description-cs" type="string" value="Přepínat mezi pracovními plochami"/>
+	<oaf_attribute name="description-cy" type="string" value="Newid rhwng mannau gwaith"/>
+	<oaf_attribute name="description-da" type="string" value="Skift mellem arbejdsområder"/>
+	<oaf_attribute name="description-de" type="string" value="Zwischen Arbeitsflächen wechseln"/>
+	<oaf_attribute name="description-el" type="string" value="Εναλλαγή μεταξύ χώρων εργασίας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-eo" type="string" value="Ŝaltu inter laborkadroj"/>
+	<oaf_attribute name="description-es" type="string" value="Cambiar entre las áreas de trabajo"/>
+	<oaf_attribute name="description-et" type="string" value="Lülita töötsoonide vahel"/>
+	<oaf_attribute name="description-eu" type="string" value="Aldatu laneko area batetik bestera"/>
+	<oaf_attribute name="description-fi" type="string" value="Siirry työtilojen välillä"/>
+	<oaf_attribute name="description-fr" type="string" value="Basculer entre les espaces de travail"/>
+	<oaf_attribute name="description-ga" type="string" value="Aistrigh idir spáiseanna obair"/>
+	<oaf_attribute name="description-gl" type="string" value="Seleccionar os distintos escritorios"/>
+	<oaf_attribute name="description-gu" type="string" value="કામ કરવાની જગ્યાઓ વચ્ચેની ફેરબદલી"/>
+	<oaf_attribute name="description-he" type="string" value="החלף בין סביבות עבודה"/>
+	<oaf_attribute name="description-hi" type="string" value="वर्कस्पेसेस के बीच स्विच करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Sledeća radna površina"/>
+	<oaf_attribute name="description-hu" type="string" value="Átváltás a munkaterületek között"/>
+	<oaf_attribute name="description-id" type="string" value="Penukar ruang kerja"/>
+	<oaf_attribute name="description-it" type="string" value="Si sposta tra le aree di lavoro"/>
+	<oaf_attribute name="description-ja" type="string" value="ワークスペース間を切り換え"/>
+	<oaf_attribute name="description-ko" type="string" value="작업 공간 간에 전환"/>
+	<oaf_attribute name="description-li" type="string" value="Wissel tösje wirkblajer"/>
+	<oaf_attribute name="description-lt" type="string" value="Šokinėti tarp darbo erdvių"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārslēgties starp darba vietām"/>
+	<oaf_attribute name="description-mk" type="string" value="Скокај помеѓу просторите за работа"/>
+	<oaf_attribute name="description-ml" type="string" value="പണിയറകള് തമ്മില് മാറി മാറി കടക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Ажлын талбаруудын хооронд сэлгэгч"/>
+	<oaf_attribute name="description-mr" type="string" value="कार्यस्थळामधील बटण सूरु करा"/>
+	<oaf_attribute name="description-ms" type="string" value="Tukar antara ruangkerja"/>
+	<oaf_attribute name="description-nl" type="string" value="Wisselen tussen werkbladen"/>
+	<oaf_attribute name="description-nn" type="string" value="Skift mellom arbeidsområde"/>
+	<oaf_attribute name="description-no" type="string" value="Spill en lyd"/>
+	<oaf_attribute name="description-pa" type="string" value="ਵਰਕਸਪੇਸ ਵਿਚ ਜਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Przełącza pomiędzy obszarami roboczymi"/>
+	<oaf_attribute name="description-pt" type="string" value="Alternar entre áreas de trabalho"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alternar entre áreas de trabalho"/>
+	<oaf_attribute name="description-ro" type="string" value="Schimbă ecranul activ"/>
+	<oaf_attribute name="description-ru" type="string" value="Переключиться между рабочими областями"/>
+	<oaf_attribute name="description-sk" type="string" value="Prepínanie medzi pracovnými plochami"/>
+	<oaf_attribute name="description-sl" type="string" value="Preklopi med delovnimi površinami"/>
+	<oaf_attribute name="description-sq" type="string" value="Kalo midis hapësirave të punës"/>
+	<oaf_attribute name="description-sr" type="string" value="Следећа радна површина"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sledeća radna površina"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сљедећа радна површина"/>
+	<oaf_attribute name="description-sv" type="string" value="Växla mellan arbetsytor"/>
+	<oaf_attribute name="description-ta" type="string" value="வேலையிடங்களுக்குல் மாறுக"/>
+	<oaf_attribute name="description-th" type="string" value="สลับเปลี่ยนระหว่างพื้นที่ทำงาน"/>
+	<oaf_attribute name="description-tr" type="string" value="Çalışma alanları arasında geçiş yap"/>
+	<oaf_attribute name="description-uk" type="string" value="Аплет перемикає відображення між робочими областями"/>
+	<oaf_attribute name="description-vi" type="string" value="Chuyển vùng làm việc"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在工作区间切换"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="切換工作區"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="切換工作區"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Pager Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_WorkspaceSwitcherApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-af" type="string" value="Werkruimtewisselaar"/>
+	<oaf_attribute name="name-am" type="string" value="የመሥሪያ ቦታ መቀያየሪያ"/>
+	<oaf_attribute name="name-ar" type="string" value="محول مساحات العمل"/>
+	<oaf_attribute name="name-az" type="string" value="Masa Üstü Dəyişdiricisi"/>
+	<oaf_attribute name="name-be" type="string" value="Пераключальнік працоўных прастораў"/>
+	<oaf_attribute name="name-bg" type="string" value="Превключвател на работни места"/>
+	<oaf_attribute name="name-bn" type="string" value="কর্মক্ষেত্র অদলবদলকারী"/>
+	<oaf_attribute name="name-ca" type="string" value="Canviador d&apos;espais de treball"/>
+	<oaf_attribute name="name-cs" type="string" value="Přepínač pracovních ploch"/>
+	<oaf_attribute name="name-cy" type="string" value="Cyfnewidydd Gweithfannau"/>
+	<oaf_attribute name="name-da" type="string" value="Arbejdsområdeskifter"/>
+	<oaf_attribute name="name-de" type="string" value="Arbeitsflächen-Umschalter"/>
+	<oaf_attribute name="name-el" type="string" value="Εναλλάκτης Χώρων Εργασίας"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Workspace Switcher"/>
+	<oaf_attribute name="name-eo" type="string" value="Laborkadra ŝaltilo"/>
+	<oaf_attribute name="name-es" type="string" value="Selector de áreas de trabajo"/>
+	<oaf_attribute name="name-et" type="string" value="Töölauahaldur"/>
+	<oaf_attribute name="name-eu" type="string" value="Laneko arearen aldatzailea"/>
+	<oaf_attribute name="name-fi" type="string" value="Työtilanvaihdin"/>
+	<oaf_attribute name="name-fr" type="string" value="Changeur d&apos;espace de travail"/>
+	<oaf_attribute name="name-ga" type="string" value="Aistreathóir Spáis Oibre"/>
+	<oaf_attribute name="name-gl" type="string" value="Selector de escritorio"/>
+	<oaf_attribute name="name-gu" type="string" value="કામ કરવાની જગ્યાઓ વચ્ચે ફેરબદલી કરનાર"/>
+	<oaf_attribute name="name-he" type="string" value="מחליף סביבות עבודה"/>
+	<oaf_attribute name="name-hi" type="string" value="कार्यक्षेत्र स्विचर"/>
+	<oaf_attribute name="name-hr" type="string" value="Mjenjač radnih površina"/>
+	<oaf_attribute name="name-hu" type="string" value="Munkaterület-váltó"/>
+	<oaf_attribute name="name-id" type="string" value="Pengalih Area Kerja"/>
+	<oaf_attribute name="name-it" type="string" value="Selettore aree di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="ワークスペーススイッチ"/>
+	<oaf_attribute name="name-ko" type="string" value="작업 공간 전환"/>
+	<oaf_attribute name="name-li" type="string" value="Wirkblaadwisselaer"/>
+	<oaf_attribute name="name-lt" type="string" value="Darbo erdvių keitiklis"/>
+	<oaf_attribute name="name-lv" type="string" value="Darba Vietu Pārslēdzējs"/>
+	<oaf_attribute name="name-mk" type="string" value="Скокач помеѓу простори за работа"/>
+	<oaf_attribute name="name-ml" type="string" value="പണിയറ തിരഞ്ഞെടുക്കുക"/>
+	<oaf_attribute name="name-mn" type="string" value="Ажлын талбар сонгуур"/>
+	<oaf_attribute name="name-mr" type="string" value="कार्यक्षेत्र सुरू करणारे बटण"/>
+	<oaf_attribute name="name-ms" type="string" value="Penukar RuangKerja"/>
+	<oaf_attribute name="name-nl" type="string" value="Werkbladwisselaar"/>
+	<oaf_attribute name="name-nn" type="string" value="Arbeidsområdeskiftar"/>
+	<oaf_attribute name="name-no" type="string" value="Bytt arbeidsområde"/>
+	<oaf_attribute name="name-pa" type="string" value="ਵਰਕਸਪੇਸ ਸਵਿੱਚਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Przełącznik obszarów roboczych"/>
+	<oaf_attribute name="name-pt" type="string" value="Alternador de Áreas de Trabalho"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Alternador de áreas de trabalho"/>
+	<oaf_attribute name="name-ro" type="string" value="Comutator ecrane"/>
+	<oaf_attribute name="name-ru" type="string" value="Переключатель рабочих областей"/>
+	<oaf_attribute name="name-sk" type="string" value="Prepínanie plôch"/>
+	<oaf_attribute name="name-sl" type="string" value="Preklopnik med delovnimi površinami"/>
+	<oaf_attribute name="name-sq" type="string" value="Zgjedhësi i hapësirës së punës"/>
+	<oaf_attribute name="name-sr" type="string" value="Измена радних површина"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Izmena radnih površina"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Измјена радних површина"/>
+	<oaf_attribute name="name-sv" type="string" value="Arbetsytebytare"/>
+	<oaf_attribute name="name-ta" type="string" value="வேலையிட மாற்றி"/>
+	<oaf_attribute name="name-th" type="string" value="ตัวสลับพื้นทีทำงาน"/>
+	<oaf_attribute name="name-tr" type="string" value="Çalışma Alanı Geçişi"/>
+	<oaf_attribute name="name-uk" type="string" value="Перемикач робочих областей"/>
+	<oaf_attribute name="name-vi" type="string" value="Bộ chuyển vùng làm việc"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="工作区切换器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="工作區切換程式"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="工作區切換程式"/>
+	<oaf_attribute name="description" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-af" type="string" value="Wissel tussen werkruimtes"/>
+	<oaf_attribute name="description-ar" type="string" value="تحول بين مساحات العمل"/>
+	<oaf_attribute name="description-az" type="string" value="İş Sahələri arasında keç"/>
+	<oaf_attribute name="description-be" type="string" value="Пераключэньне між працоўнымі прасторамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Превключва между работните места"/>
+	<oaf_attribute name="description-bn" type="string" value="কর্মক্ষেত্রের মধ্যে অদলবদল করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Canvia entre espais de treball"/>
+	<oaf_attribute name="description-cs" type="string" value="Přepínat mezi pracovními plochami"/>
+	<oaf_attribute name="description-cy" type="string" value="Newid rhwng mannau gwaith"/>
+	<oaf_attribute name="description-da" type="string" value="Skift mellem arbejdsområder"/>
+	<oaf_attribute name="description-de" type="string" value="Zwischen Arbeitsflächen wechseln"/>
+	<oaf_attribute name="description-el" type="string" value="Εναλλαγή μεταξύ χώρων εργασίας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Switch between workspaces"/>
+	<oaf_attribute name="description-eo" type="string" value="Ŝaltu inter laborkadroj"/>
+	<oaf_attribute name="description-es" type="string" value="Cambiar entre las áreas de trabajo"/>
+	<oaf_attribute name="description-et" type="string" value="Lülita töötsoonide vahel"/>
+	<oaf_attribute name="description-eu" type="string" value="Aldatu laneko area batetik bestera"/>
+	<oaf_attribute name="description-fi" type="string" value="Siirry työtilojen välillä"/>
+	<oaf_attribute name="description-fr" type="string" value="Basculer entre les espaces de travail"/>
+	<oaf_attribute name="description-ga" type="string" value="Aistrigh idir spáiseanna obair"/>
+	<oaf_attribute name="description-gl" type="string" value="Seleccionar os distintos escritorios"/>
+	<oaf_attribute name="description-gu" type="string" value="કામ કરવાની જગ્યાઓ વચ્ચેની ફેરબદલી"/>
+	<oaf_attribute name="description-he" type="string" value="החלף בין סביבות עבודה"/>
+	<oaf_attribute name="description-hi" type="string" value="वर्कस्पेसेस के बीच स्विच करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Sledeća radna površina"/>
+	<oaf_attribute name="description-hu" type="string" value="Átváltás a munkaterületek között"/>
+	<oaf_attribute name="description-id" type="string" value="Penukar ruang kerja"/>
+	<oaf_attribute name="description-it" type="string" value="Si sposta tra le aree di lavoro"/>
+	<oaf_attribute name="description-ja" type="string" value="ワークスペース間を切り換え"/>
+	<oaf_attribute name="description-ko" type="string" value="작업 공간 간에 전환"/>
+	<oaf_attribute name="description-li" type="string" value="Wissel tösje wirkblajer"/>
+	<oaf_attribute name="description-lt" type="string" value="Šokinėti tarp darbo erdvių"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārslēgties starp darba vietām"/>
+	<oaf_attribute name="description-mk" type="string" value="Скокај помеѓу просторите за работа"/>
+	<oaf_attribute name="description-ml" type="string" value="പണിയറകള് തമ്മില് മാറി മാറി കടക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Ажлын талбаруудын хооронд сэлгэгч"/>
+	<oaf_attribute name="description-mr" type="string" value="कार्यस्थळामधील बटण सूरु करा"/>
+	<oaf_attribute name="description-ms" type="string" value="Tukar antara ruangkerja"/>
+	<oaf_attribute name="description-nl" type="string" value="Wisselen tussen werkbladen"/>
+	<oaf_attribute name="description-nn" type="string" value="Skift mellom arbeidsområde"/>
+	<oaf_attribute name="description-no" type="string" value="Spill en lyd"/>
+	<oaf_attribute name="description-pa" type="string" value="ਵਰਕਸਪੇਸ ਵਿਚ ਜਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Przełącza pomiędzy obszarami roboczymi"/>
+	<oaf_attribute name="description-pt" type="string" value="Alternar entre áreas de trabalho"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alternar entre áreas de trabalho"/>
+	<oaf_attribute name="description-ro" type="string" value="Schimbă ecranul activ"/>
+	<oaf_attribute name="description-ru" type="string" value="Переключиться между рабочими областями"/>
+	<oaf_attribute name="description-sk" type="string" value="Prepínanie medzi pracovnými plochami"/>
+	<oaf_attribute name="description-sl" type="string" value="Preklopi med delovnimi površinami"/>
+	<oaf_attribute name="description-sq" type="string" value="Kalo midis hapësirave të punës"/>
+	<oaf_attribute name="description-sr" type="string" value="Следећа радна површина"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sledeća radna površina"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сљедећа радна површина"/>
+	<oaf_attribute name="description-sv" type="string" value="Växla mellan arbetsytor"/>
+	<oaf_attribute name="description-ta" type="string" value="வேலையிடங்களுக்குல் மாறுக"/>
+	<oaf_attribute name="description-th" type="string" value="สลับเปลี่ยนระหว่างพื้นที่ทำงาน"/>
+	<oaf_attribute name="description-tr" type="string" value="Çalışma alanları arasında geçiş yap"/>
+	<oaf_attribute name="description-uk" type="string" value="Аплет перемикає відображення між робочими областями"/>
+	<oaf_attribute name="description-vi" type="string" value="Chuyển vùng làm việc"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在工作区间切换"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="切換工作區"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="切換工作區"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-workspace.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Nutsprogram"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="مرفق"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Уціліты"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Полезни"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="প্রয়োজনীয়তা"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitat"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroje"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Teclyn"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Ilo"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Työkalut"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગિતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="यूटिलिटी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Utilitas"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Hulppregram"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Įrankiai"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Алатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Утилит"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="उपयुक्तता"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitare"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomoček"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Alati"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Araçlar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Workspace Switcher Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_TasklistApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Window List"/>
+	<oaf_attribute name="name-af" type="string" value="Vensterlys"/>
+	<oaf_attribute name="name-am" type="string" value="የመስኮት ዝርዝር"/>
+	<oaf_attribute name="name-ar" type="string" value="قائمة النوافذ"/>
+	<oaf_attribute name="name-az" type="string" value="Pəncərə Siyahısı"/>
+	<oaf_attribute name="name-be" type="string" value="Сьпіс вокнаў"/>
+	<oaf_attribute name="name-bg" type="string" value="Списък с прозорците"/>
+	<oaf_attribute name="name-bn" type="string" value="উইন্ডোর তালিকা"/>
+	<oaf_attribute name="name-ca" type="string" value="Llista de finestres"/>
+	<oaf_attribute name="name-cs" type="string" value="Seznam oken"/>
+	<oaf_attribute name="name-cy" type="string" value="Rhestr Ffenestri"/>
+	<oaf_attribute name="name-da" type="string" value="Vinduesliste"/>
+	<oaf_attribute name="name-de" type="string" value="Fensterliste"/>
+	<oaf_attribute name="name-el" type="string" value="Λίστα Παραθύρων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Window List"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Window List"/>
+	<oaf_attribute name="name-eo" type="string" value="Fenestrolisto"/>
+	<oaf_attribute name="name-es" type="string" value="Lista de ventanas"/>
+	<oaf_attribute name="name-et" type="string" value="Akende nimekiri"/>
+	<oaf_attribute name="name-eu" type="string" value="Leiho-zerrenda"/>
+	<oaf_attribute name="name-fa" type="string" value="فهرست پنجره‌ها"/>
+	<oaf_attribute name="name-fi" type="string" value="Ikkunaluettelo"/>
+	<oaf_attribute name="name-fr" type="string" value="Liste des fenêtres"/>
+	<oaf_attribute name="name-ga" type="string" value="Liosta na Fuinneoga"/>
+	<oaf_attribute name="name-gl" type="string" value="Lista de fiestras"/>
+	<oaf_attribute name="name-gu" type="string" value="વિન્ડોની યાદી"/>
+	<oaf_attribute name="name-he" type="string" value="רשימת חלונות"/>
+	<oaf_attribute name="name-hi" type="string" value="खिड़की सूची"/>
+	<oaf_attribute name="name-hr" type="string" value="Popis prozora"/>
+	<oaf_attribute name="name-hu" type="string" value="Ablaklista"/>
+	<oaf_attribute name="name-id" type="string" value="Daftar Jendela Program"/>
+	<oaf_attribute name="name-it" type="string" value="Elenco finestre"/>
+	<oaf_attribute name="name-ja" type="string" value="ウインドウリスト"/>
+	<oaf_attribute name="name-ko" type="string" value="창 목록"/>
+	<oaf_attribute name="name-li" type="string" value="Vinsterlies"/>
+	<oaf_attribute name="name-lt" type="string" value="Langų sąrašas"/>
+	<oaf_attribute name="name-lv" type="string" value="Logu Saraksts"/>
+	<oaf_attribute name="name-mk" type="string" value="Листа на прозори"/>
+	<oaf_attribute name="name-ml" type="string" value="ജാലക നാമാവലി"/>
+	<oaf_attribute name="name-mn" type="string" value="Цонх самбар"/>
+	<oaf_attribute name="name-mr" type="string" value="विंडोची यादी"/>
+	<oaf_attribute name="name-ms" type="string" value="Senarai Tetingkap"/>
+	<oaf_attribute name="name-nl" type="string" value="Vensterlijst"/>
+	<oaf_attribute name="name-nn" type="string" value="Vindaugsliste"/>
+	<oaf_attribute name="name-no" type="string" value="Vinduliste"/>
+	<oaf_attribute name="name-pa" type="string" value="ਝਰੋਖਾ ਸੂਚੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Lista okien"/>
+	<oaf_attribute name="name-pt" type="string" value="Lista de Janelas"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Lista de janelas"/>
+	<oaf_attribute name="name-ro" type="string" value="Listă ferestre"/>
+	<oaf_attribute name="name-ru" type="string" value="Список окон"/>
+	<oaf_attribute name="name-sk" type="string" value="Zoznam okien"/>
+	<oaf_attribute name="name-sl" type="string" value="Seznam oken"/>
+	<oaf_attribute name="name-sq" type="string" value="Lista e dritareve"/>
+	<oaf_attribute name="name-sr" type="string" value="Списак прозора"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Spisak prozora"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Списак прозора"/>
+	<oaf_attribute name="name-sv" type="string" value="Fönsterlista"/>
+	<oaf_attribute name="name-ta" type="string" value="சாளரம் பட்டியல்"/>
+	<oaf_attribute name="name-th" type="string" value="รายการหน้าต่าง"/>
+	<oaf_attribute name="name-tr" type="string" value="Pencere Listesi"/>
+	<oaf_attribute name="name-uk" type="string" value="Список вікон"/>
+	<oaf_attribute name="name-vi" type="string" value="Danh sách cửa sổ"/>
+	<oaf_attribute name="name-wa" type="string" value="Djivêye des purneas"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="窗口列表"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="視窗清單"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="視窗清單"/>
+	<oaf_attribute name="description" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-af" type="string" value="Wissel tussen oop vensters"/>
+	<oaf_attribute name="description-ar" type="string" value="تحول بين النوافذ المفتوحة"/>
+	<oaf_attribute name="description-az" type="string" value="Açıq pəncərələr arasında keç"/>
+	<oaf_attribute name="description-be" type="string" value="Пераключэньне між адкрытымі вокнамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Превключва между отворените прозорци"/>
+	<oaf_attribute name="description-bn" type="string" value="খোলা উইন্ডোগুলির মধ্যে অদলবদল করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Canvia entre finestres obertes"/>
+	<oaf_attribute name="description-cs" type="string" value="Přepínat mezi otevřenými okny"/>
+	<oaf_attribute name="description-cy" type="string" value="Newid rhwng ffenestri agored"/>
+	<oaf_attribute name="description-da" type="string" value="Skift mellem åbne vinduer"/>
+	<oaf_attribute name="description-de" type="string" value="Zwischen geöffneten Fenstern wechseln"/>
+	<oaf_attribute name="description-el" type="string" value="Εναλλαγή μεταξύ ανοικτών παραθύρων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-eo" type="string" value="Ŝaltu inter malfermaj fenestroj"/>
+	<oaf_attribute name="description-es" type="string" value="Cambiar entre las ventanas abiertas"/>
+	<oaf_attribute name="description-et" type="string" value="Lülita avatud akende vahel"/>
+	<oaf_attribute name="description-eu" type="string" value="Aldatu irekitako leiho batetik bestera"/>
+	<oaf_attribute name="description-fi" type="string" value="Siirry avoimien ikkunoiden välillä"/>
+	<oaf_attribute name="description-fr" type="string" value="Basculer entre les fenêtres ouvertes"/>
+	<oaf_attribute name="description-ga" type="string" value="Aistrigh idir fuinneoga oscailte"/>
+	<oaf_attribute name="description-gl" type="string" value="Seleccionar as distintas fiestras abertas"/>
+	<oaf_attribute name="description-gu" type="string" value="ખુલેલી વિન્ડો વચ્ચે ફેરબદલી કરો"/>
+	<oaf_attribute name="description-he" type="string" value="החלף בין חלונות פתוחים"/>
+	<oaf_attribute name="description-hi" type="string" value="खुली खिड़कियों के बीच स्विच करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Sljedeći otvoreni prozor"/>
+	<oaf_attribute name="description-hu" type="string" value="Átváltás a nyitott ablakok között"/>
+	<oaf_attribute name="description-id" type="string" value="Penukar jendela program yang terbuka"/>
+	<oaf_attribute name="description-it" type="string" value="Si sposta tra le finestre aperte"/>
+	<oaf_attribute name="description-ja" type="string" value="開いたウインドウ間を切り換え"/>
+	<oaf_attribute name="description-ko" type="string" value="열려 있는 창 간에 전환"/>
+	<oaf_attribute name="description-li" type="string" value="Wissel tösje aope vinsters"/>
+	<oaf_attribute name="description-lt" type="string" value="Šokinėti tarp atidarytų langų"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārslēgties starp atvērtajiem logiem"/>
+	<oaf_attribute name="description-mk" type="string" value="Скокај помеѓу отворените прозори"/>
+	<oaf_attribute name="description-ml" type="string" value="തുറന്ന ജാലകങ്ങളില് മാറി മാറി കടക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Нээлттэй цонхнуудын хооронд сэлгэгч"/>
+	<oaf_attribute name="description-mr" type="string" value="उघड्या विंडोजमधील बटण सूरु करा"/>
+	<oaf_attribute name="description-ms" type="string" value="Tukar antara tetingkap dibuka"/>
+	<oaf_attribute name="description-nl" type="string" value="Wisselen tussen open vensters"/>
+	<oaf_attribute name="description-nn" type="string" value="Skift mellom opne vindauge"/>
+	<oaf_attribute name="description-no" type="string" value="Bytt mellom åpne vinduer"/>
+	<oaf_attribute name="description-pa" type="string" value="ਖੁਲੇ ਝਰੋਖਿਅ੾ ਵਿਚ ਜਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Przełącza pomiędzy otwartymi oknami"/>
+	<oaf_attribute name="description-pt" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-ro" type="string" value="Schimbă fereastra activă"/>
+	<oaf_attribute name="description-ru" type="string" value="Переключиться между открытыми окнами"/>
+	<oaf_attribute name="description-sk" type="string" value="Prepínanie medzi oknami"/>
+	<oaf_attribute name="description-sl" type="string" value="Preklopi med odprtimi okni"/>
+	<oaf_attribute name="description-sq" type="string" value="Kalo midis dritareve të hapura"/>
+	<oaf_attribute name="description-sr" type="string" value="Следећи отворени прозор"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sledeći otvoreni prozor"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сљедећи отворени прозор"/>
+	<oaf_attribute name="description-sv" type="string" value="Växla mellan öppna fönster"/>
+	<oaf_attribute name="description-ta" type="string" value="திறந்திருக்கும் சாளரங்களுக்குல் மாறுக"/>
+	<oaf_attribute name="description-th" type="string" value="สลับเปลี่ยนระหว่างหน้าต่างที่เปิดอยู่"/>
+	<oaf_attribute name="description-tr" type="string" value="Açık pencereler arasında geçiş yap"/>
+	<oaf_attribute name="description-uk" type="string" value="Аплет перемикає фокус між вікнами відкритими вікнами"/>
+	<oaf_attribute name="description-vi" type="string" value="Chuyển cửa sổ"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在打开的窗口间切换"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Tasklist Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_WindowListApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Window List"/>
+	<oaf_attribute name="name-af" type="string" value="Vensterlys"/>
+	<oaf_attribute name="name-am" type="string" value="የመስኮት ዝርዝር"/>
+	<oaf_attribute name="name-ar" type="string" value="قائمة النوافذ"/>
+	<oaf_attribute name="name-az" type="string" value="Pəncərə Siyahısı"/>
+	<oaf_attribute name="name-be" type="string" value="Сьпіс вокнаў"/>
+	<oaf_attribute name="name-bg" type="string" value="Списък с прозорците"/>
+	<oaf_attribute name="name-bn" type="string" value="উইন্ডোর তালিকা"/>
+	<oaf_attribute name="name-ca" type="string" value="Llista de finestres"/>
+	<oaf_attribute name="name-cs" type="string" value="Seznam oken"/>
+	<oaf_attribute name="name-cy" type="string" value="Rhestr Ffenestri"/>
+	<oaf_attribute name="name-da" type="string" value="Vinduesliste"/>
+	<oaf_attribute name="name-de" type="string" value="Fensterliste"/>
+	<oaf_attribute name="name-el" type="string" value="Λίστα Παραθύρων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Window List"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Window List"/>
+	<oaf_attribute name="name-eo" type="string" value="Fenestrolisto"/>
+	<oaf_attribute name="name-es" type="string" value="Lista de ventanas"/>
+	<oaf_attribute name="name-et" type="string" value="Akende nimekiri"/>
+	<oaf_attribute name="name-eu" type="string" value="Leiho-zerrenda"/>
+	<oaf_attribute name="name-fa" type="string" value="فهرست پنجره‌ها"/>
+	<oaf_attribute name="name-fi" type="string" value="Ikkunaluettelo"/>
+	<oaf_attribute name="name-fr" type="string" value="Liste des fenêtres"/>
+	<oaf_attribute name="name-ga" type="string" value="Liosta na Fuinneoga"/>
+	<oaf_attribute name="name-gl" type="string" value="Lista de fiestras"/>
+	<oaf_attribute name="name-gu" type="string" value="વિન્ડોની યાદી"/>
+	<oaf_attribute name="name-he" type="string" value="רשימת חלונות"/>
+	<oaf_attribute name="name-hi" type="string" value="खिड़की सूची"/>
+	<oaf_attribute name="name-hr" type="string" value="Popis prozora"/>
+	<oaf_attribute name="name-hu" type="string" value="Ablaklista"/>
+	<oaf_attribute name="name-id" type="string" value="Daftar Jendela Program"/>
+	<oaf_attribute name="name-it" type="string" value="Elenco finestre"/>
+	<oaf_attribute name="name-ja" type="string" value="ウインドウリスト"/>
+	<oaf_attribute name="name-ko" type="string" value="창 목록"/>
+	<oaf_attribute name="name-li" type="string" value="Vinsterlies"/>
+	<oaf_attribute name="name-lt" type="string" value="Langų sąrašas"/>
+	<oaf_attribute name="name-lv" type="string" value="Logu Saraksts"/>
+	<oaf_attribute name="name-mk" type="string" value="Листа на прозори"/>
+	<oaf_attribute name="name-ml" type="string" value="ജാലക നാമാവലി"/>
+	<oaf_attribute name="name-mn" type="string" value="Цонх самбар"/>
+	<oaf_attribute name="name-mr" type="string" value="विंडोची यादी"/>
+	<oaf_attribute name="name-ms" type="string" value="Senarai Tetingkap"/>
+	<oaf_attribute name="name-nl" type="string" value="Vensterlijst"/>
+	<oaf_attribute name="name-nn" type="string" value="Vindaugsliste"/>
+	<oaf_attribute name="name-no" type="string" value="Vinduliste"/>
+	<oaf_attribute name="name-pa" type="string" value="ਝਰੋਖਾ ਸੂਚੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Lista okien"/>
+	<oaf_attribute name="name-pt" type="string" value="Lista de Janelas"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Lista de janelas"/>
+	<oaf_attribute name="name-ro" type="string" value="Listă ferestre"/>
+	<oaf_attribute name="name-ru" type="string" value="Список окон"/>
+	<oaf_attribute name="name-sk" type="string" value="Zoznam okien"/>
+	<oaf_attribute name="name-sl" type="string" value="Seznam oken"/>
+	<oaf_attribute name="name-sq" type="string" value="Lista e dritareve"/>
+	<oaf_attribute name="name-sr" type="string" value="Списак прозора"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Spisak prozora"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Списак прозора"/>
+	<oaf_attribute name="name-sv" type="string" value="Fönsterlista"/>
+	<oaf_attribute name="name-ta" type="string" value="சாளரம் பட்டியல்"/>
+	<oaf_attribute name="name-th" type="string" value="รายการหน้าต่าง"/>
+	<oaf_attribute name="name-tr" type="string" value="Pencere Listesi"/>
+	<oaf_attribute name="name-uk" type="string" value="Список вікон"/>
+	<oaf_attribute name="name-vi" type="string" value="Danh sách cửa sổ"/>
+	<oaf_attribute name="name-wa" type="string" value="Djivêye des purneas"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="窗口列表"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="視窗清單"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="視窗清單"/>
+	<oaf_attribute name="description" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-af" type="string" value="Wissel tussen oop vensters"/>
+	<oaf_attribute name="description-ar" type="string" value="تحول بين النوافذ المفتوحة"/>
+	<oaf_attribute name="description-az" type="string" value="Açıq pəncərələr arasında keç"/>
+	<oaf_attribute name="description-be" type="string" value="Пераключэньне між адкрытымі вокнамі"/>
+	<oaf_attribute name="description-bg" type="string" value="Превключва между отворените прозорци"/>
+	<oaf_attribute name="description-bn" type="string" value="খোলা উইন্ডোগুলির মধ্যে অদলবদল করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Canvia entre finestres obertes"/>
+	<oaf_attribute name="description-cs" type="string" value="Přepínat mezi otevřenými okny"/>
+	<oaf_attribute name="description-cy" type="string" value="Newid rhwng ffenestri agored"/>
+	<oaf_attribute name="description-da" type="string" value="Skift mellem åbne vinduer"/>
+	<oaf_attribute name="description-de" type="string" value="Zwischen geöffneten Fenstern wechseln"/>
+	<oaf_attribute name="description-el" type="string" value="Εναλλαγή μεταξύ ανοικτών παραθύρων"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Switch between open windows"/>
+	<oaf_attribute name="description-eo" type="string" value="Ŝaltu inter malfermaj fenestroj"/>
+	<oaf_attribute name="description-es" type="string" value="Cambiar entre las ventanas abiertas"/>
+	<oaf_attribute name="description-et" type="string" value="Lülita avatud akende vahel"/>
+	<oaf_attribute name="description-eu" type="string" value="Aldatu irekitako leiho batetik bestera"/>
+	<oaf_attribute name="description-fi" type="string" value="Siirry avoimien ikkunoiden välillä"/>
+	<oaf_attribute name="description-fr" type="string" value="Basculer entre les fenêtres ouvertes"/>
+	<oaf_attribute name="description-ga" type="string" value="Aistrigh idir fuinneoga oscailte"/>
+	<oaf_attribute name="description-gl" type="string" value="Seleccionar as distintas fiestras abertas"/>
+	<oaf_attribute name="description-gu" type="string" value="ખુલેલી વિન્ડો વચ્ચે ફેરબદલી કરો"/>
+	<oaf_attribute name="description-he" type="string" value="החלף בין חלונות פתוחים"/>
+	<oaf_attribute name="description-hi" type="string" value="खुली खिड़कियों के बीच स्विच करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Sljedeći otvoreni prozor"/>
+	<oaf_attribute name="description-hu" type="string" value="Átváltás a nyitott ablakok között"/>
+	<oaf_attribute name="description-id" type="string" value="Penukar jendela program yang terbuka"/>
+	<oaf_attribute name="description-it" type="string" value="Si sposta tra le finestre aperte"/>
+	<oaf_attribute name="description-ja" type="string" value="開いたウインドウ間を切り換え"/>
+	<oaf_attribute name="description-ko" type="string" value="열려 있는 창 간에 전환"/>
+	<oaf_attribute name="description-li" type="string" value="Wissel tösje aope vinsters"/>
+	<oaf_attribute name="description-lt" type="string" value="Šokinėti tarp atidarytų langų"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārslēgties starp atvērtajiem logiem"/>
+	<oaf_attribute name="description-mk" type="string" value="Скокај помеѓу отворените прозори"/>
+	<oaf_attribute name="description-ml" type="string" value="തുറന്ന ജാലകങ്ങളില് മാറി മാറി കടക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Нээлттэй цонхнуудын хооронд сэлгэгч"/>
+	<oaf_attribute name="description-mr" type="string" value="उघड्या विंडोजमधील बटण सूरु करा"/>
+	<oaf_attribute name="description-ms" type="string" value="Tukar antara tetingkap dibuka"/>
+	<oaf_attribute name="description-nl" type="string" value="Wisselen tussen open vensters"/>
+	<oaf_attribute name="description-nn" type="string" value="Skift mellom opne vindauge"/>
+	<oaf_attribute name="description-no" type="string" value="Bytt mellom åpne vinduer"/>
+	<oaf_attribute name="description-pa" type="string" value="ਖੁਲੇ ਝਰੋਖਿਅ੾ ਵਿਚ ਜਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Przełącza pomiędzy otwartymi oknami"/>
+	<oaf_attribute name="description-pt" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Alternar entre janelas abertas"/>
+	<oaf_attribute name="description-ro" type="string" value="Schimbă fereastra activă"/>
+	<oaf_attribute name="description-ru" type="string" value="Переключиться между открытыми окнами"/>
+	<oaf_attribute name="description-sk" type="string" value="Prepínanie medzi oknami"/>
+	<oaf_attribute name="description-sl" type="string" value="Preklopi med odprtimi okni"/>
+	<oaf_attribute name="description-sq" type="string" value="Kalo midis dritareve të hapura"/>
+	<oaf_attribute name="description-sr" type="string" value="Следећи отворени прозор"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sledeći otvoreni prozor"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сљедећи отворени прозор"/>
+	<oaf_attribute name="description-sv" type="string" value="Växla mellan öppna fönster"/>
+	<oaf_attribute name="description-ta" type="string" value="திறந்திருக்கும் சாளரங்களுக்குல் மாறுக"/>
+	<oaf_attribute name="description-th" type="string" value="สลับเปลี่ยนระหว่างหน้าต่างที่เปิดอยู่"/>
+	<oaf_attribute name="description-tr" type="string" value="Açık pencereler arasında geçiş yap"/>
+	<oaf_attribute name="description-uk" type="string" value="Аплет перемикає фокус між вікнами відкритими вікнами"/>
+	<oaf_attribute name="description-vi" type="string" value="Chuyển cửa sổ"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="在打开的窗口间切换"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="在已開啟的視窗之間切換"/>
+	<oaf_attribute name="panel:icon" type="string" value="panel-window-list.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Nutsprogram"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="مرفق"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Уціліты"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Полезни"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="প্রয়োজনীয়তা"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitat"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroje"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Teclyn"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Ilo"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Työkalut"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગિતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="यूटिलिटी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Utilitas"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Hulppregram"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Įrankiai"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Алатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Утилит"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="उपयुक्तता"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitare"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomoček"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Alati"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Araçlar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Window List Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_ShowDesktopApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_Wncklet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Show Desktop"/>
+	<oaf_attribute name="name-af" type="string" value="Wys Werkarea"/>
+	<oaf_attribute name="name-ar" type="string" value="اظهار سطح المكتب"/>
+	<oaf_attribute name="name-az" type="string" value="Masa Üstünü Göstər"/>
+	<oaf_attribute name="name-be" type="string" value="Паказаць сталец"/>
+	<oaf_attribute name="name-bg" type="string" value="Показва Работното Място"/>
+	<oaf_attribute name="name-bn" type="string" value="ডেস্কটপ প্রদর্শন করো"/>
+	<oaf_attribute name="name-ca" type="string" value="Mostra l&apos;escriptori"/>
+	<oaf_attribute name="name-cs" type="string" value="Zobrazit pracovní plochu"/>
+	<oaf_attribute name="name-cy" type="string" value="Dangos y Penbwrdd"/>
+	<oaf_attribute name="name-da" type="string" value="Vis skrivebordet"/>
+	<oaf_attribute name="name-de" type="string" value="Desktop anzeigen"/>
+	<oaf_attribute name="name-el" type="string" value="Εμφάνιση Επιφάνειας Εργασίας"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Show Desktop"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Show Desktop"/>
+	<oaf_attribute name="name-es" type="string" value="Mostrar el escritorio"/>
+	<oaf_attribute name="name-et" type="string" value="Näita töölauda"/>
+	<oaf_attribute name="name-eu" type="string" value="Erakutsi mahaigaina"/>
+	<oaf_attribute name="name-fi" type="string" value="Näytä työpöytä"/>
+	<oaf_attribute name="name-fr" type="string" value="Afficher le bureau"/>
+	<oaf_attribute name="name-ga" type="string" value="Taispeáin an Deasc"/>
+	<oaf_attribute name="name-gu" type="string" value="ડેસ્કટોપ દેખાડો"/>
+	<oaf_attribute name="name-he" type="string" value="הצג את שולחן העבודה"/>
+	<oaf_attribute name="name-hi" type="string" value="डेस्कटाप दिखाने वाला बटन"/>
+	<oaf_attribute name="name-hr" type="string" value="Prikaži radnu površinu"/>
+	<oaf_attribute name="name-hu" type="string" value="Munkaasztal megjelenítése"/>
+	<oaf_attribute name="name-id" type="string" value="Tampilkan Desktop"/>
+	<oaf_attribute name="name-it" type="string" value="Mostra desktop"/>
+	<oaf_attribute name="name-ja" type="string" value="デスクトップの表示"/>
+	<oaf_attribute name="name-ko" type="string" value="바탕화면 보여주기"/>
+	<oaf_attribute name="name-lt" type="string" value="Rodyti darbastalį"/>
+	<oaf_attribute name="name-mk" type="string" value="Покажи копче за криење"/>
+	<oaf_attribute name="name-mn" type="string" value="Дэлгэц харуулах"/>
+	<oaf_attribute name="name-mr" type="string" value="डेस्कटाॅप दाखवा"/>
+	<oaf_attribute name="name-ms" type="string" value="Papar Desktop"/>
+	<oaf_attribute name="name-nl" type="string" value="Werkblad tonen"/>
+	<oaf_attribute name="name-nn" type="string" value="Vis skrivebordet"/>
+	<oaf_attribute name="name-no" type="string" value="Vis skrivebord"/>
+	<oaf_attribute name="name-pa" type="string" value="ਵਿਹੜਾ ਵੇਖਾੳੁ"/>
+	<oaf_attribute name="name-pl" type="string" value="Przycisk odkrywania pulpitu"/>
+	<oaf_attribute name="name-pt" type="string" value="Apresentar Área de Trabalho"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Mostrar a área de trabalho"/>
+	<oaf_attribute name="name-ro" type="string" value="Arată desktopul"/>
+	<oaf_attribute name="name-ru" type="string" value="Кнопка расчистки рабочего стола"/>
+	<oaf_attribute name="name-sk" type="string" value="Zobraziť plochu"/>
+	<oaf_attribute name="name-sl" type="string" value="Kaži namizje"/>
+	<oaf_attribute name="name-sq" type="string" value="Shfaq Hapësirën e Punës"/>
+	<oaf_attribute name="name-sr" type="string" value="Прикажи радну површину"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Prikaži radnu površinu"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Прикажи радну површину"/>
+	<oaf_attribute name="name-sv" type="string" value="Visa skrivbord"/>
+	<oaf_attribute name="name-ta" type="string" value="கணிமேசை காட்டுக"/>
+	<oaf_attribute name="name-th" type="string" value="แสดงพื้นโต๊ะ"/>
+	<oaf_attribute name="name-tr" type="string" value="Masaüstünü Göster"/>
+	<oaf_attribute name="name-uk" type="string" value="Кнопка розчистки робочої стільниці"/>
+	<oaf_attribute name="name-vi" type="string" value="Hiện desktop"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="显示桌面"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="顯示桌面"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="顯示桌面"/>
+	<oaf_attribute name="description" type="string" value="Hide application windows and show the desktop"/>
+	<oaf_attribute name="description-af" type="string" value="Verberg  toepassingsvensters en vertoon die werkarea"/>
+	<oaf_attribute name="description-ar" type="string" value="اخفاء نوافذ التطبيقات و اظهار سطح المكتب"/>
+	<oaf_attribute name="description-az" type="string" value="Proqramların pəncərələrini gizlədib masa üstünü göstər"/>
+	<oaf_attribute name="description-be" type="string" value="Схаваць вокны дастасаваньняў і паказаць сталец"/>
+	<oaf_attribute name="description-bg" type="string" value="Бутон, скриващ прозорците и показващ работното място"/>
+	<oaf_attribute name="description-bn" type="string" value="অ্যাপ্লিকেশন উইন্ডোগুলি লুকিয়ে ফেলে ডেস্কটপ প্রদর্শন করো"/>
+	<oaf_attribute name="description-ca" type="string" value="Amaga les finestres de les aplicacions i mostra l&apos;escriptori"/>
+	<oaf_attribute name="description-cs" type="string" value="Skrýt okna aplikací a zobrazit pracovní plochu"/>
+	<oaf_attribute name="description-cy" type="string" value="Botwm i guddio ffenestri rhaglenni a dangos y penbwrdd"/>
+	<oaf_attribute name="description-da" type="string" value="Skjul vinduer og vis skrivebordet"/>
+	<oaf_attribute name="description-de" type="string" value="Geöffnete Anwendungsfenster verbergen und den Desktop anzeigen"/>
+	<oaf_attribute name="description-el" type="string" value="Απόκρυψη των παραθύρων και εμφάνιση της επιφάνειας εργασίας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Hide application windows and show the desktop"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Hide application windows and show the desktop"/>
+	<oaf_attribute name="description-es" type="string" value="Ocultar las ventanas de aplicaciones y mostrar el escritorio"/>
+	<oaf_attribute name="description-et" type="string" value="Peida rakenduste aknad ja näita töölauda"/>
+	<oaf_attribute name="description-eu" type="string" value="Ezkutatu aplikazio-leihoak eta erakutsi mahaigaina"/>
+	<oaf_attribute name="description-fi" type="string" value="Piilota kaikki ikkunat ja näytä työpöytä"/>
+	<oaf_attribute name="description-fr" type="string" value="Cacher les fenêtres d&apos;applications et afficher le bureau"/>
+	<oaf_attribute name="description-ga" type="string" value="Folaigh fuinneoga feidhmchláir agus taispeáin an deasc"/>
+	<oaf_attribute name="description-gu" type="string" value="કાર્યક્રમની વિન્ડોને સંતાડો અને ડેસ્કટોપ દેખાડો"/>
+	<oaf_attribute name="description-he" type="string" value="הסתר את חלונות היישומים והצג את שולחן העבודה"/>
+	<oaf_attribute name="description-hi" type="string" value="बटन जो अनुप्रयोग खिड़कियों को छुपाए और डेस्कटाप दिखाए"/>
+	<oaf_attribute name="description-hr" type="string" value="Sakrij prozore programa i prikaži radnu površinu"/>
+	<oaf_attribute name="description-hu" type="string" value="Alkalmazások ablakainak elrejtése és a munkaasztal megjelenítése"/>
+	<oaf_attribute name="description-id" type="string" value="Sembunyikan semua jendela program dan tampilkan desktop"/>
+	<oaf_attribute name="description-it" type="string" value="Nasconde le finestre delle applicazioni e mostra il desktop"/>
+	<oaf_attribute name="description-ja" type="string" value="アプリのウィンドウを隠してデスクトップを表示します"/>
+	<oaf_attribute name="description-ko" type="string" value="프로그램 창을 숨기고 바탕화면을 보여줍니다"/>
+	<oaf_attribute name="description-lt" type="string" value="Slėpti programų langus ir rodyti darbastalį"/>
+	<oaf_attribute name="description-mk" type="string" value="Копче кое ги сокрива апликативните прозорци и ја покажува работната површина"/>
+	<oaf_attribute name="description-mn" type="string" value="Цонхнуудыг дэлгэцэн үзүүлэх болон далдлах товч"/>
+	<oaf_attribute name="description-mr" type="string" value="अनुप्रयोग कर्त्या खिडक्या झाकून डेस्कटॉप दाखवा"/>
+	<oaf_attribute name="description-ms" type="string" value="Sembunyi tetingkap aplikasi dan papar desktop"/>
+	<oaf_attribute name="description-nl" type="string" value="Toepassingsvensters verbergen en het bureaublad tonen"/>
+	<oaf_attribute name="description-nn" type="string" value="Gøym programvindauga, og vis skrivebordet"/>
+	<oaf_attribute name="description-no" type="string" value="Skjul applikasjonsvinduer og vis skrivebordet"/>
+	<oaf_attribute name="description-pa" type="string" value="ਕਾਰਜੀ ਝਰੋਖੇ ਪਾਸੇ ਕਰਕੇ ਵਿਹੜਾ ਵੇਖਾਓ"/>
+	<oaf_attribute name="description-pl" type="string" value="Ukrywa okna aplikacji i pokazuje pulpit"/>
+	<oaf_attribute name="description-pt" type="string" value="Esconder janelas de aplicações e apresentar a área de trabalho"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Esconder janelas de aplicações e mostrar a área de trabalho"/>
+	<oaf_attribute name="description-ro" type="string" value="Ascunde ferestrele aplicaţiilor şi arată desktopul"/>
+	<oaf_attribute name="description-ru" type="string" value="Кнопка сворачивает все окна, расчищая рабочий стол"/>
+	<oaf_attribute name="description-sk" type="string" value="Tlačidlo pres skrytie okien aplikácií a zobrazenie plochy"/>
+	<oaf_attribute name="description-sl" type="string" value="Skrij okna programov in prikaži namizje"/>
+	<oaf_attribute name="description-sq" type="string" value="Fshih dritaren e programit dhe shfaq hapësirën e punës"/>
+	<oaf_attribute name="description-sr" type="string" value="Сакриј прозоре програма и прикажи радну површину"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Sakrij prozore programa i prikaži radnu površinu"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сакриј прозоре програма и прикажи радну површину"/>
+	<oaf_attribute name="description-sv" type="string" value="Dölj programfönster och visa skrivbordet"/>
+	<oaf_attribute name="description-ta" type="string" value="செயல்பாடு சாளரங்களை மறைத்து கணிமேசையை காட்டுக"/>
+	<oaf_attribute name="description-th" type="string" value="ซ่อนหน้าต่างโปรแกรมและแสดงพื้นโต๊ะ"/>
+	<oaf_attribute name="description-tr" type="string" value="Programları gizleme ve masaüstünü görüntüleme düğmesi"/>
+	<oaf_attribute name="description-uk" type="string" value="Кнопка згортає програми и вікна програм, щоб показати стільницю"/>
+	<oaf_attribute name="description-vi" type="string" value="Nút cửa sổ ứng dụng và hiện desktop"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="隐藏窗口并显示桌面"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="隱藏所有程式視窗並顯示桌面"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="隱藏所有程式視窗並顯示桌面"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-fs-desktop.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Actions"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Aksies"/>
+	<oaf_attribute name="panel:category-am" type="string" value="ትግባሮች"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="أعمال"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Gedişatlar"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Дзеяньні"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Действия"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="কার্যবলী"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Accions"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Akce"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Gweithredoedd"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Handlinger"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Aktionen"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Ενέργειες"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Actions"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Actions"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Agoj"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Acciones"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Tegevused"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Ekintzak"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Toiminnot"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Actions"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Gníomhartha"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Accións"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ક્રિયાઓ"/>
+	<oaf_attribute name="panel:category-he" type="string" value="פעולות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="कार्य"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Akcije"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Műveletek"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Aksi"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Azioni"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アクション"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="동작"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Aksies"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Veiksmai"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Darbības"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Дејствија"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="പ്ര‌വ‍ര്ത്തനം"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Үйлдлүүд"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="कृती"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Aksi"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Acties"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Handlingar"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Handlinger"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਕਾਰਵਾੲੀਅ੾"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Operacje"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Acções"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Ações"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Acţiuni"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Действия"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Akcie"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Dejanja"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Veprimet"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Акције"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Akcije"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Акције"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Åtgärder"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="செயல்கள்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="ปฏิบัติการ"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Eylemler"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Дії"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Hành động"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Accions"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="操作"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="動作"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="動作"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Show Desktop Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="wnck-applet"/>
+
+</oaf_server>
+
+</oaf_info>

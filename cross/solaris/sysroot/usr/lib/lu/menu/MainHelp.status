@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.status 5.2     01/04/19 SMI"
+#
+
+title=`gettext "List the status of all boot environments"`
+
+close=nop
+wrap=true 
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu selection will display the status information of all BEs configured on the system."`"\n\n"`gettext "The status information includes the following details:"`"\n\n"`gettext "- \"BE_name\" indicates the name of the BE."`"\n\n"\
+`gettext "- \"Complete\" indicates whether the BE is complete or not. A BE can be activated (booted with) using Activate selection, only when it is complete."`"\n\n"`gettext "- \"Active\" indicates whether the BE is currently active."`"\n\n"`gettext "- \"ActiveOnReboot\" indicates whether the BE becomes active upon next reboot of the system."`"\n\n"`gettext "- \"CopyStatus\" indicates whether the creation/copy of/on the BE is SCHEDULED or ACTIVE."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

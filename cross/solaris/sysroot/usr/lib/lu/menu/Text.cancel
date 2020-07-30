@@ -1,0 +1,44 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Text.cancel 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Result of Live Upgrade Cancel Operation"`
+
+close=rm -f /tmp/cancel.${VPID}
+
+begrow=any
+begcol=any
+rows=4
+columns=65
+
+`gettext "Strike the CANCEL function key to return to main menu." | message -t`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text="
+`$LUBIN/lucancel 2>/tmp/cancel.${VPID};
+if [ $RET -eq 0 ];
+then
+	gettext 'Successfully canceled the scheduled copy (Job)';
+else
+	cat /tmp/cancel.${VPID};
+fi;
+
+`"
+
+`indicator -w`
+
+altslks
+
+name=
+button=9
+action=nop
+
+name=
+button=11
+action=nop
+
+name=CANCEL
+button=14
+action=`rm -f /tmp/cancel.${VPID}`CLEANUP

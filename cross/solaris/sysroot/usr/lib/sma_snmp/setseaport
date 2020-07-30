@@ -1,0 +1,25 @@
+#!/bin/sh 
+#If a port entry is set to 161 change it to a free port
+REGFILE="/etc/snmp/conf/snmpdx.reg"
+TMPFILE="/etc/snmp/conf/snmpdx.tmp"
+BIN="/usr/lib/sma_snmp"
+EGREP="/usr/bin/egrep"
+MV="/usr/bin/mv"
+SED="/usr/bin/sed"
+FREEPORT=`$BIN/findseaport`
+CHOWN="/usr/bin/chown"
+newReg1="port = $FREEPORT }"
+newReg2="port = $FREEPORT"
+Reg1=`$EGREP -i '[^ *#] *port( |=|= | = )161[^0-9]*}$' $REGFILE`
+Reg2=`$EGREP -i '[^ *#] *port( |=|= | = )161$' $REGFILE`
+if [ -n "$Reg1" ]
+then
+	$SED -e "s/$Reg1/		$newReg1/" $REGFILE > $TMPFILE 
+	$MV $TMPFILE $REGFILE
+elif [ -n "$Reg2" ]
+then
+	$SED -e "s/$Reg2/		$newReg2/" $REGFILE > $TMPFILE 
+	$MV $TMPFILE $REGFILE
+fi
+
+$CHOWN root:sys $REGFILE

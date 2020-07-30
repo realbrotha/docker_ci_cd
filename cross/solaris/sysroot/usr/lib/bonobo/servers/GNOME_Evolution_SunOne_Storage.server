@@ -1,0 +1,238 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_SunOneStorage_ShellComponent"
+            type="exe"
+            location="/usr/bin/hydrogen">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="Evolution Sun Java System Storage."/>
+	<oaf_attribute name="description-cs" type="string"
+	               value="Evolution Sun Java System Storage."/>
+	<oaf_attribute name="description-de" type="string"
+	               value="Evolution Sun Java System Storage."/>
+	<oaf_attribute name="description-es" type="string"
+	               value="Almacenamiento Evolution Sun Java System."/>
+	<oaf_attribute name="description-fr" type="string"
+	               value="Stockage Evolution Sun Java System"/>
+	<oaf_attribute name="description-hu" type="string"
+	               value="Evolution Sun Java System Tárhely."/>
+	<oaf_attribute name="description-it" type="string"
+	               value="Sistema di memorizzazione di Evolution Sun Java System."/>
+	<oaf_attribute name="description-ja" type="string"
+	               value="Evolution Sun Java System ストレージ"/>
+	<oaf_attribute name="description-ko" type="string"
+	               value="Evolution Sun Java System 저장소"/>
+	<oaf_attribute name="description-pl" type="string"
+	               value="Archiwum systemu Sun Java Evolution."/>
+	<oaf_attribute name="description-pt_BR" type="string"
+	               value="Evolução do Armazenamento do Java System da Sun."/>
+	<oaf_attribute name="description-ru" type="string"
+	               value="Системное хранилище Sun Java для Evolution"/>
+	<oaf_attribute name="description-sv" type="string"
+	               value="Evolution Sun Java System Storage."/>
+	<oaf_attribute name="description-zh_CN" type="string"
+	               value="Evolution Sun Java System Storage."/>
+	<oaf_attribute name="description-zh_HK" type="string"
+	               value="Evolution Sun Java 系統儲存。"/>
+	<oaf_attribute name="description-zh_TW" type="string"
+	               value="Evolution Sun Java 系統儲存。"/>
+
+        <oaf_attribute name="evolution:shell_component_icon" type="string"
+                       value="sun-connector.png"/>
+	<oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		       value="0"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_SunOneStorage_CalendarFactory"
+            type="exe"
+            location="/usr/bin/hydrogen">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Calendar/CalFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="The Sun Java System Calendar Server; calendar factory"/>
+	<oaf_attribute name="description-cs" type="string"
+                       value="The Sun Java System Calendar Server; kalendářové zdroje"/>
+	<oaf_attribute name="description-de" type="string"
+                       value="Sun Java System Kalender-Server; Kalender-Fabrik"/>
+	<oaf_attribute name="description-es" type="string"
+                       value="El servidor de agendas Sun Java System; fábrica de agendas"/>
+	<oaf_attribute name="description-fr" type="string"
+                       value="Sun Java System Calendar Server ; fabrique de calendrier"/>
+	<oaf_attribute name="description-hu" type="string"
+                       value="The Sun Java System Naptárkiszolgáló; naptár factory"/>
+	<oaf_attribute name="description-it" type="string"
+                       value="Server del calendario di Sun Java System; fabbrica di calendari"/>
+	<oaf_attribute name="description-ja" type="string"
+                       value="Sun Java System カレンダサーバー; カレンダファクトリ"/>
+	<oaf_attribute name="description-ko" type="string"
+                       value="Sun Java System 달력 서버, 달력 팩토리"/>
+	<oaf_attribute name="description-pl" type="string"
+                       value="Serwer kalendarza systemu Sun Java; generator kalendarzy"/>
+	<oaf_attribute name="description-pt_BR" type="string"
+                       value="Servidor de Calendário do Java System da Sun; gerador de calendário"/>
+	<oaf_attribute name="description-ru" type="string"
+                       value="Сервер календаря системы Sun Java; фабрика календаря"/>
+	<oaf_attribute name="description-sv" type="string"
+                       value="Sun Java System Calendar Server, kalenderfabrik"/>
+	<oaf_attribute name="description-zh_CN" type="string"
+                       value="Sun Java System 日历服务器；日历工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string"
+                       value="Sun Java 系統行事曆伺服器；行事曆工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string"
+                       value="Sun Java 系統行事曆伺服器；行事曆工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_SunOneStorage_ConfigFactory"
+            type="exe"
+            location="/usr/bin/hydrogen">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/ObjectFactory:1.0"/>
+        </oaf_attribute>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_SunOneStorage_ConfigControl"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_SunOneStorage_ConfigFactory">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+        </oaf_attribute>
+
+        <oaf_attribute name="evolution:config_item:title" type="string"
+                       value="Sun Java System Accounts"/>
+        <oaf_attribute name="evolution:config_item:title-cs" type="string"
+                       value="Sun Java System Accounts"/>
+        <oaf_attribute name="evolution:config_item:title-de" type="string"
+                       value="Sun Java System-Konten"/>
+        <oaf_attribute name="evolution:config_item:title-es" type="string"
+                       value="Cuentas de Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:title-fr" type="string"
+                       value="Comptes Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:title-hu" type="string"
+                       value="Sun Java System Azonosítók"/>
+        <oaf_attribute name="evolution:config_item:title-it" type="string"
+                       value="Account di Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:title-ja" type="string"
+                       value="Sun Java System アカウント"/>
+        <oaf_attribute name="evolution:config_item:title-ko" type="string"
+                       value="Sun Java System 계정"/>
+        <oaf_attribute name="evolution:config_item:title-pl" type="string"
+                       value="Konta systemowe Sun Java"/>
+        <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+                       value="Contas do Java System da Sun"/>
+        <oaf_attribute name="evolution:config_item:title-ru" type="string"
+                       value="Учетные записи системы Sun Java"/>
+        <oaf_attribute name="evolution:config_item:title-sv" type="string"
+                       value="Sun Java System-konton"/>
+        <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+                       value="Sun Java System 帐户"/>
+        <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+                       value="Sun Java 系統帳戶"/>
+        <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+                       value="Sun Java 系統帳戶"/>
+
+        <oaf_attribute name="evolution:config_item:description" type="string"
+                       value="This page can be used to configure accounts on Sun java system servers"/>
+        <oaf_attribute name="evolution:config_item:description-cs" type="string"
+                       value="Tato stránka se používá pro konfiguraci účtů na serverech Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:description-de" type="string"
+                       value="Diese Seite ermöglicht die Konfiguration von Konten auf Sun Java System-Servern"/>
+        <oaf_attribute name="evolution:config_item:description-es" type="string"
+                       value="Esta página permite configurar cuentas en los servidores de Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:description-fr" type="string"
+                       value="Vous pouvez utiliser cette page pour configurer des comptes sur les serveurs Sun java system"/>
+        <oaf_attribute name="evolution:config_item:description-hu" type="string"
+                       value="Ezt az oldalt használhatja azonosítók beállításához a Sun Java System kiszolgálókon"/>
+        <oaf_attribute name="evolution:config_item:description-it" type="string"
+                       value="Questa pagina può essere utilizzata per configurare gli account sui server Sun Java System"/>
+        <oaf_attribute name="evolution:config_item:description-ja" type="string"
+                       value="このページでは、Sun Java System サーバー上のアカウントを構成できます"/>
+        <oaf_attribute name="evolution:config_item:description-ko" type="string"
+                       value="이 페이지를 사용하여 Sun Java System 서버에서 계정을 구성할 수 있습니다."/>
+        <oaf_attribute name="evolution:config_item:description-pl" type="string"
+                       value="Z tej strony można skorzystać w celu skonfigurowania kont na serwerach Sun java"/>
+        <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+                       value="Esta página pode ser usada para configurar contas em servidores Java System da Sun"/>
+        <oaf_attribute name="evolution:config_item:description-ru" type="string"
+                       value="Эту страницу можно использовать для конфигурации учетных записей на серверах системы Sun Java"/>
+        <oaf_attribute name="evolution:config_item:description-sv" type="string"
+                       value="På den här sidan kan du konfigurera konton på Sun Java System-servrar"/>
+        <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+                       value="本页可用于配置 Sun Java System 服务器上的帐户"/>
+        <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+                       value="此頁只能用來配置 Sun Java 系統伺服器上的帳戶"/>
+        <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+                       value="此頁只能用來配置 Sun Java 系統伺服器上的帳戶"/>
+
+        <oaf_attribute name="evolution:config_item:icon_name" type="string"
+                       value="sun-connector.png"/>
+
+        <oaf_attribute name="evolution:config_item:type" type="stringv">
+                <item value="sun java system"/>
+                <item value="sun java system"/>
+                <item value="sun java system"/>
+                <item value="sun java system"/>
+                <item value="Sun Java System"/>
+                <item value="sun java system"/>
+                <item value="sun java system"/>
+                <item value="Sun Java System"/>
+                <item value="Sun Java System"/>
+                <item value="system sun java"/>
+                <item value="Java System da Sun"/>
+                <item value="система Sun Java"/>
+                <item value="sun java system"/>
+                <item value="Sun Java System"/>
+                <item value="Sun Java 系統"/>
+                <item value="Sun Java 系統"/>
+        </oaf_attribute>
+
+        <oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
+
+        <oaf_attribute name="description" type="string"
+                       value="Configuration control for the Evolution Calendar."/>
+        <oaf_attribute name="description-cs" type="string"
+                       value="Konfigurace pro Evolution Calendar."/>
+        <oaf_attribute name="description-de" type="string"
+                       value="Konfigurationssteuerung für Evolution Kalender"/>
+        <oaf_attribute name="description-es" type="string"
+                       value="Control de configuración para el calendario de Evolución."/>
+        <oaf_attribute name="description-fr" type="string"
+                       value="Composant de configuration de l&apos;agenda d&apos;Evolution."/>
+        <oaf_attribute name="description-hu" type="string"
+                       value="az Evolution Naptár beállítás-vezérlése."/>
+        <oaf_attribute name="description-it" type="string"
+                       value="Controllo di configurazione per il calendario di Evolution."/>
+        <oaf_attribute name="description-ja" type="string"
+                       value="Evolution カレンダの設定制御"/>
+        <oaf_attribute name="description-ko" type="string"
+                       value="Evolution 달력용 구성 컨트롤"/>
+        <oaf_attribute name="description-pl" type="string"
+                       value="Narzędzie kontroli konfiguracji dla kalendarza programu Evolution."/>
+        <oaf_attribute name="description-pt_BR" type="string"
+                       value="Controle de configuração para o Calendário do Evolution."/>
+        <oaf_attribute name="description-ru" type="string"
+                       value="Компонент настройки Календаря Evolution."/>
+        <oaf_attribute name="description-sv" type="string"
+                       value="Konfigurationskontroll för Evolutionkalendern."/>
+        <oaf_attribute name="description-zh_CN" type="string"
+                       value="Evolution Calendar 配置控制"/>
+        <oaf_attribute name="description-zh_HK" type="string"
+                       value="Evolution 行事曆的組態控制項"/>
+        <oaf_attribute name="description-zh_TW" type="string"
+                       value="Evolution 行事曆的組態控制項"/>
+
+</oaf_server>
+
+</oaf_info>

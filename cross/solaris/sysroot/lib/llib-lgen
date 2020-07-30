@@ -1,0 +1,21 @@
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#pragma ident	"@(#)llib-lgen	1.4	04/02/10 SMI"
+
+#include <libgen.h>
+#undef	_REENTRANT
+#include <regexpr.h>	/* get the static variable definitions */
+#define	_REENTRANT
+#include <regexpr.h>	/* now the dynamic variable definitions */
+
+/*
+ * This a private function for ex/vi only.
+ * It is not an alias for 'compile'.
+ */
+char *_compile(const char *, char *, char *, int);

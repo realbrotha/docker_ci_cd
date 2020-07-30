@@ -1,0 +1,57 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Help 5.2     01/04/19 SMI"
+#
+title=`gettext "Live Upgrade Help Information"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=14
+columns=70
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "What is Live Upgrade?"`"\n\n"`gettext "Live Upgrade provides the capability to maintain multiple boot environments, where a boot environment (BE) essentially represents all the software which resides on the /, /usr, /var, /opt, /usr/openwin, /export/swap, /export/root, /nssoft, and /sdd file systems. The BEs may contain different versions of software packages."`"\n\n"\
+`gettext "One typical use of Live Upgrade will be to copy the current, working production BE to another disk prior to a software upgrade. The upgrade may then be applied to the inactive copy. Should a failure occur in the upgraded version, you may quickly switch back to the original version. The result is a significant reduction in downtime due to failed software upgrades."`"\n\n"\
+`gettext "Live Upgrade can also be used as a migration tool. When creating a BE, the file system layout on the new BE may look entirely different than the layout on the active BE. For example, the active BE may have only 2 file systems, / and /usr. The new BE can be configured so that / is broken into multiple file systems, using a variety of device types (volumes, disk array devices, etc.), and using a variety of file system types (ex.  vxfs, ufs)."`"\n\n"\
+`gettext "The process of using Live Upgrade can be summarized as follows:"`"\n\n"`gettext "1. Create an Alternate Boot Environment (ABE) You will be asked to designate devices to be used in the ABE. The contents of the PBE will be copied to the ABE, and the ABE will be modified so that it is \"bootable\"."`"\n"\
+`gettext "2. Perform the software upgrade using pfinstall, pkgadd, ... You may only apply the upgrade to the ABE. If the ABE is upgraded, activate ABE and reboot."`"\n"`gettext "3. Fallback to PBE as necessary. If a failure is detected after upgrading the software on your system, you must activate the original BE and reboot (init 6)."`"\n\n"`gettext "Managing Boot Environments"`"\n\n"\
+`gettext "The following operations may be performed to manage a Boot Environment:"`"\n\n"`gettext "-  Activate a Boot Environment"`"\n"`gettext "-  Compare the Contents of Two Boot Environments"`"\n"`gettext "-  Create a Boot Environment"`"\n"`gettext "-  Delete a Boot Environment"`"\n"`gettext "-  List All Boot Environment Configurations"`"\n"`gettext "-  Populate a Boot Environment"`"\n"\
+`gettext "-  Rename a Boot Environment"`"\n"`gettext "-  Upgrade a Boot Environment"`"\n"`gettext "-  Obtain the Status information of Boot Environments"`"\n\n"`gettext "Note: Each of the above operations has its own help information. Just move to the desired menu item and press HELP."`"\n"
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=nop

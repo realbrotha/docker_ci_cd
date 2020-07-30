@@ -1,0 +1,29 @@
+#!/sbin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-autofs	1.16	04/12/16 SMI"
+
+. /lib/svc/share/smf_include.sh
+
+case "$1" in
+'start')
+	/usr/lib/autofs/automountd
+	/usr/sbin/automount &
+	;;
+
+'stop')
+	/sbin/umountall -F autofs
+
+	# Need to kill the entire service contract in case automount is hung
+	# do to a misconfiguration, such as yp not up or responding.
+	smf_kill_contract $2 TERM 1
+	[ $? -ne 0 ] && exit 1
+	;;
+
+*)
+	echo "Usage: $0 { start | stop }"
+	;;
+esac
+exit 0

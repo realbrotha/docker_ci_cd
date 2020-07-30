@@ -1,0 +1,22 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/contrib/programs/xditview/ldblarrow 1.1         */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1997               */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* SCCSID_BEGIN_TAG                                                    */
+/* @(#)04  1.1  src/gos/2d/XTOP/contrib/programs/xditview/ldblarrow, xsample, gos530 1/8/97 17:51:45 */
+/* SCCSID_END_TAG                                                      */
+#define previous_width 11
+#define previous_height 11
+static char previous_bits[] = {
+   0x20, 0x04, 0x10, 0x02, 0x08, 0x01, 0x84, 0x00, 0x42, 0x00, 0x21, 0x00,
+   0x42, 0x00, 0x84, 0x00, 0x08, 0x01, 0x10, 0x02, 0x20, 0x04};

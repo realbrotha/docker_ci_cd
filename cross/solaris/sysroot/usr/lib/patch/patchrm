@@ -1,0 +1,3024 @@
+#!/bin/ksh -hp
+#
+# ident	"@(#)patchrm.ksh	2.69	06/10/03 SMI"
+# 
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Sun considers its source code as an unpublished, proprietary trade secret,
+# and it is available only under strict license provisions.  This copyright 
+# notice is placed here only to protect Sun in the event the source is 
+# deemed a published work.  Dissassembly, decompilation, or other means of 
+# reducing the object code to human readable form is prohibited by the 
+# license agreement under which this code is provided to the user or company 
+# in possession of this copy. 
+# 
+# RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by the Government 
+# is subject to restrictions as set forth in subparagraph (c)(1)(ii) of the 
+# Rights in Technical Data and Computer Software clause at DFARS 52.227-7013 
+# and in similar clauses in the FAR and NASA FAR Supplement. 
+# 
+# Exit Codes:
+# 0   No error
+# 1   Usage error
+# 2   Attempt to backout a patch that hasn't been applied
+# 3   Effective UID is not root
+# 4   No saved files to restore
+# 5   pkgrm failed
+# 6   Attempt to back out an obsoleted patch
+# 7   Attempt to restore CPIO archived files failed
+# 8   Invalid patch id format
+# 9   Prebackout script failed
+# 10  Postbackout script failed
+# 11  Suspended due to administrative defaults
+# 12  Patchrm could not locate the backout data
+# 13  The relative directory supplied can't be found
+# 14  Patchadd has been interrupted, re-invoke patchadd 
+# 15  This patch is required by a patch already installed, can't back it out
+# 16  Unable to create safe temporary directory
+# 17  Must be running Solaris 2.6 or greater
+# 18  Error unable to retrieve patch information from SQL DB.
+# 19  Lock file not available
+# 20  Insufficient space to uncompress undo.Z files
+# 21  Unable to copy pkginfo file to pspool directory
+#
+
+# Set up the path to use with this script.
+
+PATH=/usr/sadm/bin:/usr/sbin:/usr/bin:$PATH
+export PATH
+
+# Set the text domain for messaging
+TEXTDOMAIN=SUNW_PATCH_SCRIPTS
+export TEXTDOMAIN
+
+umask 002
+
+# Global Files
+
+force=no
+pkginstlist=
+pkglist=
+ret=
+curdir=
+diPatch="no"
+ObsoletedBy="none"
+PatchedPkgs=""
+InstPkgs=""
+RebootRqd="no"
+netImage="none"
+
+typeset -i dbSum=0
+
+ROOTDIR="/"
+PATCHDB="/var/sadm/patch"
+INSTALLDIR="/var/sadm/install"
+PATCH_UNDO_ARCHIVE="none"
+OBS_PATCH_UNDO_ARCHIVE="none"
+TEMP_PATCH_UNDO_ARCHIVE="none"
+PKGDB="/var/sadm/pkg"
+STATICPKGDB="/var/sadm/pkg"
+STATICPATCHDB="/var/sadm/patch"
+SOFTINFO="/var/sadm/softinfo"
+NEW_SOFTINFO="/var/sadm/system/admin/INST_RELEASE"
+OLD_SOFTINFO="/var/sadm/softinfo/INST_RELEASE"
+MGRSOFTINFO="none"
+TRGSOFTINFO="none"
+CONTENTS="/var/sadm/install/contents"
+PKGDBARG=""
+PATCH_PID=""
+DASHB_SUPPLIED="no"
+PKGADD_DEBUG="no"
+PATCH_CLIENT_OS=""
+PATCH_CLIENT_VERSION=""
+PATCH_CLIENT_REVISION=""
+RE_MINIROOT_PATCH=""
+PATCHUTIL=/usr/lib/patch/patchutil
+DB="install.db"
+SQLDB="no"
+integer sqlDB=0
+LOCKF=0
+NL='
+'
+
+ZONE_OPTIONS=""
+
+# This tells pkgadd to not check mounted FS's. Used in the mini-root.
+MOPTION=""
+
+NON_GLOBAL_ZONE_INSTALL=""
+
+# Version string of the patch data base file. Change this
+# anytime the format of the .patchDB file changes. Also
+# needs to be changed in patchadd.
+PATCHDBVER="1.0"
+
+# Needed utilities
+DF=/usr/sbin/df
+RM=/usr/bin/rm
+MV=/usr/bin/mv
+SED=/usr/bin/sed
+NAWK=/usr/bin/nawk
+CAT=/usr/bin/cat
+MD=/usr/bin/mkdir
+LS=/usr/bin/ls
+EGREP=/usr/bin/egrep
+GREP=/usr/bin/grep
+FGREP=/usr/bin/fgrep
+CP=/usr/bin/cp
+FIND=/usr/bin/find
+UNAME=/usr/bin/uname
+MOUNT=/sbin/mount
+UMOUNT=/sbin/umount
+SUM=/usr/bin/sum
+WC=/usr/bin/wc
+SORT=/usr/bin/sort
+UNIQ=/usr/bin/uniq
+LN=/usr/bin/ln
+CHMOD=/usr/bin/chmod
+PS=/usr/bin/ps
+SPLIT=/usr/bin/split
+TOUCH=/usr/bin/touch
+CUT=/usr/bin/cut
+HEAD=/usr/bin/head
+
+PatchIdFormat='^[A-Z]*[0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9]$'
+
+#
+# Description:
+#	Execute the prebackout script if it is executable. Fail if the
+#	return code is not 0.
+#
+# Parameters:
+#	$1	- package database directory
+#	$2	- patch number
+# Globals Set:
+#	none
+function execute_prebackout
+{
+	integer retcode=0
+
+	if [ -f $1/$2/prebackout ]
+	then
+		execute_patch_procedure_script "prebackout" "$1/$2" || retcode=$?
+		if (( retcode != 0 )); then
+			/usr/bin/gettext "prebackout script exited with return code $retcode.\nPatchrm is exiting.\n\n"
+			patch_quit 9
+		fi
+	fi
+}
+
+# Description:
+#	General purpose patch procedure script executor.
+# Parameters:
+#	$1 - patch procedure script
+#	  A valid script can be either prebackout or postbackout
+#	$2 - The patch directory where the backout scirpts live
+
+function execute_patch_procedure_script
+{
+	typeset -r script=$1
+	typeset -r patchdir=$2
+
+	# If a scipt exists but is not executable make it so.
+	# We don't undo the permission change since all patches should be
+	# delivered with a patch procedure script that is executable.
+
+	if [[ ! -x $patchdir/$script ]]; then
+		$CHMOD u+x $patchdir/$script || return $?
+	fi
+
+	/usr/bin/gettext "Executing $script script...\n"
+	$patchdir/$script
+	return $?
+}
+
+#
+# Description:
+#   Check to see if patchadd was interrupted, prompt
+#	usr to reinvoke patchadd. 
+#
+# Globals Set:
+#   RECOVERDIR
+
+function check_file_recovery
+{
+	if [[ -f "$RECOVERDIR/.$PatchNum" ]]
+	then
+		/usr/bin/gettext "The installation of patch $PatchNum was interrupted.\nPatchadd needs to be re-invoked to ensure proper installation of the patch.\n"
+		patch_quit 14
+	fi
+}
+
+#
+# Description:
+#	Execute the postbackout script if it is executable. Fail if the
+#	return code is not 0.
+#
+# Parameters:
+#	$1	- package database directory
+#	$2	- patch number
+# Globals Set:
+#	none
+function execute_postbackout
+{
+	integer retcode=0
+
+	if [ -f $1/$2/postbackout ]
+	then
+		execute_patch_procedure_script "postbackout" "$1/$2" || retcode=$?
+		if (( retcode != 0 )); then
+			/usr/bin/gettext "postbackout script exited with return code $retcode.\nPatchrm exiting.\n\n"
+			patch_quit 10
+		fi
+	fi
+}
+
+# Quit patchrm and clean up any remaining temporary files.
+function patch_quit {   # exit code
+	if [[ $1 -ne 0 ]]
+	then
+		/usr/bin/gettext "\nPatchrm is terminating.\n"
+	else
+		cleanup "$PATCHDB" "$PatchNum" "$SOFTINFO" "$prodver"
+		/usr/bin/gettext "Patch $PatchNum has been backed out.\n\n"
+	fi
+
+
+	if [[ $LOCKF != 0 ]]
+	then
+		$RM -f $lockf
+	fi
+
+	[[ -d ${WORKDIR} ]] && $RM -fr ${WORKDIR}
+
+	exit $1
+}
+
+#
+# Description:
+#	Return the base code of the provided patch. The base code
+#	returned will include the version prefix token (usu "-").
+#
+# Parameters Used:
+#	$1	- patch number
+#
+function get_base_code {
+	ret_value=${1:%[0-9]}
+	last_value=$1
+
+	while [[ $ret_value != $last_value ]]
+	do
+		last_value=$ret_value
+		ret_value=${last_value%[0-9]}
+	done
+
+	cur_base_code=${ret_value%?}
+}
+
+#
+# Description:
+#	Return the version number of the provided patch.
+#
+# Parameters Used:
+#	$1	- patch number
+#	$2	- base code
+#
+function get_vers_no {
+	cur_vers_no=${1:#$2?}
+}
+
+
+# Description:
+#   Find installed Progressive Instance patches and insert them into their
+#	own DB.
+#
+# Parameters:
+#   $1  - package database directory
+#   $2  - patch database directory
+#
+function create_old_patchDB
+{
+	typeset -r pkgdb=$1
+	typeset -r patchdb=$2
+
+	[[ -f "$OLDPATCHDBFILE" ]] && rm -f $OLDPATCHDBFILE
+
+	touch $OLDPATCHDBFILE
+
+	( cd $pkgdb
+
+	# Get the old-style patches and obsoletions
+
+	# This gets old style patches
+	typeset -r patches=$($GREP -l SUNW_PATCHID ./*/pkginfo \
+		2>/dev/null | xargs $SED -n 's/^SUNW_PATCHID=//p' | $SORT -u)
+
+	[[ -z "$patches" ]] && return
+
+	for apatch in $patches
+	do
+		outstr="Patch: $apatch Obsoletes: "
+
+		# Scan all the installed packages for this
+		# patch number and return the effected
+		# package instances
+		patchvers=$($GREP -l "SUNW_PATCHID=$apatch" \
+			./*/pkginfo 2>/dev/null | \
+			$SED 's,^./\(.*\)/pkginfo$,\1,' )
+
+		# If there's a PATCH_INFO entry then this
+		# is really a direct instance patch
+		for package in $patchvers
+		do
+			break;
+		done
+
+		if $GREP -b "PATCH_INFO_$apatch" $package/pkginfo \
+			1>/dev/null 2>&1; then
+			continue
+		fi
+
+		# Get the obsoletes list
+		obsoletes_printed="n"
+		for vers in $patchvers
+		do
+			if [[ "$obsoletes_printed" = "n" ]]
+			then
+				outstr="$outstr$($SED -n 's/SUNW_OBSOLETES=//p' \
+					./$vers/pkginfo) Packages:"
+				outstr="$outstr $vers"
+				obsoletes_printed="y"
+			else
+				outstr="$outstr $vers"
+			fi
+		done
+
+		echo $outstr >> $OLDPATCHDBFILE
+	done
+
+	)
+}
+
+# Description:
+#	Parse the installed pkginfo files for patch information and
+#	create a patch Database that contains the patch and compatibility
+#	information for later processing.
+#
+#	An entry in the Patch DB will look like the following:
+#		Patch: <patchid> Obsoletes: <obsoleted_patches ...>
+#						 Requires: <required_patches ...>
+#						 Incompatibles: <incompatible_patches ...>
+#						 Packages: <patch_packages ...>
+#
+#	$1 - Location of the package database.
+
+function create_patchDB
+{
+	typeset -r pkgdb=$1
+
+	[[ -f "$PATCHDBFILE" ]] && rm -f $PATCHDBFILE
+
+	( cd $pkgdb
+
+	$GREP -h PATCHLIST */pkginfo |
+		$SED -e 's/^PATCHLIST=//' -e 's/^[ ]*//' -e '/^$/d' -e "s/ /\\${NL}/g" |
+		$SORT -u | $SED 's/^/Patch: /' > ${WORKDIR}/pdbTmp.$$
+
+	# $ROOTDIR is a dummy argument in the following GREP command.
+	# If only one package is present containing a pkginfo file, then
+	# "grep" doesn't return full path of pkginfo file.
+	# Hence the need to add a dummy $ROOTDIR argument.
+
+	$GREP PATCH_INFO_ */pkginfo $ROOTDIR |
+		$SED -e 's@:PATCH_INFO_@!@' \
+		-e 's@\/pkginfo@@' \
+		-e 's@=Installed:@!@' \
+		-e 's@=backed out@!@' \
+		-e 's@Obsoletes:@!@' \
+		-e 's@ Requires:@!@' \
+		-e 's@Incompatibles:@!@' |
+		$NAWK 'BEGIN {FS="!"} {print $1 "!" $2 "!" $4 "!" $5 "!" $6 "!" $7}' |
+		$SED -e 's:! !:!!:g' \
+		-e 's: !:!:g' \
+		-e 's:! :!:g' | $SORT -t \! -k 2 |
+		$NAWK -F! '
+		BEGIN {
+			ctr = 0
+		}
+		{ if (ctr == 0) {
+				line=$0
+			patch=$2
+			obs=$3
+			req=$4
+			inc=$5
+			pkg=$1
+			ctr=ctr+1
+			next
+		} else {
+				prevLine=line; line=$0
+			prevPatch=patch; patch=$2
+			prevObs=obs; obs=$3
+			prevReq=req; req=$4
+			prevInc=inc; inc=$5
+			prevPkg=pkg; pkg=$1
+		}
+		if (prevPatch == patch) {
+			pkgs=sprintf("%s %s", pkgs, prevPkg)
+			pkgFlag=1
+			next
+		} else {
+			if ( pkgFlag == 0 ) { pkgs=prevPkg }
+			else {
+				pkgFlag=0
+				pkgs=sprintf("%s %s", pkgs, prevPkg)
+			}
+			printf("Patch: %s Obsoletes: %s Requires: %s Incompatibles: %s Packages: %s\n", prevPatch, prevObs, prevReq, prevInc, pkgs)
+			pkgs=""
+			}
+		}
+		END {
+			if (prevPatch == patch) {
+				pkgs=sprintf("%s %s", pkgs, pkg)
+				printf("Patch: %s Obsoletes: %s Requires: %s Incompatibles: %s Packages: %s\n", patch, obs, req, inc, pkgs)
+			} else {
+				printf("Patch: %s Obsoletes: %s Requires: %s Incompatibles: %s Packages: %s\n", patch, obs, req, inc, pkg)
+			}
+		}' | $FGREP -f ${WORKDIR}/pdbTmp.$$ | \
+			$SED -e 's/  / /' -e 's/	/ /' > $PATCHDBFILE
+	)
+}
+
+# Description:
+#	Export variables that prebackout or postbackout may need.
+
+function exportVars
+{
+	export PatchNum ROOTDIR PATCH_CLIENT_OS PATCH_CLIENT_VERSION \
+		PATCH_CLIENT_REVISION
+}
+
+#
+# Description:
+#	Get the sum of the PATCHID and the PATCHLIST parameters.
+#
+
+function pkginfoParamSum
+{
+	dbSum=$($NAWK '/PATCHID/ {print} /PATCHLIST/ {print}' \
+		$PKGDB/*/pkginfo 2>/dev/null | $SUM | $NAWK '{print $1}')
+}
+
+# Description:
+#	Print out the usage message to the screen
+# Parameters:
+#	none
+
+function print_usage
+{
+cat<<EOF
+
+   Usage: patchrm [-f] [-B backout_dir] [-R <client_root_path> | -S <service>]
+			[-C <net_install_image>] <patch_id>
+
+EOF
+
+}
+
+# Description:
+#	Patch obsolecense message, printed if the patch being backed
+#	out was superceded by other patches 
+# Parameters:
+#	$1	- patch ID
+#	$2	- patch revision number
+#
+function print_obsolete_msg
+{
+	outstr="This patch was obsolesced by patch $1"
+	if [[ "$2" = "none" ]]
+	then
+		outstr="$outstr."
+	else
+		outstr="$outstr-$2."
+	fi
+	/usr/bin/gettext "$outstr\n\nPatches must be backed out in the reverse order in\nwhich they were installed.\n\nPatchrm exiting.\n\n"
+}
+
+# Description:
+#	   Find the appropriate softinfo files for the manager and the target.
+# Parameters:
+#	   $1	  ROOT of target filesystem
+# Globals set:
+#	   TRGSOFTINFO
+#	   MGRSOFTINFO
+# Globals used:
+#	   OLD_SOFTINFO
+#	   NEW_SOFTINFO
+function find_softinfos
+{
+	if [[ "$netImage" = "boot" ]]
+	then
+		return
+	fi
+
+	if [[ -f $NEW_SOFTINFO ]]
+	then
+		MGRSOFTINFO=$NEW_SOFTINFO
+	elif [[ -f $OLD_SOFTINFO ]]
+	then
+		MGRSOFTINFO=$OLD_SOFTINFO
+	fi
+
+	if [[ "$1" = "/" || "$1" = "" ]]
+	then
+		TRGSOFTINFO=MGRSOFTINFO
+	elif [[ -f $1$NEW_SOFTINFO ]]
+	then
+		TRGSOFTINFO=$1$NEW_SOFTINFO
+	elif [[ -f $1$OLD_SOFTINFO ]]
+	then
+		TRGSOFTINFO=$1$OLD_SOFTINFO
+	fi
+}
+
+# Description:
+#   Compare any version string delimited with dots.
+#   I.e: 2.5.1 and 2.10
+#
+# Parameters:
+#   $1 version 1
+#   $2 comparator (-gt, -ge...)
+#   $3 version 2
+#
+# Returns:
+#   0 if comparison is true
+#   1 if not
+
+function compare_version
+{
+	typeset v1 v2 IFS='.' op=$2
+	set -A v1 $1
+	set -A v2 $3
+	typeset -i i=0 diff=0 n=${#v1[*]}
+
+	[[ ${#v2[*]} -gt $n ]] && n=${#v2[*]}
+
+	while [[ $i -lt $n ]]; do
+		[[ $(( diff = ${v1[$i]:-0} - ${v2[$i]:-0} )) -ne 0 ]] && break
+		(( i = i + 1 ))
+	done
+
+	eval "[[ $diff $op 0 ]]" && return 0 || return 1
+}
+
+# Description:
+#   Check the host system for 2.6 existence.
+#
+function check_for_2_6
+{
+	if compare_version $($UNAME -r) -lt "5.6"; then
+		/usr/bin/gettext "WARNING: patchrm must be executed from a 2.6 or later system.\n\n"
+		patch_quit 17
+	fi
+}
+
+# Description:
+#	Parse the arguments and set all affected global variables
+# Parameters:
+#	Arguments to patchrm
+# Globals Set:
+#	force
+#	PatchNum
+#	ROOTDIR
+#	PATCHDB
+#	PKGDB
+#	PKGDBARG
+#	CONTENTS
+# Globals used:
+#	Mgrprodver
+#	MGRSOFTINO
+#	TRGSOFTINFO
+#
+
+function parse_args
+{
+	# Inserted for readability reasons
+	echo ""
+	service_specified="n"
+	rootdir_specified="n"
+	origdir=$(pwd)
+	while [[ "$1" != "" ]]
+	do
+		case $1 in
+		# -G option: remove the patch from the current zone only
+		-G) ZONE_OPTIONS="$ZONE_OPTIONS -G";
+		    shift;;
+
+		-r) RE_MINIROOT_PATCH="yes"
+			shift;;
+		-g)	PKGADD_DEBUG="yes"
+			shift;;
+		-f)	force="yes"
+			shift;;
+
+		-z)	shift
+			ZONE_OPTIONS="$ZONE_OPTIONS -O $1"; 
+			shift;;
+
+		-B)	shift
+			if [[ -d $1 ]]
+			then
+				determine_directory $1
+				if [[ $ret = 0 ]]
+				then
+					PATCH_UNDO_ARCHIVE=$1
+				else
+					PATCH_UNDO_ARCHIVE=$curdir
+				fi
+				DASHB_SUPPLIED="yes"
+				TEMP_PATCH_UNDO_ARCHIVE=$PATCH_UNDO_ARCHIVE
+			else
+				/usr/bin/gettext "Specified backout directory $1 cannot be found.\n"
+				patch_quit 1
+			fi
+			shift;;
+
+		-V) echo "@(#) patchrm.ksh 2.69 06/10/03"
+			exit 0
+			shift;;
+
+		-S)	shift
+			if [[ "$service_specified" != "n" ]]
+			then
+				/usr/bin/gettext "Only one service may be defined.\n"
+				print_usage
+				patch_quit 1
+			elif [[ "$rootdir_specified" != "n" ]]
+			then
+				/usr/bin/gettext "The -S and -R options are mutually exclusive.\n"
+				print_usage
+				patch_quit 1
+			fi
+			find_softinfos /export/$1
+
+			get_OS_version "$TRGSOFTINFO" "$MGRSOFTINFO" "$1"
+
+			# Check for which diskless client revision we are
+			# working with if any, there are two variations.
+			# Version 1 last shipped in Solaris 7 while Version 2
+			# shipped starting Solaris 8 Update 3. The newer version
+			# includes a package called SUNWdclnt that includes the
+			# smos commands required to add a diskless client and
+			# its services.
+
+			pkginfo -q SUNWdclnt
+			typeset -r dclnt_rc=$?
+
+			# Check for Server and Client OS's not being the same
+			# and this being a version 1 style diskless client
+			# server. If so prepend /export to the ROOTDIR if the
+			# OS's are the same then ROOTDIR is set to / further up
+
+			if [[ "$1" != "$Mgrprodver" && $dclnt_rc != 0 ]]
+			then
+				if [ -d "/export/$1$PKGDB" ]
+				then
+					ROOTDIR=/export/$1
+					PATCHDB=$ROOTDIR$PATCHDB
+					PKGDB=$ROOTDIR$PKGDB
+					SOFTINFO=$ROOTDIR$SOFTINFO
+					PKGDBARG="-R $ROOTDIR"
+					CONTENTS=$ROOTDIR$CONTENTS
+					service_specified="y"
+				else
+					/usr/bin/gettext "The $1 service cannot be found on this system.\n"
+					print_usage
+					patch_quit 1
+				fi
+
+			# Check for a version 2 style diskless client if it
+			# is we always want to keep the /export prepended to
+			# ROOTDIR
+
+			elif [ $dclnt_rc == 0 ]
+			then			 
+				if [ -d "/export/$1$PKGDB" ]
+				then 
+					ROOTDIR=/export/$1
+					PATCHDB=$ROOTDIR$PATCHDB
+					PKGDB=$ROOTDIR$PKGDB
+					SOFTINFO=$ROOTDIR$SOFTINFO
+					PKGDBARG="-R $ROOTDIR"
+					CONTENTS=$ROOTDIR$CONTENTS
+					service_specified="y"
+				else	
+					/usr/bin/gettext "The $1 service cannot be found on this system.\n"
+					print_usage							 
+					patch_quit 1							
+				fi	  
+			fi
+
+			if [[ -n "$PATCH_CLIENT_VERSION" ]]; then
+				# Find a Clone based off the OS Service.
+				listOfDCAreas=$($LS -d $CLONEAREA/Solaris_"$PATCH_CLIENT_VERSION/"*)
+			fi
+
+			shift;;
+
+		-R)	shift
+			if [[ "$rootdir_specified" != "n" ]]
+			then
+				/usr/bin/gettext "Only one client may be defined.\n"
+				print_usage
+				patch_quit 1
+			elif [[ "$service_specified" != "n" ]]
+			then
+				/usr/bin/gettext "The -S and -R options are mutually exclusive.\n"
+				print_usage
+				patch_quit 1
+			fi
+			if [[ -d "$1" ]]
+			then
+				determine_directory $1
+			if [[ $ret = 0 ]]
+			then
+				ROOTDIR=$1
+			else
+				ROOTDIR=$curdir
+			fi
+				PATCHDB=$ROOTDIR/var/sadm/patch
+				PKGDB=$ROOTDIR/var/sadm/pkg
+				SOFTINFO=$ROOTDIR$SOFTINFO
+				PKGDBARG="-R $ROOTDIR"
+				CONTENTS=$ROOTDIR$CONTENTS
+				rootdir_specified="y"
+			else
+				/usr/bin/gettext "The $1 directory cannot be found on this system.\n"
+				print_usage
+				patch_quit 1
+			fi
+
+			find_softinfos $ROOTDIR
+			get_OS_version "$TRGSOFTINFO" "$MGRSOFTINFO" "$1"
+
+			if [[ -n "$PATCH_CLIENT_VERSION" ]]; then
+				# Find a Service based off the Clone.
+				listOfDCAreas="/export/Solaris_$PATCH_CLIENT_VERSION"
+			fi
+
+			shift;;
+		-C) shift
+			if [[ "$service_specified" = "y" || "$rootdir_specified" = "y" ]]
+			then 
+				/usr/bin/gettext "The -S, -R and -C arguments are mutually exclusive.\n"
+				print_usage
+				patch_quit 1
+			fi 
+			if [[ -n "$RE_MINIROOT_PATCH" || -d "$1/.tmp_proto" ]]
+			then 
+				determine_directory "$1"
+				if [[ $ret = 0 ]]
+				then
+					ROOTDIR=$1
+				else
+					ROOTDIR=$curdir
+				fi
+				PATCHDB=$ROOTDIR$PATCHDB
+				PKGDB=$ROOTDIR$PKGDB
+				PKGDBARG="-R $ROOTDIR"
+				netImage="boot"
+			else
+				/usr/bin/gettext "The argument to -C\n  $1\ndoes not appear to be a valid Boot directory.\n"
+				print_usage
+				patch_quit 1
+			fi
+			shift;;
+		-l)	shift
+			NON_GLOBAL_ZONE_INSTALL=$1
+			shift;;
+
+		-*)	print_usage
+			patch_quit 1;;
+		 *)	break;;
+		esac
+	done
+
+	PatchNum=$1
+
+	RECOVERDIR=$ROOTDIR/var/sadm/.patchRec
+
+	#
+	# If there is no patch number specified, exit with an error.
+	#
+	if [[ "$PatchNum" = "" ]]
+	then
+		/usr/bin/gettext "No patch number was specified.\n"
+		print_usage
+		patch_quit 1
+	fi
+
+	[[ "$ROOTDIR" = "/" ]] && \
+		DBDIR="$INSTALLDIR" || \
+		DBDIR="$ROOTDIR$INSTALLDIR"
+}
+
+# Description:
+# 	Derive the full path name from a (possibly) relative path name.
+# Parameters:
+#	   $1	  - command line argument
+#
+# Globals Used:
+#	ret
+#	   curdir
+
+function determine_directory
+{
+	$(valpath -a $1)
+	ret=$?
+	if [[ $ret != 0 ]]
+	then
+		cd $1 3>/dev/null
+		if [[ $? = 0 ]]
+		then
+			curdir=$(pwd)
+			cd $origdir
+		else
+			/usr/bin/gettext "Can not determine relative directory.\n"
+			patch_quit 13
+		fi
+	else
+		return
+	fi
+}
+
+# Description:
+#	Make sure the effective UID is '0'
+# Parameters:
+#	none
+function validate_uid
+{
+	typeset -i uid
+	uid=$(id | $SED 's/uid=\([0-9]*\).*/\1/')
+	if (( uid != 0 ))
+	then
+		/usr/bin/gettext "You must be root to execute this script.\n"
+		patch_quit 3
+	fi
+}
+
+# Description:
+#	   Get the product version <name>_<version> of local Solaris installation
+# Parameters:
+#	   $1	  target host softinfo directory path
+#	   $2	  managing host softinfo directory path
+#	   $3	  root of the target host
+# Globals Set:
+#	   prodver
+#
+function get_OS_version
+{
+	# If this a patch to a net install image we don't care about
+	# the managing and target host we know it will be a 2.6 or
+	# beyond OS.
+	if [[ "$netImage" = "boot" ]]
+	then
+		MgrProduct="Solaris"
+		MgrOSVers="2.6"
+		Mgrprodver=$MgrProduct"_"$MgrOSVers
+		TrgOSVers=$MgrOSVers
+		Product=$MgrProduct
+		prodver=$Mgrprodver
+		return
+	fi
+
+	if [[ "$2" != "none" ]]
+	then
+		MgrProduct=$($SED -n 's/^OS=\(.*\)/\1/p' $2)
+		MgrOSVers=$($SED -n 's/^VERSION=\(.*\)/\1/p' $2)
+		Mgrprodver=$MgrProduct"_"$MgrOSVers
+	else
+		MgrProduct="Solaris"
+		MgrOSVers=$($UNAME -r | $SED -n -e 's/5\./2\./p' -e 's/4\./1\./p')
+		Mgrprodver=$MgrProduct"_"$MgrOSVers
+	fi
+
+	if [[ $3 = "/" ]]	   # If there's not a client
+	then
+		Product=$MgrProduct
+		TrgOSVers=$MgrOSVers
+		prodver=$Mgrprodver
+
+	# ROOT is target is "/a", and this is a
+	# non_global_zone_install, we're operating on a scratchzone
+	elif [[ "$3" = "/a" && \
+		"$NON_GLOBAL_ZONE_INSTALL" = "non_global_zone_install" ]]
+	then
+		Product=$MgrProduct
+		TrgOSVers=$MgrOSVers
+		prodver=$Mgrprodver
+
+	# OK, there is a client
+	elif [[ "$1" = "none" && "`/sbin/zonename`" = "global" ]]
+	then
+		# but no softinfo file
+		/usr/bin/gettext "patchrm is unable to find the INST_RELEASE file for the target\nfilesystem.  This file must be present for patchrm to function correctly.\n"
+		patch_quit 11
+	elif [[ "$1" != "none" ]]
+	then
+		Product=$($SED -n 's/^OS=\(.*\)/\1/p' $1)
+		TrgOSVers=$($SED -n 's/^VERSION=\(.*\)/\1/p' $1)
+		prodver=$Product"_"$TrgOSVers
+
+		# ENV variables exported to scripts to enquire about
+		# the state of the client.
+
+		PATCH_CLIENT_OS="$Product"
+		PATCH_CLIENT_VERSION="$TrgOSVers"
+		PATCH_CLIENT_REVISION=$($SED -n 's/^REV=\(.*\)/\1/p' $1)
+	fi
+}
+
+# Description:
+#	Build the admin script for pkgadd
+# Parameters:
+#	none
+# Globals Used:
+#	ADMINFILE
+function build_admin
+{
+	if [[ "$PatchMethod" = "direct" && -f /var/sadm/install/admin/patch ]]
+	then
+		ADMINFILE=/var/sadm/install/admin/patch
+	else
+		cat >$ADMINFILE <<EOF
+mail=
+instance=unique
+partial=nocheck
+runlevel=nocheck
+idepend=quit
+rdepend=quit
+space=quit
+setuid=nocheck
+conflict=nocheck
+action=nocheck
+basedir=default
+EOF
+fi
+}
+
+# Description:
+# 	Restore old versions of files
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+#	$3	- package command relocation argument
+#	$4	- path name of contents file
+#	
+
+function restore_orig_files
+{
+	olddir=
+	file=
+	ownerfound=
+	srch=
+	cfpath=
+	instlist=
+	filelist=
+
+	if [[ ! -f $1/$2/.nofilestosave ]]
+	then
+		/usr/bin/gettext "Restoring previous version of files...\n"
+		if [[ "$PATCH_UNDO_ARCHIVE" != "none" ]]
+		then
+			olddir=$PATCH_UNDO_ARCHIVE
+		else
+			olddir=$(pwd)
+			olddir=$olddir/save
+		fi
+		cd $ROOTDIR
+		# Must retain backwards compatibility to restore
+		# archives which were not stored as files
+		if [[ -f $olddir/archive.cpio ]]
+		then 
+			filelist=$(cat $olddir/archive.cpio | cpio -it 2>/dev/null)
+			cpio -idumv -I $olddir/archive.cpio
+		else 
+			if [[ -f $olddir/archive.cpio.Z ]]
+			then
+				filelist=$(zcat $olddir/archive.cpio.Z | \
+							cpio -it 2>/dev/null)
+				zcat $olddir/archive.cpio.Z | cpio -idumv
+			else
+				filelist=$($FIND . -print | $SED "s/^.//")
+				$FIND  . -print | cpio -pdumv / 
+			fi
+		fi
+		if [[ $? -ne 0 ]]
+		then
+			/usr/bin/gettext "Restore of old files failed.\nSee Install.info file for instructions.\n"
+			$RM -f ${WORKDIR}/*.$$
+			remove_libraries
+			patch_quit 7
+		fi
+		/usr/bin/gettext "Making package database consistent with restored files:\n"
+		$RM -f ${WORKDIR}/fixfile.$$ > /dev/null 2>&1
+		for file in $filelist
+		do
+			if [[ ! -f $file || -h $file ]]
+			then
+				continue
+			fi
+			# if file failed validation when the patch was 
+			# installed, don't do an installf on it.  It should 
+			# continue to fail validation after the patch is 
+			# backed out.
+			file1=$(expr $file : '\(\/.*\)')
+			if [[ "$file1" = "" ]]
+			then
+				file1="/"$file
+			fi
+			srch="^$file1\$"
+			if [[ -f $1/$2/.validation.errors ]] && \
+				grep "$srch" $1/$2/.validation.errors >/dev/null 2>&1
+			then 
+				continue
+			fi
+
+			# The following commands find the file's entry in the
+			# contents file, and return the first field of the 
+			# entry. If the file is a hard link, the first field 
+			# will contain an "=".  This will cause the -f test to 
+			# fail and we won't try to installf the file.
+			srch="^$file1[ =]"
+			cfpath=$(grep "$srch" $CONTENTS | $SED 's/ .*//')
+			if [[ "$cfpath" = "" || ! -f "$ROOTDIR$cfpath" ]]
+			then
+				continue
+			fi
+			ownerfound=no
+			# Parsing pkgchk output is complicated because all text
+			# may be localized. Currently the only line in the 
+			# output which contains a tab is the line of packages 
+			# owning the file, so we search for lines containing a 
+			# tab.  This is probably reasonably safe. If any of the
+			# text lines end up with tabs due to localization, the 
+			# pkginfo check should protect us from calling installf
+			# with a bogus package instance argument.
+			pkgchk $3 -lp $file1 | grep '	' | \
+			while read instlist
+			do
+				for i in $instlist
+				do
+					pkginfo $3 $i >/dev/null 2>&1
+					if [[ $? -eq 0 ]]
+					then
+						echo $i $file1 >> ${WORKDIR}/fixfile.$$
+						ownerfound=yes
+						break
+					fi
+				done
+				if [[ $ownerfound = "yes" ]]
+				then
+					break
+				fi
+			done
+		done
+		if [[ -s ${WORKDIR}/fixfile.$$ ]]
+		then
+			$SED 's/^\([^ ]*\).*/\1/' ${WORKDIR}/fixfile.$$ | $SORT -u | \
+			while read pkginst
+			do
+				grep "^${pkginst} " ${WORKDIR}/fixfile.$$ | \
+				$SED 's/^[^ ]* \(.*\)/\1/' | \
+				if [[ "$ROOTDIR" != "/" ]]
+				then
+					installf $PKGDBARG $pkginst -
+					installf $PKGDBARG -f $pkginst
+				else
+					installf $pkginst -
+					installf -f $pkginst
+				fi
+			done
+		fi
+		cd $olddir
+	fi
+}
+
+## Detect if the generic DB exists.
+
+check_for_sqlDB ()
+{
+	if [[ -a "$DBDIR/$DB" ]]; then
+		$PATCHUTIL gendb_exists -R $ROOTDIR
+		if [[ $? = 0 ]]; then
+			set_sqlDB
+		fi
+	fi
+
+}
+
+## Query the SQL DB for the backout directory for this patch.
+
+get_backout_dir_db ()
+{
+	$PATCHUTIL get_backout_info -R "$ROOTDIR" -p "$PatchNum"
+
+	if (( $? != 0 )); then
+		printf "$(/usr/bin/gettext "Unable to retrieve the backout directory from %s")\n" "$DBDIR/$DB"
+		patch_quit 18  "yes"
+	fi
+}
+
+## Set sqlDB to 1 if the DB exists.
+## Set the ENV variable SQLDB so patch procedure scripts can determine
+## if this patch install is to a SQL DB.
+
+set_sqlDB ()
+{
+	sqlDB=1
+	SQLDB="yes"
+}
+
+## Return 1 if the DB exists; 0 if not.
+
+get_sqlDB ()
+{
+	(( sqlDB == 1 )) && return 0 || return 1
+}
+
+## Get all patch information relavent to install and dependency checking.
+
+get_patch_info_db ()
+{
+	$PATCHUTIL get_patch_info -R $ROOTDIR > $PATCHDBFILE
+
+	return $?
+}
+
+## Delete all patch information from the SQL DB.
+
+del_patch_info_db ()
+{
+
+	$PATCHUTIL del_patch_info -R "$ROOTDIR" -p "$PatchNum"
+
+	return $?
+}
+
+## Prepare the pkgs to pass to the SQL DB and call put_patch_p_info
+## to update the DB.
+
+put_patch_p_info_db ()
+{
+	typeset pkg=$1
+	typeset ret=0
+
+	PatchedPkgsSQL=$(echo $PatchedPkgsSQL | $SED 's/'"$pkg"'//')
+	PatchedPkgsSQL=$(echo $PatchedPkgsSQL)
+
+	if [[ -n "$PatchedPkgsSQL" ]]; then
+		$PATCHUTIL put_patch_p_info -R "$ROOTDIR" -p "$PatchNum" \
+			-P "$PatchedPkgsSQL"
+		ret=$?
+	fi
+
+	return $ret
+}
+
+#
+# Description:
+#	Change directory to location of patch
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+# Globals Set:
+#	PatchBase
+#	PatchVers
+function activate_patch
+{
+	typeset -r patchdir=$1
+	typeset -r patch=$2
+
+	if get_sqlDB; then
+		if ! get_patch_info_db; then
+			printf "$(/usr/bin/gettext "Unable to retrieve patch information from %s")\n" "$DBDIR/$DB"
+			patch_quit 18 "yes"
+		fi
+	else
+		create_patchDB "$PKGDB"
+	fi
+
+	if $GREP -s "Patch:[ 	]*$PatchNum" $PATCHDBFILE >/dev/null; then
+		PatchedPkgs=$($GREP "Patch:[ 	]*$PatchNum" $PATCHDBFILE | \
+		  $NAWK ' {print substr($0, match($0, "Packages:")+10) }')
+
+		for p in $PatchedPkgs; do 
+			pList=""
+			pList=$(pkgparam -f $PKGDB/$p/pkginfo \
+				PATCHLIST 2>/dev/null | $GREP $PatchNum)
+			if [[ -n "$pList" ]]; then
+				diPatch="yes"  
+				break
+			else   
+				diPatch="no"
+			fi
+		done 
+	else
+		create_old_patchDB "$PKGDB" "$PATCHDB"
+		if $GREP -s "Patch:[ 	]*$PatchNum" $OLDPATCHDBFILE >/dev/null; then
+			/usr/bin/gettext "Backing out patch $PatchNum...\n\n"
+		else
+			/usr/bin/gettext "Patch $patch has not been applied to this system.\n"
+			patch_quit 2	
+		fi
+	fi
+
+	# For direct instance patches, this may not be here
+	if [[ -d $patchdir/$patch ]]
+	then
+		cd $patchdir/$patch
+	fi
+
+	#
+	# Get the patch base code (the number up to the version prefix) 
+	# and the patch revision number (the number after the version prefix).
+	#
+	get_base_code $PatchNum
+	PatchBase=$cur_base_code
+	get_vers_no $PatchNum $cur_base_code
+	PatchVers=$cur_vers_no
+}
+
+# Description:
+#	Find the package instances for this patch
+# Parameters:
+#	$1	- package database directory
+#	$2	- patch number
+# Globals Set:
+#	pkginstlist
+
+function get_pkg_instances
+{
+	pkginst=
+	j=
+	for j in $1/*
+	do
+		if grep -s "SUNW_PATCHID *= *$2" $j/pkginfo > /dev/null 2>&1
+		then
+			pkginst=$(basename $j)
+			pkginstlist="$pkginstlist $pkginst"
+		fi
+	done
+}
+
+# Description:
+# 	Check to see if this patch was obsoleted by another patch.
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch ID
+#	$3	- patch revision
+
+function check_if_obsolete
+{
+	if [[ "$diPatch" = "yes" ]]
+	then
+		if [[ "$ObsoletedBy" = "none" ]]
+		then
+			return
+		else
+			print_obsolete_msg "$ObsoletedBy" "none"
+			patch_quit 6
+		fi
+	else
+		Patchid=
+		oldbase=
+		oldrev=
+		opatchid=
+		obase=
+		obsoletes=
+		i=
+		j=
+		if [[ -d $1 ]]
+		then
+			cd $1
+			for i in * X
+			do
+				if [[ $i = X || "$i" = "*" ]]
+				then
+					break
+				elif [[ ! -d $i ]]
+				then
+					continue
+				fi
+				cd $i
+				for j in */pkginfo X
+				do
+					if [[ "$j" = "X" || "$j" = "*/pkginfo" ]]
+					then
+						break
+					fi
+					Patchid=$($SED -n 's/^[ 	]*SUNW_PATCHID[ 	]*=[ 	]*\([^ 	]*\)[	 ]*$/\1/p' $j)
+					if [[ "$Patchid" = "" ]]
+					then
+						continue
+					fi
+					oldbase=${Patchid%-*}
+					oldrev=${Patchid#*-}
+					if [[ $oldbase = $2 && $3 -lt $oldrev ]]
+					then
+						print_obsolete_msg "$2" "$oldrev"
+						patch_quit 6
+					fi
+					obsoletes=$($SED -n 's/^[	 ]*SUNW_OBSOLETES[ 	]*=[ 	]*\([^ 	]*\)[ 	]*$/\1/p' $j)
+					while [ "$obsoletes" != "" ]
+					do
+						opatchid=$(expr $obsoletes : '\([0-9\-]*\).*')
+						obsoletes=$(expr $obsoletes : '[0-9\-]*[ ,]*\(.*\)')
+						# patchrevent infinite loop.  If we couldn't
+						# find a valid patch id, just quit.
+						if [[ "$opatchid" = "" ]]
+						then
+							break;
+						fi
+						obase=$(expr $opatchid : '\(.*\)-.*')
+						if [[ "$obase" = "" ]]
+						then
+							# no revision field in opatchid,
+							# might be supported someday 
+							# (we don't use the revision 
+							# field for obsoletion testing)
+							obase=$opatchid
+						fi
+						if [[ $obase = $2 && $2 != $oldbase ]]
+						then
+							print_obsolete_msg "$Patchid" "none"
+							patch_quit 6
+						fi
+					done
+				done
+				cd $1
+			done
+		fi
+	fi
+}
+
+# Description:
+#	Check to see if originally modified files were saved. If not,
+#	the patch cannot be backed out.
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+
+function check_if_saved
+{
+	if [[ ! -f $1/$2/.oldfilessaved && ! -f $1/$2/.nofilestosave ]]
+	then
+		/usr/bin/gettext "Patch $2 was installed without backing up the original files.\nIt cannot be backed out.\n"
+		patch_quit 4
+	fi
+}
+
+# Description:
+#	Get the list of packages 
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+# Globals Set:
+#	pkglist
+
+function get_package_list
+{
+	pkg=
+	i=
+	cd $1/$2
+	for i in */pkgmap
+	do
+		pkg=`expr $i : '\(.*\)/pkgmap'`
+		pkglist="$pkglist $pkg"
+	done
+}
+
+# Description:
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+#	$3	- softinfo directory
+#	$4	- product version
+# Globals Used:
+#	TMPSOFT
+
+function cleanup
+{
+	$RM -fr ${WORKDIR}
+
+	if [[ -d $1 ]]
+	then
+		cd $1
+		if [[ -f softinfo_sed ]]
+		then
+			$SED -f softinfo_sed $3/$4 > $TMPSOFT
+			$MV $3/$4 $3/sav.$4
+			$CP $TMPSOFT $3/$4
+		fi
+		$RM -fr ./$2/*
+		$RM -fr $2
+
+		if [[ "$PATCH_UNDO_ARCHIVE" != "none" ]]
+		then
+			PATCH_UNDO_ARCHIVE=$(dirname $PATCH_UNDO_ARCHIVE)
+			$RM -fr $PATCH_UNDO_ARCHIVE/$2
+		fi
+	fi
+
+	if [[ "$netImage" = "boot" && -d $ROOTDIR/mnt/root ]]
+	then
+		restore_net_image
+	fi
+}
+
+# Description:
+#	Remove appropriate patch packages from the system 
+#	NOTE: this will not restore the overwritten or removed files, but will
+#		  remove any files which were added by the patch.
+# Parameters:
+#	$1	- patch database directory
+#	$2	- patch number
+#	$3	- packaging command relocation argument 
+# Globals Used:
+#	ADMINFILE
+#	pkginstlist
+
+function remove_patch_pkgs
+{
+	pkgrmerr=
+	i=
+	if [[ "$PATCH_UNDO_ARCHIVE" != "none" ]]
+	then
+		if [[ ! -d $PATCH_UNDO_ARCHIVE ]]
+		then
+			/usr/bin/gettext "The backout data has been moved. Please supply\npatchrm with the new location of the archive.\n"
+			patch_quit 12
+		fi
+	fi
+
+	for i in $pkginstlist
+	do
+		/usr/bin/gettext "\nRemoving patch package for $i:\n"
+		pkgrm $3 $ZONE_OPTIOONS -a $ADMINFILE -n $i>$LOGFILE 2>&1
+		pkgrmerr=$?
+		cat $LOGFILE >>$1/$2/log
+		cat $LOGFILE | grep -v "^$"
+		$RM -f $LOGFILE
+		if [[ $pkgrmerr != 0 && $pkgrmerr != 2 && $pkgrmerr != 10 && $pkgrmerr != 20 ]]
+		then
+			/usr/bin/gettext "pkgrm of $i package failed with return code $pkgrmerr.\nSee $1/$2/log for details.\n"
+			$RM -fr ${WORKDIR}/*.$$
+			remove_libraries
+			patch_quit 5
+		fi
+	done
+}
+
+# Description:
+#	Copy required libraries to TMP_LIB_DIR, set and
+#	export LD_LIBRARY_PATH.
+# Parameters:
+#	none
+# Environment Variables Set:
+#	LD_LIBRARY_PATH
+#
+function move_libraries
+{
+	[[ "$ROOTDIR" != "/" ]]
+		return
+
+	typeset -i Rev
+	Rev=$(uname -r | $SED -e 's/\..*$//')
+	if (( Rev >= 5 ))
+	then
+
+		if [[ ! -d $TMP_LIB_DIR ]]
+		then
+			mkdir -p -m755 $TMP_LIB_DIR
+		fi
+
+		LD_LIBRARY_PATH_OLD=$LD_LIBRARY_PATH
+		LD_LIBRARY_PATH=${TMP_LIB_DIR}
+		for Lib in libc libdl libelf libintl libw libgen libadm
+		do
+			for f in /usr/lib/*/${Lib}.so.1
+			do
+			    tmpdir=`dirname $f`
+			    tmpbase=`basename $tmpdir`
+			    mkdir -p -m755 ${TMP_LIB_DIR}/${tmpbase}
+
+			    $CP $f ${TMP_LIB_DIR}/${tmpbase}/${Lib}.so.1
+			    chown bin ${TMP_LIB_DIR}/${tmpbase}/${Lib}.so.1
+			    chgrp bin ${TMP_LIB_DIR}/${tmpbase}/${Lib}.so.1
+			    chmod 755 ${TMP_LIB_DIR}/${tmpbase}/${Lib}.so.1
+
+			    LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${TMP_LIB_DIR}/${tmpbase}
+			done
+
+
+			if [[ ! -f /usr/lib/${Lib}.so.1 ]]; then
+				continue
+			fi
+
+			$CP /usr/lib/${Lib}.so.1 ${TMP_LIB_DIR}/${Lib}.so.1
+
+			chown bin ${TMP_LIB_DIR}/${Lib}.so.1
+			chgrp bin ${TMP_LIB_DIR}/${Lib}.so.1
+			chmod 755 ${TMP_LIB_DIR}/${Lib}.so.1
+
+		done
+		LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${LD_LIBRARY_PATH_OLD}
+		export LD_LIBRARY_PATH
+	fi
+}
+
+# Description:
+#	remove the TMP_LIB_DIR directory
+# Parameters:
+#	none
+# Environment Variables Set:
+#	LD_LIBRARY_PATH
+#
+function remove_libraries
+{
+	[[ "$ROOTDIR" != "/" ]]
+		return
+
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH_OLD
+	LD_LIBRARY_PATH_OLD=
+	export LD_LIBRARY_PATH
+	$RM -rf $TMP_LIB_DIR
+}
+
+# Description:
+#	unobsolete direct instance patches that this one obsoleted
+# Parameters:
+#	none
+# Environment Variables Used:
+#	ROOTDIR
+#	InstPkgs
+#	PatchNum
+#
+function di_unobsolete
+{
+	cd $ROOTDIR
+	cd var/sadm/pkg
+
+	if get_sqlDB; then
+		return
+	fi
+
+	InstPkgs=$($LS */pkginfo | $NAWK -F/ '{print $1}')
+	for pkg in $InstPkgs; do
+		PATCHLIST=$(pkgparam -R $ROOTDIR $pkg PATCHLIST)
+		for Patchno in $PATCHLIST; do
+			if get_sqlDB; then
+				[[ "$PATCH_UNDO_ARCHIVE" != "none" ]] && \
+				archive_path=$PATCH_UNDO_ARCHIVE || \
+				archive_path=$pkg/save/$Patchno
+			else
+				check_remote_file $pkg $Patchno
+				archive_path=$pkg/save/$Patchno
+			fi
+
+			if [[ -f $archive_path/obsolete || -f $archive_path/obsolete.Z || -f $archive_path/remote ]]
+			then
+				if [[ -f $archive_path/obsoleted_by ]]
+				then
+					egrep -s $PatchNum $archive_path/obsoleted_by
+					if [[ $? -eq 0 ]]
+					then
+						cat $archive_path/obsoleted_by | $NAWK -v patchno=$PatchNum '
+							$0 ~ patchno	{ next; }
+							{ print; } ' > $archive_path/obsoleted_by.new
+
+						if [[ -f $archive_path/remote ]]
+						then
+							restore_remote_state $pkg $Patchno
+						fi
+
+						if [[ -s $archive_path/obsoleted_by.new ]]
+						then
+							$MV $archive_path/obsoleted_by.new $archive_path/obsoleted_by
+						else
+							$RM -f $archive_path/obsoleted_by.new $archive_path/obsoleted_by
+							if [[ -f $archive_path/remote ]]
+							then
+								continue
+							fi
+
+							if [[ -f $archive_path/obsolete ]]
+							then
+								$MV $archive_path/obsolete $archive_path/undo
+							else
+								$MV $archive_path/obsolete.Z $archive_path/undo.Z
+							fi
+						fi
+					fi
+				fi
+			fi
+		done
+	done
+}
+
+# Description:
+#	Load the patch compatibility arrays.
+#
+# Parameters:
+#	$1 - The line from the .patchDB.
+function LoadPtchArrays
+{
+	installedPtch[$insPs]=""
+	installedObs[$insPs]=""
+	installedReq[$insPs]=""
+	installedInc[$insPs]=""
+	installedPkgs[$insPs]=""
+
+	while (( "$#" != "0" ))
+	do
+		case $1 in
+			"Patch:"|"Obsoletes:"|"Requires:"| \
+			"Incompatibles:"|"Packages:" )
+				mode=$1
+				shift;;
+			"Version" )
+				break;;
+			* ) 
+
+			case $mode in
+				"Patch:" )
+					 installedPtch[$insPs]=$1
+					 shift;;
+		 		"Obsoletes:" )
+					 installedObs[$insPs]="${installedObs[$insPs]} $1" 
+					 shift;;  
+		 		"Requires:" )
+					 installedReq[$insPs]="${installedReq[$insPs]} $1"
+					 shift;;  
+		 		"Incompatibles:" )
+					 installedInc[$insPs]="${installedInc[$insPs]} $1"
+					 shift;;  
+		 		"Packages:" )
+					 installedPkgs[$insPs]="${installedPkgs[$insPs]} $1"
+					 shift;;  
+			esac
+		esac
+	done
+}
+
+# Description:
+#   See if compatibilities have been met in a Diskless Clients Service
+#   or Diskless Clients clone area.
+#
+# Parameters:
+#   none
+#
+# Globals:
+#   listOfDCAreas
+#
+# Returns:
+#   0 - Compatibility met in the Service or Root area on a Diskless Client
+#   1 - Compatibility not met
+
+checkServiceRootArea ()
+{
+	DCArea=""
+
+	for DCArea in $listOfDCAreas; do
+		echo "$listOfDCAreas" | $GREP " " > /dev/null
+		if [[ $? = 0 ]]; then
+			# Multiple Diskless areas exist, decrement the list
+			listOfDCAreas="${listOfDCAreas##${DCArea} }"
+		else
+			listOfDCAreas=""
+		fi
+		break
+	done
+
+	[[ -z "$DCArea" ]] && return 1
+
+	if [[ -d "$DCArea/var/sadm/pkg" ]]; then
+		ROOTDIR="$DCArea"
+		DBDIR="$ROOTDIR$INSTALLDIR"
+		PKGDB="$ROOTDIR$STATICPKGDB"
+		PATCHDB="$ROOTDIR$STATICPATCHDB"
+	fi
+
+	create_patchDB "$PKGDB"
+	create_old_patchDB "$PKGDB" "$PATCHDB" "$printpatches"
+
+	if ! check_REQUIRE_OBS; then
+		# Requirement has been found.
+		return 0
+	fi
+
+	return 1
+}
+
+# Description:
+#	Check to see if the patch being backed out has other patches 
+#	installed that require it to be there.
+# Parameters:
+#	none
+# Locals Used
+#	tmp
+#	list
+#	requires
+#	obsPatch
+#	pkg
+# Returns:
+#   1 - The patch can be backed out. No requirements have been found
+#           or the user wants to force the patch to be removed.
+#   exits - Calls appropriate function to exit with an error.
+#
+function check_REQUIRE_OBS
+{
+	set -A installedPtch
+	set -A installedObs
+	set -A installedReq
+	set -A installedInc
+	set -A installedPkgs
+
+	typeset -i ctr=0
+	typeset -i outctr=0
+	typeset -i inctr=0
+	typeset -i obctr=0
+	typeset -i insPs=0
+	typeset -i ptch=0
+	typeset -i outPtch=0
+	typeset -i reqStillMet=0
+
+	requires=
+	list=
+	obsPatch=
+	pkg=
+
+	# If the user doesn't care about the consequences
+	# of not removing required patches first then we
+	# skip this check.
+
+	if [[ "$force" = "yes" ]]
+	then
+		return 1
+	fi
+
+	while read line
+	do
+		LoadPtchArrays $line
+		insPs=insPs+1
+	done < $PATCHDBFILE
+
+	#cd $PKGDB
+
+	obsPatch=""
+
+	while (( ctr < insPs ))
+	do
+		get_base_code ${installedPtch[$ctr]}
+		instBase=$cur_base_code
+
+		get_vers_no ${installedPtch[$ctr]} $instBase
+		instVers=$cur_vers_no
+
+		if [[ "$instBase" = "$PatchBase" ]]
+		then
+
+			# If there are multiple versions installed and
+			# we come across a later revision then
+			# print a message and quit.
+
+			if [[ "$instVers" -gt "$PatchVers" ]]; then
+				print_obsolete_msg "${installedPtch[$ctr]}" "none"
+				patch_quit 6 "yes"
+			fi
+		fi
+
+		ctr=ctr+1
+	done
+
+	ctr=0
+
+	while (( ctr < insPs ))
+	do
+		# We're only concerned about the patch being backed
+		# out. If it obsoletes another patch we need to 
+		# check to see if the patch is required to be 
+		# installed.
+
+		for ob in ${installedObs[$ctr]}
+		do
+			if [[ "$PatchNum" = "$ob" ]]; then
+				print_obsolete_msg "${installedPtch[$ctr]}" "none"
+				patch_quit 6 "yes"
+			fi
+
+			# Only concerned with the patch that
+			# is being backed out.
+
+			if [[ ${installedPtch[$ctr]} != "$PatchNum" ]]
+			then
+				continue
+			fi
+
+			get_base_code $ob
+			obBase=$cur_base_code
+
+			obctr=0
+
+			# We need to check every patch except the patch to
+			# be backed out to see if this patch obsoletes any
+			# patch that requires it to be installed.
+
+			while (( obctr < insPs ))
+			do
+				for req in ${installedReq[$obctr]}
+				do
+					get_base_code $req
+					reqPatchBase=$cur_base_code
+
+					if [[ "$obBase" = "$reqPatchBase" ]]
+					then
+						# If the requirement is still met
+						# with a lower revision of an 
+						# installed patch then continue
+
+						get_vers_no $req $reqPatchBase
+ 						obVers=$cur_vers_no   
+
+						ptch=0
+
+						while (( ptch < insPs ))
+						do
+							# If there is only one patch
+							# in the $req list there 
+							# will be an extra ' ' at the end
+							# of the patch.
+
+						 	get_base_code ${installedPtch[$ptch]}
+							ptBase=$cur_base_code
+							get_vers_no ${installedPtch[$ptch]} \
+								$cur_base_code
+							ptVers=$cur_vers_no
+
+							ptch=ptch+1
+
+							if [[ "$ptBase" != "$obBase" ]]
+							then
+								continue
+							fi
+
+							# If any required patch is
+							# obsoleted by the target patch and a
+							# patch is still installed that meets the
+							# requirement that has a revision greater
+							# than the required patch, then
+							# the target patch can be backed out.
+
+							if [[ "$ptVers" -ge "$obVers" ]]
+							then
+								# requirement still met
+								reqStillMet=1
+								break
+							fi
+						done
+
+						ptch=0
+ 
+						while (( ptch < insPs ))
+						do
+							# Now we need to check to see if any other
+							# patch has obsoleted this required patch.
+							# At this point the patch cannot be backed
+							# out unless another patch has obsoleted the
+							# required patch. This can occur if many
+							# revisions of the kernel patch are installed.
+ 
+							# Make sure were not looking at the patch
+							# that is being backed out.
+
+							if [[ ${installedPtch[$ptch]} != "$PatchNum" ]]
+							then
+								for ob2 in ${installedObs[$ptch]}
+								do
+
+									get_base_code $ob2
+									ob2Base=$cur_base_code
+
+									if [[ "$obBase" = "$ob2Base" ]]
+									then
+										# requirement still met
+										reqStillMet=1
+										break
+									fi
+								done
+							fi
+							ptch=ptch+1
+
+						done
+
+						if (( reqStillMet == 0 ))
+						then
+							if ! print_require_msg ${installedPtch[$obctr]}; then
+									reqStillMet=1
+								break
+							fi
+						fi
+						reqStillMet=0
+					fi
+				done
+				obctr=obctr+1
+			done
+		done
+
+		# Check any installed patch that contains a required
+		# patch in its PATCH_INFO line.
+
+		for req in ${installedReq[$ctr]}
+		do
+			get_base_code $req
+			reqBase=$cur_base_code
+			get_vers_no $req $cur_base_code
+			reqVers=$cur_vers_no
+
+			if [[ "$reqBase" = "$PatchBase" && \
+				"$reqVers" -le "$PatchVers" || -n $obsPatch ]]
+			then
+
+				# We need to check all installed
+				# patches incase a lower rev 
+				# is installed that still meets 
+				# the requirement. (sigh)
+		
+				ptch=0
+						
+				while (( ptch < insPs ))
+				do
+					get_base_code ${installedPtch[$ptch]}
+					pt2Base=$cur_base_code
+					get_vers_no ${installedPtch[$ptch]} \
+						$cur_base_code
+					pt2Vers=$cur_vers_no
+			
+					ptch=ptch+1
+
+					if [[ "$pt2Base" != "$reqBase" ]]
+					then
+						continue
+					fi
+
+					if [[ "$pt2Vers" -ge "$reqVers" && \
+					  "$PatchVers" != "$pt2Vers" ]]
+					then
+						# requirement still met
+						reqStillMet=1
+						break
+					fi
+				done
+
+				if (( reqStillMet == 0 ))
+				then
+					if ! print_require_msg ${installedPtch[$ctr]}; then
+						reqStillMet=1
+						break
+					fi
+				fi
+				reqStillMet=0
+			fi
+		done
+		ctr=ctr+1
+	done
+
+	return 1
+}
+
+# Description:
+#   Patch requires message.
+#   out was superceded by other patches
+# Parameters:
+#   $1  - required patch ID
+# Returns:
+#   1 - if a requirement has been found in a DISKLESS client area.
+#   exit - exits with appropriate compatibility message.
+#
+function print_require_msg
+{
+	if checkServiceRootArea ; then
+		# The requirement has been satisfied.
+		return 1
+	fi
+
+	if [[ -n "$DCArea" && "$ORIG_ROOTDIR" != "$ROOTDIR" ]]; then
+		printf "$(/usr/bin/gettext "Patch %s is required to be installed by patch %s.\nIt cannot be backed out until patch %s is backed out from\n %s.")\n" "$PatchNum" "$1" "$1" "$ROOTDIR"
+	else
+		printf "$(/usr/bin/gettext "Patch %s is required to be installed by patch %s\n. It cannot be backed out until patch %s is backed out.")\n" "$PatchNum" "$1" "$1"
+	fi
+	patch_quit 15
+}
+
+# Description:
+#	Detect if there have been any implicit or explicit obsoletions.
+# Parameters:
+#	none
+# Environment Variable Set:
+#
+function detect_obs
+{
+	cd $ROOTDIR
+	cd var/sadm/pkg
+
+	if get_sqlDB; then
+		if [[ "$DASHB_SUPPLIED" = "no" ]]; then
+			PATCH_UNDO_ARCHIVE=$(get_backout_dir_db)
+			if [[ "$PATCH_UNDO_ARCHIVE" = "default" ]]; then
+				PATCH_UNDO_ARCHIVE="none"
+			fi
+		fi
+
+		if [[ -z "$PATCH_UNDO_ARCHIVE" ]]; then
+			printf "$(/usr/bin/gettext "Patch %s was installed without backing up the original files.\nIt cannot be backed out.")\n" "$PatchNum"
+			patch_quit 4
+		fi
+	else
+
+		#
+		# First scan for the undo and remote files and make sure, none
+		# of them have been obsoleted
+		#
+		for pkg in $PatchedPkgs; do
+			if [[ -f $pkg/pkginfo ]]
+			then
+				# Get the pkg's HOLLOW status.
+				is_hollow=false
+				is_hollow=`$NAWK -F= ' $1 ~ /SUNW_PKG_HOLLOW/ { print $2 } ' $PKGDB/$pkg/pkginfo`
+				if [[ -d $pkg/save/$PatchNum ]]
+				then
+					if [[ -f $pkg/save/$PatchNum/remote ]]
+					then
+					   	check_remote_file $pkg $PatchNum
+						if [[ ! -f $PATCH_UNDO_ARCHIVE/undo && \
+							! -f $PATCH_UNDO_ARCHIVE/undo.Z ]]
+						then
+			   				/usr/bin/gettext "The backout archive has been moved.\nSupply the -B option to back out the patch.\n"
+							patch_quit 12
+						 elif [[ -f $pkg/save/$PatchNum/obsoleted_by ]]
+						 then
+							ObsoletedBy=$(cat $pkg/save/$PatchNum/obsoleted_by)
+							print_obsolete_msg "$ObsoletedBy" "none"
+							patch_quit 6
+						fi
+					else
+						if [[ -f $pkg/save/$PatchNum/obsolete || \
+							-f $pkg/save/$PatchNum/obsolete.Z ]]
+						then
+							ObsoletedBy=$(cat $pkg/save/$PatchNum/obsoleted_by)
+							print_obsolete_msg "$ObsoletedBy" "none"
+							patch_quit 6
+							
+						elif [[ ! -f $pkg/save/$PatchNum/undo && \
+							! -f $pkg/save/$PatchNum/undo.Z ]]
+						then
+							/usr/bin/gettext "Patch $PatchNum was installed without backing up the original files.\nIt cannot be backed out.\n"
+							patch_quit 4 
+						fi
+					fi
+				elif [[  "`/sbin/zonename`" != "global" && \
+					"$is_hollow" = "true" ]]; then
+					# if we're running in a local zone, and
+					# we're removing a hollow package, a
+					# backout package won't exist, hence
+					# we need to just keep going.
+					continue
+				else
+					/usr/bin/gettext "Patch $PatchNum was installed without backing up the original files.\nIt cannot be backed out.\n"
+					patch_quit 4 
+
+				fi
+			else
+				/usr/bin/gettext "Patch $PatchNum was installed without backing up the original files.\nIt cannot be backed out.\n"
+				patch_quit 4 
+			fi
+		done
+	fi
+}
+
+# Description:
+#	If installing a patch in the mini-root invoke pkgadd with the -M option.
+# Parameters:
+#	none
+# Globals Set:
+#	MOPTION
+#
+function check_pkgadd_M_option {
+
+	if compare_version $($UNAME -r) -gt "5.5.1"; then
+		[[ "$ROOTDIR" != "/" ]] && MOPTION="-M"
+	fi
+}
+
+# Description:
+#	Update the pkginfo file to reflect that this patch has been backed out.
+#	This function is used only when removing a HOLLOW package in a
+#	local zone.  For those cases, none of the package scripts get run,
+#	hence the pkginfo file doesn't get updated with the patch information.
+#	So we update it here.
+# Parameters:
+#       $1	- pkginfo file
+# Globals Used:
+#	PatchNum
+# Returns:
+#	1 for success
+#	0 for a failure
+
+function update_pkginfo_patch_meta_data
+{
+
+	typeset -r pkginfofile=$1
+
+	tmppkginfo=${WORKDIR}/uppmdpkginfo.$$
+	tmppkginfo2=${WORKDIR}/uppmdpkginfo.2.$$
+
+	# Get OLDLIST
+	oldpatchlist=`$NAWK -F= ' $1 ~ /PATCHLIST/ { print $2 } ' $pkginfofile`
+	newpatchlist=
+
+	#
+	# Generate new PATCHLIST.
+	#
+	for patchappl in ${oldpatchlist}; do
+		if [[ "$patchappl" != "$PatchNum" ]]; then
+			newpatchlist="${newpatchlist} $patchappl"
+		fi
+	done
+
+	# Remove the old PATCHLIST and PATCH_INFO_<PatchNum> lines from pkginfo file
+	$FGREP -v "PATCHLIST=" $1 > $tmppkginfo
+	$FGREP -v "PATCH_INFO_$PatchNum" $tmppkginfo > $tmppkginfo2
+
+	# Add new PATCHLIST and PATCH_INFO_<PatchNum> lines to pkginfo file
+	echo "PATCHLIST=${newpatchlist}" >> $tmppkginfo2
+	echo "PATCH_INFO_$PatchNum=backed out" >> $tmppkginfo2
+
+	$CP $tmppkginfo2 $pkginfofile || return 0
+	$RM $tmppkginfo > /dev/null 2>&1
+	$RM $tmppkginfo2 > /dev/null 2>&1
+
+	return 1
+}
+
+# Description:
+#	backout a patch applied using direct instance patching
+# Parameters:
+#	none
+# Environment Variable Set:
+#
+function di_backout
+{
+	typeset -i Something_Backedout=0
+	typeset -i exit_code=0
+
+	cd $ROOTDIR
+	cd var/sadm/pkg
+
+	# Make sure the package list is in the reverse order of installation.
+	touch ${WORKDIR}/pkgList.$$
+	for pkg in $PatchedPkgs; do
+		echo $pkg | $NAWK ' {printf("%s\n", $1)}' >> ${WORKDIR}/pkgList.$$
+	done
+
+	PatchedPkgs=$($SORT -r ${WORKDIR}/pkgList.$$)
+	PatchedPkgsSQL=$PatchedPkgs
+	rm -f ${WORKDIR}/pkgList.$$
+
+	for pkg in $PatchedPkgs; do
+		PSPOOL_PKG="$PKGDB/$pkg/save/pspool/$pkg"
+		PSPOOL_PKG_PATCH="$PKGDB/$pkg/save/pspool/$pkg/save/$PatchNum"
+		if ! get_sqlDB; then
+			check_remote_file $pkg $PatchNum
+		fi
+
+		# Figure out where the backout data is.
+		# Need to support obsolete backout packages in case an old
+		# patch procedure script creates an obsolete backout pkg.
+		# The new method is to NOT keep obsolete info on the FS.
+
+		UNDO=""
+		if [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo.Z ]]; then 
+			uncompress $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo.Z \
+					1> $LOGFILE 2>&1
+			UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo"
+		elif [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete.Z ]]; then
+			uncompress $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete.Z \
+					1> $LOGFILE 2>&1
+			UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete"
+		elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/undo.Z ]]; then
+			uncompress $PATCH_UNDO_ARCHIVE/undo.Z 1> $LOGFILE 2>&1
+			UNDO="$PATCH_UNDO_ARCHIVE/undo"
+		elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/obsolete.Z ]]; then
+			uncompress $PATCH_UNDO_ARCHIVE/obsolete.Z 1> $LOGFILE 2>&1
+			UNDO="$PATCH_UNDO_ARCHIVE/obsolete"
+		elif [[ -f $pkg/save/$PatchNum/undo.Z ]]; then
+			uncompress $pkg/save/$PatchNum/undo.Z 1> $LOGFILE 2>&1
+			UNDO="$pkg/save/$PatchNum/undo"
+		elif [[ -f $pkg/save/$PatchNum/obsolete.Z ]]; then
+			uncompress $pkg/save/$PatchNum/obsolete.Z 1> $LOGFILE 2>&1
+			UNDO="$pkg/save/$PatchNum/obsolete"
+		else
+			# Get the pkg's HOLLOW status
+			is_hollow=false
+			is_hollow=`$NAWK -F= ' $1 ~ /SUNW_PKG_HOLLOW/ { print $2 } ' $PKGDB/$pkg/pkginfo`
+			# It may have already been uncompressed so check
+			# for the uncompressed backout package as well.
+			if [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo ]]; then 
+				UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo"
+			elif [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete"
+			elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/undo ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/undo"
+			elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/obsolete ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/obsolete"
+			elif [[ -f $pkg/save/$PatchNum/undo ]]; then
+				UNDO="$pkg/save/$PatchNum/undo"
+			elif [[ -f $pkg/save/$PatchNum/obsolete ]]; then
+				UNDO="$pkg/save/$PatchNum/obsolete"
+			elif [[ "`/sbin/zonename`" != "global" && \
+				"$is_hollow" = "true" ]]; then
+				# if we're running in a local zone, and we're
+				# removing a hollow package, a backout package
+				# won't exist, and hence scripts don't get run.
+				# So we need to update the pkginfo file here
+				# and continue.
+				if [[ -f $PATCHDB/$PatchNum/.no_backout_pkgs_exist ]]; then
+					printf "$(/usr/bin/gettext "Cannot find the backout packages for %s.\n%s cannot be backed out.")\n" "$PatchNum" "$PatchNum"
+					patch_quit 4
+				fi
+				update_pkginfo_patch_meta_data "$PKGDB/$pkg/pkginfo"
+				Something_Backedout=1
+				continue
+			else
+				if [[ "$DASHB_SUPPLIED" = "yes" ]]; then
+					printf "$(/usr/bin/gettext "Cannot find the backout packages for %s at %s. %s cannot be backed out.")\n" "$PatchNum" "PATCH_UNDO_ARCHIVE" "$PatchNum"
+				else
+					printf "$(/usr/bin/gettext "Patch %s was installed without backing up the original files.\nIt cannot be backed out.")\n" "$PatchNum"
+				fi
+				patch_quit 4
+			fi
+		fi
+
+		# Get the prior patch list since the checkinstall script
+		# doesn't have permission to make this enquiry.
+		OLDLIST=$(pkgparam -R $ROOTDIR $pkg PATCHLIST)
+
+		echo SQLDB=\'$SQLDB\' > $RESPONSE_FILE
+		echo OLDLIST=\'$OLDLIST\' >> $RESPONSE_FILE
+
+		if [[ -d "$PSPOOL_PKG" ]]; then
+			pkgtrans $UNDO $WORKDIR all > /dev/null 2>&1
+		fi
+
+		if [[ "$PKGADD_DEBUG" = "yes" ]]; then
+			pkgadd -O "patchPkgRemoval" $ZONE_OPTIONS -v $MOPTION -n -r $RESPONSE_FILE -R $ROOTDIR \
+				-a $ADMINFILE -d $UNDO all
+		else
+			pkgadd -O "patchPkgRemoval" $ZONE_OPTIONS $MOPTION -n -r $RESPONSE_FILE -R $ROOTDIR \
+				-a $ADMINFILE -d $UNDO all \
+				1>> $LOGFILE </dev/null 2>&1
+		fi
+
+		exit_code=$?
+
+		# Check for an apostrphe in the pkginfo file. This is needed
+		# since pkgparam inserts '"'"' for any ' it finds.
+		# This is a workaround for a bug in pkgparam. Pkgparam
+		# is used in the generic preinstall script. 
+
+		$SED s,ApOsTrOpHe,\',g \
+		  $ROOTDIR/var/sadm/pkg/$pkg/pkginfo > ${WORKDIR}/pkginfo.$$
+		rm -f $ROOTDIR/var/sadm/pkg/$pkg/pkginfo 1>/dev/null 2>&1
+		mv ${WORKDIR}/pkginfo.$$ $ROOTDIR/var/sadm/pkg/$pkg/pkginfo \
+		  1>/dev/null 2>&1
+		chmod 644 $ROOTDIR/var/sadm/pkg/$pkg/pkginfo
+		rm -f ${WORKDIR}/pkginfo.$$
+
+		# If it's a suspend (exit code 4), then the
+		# message type is the appropriate patchrm 
+		# exit code and the appropriate message follows.
+		# A suspend means, nothing has been installed.
+		if (( exit_code == 4 ))	# suspend
+		then
+			Message=$(egrep PaTcH_MsG $LOGFILE | $SED s/PaTcH_MsG\ //)
+			if [[ $Message = "" ]]
+			then
+				exit_code=5
+			else
+				Msg_Type=$(echo $Message | $NAWK ' { print $1 } ')
+				Message=$(echo $Message | $SED s/$Msg_Type\ //)
+				/usr/bin/gettext "$Message\n" >> $LOGFILE
+				/usr/bin/gettext "$Message\n"
+				patch_quit $Msg_Type
+			fi
+		fi
+
+		if ((exit_code == 5 ))
+		then	# administration
+			mv $LOGFILE /var/tmp/$PatchNum.log.$$ > /dev/null 2>&1
+			[ $? = 0 ] && \
+				/usr/bin/gettext "\nPkgadd failed. See /var/tmp/$PatchNum.log.$$ for details\n"
+
+			patch_quit 11
+		elif (( exit_code == 10 || exit_code == 20 ))
+		then
+			/usr/bin/gettext "NOTE: After backout the target host will need to be rebooted.\n"
+			RebootRqd="yes"
+
+		elif (( exit_code != 0 ))
+		then
+			mv $LOGFILE /var/tmp/$PatchNum.log.$$ > /dev/null 2>&1
+			[ $? = 0 ] && \
+				/usr/bin/gettext "\nPkgadd failed. See /var/tmp/$PatchNum.log.$$ for details\n"
+			patch_quit 7
+		else
+			if get_sqlDB; then
+				if ! put_patch_p_info_db "$pkg"; then
+					printf "$(/usr/bin/gettext "WARNING: Unable to update %s.")\n" "$DBDIR/$DB"
+				fi
+			fi
+			Something_Backedout=1
+		fi
+
+		# Remove the backout package from the partial spooled save
+		# directory if it exists.
+		if (( Something_Backedout == 1 )); then
+			if [[ -d "$PSPOOL_PKG_PATCH" ]]; then
+				$RM -fr $PSPOOL_PKG_PATCH
+				# Remove the save directory from the
+				# pspool area if it is empty.
+
+				pspoolSaveDir=""
+				pspoolSaveDir=$($LS -i $PSPOOL_PKG/save)
+	
+				if [[ -z "$pspoolSaveDir" ]]; then
+					$RM -fr $PSPOOL_PKG/save
+				fi
+
+			fi
+			update_pkgmap "$PSPOOL_PKG" "$pkg" || patch_quit 21
+		fi
+	done
+
+	if (( Something_Backedout == 1 ))
+	then		
+		di_unobsolete
+		if get_sqlDB; then
+			if ! del_patch_info_db; then
+				printf "$(/usr/bin/gettext "ERROR: Unable to remove %s from %s.")\n" "$PatchNum" "$DBDIR/$DB"
+			fi
+			if [[ "$PATCH_UNDO_ARCHIVE" != "none" ]]; then
+				$RM -fr $PATCH_UNDO_ARCHIVE/*
+			fi
+		else
+			$RM -fr $(dirname $PATCH_UNDO_ARCHIVE)
+		fi
+		remove_PATCH_PROPERTIES "$PatchedPkgs"
+	else
+		/usr/bin/gettext "Patch number $PatchNum backout packages were not found.\n"
+	fi
+}
+
+# Description:
+#   Modify the pkgmap to indicate its new pkgmap attributes.
+#
+# Parameters:
+#   $1 - Location of the pspool directory
+#   $2 - The pkgabbrev being removed.
+#
+# Returns:
+#	0 for success
+#	> 0 for failure
+
+update_pkgmap() {
+    typeset -r pkg=$1
+    # since pkgtrans is creating the package with its orginal packagae name
+    # we need not preserve the extensions .2 .3 etc in the pkginst. eg:SPROcc will be
+    # installed as SPROcc.2 .3 etc if multiple instances are present, but while unarchiving
+    # undo.Z into the work directory it will be created as SPROcc only. SO we need to remove
+    # the extensions.
+
+    typeset -r pkginst=$(echo $2 | $SED 's/\.[2-9]$//')
+    typeset -r backoutpkg=$WORKDIR/$pkginst
+    typeset -r backoutpkgmap=$WORKDIR/$pkginst/pkgmap
+    typeset -r pkginfo_sum=$($SUM $pkg/pkginfo | awk '{print $1}')
+    typeset -r pkginfo_sz=$($WC -c $pkg/pkginfo | awk '{print $1}')
+    typeset -r tmpDir=$WORKDIR/pmap.$$
+    typeset -r prunedpmap=$tmpDir/prunedpmap
+    typeset -r prunedfiles=$tmpDir/prunedfiles
+	typeset -r pruned_deletes=$tmpDir/pruned_deletes
+    typeset -r tmppkgmap=$tmpDir/tmppkgmap
+    typeset -r tmppkgmap2=$tmpDir/tmppkgmap2
+	typeset -r PATTERN_FILE_LIMIT=300
+
+    $MD -p -m 644 $tmpDir || return 0
+
+	[[ ! -f $pkg/pkgmap ]] && return 0
+
+    $NAWK -v pi="$pkginfo_sz" -v pm="$pkginfo_sum" '
+        $3 ~ /pkginfo/ {
+            printf("%s %s %s %s %s %s\n", \
+                $1, $2, $3, pi, pm, $6)
+        }
+        $3 !~ /pkginfo/ {
+            print
+        }' $pkg/pkgmap > $tmppkgmap || return 1
+	$MV -f $tmppkgmap $pkg/pkgmap   || return 1
+        
+        # A package and/or a patch can deliver parametric paths in its
+        # pkgmap. During installation of the patch those parametric paths
+        # are resolved and the pkgmap for the backout pkg contains those
+        # resolved paths. The problem is that the copy of the pkgmap
+        # file in the pspool directory contains the parameter. This means
+        # that patchrm has to restore the unresolved parameters.
+
+        # Check to see if original pkgmap has parametric paths
+        # if so then replace the resolved path with the parametric path
+
+        parametricPath=""
+        parametricPath=$($NAWK '{print $4}' $pkg/pkgmap | \
+                        $GREP '\$[A-Z]' | $CUT -d\/ -f1 | $SORT -u | $SED 's@^\$@@')
+
+        for ppath in $parametricPath; do
+                # Find the parametric paths default value in the pkginfo file.
+                parametricValue=""
+                parametricValue=$(pkgparam -f $pkg/pkginfo $ppath)
+
+                if [[ -n "$parametricValue" ]]; then
+                        $SED 's@'"$parametricValue"'@\$'"$ppath"'@' \
+                                $backoutpkgmap > $tmppkgmap || return 1
+                        $MV -f $tmppkgmap $backoutpkgmap || return 1
+                fi
+        done 
+	# Remove entries listed in a deletes file from the pkgmap in the
+        # pspool directory.
+        if [[ -s "$backoutpkg/install/deletes" ]]; then
+                # If a file is being removed we need to remove the links that
+                # point to it
+                $CAT $backoutpkg/install/deletes | while read line; do
+                        srcFile=$(/usr/bin/basename $line)
+                        echo "="$srcFile"" >> $pruned_deletes
+                        echo " $line " >> $pruned_deletes
+                        echo " $line"="" >> $pruned_deletes
+                done
+                $FGREP -v -f $pruned_deletes $backoutpkgmap > $tmppkgmap || return 1
+	else
+		cp $backoutpkgmap $tmppkgmap
+
+        fi
+	
+	#  Merge the pkgmap with the patch pkg's pkgmap.
+
+    # If no installable objects or a deletes file doesn't exist in the
+    # pkgmap then return 0.
+	$EGREP -v '(^\:|^1 i)' \
+		$tmppkgmap > $prunedpmap
+	if [[ $? != 0 ]]; then
+		$RM -fr $tmpDir
+		$RM -fr $WORKDIR/$pkginst
+		return 0
+	fi
+
+	# This will produce a pattern file consumed by fgrep that will
+	# cause all sym and hard links to be replaced by a regular 
+	# file f|v|e or link l|s. 
+
+	$NAWK '{print $4}' $prunedpmap | \
+		$NAWK -F= ' { 
+			printf(" %s \n", $1) 
+			printf(" %s=\n", $1) 
+		} ' > $prunedfiles || return 1 
+
+	# This will add to the pattern file consumed by fgrep that will 
+	# cause all the regular files to be replaced by another regular file 
+	# or link s|l. 
+
+	$FGREP -v '=' $prunedpmap | \
+		$NAWK ' { 
+			printf(" %s \n", $4) 
+			printf(" %s=\n", $4) 
+		}' >> $prunedfiles || return 1 
+
+	[[ -x /usr/xpg4/bin/fgrep ]] && FGREP=/usr/xpg4/bin/fgrep
+
+	integer linecount=$($WC -l $prunedfiles | $NAWK '{print $1}')
+
+	if (( linecount < PATTERN_FILE_LIMIT )); then
+		$FGREP -v -f $prunedfiles $pkg/pkgmap > $tmppkgmap || return 1
+	else
+
+		# If we are here, the pattern file has too many lines
+
+		typeset -r prefix=$tmpDir/bfgrep
+		$TOUCH $prefix
+		$SPLIT -l$PATTERN_FILE_LIMIT $prunedfiles $prefix   || return 1
+
+		typeset -r tmpoutput=$tmpDir/bggrpv1
+
+		cp $pkg/pkgmap $tmppkgmap || return 1
+
+		typeset small_pattern=""
+		for small_pattern in ${prefix}* ; do
+			if [[ "$small_pattern" = "$prefix" ]]; then
+				# Skip the original file it contains no entries.
+				continue
+			fi
+			$FGREP -v -f $small_pattern $tmppkgmap > $tmpoutput || return 1
+			mv $tmpoutput $tmppkgmap	|| return 1
+		done
+
+	fi
+
+	$CAT $prunedpmap >>  $tmppkgmap
+	$SORT -u -k3,5 $tmppkgmap > $tmppkgmap2 || return 1
+
+	# Make sure the first line of the pkgmap is still the first line
+
+	$GREP '^:' $tmppkgmap2 > $tmppkgmap || return 1
+	$GREP -v '^:' $tmppkgmap2 >> $tmppkgmap || return 1
+        $MV  $tmppkgmap $pkg/pkgmap || return 1
+	$RM -fr $tmpDir
+	$RM -fr $WORKDIR/$pkginst
+
+	return 0
+}
+
+# Description:
+#	If a patch is backed out that contains the PATCH_PROPERTIES macro,
+#	remove it from the restored packages pkginfo file. It doesn't apply to
+#	*installed*	patches/packages.
+
+function remove_PATCH_PROPERTIES
+{
+ 	typeset -r listOfPkgs=$1
+ 
+ 	for pkg in $listOfPkgs; do
+ 		if $GREP "PATCH_PROPERTIES=" ${pkg}/pkginfo > /dev/null; then
+ 			$GREP -v "PATCH_PROPERTIES=" ${pkg}/pkginfo > \
+ 				${WORKDIR}/pkginfo_$$
+ 			$LN ${pkg}/pkginfo ${pkg}/pkginfo_mvd_$$
+ 			$MV ${WORKDIR}/pkginfo_$$ ${pkg}/pkginfo
+ 			$RM -f ${pkg}/pkginfo_mvd_$$
+			$CHMOD 644 ${pkg}/pkginfo
+		fi
+	done
+}
+
+# Description:
+#	   check to see if the backout data is saved remotely
+# Parameters:
+#	   $1	  - package associated with the patch
+#	   $2	  - the patch number
+#
+# Environment Variable Set:
+#
+#	PATCH_UNDO_ARCHIVE
+#	OBS_PATCH_UNDO_ARCHIVE
+
+function check_remote_file
+{
+	if [[ "$diPatch" = "yes" ]]
+	then
+		if [[ ! -f $PKGDB/$1/save/$2/remote ]]
+		then
+			return
+		fi
+
+		if [[ "$DASHB_SUPPLIED" = "yes" ]]
+		then
+			if [[ $2 != "$PatchNum" ]]
+			then
+				OBS_PATCH_UNDO_ARCHIVE=$TEMP_PATCH_UNDO_ARCHIVE/$2/$1			
+			else
+				PATCH_UNDO_ARCHIVE=$TEMP_PATCH_UNDO_ARCHIVE/$2/$1
+			fi
+		elif [[ $2 != "$PatchNum" ]]
+		then
+			OBS_PATCH_UNDO_ARCHIVE=$(grep "FIND_AT" $PKGDB/$1/save/$2/remote | $NAWK -F= '{print $2}')
+			OBS_PATCH_UNDO_ARCHIVE=$(dirname $OBS_PATCH_UNDO_ARCHIVE)
+		else
+			PATCH_UNDO_ARCHIVE=$(grep "FIND_AT" $PKGDB/$1/save/$2/remote | $NAWK -F= '{print $2}')
+			PATCH_UNDO_ARCHIVE=$(dirname $PATCH_UNDO_ARCHIVE)
+		fi
+	# progressive instance logic
+	else
+		if [[ ! -f $PATCHDB/$2/save/remote ]]
+		then
+			return
+		fi
+
+		if [[ "$DASHB_SUPPLIED" = "yes" ]]
+		then
+			PATCH_UNDO_ARCHIVE=$TEMP_PATCH_UNDO_ARCHIVE/$2/archive.cpio
+		else
+			PATCH_UNDO_ARCHIVE=$(grep "FIND_AT" $PATCHDB/$2/save/remote | $NAWK -F= '{print $2}')
+		fi
+		PATCH_UNDO_ARCHIVE=$(dirname $PATCH_UNDO_ARCHIVE)
+	fi
+}
+		
+# Description:
+#	restore the STATE parameter back to the proper
+#	state in the remote file
+# Parameters:
+#	$1 - package associated with the patch
+#	$2 - the patch number
+#
+# Environment Variable Set:
+#
+function restore_remote_state
+{
+	$(grep . $PKGDB/$1/save/$2/remote | $SED 's/STATE=.*/STATE=active/' > $TEMP_REMOTE)
+	$RM -f $PKGDB/$1/save/$2/remote
+	$MV $TEMP_REMOTE $PKGDB/$1/save/$2/remote
+	$RM -f $TEMP_REMOTE
+	chmod 644 $PKGDB/$1/save/$2/remote
+}
+
+# Description:
+#   Call check_remote_file if the remote file is found
+#   for progressive instance patches
+# Parameters:
+#   $1	  - patch database
+#   $2	  - the patch number
+#
+# Globals Set:
+#	none
+
+function set_archive_path
+{
+	if [[ ! -f $1/$2/remote ]]
+	then
+		check_remote_file $1 $2
+	fi
+}
+
+# Description:
+#   Setup the net install boot image to look like an installed system.
+# Parameters:
+#   none
+# Globals Set:
+#   none
+#
+function setup_net_image {
+	if [[ "$netImage" != "boot" ]]
+	then
+		return
+	fi
+
+	# Check to see if there was an interruption that left the loop back
+	# mounts mounted for Net Install Patching.
+
+	if [[ -d $ROOTDIR/mnt/root ]]
+	then
+		restore_net_image
+	fi
+
+	# The .../Boot/.tmp_proto/root needs to be re-mapped to
+	# .../Boot/tmp in order for the boot image to be patched
+	# successfully.
+
+	if [[ -z "$RE_MINIROOT_PATCH" ]]; then
+		$MOUNT -F lofs -O $ROOTDIR/tmp $ROOTDIR/mnt
+		$MOUNT -F lofs -O $ROOTDIR/.tmp_proto $ROOTDIR/tmp
+		$MOUNT -F lofs -O $ROOTDIR/mnt/root/var $ROOTDIR/tmp/root/var
+	fi
+
+	# At this point patchrm thinks the net install image
+	#is just like an installed image.
+}
+
+# Description:
+#	Restore the net image to the way it was before mucking
+#	with it in the setup_net_image function.
+# Parameters:
+#   none
+# Globals Set:
+#   none
+#
+function restore_net_image {
+
+	if [[ "$netImage" != "boot" ]]
+	then
+		return
+	fi
+
+	cd $origdir
+
+	if [[ -z "$RE_MINIROOT_PATCH" ]]; then
+		$UMOUNT $ROOTDIR/tmp/root/var
+		$UMOUNT $ROOTDIR/tmp
+		$UMOUNT $ROOTDIR/mnt
+	fi
+}
+
+# Description:
+#	Set up a safe directory for temporary files
+# Parameters:
+#	none
+#
+function setup_safe_tmp_dir
+{
+	typeset -r extension="${RANDOM}$$"
+	typeset -r safedir=${TMPDIR:-/tmp}/patchrm-${extension}
+
+	if [[ ! -d "$safedir" ]]; then
+		mkdir -m 700 $safedir
+		if [ $? != 0 ]; then
+			/usr/bin/gettext "ERROR: Unable to make temporary directory $safedir\n"
+			patch_quit 16 "yes"
+		fi
+		WORKDIR="$safedir"
+	else
+		/usr/bin/gettext "ERROR: Unable to use $safedir due to possible security issues.\n"
+		patch_quit 16 "yes"
+	fi
+}
+
+# Description:
+#	Define globals
+# Parameters:
+#	none
+#
+function set_globals {
+
+	TMP_LIB_DIR="${WORKDIR}/TmpLibDir.$$"
+	TMPSOFT=${WORKDIR}/soft.$$
+	ADMINFILE=${WORKDIR}/admin.$$
+	LOGFILE=${WORKDIR}/backoutlog.$$
+	RESPONSE_FILE=${WORKDIR}/response.$$
+	TEMP_REMOTE=${WORKDIR}/temp_remote.$$
+	PATCHDBFILE=${WORKDIR}/patchDB.$$
+	OLDPATCHDBFILE=${WORKDIR}/oldpatchDB.$$
+}
+
+# Description:
+# The locking mechanism used here is to prevent two patches or a set of patches
+# from backing out at the same time.It creates a lock file and writes the 
+# process id of a patchrm process.If at the same time another patchrm is started
+# then it checks whether any lock file exists.If so then it reads the pid from
+# the file and checks whether it is running.If yes it will issue a message and
+# exit.It removes the lock file after any user or program interruption.
+
+# Parameters:
+#	None
+#
+function setup_lock
+{
+	if [[ ! -d "$PATCHDB" ]]; then
+		$MD -p -m 754 $PATCHDB
+	fi
+	lockf=$PATCHDB/.patchrmLock
+	if [[ -r $lockf ]]
+	then
+		pid=`cat $lockf`
+		if [ "$$" != "$pid" ]; then
+			$PS -ef | $GREP -v grep | $NAWK -F' ' '{print$2}'| $GREP -w $pid > /dev/null 2>&1
+			if [[ $? -eq 0 ]]
+			then
+				/usr/bin/gettext "Backout of another patch is in progress try after some time.\n"
+			patch_quit 19
+			else
+				echo $$ > $lockf
+				LOCKF=1
+			fi
+		else
+			echo $$ > $lockf
+			LOCKF=1
+		fi
+	else
+		# Since we are writing a pid to a file, to ensure
+		# security, we first create the empty file. Then
+		# restrict it's permissions and then write out the
+		# pid.
+		touch $lockf
+		chmod 600 $lockf
+		echo $$ > $lockf
+		LOCKF=1
+	fi
+	return
+}
+
+# Description:
+#	Calculates the required space to uncompress the undo.Z files
+# Parameters:
+#	none
+#
+function check_uncompress_space {
+	prev_dir=$(pwd)
+	cd $ROOTDIR
+	cd var/sadm/pkg
+
+	bytes_required=0
+	kbytes_required=0
+	uncompress_size=0
+	kbytes=1024
+	for pkg in $PatchedPkgs; do
+		UNDO=""
+		if [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo.Z ]]; then
+			UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		elif [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete.Z ]]; then
+			UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+			-f $PATCH_UNDO_ARCHIVE/undo.Z ]]; then
+			UNDO="$PATCH_UNDO_ARCHIVE/undo.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+			-f $PATCH_UNDO_ARCHIVE/obsolete.Z  ]]; then
+			UNDO="$PATCH_UNDO_ARCHIVE/obsolete.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		elif [[ -f $pkg/save/$PatchNum/undo.Z ]]; then
+			UNDO="$pkg/save/$PatchNum/undo.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		elif [[ -f $pkg/save/$PatchNum/obsolete.Z ]]; then
+			UNDO="$pkg/save/$PatchNum/obsolete.Z"
+			uncompress_size=`$LS -l $UNDO | $NAWK -F' ' '{print$5}'`
+		else
+			# Get the pkg's HOLLOW status
+			is_hollow=false
+			is_hollow=`$NAWK -F= ' $1 ~ /SUNW_PKG_HOLLOW/ { print $2 } ' $PKGDB/$pkg/pkginfo`
+			# It may have already been uncompressed so check
+			# for the uncompressed backout package as well.
+			if [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/undo"
+			elif [[ -f $PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/$PatchNum/$pkg/obsolete"
+			elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/undo ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/undo"
+			elif [[ "$PATCH_UNDO_ARCHIVE" != "none" && \
+				-f $PATCH_UNDO_ARCHIVE/obsolete ]]; then
+				UNDO="$PATCH_UNDO_ARCHIVE/obsolete"
+			elif [[ -f $pkg/save/$PatchNum/undo ]]; then
+				UNDO="$pkg/save/$PatchNum/undo"
+			elif [[ -f $pkg/save/$PatchNum/obsolete ]]; then
+				UNDO="$pkg/save/$PatchNum/obsolete"
+			elif [[ `/sbin/zonename` != "global" && \
+				"$is_hollow" = "true" ]]; then
+				# if we're running in a local zone, and we're
+                                # removing a hollow package, a backout package
+                                # won't exist, hence the size needed is 0.
+				uncompress_size=0
+			else
+				printf "$(/usr/bin/gettext "Cannot find the backout packages for %s.\n%s cannot be backed out.")\n" "$PatchNum" "$PatchNum"
+				patch_quit 4
+			fi
+		fi
+
+		bytes_required=$(($uncompress_size*3+$bytes_required))
+	done
+
+	kbytes_required=`expr $bytes_required / $kbytes`
+	kbytes_avail=$($DF -b `pwd` | tail -1 | $NAWK '{print $2}')
+
+	if (( $kbytes_required > $kbytes_avail ))
+	then
+		/usr/bin/gettext "Insufficient space in /var/sadm/pkg to save old files.\nSpace required in kilobytes:  $kbytes_required\nSpace available in kilobytes: $kbytes_avail\n" 
+		patch_quit 20
+	fi
+	cd $prev_dir
+	return
+}
+
+#########################################################
+#					
+# 			Main routine
+#				
+#########################################################
+
+# -	Parse the argument list and set globals accordingly
+# -	Make sure the user is running as 'root'
+# -	Get the product version <name>_<version> of the local
+#	Solaris installation
+# - 	activate the patch
+
+Cmd=$0
+CmdArgs=$*
+
+validate_uid
+
+setup_safe_tmp_dir
+
+set_globals
+
+parse_args $*
+
+setup_lock
+
+check_for_2_6
+
+find_softinfos $ROOTDIR
+
+get_OS_version $TRGSOFTINFO $MGRSOFTINFO $ROOTDIR
+
+# This detects the SQL DB. Commenting out since it is not supported.
+#check_for_sqlDB
+
+check_file_recovery
+
+setup_net_image
+
+/usr/bin/gettext "Checking installed patches...\n\n"
+
+activate_patch "$PATCHDB" "$PatchNum"
+
+exportVars
+
+if [[ "$diPatch" != "yes" ]]
+then
+	echo $PatchNum | grep $PatchIdFormat >/dev/null
+	if [[ $? -ne 0 ]]
+	then
+		/usr/bin/gettext "Invalid patch id format: $PatchNum\n"
+		patch_quit 8
+	fi
+fi
+
+#
+# Check to see if this patch was obsoleted by another patch
+#
+if [[ "$force" = "no" || "$diPatch" = "yes" ]]
+then
+	check_if_obsolete "$PATCHDB" "$PatchBase" "$PatchVers"
+fi
+
+execute_prebackout "$PATCHDB" "$PatchNum"
+
+# -	Check to see if original files were actually saved
+# -	Generate list of packages to be removed
+# -	Find the package instances for this patch
+# -	Build admin file for later use by pkgrm
+# -	pkgrm patch packages
+# -	Restore the original files which were overwritten by the patch
+# -	Update the prodver file & cleanup
+
+build_admin
+
+# If we're in the mini-root, invoke pkgadd with -M
+# Or if the managing host is 2.6 or later.
+check_pkgadd_M_option
+
+if [[ "$diPatch" = "yes" ]]
+then
+	check_uncompress_space
+	
+	trap 'remove_libraries' HUP INT QUIT TERM
+	move_libraries
+
+	ORIG_ROOTDIR="$ROOTDIR"
+	ORIG_DBDIR="$DBDIR"
+	ORIG_PKGDB="$PKGDB"
+	ORIG_PATCHDB="$PATCHDB"
+
+	check_REQUIRE_OBS
+
+	ROOTDIR="$ORIG_ROOTDIR"
+	DBDIR="$ORIG_DBDIR"
+	PKGDB="$ORIG_PKGDB"
+	PATCHDB="$ORIG_PATCHDB"
+
+	/usr/bin/gettext "Backing out patch $PatchNum...\n\n"
+
+	di_backout
+	$RM -f $RESPONSE_FILE
+
+	remove_libraries
+else
+	set_archive_path "$PATCHDB" "$PatchNum" 
+
+	check_if_saved "$PATCHDB" "$PatchNum"
+
+	get_package_list "$PATCHDB" "$PatchNum"
+
+	get_pkg_instances "$PKGDB" "$PatchNum"
+
+	trap 'remove_libraries' HUP INT QUIT TERM
+	move_libraries
+
+	remove_patch_pkgs "$PATCHDB" "$PatchNum" "$PKGDBARG"
+
+	restore_orig_files "$PATCHDB" "$PatchNum" "$PKGDBARG" "$CONTENTS"
+
+	remove_libraries
+
+fi
+
+execute_postbackout "$PATCHDB" "$PatchNum"
+
+patch_quit 0

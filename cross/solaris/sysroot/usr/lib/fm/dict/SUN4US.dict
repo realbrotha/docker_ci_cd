@@ -1,0 +1,18 @@
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)SUN4US.dict	1.4	04/09/29 SMI"
+
+FMDICT: name=SUN4US version=1 bits=5 maxkey=1
+
+fault.memory.page=1
+fault.memory.dimm=2
+fault.memory.bank=3
+fault.cpu.SPARC64-V.cpu=4
+fault.cpu.SPARC64-V.way=5
+fault.cpu.SPARC64-V.fpu=6
+fault.memory.page.ce=7
+fault.io.pci.bus=8
+fault.io.pci.ecc=9
+fault.io.pci.ecc.ce=10

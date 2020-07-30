@@ -1,0 +1,52 @@
+# @(#)58	1.1  src/gos/2d/XTOP/lib/nls/Xibm/IBM-921, xcfgnls, gos530 1/29/96 12:16:28
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/IBM-921 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1996 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: ils-baltic
+#
+#   FUNCTIONS: none
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1996
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+########################################################################
+#
+#         Locale File: IBM-921
+#
+#  This is definition of locale of 8-bit Baltic Multilingual
+#
+XLC_FONTSET
+# CS0
+ISO8859-1,IBM-850
+# CS1
+UCS2.BASE-0,ISO8859-1
+# CS2
+UCS2.BASE-0,ISO8859-2
+# CS3
+UCS2.BASE-0,ISO8859-4
+# CS4
+UCS2.BASE-0
+END XLC_FONTSET
+#
+# END OF FILE
+#

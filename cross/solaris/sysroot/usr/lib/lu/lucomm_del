@@ -1,0 +1,41 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright 2006 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lucomm_del.sh 5.5     06/06/11 SMI"
+#
+# USAGE:        lucomm_del file
+# FUNCTION:     strips lines containing comments at the beginining, blank lines, and lines
+# 		containing only white space (spaces and/or tabs) from a text file.
+# INPUT:        file
+# OUTPUT:       the output is written to the stdout
+# DEV:          JKJ
+#
+#################################################################################################
+
+usage()
+{
+  [ -n "$1" ] && echo "$1" >&2
+  echo "`gettext 'USAGE: '`""lucomm_del""`gettext '[file]'`" >& 2
+  exit 1
+}
+
+# Because this program is used heavily and its function is so simple
+# it bypasses all of the "standard" live upgrade library and default
+# value loading. It can issue error messages but does so by
+# redirecting echo to stderr.
+
+[ "$#" -gt '1' ] && usage
+
+[ -n "$1" -a -f "$1" -a -r "$1" ] && exec /bin/sed -e '/^[	 ]*$/d' -e '/^#.*/d' < $1
+
+[ -z "$1" ] && exec /bin/sed -e '/^[	 ]*$/d' -e '/^#.*/d'
+
+# file specified but not found or not readable.
+[ ! -f "$1" ] && usage "`gettext 'ERROR: file does not exist or is not an ordinary file: '`$1"
+
+usage "`gettext 'ERROR: file cannot be read: '`$1"
+

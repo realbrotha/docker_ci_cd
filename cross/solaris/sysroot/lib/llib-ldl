@@ -1,0 +1,24 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-ldl	1.5	03/12/04 SMI"
+
+#include <sys/types.h>
+#include <dlfcn.h>
+
+void *	dlopen(const char *, int);
+void *	dlsym(void *_RESTRICT_KYWD, const char *_RESTRICT_KYWD);
+int	dlclose(void *);
+char *	dlerror(void);
+void *	dlmopen(Lmid_t, const char *, int);
+int	dladdr(void *, Dl_info *);
+int	dladdr1(void *, Dl_info *, void **, int);
+int	dldump(const char *, const char *, int);
+int	dlinfo(void *, int, void *);
+void	_ld_concurrency(void *);
+void	_ld_libc(void *);

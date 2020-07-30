@@ -1,0 +1,82 @@
+#
+#ident	"@(#)Text.flash.delete	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Text.flash.delete
+#       Arguments: $ARG1 - archive_id of currently-selected archive
+#############################################################################
+# Text frame asking for confirmation when user selects an archive
+# to delete.  If confirmed, the archive with the passed-in archive id
+# is removed.
+#
+#############################################################################
+
+# temporary scratch file used during deletion.
+`set -l TMPARCHIVELIST=/tmp/archives.tmp.${VPID}`
+
+#############################################################################
+# Text and formatting directives
+#############################################################################
+title=`gettext Remove` `gettext "Flash Archive"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=10
+columns=70
+
+`gettext "Select OK to remove archive $ARG1.  Select CANCEL to keep." | message`
+
+text=`gettext "Are you sure you want to remove this archive?  Select OK to remove, or CANCEL to keep it."`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+# Confirmation.  Here's the actual grep to remove the selected archive
+# from the ARCHIVELIST.
+name=`gettext "OK"`
+button=9
+action=`if [ -f ${ARCHIVELIST} ] ; then
+		fmlgrep -v ${ARG1}'|' ${ARCHIVELIST} > ${TMPARCHIVELIST} ;
+		if [ -s ${TMPARCHIVELIST} ] ; then
+			mv ${TMPARCHIVELIST} ${ARCHIVELIST} ;
+		else
+			rm -f ${TMPARCHIVELIST} ${ARCHIVELIST} ;
+		fi;
+	else
+		open text $OBJ_DIR/Text.err Remove ;
+	fi`close
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

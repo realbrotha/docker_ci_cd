@@ -1,0 +1,311 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_GtikApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/gtik2_applet2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج جتيك"/>
+	<oaf_attribute name="name-az" type="string" value="Gtik Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета Gtik"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на аплета Джитик"/>
+	<oaf_attribute name="name-bn" type="string" value="জিটিক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet Gtik"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro aplet Gtik"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri rhaglennig ticer"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik for børsnoteringspanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="Gtik-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Gtik"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación Marcador de cotizaciones"/>
+	<oaf_attribute name="name-et" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Gtik applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Gtik-sovelman tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet Gtik"/>
+	<oaf_attribute name="name-gu" type="string" value="Gtik એપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון Gtik"/>
+	<oaf_attribute name="name-hi" type="string" value="Gtik अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Gtik tvornica apleta "/>
+	<oaf_attribute name="name-hu" type="string" value="Gtik Applet factory"/>
+	<oaf_attribute name="name-is" type="string" value="Smáforritsverksmiðja Gtik"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet Gtik"/>
+	<oaf_attribute name="name-ja" type="string" value="Gtik アプレットファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="Gtik 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-lv" type="string" value="Gtik Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Gtik аплет Фабрички"/>
+	<oaf_attribute name="name-mn" type="string" value="Gtik апплетийг үндэслэгч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Gtik"/>
+	<oaf_attribute name="name-nl" type="string" value="Gtik Applet Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for panelprogrammet gtik"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for gtik-applet"/>
+	<oaf_attribute name="name-pa" type="string" value="Gtik ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu Gtik"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet Gtick"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo Gtik"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory aplet Gtik"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения Gtik"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Gtik"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka Gtik"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Applet Gtik"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика аплета Гтик"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika apleta Gtik"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet gtik"/>
+	<oaf_attribute name="name-ta" type="string" value="ஜி.டிக் குறும்பயனகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตแสดงราคาหลักทรัพย์"/>
+	<oaf_attribute name="name-tr" type="string" value="Gtik Uygulak Mîmârîsi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплету Gtik"/>
+	<oaf_attribute name="name-vi" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Gtik Applet 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Gtik Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Gtik Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع بريمج جتيك"/>
+	<oaf_attribute name="description-az" type="string" value="Gtik Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета Gtik"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика на аплета Джитик"/>
+	<oaf_attribute name="description-bn" type="string" value="জিটিক অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;applet Gtik"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro aplet Gtik"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri rhaglennig ticer"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for børsnoteringspanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="Gtik-Applet-Fabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Gtik"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de la miniaplicación Marcador de cotizaciones"/>
+	<oaf_attribute name="description-et" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-eu" type="string" value="Gtik applet-aren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Gtik-sovelman tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet Gtik"/>
+	<oaf_attribute name="description-gu" type="string" value="Gtik એપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן יישומון Gtik"/>
+	<oaf_attribute name="description-hi" type="string" value="Gtik अप्लेट फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Gtik tvornica apleta "/>
+	<oaf_attribute name="description-hu" type="string" value="Gtik Applet factory"/>
+	<oaf_attribute name="description-is" type="string" value="Smáforritsverksmiðja Gtik"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet Gtik"/>
+	<oaf_attribute name="description-ja" type="string" value="Gtik アプレットファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="Gtik 애플릿 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-lv" type="string" value="Gtik Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="Gtik аплет Фабрички"/>
+	<oaf_attribute name="description-mn" type="string" value="Gtik апплетийг үндэслэгч"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet Gtik"/>
+	<oaf_attribute name="description-nl" type="string" value="Gtik Applet Fabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for panelprogrammet gtik"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for gtik-applet"/>
+	<oaf_attribute name="description-pa" type="string" value="Gtik ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletu Gtik"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica da Applet Gtick"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo Gtik"/>
+	<oaf_attribute name="description-ro" type="string" value="Factory aplet Gtik"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика окна приложения Gtik"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet Gtik"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna vstavka Gtik"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e Applet Gtik"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика аплета Гтик"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika apleta Gtik"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet gtik"/>
+	<oaf_attribute name="description-ta" type="string" value="ஜி.டிக் குறும்பயனகம்"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตแสดงราคาหลักทรัพย์"/>
+	<oaf_attribute name="description-tr" type="string" value="Gtik Uygulak Mîmârîsi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплету Gtik"/>
+	<oaf_attribute name="description-vi" type="string" value="Gtik Applet Factory"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Gtik Applet 工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Gtik Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Gtik Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GtikApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_GtikApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-ar" type="string" value="مبرقة أسهم البورصة"/>
+	<oaf_attribute name="name-az" type="string" value="Fond Göstəricisi"/>
+	<oaf_attribute name="name-be" type="string" value="Біржэвыя зводкі"/>
+	<oaf_attribute name="name-bg" type="string" value="Аплет за котировки"/>
+	<oaf_attribute name="name-bn" type="string" value="স্টক টিকার"/>
+	<oaf_attribute name="name-ca" type="string" value="Teletip bursàtil"/>
+	<oaf_attribute name="name-cs" type="string" value="Sledování burzy"/>
+	<oaf_attribute name="name-cy" type="string" value="Ticer Stoc"/>
+	<oaf_attribute name="name-da" type="string" value="Børsnoteringer"/>
+	<oaf_attribute name="name-de" type="string" value="Börsenticker"/>
+	<oaf_attribute name="name-el" type="string" value="Τηλέτυπο Χρηματιστηρίου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-es" type="string" value="Marcador de acciones"/>
+	<oaf_attribute name="name-eu" type="string" value="Kotizazio-markagailua"/>
+	<oaf_attribute name="name-fi" type="string" value="Osakekurssisovelma"/>
+	<oaf_attribute name="name-fr" type="string" value="Piocheur de valeurs boursières"/>
+	<oaf_attribute name="name-gu" type="string" value="સ્ટૉક ટીકર"/>
+	<oaf_attribute name="name-he" type="string" value="טיקר מניות"/>
+	<oaf_attribute name="name-hi" type="string" value="स्टाक टिकर"/>
+	<oaf_attribute name="name-hr" type="string" value="Podaci sa tržišta dionica"/>
+	<oaf_attribute name="name-hu" type="string" value="Részvényfigyelő"/>
+	<oaf_attribute name="name-it" type="string" value="Quotazioni di borsa"/>
+	<oaf_attribute name="name-ja" type="string" value="株式相場表示器"/>
+	<oaf_attribute name="name-ko" type="string" value="증권 시세기"/>
+	<oaf_attribute name="name-lt" type="string" value="Akcijų kurso pranešėjas"/>
+	<oaf_attribute name="name-lv" type="string" value="Akciju Ziņotājs"/>
+	<oaf_attribute name="name-mk" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-mn" type="string" value="Үнэт Цаас Мэдээлэгч"/>
+	<oaf_attribute name="name-ms" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-nl" type="string" value="Aandelenticker"/>
+	<oaf_attribute name="name-nn" type="string" value="Aksjetelegraf"/>
+	<oaf_attribute name="name-no" type="string" value="Aksjeovervåker"/>
+	<oaf_attribute name="name-pa" type="string" value="ਸਟਾਕ ਟਿੱਕਰ"/>
+	<oaf_attribute name="name-pl" type="string" value="Wskaźnik giełdowy"/>
+	<oaf_attribute name="name-pt" type="string" value="Ticker de Acções"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Monitor de ações"/>
+	<oaf_attribute name="name-ro" type="string" value="Afişaj bursă"/>
+	<oaf_attribute name="name-ru" type="string" value="Stock Ticker"/>
+	<oaf_attribute name="name-sk" type="string" value="Sledovanie burzy"/>
+	<oaf_attribute name="name-sl" type="string" value="Borzni opazovalec"/>
+	<oaf_attribute name="name-sq" type="string" value="Applet i Aksioneve"/>
+	<oaf_attribute name="name-sr" type="string" value="Праћење берзе"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Praćenje berze"/>
+	<oaf_attribute name="name-sv" type="string" value="Aktieövervakare"/>
+	<oaf_attribute name="name-ta" type="string" value="இருப்பைக் குறிப்பி"/>
+	<oaf_attribute name="name-th" type="string" value="ราคาหลักทรัพย์"/>
+	<oaf_attribute name="name-tr" type="string" value="Borsa Saati"/>
+	<oaf_attribute name="name-uk" type="string" value="Стрічка біржових новин"/>
+	<oaf_attribute name="name-vi" type="string" value="Bộ theo dõi chỉ số chứng khoán"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="股票行情自动收录器"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="股市行情指示器"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="股市行情指示器"/>
+	<oaf_attribute name="description" type="string" value="Get continuously updated stock quotes"/>
+	<oaf_attribute name="description-ar" type="string" value="تحصل على أسعار محدثة باستمرار للأسهم"/>
+	<oaf_attribute name="description-az" type="string" value="Fasiləsiz fond mə&apos;lumatları al"/>
+	<oaf_attribute name="description-be" type="string" value="Атрымлівае біржэвыя зводкі, якія стала абнаўляюцца"/>
+	<oaf_attribute name="description-bg" type="string" value="Изтегляне на актуални борсови котировки"/>
+	<oaf_attribute name="description-bn" type="string" value="সদা পরিবর্তনশীল স্টক ক্যোট পান"/>
+	<oaf_attribute name="description-ca" type="string" value="Obté cotitzacions d&apos;accions actualitzades continuament"/>
+	<oaf_attribute name="description-cs" type="string" value="Získává neustále aktualizované kurzy akcií"/>
+	<oaf_attribute name="description-cy" type="string" value="Cyrchu dyfyniadau stoc cyfredol"/>
+	<oaf_attribute name="description-da" type="string" value="Få løbende opdaterede børsnoteringer"/>
+	<oaf_attribute name="description-de" type="string" value="Ständig aktualisierte Aktienkurse abrufen"/>
+	<oaf_attribute name="description-el" type="string" value="Συνεχής λήψη ενημερωμένων τιμών μετοχών"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Get continuously updated stock quotes"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Get continuously updated stock quotes"/>
+	<oaf_attribute name="description-es" type="string" value="Obtener cotizaciones actualizadas de valores bursátiles"/>
+	<oaf_attribute name="description-eu" type="string" value="Etengabe eguneratzen diren kotizazioak lortu"/>
+	<oaf_attribute name="description-fi" type="string" value="Seuraa osakekursseja"/>
+	<oaf_attribute name="description-fr" type="string" value="Obtenir des cours de bourse continuellement actualisés"/>
+	<oaf_attribute name="description-gu" type="string" value="સતત બદલાતા જથ્થાની માહિતી મેળવો"/>
+	<oaf_attribute name="description-he" type="string" value="קבל עדכונים מתמשכים על מחירי מניות"/>
+	<oaf_attribute name="description-hi" type="string" value="लगातार अद्यतन किए स्टाक कोट्स लें"/>
+	<oaf_attribute name="description-hr" type="string" value="Neprekidno osvježavaj podatke sa burze"/>
+	<oaf_attribute name="description-hu" type="string" value="Értesüljön folyamatosan a részvényárfolyamokról!"/>
+	<oaf_attribute name="description-it" type="string" value="Aggiorna continuamente le quotazioni azionarie"/>
+	<oaf_attribute name="description-ja" type="string" value="株価をリアルタイム表示"/>
+	<oaf_attribute name="description-ko" type="string" value="지속적으로 갱신되는 증권 시세 가져오기"/>
+	<oaf_attribute name="description-lt" type="string" value="Gauti pastoviai atnaujinamas akcijų kainas"/>
+	<oaf_attribute name="description-lv" type="string" value="Esi informēts par jaunākajām akciju cenām"/>
+	<oaf_attribute name="description-mk" type="string" value="Земај континуирано ажурирани stock квоти"/>
+	<oaf_attribute name="description-mn" type="string" value="Тасралтгүй хэсэг хэсгээр нь шинэчлэлт хийх"/>
+	<oaf_attribute name="description-ms" type="string" value="Dapatkan petikan pengemaskinian stok berterusan"/>
+	<oaf_attribute name="description-nl" type="string" value="Verkrijg voortdurend bijgewerkte aandelenkoersen"/>
+	<oaf_attribute name="description-nn" type="string" value="Hent kontinuerleg oppdaterte aksjekursar"/>
+	<oaf_attribute name="description-no" type="string" value="Hent oppdaterte aksjekurser"/>
+	<oaf_attribute name="description-pa" type="string" value="ਸਟਾਕ ਸਾਰਣੀ ਦਾ ਲਗਾਤਾਰ ਨਵੀਨੀਕਰਨ ਕਰਦੇ ਰਹੋ"/>
+	<oaf_attribute name="description-pl" type="string" value="Aktualizowane na bieżąco notowania giełdowe"/>
+	<oaf_attribute name="description-pt" type="string" value="Obtenha cotações de acções constantemente actualizadas"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Obter cotações de ações atualizadas continuamente"/>
+	<oaf_attribute name="description-ro" type="string" value="Primeşte în continuu ultimele valori ale acţiunilor"/>
+	<oaf_attribute name="description-ru" type="string" value="Получает обновленные биржевые сводки"/>
+	<oaf_attribute name="description-sk" type="string" value="Získava neustále aktualizované kurzy akcií"/>
+	<oaf_attribute name="description-sl" type="string" value="Neprestano osvežuj kotiranje delnic"/>
+	<oaf_attribute name="description-sq" type="string" value="Tërhiq vazhdimisht kuotat e freskuara të aksioneve"/>
+	<oaf_attribute name="description-sr" type="string" value="Обезбеђује непрекидно допуњавање података са берзе"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Obezbeđuje neprekidno dopunjavanje podataka sa berze"/>
+	<oaf_attribute name="description-sv" type="string" value="Få kontinuerligt uppdaterade aktiekurser"/>
+	<oaf_attribute name="description-ta" type="string" value="நிலைப்புதிப்பிட்ட இருப்பு பங்குகளை இடையறாது பெறு"/>
+	<oaf_attribute name="description-th" type="string" value="แสดงราคาหลักทรัพย์ปัจจุบัน"/>
+	<oaf_attribute name="description-tr" type="string" value="Sürekli güncellenen borsa bilgilerini al"/>
+	<oaf_attribute name="description-uk" type="string" value="Отримує свіжі біржові курси"/>
+	<oaf_attribute name="description-vi" type="string" value="Cập nhật chỉ số chứng khoán liên tục"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="获取连续更新的股票报价"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="擷取不斷更新的股市行情"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="擷取不斷更新的股市行情"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-money.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-am" type="string" value="አጋዥ ፕሮግራሞች"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="إكسسوارات"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Donatılar"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Зручнасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Аксесоари"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="আনুষঙ্গিক"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Accesoris"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Ategolion"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Βοηθήματα"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Tarvikud"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Gehigarriak"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Apuohjelmat"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Oiriúintí"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="સહાયકો"/>
+	<oaf_attribute name="panel:category-he" type="string" value="עזרים"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="सहायक प्रोग्राम"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Aukahlutir"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="액세서리"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Priemonės"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Aksesuāri"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Aлатки"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="സഹപ്രയോഗങ്ങള്"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Хэрэгслүүд"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Aksesori"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Tillegg"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗੀ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Accesorii"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Príslušenstvo"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomočki"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Açesorët"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Додатне алатке"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Dodatne alatke"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பின்சேர்க்கைகள்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อำนวยความสะดวก"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Donatılar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Стандартні"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Bổ sung"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="gtik"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="gtik2_applet2"/>
+
+</oaf_server>
+
+</oaf_info>

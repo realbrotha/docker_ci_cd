@@ -1,0 +1,47 @@
+#!/unix
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53A src/bos/kernext/exp/aio.exp 1.16 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 1991,1993 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)92	1.16  src/bos/kernext/exp/aio.exp, sysxaio, bos53A, a2004_30A3 7/1/04 13:51:10
+*
+* COMPONENT_NAME: (SYSXAIO) Asynchronous I/O
+*
+* FUNCTIONS: 
+*
+* ORIGINS: 27
+*
+* (C) COPYRIGHT International Business Machines Corp. 1991, 1996
+* All Rights Reserved
+* Licensed Materials - Property of IBM
+*
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*
+kaio_rdwr syscall
+kaio_rdwr64 syscall64
+listio syscall
+listio64 syscall64
+acancel syscall
+acancel64 syscall64
+iosuspend syscall
+iosuspend64 syscall64
+kaio_stats syscall3264
+aio_nwait syscall3264
+aio_nwait64 syscall3264
+aio_nwait_timeout syscall3264
+aio_nwait_timeout64 syscall3264
+aio_cntl syscall
+
+* For debugging - total requests outstanding
+requestcount

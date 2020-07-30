@@ -1,0 +1,14 @@
+.>T
+.=nn"list handle:"16tK
+<T+0t12>f
+(##(*<f&0x00010000))=n"DVMA mapped"ttB
+(##(*<f&0x00020000))="static buffer"ttB
+<T+0=""
++/"block"16t"type"16t"flags"nJXX
++/"used"16t"size"16t"physical Addr"nUUJ
++/"virtual Addr"16tnJ
++/"handle_list_lock"
+.$<<kmutex_t
++/"list"16t"prev"16t"next"nJJJ
++/"private id"16t"private ptr"16tnX4+J
+<T+0t88=""

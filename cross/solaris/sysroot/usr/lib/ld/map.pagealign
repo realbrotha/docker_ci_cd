@@ -1,0 +1,13 @@
+#
+# ident	"@(#)map.pagealign	1.4	02/10/17 SMI"
+#
+# Copyright 1999-2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Linker mapfile to create page aligned data within a SPARC executable.
+# The linker does not use this file automatically, so one must use the -M
+# option to cc or ld:
+#
+#	cc -M /usr/lib/ld/map.pagealign myprogram.c
+#
+data = R0x2000;

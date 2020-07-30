@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libpanel-applet-2
+Description: libpanel-applet-2
+Requires: gtk+-2.0 libgnomeui-2.0 libbonoboui-2.0
+Version: 2.6.1
+Libs: -L${libdir} -lpanel-applet-2
+Cflags: -I${includedir}/panel-2.0

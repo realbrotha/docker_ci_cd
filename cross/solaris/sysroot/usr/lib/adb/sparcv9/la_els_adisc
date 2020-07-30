@@ -1,0 +1,17 @@
+.>w
+<w+0=""
++/"ls_code"
+.$<<ls_code
+<w+0t4=""
++/"hard_addr"
+.$<<hard_addr
+<w+0t8=""
++/"port_wwn"
+.$<<la_wwn
+<w+0t16=""
++/"node_wwn"
+.$<<la_wwn
+<w+0t24=""
++/"nport_id"
+.$<<port_id
+<w+0t28=""

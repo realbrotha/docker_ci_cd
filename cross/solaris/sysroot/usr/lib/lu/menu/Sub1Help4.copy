@@ -1,0 +1,53 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Sub1Help4.copy 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Enter an address to which the copy log should be mailed"`
+
+close=nop
+wrap=true
+altslks=true
+
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+header=" "
+text=`gettext "Enter a valid e-mail address or a comma-separated list of e-mail addresses.  The copy log will be mailed to the entered address(es) when the copy has completed."`
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

@@ -1,0 +1,51 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/contrib/programs/xedit/Xedit.ad 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1996 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! SCCSID_BEGIN_TAG
+! @(#)23  1.1  src/gos/2d/XTOP/contrib/programs/xedit/Xedit.ad, xsample, gos530 10/24/96 15:22:31
+! SCCSID_END_TAG
+*input:					TRUE
+
+*filename*preferredPaneSize:		525
+*editWindow*preferredPaneSize:		500
+
+*labelWindow*justify:			center
+*labelWindow*label:			no file yet
+
+*quit.label:				Quit
+*save.label:				Save
+*load.label:				Load
+
+*buttons*orientation:			horizontal
+*buttons*showGrip:			False
+
+*messageWindow*preferredPaneSize:	50
+*Paned*Text*allowResize:		True
+
+*messageWindow.autoFill:		True
+*messageWindow.scrollVertical:		WhenNeeded
+
+*editWindow.autoFill:			True
+*editWindow.scrollVertical:		WhenNeeded
+
+*bc_label*label:			Use Control-S and Control-R to Search.
+
+!
+! Keep CR in filename window from confusing the user.
+!
+
+*filename.translations: #override \
+				<Key>Return: end-of-line()
+*filename.baseTranslations: #override \
+				<Key>Return: end-of-line()

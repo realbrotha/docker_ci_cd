@@ -1,0 +1,14 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)lu.init 5.3     02/06/10 SMI"
+#
+
+title=`gettext "Live Upgrade for Solaris"`
+text="\n\n\n                  "`gettext "Live Upgrade"`"\n    "`gettext "Copyright (c) 2000-2002 Sun Microsystems, Inc."`"\n               "`gettext "All rights reserved."`"\n"
+slk_layout=4-4
+working=`gettext "Working"`
+name=
+button=7
+toggle=never
+

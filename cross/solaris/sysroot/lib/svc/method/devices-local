@@ -1,0 +1,68 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Copyright (c) 1984, 1986, 1987, 1988, 1989 AT&T.
+# All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T
+# The copyright notice above does not evidence any
+# actual or intended publication of such source code.
+#
+# ident	"@(#)devices-local	1.3	06/07/29 SMI"
+
+# Initiate the device reconfiguration process in case we need some
+# device links established so that we can successfully perform our
+# remaining standard mounts.
+
+if [ `/sbin/zonename` != "global" ]; then
+	exit 0
+fi
+
+. /lib/svc/share/smf_include.sh
+
+svcprop -q -p system/reconfigure system/svc/restarter:default
+if [ $? -eq 0 ]; then
+	echo 'Configuring devices.' > /dev/msglog 2>&1
+	/usr/sbin/devfsadm >/dev/msglog 2>&1
+        if [ -x /usr/ucb/ucblinks -a -f /usr/ucblib/ucblinks.awk ]; then
+                /usr/ucb/ucblinks >/dev/null 2>&1
+        fi
+
+	#
+	# Flush any existing socket mappings since the major numbers of
+	# the device files may have changed.
+	#
+	/usr/bin/awk '/^[^#]/ { print $1, $2, $3 }' /etc/sock2path | \
+		/sbin/soconfig -f /dev/fd/0 >/dev/null 2>&1
+	/sbin/soconfig -f /etc/sock2path >/dev/null 2>&1
+
+	#
+	# Update kernel driver.conf cache.
+	#
+	/usr/sbin/devfsadm -I
+fi
+
+# Establish the default framebuffer name.
+
+fbdev=`/usr/sbin/prtconf -F 2>/dev/null`
+
+if [ $? -eq 0 ]; then
+	set -- /devices$fbdev*
+	if [ -c $1 ]; then
+		rm -f /dev/fb
+		ln -s $1 /dev/fb
+	fi
+fi
+
+# Create any zvol devices
+if [ -x /usr/sbin/zfs ]; then
+	/usr/sbin/zfs volinit || exit $SMF_EXIT_ERR_FATAL
+	#
+	# Add swap again to allow for swapping to zvols.
+	#
+	/sbin/swapadd
+fi
+
+exit 0

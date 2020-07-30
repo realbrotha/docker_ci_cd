@@ -1,0 +1,15 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+camel_providerdir=${libdir}/evolution/1.4/camel-providers
+privlibdir=${libdir}/evolution/1.4
+privincludedir=${includedir}/evolution-1.4
+
+Name: camel
+Description: the Evolution mail library
+Version: 1.4.6.325
+Requires: gal-2.0 >= 1.99.8
+Libs: -L${privlibdir} -lcamel
+Cflags: -I${privincludedir}

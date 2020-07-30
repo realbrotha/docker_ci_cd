@@ -1,0 +1,4 @@
+.="ce MIF register structure"n
+./"bb_clock"18t"bb_data"18t"bb_output_en"nX18tX18tX
++/"frame"18t"config"18t"mask"nX18tX18tX
++/"status"18t"state_mch"nX18tX

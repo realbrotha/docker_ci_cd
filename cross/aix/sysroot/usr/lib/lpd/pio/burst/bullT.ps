@@ -1,0 +1,16 @@
+/LM 20 def
+/ypos 200 def
+/lineheight 12 def
+/cr   { LM ypos moveto } def
+/crlf { ypos lineheight sub
+	/ypos exch def
+	cr } def
+
+0 rotate
+
+
+/Helvetica-Bold findfont 25 scalefont setfont
+.35 setgray 108 700 moveto (%e) show
+/Helvetica-Bold findfont 60 scalefont setfont
+.0 setgray 108 600 moveto (%D) show
+showpage

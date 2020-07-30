@@ -1,0 +1,68 @@
+# @(#)14      1.7  src/bos/usr/ccs/lib/libtrace/libtrcfmt.src, cmdtrace, bos53H, h2006_13A3 3/25/06 16:04:29
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53H src/bos/usr/ccs/lib/libtrace/libtrcfmt.src 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2001,2006 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+# This is a special, stripped down, version of a normal trace format 
+# file, used by libtrace to process a trace object read in raw mode.
+
+003 1.2 L=0 "@TRACE HEADER" W2 \
+        $D1, \
+        1 { \
+		{{ $TC = $TOTALCPUS }} {{ $TRC = $TRACEDCPUS }} \
+		{{ $INITIALTIME = X4 }} \
+		{{ $UTSNAME = M160 }} }, \
+	2 { {{ $CMD = A1024 }} }, \
+	4 { {{ $CONDTRACE = 1 }} }, \
+	5 { {{ $CONDTRACE = 2 }} }, \
+	6 { {{ $BITMAP = M512 }} }
+
+# The .9 second hook is from a timeout in the trace device driver
+#   so that rtc timer synchronization is not lost.
+# The first few formatting lines deal with the special case of handling
+# a 64-bit, raw, multi-cpu trace, trcrpt -rC.  The TRC_LOGVERBATIM option
+# must be used so the 32-bit 00A hook isn't reformatted, so we need
+# to extract the data here.
+# IPADDR is the Internet (129.02.13.99) address of this machine.
+#
+# 25C is the hook used to pass the time base conversion multiplier
+# and divisor to trcrpt so it can correctly calculate the delta and
+# elapsed times.  The multiplier is the first 8 bytes, the divisor
+# the next 8, and a machine type indicator is the third.
+# The type indicator may be RTC_POWER_PC or RTC_IA64
+# For subhook 0x14, reginstall gets the offset of the reghook_t data within the
+# event.
+#
+00A 1.3 @TRACE_UTIL $NOPRINT \
+        $GENERIC, \
+        1  { {{ $mode = $D1 }} }, \
+        \* { {{ $mode = $HD }} } \
+	W2 \
+        $mode, \
+        5 { {{ $IPADDR = $D1 }} }, \
+        6 { {{ $BUFF = $D1 }} }, \
+	7 { cpumap(0) }, \
+	0x25c { timefact(X8, X8, X8) }, \
+        0x10 { {{ $cpuid = X4 }} {{ $strlen = $HL - 4 }} {{$string = $HL%S1}} \
+                install_logfile($cpuid,$string,$strlen) }, \
+        0x12 { {{ $TOTALCPUS = X4 }} {{ $TRACEDCPUS = X4 }} \
+                $REPORTEDCPUS,\
+                0 { {{ $REPORTEDCPUS = $TRACEDCPUS }} } }, \
+	0x13 { {{ $LARGEDATATYPES = 1 }} }, \
+	0x14 { reginstall() }, \ 
+        0x17 { {{ $strlen = $HL }} {{$string = $HL%S1}} \
+                install_componentfile($string,$strlen) }
+

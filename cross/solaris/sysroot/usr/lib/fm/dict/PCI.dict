@@ -1,0 +1,15 @@
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)PCI.dict	1.1	04/10/23 SMI"
+
+FMDICT: name=PCI version=1 maxkey=3
+
+defect.io.pci.driver=0
+fault.io.pci.bus=1
+defect.io.pci.driver fault.io.pci.bus=2
+fault.io.pci.device=3
+defect.io.pci.driver fault.io.pci.device=4
+fault.io.pci.bus fault.io.pci.device=5
+defect.io.pci.driver fault.io.pci.bus fault.io.pci.device=6

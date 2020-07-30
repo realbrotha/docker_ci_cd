@@ -1,0 +1,11 @@
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+/*
+ * Copyright (c) 1999-2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lexacct	1.2	01/10/10 SMI"
+
+#include <exacct.h>
+#include <sys/exacct.h>

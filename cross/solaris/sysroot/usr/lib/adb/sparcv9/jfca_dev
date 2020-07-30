@@ -1,0 +1,18 @@
+.>Z
+<Z+0t8=""
++/"next"16t"prev"16tnJJ
+<Z+0t24>a
+*<a,##(*<a)$<<jfca_modinfo
+<Z+0t32=""
++/"mod_count"16tnU
+<Z+0t40>a
+*<a,##(*<a)$<<jfca_drvreg
+<Z+0t48=""
++/"pkg_size"16t"object_table"16t"object_size"nU4+JU4+
++/"event_table"16t"event_count"16t"prm_table"nJU4+J
++/"prm_count"16t"route_table"16t"route_count"nU20+JU4+
++/"task_table"16t"task_count"16t"heap"nJU4+J
++/"heap_size"16tnU
+<Z+0t164>f
+(##(*<f&0x00000001))="TURBO ON"8tB
+<Z+0t168=""

@@ -1,0 +1,14 @@
+/*
+ * Copyright 1997-2003 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+#pragma ident	"@(#)llib-ladm	1.6	03/08/02 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <sys/types.h>
+#include <sys/vtoc.h>
+#include <devmgmt.h>
+#include "devtab.h"
+#include "libadm.h"

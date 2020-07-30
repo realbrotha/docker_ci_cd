@@ -1,0 +1,211 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_MixerApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/mixer_applet2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Volume Control Applet Factory"/>
+	<oaf_attribute name="description" type="string" value="Factory for volume control applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_MixerApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_MixerApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Volume Control"/>
+	<oaf_attribute name="name-ar" type="string" value="متحكم شدة الصوت"/>
+	<oaf_attribute name="name-az" type="string" value="Səs Səviyyəsi"/>
+	<oaf_attribute name="name-be" type="string" value="Кіраваньне гучнасьцю"/>
+	<oaf_attribute name="name-bg" type="string" value="Сила на звука"/>
+	<oaf_attribute name="name-bn" type="string" value="শব্দের মাত্রা"/>
+	<oaf_attribute name="name-ca" type="string" value="Controlador del volum"/>
+	<oaf_attribute name="name-cs" type="string" value="Ovládání hlasitosti"/>
+	<oaf_attribute name="name-cy" type="string" value="Rheolwr Lefel Sain"/>
+	<oaf_attribute name="name-da" type="string" value="Lydstyrke"/>
+	<oaf_attribute name="name-de" type="string" value="Lautstärkeregelung"/>
+	<oaf_attribute name="name-el" type="string" value="Ελεγκτής Ήχου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Volume Control"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Volume Control"/>
+	<oaf_attribute name="name-es" type="string" value="Control del volumen"/>
+	<oaf_attribute name="name-et" type="string" value="Helitugevuse reguleerija"/>
+	<oaf_attribute name="name-eu" type="string" value="Bolumen-kontrola"/>
+	<oaf_attribute name="name-fi" type="string" value="Äänenvoimakkuuden hallinta"/>
+	<oaf_attribute name="name-fr" type="string" value="Contrôle du volume"/>
+	<oaf_attribute name="name-gl" type="string" value="Control do volume"/>
+	<oaf_attribute name="name-gu" type="string" value="અવાજ નિયંત્રણ"/>
+	<oaf_attribute name="name-he" type="string" value="בקרת עצמה"/>
+	<oaf_attribute name="name-hi" type="string" value="वाल्यूम कन्ट्रोल"/>
+	<oaf_attribute name="name-hr" type="string" value="Upravljanje jačinom zvuka"/>
+	<oaf_attribute name="name-hu" type="string" value="Hangerőszabályozó"/>
+	<oaf_attribute name="name-is" type="string" value="Hljóðstyrkstillir"/>
+	<oaf_attribute name="name-it" type="string" value="Controllo volume"/>
+	<oaf_attribute name="name-ja" type="string" value="ボリュームコントロール"/>
+	<oaf_attribute name="name-ko" type="string" value="볼륨 조절"/>
+	<oaf_attribute name="name-lt" type="string" value="Garso valdymas"/>
+	<oaf_attribute name="name-lv" type="string" value="Skaļuma Kontrole"/>
+	<oaf_attribute name="name-mk" type="string" value="Контрола на гласност"/>
+	<oaf_attribute name="name-ml" type="string" value="ശബ്ദം ക്രമീകാരി"/>
+	<oaf_attribute name="name-mn" type="string" value="Дууны хянагч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kawalan Volume"/>
+	<oaf_attribute name="name-nl" type="string" value="Volumeregeling"/>
+	<oaf_attribute name="name-nn" type="string" value="Volumkontroll"/>
+	<oaf_attribute name="name-no" type="string" value="Volumkontroll"/>
+	<oaf_attribute name="name-pa" type="string" value="ਅਾਵਾਜ਼ ਕੰਟਰੋਲ"/>
+	<oaf_attribute name="name-pl" type="string" value="Sterowanie głośnością"/>
+	<oaf_attribute name="name-pt" type="string" value="Controlo de Volume"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Controle de volume"/>
+	<oaf_attribute name="name-ro" type="string" value="Control volum"/>
+	<oaf_attribute name="name-ru" type="string" value="Управление громкостью"/>
+	<oaf_attribute name="name-sk" type="string" value="Nastavenie hlasitosti"/>
+	<oaf_attribute name="name-sl" type="string" value="Glasnost"/>
+	<oaf_attribute name="name-sq" type="string" value="Kontrolli i Volumit"/>
+	<oaf_attribute name="name-sr" type="string" value="Управљање јачином звука"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Upravljanje jačinom zvuka"/>
+	<oaf_attribute name="name-sv" type="string" value="Volymkontroll"/>
+	<oaf_attribute name="name-ta" type="string" value="ஒலிவளவு கட்டுப்பாடு"/>
+	<oaf_attribute name="name-th" type="string" value="ตัวปรับระดับเสียง"/>
+	<oaf_attribute name="name-tr" type="string" value="Ses Denetimi"/>
+	<oaf_attribute name="name-uk" type="string" value="Регулятор гучності"/>
+	<oaf_attribute name="name-vi" type="string" value="Điều khiển âm lượng"/>
+	<oaf_attribute name="name-wa" type="string" value="Contrôle do volume"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="音量控制"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="音量控制"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="音量控制"/>
+	<oaf_attribute name="description" type="string" value="Adjust the sound volume"/>
+	<oaf_attribute name="description-ar" type="string" value="تكييف شدة الصوت"/>
+	<oaf_attribute name="description-az" type="string" value="Səs səviyyəsini dəyişdir"/>
+	<oaf_attribute name="description-be" type="string" value="Рэгулюе гучнасьць"/>
+	<oaf_attribute name="description-bg" type="string" value="Аплет за промяна силата на звука"/>
+	<oaf_attribute name="description-bn" type="string" value="শব্দের মাত্রা ঠিক করুন"/>
+	<oaf_attribute name="description-ca" type="string" value="Ajusta el volum del so"/>
+	<oaf_attribute name="description-cs" type="string" value="Upravit hlasitost zvuku"/>
+	<oaf_attribute name="description-cy" type="string" value="Addasu lefel uchder y sain"/>
+	<oaf_attribute name="description-da" type="string" value="Justér lydstyrken"/>
+	<oaf_attribute name="description-de" type="string" value="Lautstärke einstellen"/>
+	<oaf_attribute name="description-el" type="string" value="Ρύθμιση της έντασης ήχου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Adjust the sound volume"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Adjust the sound volume"/>
+	<oaf_attribute name="description-es" type="string" value="Ajustar el volumen del sonido"/>
+	<oaf_attribute name="description-et" type="string" value="Reguleeri helitugevust"/>
+	<oaf_attribute name="description-eu" type="string" value="Doitu soinuaren bolumena"/>
+	<oaf_attribute name="description-fi" type="string" value="Säädä äänenvoimakkuutta"/>
+	<oaf_attribute name="description-fr" type="string" value="Ajuster le volume sonore"/>
+	<oaf_attribute name="description-gl" type="string" value="Axustar o volume do son"/>
+	<oaf_attribute name="description-gu" type="string" value="અવાજનું પ્રમાણ ગોઠવો"/>
+	<oaf_attribute name="description-he" type="string" value="כוון את עוצמת הקול"/>
+	<oaf_attribute name="description-hi" type="string" value="ध्वनि व्यवस्थित करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Podesi jačinu zvuka"/>
+	<oaf_attribute name="description-hu" type="string" value="Hangerő állítása"/>
+	<oaf_attribute name="description-is" type="string" value="Stilla hljóðstyrk"/>
+	<oaf_attribute name="description-it" type="string" value="Regola il volume"/>
+	<oaf_attribute name="description-ja" type="string" value="音量調整のアプレット"/>
+	<oaf_attribute name="description-ko" type="string" value="소리 볼륨 조절"/>
+	<oaf_attribute name="description-lt" type="string" value="Reguliuoti garsumą"/>
+	<oaf_attribute name="description-lv" type="string" value="Noregulēt skaņas līmeni"/>
+	<oaf_attribute name="description-mk" type="string" value="Подесување на јачина на звук"/>
+	<oaf_attribute name="description-ml" type="string" value="ശബ്ദം ക്രമീകരിക്കുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Дууны төхөөрөмжийг тохируулах"/>
+	<oaf_attribute name="description-ms" type="string" value="Sesuaikan volum bunyi"/>
+	<oaf_attribute name="description-nl" type="string" value="Geluisdniveau aanpassen"/>
+	<oaf_attribute name="description-nn" type="string" value="Juster lydnivået"/>
+	<oaf_attribute name="description-no" type="string" value="Justering av lydvolum"/>
+	<oaf_attribute name="description-pa" type="string" value="ਧੁਨੀ ਅਾਵਾਜ਼ ਅਨੁਕੂਲਣ"/>
+	<oaf_attribute name="description-pl" type="string" value="Zmiana poziomu głośności"/>
+	<oaf_attribute name="description-pt" type="string" value="Ajustar o volume de som"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Ajustar o volume do som"/>
+	<oaf_attribute name="description-ro" type="string" value="Ajustează volumul sunetului"/>
+	<oaf_attribute name="description-ru" type="string" value="Подстроить громкость"/>
+	<oaf_attribute name="description-sk" type="string" value="Úprava hlasitosti zvuku"/>
+	<oaf_attribute name="description-sl" type="string" value="Prilagodi glasnost"/>
+	<oaf_attribute name="description-sq" type="string" value="Rregullo volumin e zërit"/>
+	<oaf_attribute name="description-sr" type="string" value="Подеси јачину звука"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Podesi jačinu zvuka"/>
+	<oaf_attribute name="description-sv" type="string" value="Justera ljudvolymen"/>
+	<oaf_attribute name="description-ta" type="string" value="ஒலி அளவை மாற்று"/>
+	<oaf_attribute name="description-th" type="string" value="ปรับระดับเสียง"/>
+	<oaf_attribute name="description-tr" type="string" value="Ses yüksekliğini ayarla"/>
+	<oaf_attribute name="description-uk" type="string" value="Регулює гучність звуку"/>
+	<oaf_attribute name="description-vi" type="string" value="Điều chỉnh âm lượng"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="调整音量"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="調校音量"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="調校音量"/>
+	<oaf_attribute name="panel:category" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="وسائط متعددة"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Multimedya"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Мульцімедыя"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Мултимедия"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="মাল্টিমিডিয়া"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Multimèdia"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Multimédia"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Amlgyfrwng"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Πολυμέσα"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Multimeedia"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-fa" type="string" value="چندرسانه‌ای"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Multimédia"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Ílmeánach"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="મલ્ટીમીડીયા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="מולטימדיה"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="मल्टीमिडिया"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Multimedija"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Multimédia"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Margmiðlun"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="マルチメディア"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="멀티미디어"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Garsas ir vaizdas"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Multimedija"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Мултимедија"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ബഹുമാധ്യമം"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Мультимедиа"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਬਹੁਰੰਗ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Multimédia"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Multimídia"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Мультимедиа"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Multimédiá"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Multimedija"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Мултимедија"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Multimedija"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பல் ஊடகம்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="มัลติมีเดีย"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Çoklu Ortam"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Мультимедія"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Đa phương tiện"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Multimedia"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="多媒体"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="多媒體"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="多媒體"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-mixer-applet.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="mixer"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="mixer_applet2"/>
+
+</oaf_server>
+
+</oaf_info>

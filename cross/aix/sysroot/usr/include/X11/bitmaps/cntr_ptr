@@ -1,0 +1,38 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/cntr_ptr 1.2                    */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)71       1.2  src/gos/2d/XTOP/include/bitmaps/cntr_ptr, xlib, gos530 2/11/94 17:51:06 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define cntr_ptr_width 16
+#define cntr_ptr_height 16
+#define cntr_ptr_x_hot 7
+#define cntr_ptr_y_hot 1
+static char cntr_ptr_bits[] = {
+   0x00, 0x00, 0x80, 0x01, 0x80, 0x01, 0xc0, 0x03, 0xc0, 0x03, 0xe0, 0x07,
+   0xe0, 0x07, 0xf0, 0x0f, 0xf0, 0x0f, 0x98, 0x19, 0x88, 0x11, 0x80, 0x01,
+   0x80, 0x01, 0x80, 0x01, 0x80, 0x01, 0x00, 0x00};

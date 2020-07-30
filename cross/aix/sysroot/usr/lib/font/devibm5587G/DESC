@@ -1,0 +1,49 @@
+# @(#)44  1.4  src/cmdtext/usr/bin/ibm5587G/font/DESC, cmdtext, cmdtext530 8/1/93 03:07:37
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm5587G/font/DESC 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991, 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	IBM 5587 with Gothic font cartridge
+fonts 9 R I B BI CW G GI GB GD
+sizes 4 5 8 10 16 20 0
+res 120
+hor 1
+vert 1
+unitwidth 10
+paperwidth 1020
+paperlength 1320
+codeset IBM-932
+charset
+\| \^ \& \` \' \- hy em
+*a *b *g *d *e *z *y *h *i *k *l *m *n *c *o *p *r *s *t *u *f *x *q *w ts
+*A *B *G *D *E *Z *Y *H *I *K *L *M *N *C *O *P *R *S *T *U *F *X *Q *W
+!= ** +- -> <- <= == >=
+aa ap br bt bu bv bx ca ci ct cu da dd de dg di eq es fa fm
+ga gr ib if io ip is la lb lc lf lh lk lo lt mi mo mu no or
+pd pl pm pp ps pt rb rc rf rh rk rn rt ru sb sc sl sp sq sr
+te tf ua ul yn
+X1 X2

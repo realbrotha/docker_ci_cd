@@ -1,0 +1,10 @@
+.>t
+<t+0=""
++/"version"16t"lip_count"16t"ncmds"nXXX
+<t+0t12/n"Adapter_Rev_Level"n4xn16c
+<t+0t36/n""
+0t256>e
+<t+0t36/n"device statistics"
++/n"logouts recvd"2t"task mgmt failures"2t"ro mismatches"2t"len mismatches"
++$<<qlc_device_stat
+<t+0t4132=""

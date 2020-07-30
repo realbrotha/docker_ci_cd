@@ -1,0 +1,284 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Menu.lu 5.3     02/01/11 SMI"
+#
+
+#Main menu for Live Upgrade. This menu needs to be integrated in to OAM/OSA.
+#All the fields in this menu are in alphabetical order.
+
+menu=`gettext "Live Upgrade"`
+nrow=1
+rows=14
+HELP=open text $OBJ_DIR/$LININFO
+#reread=true
+altslks=true
+framemsg=`gettext "Move to an item with the arrow keys and strike ENTER to select."`
+
+#Field 1: Activate.
+################################################################################
+#Activate is a Form. Choices should show all complete BEs.
+#Activate field should not be shown in main menu, if lutab file doesn't exist.
+#Activate operation is not applicable if there is a copy lock.
+
+name=`gettext "Activate"`
+description=`gettext "Activate a Boot Environment"`
+lininfo=MainHelp.activate   
+action=`if [ -f $COPYLOCK ];
+	then
+	set -l CMD="open text $OBJ_DIR/Text.lockerr Activate";
+	else
+	message -w; 
+	$LUBIN/lunames_list -c >/tmp/choice.${VPID};
+	if [ -s /tmp/choice.${VPID} ];
+	then 
+	set -l CMD="OPEN FORM $OBJ_DIR/Form.activate /tmp/choice.${VPID}";
+	else 
+	gettext "There are no valid BEs available for Activate operation" | message ;
+	set -l CMD="nop";
+	fi;
+	fi;`$CMD
+
+
+#Field 2: Cancel
+################################################################################
+#Cancel is just a menu task.
+name=`gettext "Cancel"`
+lininfo=MainHelp.cancel
+description=`gettext "Cancel a Copy Job"`
+action=`message -w;
+	if [ ! -f $COPYLOCK ];
+	then
+        	gettext "No copy job is pending, cannot cancel." | message ;
+        	set -l CMD=nop;
+        else
+	fmlgrep -c 'CL_STATUS="SCHEDULED"' $COPYLOCK | set -l ret;
+	if [ $ret -eq 1 ];
+	then
+       		set -l CMD="open form $OBJ_DIR/Form.cancel";
+	else
+		gettext "No copy job in scheduled state." | message ;
+		set -l CMD=nop;
+	fi;
+        fi;`$CMD
+
+
+#Field 3: Compare
+################################################################################
+#Compare is a Form. Choices should show all inactive & complete BEs.
+#Compare Field should not be shown in Main Menu when there is no lutab file.
+
+name=`gettext "Compare"`
+description=`gettext "Compare the contents of Boot Environments"`
+lininfo=MainHelp.compare
+action=`
+message -w; 
+$LUBIN/lunames_list -A >/tmp/choice.${VPID};
+if [ -s /tmp/choice.${VPID} ];
+then
+set -l CMD="OPEN MENU $OBJ_DIR/Menu.compare";
+else
+gettext "There are no valid BEs available for this operation" | message ;
+set -l CMD="nop";
+fi;`$CMD
+
+#Field 4: Copy
+################################################################################
+#Copy is a Form. The choices will show all inactive BEs.
+#Copy operation is not applicable if COPY_LOCK exists.
+
+name=`gettext "Copy"`
+lininfo=MainHelp.copy 
+description=`gettext "Start/Schedule a Copy"`
+action=`
+message -w;
+$LUBIN/lunames_list -A >/tmp/choice.${VPID};
+if [ ! -f $COPYLOCK ];
+then
+	if [ -s /tmp/choice.${VPID} ];
+	then
+	set -l CMD="open form $OBJ_DIR/Form.copy /tmp/choice.${VPID}";
+	else
+        gettext "There are no valid BEs available for Copy operation" | message ;
+        set -l CMD="nop";
+	fi;
+else
+	set -l CMD="open text $OBJ_DIR/Text.lockerr Copy";
+fi;`$CMD
+
+#Field 5: Create
+################################################################################
+#Create is a Form. There are no choices for this form.
+#Create operation is not applicable if COPY_LOCK exists.
+
+name=`gettext "Create"`
+description=`gettext "Create a Boot Environment"`
+lininfo=MainHelp.create 
+
+#If a COPY Job is pending, then display the error to user.
+action=`if [ -f $COPYLOCK ];
+	then
+	set -l CMD="open text $OBJ_DIR/Text.lockerr Create";
+	else
+	set -l CMD="open form $OBJ_DIR/Form.create";
+	fi;`$CMD
+
+
+#Field 6: Current
+###############################################################################
+#Display the name of the current Boot Environment. There is no form. A 
+#text frame indicates the name of the current Boot Environment.
+
+name=`gettext "Current"`
+lininfo=MainHelp.current 
+description=`gettext "Name of Current Boot Environment"`
+action=`message -w;
+if [ -s /etc/lutab ];
+then
+set -l CMD="open text $OBJ_DIR/Text.current";
+else
+gettext "There are no valid BEs available for this operation" | message ;
+set -l CMD="nop";
+fi;
+`$CMD
+
+#Field 7: Delete
+################################################################################
+#Delete is a Form. Choices should show all inactive and non-activated BEs.
+#Delete field will not be shown in main menu if there is no lutab file.
+
+name=`gettext "Delete"`
+description=`gettext "Delete a Boot Environment"`
+lininfo=MainHelp.delete
+action=`
+message -w; 
+$LUBIN/lunames_list -d >/tmp/choice.${VPID};
+if [ -s /tmp/choice.${VPID} ];
+then 
+ set -l CMD="OPEN FORM $OBJ_DIR/Form.delete /tmp/choice.${VPID}";
+else 
+	gettext "There are no valid BEs available for Delete operation" | message ;
+	set -l CMD="nop";
+fi;`$CMD
+
+#Field 8: List
+################################################################################
+#List is a Form. Choices should show all BEs.
+#List field should not be shown in main menu if there is no lutab file.
+
+name=`gettext "List"`
+description=`gettext "List the filesystems of a Boot Environment"`
+lininfo=MainHelp.list
+action=`
+if [ -s /etc/lutab ];
+then
+set -l CMD="open form $OBJ_DIR/Form.list";
+else
+gettext "There are no valid BEs available for this operation" | message ;
+set -l CMD="nop";
+fi;`$CMD
+
+#Field 9: Rename
+################################################################################
+#Rename is a Form. Choices should show all BEs.
+#Rename field should not be shown in main menu if there is no lutab file.
+#Rename operation is not applicable if a COPY_LOCK exists.
+
+name=`gettext "Rename"`
+description=`gettext "Change the name of a Boot Environment"`
+lininfo=MainHelp.rename
+action=`if [ -f $COPYLOCK ];
+	then
+	set -l CMD="open text $OBJ_DIR/Text.lockerr Rename";
+	else
+	message -w;
+	$LUBIN/lunames_get > /tmp/choice.${VPID};
+	if [ -s /tmp/choice.${VPID} ];
+	then
+	set -l CMD="open form $OBJ_DIR/Form.rename /tmp/choice.${VPID}";
+	else
+	gettext "There are no valid BEs available for this operation" | message ;
+	set -l CMD="nop";
+	fi;
+	fi;`$CMD
+
+
+#Field 10: Status.
+################################################################################
+#Status is a Text. The status of all BEs should be displayed.
+#Status field will not be shown in main menu if there is no lutab file.
+
+name=`gettext "Status"`
+description=`gettext "List the status of all Boot Environments"`
+lininfo=MainHelp.status
+action=`
+if [ -s /etc/lutab ];
+then
+set -l CMD="open text $OBJ_DIR/Text.status";
+else
+gettext "There are no valid BEs available for this operation" | message ;
+set -l CMD="nop";
+fi;`$CMD
+
+#Field 11: Upgrade
+################################################################################
+
+name=`gettext "Upgrade"`
+description=`gettext "Upgrade an Alternate Boot Environment"`
+lininfo=MainHelp.upgrade
+
+action=` message -w; 
+	$LUBIN/lunames_list -A >/tmp/choice.${VPID};
+	if [ -s /tmp/choice.${VPID} ];
+	then 
+	set -l CMD="open form $OBJ_DIR/Form.upgrade /tmp/choice.${VPID}";
+	else 
+	gettext "There are no valid BEs available for Upgrade operation" | message ;
+	set -l CMD="nop";
+	fi;`$CMD
+
+
+#Field 12: Flash
+################################################################################
+
+name=`gettext "Flash"`
+description=`gettext "Flash an Alternate Boot Environment"`
+lininfo=MainHelp.flash
+
+action=` message -w; 
+	$LUBIN/lunames_list -A >/tmp/choice.${VPID};
+	if [ -s /tmp/choice.${VPID} ];
+	then 
+	set -l CMD="open form $OBJ_DIR/Form.flash /tmp/choice.${VPID}";
+	else 
+	gettext "There are no valid BEs available for Flash operation" | message ;
+	set -l CMD="nop";
+	fi;`$CMD
+
+
+ #Field 13: Help
+################################################################################
+
+name=`gettext "Help"`
+description=`gettext "Help Information on Live Upgrade"`
+lininfo=Help
+action=OPEN TEXT $OBJ_DIR/Help
+
+ #Field 14: Exit   
+################################################################################
+
+name=`gettext "Exit"`
+description=`gettext "Exit the Live Upgrade Menu System"`
+lininfo=MainHelp.exit
+action=exit
+
+
+`indicator -w`
+
+name=`gettext "ENTER"`
+button=11
+action=open
+
+name=`gettext "HELP"`
+button=16
+action=help

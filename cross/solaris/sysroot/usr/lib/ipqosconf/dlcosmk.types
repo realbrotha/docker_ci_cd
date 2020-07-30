@@ -1,0 +1,14 @@
+#
+# Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#pragma ident	"@(#)dlcosmk.types	1.1	02/02/26 SMI"
+
+fmt_version 1.0
+mod_version 1.0
+
+params	next_action		action
+params	cos			mindex	bband,dlpri
+map     bband                   uint32   0,0,0,96,128,160,192,224
+map     dlpri                   uint32   0,0,0,3,4,5,6,7

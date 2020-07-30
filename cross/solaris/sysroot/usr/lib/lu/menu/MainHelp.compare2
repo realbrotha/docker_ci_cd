@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.compare2 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Compare a Boot Environments to a previous snap-shot"`
+
+close=nop
+altslks=true
+
+begrow=any
+begcol=any
+rows=5
+columns=60
+
+`gettext "Strike the CANCEL function key to return to main menu." | message -t`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text="\n"`gettext "This menu selection compares the contents of the\nspecified BE with a snap-shot of that same BE at\nthe time of an ABE creation. The differences are\ndisplayed. A target BE and an ABE (the one associated\nwith the desired snap-shot time) must be specified."`"\n\n"`gettext "The contents of a Boot Environment and snap-shot\nare considered different if any of the following\nconditions hold:"`"\n\n"\
+`gettext " 1. a file or directory exists on one BE, but\n    not the other"`"\n"`gettext " 2. permissions differ on a file or directory of\n    the same name in both BEs"`"\n"`gettext " 3. sumchecks differ on a file or directory of\n    the same name in both BEs"`"\n\n"`gettext "Each entry of the output contains the file or\ndirectory name, permissions and sum."`"\n\n"`gettext "No attempt is made to automatically reconcile\nthe differences."`"\n"
+
+`indicator -w`
+
+name=
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=
+button=16
+action=nop

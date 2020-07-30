@@ -1,0 +1,54 @@
+#!/bin/sh
+#ident	"@(#)svc-kdc	1.2	04/08/31 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+. /lib/svc/share/krb_include.sh
+
+#
+# Returns success(0) if iprop is enabled (i.e. if sunw_dbprop_enable is true
+# in kdc.conf), else returns failure(1).
+#
+iprop_enabled() {
+	dbprop=`awk -F= '/^[ 	]*sunw_dbprop_enable[ 	=]/ \
+		{printf("%s", $2)}' $KDC_CONF_DIR/kdc.conf |
+		/usr/bin/tr -d ' '|/usr/bin/tr '[A-Z]' '[a-z]'`
+
+	case "$dbprop" in
+	'y'|'true')
+		return 0
+		;;
+	*)
+		return 1
+		;;
+	esac
+}
+
+# Start processes required for KDC
+
+if [ -s $KDC_CONF_DIR/kdc.conf ]; then
+
+	#make sure kdc.conf is configured
+	egrep -l '^[ 	]*_[_]*default_realm_' \
+	    $KDC_CONF_DIR/kdc.conf > /dev/null 2>&1
+
+	if [ $? -gt 0 ]; then
+		if iprop_enabled && [ -x $BINDIR/kpropd ]; then
+			if kadm5_acl_configed; then
+				# Do nothing, this is a master KDC
+				:
+			else
+		    		$BINDIR/kpropd
+			fi
+		fi
+
+		if db_exists && [ -x $BINDIR/krb5kdc ]; then
+			$BINDIR/krb5kdc
+			exit 0
+		fi
+	fi
+fi
+
+exit 1

@@ -1,0 +1,13 @@
+.="ce HP register structure"n
++/"config"nX
++/"inst_ram_addr"nX
++/"inst_ram_dl"18t"inst_ram_dm"18t"inst_ram_dh"nX18tX18tX
++/"data_fdb_ram_addr"18t"data_ram_addr"18t""nX18tX
++="flow_database"
++,4/X
++,4/X
++,4/X
++/"state_mch"nX
++="state"
++,3/X
++/"ram_bist"nX

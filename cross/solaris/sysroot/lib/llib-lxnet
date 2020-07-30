@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lxnet	1.3	01/11/20 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Set up the UNIX98 compilation environment.
+ */
+#define	_XOPEN_SOURCE	500
+#include <sys/feature_tests.h>
+
+/*
+ * Slurp the interfaces out of the official UNIX98 networking headers.
+ */
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>

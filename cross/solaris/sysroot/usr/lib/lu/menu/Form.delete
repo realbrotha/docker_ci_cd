@@ -1,0 +1,68 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.delete 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.delete
+################################################################################
+
+form=`gettext "Delete a Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+framemsg=`gettext "Enter the name of Boot Environment to be deleted and press SAVE"`
+
+close=`rm -f $ARG1`
+altslks=true
+done=`
+run $LUBIN/ludelete "$F1";
+if [ $RET -eq 0 ];
+then
+	set -l CMD="open text $OBJ_DIR/Text.success Delete"; 
+else
+	set -l CMD="open text $OBJ_DIR/Text.fail Delete";
+fi;`$CMD
+
+name=`gettext "Name of Boot Environment:"`
+lininfo=Sub1Help.delete
+nrow=1
+ncol=3
+frow=1
+fcol=33
+rows=1
+columns=30
+#The choices should display all inactive BEs.
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`fmlgrep '^'$F1'$' $ARG1`
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name= 
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=`gettext "HELP"`
+button=16
+action=help

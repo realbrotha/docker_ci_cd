@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+ ident	"$Revision: 1.3 $	SMI"
+-->
+
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>cacao.project</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/cacao-project/1">
+            <name>instrum</name>
+            <view>
+                <items>
+                    <source-file>
+                        <label>Module Deployment Descriptor</label>
+                        <location>config/com.sun.cacao.instrum.xml</location>
+                    </source-file>
+                    <source-file>
+                        <label>Readme file</label>
+                        <location>README.txt</location>
+                    </source-file>
+                </items>
+            </view>
+        </general-data>
+    </configuration>
+</project>
+

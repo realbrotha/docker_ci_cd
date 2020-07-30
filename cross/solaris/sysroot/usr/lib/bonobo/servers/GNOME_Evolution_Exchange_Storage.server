@@ -1,0 +1,365 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_ShellComponent"
+            type="exe"
+            location="/usr/lib/evolution/1.4/evolution-exchange-storage">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+	               value="Ximian Connector for Exchange"/>
+	<oaf_attribute name="name-cs" type="string"
+	               value="Ximian Connector pro Exchange"/>
+	<oaf_attribute name="name-de" type="string"
+	               value="Ximian Connector für Exchange"/>
+	<oaf_attribute name="name-es" type="string"
+	               value="Conector Ximian para Exchange"/>
+	<oaf_attribute name="name-fr" type="string"
+	               value="Ximian Connector pour Exchange"/>
+	<oaf_attribute name="name-hu" type="string"
+	               value="Ximian Connector az Exchange-hez"/>
+	<oaf_attribute name="name-it" type="string"
+	               value="Ximian Connector per Exchange"/>
+	<oaf_attribute name="name-ja" type="string"
+	               value="Ximian Connector for Exchange Server"/>
+	<oaf_attribute name="name-ko" type="string"
+	               value="Exchange용 Ximian 커넥터"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+	               value="Ximian Connector para Exchange"/>
+	<oaf_attribute name="name-sv" type="string"
+	               value="Ximian Connector för Exchange"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+	               value="Ximian Connector for Exchange"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+	               value="Ximian Connector for Exchange"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+	               value="Ximian Connector for Exchange"/>
+
+        <oaf_attribute name="evolution:shell_component_icon" type="string"
+                       value="connector.png"/>
+	<oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		       value="0"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_AddressbookFactory"
+            type="exe"
+            location="/usr/lib/evolution/1.4/evolution-exchange-storage">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/BookFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Addressbook Exchange backend"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Evolution backend adresáře Ximian"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Exchange Hintergrundkomponente für Evolution Adressbuch"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Backend de libreta de direcciones de Exchange de Evolution"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Moteur de traitement Exchange du carnet d&apos;adresses d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Címtár Exchange"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Backend di Exchange per la rubrica di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution Addressbook Exchange Server バックエンド"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 주소록 Exchange 백엔드"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Back-end do Exchange do Catálogo de endereços do Evolution"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutions adressboksbakände för Exchange"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 通讯簿 Exchange 后端"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution Addressbook Exchange 後端"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution Addressbook Exchange 後端"/>
+
+        <oaf_attribute name="addressbook:supported_protocols" type="stringv">
+		<item value="exchange"/>
+		<item value="activedirectory"/>
+        </oaf_attribute>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_CalendarFactory"
+            type="exe"
+            location="/usr/lib/evolution/1.4/evolution-exchange-storage">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Calendar/CalFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Calendar Exchange backend"/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Evolution backend kalendáře Ximian"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Exchange Hintergrundkomponente für Evolution Kalender"/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Backend de Calendario de Exchange"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Moteur de traitement Exchange du carnet d&apos;adresses d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Naptár Exchange"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Backend di Exchange per il calendario di Evolution"/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution Calendar Exchange Server バックエンド"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 캘린더 Exchange 백엔드"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Back-end do Exchange do Calendário do Evolution"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolution kalenderbakände för Exchange"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 日历 Exchange 后端"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution Calendar Exchange 後端"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution Calendar Exchange 後端"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_ConfigFactory"
+            type="exe"
+            location="/usr/lib/evolution/1.4/evolution-exchange-storage">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_DelegatesConfigControl"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_ExchangeStorage_ConfigFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:title" type="string"
+		       value="Delegation for Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-cs" type="string"
+		       value="Delegace pro Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-de" type="string"
+		       value="Delegation für Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-es" type="string"
+		       value="Delegación para Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-fr" type="string"
+		       value="Délégation pour Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-hu" type="string"
+		       value="Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-it" type="string"
+		       value="Delega per Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-ja" type="string"
+		       value="Exchange の委任"/>
+	<oaf_attribute name="evolution:config_item:title-ko" type="string"
+		       value="Exchange 위임"/>
+	<oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		       value="Delegação para o Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-sv" type="string"
+		       value="Delegation för Exchange"/>
+	<oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		       value="Exchange 委托"/>
+	<oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		       value="Exchange 的委任"/>
+	<oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		       value="Exchange 的委任"/>
+
+	<oaf_attribute name="evolution:config_item:description" type="string"
+		       value="This page can be used to configure delegation for Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-cs" type="string"
+		       value="Tato stránka slouží ke konfiguraci delegace pro Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-de" type="string"
+		       value="Diese Seite kann genutzt werden, um Delegation für Exchange zu konfigurieren."/>
+	<oaf_attribute name="evolution:config_item:description-es" type="string"
+		       value="Esta página puede usarse para configurar la delegación de Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-fr" type="string"
+		       value="Cette page permet de configurer la délégation d&apos;Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-hu" type="string"
+		       value="Ez az oldal"/>
+	<oaf_attribute name="evolution:config_item:description-it" type="string"
+		       value="Questa pagina consente di configurare le deleghe di Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-ja" type="string"
+		       value="このページでは、Exchange Server の委任先を設定できます"/>
+	<oaf_attribute name="evolution:config_item:description-ko" type="string"
+		       value="이 페이지에서 Exchange 위임을 구성할 수 있습니다."/>
+	<oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		       value="É possível usar esta página para configurar a delegação para o Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-sv" type="string"
+		       value="Denna sida kan användas för att konfigurera delegering i Exchange"/>
+	<oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		       value="此页面可用于配置 Exchange 委托"/>
+	<oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		       value="這個頁面可以用來配置 Exchange 委派"/>
+	<oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		       value="這個頁面可以用來配置 Exchange 委派"/>
+
+	<oaf_attribute name="evolution:config_item:icon_name" type="string"
+		       value="exchange-delegates-48.png"/>
+
+	<oaf_attribute name="evolution:config_item:type" type="stringv">
+		<item value="exchange"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
+    
+	<oaf_attribute name="name" type="string"
+		       value="Ximian Connector delegation configuration control"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Ximian Connector konfigurátor delegací"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Bedienelement zur Konfiguration von Ximian Connector Delegation"/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Control de configuración de delegación de Ximian Connector"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Commande de configuration de la délégation de Ximian Connector"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Ximian Connector"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Controllo configurazione deleghe di Ximian Connector"/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Ximian Connector 委任設定コントロール"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Ximian 커넥터 위임 구성 제어"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Controle de configuração de delegação do Ximian Connector"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Ximian Connector - Konfigurering av delegering"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Ximian Connector 委托配置控件"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Ximian Connector 委派配置控制項"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Ximian Connector 委派配置控制項"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_OOFConfigControl"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_ExchangeStorage_ConfigFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:title" type="string"
+		       value="Out of Office"/>
+	<oaf_attribute name="evolution:config_item:title-cs" type="string"
+		       value="Nepřítomen"/>
+	<oaf_attribute name="evolution:config_item:title-de" type="string"
+		       value="Nicht im Büro"/>
+	<oaf_attribute name="evolution:config_item:title-es" type="string"
+		       value="Fuera de oficina"/>
+	<oaf_attribute name="evolution:config_item:title-fr" type="string"
+		       value="Absent du bureau"/>
+	<oaf_attribute name="evolution:config_item:title-hu" type="string"
+		       value="Az irodán kívül"/>
+	<oaf_attribute name="evolution:config_item:title-it" type="string"
+		       value="Fuori ufficio"/>
+	<oaf_attribute name="evolution:config_item:title-ja" type="string"
+		       value="社外"/>
+	<oaf_attribute name="evolution:config_item:title-ko" type="string"
+		       value="부재 중"/>
+	<oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		       value="Ausente do escritório"/>
+	<oaf_attribute name="evolution:config_item:title-sv" type="string"
+		       value="Frånvarande"/>
+	<oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		       value="外出"/>
+	<oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		       value="不在辦公室"/>
+	<oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		       value="不在辦公室"/>
+
+	<oaf_attribute name="evolution:config_item:description" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-cs" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-de" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-es" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-fr" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-hu" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-it" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-ja" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-ko" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-sv" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+	<oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		       value="This page can be used to configure Exchange &quot;Out of Office&quot; settings"/>
+
+	<oaf_attribute name="evolution:config_item:icon_name" type="string"
+		       value="exchange-oof-48.png"/>
+
+	<oaf_attribute name="evolution:config_item:type" type="stringv">
+		<item value="exchange"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:priority" type="string" value="0"/>
+    
+	<oaf_attribute name="name" type="string"
+		       value="Ximian Connector out-of-office configuration control"/>
+	<oaf_attribute name="name-cs" type="string"
+		       value="Konfigurátor nepřítomnosti pro Ximian Connector"/>
+	<oaf_attribute name="name-de" type="string"
+		       value="Bedienelement zur Konfiguration von Ximian Connector Nicht-im-Büro"/>
+	<oaf_attribute name="name-es" type="string"
+		       value="Control de configuración de fuera de la oficina de Ximian Connector"/>
+	<oaf_attribute name="name-fr" type="string"
+		       value="Commande de configuration d&apos;absence du bureau de Ximian Connector"/>
+	<oaf_attribute name="name-hu" type="string"
+		       value="Ximian Connector irodán kívül konfiguráció vezérlő"/>
+	<oaf_attribute name="name-it" type="string"
+		       value="Controllo configurazione &quot;fuori ufficio&quot; di Ximian Connector"/>
+	<oaf_attribute name="name-ja" type="string"
+		       value="Ximian Connector 社外設定コントロール"/>
+	<oaf_attribute name="name-ko" type="string"
+		       value="Ximian 커넥터 부재 중 구성 제어"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+		       value="Controle de configuração de ausência do escritório do Ximian Connector"/>
+	<oaf_attribute name="name-sv" type="string"
+		       value="Ximian Connector - Konfigurering av frånvaro"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+		       value="Ximian Connector 外出配置控件"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+		       value="Ximian Connector 不在辦公室配置控制項"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+		       value="Ximian Connector 不在辦公室配置控制項"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_ExchangeStorage_Startup_Wizard"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_ExchangeStorage_ConfigFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/StartupWizard:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:startup_wizard:priority" type="number"
+		value="0"/>
+</oaf_server>
+
+</oaf_info>

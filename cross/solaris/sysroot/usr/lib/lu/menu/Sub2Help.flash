@@ -1,0 +1,64 @@
+#
+#ident	"@(#)Sub2Help.flash	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Sub2Help.flash
+#       Arguments: None
+#############################################################################
+# Text frame telling the user all about how to select the retrieval type.
+# Seen from Menu.flash.retr.
+#############################################################################
+title=`gettext "Perform a Flash install on an alternate boot environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu allows you to select the retrieval type for this Flash Archive.  Navigate to the desired retrieval type and press ENTER."`"\n"\
+
+`indicator -w`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

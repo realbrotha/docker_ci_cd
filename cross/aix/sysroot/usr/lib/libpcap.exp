@@ -1,0 +1,41 @@
+* @(#)62        1.5  src/tcpip/usr/lib/libpcap/libpcap.exp, tcpras, tcpip53L, l2007_09A1 2/13/07 16:17:15
+pcap_open_live
+pcap_open_offline
+pcap_dump_open
+pcap_lookupdev
+pcap_lookupnet
+pcap_dispatch
+pcap_loop
+pcap_dump
+pcap_compile
+pcap_setfilter
+pcap_next
+pcap_datalink
+pcap_snapshot
+pcap_is_swapped
+pcap_major_version
+pcap_minor_version
+pcap_stats
+pcap_file
+pcap_fileno
+pcap_perror
+pcap_geterr
+pcap_strerror
+pcap_close
+pcap_dump_close
+pcap_version
+bpf_filter
+bpf_image
+bpf_dump
+pcap_set_datalink
+pcap_datalink_val_to_name
+pcap_findalldevs
+pcap_datalink_name_to_val
+pcap_dump_flush
+pcap_list_datalinks
+pcap_lib_version
+pcap_setnonblock
+pcap_getnonblock
+* pcap_open_live_sb() opens a network device for packet capture
+* with configurable buffer lengths.
+pcap_open_live_sb

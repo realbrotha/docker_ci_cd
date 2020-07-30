@@ -1,0 +1,21 @@
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-drd	1.1	06/08/07 SMI"
+#
+
+. /lib/svc/share/smf_include.sh
+
+DRD=/usr/lib/ldoms/drd
+mach=`/sbin/uname -m`
+
+EXIT=$SMF_EXIT_ERR_CONFIG
+
+if [ $mach = "sun4v" ]; then
+	$DRD && EXIT=$SMF_EXIT_OK
+else
+	echo "$SMF_FMRI is not supported on this platform."
+fi
+
+exit $EXIT

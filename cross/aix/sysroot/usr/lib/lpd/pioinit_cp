@@ -1,0 +1,36 @@
+#!/usr/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53J src/bos/usr/lib/pios/pioinit_cp.sh 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2006 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)27        1.1  src/bos/usr/lib/pios/pioinit_cp.sh, cmdpios, bos53J, j2006_21D6 5/25/06 23:33:52
+#
+#   COMPONENT_NAME: CMDPIOS
+#
+#   FUNCTIONS: none
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1993, 2006
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Clean up printer flags files
+/usr/bin/rm -f /var/spool/lpd/pio/@local/flags/* >/dev/null 2>&1 
+/usr/lib/lpd/piodmgr_cp -h >/dev/null
+exit 0

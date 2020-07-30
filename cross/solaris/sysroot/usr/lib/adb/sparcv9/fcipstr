@@ -1,0 +1,10 @@
+./"nextp"16t"rq"16t"fcip"nJJJ
++/"state"16t"sap"16t"flags"nXXX
++/"minor"16tnX
++/"mctab"16t64J
++/"mccount"16t64X
++/"mcsize"16t64X
++/"ladrf"8t4x
++/"ladrf_refcnt"8t64x
++/"lock"
+.$<<kmutex_t

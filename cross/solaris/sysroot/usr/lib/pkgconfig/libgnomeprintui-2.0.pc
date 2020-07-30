@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libgnomeprintui-2.0
+Description: libgnomeprintui
+Requires: libgnomeprint-2.0 libgnomecanvas-2.0
+Version: 1.116.1
+Libs: -L${libdir} -lgnomeprintui-2
+Cflags: -I${includedir}/libgnomeprintui-2.0

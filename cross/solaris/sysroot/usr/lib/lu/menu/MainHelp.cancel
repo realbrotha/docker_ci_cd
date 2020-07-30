@@ -1,0 +1,45 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.cancel 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Cancel a Copy Job"`
+
+close=nop
+
+begrow=any
+begcol=any
+rows=5
+columns=60
+wrap=true
+
+`gettext "Strike the CANCEL function key to return to main menu." | message -t`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text="\n"`gettext "If a 'Copy' or 'Create' task has been scheduled but has not yet begun execution, the job may be canceled using this menu selection. After the selection, a message will be displayed indicating whether or not the job was successfully canceled. The 'Cancel a Copy Job' operation is not applicable if no copy job is pending on the system."`"\n"
+
+
+`indicator -w`
+
+altslks=true
+
+name=
+button=9
+action=nop
+
+name=
+button=11
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=CLEANUP
+
+name=
+button=15
+action=nop
+
+name=
+button=16
+action=nop

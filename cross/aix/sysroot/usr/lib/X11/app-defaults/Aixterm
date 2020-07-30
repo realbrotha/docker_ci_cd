@@ -1,0 +1,36 @@
+! @(#)21        1.7  src/gos/2d/XTOP/aixclients/aixterm/Aixterm, aixterm, gos530 2/11/99 08:49:34
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/aixclients/aixterm/Aixterm 1.7 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+!
+! COMPONENT_NAME: AIXTERM
+!
+! FUNCTIONS: n/a
+!
+! ORIGINS: 27
+!
+! (C) COPYRIGHT International Business Machines Corp. 1993,1994
+! All Rights Reserved
+! Licensed Materials - Property of IBM
+!
+! US Government Users Restricted Rights - Use, duplication or
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+!
+! Default application resources for aixterm.
+!
+*Font:		-dt-interface user-medium-r-normal-l*-*-*-*-*-*-*-*-*
+*FontSet:	-dt-interface user-medium-r-normal-l*-*-*-*-*-*-*-*-*
+*reducedFont:	-*-roman-medium-r-normal--8-50-100-100-c-*-*-*
+*foreground:	AntiqueWhite1
+*background:	darkslategray

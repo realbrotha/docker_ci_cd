@@ -1,0 +1,236 @@
+# @(#)18	1.7  src/cmdtext/usr/bin/hplj/font/CB, cmdtext, cmdtext530 7/19/91 12:53:59 
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/CB 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Courier Bold, for HP LazerJet series II printer with K cartridge
+# created 06/26/89, Interactive Systems Corporation
+name CB
+
+ligatures 0
+spacewidth 17
+charset
+\|	6  0 000	1/6 em space
+\^	3  0 000	1/12 em space
+\&	0  0 000	no space
+ˇ	30 2 32	
+!	30 2 33		exclam
+"	30 2 34		quotedbl
+#	30 2 35		numbersign
+$	30 2 36		dollar
+%	30 2 37		percent
+&	30 2 38		ampersand
+'	30 2 39		quoteright
+fm	"
+(	30 2 40		parenleft
+)	30 2 41		parenright
+*	30 2 42		asterisk
++	30 2 43		plus
+pl	"
+,	30 2 44		comma
+-	30 2 45		hyphen
+hy	"
+em	"
+\-	"
+.	30 2 46		period
+/	30 2 47		slash
+sl	"
+0	30 2 48		zero
+1	30 2 49		one
+2	30 2 50		two
+3	30 2 51		three
+4	30 2 52		four
+5	30 2 53		five
+6	30 2 54		six
+7	30 2 55		seven
+8	30 2 56		eight
+9	30 2 57		nine
+:	30 2 58		colon
+;	30 2 59		semicolon
+<	30 2 60		less
+=	30 2 61		equal
+eq	"
+>	30 2 62		greater
+?	30 2 63		question
+@	30 2 64		at
+A	30 2 65		A
+B	30 2 66		B
+C	30 2 67		C
+D	30 2 68		D
+E	30 2 69		E
+F	30 2 70		F
+G	30 2 71		G
+H	30 2 72		H
+I	30 2 73		I
+J	30 2 74		J
+K	30 2 75		K
+L	30 2 76		L
+M	30 2 77		M
+N	30 2 78		N
+O	30 2 79		O
+P	30 2 80		P
+Q	30 2 81		Q
+R	30 2 82		R
+S	30 2 83		S
+T	30 2 84		T
+U	30 2 85		U
+V	30 2 86		V
+W	30 2 87		W
+X	30 2 88		X
+Y	30 2 89		Y
+Z	30 2 90		Z
+[	30 2 91		bracketleft
+\	30 2 92		backslash
+]	30 2 93		bracketright
+^	24 2 94		circumflex
+_	30 2 95		underscore
+\_	"
+`	30 2 96		quoteleft
+a	30 2 97		a
+b	30 2 98		b
+c	30 2 99		c
+d	30 2 100	d
+e	30 2 101	e
+f	30 2 102	f
+g	30 2 103	g
+h	30 2 104	h
+i	30 2 105	i
+j	30 2 106	j
+k	30 2 107	k
+l	30 2 108	l
+m	30 2 109	m
+n	30 2 110	n
+o	30 2 111	o
+p	30 2 112	p
+q	30 2 113	q
+r	30 2 114	r
+s	30 2 115	s
+t	30 2 116	t
+u	30 2 117	u
+v	30 2 118	v
+w	30 2 119	w
+x	30 2 120	x
+y	30 2 121	y
+z	30 2 122	z
+{	30 2 123	braceleft
+|	30 2 124	bar
+}	30 2 125	braceright
+~	30 0 126	tilde
+∑	30 2 161	
+∂	30 2 162	
+‘	30 2 163	
+“	30 2 164	
+”	30 2 165	
+◊	30 2 166	
+ÿ	30 2 167	
+Ô	30 2 168	
+\'	"
+aa	"
+\`	30 2 169	
+ga	"
+˘	30 2 171	
+Î	30 2 173	
+Í	30 2 174	
+Ó	30 2 176	
+Ì	30 2 177	
+Ï	30 2 178	
+¯	30 2 179	
+de	"
+Ä	30 2 180	
+á	30 2 181	
+•	30 2 182	
+§	30 2 183	
+≠	30 2 184	
+®	30 2 185	
+œ	30 2 186	
+ú	30 2 187	
+æ	30 2 188	
+ı	30 2 189	
+sc	30 2 189	
+ü	30 2 190	
+Ω	30 2 191	
+ct	30 2 191	
+É	30 2 192	
+à	30 2 193	
+ì	30 2 194	
+ñ	30 2 195	
+†	30 2 196	
+Ç	30 2 197	
+¢	30 2 198	
+£	30 2 199	
+Ö	30 2 200	
+ä	30 2 201	
+ï	30 2 202	
+ó	30 2 203	
+Ñ	30 2 204	
+â	30 2 205	
+î	30 2 206	
+Å	30 2 207	
+è	30 2 208	
+å	30 2 209	
+ù	30 2 210	
+í	30 2 211	
+Ü	30 2 212	
+°	30 2 213	
+õ	30 2 214	
+ë	30 2 215	
+é	30 2 216	
+ç	30 2 217	
+ô	30 2 218	
+ö	30 2 219	
+ê	30 2 220	
+ã	30 2 221	
+·	30 2 222	
+‚	30 2 223	
+µ	30 2 224	
+«	30 2 225	
+∆	30 2 226	
+—	30 2 227	
+–	30 2 228	
+÷	30 2 229	
+ﬁ	30 2 230	
+‡	30 2 231	
+„	30 2 232	
+Â	30 2 233	
+‰	30 2 234	
+È	30 2 237	
+ò	30 2 239	
+Á	30 2 241	
+Ë	30 2 240	
+˙	20 0 242
+Û	30 2 245
+34	"
+	30 2 246	
+¨	30 2 247	
+14	"
+´	30 2 248	
+12	"
+¶	30 2 249	
+ß	30 2 250	
+Æ	30 2 251	
+Ø	30 2 253	
+Ò	30 2 254	

@@ -1,0 +1,762 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# onc53Q src/oncplus/usr/sbin/snap_nfs/nfs.sh 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# COPYRIGHT International Business Machines Corp. 2008 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: onccmds 
+#
+# FUNCTION: This command gathers NFS configuration and AUTOFS map file information. This command is called by snap.
+#
+# ORIGINS: 27
+#
+
+if [ "$PASSNO" = 1 ]
+then
+    echo "Checking space requirement for NFS information...\n" >> $SCRIPTLOG
+else
+    echo "Gathering NFS information...\c" >> $SCRIPTLOG
+fi
+
+if [ "$PASSNO" = 1 ]
+then
+    (( size = 0 ));
+	
+    # Size for NFS statistic information collection.
+    (( size = size + 25000 ));	
+
+    # Verify the maps stored in File/NIS/NISPLUS/LDAP Server. 
+    if [ -f /etc/irs.conf ]
+    then
+        file_name=`grep automount /etc/irs.conf |cut -f2 -d' '`
+	name=`grep automount /etc/irs.conf |cut -d ' ' -f 2-`
+    else
+	name="file"
+    fi
+	
+    # Calculate autofs maps size.
+    for file_name in $name
+    do
+	# Calculate size for autofs maps, which are stored in LDAP server.
+        if [ "$file_name" = nis_ldap ]
+	then
+	    count=`lsldap automount|grep -v ^$|wc -l`
+	    (( temp = 0 )) ;
+	    ((temp = count * 1000))  ;
+	    ((size = size + temp ))  ;
+	fi
+
+	# Calculate size for autofs maps, which are stored in NISPLUS server.
+	if [ "$file_name" = nisplus ]
+	then
+	    nisplus_master=`nisls -R org_dir|grep -F -x auto_master`
+	    if [ -z "$nisplus_master" ]
+	    then
+	        nisplus_master=`nisls -R org_dir|grep -F -x auto.master`
+	    fi
+	    if [ -z "$nisplus_master" ]
+	    then
+	        continue
+	    fi
+	    count=`niscat $nisplus_master.org_dir|wc -c`
+	    ((size = size + count ));
+	    name=`niscat $nisplus_master.org_dir |cut -d ' ' -f 2`
+	    for map in $name
+	    do
+	        if [ "$map" = -hosts ]
+		then
+		    ((size = size + 1500 ));
+		else
+		    nisplusmap=`nisls -R org_dir |grep -F -x $map`
+		    if [ -z "$nisplusmap" ]
+		    then
+		        continue
+		    fi
+		    nested=`niscat $map.org_dir | grep "fstype"`
+		    if [ -n "$nested" ]
+		    then
+		        ((size = size + 6000 ));
+		    else
+		        count=`niscat $map.org_dir|wc -c`
+			((size = size + count ));
+		    fi
+		fi
+	    done
+	fi
+	
+	# Calculate size for autofs maps, which are stored in NIS server.
+	if [ "$file_name" = nis ]
+	then
+	    DOMAINNAME=`domainname`
+	    nis_master=`ypcat -d $DOMAINNAME auto_master` > /dev/null 2>&1
+	    if [ -z "$nis_master" ]
+	    then
+	        nis_master=`ypcat -d $DOMAINNAME auto.master` > /dev/null 2>&1
+		if [ -z "$nis_master" ]
+		then
+		    continue
+		fi
+		count=`ypcat -d $DOMAINNAME -k auto.master|wc -c`
+		name=`ypcat -d $DOMAINNAME auto.master`
+		((size = size + count ));
+            else
+	        count=`ypcat -d $DOMAINNAME -k auto_master|wc -c`
+		name=`ypcat -d $DOMAINNAME auto_master`
+	        ((size = size + count ));
+	    fi
+	    for map in $name
+	    do
+	        if [ "$map" = -hosts ]
+		then
+		    ((size = size + 1500 ));
+		else
+		    nismap=`ypcat -d $DOMAINNAME $map` > /dev/null 2>&1
+		    if [ -z "$nismap" ]
+		    then
+		        continue
+		    fi
+		    nested=`ypcat -d $DOMAINNAME $map | grep "fstype"`
+		    if [ -n "$nested" ]
+		    then
+		        ((size = size + 6000 ));
+		    else
+		        count=`ypcat -k -d $DOMAINNAME $map|wc -c`
+			((size = size + count ));
+		    fi
+		fi
+	    done
+	fi
+	
+	# Calculate size for autofs maps, which are stored in files of local machine.
+	if [ "$file_name" = file ]
+	then
+	    if [ -f /etc/auto_master ]
+	    then
+	        count=`cat /etc/auto_master|wc -c`
+		name=`cat /etc/auto_master|cut -d ' ' -f 2`
+	    else
+		if [ -f /etc/auto.master ]
+		then
+		    count=`cat /etc/auto.master|wc -c`
+		    name=`cat /etc/auto.master|cut -d ' ' -f 2`
+		fi
+	    fi
+	    ((size = size + count ));
+	    for map in $name
+	    do
+	        if [ "$map" = -hosts ]
+                then
+                    ((size = size + 1500 ));
+                else
+                    path=`echo $map |grep '/'`
+                    if [ -n "$path" ]
+                    then
+                        if [ ! -f "$path" ]
+                        then
+                            continue
+                        fi
+		        nested=`cat $map | grep "fstype"` > /dev/null 2>&1
+		  	if [ -n "$nested" ]
+                        then
+                            ((size = size + 6000 ));
+			else
+			    count=`cat $map|wc -c` > /dev/null 2>&1
+			    ((size = size + count ));
+			fi
+		    else
+		        if [ ! -f "/etc/$map" ]
+                        then
+                            continue
+                        fi
+		        nested=`cat /etc/$map | grep "fstype"` > /dev/null 2>&1	
+			if [ -n "$nested" ]
+			then
+			    ((size = size + 4000 ));
+                        else
+			    count=`cat /etc/$map|wc -c` > /dev/null 2>&1
+			    ((size = size + count ));
+			fi
+		    fi
+		fi
+	    done
+        fi
+    done										
+    # report size of nfs configuration and autofs map files information. 
+    echo "$size" > $SCRIPTSIZE
+    echo "NFS first pass reporting size= $size" >> $SCRIPTLOG
+    exit 0
+#end of first pass
+fi
+
+# Second pass,  return without error on first pass
+if [[ -z $SNAPDIR ]]
+then
+    echo "ERROR: the script directory was not created  " >> $SCRIPTLOG
+    exit 1
+fi
+ 
+# Function : nested_indirect : Gather nested indirect maps stored in LDAP/NIS/NISPLUS server.
+
+nested_indirect() {
+    case  "$2" in
+    'nis')  
+        nismap=`ypcat -d $DOMAINNAME $1` 
+        if [ -z "$nismap" ]
+        then
+	    echo "$1 map is not present in NIS server" > $SNAPDIR/autofs_maps/$1.nis
+	    return
+	fi
+	ypcat -k -d $DOMAINNAME $1 > /tmp/$1
+	cat /tmp/$1 > $SNAPDIR/autofs_maps/$1.nis
+	;;
+    'nisplus') 
+	nisplusmap=`nisls -R org_dir|grep -F -x $1` 
+	if [ "$?" != 0 ]
+	then
+            echo "$1 map is not present in NISPLUS server" >$SNAPDIR/autofs_maps/$1.nisplus
+            return 
+	fi
+	niscat "$1.org_dir" >/tmp/$1
+	cat /tmp/$1 > $SNAPDIR/autofs_maps/$1.nisplus
+	;;
+    'nis_ldap')
+	ldapmap=`lsldap |grep automount|cut -d "=" -f 2|grep $1,cn` 
+        if [ "$?" = 0 ]
+	then
+	    ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+	    `lsldap -a $ldapmap|grep -E "$AUTO_KEY_ATTR|$AUTO_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$1`
+	else
+	    ldapmap=`lsldap|grep nisMapName|cut -d "=" -f 2|grep $1,cn` 
+	    if [ "$?" = 0 ]
+	    then
+		ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+	        `lsldap -a $ldapmap|grep -E "$NIS_KEY_ATTR|$NIS_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$1`
+	    else
+	        echo "$1 Map is not present in LDAP server" > $SNAPDIR/autofs_maps/$1.ldap
+	        return	
+	    fi
+	fi	
+	cat /tmp/$1 > $SNAPDIR/autofs_maps/$1.ldap
+	;;
+    esac
+    while read line
+    do
+        ignor='#'
+        chk=`echo $line|cut -c1` > /dev/null 2>&1
+        if [ "$chk" != "$ignor" ]
+        then
+       	    read_line=`echo $line|grep "fstype=autofs"|cut -f3 -d' '`
+       	    chk1=$?
+       	    echo $line|grep '/' > /dev/null 2>&1
+       	    chk2=$?
+       	    if [ "$chk1" -eq 0 ] && [ "$chk2" -ne 0 ] 
+            then
+		case "$2" in
+		'nis')	
+		    nismap=`ypcat -d $DOMAINNAME $read_line`
+		    if [ -z "$nismap" ]
+		    then
+			echo "$read_line map is not present in NIS server" > $SNAPDIR/autofs_maps/$read_line.nis
+			continue	
+		    fi
+                    nested_check=`ypcat -k -d $DOMAINNAME $read_line|grep "fstype=autofs"|wc -l` 
+                    if [ "$nested_check" != 0 ]
+                    then
+                        nested_indirect $read_line $2
+		    else
+			ypcat -k -d $DOMAINNAME $read_line > $SNAPDIR/autofs_maps/$read_line.nis
+                    fi 
+		    ;;
+		'nisplus') 
+		    nisplusmap=`nisls -R org_dir|grep -F -x $read_line` 
+		    if [ "$?" != 0 ]
+	            then
+                        echo "$read_line map is not present in NISPLUS server" > $SNAPDIR/autofs_maps/$read_line.nisplus
+             		continue 
+		    fi
+		    nested_check=`niscat $read_line.org_dir|grep "fstype=autofs"|wc -l` 
+                    if [ "$nested_check" != 0 ]
+                    then
+                        nested_indirect $read_line $2
+		    else
+			niscat $read_line.org_dir > $SNAPDIR/autofs_maps/$read_line.nisplus
+		    fi
+		    ;;
+		'nis_ldap') 
+		    ldapmap=`lsldap |grep automount|cut -d "=" -f 2|grep $read_line,cn` 
+		    if [ "$?" = 0 ]
+		    then
+			ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+			`lsldap -a $ldapmap|grep -E "$AUTO_KEY_ATTR|$AUTO_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$read_line`
+		    else
+			ldapmap=`lsldap|grep nisMapName|cut -d "=" -f 2|grep $read_line,cn` 
+			if [ "$?" = 0 ]
+			then
+			    ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+			    `lsldap -a $ldapmap|grep -E "$NIS_KEY_ATTR|$NIS_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$read_line`
+			else
+			    echo "$read_line map is not present in LDAP server" > $SNAPDIR/autofs_maps/$read_line.ldap
+
+			    continue
+			fi
+		    fi
+                    nested_check=`cat /tmp/$read_line|grep "fstype=autofs"|wc -l` 
+                    if [ "$nested_check" != 0 ]
+                    then
+                        nested_indirect $ldapmap $2
+		    else
+			cat /tmp/$read_line > $SNAPDIR/autofs_maps/$read_line.ldap
+			rm /tmp/$read_line
+		    fi	
+		    ;;
+	       	esac
+            fi
+	fi
+    done < /tmp/$1
+    rm /tmp/$1
+}
+
+# Function : nested_indirect_file : Gather nested indirect maps stored in files of local machine.
+
+nested_indirect_file () {
+    file=`echo $1|awk -F "/" '{print $NF}'`
+    cat $1  > $SNAPDIR/autofs_maps/$file.file
+    while read line
+    do
+	ignor='#'
+        chk=`echo $line|cut -c1`
+        if [ "$chk" != "$ignor" ]
+        then
+       	    read_line=`echo $line|grep "fstype=autofs"|cut -f3 -d' '`
+	    if [ -n "$read_line" ]
+	    then
+        	chk1=$?
+        	echo $line|grep '/' > /dev/null 2>&1
+        	chk2=$?
+        	if [ "$chk1" -eq 0 ] && [ "$chk2" -ne 0 ]
+        	then
+		    if [ ! -f "/etc/$read_line" ]
+		    then
+			file=`echo $read_line|awk -F "/" '{print NF}'`
+			echo "$read_line map is not present in LOCAL machine" > $SNAPDIR/autofs_maps/$file.file
+			continue
+		    fi
+                    nested_check=`grep "fstype=autofs" /etc/$read_line|wc -l`
+                    if [ "$nested_check" != 0 ]
+                    then
+                   	nested_indirect_file /etc/$read_line
+		    else
+			cat /etc/$read_line > $SNAPDIR/autofs_maps/$file.file 
+                    fi
+		fi
+	    fi
+	fi
+    done < $1
+}
+
+# ----------------------------------------------------------
+# ---------------------  M  A  I  N  -----------------------
+# ----------------------------------------------------------
+
+# Gather NFS configuration and Statistic information.
+
+echo "\n.....\n.....     Creation Date\n.....\n" > $SNAPDIR/nfs.snap 2>&1
+`date >> $SNAPDIR/nfs.snap`
+
+echo "\n.....\n.....     Note: If you want the /var/adm/ras/trcfile, snap -g will get it\n.....\n" >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....     lssrc -a\n.....\n" >> $SNAPDIR/nfs.snap
+lssrc -a >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....     rpcinfo -p\n.....\n" >> $SNAPDIR/nfs.snap
+rpcinfo -p  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....     lsnfsexp \n.....\n" >> $SNAPDIR/nfs.snap
+lsnfsexp  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....     exportfs\n.....\n" >> $SNAPDIR/nfs.snap
+exportfs  >> $SNAPDIR/nfs.snap
+
+if [ -f /etc/exports ]
+then
+    cp -p /etc/exports $SNAPDIR/exports.file 2>&1
+fi
+
+if [ -f /etc/hanfs ]
+then
+    cp -p /etc/hanfs $SNAPDIR/hanfs.file 2>&1
+fi
+
+if [ -f /etc/irs.conf ]
+then
+    cp -p /etc/irs.conf $SNAPDIR/irs.conf.file 2>&1
+fi
+
+if [ -f /etc/netsvc.conf ]
+then
+    cp -p /etc/netsvc.conf $SNAPDIR/netsvc.conf.file 2>&1
+fi
+
+echo "\n.....\n.....     lsnfsmnt\n.....\n" >> $SNAPDIR/nfs.snap
+lsnfsmnt  >> $SNAPDIR/nfs.snap
+
+
+# Move nfsstat -z to the end and add nfsstat -m
+
+echo "\n.....\n.....    nfsstat -m\n.....\n" >> $SNAPDIR/nfs.snap
+nfsstat -m  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....    nfsstat -n\n.....\n" >> $SNAPDIR/nfs.snap
+nfsstat -n  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....    nfsstat -r\n.....\n" >> $SNAPDIR/nfs.snap
+nfsstat -r  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....    nfsstat -s\n.....\n" >> $SNAPDIR/nfs.snap
+nfsstat -s  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....    nfsstat -c\n.....\n" >> $SNAPDIR/nfs.snap
+nfsstat -c  >> $SNAPDIR/nfs.snap
+
+echo "\n.....\n.....    nfso -a\n.....\n" >> $SNAPDIR/nfs.snap
+nfso -a  >> $SNAPDIR/nfs.snap
+
+# Gather autofs maps stored in LDAP/NIS/NISPLUS server or in files of local machine.
+
+if [ -f /etc/irs.conf ]
+then
+    file_name=`grep automount /etc/irs.conf |cut -f2 -d' '`
+    name=`grep automount /etc/irs.conf |cut -d ' ' -f 2-`
+else 
+    name="file"
+fi
+
+for file_name in $name 
+do 
+    # Gather autofs maps stored in LDAP server. 
+
+    if [ "$file_name" = nis_ldap ]
+    then
+        AUTO_KEY_ATTR="automountKey"
+	AUTO_INFO_ATTR="automountInformation"	
+		
+	NIS_KEY_ATTR="cn"
+ 	NIS_INFO_ATTR="nisMapEntry"	 
+
+	auto_master=`lsldap|grep automount|cut -d "=" -f 2|grep auto_master,cn`  > /dev/null 2>&1
+	if [ -z "$auto_master" ]
+	then 
+	    auto_master=`lsldap|grep automount|cut -d "=" -f 2|grep auto.master,cn` > /dev/null 2>&1
+	fi
+	if [ -n "$auto_master" ]
+	then
+	    map=`lsldap|grep $auto_master` > /dev/null 2>&1
+	    map=`echo $map |awk -F = '{print $2}'` > /dev/null 2>&1
+	    map=`echo $map |awk -F , '{print $1}'` > /dev/null 2>&1
+	    auto_master=`echo $auto_master|cut -d "," -f 1` 
+	    `lsldap -a $auto_master|grep -E "$AUTO_KEY_ATTR|$AUTO_INFO_ATTR"|grep -v -E "aixdata|^$"|cut -d ":" -f 2- |sed 'N;s/\n/   /;P;D;' >  /tmp/auto_master` 
+	    cp /tmp/auto_master $SNAPDIR/$auto_master.ldap 
+	    else
+	        auto_master=`lsldap|grep nisMapName|cut -d "=" -f 2|grep auto_master,cn`
+		if [ -z "$auto_master" ]
+		then 
+		    auto_master=`lsldap|grep nisMapName|cut -d "=" -f 2|grep auto.master,cn` 
+		fi
+		if [ -n "$auto_master" ]
+		then
+		    map=`lsldap|grep nisMapName|cut -d "=" -f 2|grep $auto_master` 
+		    map=`echo $map|cut -d ',' -f 1`  
+		    auto_master=`echo $map|cut -d "," -f 1`
+		    `lsldap -a $auto_master|grep -E "$NIS_KEY_ATTR|$NIS_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/auto_master`
+		    cp /tmp/auto_master $SNAPDIR/$auto_master.ldap
+		else
+		    echo "auto_master map is not present in LDAP server" > $SNAPDIR/auto_master.ldap
+		    continue
+		fi
+	    fi
+	    
+	    if [ ! -d $SNAPDIR/autofs_maps ]
+	    then
+		mkdir $SNAPDIR/autofs_maps		
+	    fi
+	
+	    while read line
+       	    do
+        	ignor='#'
+		chk1=`echo $line|cut -c1` >/dev/null 2>&1
+        	if [ "$chk1" != "$ignor" ]
+        	then
+		    echo $line|grep "hosts" > /dev/null 2>&1
+               	    if [ "$?" = 0 ]
+               	    then
+                       	hosts_name=`echo $line|cut -f2 -d' '` > /dev/null 2>&1
+                       	hosts_name=`echo $hosts_name|cut -c2-6` > /dev/null 2>&1
+			echo "/etc/hosts contents are:" > $SNAPDIR/autofs_maps/hosts.ldap
+			echo "====================================================" >> $SNAPDIR/autofs_maps/hosts.ldap
+                       	name=`cat /etc/$hosts_name` 
+			if [ "$?" != 0 ]
+			then 
+			    echo " /etc/$hosts_name not present on this system" >> $SNAPDIR/autofs_maps/hosts.ldap
+			else 
+			    cat /etc/$hosts_name >> $SNAPDIR/autofs_maps/hosts.ldap
+			fi 
+               	    else
+			map=`echo $line|cut -f2 -d' '` 
+			ldapmap=`lsldap|grep automount| cut -d "=" -f 2|grep $map,cn`
+			if [ "$?" = 0 ]
+			then
+			    ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+			    `lsldap -a $ldapmap|grep -E "$AUTO_KEY_ATTR|$AUTO_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$ldapmap`
+			else
+			    ldapmap=`lsldap|grep MapName|cut -d "=" -f 2|grep $map,cn` 
+			    if [ "$?" = 0 ]
+			    then
+				ldapmap=`echo $ldapmap|cut -d "," -f 1` 
+				`lsldap -a $ldapmap|grep -E "$NIS_KEY_ATTR|$NIS_INFO_ATTR"|grep -v aixdata|grep -v ^$|cut -d ":" -f 2-|sed 'N;s/\n/   /;P;D;' > /tmp/$ldapmap`
+			    else
+			        echo "$map map is not present in LDAP server" > $SNAPDIR/autofs_maps/$map.ldap 
+			        continue
+			    fi
+			fi
+		
+			nested_map=`cat /tmp/$ldapmap | grep "fstype=autofs"|wc -l`
+               		if [ "$nested_map" -ne 0 ]
+               		then
+	 		    nested_indirect  $ldapmap nis_ldap 
+			else
+			cat /tmp/$ldapmap > $SNAPDIR/autofs_maps/$ldapmap.ldap
+			rm /tmp/$ldapmap
+		    fi	
+		fi
+	    fi
+	done < /tmp/auto_master
+	rm /tmp/auto_master
+    fi
+
+    # Gather autofs maps stored in NIS server. 
+
+    if [ "$file_name" = nis  ]
+    then
+	DOMAINNAME=`domainname` 
+	nismap=`ypcat -d $DOMAINNAME auto_master` > /dev/null 2>&1
+	if [ -n "$nismap" ]
+	then  
+	    ypcat -k -d $DOMAINNAME auto_master >/tmp/auto_master 
+	else
+	    nismap=`ypcat -d $DOMAINNAME auto.master` 
+	    if [ -n "$nismap" ]
+	    then
+		ypcat -k -d $DOMAINNAME auto.master >/tmp/auto_master
+	    else
+		echo "auto_master map is not present in NIS server" > $SNAPDIR/auto_master.nis
+		continue	
+	    fi
+	fi	
+	cat  /tmp/auto_master > $SNAPDIR/auto_master.nis 
+	if [ ! -d $SNAPDIR/autofs_maps ]
+	then
+	    mkdir $SNAPDIR/autofs_maps		
+	fi
+	while read line
+        do
+            ignor='#'
+            chk1=`echo $line|cut -c1`
+            if [[ "$chk1" != "$ignor" ]]
+            then
+               	echo $line|grep "hosts" > /dev/null 2>&1
+               	if [ "$?" = 0 ]
+               	then
+              	    hosts_name=`echo $line|cut -f2 -d' '` > /dev/null 2>&1
+                    hosts_name=`echo $hosts_name|cut -c2-6` > /dev/null 2>&1
+		    echo "/etc/hosts contents are:" > $SNAPDIR/autofs_maps/hosts.nis
+		    echo "====================================================" >> $SNAPDIR/autofs_maps/hosts.nis
+                    name=`cat /etc/$hosts_name`  
+		    if [ "$?" != 0 ]
+		    then 
+			echo " /etc/$hosts_name not present on this system" >> $SNAPDIR/autofs_maps/hosts.nis 
+		    else 
+			cat /etc/$hosts_name >> $SNAPDIR/autofs_maps/hosts.nis
+		    fi 
+                else
+		    read_line=`echo $line|cut -f2 -d' '` > /dev/null 2>&1
+		    nismap=`ypcat -d $DOMAINNAME $read_line` 
+		    if [ -z "$nismap" ]
+		    then
+			echo "$read_line map is not present in NIS server" > $SNAPDIR/autofs_maps/$read_line.nis
+			continue
+		    fi
+		    nested_map=`ypcat -k -d $DOMAINNAME $read_line | grep "fstype=autofs"|wc -l` 
+		    if [ "$nested_map" -ne 0 ]
+                    then
+                  	nested_indirect $read_line nis
+		    else
+			if [ -n "$read_line" ]
+			then
+			    ypcat -d $DOMAINNAME -k $read_line  >$SNAPDIR/autofs_maps/$read_line.nis
+			fi
+		    fi
+		fi
+	    fi
+	done < /tmp/auto_master
+	rm /tmp/auto_master
+    fi
+
+    # Gather autofs maps stored in NIS server. 
+
+    if [ "$file_name" = nisplus ]
+    then
+        nisplusmap=`nisls -R org_dir|grep -F -x auto_master` 
+        if [ "$?" = 0 ]
+        then
+            niscat auto_master.org_dir > /tmp/auto_master
+        else
+	    nisplusmap=`nisls -R org_dir|grep -F -x auto.master` 
+	    if [ "$?" = 0 ]
+	    then
+                niscat auto.master.org_dir > /tmp/auto_master
+	    else
+                echo "auto_master map is not present in NISPLUS server" > $SNAPDIR/auto_master.nisplus
+	        continue
+	    fi	
+	fi    	
+	cat  /tmp/auto_master > $SNAPDIR/auto_master.nisplus
+	if [ ! -d $SNAPDIR/autofs_maps ]
+	then
+	    mkdir $SNAPDIR/autofs_maps		
+	fi
+        while read line
+        do
+            ignor='#'
+            chk1=`echo $line|cut -c1` >/dev/null 2>&1 
+            if [ "$chk1" != "$ignor" ]
+            then
+                host=`echo $line|grep "hosts"`
+                if [ "$?" = 0 ]
+                then
+                    hosts_name=`echo $line|cut -f2 -d' '` > /dev/null 2>&1
+                    hosts_name=`echo $hosts_name|cut -c2-6` > /dev/null 2>&1
+		    echo "/etc/hosts contents are:" > $SNAPDIR/autofs_maps/hosts.nisplus
+		    echo "====================================================" >> $SNAPDIR/autofs_maps/hosts.nisplus
+                    name=`cat /etc/$hosts_name` > /dev/null 2>&1
+		    if [ "$?" != 0 ]
+		    then 
+		        echo " /etc/$hosts_name not present on this system" >> $SNAPDIR/autofs_maps/hosts.nisplus
+		    else 
+		        cat /etc/$hosts_name >>  $SNAPDIR/autofs_maps/hosts.nisplus
+		    fi 
+               	else
+                    read_line=`echo $line|cut -f2 -d' '` > /dev/null 2>&1
+		    nisplusmap=`nisls -R org_dir|grep -F -x $read_line` 
+		    if [ "$?" != 0 ]
+	       	    then
+                        echo "$read_line map is not present in NISPLUS server" > $SNAPDIR/autofs_maps/$read_line.nisplus
+                        continue 
+		    fi
+                    nested_map=`niscat $read_line.org_dir | grep "fstype=autofs"|wc -l` 
+                    if [ "$nested_map" -ne 0 ]
+                    then
+                        nested_indirect $read_line nisplus
+                    else
+		        if [  -n "$read_line" ]
+		        then
+		            niscat "$read_line.org_dir" > $SNAPDIR/autofs_maps/$read_line.nisplus
+			fi
+		    fi
+                fi
+            fi
+        done < /tmp/auto_master
+	rm /tmp/auto_master
+    fi
+
+    # Gather autofs maps stored in files of local machine.
+
+    if [ "$file_name" = file ] 
+    then
+	if [ -f "/etc/auto_master" ]
+	then 
+	    cp /etc/auto_master /tmp/auto_master 
+	    cat /tmp/auto_master >$SNAPDIR/auto_master.file
+	else 
+	    if [ -f /etc/auto.master ]
+	    then
+	        cp /etc/auto.master /tmp/auto_master
+	        cat /tmp/auto_master >$SNAPDIR/auto.master.file
+	    else
+	        echo "auto_master map is not present in LOCAL Machine" >$SNAPDIR/auto_master.file
+	        continue
+	    fi
+	fi
+        if [ ! -d $SNAPDIR/autofs_maps ]
+        then
+	    mkdir $SNAPDIR/autofs_maps		
+       	fi
+        while read line
+        do
+            ignor='#'
+            chk1=`echo $line|cut -c1`
+            if [ "$chk1" != "$ignor" ]
+       	    then
+                echo $line|grep "hosts" > /dev/null 2>&1
+	        if [ "$?" = 0 ]
+		then
+		    hosts_name=`echo $line|cut -f2 -d' '`
+		    hosts_name=`echo $hosts_name|cut -c2-6`
+		    echo "/etc/hosts contents are: " > $SNAPDIR/autofs_maps/hosts.file
+		    echo "====================================================" >>$SNAPDIR/autofs_maps/hosts.file
+		    cat /etc/$hosts_name >> $SNAPDIR/autofs_maps/hosts.file
+		else
+        	    read_line=`echo $line|cut -f2 -d' ' `
+		    if [ -n "$read_line" ]
+		    then
+	                path=`echo $read_line|grep '/'` 
+                        if [ "$?" != 0 ]
+                	then
+			    if [ ! -f /etc/$read_line ]
+			    then
+			        file=`echo $read_line|awk -F "/" '{print $NF}'`
+			        echo "$file map is not present in LOCAL machine" > $SNAPDIR/autofs_maps/$file.file
+			        continue
+			    fi
+                       	    nested_check=`grep "fstype=autofs" /etc/$read_line|wc -l`
+                       	    if [ "$nested_check" -eq 0 ]
+                            then
+			        file=`echo $read_line|awk -F "/" '{print $NF}'`
+                              	cat /etc/$read_line > $SNAPDIR/autofs_maps/$file.file
+                            else
+                                nested_indirect_file /etc/$read_line
+                            fi
+                	else
+			    if [ ! -f "$read_line" ]
+			    then
+			        file=`echo $read_line|awk -F "/" '{print $NF}'`
+			        echo "$file.file map is not present in LOCAL machine" > $SNAPDIR/autofs_maps/$file.file
+			        continue
+			    fi
+                       	    nested_check=`grep "fstype=autofs" $read_line|wc -l`
+                       	    if [ "$nested_check" -eq 0 ]
+                       	    then
+			        file=`echo $read_line|awk -F "/" '{print $NF}'`
+                                cat $read_line > $SNAPDIR/autofs_maps/$file.file 
+                            else
+                                nested_indirect_file $read_line
+                       	    fi
+                        fi
+		    fi
+		fi
+            fi
+        done < /tmp/auto_master
+        rm /tmp/auto_master
+    fi	
+done
+echo " done." >> $SCRIPTLOG

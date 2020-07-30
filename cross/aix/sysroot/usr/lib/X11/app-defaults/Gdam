@@ -1,0 +1,31 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/gdam/Gdam 1.2 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! Restricted Materials of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1996 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+
+!-----------------------------------------------------------------------
+!
+! IBM Graphical Disk Array Manager (GDAM) resource file
+!
+!-----------------------------------------------------------------------
+
+*parm_textfield*background:                     steelblue4
+*fontList:                                      -dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-*-*:
+*device_draw*background:                        steelblue4
+*drive_draw*background:                         steelblue4
+*subsys_draw*background:                        steelblue4
+*background:                                    steelblue
+*foreground:                                    white
+

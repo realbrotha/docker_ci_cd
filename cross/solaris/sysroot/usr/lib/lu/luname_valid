@@ -1,0 +1,84 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)luname_valid.sh 5.3     03/01/29 SMI"
+#
+# USAGE   : luname_valid "be_name"
+# FUNCTION: Validate the name of a BE.
+# INPUT   : Name of the BE.
+# OUTPUT  : None
+# DEV     : Satish
+#
+# Returns:	0 - name is valid and not in use by any other BE (NO MESSAGES OUTPUT).
+#		1 - internal program error (ERROR MESSAGES OUTPUT).
+# 		2 - name is either invalid or in use by another BE (ERROR MESSAGES OUTPUT).
+#
+# This is a script to validate the Name of a boot environment.
+# This script will be used by the FMLI forms. It is a wrapper
+# for a call to the lulib library lulib_be_name_exists call.
+#
+# A valid BE name should be less than 30 characters and should not contain
+# the forward-slash (/), space () or double-quote (") characters. 
+#
+# Also the name should be unique i.e the name should not already exist in the lutab file.
+#
+#################################################################################################
+
+LU_PROG_NAME=`basename $0`
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+if [ $# != 1 ] ; then
+  ${LUPRINTF} -p2 "`gettext 'USAGE: <%s> BE_name'`" "${LU_PROG_NAME}"
+  ${LUPRINTF} -Wp2 "`gettext 'be_name should be enclosed in single quotes.'`"
+  exit 1
+fi
+
+BE_NAME="$1"
+
+# 0 - the be name is valid and exists. [NO MESSAGES OUTPUT]
+# 1 - the be name is valid and does NOT exist. [NO MESSAGES OUTPUT]
+# 2 - the be name is invalid. [MESSAGES OUTPUT]
+lulib_be_name_exists "${BE_NAME}"
+ret="$?"
+if [ "${ret}" -eq "0" ] ; then
+  # no message if BE exists so output one now.
+  ${LUPRINTF} -Eelp2 "`gettext 'The BE name <%s> is already assigned to another BE.'`" "${BE_NAME}"
+fi
+
+if [ "${ret}" -ne "1" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The BE name <%s> is not valid.'`" "${BE_NAME}"
+  exit 2
+fi
+
+exit 0

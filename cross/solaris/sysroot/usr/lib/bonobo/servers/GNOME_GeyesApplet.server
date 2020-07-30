@@ -1,0 +1,321 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_GeyesApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/geyes_applet2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج جِآيز"/>
+	<oaf_attribute name="name-az" type="string" value="Geyes Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Месца аплету Geyes"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на аплета Гайс"/>
+	<oaf_attribute name="name-bn" type="string" value="জি-চোখ অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet Geyes"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro aplet Geyes"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Llygaid GNOME"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik for øjnepanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="gEyes-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου GEyes (Ματιών)"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación Ojos de Gnome"/>
+	<oaf_attribute name="name-et" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Geyes applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Geyes-sovelman tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique pour l&apos;applet Geyes"/>
+	<oaf_attribute name="name-gl" type="string" value="Fábrica da applet Geyes"/>
+	<oaf_attribute name="name-gu" type="string" value="Geyes અેપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון Geyes"/>
+	<oaf_attribute name="name-hi" type="string" value="जीआइस अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica apleta za Geyes"/>
+	<oaf_attribute name="name-hu" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-is" type="string" value="Verksmiðja Geyes tólstikuforritsins"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica per applet Geyes"/>
+	<oaf_attribute name="name-ja" type="string" value="目玉アプレットファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="눈동자 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Geyes įtaiso gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="Geyes Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="Фабрика за Geyes аплетот"/>
+	<oaf_attribute name="name-mn" type="string" value=" &quot;Нүдүүд&quot; -г үндэслэгч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Geyes"/>
+	<oaf_attribute name="name-nl" type="string" value="Geyes Applet-Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for Geyes-panelprogram"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for geyes-applet"/>
+	<oaf_attribute name="name-pa" type="string" value="ਗਅਾੲੀਸ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu Geyes"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet Geyes"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo Geyes"/>
+	<oaf_attribute name="name-ro" type="string" value="Factory aplet gOchi"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения Geyes"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre Geyes"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka Goči"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Applet Geyes"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика аплета ГОчи"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika apleta GOči"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet gÖgon"/>
+	<oaf_attribute name="name-ta" type="string" value="ஜி.கண்கள் குறும்பயனகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตกลิ้งกลอก"/>
+	<oaf_attribute name="name-tr" type="string" value="Geyes Uygulak Mîmârîsi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплету &quot;Очі&quot;"/>
+	<oaf_attribute name="name-vi" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Geyes Applet 工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Geyes Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Geyes Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع بريمج جِآيز"/>
+	<oaf_attribute name="description-az" type="string" value="Geyes Aplet E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Месца аплету Geyes"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика на аплета Гайс"/>
+	<oaf_attribute name="description-bn" type="string" value="জি-চোখ অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;applet Geyes"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro aplet Geyes"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri Llygaid GNOME"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for øjnepanelprogram"/>
+	<oaf_attribute name="description-de" type="string" value="gEyes-Applet-Fabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου GEyes (Ματιών)"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de la miniaplicación Ojos de Gnome"/>
+	<oaf_attribute name="description-et" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-eu" type="string" value="Geyes applet-aren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Geyes-sovelman tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour l&apos;applet Geyes"/>
+	<oaf_attribute name="description-gl" type="string" value="Fábrica da applet Geyes"/>
+	<oaf_attribute name="description-gu" type="string" value="Geyes અેપ્લેટનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן יישומון Geyes"/>
+	<oaf_attribute name="description-hi" type="string" value="जीआइस अप्लेट फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica apleta za Geyes"/>
+	<oaf_attribute name="description-hu" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-is" type="string" value="Verksmiðja Geyes tólstikuforritsins"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per applet Geyes"/>
+	<oaf_attribute name="description-ja" type="string" value="目玉アプレットファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="눈동자 애플릿 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Geyes įtaiso gamykla"/>
+	<oaf_attribute name="description-lv" type="string" value="Geyes Paneļprogrammas Ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за Geyes аплетот"/>
+	<oaf_attribute name="description-mn" type="string" value=" &quot;Нүдүүд&quot; -г үндэслэгч"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet Geyes"/>
+	<oaf_attribute name="description-nl" type="string" value="Geyes Applet-Fabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for Geyes-panelprogram"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for geyes-applet"/>
+	<oaf_attribute name="description-pa" type="string" value="ਗਅਾੲੀਸ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletu Geyes"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica da Applet Geyes"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo Geyes"/>
+	<oaf_attribute name="description-ro" type="string" value="Factory aplet gOchi"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика окна приложения Geyes"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre Geyes"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna vstavka Goči"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e Applet Geyes"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика аплета ГОчи"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika apleta GOči"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet gÖgon"/>
+	<oaf_attribute name="description-ta" type="string" value="ஜி.கண்கள் குறும்பயனகம்"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตกลิ้งกลอก"/>
+	<oaf_attribute name="description-tr" type="string" value="Geyes Uygulak Mîmârîsi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика аплету &quot;Очі&quot;"/>
+	<oaf_attribute name="description-vi" type="string" value="Geyes Applet Factory"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Geyes Applet 工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Geyes Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Geyes Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_GeyesApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_GeyesApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Geyes"/>
+	<oaf_attribute name="name-ar" type="string" value="جآيز"/>
+	<oaf_attribute name="name-az" type="string" value="Geyes"/>
+	<oaf_attribute name="name-be" type="string" value="Geyes"/>
+	<oaf_attribute name="name-bg" type="string" value="Очички"/>
+	<oaf_attribute name="name-bn" type="string" value="জি-চোখ"/>
+	<oaf_attribute name="name-ca" type="string" value="Geyes"/>
+	<oaf_attribute name="name-cs" type="string" value="Geyes"/>
+	<oaf_attribute name="name-cy" type="string" value="Llygaid GNOME"/>
+	<oaf_attribute name="name-da" type="string" value="Øjne"/>
+	<oaf_attribute name="name-de" type="string" value="gEyes"/>
+	<oaf_attribute name="name-el" type="string" value="GEyes (Μάτια)"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Geyes"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Geyes"/>
+	<oaf_attribute name="name-es" type="string" value="Ojos de Gnome"/>
+	<oaf_attribute name="name-et" type="string" value="Geyes"/>
+	<oaf_attribute name="name-eu" type="string" value="Geyes"/>
+	<oaf_attribute name="name-fi" type="string" value="Geyes"/>
+	<oaf_attribute name="name-fr" type="string" value="gEyes"/>
+	<oaf_attribute name="name-ga" type="string" value="Geyes"/>
+	<oaf_attribute name="name-gl" type="string" value="Geyes"/>
+	<oaf_attribute name="name-gu" type="string" value="Geyes"/>
+	<oaf_attribute name="name-he" type="string" value="Geyes"/>
+	<oaf_attribute name="name-hi" type="string" value="जीआइस"/>
+	<oaf_attribute name="name-hr" type="string" value="Geyes"/>
+	<oaf_attribute name="name-hu" type="string" value="Geyes"/>
+	<oaf_attribute name="name-is" type="string" value="Geyes"/>
+	<oaf_attribute name="name-it" type="string" value="Geyes"/>
+	<oaf_attribute name="name-ja" type="string" value="目玉"/>
+	<oaf_attribute name="name-ko" type="string" value="눈동자"/>
+	<oaf_attribute name="name-lt" type="string" value="Geyes"/>
+	<oaf_attribute name="name-lv" type="string" value="Geyes"/>
+	<oaf_attribute name="name-mk" type="string" value="Geyes"/>
+	<oaf_attribute name="name-ml" type="string" value="മിഴിയിണ"/>
+	<oaf_attribute name="name-mn" type="string" value="Нүднүүд"/>
+	<oaf_attribute name="name-ms" type="string" value="Geyes"/>
+	<oaf_attribute name="name-nl" type="string" value="Geyes"/>
+	<oaf_attribute name="name-nn" type="string" value="Geyes"/>
+	<oaf_attribute name="name-no" type="string" value="Geyes"/>
+	<oaf_attribute name="name-pa" type="string" value="ਗਅਾੲੀਸ"/>
+	<oaf_attribute name="name-pl" type="string" value="Geyes"/>
+	<oaf_attribute name="name-pt" type="string" value="Geyes"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Geyes"/>
+	<oaf_attribute name="name-ro" type="string" value="gOchi"/>
+	<oaf_attribute name="name-ru" type="string" value="Geyes"/>
+	<oaf_attribute name="name-sk" type="string" value="Geyes"/>
+	<oaf_attribute name="name-sl" type="string" value="Goči"/>
+	<oaf_attribute name="name-sq" type="string" value="Geyes"/>
+	<oaf_attribute name="name-sr" type="string" value="ГОчи"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="GOči"/>
+	<oaf_attribute name="name-sv" type="string" value="gÖgon"/>
+	<oaf_attribute name="name-th" type="string" value="กลิ้งกลอก"/>
+	<oaf_attribute name="name-tr" type="string" value="Geyes"/>
+	<oaf_attribute name="name-uk" type="string" value="Очі"/>
+	<oaf_attribute name="name-vi" type="string" value="Geyes"/>
+	<oaf_attribute name="name-wa" type="string" value="Geyes"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Geyes"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Geyes"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Geyes"/>
+	<oaf_attribute name="description" type="string" value="A set of eyeballs for your panel"/>
+	<oaf_attribute name="description-ar" type="string" value="مجموعة مِقل عين لشريطك"/>
+	<oaf_attribute name="description-az" type="string" value="Paneliniz üçün bir dəst göz alması"/>
+	<oaf_attribute name="description-be" type="string" value="Усталёўвае вочкі для вашае панэлі"/>
+	<oaf_attribute name="description-bg" type="string" value="Комплект очички за панела ви."/>
+	<oaf_attribute name="description-bn" type="string" value="আপনার প্যানেলের জন্য কিছু চক্ষুগোলক"/>
+	<oaf_attribute name="description-ca" type="string" value="Un parell d&apos;ulls per al quadre"/>
+	<oaf_attribute name="description-cs" type="string" value="Pár očí pro váš panel"/>
+	<oaf_attribute name="description-cy" type="string" value="Par o lygaid ar gyfer eich panel"/>
+	<oaf_attribute name="description-da" type="string" value="Et par øjeæbler til panelet"/>
+	<oaf_attribute name="description-de" type="string" value="Ein Augenpaar für das Panel"/>
+	<oaf_attribute name="description-el" type="string" value="Ένα ζευγάρι μάτια για το ταμπλώ σας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="A set of eyeballs for your panel"/>
+	<oaf_attribute name="description-en_GB" type="string" value="A set of eyeballs for your panel"/>
+	<oaf_attribute name="description-es" type="string" value="Diferentes versiones de ojos para el panel"/>
+	<oaf_attribute name="description-et" type="string" value="Paar silmamuna sinu paneelile"/>
+	<oaf_attribute name="description-eu" type="string" value="Panelerako begi-bolak"/>
+	<oaf_attribute name="description-fi" type="string" value="Aseta silmäpari paneeliisi"/>
+	<oaf_attribute name="description-fr" type="string" value="Deux globes oculaires pour votre tableau de bord"/>
+	<oaf_attribute name="description-gu" type="string" value="તમારી પેનલ માટે બે અાંખો"/>
+	<oaf_attribute name="description-he" type="string" value="ערכת עיניים ללוח שלך"/>
+	<oaf_attribute name="description-hi" type="string" value="आपके पेनल के लिए दो आँखें"/>
+	<oaf_attribute name="description-hr" type="string" value="Par očiju za vašu plohu"/>
+	<oaf_attribute name="description-hu" type="string" value="Szemgolyók a panelre"/>
+	<oaf_attribute name="description-is" type="string" value="Augu fyrir tólstikuna þína"/>
+	<oaf_attribute name="description-it" type="string" value="Due occhi per il pannello"/>
+	<oaf_attribute name="description-ja" type="string" value="パネル用の目"/>
+	<oaf_attribute name="description-ko" type="string" value="패널 위의 눈동자"/>
+	<oaf_attribute name="description-lt" type="string" value="Akys tavo skydeliui"/>
+	<oaf_attribute name="description-lv" type="string" value="Pārītis acu jūsu panelim"/>
+	<oaf_attribute name="description-mk" type="string" value="Множество на eyeballs за твојата лента"/>
+	<oaf_attribute name="description-mn" type="string" value="Самбар дээр &quot;Нүдүүд&quot; байрлуулах"/>
+	<oaf_attribute name="description-ms" type="string" value="Jelingan mata untuk panel anda"/>
+	<oaf_attribute name="description-nl" type="string" value="Een paar ogen voor je paneel"/>
+	<oaf_attribute name="description-nn" type="string" value="Eit sett med auge til panelet ditt"/>
+	<oaf_attribute name="description-no" type="string" value="Et sett øyne for ditt panel"/>
+	<oaf_attribute name="description-pa" type="string" value="ੁਤੁਹਾਡੇ ਪੈਨਲ ਲੲੀ ਅਾੲੀਬੈੱਲ ਦਾ ਜੋੜਾ"/>
+	<oaf_attribute name="description-pl" type="string" value="Zbiór oczek dla panelu"/>
+	<oaf_attribute name="description-pt" type="string" value="Um par de olhos para o seu painel"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Um par de olhos para o painel"/>
+	<oaf_attribute name="description-ro" type="string" value="Un set de ochi pentru panelul dumneavoastră"/>
+	<oaf_attribute name="description-ru" type="string" value="Набор &quot;глазков&quot; для панели"/>
+	<oaf_attribute name="description-sk" type="string" value="Oči pre váš panel"/>
+	<oaf_attribute name="description-sl" type="string" value="Par oči na vašem pultu"/>
+	<oaf_attribute name="description-sq" type="string" value="Një komplet sysh për panelin tuaj"/>
+	<oaf_attribute name="description-sr" type="string" value="Пар очију за ваш панел"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Par očiju za vaš panel"/>
+	<oaf_attribute name="description-sv" type="string" value="Ett par ögon till din panel"/>
+	<oaf_attribute name="description-ta" type="string" value="உங்கள் பலகத்திற்கு ஒரு ேஜாடி கண்கள்"/>
+	<oaf_attribute name="description-th" type="string" value="ตาคู่หนึ่งสำหรับพาเนลของคุณ"/>
+	<oaf_attribute name="description-tr" type="string" value="Paneliniz için bir takım gözler"/>
+	<oaf_attribute name="description-uk" type="string" value="Встановлює аплет Очі на вашу панель"/>
+	<oaf_attribute name="description-vi" type="string" value="Những con ngươi trên panel"/>
+	<oaf_attribute name="description-wa" type="string" value="Des ronds ouys so vosse scriftôr ki shuvèt li cursoe"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="用于您的面板的一组眼球"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="在面板上顯示眼睛"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="在面板上顯示眼睛"/>
+	<oaf_attribute name="panel:category" type="string" value="Amusements"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መዝናኛዎች"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="تسالي"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Əyləncə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Забавы"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Забавления"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="মজা"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Divertiments"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Zábava"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Difyrion"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Underholdning"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Unterhaltung"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Ψυχαγωγία"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Amusements"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Amusements"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Entretenimientos"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Meelelahutus"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Denbora-pasak"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Huvitukset"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Divertissement"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Siamsa"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Entretementos"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="મનોરંજન"/>
+	<oaf_attribute name="panel:category-he" type="string" value="שעשועים"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="मनोरंजन"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Zanimljivosti"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Szórakozás"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Skemmtun"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Divertimento"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アミューズメント"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="재미"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Pramogos"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Izklaides"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="За забава"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="വിനോദോപാധി‌"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Зугаа цэнгэлүүд"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Hiburan"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Amusement"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Moro"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Underholdning"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਮਨੋਰੰਜਨ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Zabawki"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Divertimentos"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Diversões"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Amuzante"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Развлечения"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Zábava"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Zabava"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Zbavitje"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Занимљивости"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Zanimljivosti"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Underhållning"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="உற்சாகமூட்டிகள்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="บันเทิง"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Eğlencelikler"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Розваги"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Giải trí"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="娱乐"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="娛樂"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="娛樂"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-eyes.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="geyes"/>
+        <oaf_attribute name="bugzilla:other_binaries" type="string" value="geyes_applet2"/>
+
+</oaf_server>
+
+</oaf_info>

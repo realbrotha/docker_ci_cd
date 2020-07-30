@@ -1,0 +1,1395 @@
+#!/sbin/sh
+
+################################################################################
+#
+#	Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#	Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+#pragma ident	"@(#)lucopy.sh	5.40	06/09/15 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:              lucopy <icf_file>
+# FUNCTION:           Copies the files from PBE to ABE
+# INPUT:              ICF of BE NAME
+# OUTPUT:             NONE
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best
+# performance over /bin/sh and /bin/ksh.
+#
+################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+ERR_FLG=""
+ABE_ICF=""
+PBE_ICF=""
+TEMP_MNTPT="/.alt.lucopy.$$"
+TMP_RESULT_FILE="/tmp/.lucopy.results.tmp.$$"
+TMP_FILE="/tmp/.lucopy.tmp_file.$$"
+TMP_FDFILE="/tmp/.lucopy.fd1.$$"
+TMP_FDFILE1="/tmp/.lucopy.fd2.$$"
+ABE_FILE="/tmp/.lucopy.abe_file.$$"
+ABE_FILESAVE="/tmp/.lucopy.abe_filesav.$$"
+MAIL_ROOT="/tmp/.lucopy.mail.root.$$"
+ERR_MSG_LOG="/tmp/.lucopy.err.$$"
+CPIO_ERR="/tmp/.lucopy.cpio_err.$$"
+CPIO_ERR2="/tmp/.lucopy.cpio_err_2.$$"
+CPIO_ERR_TMP="/tmp/.lucopy.cpio_err_tmp.$$"
+FIND_ERR="/tmp/.lucopy.find_err.$$"
+INTEGRITY_CHECK="yes"
+FILTER_FILE="/tmp/.lucopy_filter_one.$$"
+FILTER_FILE_2="/tmp/.lucopy_filter_two.$$"
+TMP_REMOVABLE_DEV_FILE="/tmp/.lucopy_removable_devs.$$"
+
+# This file is used by shell sub-processes (such as inside of a 'while..done')
+# to signal the main shell process that an error has occurred
+FLAG_FILE="/tmp/.lucopy_flagfile.$$"
+
+# define commands used
+DATE_CMD="/usr/bin/date"
+MKTEMP_CMD="/usr/bin/mktemp"
+CP_CMD="/usr/bin/cp"
+CPIO_CMD="/usr/bin/cpio"
+FDO_CMD="/etc/lib/lu/ludo lufdo"
+
+# Normalize file operations temporary file name prefix
+NORMALIZECLI_PREFIX="lucopy.normalizeCliFileops"
+
+# permanent file that is left behind if the copy fails
+CPIO_ERROR_FILE="/tmp/lucopy.errors.$$"
+
+trap "" 1 2 3 15
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i <abe_icf_file> -p <pbe_icf_file>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		normalizeCliFileops	
+# Description:	Scan the input filter file for user specified include/exclude entries.
+#		Find out if there is any duplicate entry in the filter file elsewhere
+#		preceded by '+' or '-'. If so, remove all such entries. This is to give the
+#		user specified entries priority over the ones determined by system.
+#		Note that, only the entries preceded by '+' or '-' will be removed.
+# Local Prefix:	ncf_	
+# Arguments:	$1 = Name of the filter file with absolute path. 
+# Example:	normalizeCliFileOps "${FILTER_FILE}"	
+# Returns:	<none> 
+#################################################################################################
+
+normalizeCliFileops()
+{
+	ncf_filterFile="$1"
+	
+	# generate temporary file name for storing the normalized filters
+	# use /usr/bin/mktemp if available - otherwise construct file name to use
+	if [ -x $MKTEMP_CMD ] ; then
+		# mktemp is available - use that to generate temp name
+		ncf_filterFileTmp=`$MKTEMP_CMD -t ${NORMALIZECLI_PREFIX}.XXXXXX`
+		[ $? -ne 0 ] && return
+	else
+		# mktemp not available - construct name to use
+		# This is needed to keep sccs from expanding the % tokens below!
+		PCT='%'
+		ncf_filterFileTmp="/tmp/${NORMALIZECLI_PREFIX}.$$`$DATE_CMD +\"${PCT}d${PCT}e${PCT}g${PCT}G${PCT}H${PCT}j${PCT}m${PCT}M${PCT}S${PCT}w${PCT}W\"`"
+		$CP_CMD /dev/null "$ncf_filterFileTmp"
+		[ $? -ne 0 ] && return
+	fi
+
+	# debugging output: file name generated
+	${LUPRINTF} -lp2D - "`gettext 'Normalize cli file operations temporary file <%s>.'`" \
+			"${ncf_filterFileTmp}"
+
+	# return if filter file name not specified
+	[ -z $ncf_filterFile ] && return
+
+	# return if filter file does not exist or is not readable
+	[ -r $ncf_filterFile ] || return
+
+	# return if filter file is empty
+	[ -s $ncf_filterFile ] || return
+
+	# delete temporary file if it exists
+	[ -r $ncf_filterFileTmp ] && /bin/rm -f $ncf_filterFileTmp > /dev/null 2>&1
+
+	# determine line number of first line of lu_content_control file
+	ncf_lineNumber=`/bin/grep -n "#####" $ncf_filterFile | /bin/head -1 | /bin/cut -d ':' -f1`
+
+	# return if lu_content_control file is not included
+	[ -z "$ncf_lineNumber" ] && return
+
+	# return if lu_content_control file is at the head of the filter file
+	[ $ncf_lineNumber -le 1 ] && return
+
+	# determine number of lines of "user file operations"
+	# split out user file operations and filter file lines
+	ncf_userLineNumber=`/bin/expr $ncf_lineNumber - 1`
+
+	# create the initial edit expression
+	ncf_userRegExpr="^(\+ |\- )("
+
+	# add all user operations to the expression
+	for i in `/bin/head -$ncf_userLineNumber $ncf_filterFile | /bin/egrep "^(\+ |\- )" | /bin/cut -d ' ' -f2 `
+	do
+		ncf_userRegExpr="${ncf_userRegExpr}${i}|"
+	done
+
+	# terminate the edit expression
+	ncf_userRegExpr="${ncf_userRegExpr} )(/+?)$"
+
+	# create new filter file - include user file operations first
+	/bin/head -$ncf_userLineNumber $ncf_filterFile > $ncf_filterFileTmp
+
+	# search $ncf_filterFile and append edited filter contents
+	/bin/cat $ncf_filterFile | /bin/egrep -v "${ncf_userRegExpr}" >> $ncf_filterFileTmp
+
+	# replace real filter file with modified filter file
+	/bin/mv $ncf_filterFileTmp $ncf_filterFile
+
+	return
+}
+
+################################################################################
+# Name:		do_integrity_check
+# Description:	perform pre-copy content integrity check (if enabled)
+# Local Prefix:	ick_
+# Arguments:	$1 = filter file to perform integrity check against
+#		$2 = mount point of source boot environment to check
+# Returns:	0 - integrity check was successful (or skipped)
+#		1 - integrity check failed
+################################################################################
+
+do_integrity_check()
+{
+	ick_filterFile="$1"
+	ick_pbeMpt="$2"
+
+	# return if no filter file
+	[ -z "${ick_filterFile}" ] && return 0
+	[ -f "${ick_filterFile}" ] || return 0
+	[ -s "${ick_filterFile}" ] || return 0
+
+	# return if source boot environment mount point is not valid
+	[ -z "${ick_pbeMpt}" ] && ick_pbeMpt="/"
+	[ -d "${ick_pbeMpt}" ] || return 0
+
+	# Determine location of package database on source boot environment
+	if [ "${ick_pbeMpt}" = '/' ] ; then
+		ick_contentsFile='/var/sadm/install/contents'
+		ick_installDB='/var/sadm/install/install.db'
+	else
+		ick_contentsFile="${ick_pbeMpt}/var/sadm/install/contents"
+		ick_installDB="${ick_pbeMpt}/var/sadm/install/install.db"
+	fi
+
+	# return if no contents (package) database
+	[ -f "${ick_installDB}" -a -s "${ick_installDB}" ] ||
+	[ -f "${ick_contentsFile}" -a -s "${ick_contentsFile}" ] ||
+	return 0
+
+	# return if integrity check is not enabled
+	if [ "${INTEGRITY_CHECK}" != "yes" ] ; then
+		${LUPRINTF} -lp2 "`gettext 'No integrity check performed (\"-I\" option set).'`"
+		return 0
+	fi
+
+	# integrity check enabled: check package integrity
+	${LUPRINTF} -lp2 "`gettext 'Checking selection integrity.'`"
+	${LUPRINTF} -lp2D - "`gettext 'Check integrity against package database.'`"
+	${FDO_CMD} integrity_check "${ick_filterFile}" "${ick_pbeMpt}"
+	if [ $? -ne 0 ] ; then
+		${LUPRINTF} -Eelp2 "`gettext 'Integrity check failed.'`"
+		return 1
+	fi
+
+	# integrity check successful
+	${LUPRINTF} -lp2 "`gettext 'Integrity check OK.'`"
+	return 0
+}
+
+################################################################################
+# Name:		is_mntpt_in_skiplist
+# Description:	determine if a mount point is in a skip list file
+# Local Prefix:	ims_
+# Arguments:	$1 = skip list file name
+#		$2 = mount point to serch for
+# Returns:	0
+# Outputs:	If the mountpoint is found in the skiplist file, the name of
+#		the mountpoint is output
+################################################################################
+is_mntpt_in_skiplist()
+{
+	ims_skiplist="$1"
+	ims_mntpt="$2"
+
+	# return if skiplist file is not defined or is empty
+	[ -z "${ims_skiplist}" ] && return 0
+	[ -s "${ims_skiplist}" ] || return 0
+
+	# return if mountpoint is not defined
+	[ -z "${ims_mntpt}" ] && return 0
+
+	# read skiplist file looking for specified mountpoint
+	while read ims_line ; do
+		[ "${ims_line}" = "${ims_mntpt}" ] && echo "${ims_mntpt}"
+	done < ${ims_skiplist}
+
+	# done scanning file - return
+	return 0
+}
+
+################################################################################
+# Name:		process_fs_list
+# Description:	For each file system to be created on the new boot environment
+#		(that is not shared and is not swap), add entries to the filter
+#		file depending on whether the file system is "preserved" or not:
+#		  - add "<" entries for preserved file systems
+#		  - add "+" entries for non-preserved file systems
+# Local Prefix:	pfs_
+# Arguments:	$1 = skip list file name
+#		$2 = filter to append mount point include/excludes to
+#		$3 = parent boot environment icf file
+#		$4 = new boot environment icf file
+# Returns:	0 - no file systems skipped
+#		1 - one or more file systems skipped
+################################################################################
+process_fs_list()
+{
+	pfs_skiplist="$1"
+	pfs_filter="$2"
+	pfs_pbeicf="$3"
+	pfs_abeicf="$4"
+	pfs_anySkipped=0
+
+	# return if skiplist file is not defined or is empty
+	[ -z "${pfs_skiplist}" ] && return 0
+
+	# return if filter file is not defined or does not exist
+	[ -z "${pfs_filter}" ] && return 0
+	[ -f "${pfs_filter}" ] || return 0
+
+	# return if pbe icf file is not defined or is empty
+	[ -z "${pfs_pbeicf}" ] && return 0
+	[ -s "${pfs_pbeicf}" ] || return 0
+
+	# return if abe icf file is not defined or is empty
+	[ -z "${pfs_abeicf}" ] && return 0
+	[ -s "${pfs_abeicf}" ] || return 0
+
+	# Process each mount point for the BE being populated
+	# For each mount point an entry must be made in the filter file:
+	# - if the mount point is preserved, add a "<" entry to the filter
+	# - if the mount point is populated, add a "+" entry to the filter
+	for pfs_mntpt in `${LUETCBIN}/ludo filter_shared_and_swap ${pfs_pbeicf} ${pfs_abeicf} |\
+ /bin/awk -F: '{print $2}'` ; do
+		# search for this mountpoint in the new BE in the skip list file
+	 	# if the mount point is to be skipped, exit 1, else exit 0
+
+		if [ -n "`is_mntpt_in_skiplist \"${pfs_skiplist}\" \"${pfs_mntpt}\"`" ] ; then
+			${LUPRINTF} -lp1 "`gettext 'Preserving contents of mount point <%s>.'`" \
+"${pfs_mntpt}"
+			${FDO_CMD} mountpoints_to_copy '<' /etc/vfstab /etc/mnttab ${pfs_mntpt} \
+"${LU_UNSUPPORTED_FILE_SYSTEM_TYPES}" >> ${FILTER_FILE}
+			pfs_anySkipped=1
+		else
+			${LUPRINTF} -lp1 "`gettext 'Populating contents of mount point <%s>.'`" \
+"${pfs_mntpt}"
+			${FDO_CMD} mountpoints_to_copy '+' /etc/vfstab /etc/mnttab ${pfs_mntpt} \
+"${LU_UNSUPPORTED_FILE_SYSTEM_TYPES}" >> ${FILTER_FILE}
+		fi
+	done
+	return ${pfs_anySkipped}
+}
+
+send_mail_to_root()
+{
+  # Send mail to root regarding problems faced during cpio.
+  
+  TMP_MAIL_ROOT=${MAIL_ROOT}.tmp
+  /bin/rm -f ${TMP_MAIL_ROOT}
+  ${LUPRINTF} +X -Wpa "${TMP_MAIL_ROOT}" "`gettext 'cpio failed due to the reasons listed below.'`"
+  ${LUPRINTF} +X -Wpa "${TMP_MAIL_ROOT}" "`gettext 'The reason for failure may or may not be critical.'`"
+  ${LUPRINTF} +X -Wpa "${TMP_MAIL_ROOT}" "`gettext 'It is left to the system administrator to decide, whether the error is fatal or not.'`"
+  ${LUPRINTF} +X -Wpa "${TMP_MAIL_ROOT}" '%s' "`gettext '------------------------------------------------------------'`"
+  /bin/sed '/^[0-9][0-9]*[ 	][ 	]*blocks/d' $MAIL_ROOT >> $TMP_MAIL_ROOT
+  /bin/mailx -s "`gettext 'lucopy problems'`" root < $TMP_MAIL_ROOT
+  /bin/rm -f $TMP_MAIL_ROOT  /tmp/lumkfs.skipfslist
+}
+  
+copy_error_exit()
+{
+  # output error message if included in function call
+  [ -n "$1" ] && ${LUPRINTF} -Eelp2 '%s' "$*"
+
+  # Unmount the ABE slices, as we have come across some error, and
+  # we want to exit.
+  
+  ${LUBIN}/luumount -f -i "$ABE_ICF" >& 2
+  error_exit 1
+}
+
+error_exit()
+{
+  [ -d "${TEMP_MNTPT}" ] && /bin/rmdir "${TEMP_MNTPT}"
+  if [ -n "${PBE_ICF}" -a -n "${PBE_NAME}" -a -n "${CURR_BE}" -a "$PBE_NAME" != "$CURR_BE" ] ; then
+    ${LUBIN}/luumount -f -i $PBE_ICF
+  fi
+  if [ -z "$1" ] ; then
+    exit_script 1
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Remove all temporary files used
+
+  /bin/rm -f "${FILTER_FILE}" "${FILTER_FILE_2}" "${TMP_FDFILE}" "${TMP_FDFILE1}" $ABE_FILE \
+$ABE_FILESAVE $CPIO_ERR ${CPIO_ERR2} $ERR_MSG_LOG $FIND_ERR $MAIL_ROOT \
+$TMP_FILE /tmp/lumkfs.skipfslist "${TMP_RESULT_FILE}" "${FLAG_FILE}" $TMP_REMOVABLE_DEV_FILE
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s ${LUBIN}/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. ${LUBIN}/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f ${LU_LUTAB_FILE} -o ! -s ${LU_LUTAB_FILE} ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No boot environments are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_F="" # -F f - filter file to use (PRIVATE)
+flag_I="" # -I - no integrity check (PRIVATE).
+flag_c="" # -c n - mount point to clone directory permissions from
+flag_i="" # -i n - abe icf file to use.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_p="" # -p n - pbe icf file to use.
+flag_s="" # -s f - file system skip file (PRIVATE).
+flag_x="" # -x n = set debug level to n (PRIVATE).
+flag_z="" # -z f - filter file (PRIVATE).
+
+# file system skip list file name
+FS_SKIP_LIST="" 
+
+# Remove any temporary files before they are used
+/bin/rm -f "${FILTER_FILE}" "${FILTER_FILE_2}" "${TMP_FDFILE}" "${TMP_FDFILE1}" $ABE_FILE \
+$ABE_FILESAVE $CPIO_ERR ${CPIO_ERR2} $ERR_MSG_LOG $FIND_ERR $MAIL_ROOT \
+$TMP_FILE /tmp/lumkfs.skipfslist "${TMP_RESULT_FILE}" "${FLAG_FILE}" $TMP_REMOVABLE_DEV_FILE
+
+# Parse command line options
+while [ $# -ne 0 ] ; do
+  while getopts c:F:Ii:l:o:p:s:x:Xz: c
+  do
+    case $c in
+      I) # -I - no integrity check
+	 INTEGRITY_CHECK="no"
+	 ;;
+
+      c) # -c mntpt
+         lulib_cannot_duplicate_option "${flag_c}" "${OPTARG}" "-c"
+	 flag_c="${OPTARG}"
+	 ;;
+
+      i) # -i abe_icf_file
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="${OPTARG}"
+	 ABE_ICF="${OPTARG}"
+	 ;;
+
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+
+      p) # -p n - pbe icf file to use.
+	 lulib_cannot_duplicate_option "${flag_p}" "${OPTARG}" "-p"
+	 flag_p="${OPTARG}"
+	 PBE_ICF="${OPTARG}"
+	 ;;
+
+      s) # -s f - file system skip file (PRIVATE).
+	 lulib_cannot_duplicate_option "${flag_s}" "${OPTARG}" "-s"
+	 flag_s="${OPTARG}"
+	 FS_SKIP_LIST="${OPTARG}"
+	 ;;
+
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+
+      z) # -z f - filter file (PRIVATE).
+	 lulib_cannot_duplicate_option "${flag_z}" "${OPTARG}" "-z"
+	 ERRMSG="`$CP_CMD \"${OPTARG}\" \"${FILTER_FILE}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -z option cannot be used as filter file.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	flag_z="${OPTARG}"
+	;;
+
+      \?) # unknown - option.
+	  usage 3
+	  esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Make sure that a PBE internal configuration file name was specified.
+
+if [ -z "${PBE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-p> option to specify the ICF file of the PBE to copy file systems from.'`"
+  usage 3
+fi
+
+# Validate the PBE ICF file.
+
+lulib_icf_validate "${PBE_ICF}"
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-p> option is not a valid ICF file.'`" "${PBE_ICF}"
+  usage 3
+fi
+
+# Make sure that a ABE internal configuration file name was specified.
+
+if [ -z "${ABE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-p> option to specify the ICF file of the ABE to copy file systems from.'`"
+  usage 3
+fi
+
+# Validate the ABE ICF file.
+
+lulib_icf_validate "${ABE_ICF}"
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-p> option is not a valid ICF file.'`" "${ABE_ICF}"
+  usage 3
+fi
+
+# Get the current BE name
+
+CURR_BE="`lulib_lucurr`"
+if [ $? -ne 0 -o -z "${CURR_BE}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active PBE.'`"
+  exit_script 1
+fi
+
+# If the PBE specified is NOT the current BE, then mount the PBE to be copied from
+
+PBE_MPT="/"
+PBE_NAME="`/bin/head -1 $PBE_ICF | /bin/awk -F: '{print $1}'`"
+ABE_NAME="`/bin/head -1 $ABE_ICF | /bin/awk -F: '{print $1}'`"
+
+if [ "$PBE_NAME" != "$CURR_BE" ] ; then
+  PBE_MPT=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i ${PBE_ICF} 2>/dev/null`
+  if [ $? -ne 0 ] ; then
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount PBE <%s> from ICF file <%s>.'`" "${PBE_NAME}" "${PBE_ICF}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Contents of ICF file <%s>:\n****\n%R\n****'`" "${PBE_ICF}" < ${PBE_ICF}
+    LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i ${PBE_ICF} 2>&1 | ${LUPRINTF} -Eelp2 "`gettext 'Output from <%s>:\n****\n%R\n****'`" "${LUBIN}/lumount -i ${PBE_ICF}"
+    exit_script 1
+  fi
+  if [ -z "${PBE_MPT}" ] ; then
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Failed to mount PBE <%s> from ICF file <%s>.'`" "${PBE_NAME}" "${PBE_ICF}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Contents of ICF file <%s>:\n****\n%R\n****'`" "${PBE_ICF}" < ${PBE_ICF}
+    LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i ${PBE_ICF} 2>&1 | ${LUPRINTF} -Eelp2 "`gettext 'Output from <%s>:\n****\n%R\n****'`" "${LUBIN}/lumount -i ${PBE_ICF}"
+    exit_script 1
+  fi
+fi
+
+COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+
+# Output debugging information about filters and integrity checks
+if [ -s "${FILTER_FILE}" ] ; then
+  # Filter file exists
+  ${LUPRINTF} -lp2D - "`gettext 'File system filter specifications file: <%s>'`" "${FILTER_FILE}"
+else
+  # No filter file - create empty filter file
+  ${LUPRINTF} -lp2D - "`gettext 'No file system filter in use.'`"
+  ERRMSG="`${LUPRINTF} -c \"${FILTER_FILE}\" 2>&1`"
+  if [ $? -ne 0 ] ; then
+    [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to create file system filter file <%s>.'`" "${FILTER_FILE}"
+    exit_script 1
+  fi
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'Integrity check setting: <%s>'`" "${INTEGRITY_CHECK}"
+
+# Create temporary mount point if it does not already exist
+if [ ! -d "${TEMP_MNTPT}" ] ; then
+  ERRMSG="`/bin/mkdir \"${TEMP_MNTPT}\" 2>&1`"
+  if [ ! -d "${TEMP_MNTPT}" ] ; then
+    [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to create temporary mount point <%s>.\n'`" "${TEMP_MNTPT}"
+    exit_script 1
+  fi
+fi
+
+# Root slice of ABE is mounted, to do the special processing for /usr and
+# /var filesystems.
+
+# In the following while loop, a "0" exit code means "not found" and a
+# "1" exit code means "found" as per this comment in man sh: If no
+# commands in the do list are executed, then the while command returns
+# a zero exit status. So "0" will mean NOTHING was found in the ICF
+# file that matched "/"...
+
+/bin/rm -f ${FLAG_FILE}
+${LUETCBIN}/ludo filter_shared_and_swap $PBE_ICF $ABE_ICF | /bin/nawk -F: ' $2 == "/" { printf("%s %s\n", $3, $4) }' |
+while read bdevice fstyp ; do
+  if [ -z "$bdevice" -o -z "$fstyp" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'ICF files <%s> and <%s> for BEs <%s> and <%s> contains invalid contents.'`" "${PBE_ICF}" "${ABE_ICF}" "${PBE_NAME}" "${ABE_NAME}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  if [ ! -b "$bdevice" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Device <%s> for mount point </> from ICF file <%s> for ABE <%s> is not a block device.'`" "${bdevice}" "${ABE_ICF}" "${ABE_NAME}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  real_fstyp="`lulib_fstyp $bdevice`"
+  if [ $? -ne 0 ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine file system type for device <%s> for mount point </> from ICF file <%s> for ABE <%s>.'`" "${bdevice}" "${ABE_ICF}" "${ABE_NAME}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  if [ "$real_fstyp" != "$fstyp" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'File system type <%s> for device <%s> for mount point </> from ICF file <%s> for ABE <%s> should be <%s>.'`" "${real_fstyp}" "${bdevice}" "${ABE_ICF}" "${ABE_NAME}" "${fstyp}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  ERRMSG="`/usr/sbin/mount -F $fstyp $bdevice \"${TEMP_MNTPT}\" 2>&1`"
+  if [ $? -ne 0 ] ; then
+    [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount device <%s> for mount point </> for ABE <%s>.'`" "${bdevice}" "${ABE_NAME}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  # Cause data/mountpoint to be flushed/synced
+  if [ -x "/usr/sbin/lockfs" ] ; then
+	  # force log to be flushed before unmounting
+
+	  /usr/sbin/lockfs -f "${TEMP_MNTPT}" 1>/dev/null 2>&1
+  else
+	  # sync data to storage medium before unmounting
+	  /bin/sync
+  fi
+
+  # unmount boot environment
+  ERRMSG="`/usr/sbin/umount \"${TEMP_MNTPT}\" 2>&1`"
+  ret=$?
+  if [ $ret -ne 0 ] ; then
+    ERRMSG="`/usr/sbin/umount -f \"${TEMP_MNTPT}\" 2>&1`"
+    ret=$?
+  fi
+
+  # If the umount failed, issue error message
+  if [ $ret -ne 0 ] ; then
+    [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to unmount ABE <%s>.'`" "${ABE_NAME}"
+    /bin/touch ${FLAG_FILE}
+    exit 0
+  fi
+
+  /bin/rmdir "${TEMP_MNTPT}"
+  exit 2
+done
+
+if [ $? -ne 2 -o -f "${FLAG_FILE}" ] ; then
+  /bin/rm -f "${FLAG_FILE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine file systems for ABE <%s>.'`" "${ABE_NAME}"
+  error_exit 1
+fi
+
+#--------------------------------------------------------------------------
+
+# Copy the file systems of ABE into $ABE_FILE in reverse order.
+
+${LUETCBIN}/ludo filter_shared_and_swap $PBE_ICF $ABE_ICF | /bin/sort -r -t: +1 -2 | /bin/awk -F: '{ printf("%s\n",$2)}' > $ABE_FILE
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine file system list from ICF files <%s> and <%s> for ABE <%s>.'`" "${PBE_FILE}" "${ABE_FILE}" "${ABE_NAME}"
+  error_exit 1
+fi
+
+ERRMSG="`$CP_CMD \"$ABE_FILE\" \"$ABE_FILESAVE\" 2>&1`"
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to copy file system list file <%s> to <%s>.'`" "${ABE_FILE}" "${ABE_FILESAVE}"
+  error_exit 1
+fi
+
+#--------------------------------------------------------------------------
+
+# Determine the file systems to be copied to ABE.
+
+compul_list=`${LUETCBIN}/ludo filter_shared_and_swap $ABE_ICF $PBE_ICF | /bin/sort -r -t: +1 -2 | /bin/awk -F: '{ printf("%s ",$2) }'`
+if [ $? -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine file system list from ICF files <%s> and <%s> for ABE <%s>.'`" "${PBE_FILE}" "${ABE_FILE}" "${ABE_NAME}"
+  error_exit 2
+fi
+
+#--------------------------------------------------------------------------
+
+# Mount the slices of ABE.
+
+if [ -n "${flag_c}" -a -n "${PBE_MPT}" ] ; then
+	dest=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -c "${PBE_MPT}" -i "${ABE_ICF}" 2>/dev/null`
+	RET=$?
+else
+	dest=`LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i "${ABE_ICF}" 2>/dev/null`
+	RET=$?
+fi
+
+if [ $RET -ne 0 ] ; then
+  [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount ABE <%s> from ICF file <%s>.'`" "${ABE_NAME}" "${ABE_ICF}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Contents of ICF file <%s>:\n****\n%R\n****'`" "${ABE_ICF}" < ${ABE_ICF}
+  LU_OUTPUT_FORMAT=text ${LUBIN}/lumount -i ${ABE_ICF} 2>&1 | ${LUPRINTF} -Eelp2 "`gettext 'Output from <%s>:\n****\n%R\n****'`" "${LUBIN}/lumount -i ${ABE_ICF}"
+  copy_error_exit
+fi
+
+if [ -z "${dest}" ] ; then
+  [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Failed to mount ABE <%s> from ICF file <%s>.'`" "${ABE_NAME}" "${ABE_ICF}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Contents of ICF file <%s>:\n****\n%R\n****'`" "${ABE_ICF}" < ${ABE_ICF}
+fi
+
+#--------------------------------------------------------------------------
+
+# Because of the standardization of Solaris there should never
+# be hard links (defined in pkgs) between possible filesystems.
+
+# Create the filter used to control file systems that are copied.
+#
+# The copy algorithm only descends into directories on file systems that are
+# explicitly included in the filter specification; the copy is done via a "copy
+# only what is included" list.
+#
+# If mount points come into existence during the copy operation (either through
+# auto or direct mounting) they are not included in the cloned boot environment.
+#
+# The initial filter file contains:
+#
+#  - user (lucreate command line) item include or exclude specifications
+#
+#  - all required file systems forced includes:
+#    - mandatory file include/exclude list from /etc/lu/lu_content_control
+#
+# The following is then appended:
+#
+#  - exclude all currently mounted boot environments
+#  - exclude new boot environment destination mountpoints
+#  - exclude all shared file systems
+#  - exclude all files in all crash dump directories under /var/crash
+#  - exclude all non-directories from /var/run and /var/tmp
+#
+# The integrity of the selection is then checked to make sure that the package
+# database is maintained; no required item listed in the package database may
+# be removed by a filter specification.
+#
+# The following is then appended:
+#
+#  - include/preserve all source/destination file systems
+#  - represent all network mount points as directories
+#
+# The filter is sorted; the resulting sorted list is given to "fdo filter_dir"
+# which descends the parent boot environment file system hierarchy and outputs
+# file and directory names to be copied.
+
+#----------------------------------------
+
+# Exclude mounted boot environments including new BEs destination mountpoint
+# Lines from "lumount -X" look like this:
+#   <beStatus name="c0t2d0s0" complete="yes" active="yes" \
+#   activeOnReboot="yes" busy="no" status="" deletable="no" \
+#   mounted="yes" mountPoint="/"/>
+# Extract mountPoint= value for all lines with mounted="yes"
+#    - add "x mpt" for all currently mounted boot environments
+#    - add "x mpt" for the new BEs destination mount point
+
+${LUBIN}/lumount -X 2>/dev/null | while read entireLine ; do
+	beMntpt=`echo "${entireLine}" \
+	| /bin/grep '^<beStatus ' \
+	| /bin/fgrep ' mounted="yes"' \
+	| /bin/fgrep -v ' mountPoint="/"' \
+	| /bin/sed 's/.* mountPoint="//' \
+	| /bin/cut -d'"' -f1 \
+	| ${LUETCBIN}/ludo xml_decode_string`
+	[ -n "${beMntpt}" ] && ${LUPRINTF} -a "${FILTER_FILE}" \
+'# boot environment %s\nx %s' "${entireLine}" "${beMntpt}"
+done
+
+#----------------------------------------
+
+# Exclude all shared file systems
+#    - add "x mpt" for all shared file systems (remote all shared)
+
+${LUETCBIN}/ludo get_shared $ABE_ICF $PBE_ICF >> ${FILTER_FILE}
+if [ $? -ne 0 ] ; then
+	copy_error_exit "`gettext 'Cannot discover shared file systems.'`"
+fi
+
+#----------------------------------------
+
+# Exclude all crash dump files
+#    - add "x file" for all files in all crash dump directories
+# This directory contains crash dump files that are only pertinent to the
+# current boot environment - in addition they are potentially very large.
+# Excluding them here helps limit the size of the new be being created.
+
+if [ -d /var/crash ] ; then
+	/bin/find /var/crash/* -type f -print 2>/dev/null | while read entireLine ; do
+		${LUPRINTF} -a "${FILTER_FILE}" 'x %s' "${entireLine}"
+	done
+fi
+
+#----------------------------------------
+
+# For x86 only: Exclude GRUB menu
+#    - add "x file" for GRUB menu
+# This file is only meaningful in the BE it was created in.
+# Don't copy this file over
+
+if [ "${LU_SYSTEM_ARCH}" = i386 ]; then
+   ${LUPRINTF} -a "${FILTER_FILE}" 'x %s' "/${BOOT_MENU}"
+fi
+
+#----------------------------------------
+
+# Perform the integrity check
+
+do_integrity_check "${FILTER_FILE}" "${PBE_MPT}"
+if [ $? -ne 0 ] ; then
+	copy_error_exit "`gettext 'New boot environment integrity compromised \
+by file exclusions specified.'`"
+fi
+
+#----------------------------------------
+
+# include/preserve all source/destination file systems
+#    - add "+ mpt" for each file system copied but not preserved
+#    - add "< mpt" for each file system copied but preserved
+
+process_fs_list "${FS_SKIP_LIST}" "${FILTER_FILE}" "${PBE_ICF}" "${ABE_ICF}"
+anySkipped=$?
+
+#----------------------------------------
+
+# Represent all network mount points as directories
+#    - add ". mpt" for all network mount points
+
+${FDO_CMD} mountpoints_to_exclude /etc/vfstab /etc/mnttab $PBE_MPT $TMP_REMOVABLE_DEV_FILE >> ${FILTER_FILE}
+if [ $? -ne 0 ] ; then
+	copy_error_exit "`gettext 'Cannot discover shared file system mountpoints.'`"
+fi
+
+#----------------------------------------
+
+# exclude /var/tmp and /var/run
+#    - add "x item" for all non-directory entries in /var/tmp and /var/run
+# These directories contain entries that are only pertinent to the currently
+# running instance of Solaris - they are also highly subject to change for
+# the duration of the copy.  Excluding them conserves disk space on the target
+# boot environment, and prevents "cannot open" or "cannot create" messages
+# from being produced by cpio.
+
+/bin/find /var/tmp /var/run '!' -type d -print 2>/dev/null | while read entireLine ; do
+		${LUPRINTF} -a "${FILTER_FILE}" 'x %s' "${entireLine}"
+done
+
+#----------------------------------------
+
+# Normalize the filter file to remove directory/file entries that are overridding entries
+# specified by the user to be included/excluded.
+
+normalizeCliFileops "${FILTER_FILE}"
+
+#----------------------------------------
+
+# sort the filter list
+${FDO_CMD} sort_list $PBE_MPT ${FILTER_FILE} > ${FILTER_FILE_2}
+if [ $? -ne 0 ] ; then
+	copy_error_exit "`gettext 'Cannot create boot environment content filter.'`"
+fi
+
+#--------------------------------------------------------------------------
+
+# Output appropriate pre-copy debugging information
+
+${LUPRINTF} -lp2D 4 "`gettext 'Primary Boot Environment ICF:\
+\n********************\n%R\n********************'`" < "${PBE_ICF}"
+
+${LUPRINTF} -lp2D 4 "`gettext 'New Boot Environment ICF:\
+\n********************\n%R\n********************'`" < "${ABE_ICF}"
+
+${LUPRINTF} -lp2D 3 "`gettext 'Filter before sorting:\
+\n********************\n%R\n********************'`" < "${FILTER_FILE}"
+
+${LUPRINTF} -lp2D 2 "`gettext 'Final copy filter:\
+\n********************\n%R\n********************'`" < "${FILTER_FILE_2}"
+
+if [ ${LU_DEBUG} -gt 0 ] ; then
+  ${FDO_CMD} describe_filter ${FILTER_FILE_2}
+fi
+
+#--------------------------------------------------------------------------
+
+# Populate the new boot environment
+
+# Output appropriate 'we are now copying.' message
+
+if [ "${anySkipped}" -eq 0 ] ; then
+	${LUPRINTF} -lp2 "`gettext 'Copying.'`"
+else
+	${LUPRINTF} -lp2 "`gettext 'Copying file systems that have not been preserved.'`"
+fi
+
+# Do the copy.
+
+OLD_PWD="`/bin/pwd`"
+cd $PBE_MPT
+${FDO_CMD} filter_dir ${FILTER_FILE_2} $PBE_MPT \
+	| LANG=C LC_ALL=C ${CPIO_CMD} -pPcdum "${dest}" 2>${CPIO_ERR} 1>&2
+ret=$?
+
+#
+# FS_SKIP_LIST is used in a scenario when the contents of a file system
+# need to be preserved. Such a case can happen when a new Boot
+# environment is to be created with the root mirrored, and the contents
+# of one PBE file system's need to be preserved. Following code will
+# create the logical device and raw device entries of such a mirror in the
+# new Boot environment.
+#
+
+if [ -n "${FS_SKIP_LIST}" -a $ret -eq 0 ]; then
+	device1=`/usr/sbin/mount -p | /bin/awk '$3 == "'$dest'" {print $1}'`
+	device2=`echo $device1 | /bin/sed 's+/dsk/+/rdsk/+'`
+	echo "$device1\n$device2" | LANG=C LC_ALL=C ${CPIO_CMD} -pPcdum "${dest}" 2>>${CPIO_ERR} 1>&2
+	ret=$?
+fi
+
+cd ${OLD_PWD}
+
+if [ ${ret} -ne 0 -a -s "${CPIO_ERR}" ] ; then
+	# Determine why copy failed.
+	# If during the copy:
+	#  - a source item was deleted,
+	#  - a file cannot be opened and was skipped 
+	#  - the text %d error, %d errors, or %d error(s)
+	# cpio issues an error and exits with a non-zero status
+	# Neither of these are fatal errors and can be ignored;
+	# this is admittedly an inelegant solution to the problem
+	# but it is the way the problem has been handled since the
+	# first release of Live Upgrade - when the new copy method
+	# is implemented, this kind of error can be detected in a
+	# more direct manner.
+
+	# Check if libc is mounted
+	LIBC_MNT=`/sbin/mount -p | /bin/grep /lib/libc.so | /bin/head -1`
+	HWCAP_LIBC=`/bin/echo "${LIBC_MNT}" | /bin/cut -f1 -d' '`
+	LIBC_PATH=`/bin/echo "${LIBC_MNT}" | /bin/cut -f3 -d' '`
+	MNT_TYPE=`/bin/echo "${LIBC_MNT}" | /bin/cut -f4 -d' '`
+
+	# error given by cpio if /lib/libc.so.1 is a lofs mount on x86 systems.
+	CPIO_LIBC_ERR="${LIBC_PATH}\", errno 18, Cross-device link"
+
+	if [ -n "$LIBC_MNT" -a -n "$HWCAP_LIBC" -a -n "$LIBC_PATH" ] ; then
+		/usr/sbin/umount "${LIBC_PATH}"
+		$CP_CMD "${LIBC_PATH}" "${dest}${LIBC_PATH}"
+		/usr/sbin/mount -OF "${MNT_TYPE}" "${HWCAP_LIBC}" "${LIBC_PATH}"
+	fi
+
+	/bin/egrep -v '^cpio: Error with .*\(\) of ".*", errno 2.*' < "${CPIO_ERR}" |
+		/bin/egrep -v '^[0123456789]* error[s()]*$' |
+		/bin/egrep -v '^[0123456789]* blocks$' |
+		/bin/egrep -v '^cpio: Cannot open.*, skipped, errno.*' |
+		/bin/egrep -v '^cpio:.* errno 2,' |
+		/bin/fgrep -v ' "/var/tmp/' |
+		/bin/fgrep -v ' "/var/run/' > "${CPIO_ERR_TMP}"
+
+	if [ -n "$LIBC_MNT" -a -n "$HWCAP_LIBC" -a -n "$LIBC_PATH" ] ; then
+		/bin/fgrep -v "${CPIO_LIBC_ERR}" "${CPIO_ERR_TMP}" > "${CPIO_ERR2}"
+		/bin/rm -f "${CPIO_ERR_TMP}"
+	else
+		/bin/mv "${CPIO_ERR_TMP}" "${CPIO_ERR2}"
+	fi
+
+	if [ -s "${CPIO_ERR2}" ] ; then
+		cnt=`/bin/wc -l < $CPIO_ERR2`
+		${LUPRINTF} -fWelp2 "`gettext 'The file <%s> contains a list of \
+<%d> potential problems (issues) that were encountered while populating boot \
+environment <%s>.'`" "${CPIO_ERROR_FILE}" "${cnt}" "${ABE_NAME}"
+		${LUPRINTF} -fIelp2 "`gettext 'You must review the issues listed \
+in <%s> and determine if any must be resolved. In general, you can ignore warnings \
+about files that were skipped because they did not exist or could not be opened. \
+You cannot ignore errors such as directories or files that could not be created, \
+or file systems running out of disk space. You must manually resolve any such \
+problems before you activate boot environment <%s>.'`" "${CPIO_ERROR_FILE}" \
+"${ABE_NAME}"
+		/bin/mv "${CPIO_ERR2}" "${CPIO_ERROR_FILE}"
+		/bin/rm -f "${CPIO_ERR2}"
+	fi
+	/bin/rm -f "${CPIO_ERR}" "${CPIO_ERR2}"
+fi
+
+#--------------------------------------------------------------------------
+
+# Create mount points for shared file systems.
+# Need to create mountpoints in the new boot environment that mirror
+# currently mounted file systems, except:
+# - ignore automounter mounted file systems - the best we can do is to
+# -- ignore remote file systems that are not in the /etc/vfstab file
+# -- otherwise stale NFS mount points might be accessed which can cause
+# -- the process to hang indefinately
+# - ignore mount points that belong to removable devices
+# - ignore mount points that belong to file systems that have been copied
+
+${LUPRINTF} -lp2 "`gettext 'Creating shared file system mount points.'`"
+
+remov_devs=`cat $TMP_REMOVABLE_DEV_FILE`
+
+mount_list=""
+
+/bin/rm -f "${FLAG_FILE}"
+/usr/sbin/mount -p | /bin/sort -k 3,3 -t' ' | while read line ; do
+  # extract info for this line
+  mountPoint=`/bin/echo "$line" | /bin/cut -d' ' -f3`
+  fsType=`/bin/echo "$line" | /bin/cut -d' ' -f4`
+
+  # Ignore mountpoints that do not begin with "/"
+  /bin/echo "${mountPoint}" | /bin/egrep -s -e '^/'
+  [ $? -ne 0 ] && continue
+
+  # Determine if the entry is remote or not
+  isRemote=""
+  if [ -f /etc/dfs/fstypes ] ; then
+    /bin/egrep -s -e "^${fsType} " /etc/dfs/fstypes
+    [ $? -eq 0 ] && isRemote="yes"
+  else
+    [ "${fsType}" = "nfs" -o "${fsType}" = "autofs" -o "${fsType}" = "cachefs" ] && isRemote="yes"
+  fi
+
+  # Ignore entries that are remote but not listed in vfstab
+  if [ -n "${isRemote}" ] ; then
+    /bin/egrep -s -e '.*[ 	]${mountPoint}[ 	].*' "${PBE_MPT}"/etc/vfstab
+    [ $? -ne 0 ] && continue
+  fi
+
+
+  # Ignore entries that are not directories
+  [ -d "${mountPoint}" ] || continue
+
+  # Ignore entries that already exist on the ABE
+
+  [ -d "${dest}/${mountPoint}" ] && continue
+
+  [ "${dest}" = "${mountPoint}" ] && [ "${mountPoint}" != "/" ] && continue 
+
+  # Ignore entries that belong to removable devices
+
+  for rd in ${remov_devs} ; do
+    [ "${mountPoint}/" = "${rd}" ] && continue 2
+  done
+
+  # Ignore entries that belong to file systems already copied
+
+  for ind in ${compul_list} ; do
+    [ "${mountPoint}" = "${ind}" ] && continue 2
+  done
+
+  # Check whether ${mountPoint} is a mount point under an already mounted point.
+  # If so we do not want to create a directory.
+  
+  for ind in $mount_list ; do
+    val=`/bin/expr "${mountPoint}" : "${ind}"`
+    [ "$val" = "`echo ${ind} | /bin/awk '{print length($0)}'`" ] && continue 2
+  done
+
+  # ${mountPoint} is a mount point, not on a mount point(sub mount point).
+  # So we store it in variable $mount_list, with a '/' appended,
+  # so that when a mount point which is mounted on ${mountPoint} is visited,
+  # we can segregate it, with our logic of expr(1) command.
+  
+  mount_list="$mount_list ${mountPoint}/"
+  
+  # if ${mountPoint} is the root mount point of ABE, we know for sure 
+  # that it will be removed later. So we do not create this
+  # mount point.
+  
+  # make the directory for $dest/${mountPoint}
+  
+  if [ ! -d "${dest}/${mountPoint}" ] && [ -d "${PBE_MPT}/${mountPoint}" ] ; then
+    # Create directory
+    /bin/mkdir -p ${dest}/${mountPoint}
+    if [ $? -ne 0 ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to create ABE <%s> mount point <%s>.'`" "${ABE_NAME}" "${dest}/${mountPoint}"
+      /bin/touch "${FLAG_FILE}"
+    else
+      ${LUPRINTF} -lp2D 2 "`gettext 'Created ABE <%s> mount point <%s>.'`" "${ABE_NAME}" "${dest}/${mountPoint}"
+    fi
+
+    # Clone directory tree permissions
+    ${LUETCBIN}/ludo clone_directory_tree "${PBE_MPT}" "${dest}" "${mountPoint}"
+    if [ $? -ne 0 ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to clone directory permissions for ABE \
+ PBE path <%s> ABE path <%s> mount point <%s>.'`" \
+"${ABE_NAME}" "${PBE_MPT}" "${dest}" "${mountPoint}"
+      /bin/touch "${FLAG_FILE}"
+    else
+      ${LUPRINTF} -lp2D 2 "`gettext 'Cloned directory permissions for ABE <%s>\
+ PBE path <%s> ABE path <%s> mount point <%s>.'`" \
+"${ABE_NAME}" "${PBE_MPT}" "${dest}" "${mountPoint}"
+    fi
+  fi
+done
+
+if [ -f "${FLAG_FILE}" ] ; then
+  /bin/rm -f "${FLAG_FILE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to access active mount points on ABE <%s>.'`" "${ABE_NAME}"
+  copy_error_exit
+fi
+
+#--------------------------------------------------------------------------
+
+# Do processing only for x86 boot partition on intel platforms.
+
+/bin/grep -s -v '^#' /etc/vfstab | /bin/grep "[ 	]/boot[ 	]*pcfs[ 	]" >/dev/null
+
+if [ $? -eq 0 -a "${LU_SYSTEM_ARCH}" = "i386" ] ; then
+	${LUPRINTF} -lp2D - "`gettext 'Processing /boot partition.'`"
+
+	diskid="`/bin/grep -s -v '^#' /etc/vfstab | /bin/grep \"[ 	]/boot[ 	]*pcfs[ 	]\" | /bin/awk '{print $1}' | /bin/sed -e 's:p0\:boot::g'`"
+	diskid="`/bin/basename $diskid`"
+
+	# Obtain the disk table; it will look something like the following:
+	#
+	# * Id    Act  Bhead  Bsect  Bcyl    Ehead  Esect  Ecyl    Rsect    Numsect
+	#   130   128  27     28     0       242    9      553     1728     8897472
+	# 
+	# Delete all blank lines, and all lines that begin with *, leaving
+	# only actual fdisk entries that we can scan looking for the X86BOOT
+	# partition
+
+	/usr/sbin/fdisk -W - /dev/rdsk/${diskid}p0 | /bin/grep -v '^*' | /bin/grep -v '^$' > ${TMP_FDFILE1}
+
+	num=1
+
+	/bin/rm -f "${FLAG_FILE}"
+	while read id act bhead bcyl ehead ecyl rsect numsect
+	do
+		# Ignore entry if not X86 /boot partition
+		# ID '190' is the X86BOOT partition (see man fdisk(1M))
+
+		if [ $id -ne "190" ] ; then
+			num=`/bin/expr $num + 1`
+			continue
+		fi
+
+		# Found X86 boot partition - save current boot partition
+		bootpart_id=/dev/rdsk/${diskid}p${num}
+		${LUPRINTF} -lp1 "`gettext 'CBE <%s> boot device is <%s>.'`" "${CURR_BE}" "$bootpart_id"
+		ERRMSG="`/bin/dd if=$bootpart_id of=/etc/lu/.dd_x86_boot_copy 2>&1`"
+		if [ $? -ne 0 ] ; then
+			[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to save copy of active BE <%s> X86 boot device.'`" "${CURR_BE}" "${bootpart_id}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+
+		if [ "$PBE_NAME" -eq "$CURR_BE" ] ; then
+			lobootdev=`/usr/sbin/lofiadm -a /etc/lu/.dd_x86_boot_copy`
+			if [ $? -ne 0 ] ; then
+				[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+				${LUPRINTF} -Eelp2 "`gettext 'Unable to make lo-device <%s>.'`" "/etc/lu/.dd_x86_boot_copy"
+				/bin/touch "${FLAG_FILE}"
+				exit 0
+			fi
+			source_boot_dev="/tmp/tmpbootdev.$$"
+			/bin/mkdir $source_boot_dev
+			/usr/sbin/mount -F pcfs $lobootdev $source_boot_dev
+			if [ $? -ne 0 ] ; then
+				[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+				${LUPRINTF} -Eelp2 "`gettext 'Unable to mount lo-device <%s>.'`" "$lobootdev"
+				/bin/touch "${FLAG_FILE}"
+				exit 0
+			fi
+		else
+			source_boot_dev="$PBE_MPT/boot"
+		fi
+
+		if [ -f $source_boot_dev/mdbootbp ] ; then
+			mdboot="$source_boot_dev/mdbootbp"
+		else
+			mdboot="$source_boot_dev/mdboot"
+		fi
+
+		echo y | /usr/lib/fs/pcfs/mkfs -F pcfs -o S,s,B=$mdboot,b=BOOT,i=$source_boot_dev/strap.com /dev/rdsk/${diskid}p0:boot >> $LOGFILE 2>&1
+		${LUPRINTF} -lp1 "`gettext 'Copying X86 boot device.'`"
+
+		OLD_PWD=`/bin/pwd`
+		cd $source_boot_dev
+		/bin/find "." -mount \! -type s -print 2> $FIND_ERR | ${CPIO_CMD} -pPcdum "/boot" 2>&1 | ${LUBIN}/lustripcpioerr
+		if [ $? -ne 0 ] ; then
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to copy PBE <%s> boot partition contents to BE <%s>.'`" "${PBE_NAME}" "${ABE_NAME}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+		cd ${OLD_PWD}
+
+		ERRMSG="`/bin/dd if=$bootpart_id of=$dest/etc/lu/.dd_x86_boot_copy 2>&1`"
+		if [ $? -ne 0 ] ; then
+			[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to make dd copy of ABE <%s> X86 boot device <%s>.'`" "${ABE_NAME}" "${bootpart_id}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+
+		if [ "$PBE_NAME" -eq "$CURR_BE" ] ; then
+			# sync data to storage medium before unmounting
+			/bin/sync
+			# unmount source boot environment
+			/usr/sbin/umount $source_boot_dev
+			if [ $? -ne 0 ] ; then
+				[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+				${LUPRINTF} -Eelp2 "`gettext 'Unable to umount lo-device <%s>.'`" "$lobootdev"
+				/bin/touch "${FLAG_FILE}"
+				exit 0
+			fi
+			/usr/sbin/lofiadm -d /etc/lu/.dd_x86_boot_copy
+			if [ $? -ne 0 ] ; then
+				[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+				${LUPRINTF} -Eelp2 "`gettext 'Unable to remove lo-device <%s>.'`" "$lobootdev"
+				/bin/touch "${FLAG_FILE}"
+				exit 0
+			fi
+		fi
+		# sync data to storage medium before unmounting
+		/bin/sync
+		# unmount boot partition
+		/usr/sbin/umount /boot
+		if [ $? -ne 0 ] ; then
+			[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to umount X86 boot device <%s> before restore.'`" "${bootpart_id}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+		ERRMSG="`/bin/dd if=/etc/lu/.dd_x86_boot_copy of=$bootpart_id 2>&1`"
+		if [ $? -ne 0 ] ; then
+			[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to restore X86 boot device <%s>.'`" "${bootpart_id}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+		/usr/sbin/mount /boot
+		if [ $? -ne 0 ] ; then
+			[ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+			${LUPRINTF} -Eelp2 "`gettext 'Unable to mount X86 boot device <%s> before restore.'`" "${bootpart_id}"
+			/bin/touch "${FLAG_FILE}"
+			exit 0
+		fi
+	done < ${TMP_FDFILE1}
+
+	if [ -f "${FLAG_FILE}" ] ; then
+		/bin/rm -f "${FLAG_FILE}"
+		copy_error_exit
+	fi
+fi
+
+#--------------------------------------------------------------------------
+
+# Create and update the compare database for the boot environment just created.
+
+if [ "${CREATECOMPARE}" = "yes" -o "${CREATECOMPARE}" = "YES" ] ; then
+	# Create the compare database for the new boot environment
+	${LUPRINTF} -lp1 "`gettext 'Creating compare databases for boot \
+environment <%s>.'`" "${ABE_NAME}"
+	cc_currBe="`echo ${CURR_BE} | /bin/sed 's/ /___/g'`"
+	cc_abeName="`echo ${ABE_NAME} | /bin/sed 's/ /___/g'`"
+	cc_databaseFile="${LU_COMPARE_DATABASE_DIR}/${cc_currBe}:${cc_abeName}"
+	$CP_CMD /dev/null "${cc_databaseFile}"
+	for cc_filsys in ${compul_list} ; do
+		${LUPRINTF} -lp1 "`gettext 'Creating compare database for \
+file system <%s>.'`" "${cc_filsys}"
+		${LUBIN}/compare -c -m "${dest}" -p "${cc_filsys}" \
+-o "${cc_databaseFile}" -M -S
+	done
+
+	# Update the compare database on the new boot environment
+	lulib_update_compare "${dest}" "${ABE_NAME}"
+else
+	${LUPRINTF} -lp1 "`gettext 'Skipping creation of compare databases for \
+boot environment <%s> (<%s> set to <%s>)'`" "${ABE_NAME}" 'CREATECOMPARE' \
+"${CREATECOMPARE}"
+fi
+
+#--------------------------------------------------------------------------
+
+# Remove COPY_LOCK, tmp vfstab, and DelayUpdate on ABE if present.
+
+/bin/rm -fr ${dest}${COPYLOCK} ${dest}/etc/lu/DelayUpdate/* \
+${dest}/etc/vfstab.pf2 ${dest}/etc/vfstab.pf1 ${dest}/etc/vfstab.sav
+
+# Unmount the ABE slices after the comparison is complete.
+
+${LUBIN}/luumount -f -i "$ABE_ICF" 
+if [ $? -ne 0 ] ; then
+	${LUPRINTF} -Eelp2 "`gettext 'Unable to unmount ABE <%s> from ICS file <%s>.'`" \
+"${ABE_NAME}" "${ABE_ICF}"
+	error_exit 2
+fi
+
+#--------------------------------------------------------------------------
+
+# Update the compare database on all boot environments.
+
+if [ "${CREATECOMPARE}" = "yes" -o "${CREATECOMPARE}" = "YES" ] ; then
+  lulib_update_compare
+fi
+
+#--------------------------------------------------------------------------
+
+# Send a mail to root on problems encountered during cpio on file systems
+# other than special processing.
+
+if [ -n "$ERR_FLG" ] ; then
+	send_mail_to_root
+fi
+
+if [ "$MAILLOGTO" != "" -a -s /etc/lu/lu.log ] ; then
+	/bin/cat ${LU_LUTAB_FILE} /etc/lu/ICF.* /etc/lu/vtoc.* /etc/vfstab /etc/lu/lu.log 2> /dev/null > /tmp/$$.mail
+	/bin/mailx -s "Live Upgrade Copy Log" $MAILLOGTO < /tmp/$$.mail
+	/bin/rm -f /tmp/$$.mail
+fi
+
+#--------------------------------------------------------------------------
+
+# Unmount the source primary boot environment if it is not the current
+# boot environment.
+
+if [ "$PBE_NAME" != "$CURR_BE" ] ; then
+  ${LUBIN}/luumount -f -i $PBE_ICF
+fi
+
+# Successful!
+
+exit_script 0

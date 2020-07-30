@@ -1,0 +1,92 @@
+#
+#ident	"@(#)Form.upgrade	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+################################################################################
+#	Module Name:  Form.upgrade
+################################################################################
+
+form=`gettext "Upgrade an Alternate Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/MainHelp.upgrade
+framemsg=`gettext "Enter the name of Boot Environment and Media location and press SAVE"`
+altslks=true
+
+close=`rm -f $ARG1 /tmp/updevs1.${VPID}`
+done=`gettext "Upgrading the Boot Environment" | message -w ;
+run $LUBIN/luupgrade -u -n "$F1" -s "$F2";
+if [ "$RET" = "0" ];
+then
+        set -l CMD="open text $OBJ_DIR/Text.success Upgrade";
+else
+        set -l CMD="open text $OBJ_DIR/Text.fail Upgrade";
+fi;`$CMD
+
+
+name=`gettext "Name of Boot Environment:"`
+lininfo=Form.upgrade:F1
+nrow=1
+ncol=1
+frow=1
+fcol=40
+rows=1
+columns=30
+scroll=true
+#choices should display all complete BEs.
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`indicator -w; fmlgrep '^'$F1'$' $ARG1`
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "Package Media:"`
+lininfo="Form.upgrade:F2"
+nrow=2
+ncol=1
+frow=2
+fcol=23
+rows=1
+columns=53
+scroll=true
+value=""
+rmenu={ `indicator -w; $LUBIN/lumedia | /usr/bin/sort` "/net" }
+menuonly=false
+itemmsg=`gettext "Choose the media mount point (CD mount point or package directory)"`
+choicemsg=`gettext "Enter the mount point of the media."`
+valid=`indicator -w; if [ ! -d "$F2" ];
+	then echo FALSE;
+	else echo TRUE;
+	fi;`
+invalidmsg=`gettext "The given directory does not exist - press CHOICES for selection"`
+
+name= 
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=`gettext "HELP"`
+button=16
+action=help

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE module SYSTEM "urn:sun:n1:cacao:module:dtd:1_1">
+
+<!--
+ Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+ ident	"$Revision: 1.12 $	SMI"
+-->
+
+<module name="com.sun.cacao.invoker" 
+        initial-administrative-state="UNLOCKED"
+        ignored-at-startup="No"
+        enable-on-demand="No">
+ <description>
+    Remote command invocation interface, much like a non-interactive rsh
+    but over a secure JMX connection.
+ </description>
+
+ <module-class>
+      com.sun.cacao.invoker.impl.InvokerModule
+ </module-class>
+
+  <public-path>
+      <path-element>
+        file:../../../../lib/cacao_invoker.jar
+      </path-element>
+  </public-path>
+
+  <cacao-version-supported>
+       2.0
+  </cacao-version-supported>
+  <heap-requirements-kilobytes>
+       100
+  </heap-requirements-kilobytes>
+</module>

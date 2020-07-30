@@ -1,0 +1,29 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/ISO8859-15 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1999 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+########################################################################
+#
+#	  Locale File: ISO8859-15
+#   
+#  This is definition of locale of 8-bit latin-1
+#
+XLC_FONTSET
+# CS0
+ISO8859-15,IBM-850,IBM-PC850
+# CS1
+ISO8859-15,IBM-850,IBM-PC850
+END XLC_FONTSET
+#
+# END OF FILE
+#

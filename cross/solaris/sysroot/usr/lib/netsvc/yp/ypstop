@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)ypstop.sh	1.9	04/11/16 SMI"
+
+for svc in client server xfr passwd update; do
+	/usr/sbin/svcadm disable -t svc:/network/nis/$svc:default
+	[ $? = 0 ] || \
+	    echo "ypstop: could not disable network/nis/$svc:default"
+done
+
+# As this operation is likely configuration changing, restart the
+# name-services milestone (such that configuration-sensitive services
+# are in turn restarted).
+/usr/sbin/svcadm restart milestone/name-services
+
+exit 0

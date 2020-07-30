@@ -1,0 +1,20 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+#pragma ident	"@(#)llib-lbsm	1.24	06/05/03 SMI"
+
+#include <bsm/devices.h>
+#include <bsm/devalloc.h>
+#include <bsm/audit.h>
+#include <bsm/libbsm.h>
+#include <bsm/audit_record.h>
+#include <bsm/audit_uevents.h>
+#include <bsm/devices.h>
+#include <bsm/adt.h>
+#include <bsm/adt_event.h>
+#include <bsm/audit_private.h>
+

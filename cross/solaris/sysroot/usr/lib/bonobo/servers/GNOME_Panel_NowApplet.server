@@ -1,0 +1,96 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Panel_NowApplet_Factory"
+	type="exe" location="/usr/lib/now-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Now Applet Factory"/>
+	<oaf_attribute name="name-cs" type="string" value="Now Aplet zdroje"/>
+	<oaf_attribute name="name-de" type="string" value="Now-Applet-Fabrik"/>
+	<oaf_attribute name="name-es" type="string" value="Factoría de apliques ahora"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;applet Maintenant "/>
+	<oaf_attribute name="name-hu" type="string" value="Now Applet Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet di Now"/>
+	<oaf_attribute name="name-ja" type="string" value="Now アプレットファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="Now 애플릿 팩터리"/>
+	<oaf_attribute name="name-pl" type="string" value="Fabryka apletu Now"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo Now"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика апплета Now"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för panelprogrammet Now"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Now 小程序集"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Now Applet 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Now Applet 工廠"/>
+	<oaf_attribute name="description" type="string" value="Now Applet Factory"/>
+	<oaf_attribute name="description-cs" type="string" value="Now Aplet zdroje"/>
+	<oaf_attribute name="description-de" type="string" value="Now-Applet-Fabrik"/>
+	<oaf_attribute name="description-es" type="string" value="Factoría de apliques ahora"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique d&apos;applet Maintenant "/>
+	<oaf_attribute name="description-hu" type="string" value="Now Applet Factory"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet di Now"/>
+	<oaf_attribute name="description-ja" type="string" value="Now アプレットファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="Now 애플릿 팩터리"/>
+	<oaf_attribute name="description-pl" type="string" value="Fabryka apletu Now"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo Now"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика апплета Now"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för panelprogrammet Now"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Now 小程序集"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Now Applet 工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Now Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Panel_NowApplet"
+	type="factory" location="OAFIID:GNOME_Panel_NowApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Appointments and Tasks"/>
+	<oaf_attribute name="name-cs" type="string" value="Schůzky a úkoly"/>
+	<oaf_attribute name="name-de" type="string" value="Termine und Aufgaben"/>
+	<oaf_attribute name="name-es" type="string" value="Citas y tareas"/>
+	<oaf_attribute name="name-fr" type="string" value="Rendez-vous et tâches"/>
+	<oaf_attribute name="name-hu" type="string" value="Megbeszélések és Tennivalók"/>
+	<oaf_attribute name="name-it" type="string" value="Appuntamenti e attività"/>
+	<oaf_attribute name="name-ja" type="string" value="アポイントとタスク"/>
+	<oaf_attribute name="name-ko" type="string" value="약속 및 작업"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Compromissos e tarefas"/>
+	<oaf_attribute name="name-sv" type="string" value="Möten och uppgifter"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="约会和任务"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="約會與工作"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="約會與工作"/>
+	<oaf_attribute name="description" type="string" value="Sun Java™ System Calendar Server client applet"/>
+	<oaf_attribute name="description-de" type="string" value="Sun Java™ System Calendar Server-Client-Applet "/>
+	<oaf_attribute name="description-es" type="string" value="Miniaplicación cliente del Servidor de agendas de Sun Java™ System"/>
+	<oaf_attribute name="description-fr" type="string" value="Applet client de Sun Java™ System Calendar Server"/>
+	<oaf_attribute name="description-hu" type="string" value="Sun Java™ System Calendar Server kliens applet"/>
+	<oaf_attribute name="description-it" type="string" value="Applet client del server del calendario Sun Java™ System"/>
+	<oaf_attribute name="description-ja" type="string" value="Sun Java™ System Calendar Server クライアントアプレット"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Miniaplicativo cliente do servidor de calendário de Sun Java™ System"/>
+	<oaf_attribute name="description-sv" type="string" value="Panelprogram för Sun Java™ System Calendar Server-klient"/>
+	<oaf_attribute name="panel:category" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="보조프로그램"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="now-logo.svg"/>
+
+</oaf_server>
+
+</oaf_info>

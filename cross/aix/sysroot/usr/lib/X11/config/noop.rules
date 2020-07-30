@@ -1,0 +1,18 @@
+XCOMM IBM_PROLOG_BEGIN_TAG 
+XCOMM This is an automatically generated prolog. 
+XCOMM  
+XCOMM gos530 src/gos/2d/XTOP/config/cf/noop.rules 1.1 
+XCOMM  
+XCOMM Licensed Materials - Property of IBM 
+XCOMM  
+XCOMM (C) COPYRIGHT International Business Machines Corp. 1996 
+XCOMM All Rights Reserved 
+XCOMM  
+XCOMM US Government Users Restricted Rights - Use, duplication or 
+XCOMM disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+XCOMM  
+XCOMM IBM_PROLOG_END_TAG 
+XCOMM SCCSID_BEGIN_TAG
+XCOMM @(#)50  1.1  src/gos/2d/XTOP/config/cf/noop.rules, xclients, gos530 7/31/96 14:42:14
+XCOMM SCCSID_END_TAG
+

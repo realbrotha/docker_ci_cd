@@ -1,0 +1,34 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-poold	1.1	06/06/05 SMI"
+#
+# Method script for the pools service.
+#
+
+. /lib/svc/share/smf_include.sh
+
+check_requirements () {
+	if [ ! -x /sbin/zonename ] || [ ! -x /usr/lib/pool/poold ] ||
+	    [ "${_INIT_ZONENAME:=`/sbin/zonename`}" != "global" ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+}
+
+check_requirements
+case "$1" in
+'start')
+	/usr/lib/pool/poold
+	if [ $? -ne 0 ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+	;;
+*)
+	echo "Usage: $0 { start }"
+	exit $SMF_EXIT_ERR_FATAL
+	;;
+esac
+
+exit $SMF_EXIT_OK

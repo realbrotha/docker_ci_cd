@@ -1,0 +1,13 @@
+/*
+ * Copyright 1999-2003 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ * 
+ * usr/src/lib/libdevinfo/llib-ldevinfo
+ */
+
+#pragma ident	"@(#)llib-ldevinfo	1.8	03/01/30 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <libdevinfo.h>

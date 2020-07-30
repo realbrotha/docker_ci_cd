@@ -1,0 +1,89 @@
+#!/bin/sh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# rspc53L src/rspc/usr/sbin/cvscsi/client_collect 1.2.1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2005,2007 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+
+if [ "$PASSNO" = 1 ]
+then
+    (( size = 0 ));
+#      number of client adapters
+    CADAPTERS=`lsdev -C| grep "vscsi"  | wc -l` ;
+
+    if test "$CADAPTERS" -gt 0
+    then
+
+        #     estimated size of lscfg and lspath
+        (( size = size + 2200 )) ;
+        (( temp = 0 )) ;
+
+        # number of children
+        CCHILDREN=`lsdev -C| grep "hdisk" | wc -l`  ;
+
+        ((temp = CADAPTERS * 150000))  ;
+        ((size = size + temp ))  ;
+        ((temp = CCHILDREN * 150000)) ;
+        ((size = size + temp )) ;
+
+        echo "VSCSI Client First pass $CADAPTERS" >> $SCRIPTLOG  ;
+    fi
+
+    # report size of adapters
+    echo "$size" > $SCRIPTSIZE ;
+    echo "VSCSI Client First pass reporting size= $size" >> $SCRIPTLOG  ;
+    exit 0;
+#end of first pass
+fi
+  
+# Second pass,  return without error on first pass
+
+
+
+if [[ -z $SNAPDIR ]]
+then
+    echo "ERROR: the script directory was not created  " >> $SCRIPTLOG
+    exit 1
+fi
+
+#   echo "VSCSI Client Second pass $VHOSTNAME" >> $SCRIPTLOG
+#      number of adapters
+    CADAPTERS=`lsdev -C| grep "vscsi"  | wc -l`
+
+if test "$CADAPTERS" -gt 0
+then
+    echo "Collecting Virtual SCSI client config info in $SNAPDIR"  >> $SCRIPTLOG
+    echo "client config info" >> $SNAPDIR/vclient.config
+    lscfg >> $SNAPDIR/vclient.config
+    echo "client MPIO config info" >> $SNAPDIR/vclient.config
+    lspath >> $SNAPDIR/vclient.config
+    VCLIENT=`lsdev -C| grep "vscsi" | cut -f 1 -d " "`
+
+    echo "Collecting Virtual SCSI client data in $SNAPDIR"  >> $SCRIPTLOG
+
+    for i in $VCLIENT
+    do
+          CMDS="cvscsi; "
+          CMDS="$CMDS cvai $i; cvdi $i; cvmtrc $i; cvdevtrc $i;"
+
+      echo $CMDS | kdb > $SNAPDIR/$i.state
+    done
+fi
+
+
+SERVER=`lsdev -C| grep "vhost"  | wc -l` ;
+if test "$SERVER" -gt 0
+then
+echo "A VSCSI server may be configured in the client partition" >> $SNAPDIR/vclient.config;
+fi
+

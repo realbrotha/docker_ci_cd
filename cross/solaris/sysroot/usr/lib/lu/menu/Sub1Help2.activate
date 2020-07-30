@@ -1,0 +1,53 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Sub1Help2.activate 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Force a Live Upgrade Sync operation"`
+
+close=nop
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+altslks=true
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text=`gettext "Live Upgrade can copy certain files from a previous BE to an\nactivated BE during the switch to the new BE. Normally, this operation\nonly occurs when the target BE is being booted for the first time.\nIf the target BE has been previously booted then you should specify\n'yes' to this option if the sync operation is desired. NOTE: The file\n/etc/lu/synclist contains a list of the files that will be\nsyncronized during the sync operation."`
+
+`indicator -w`
+
+name=
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

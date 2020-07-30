@@ -1,0 +1,88 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.activate 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.activate
+################################################################################
+
+form=`gettext "Activate a Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/$LININFO 
+altslks=true
+framemsg=`gettext "Enter the name of Boot Environment to be activated and press SAVE"`
+
+close=`rm -f $ARG1`
+done=`gettext "Activating the Boot Environment" | message -w ;
+if [ "$F2" = "yes" ];
+then 
+	run /sbin/luactivate -s "$F1";
+else
+	run /sbin/luactivate "$F1";
+fi;
+if [ "$RET" = "0" ];
+then
+         set -l CMD="open text $OBJ_DIR/Text.success Activate";
+else
+         set -l CMD="open text $OBJ_DIR/Text.fail Activate";
+fi;`$CMD
+
+
+name=`gettext "Name of Boot Environment:"`
+lininfo=Sub1Help.activate
+nrow=1
+ncol=3
+frow=1
+fcol=33
+rows=1
+columns=30
+#choices should display all complete BEs.
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`fmlgrep '^'$F1'$' $ARG1`
+itemmsg=`gettext "Enter the name of Boot Environment to be activated and press SAVE"`
+invalidmsg=const `gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "Do you want to force a Live Upgrade Sync operation on reboot?"`
+lininfo=Sub1Help2.activate
+nrow=2
+ncol=3
+frow=2
+fcol=69
+rows=1
+columns=4
+rmenu={ `gettext "yes"` `gettext "no"` }
+value=`gettext "no"`
+menuonly=true
+invalidmsg=`gettext "ERROR: Enter yes or no."`
+
+name=
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

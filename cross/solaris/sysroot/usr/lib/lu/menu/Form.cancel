@@ -1,0 +1,67 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.cancel 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.cancel                                              #
+#                                                                              #
+################################################################################
+
+form=`gettext "Cancel a Copy job"`
+altslks=true
+
+done=`
+gettext "yes" | grep "$F1" > /tmp/.cancelyesno;
+if [ -s /tmp/.cancelyesno ];
+then
+	set -l CMD="open Text $OBJ_DIR/Text.cancel";
+else
+	set -l CMD="CLEANUP";
+fi;rm -f /tmp/.cancelyesno;`$CMD
+
+
+name=`gettext "Do you want to cancel the job:"`
+lininfo=MainHelp.cancel
+nrow=1
+ncol=3
+frow=1
+fcol=43
+rows=1
+columns=4
+scroll=true
+rmenu={ `gettext "yes"` `gettext "no"` }
+menuonly=true
+invalidmsg=`gettext "ERROR: Enter yes or no."`
+
+name=
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=
+button=16
+action=nop

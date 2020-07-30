@@ -1,0 +1,409 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+#	Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident	"@(#)lumkfs.sh	5.11	06/01/09 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        lumkfs -i <internal_config_file>
+# FUNCTION:     makes ABE file systems according to ICF
+# INPUT:        Internal Config File
+# OUTPUT:
+# DEV:          WLH
+#
+# ALGORITHM:
+# 1. Determine bdevice and fstyp of each ABE file system
+# 2. Execute mkfs on each file system
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+#
+# Set to disable device in use checking during newfs/mkfs
+NOINUSE_CHECK=1;export NOINUSE_CHECK
+
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts.
+
+  # 1- SIGHUP (hangup).
+  # 2- SIGINT (user interrupt).
+  # 3- SIGQUIT (user quit).
+  # 9- SIGKILL (kill process - can not be caught or ignored :).
+  # 15- SIGTERM (software termination request).
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed.
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  # Cause the script to exit.
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i <internal_config_file>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3 
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  exit "${retcode}"
+}
+
+build_ufs_command()
+{
+  bdevice=$1
+
+  if [ -x "/usr/lib/fs/ufs/newfs" ] ; then
+    COMMAND="/usr/lib/fs/ufs/newfs $bdevice"
+    if [ "$LU_ASK_FOR_COPY" != "YES" -a "$LU_ASK_FOR_COPY" != "yes" ]; then
+      COMMAND="$COMMAND < /dev/null"
+    fi
+  else
+    COMMAND="/usr/lib/fs/ufs/mkfs $bdevice $blocks"
+  fi
+  
+  ${LUPRINTF} -lp2D - "`gettext 'Constructed command <%s> for device <%s>.'`" "${COMMAND}" "${bdevice}"
+
+  echo $COMMAND
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+### LU_OPTFS=${LU_OPTFS:=/etc/lu/optfs}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_i="" # -i n - abe icf file to use.
+flag_l="" # -l f - log file path.
+flag_o="" # -o f - output file path.
+flag_s="" # -s f - file system skip file (PRIVATE).
+flag_x="" # -x n = set debug level to n (PRIVATE).
+
+# file system skip list file name
+FS_SKIP_LIST="" 
+
+while [ $# -ne 0 ] ; do
+  while getopts i:l:o:p:s:x:X c
+  do
+    case $c in
+      i) # -i abe_icf_file
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="${OPTARG}"
+	 ICF="${OPTARG}"
+	 ;;
+
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+
+      p) # -p f - preserve mount point (PRIVATE).
+	 if [ ! -d "${OPTARG}" ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -p option is not a directory.'`" "${OPTARG}"
+	   exit_script
+	 fi
+	 [ -z "${FS_SKIP_LIST}" ] && FS_SKIP_LIST="/tmp/.lukfs.fs_skip_list.$$"
+	 ${LUPRINTF} +X -a "${FS_SKIP_LIST}" '%s' "${OPTARG}"
+echo the -p option was given to lumkfs ${OPTARG} for ${FS_SKIP_LIST}
+/bin/cat ${FS_SKIP_LIST}
+	 ;;
+
+      s) # -s f - file system skip file (PRIVATE).
+	 lulib_cannot_duplicate_option "${flag_s}" "${OPTARG}" "-s"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -s option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_s="${OPTARG}"
+	 # If -p was used we created our own skip list file; merge them.
+	 if [ -n "${FS_SKIP_LIST}" -a "${flag_s}" != "${FS_SKIP_LIST}" ] ; then
+	   # append contents of FS_SKIP_LIST file to flag_s file
+	   ${LUPRINTF} +X -a "${flag_s}" '%R' < "${FS_SKIP_LIST}"
+	 fi
+	 FS_SKIP_LIST="${OPTARG}"
+	 ;;
+
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+
+      \?) # unknown - option.
+	  usage 3
+	  esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF file of the ABE to make file systems on.'`"
+  usage 3
+fi
+
+# Validate the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+CURR_BE=`lulib_lucurr`
+if [ "$?" -ne "0" -o -z "${CURR_BE}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active BE.'`"
+    exit_script 1
+fi
+
+CBE_ICF="`$LUBIN/lumk_iconf -F \"$CURR_BE\"`"
+if [ "$?" -ne "0" -o -z "${CBE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine disk partition configuration information for boot environment <%s>.'`" "${CURR_BE}"
+  exit_script 1
+fi
+
+# 1. Determine cdevice and fstyp of each ABE file system and run mkfs
+
+#${LUETCBIN}/ludo filter_shared_and_swap $CBE_ICF $ICF | /bin/nawk -F: '{ printf("%s %s %s %s\n", $3, $4, $5, $2 ) }' |
+#( while read bdevice fstyp blocks mntpt
+
+( for bdevice in `${LUETCBIN}/ludo filter_shared_and_swap $CBE_ICF $ICF | /bin/nawk -F: '{ printf("%s ", $3 ) }'`
+do
+
+  #    When looking up the mount point, file system type, and block size of
+  #    a file system, the ICF file is scanned - its format is:
+  #	be_name:mount_point:device_path:fs_type:block_size
+  #    When searching by the device path, make sure that the device path is
+  #    surrounded by ":"s (e.g. :device_path:) so that there is no ambiguity
+  #    in the device being searched for.
+
+  mntpt=`/bin/fgrep ":${bdevice}:" ${ICF} | /bin/head -1 | /bin/nawk -F: '{ printf("%s", $2 ) }'`
+  fstyp=`/bin/fgrep ":${bdevice}:" ${ICF} | /bin/head -1 | /bin/nawk -F: '{ printf("%s", $4 ) }'`
+  blocks=`/bin/fgrep ":${bdevice}:" ${ICF} | /bin/head -1 | /bin/nawk -F: '{ printf("%s", $5 ) }'`
+	
+  if [ -z "$bdevice" -o -z "$fstyp" -o -z "$blocks" -o -z "$mntpt" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The ICF file <%s> for the current boot environment <%s> contains invalid contents.'`" "${ICF}" "${CURR_BE}"
+    exit 1
+  fi
+  
+  if [ ! -b "$bdevice" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The device <%s> for mount point <%s> from the ICF file <%s> is not a block device.'`" "${bdevice}" "${mntpt}" "${ICF}"
+    exit 1
+  fi
+  
+  if [ ! -x "/usr/lib/fs/${fstyp}/mkfs" ]; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The file system creation utility <%s> for mount point <%s> is not available.'`" "/usr/lib/fs/${fstyp}/mkfs" "${mntpt}"
+    exit 1
+  fi
+
+  cdevice=`echo $bdevice | /bin/sed 's/\/dsk\//\/rdsk\//g'`
+  case "$fstyp" in
+    "ufs") COMMAND=`build_ufs_command $cdevice`;;
+    "vxfs") COMMAND="/usr/sbin/mkfs -F vxfs -o largefiles $cdevice";;
+    *) COMMAND="/usr/lib/fs/$fstyp/mkfs $cdevice $blocks";;
+  esac
+
+  # If this entry is already in the skip fs list file, then skip it
+  if [ -s "${FS_SKIP_LIST}" ] ; then
+    while read line ; do
+      if [ "${line}" = "${mntpt}" ] ; then
+        exit 1
+      fi
+    done < ${FS_SKIP_LIST}
+    if [ $? -eq 1 ] ; then
+      ${LUPRINTF} -lp1 "`gettext 'Preserving <%s> file system for <%s> on <%s>.\n'`" "${fstyp}" "${mntpt}" "${bdevice}"
+      continue
+    fi
+  fi
+
+  # If enabled ask used if should skip this file system
+  if [ "$LU_ASK_FOR_COPY" = "YES" -o "$LU_ASK_FOR_COPY" = "yes" ]; then
+    yesAnswer="`gettext \"yes\"`"
+    noAnswer="`gettext \"no\"`"
+    theAnswer=""
+    while [ "X${theAnswer}" != "X${yesAnswer}" -a "X${theAnswer}" != "X${noAnswer}" ] ; do
+      ${LUPRINTF} -lp2n "`gettext 'DO YOU WANT TO COPY THE FILE SYSTEM / DIRECTORY <%s> (%s or %s)? '`" "${mntpt}" "${yesAnswer}" "${noAnswer}"
+      read theAnswer
+      if [ "X${theAnswer}" != "X${yesAnswer}" -a "X${theAnswer}" != "X${noAnswer}" ] ; then
+	${LUPRINTF} -Eelp2 "`gettext 'Invalid Choice - valid choices are: <%s> or <%s>.'`" "${yesAnswer}" "${noAnswer}"
+      fi
+    done
+    if [ "X${theAnswer}" != "X${yesAnswer}" ] ; then
+      ${LUPRINTF} -Ilp1 "`gettext 'Skipping creation of file system / directory <%s>.'`" "$mntpt"
+      if [ -n "${FS_SKIP_LIST}" ] ; then
+        echo "$mntpt" >> $FS_SKIP_LIST
+      fi
+      continue
+    fi
+  fi
+  
+  ${LUPRINTF} -lp2D - "`gettext 'Executing file system creation command: <%s>.'`" "$COMMAND"
+  ${LUPRINTF} -lp1 "`gettext 'Creating <%s> file system for <%s> on <%s>.'`" "${fstyp}" "${mntpt}" "${bdevice}"
+  
+  ERRMSG="`/sbin/sh -c \"$COMMAND\" 2>&1`"
+
+  if [ $? -ne 0 ]; then
+    ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to create <%s> file system for <%s> on <%s>.'`" "$fstyp" "${mntpt}" "$bdevice"
+    exit 1
+  fi
+  ${LUPRINTF} -lp2D - '%s' "${ERRMSG}"
+
+done;
+exit 0 )
+
+res="$?"
+exit_script $res

@@ -1,0 +1,54 @@
+#!/bin/ksh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)wecho.sh	1.1	04/04/20 SMI"
+#
+
+#
+# Description: wrapper to emulate the GNU echo (gecho)
+#
+# Options from the man page for GNU echo ...
+#
+#    Echo the STRING(s) to standard output.
+#
+#    -n   do not output the trailing newline
+#
+#    -e   enable interpretation of the backslash-escaped  characters listed
+#         below:
+#              the character whose ASCII code is NNN (octal)
+#                   \h|120u+0ubackslash
+#                   alert (BEL)
+#                   backspace
+#                   suppress trailing newline
+#                   form feed
+#                   new line
+#                   carriage return
+#                   horizontal tab
+#                   vertical tab
+#
+
+nflag=0
+eflag=0
+
+while getopts en name
+do
+  case $name in
+    n) nflag=1;;
+    e) eflag=1;;
+    ?) printf "Usage: %s: [-e] [-n] string\n"  $0
+       exit 2;;
+  esac
+done
+
+shift $(($OPTIND - 1))
+
+if [ ${nflag} -ne 1 ]
+then
+  exec /usr/bin/echo "$*"
+else
+  exec /usr/bin/echo "$*\c"
+fi
+
+exit 1

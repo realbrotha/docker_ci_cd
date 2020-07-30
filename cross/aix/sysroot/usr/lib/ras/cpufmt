@@ -1,0 +1,27 @@
+# @(#)38        1.2  src/bos/usr/bin/trcrpt/trcrpt/cpufmt.src, cmdtrace, bos53H, h2006_13A3 3/25/06 16:00:56
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53H src/bos/usr/bin/trcrpt/trcrpt/cpufmt.src 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1999,2006 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# This just gets cpu numbers and associated file names from a
+# multicpu trace.
+00A 1.0 L=0 "@util" \
+	$GENERIC, \
+	0 { $NOPRINT }, \
+	1 {\
+		$D1,\
+		0x7 { cpumap(1) }, \
+		\* { $NOPRINT }\
+	}

@@ -1,0 +1,67 @@
+! @(#)17       1.4  src/gos/2d/MOTIF/clients/mwm/Mwm, mwm, gos530 3/23/94 16:32:34
+ 
+!
+!   COMPONENT_NAME: MWM		Motif Window Manager
+!
+!   FUNCTIONS:
+!		
+!
+!   ORIGINS: 73
+!
+!
+
+!
+!  app-defaults RESOURCE SPECIFICATIONS FOR Mwm
+!		(mwm has precedence over Mwm)
+!
+
+!!
+!! NOTE: In Mwm 1.1.1 and newer, the resources 'buttonBindings' and
+!!	 'keyBindings' should not be defined in the Mwm app-defaults file.
+!!	 The defaults are set internally in Mwm to 'DefaultButtonBindings' and
+!!	 'DefaultKeyBindings' respectively.
+!!
+!!	 Users and system admin need only define the default button and key
+!!	 bindings in the appropriate mwm config file (ie. .mwmrc or
+!!	 system.mwmrc).
+!!
+!!	 The 'windowMenu' resource defaults to 'DefaultWindowMenu', and
+!!	 in Mwm 1.2 there is a default root menu that is defined as
+!!	 'DefaultRootMenu'.
+!!
+
+!Mwm*moveThreshold:		3
+
+!!	 If the 'moveOpaque' resource is set to True, window contents
+!!	 will remain visible during window placement. This will generate
+!!	 a lot of extra demand for the X-server, so it is not recommended
+!!	 for use with X-stations (or any other remote X-server situations).
+
+!Mwm*moveOpaque:		True
+
+!
+! component appearance resources 
+!
+
+!!
+!! NOTE: In Mwm 1.2, the resources 'resizeBorderWidth' and 'frameBorderWidth'
+!!	 are calculated dynamically depending on the size and resolution of
+!!	 the screen.  In general, you should not have to set these resources
+!!	 in the Mwm app-defaults file.
+!!
+
+! FONT stuff
+! Mwm*fontList:			variable
+! Use ISO compliant font
+Mwm*fontList:			-dt-interface system-medium-r-normal-L*-*-*-*-*-*-*-*-*:
+! Use smaller fixed font for icons
+! Mwm*icon*fontList:		fixed
+
+!! Client decorations for common clients - SAMPLES
+!Mwm*XClock*clientDecoration:		border
+!Mwm*XLoad*clientDecoration:		border
+!Mwm*XBiff*clientDecoration:		border
+
+!
+!  END OF RESOURCE SPECIFICATIONS
+!

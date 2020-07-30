@@ -1,0 +1,312 @@
+! @(#)64        1.6  src/gos/apps/custom/app-custom/Mwm.nls, custom, gos530 10/10/93 23:22:10
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/Mwm.nls 1.6 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! COMPONENT_NAME: (custom) AIXwindows Customizing Tool 
+! 
+! FUNCTIONS: app-custom file
+!
+! ORIGINS: 27 
+! 
+! (C) COPYRIGHT International Business Machines Corp. 1992, 1993 
+! All Rights Reserved 
+! Licensed Materials - Property of IBM 
+! 
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+! 
+! Mwm data file for the mwm application 
+! 
+"Colors" Color *background "window manager background" ; 
+"Colors" Color *foreground "window manager foreground" ; 
+"Colors" Color *activeBackground "active window border background" ; 
+"Colors" Color *activeForeground "active window border foreground" ; 
+"Colors" Color *client*background "inactive window border background" ; 
+"Colors" Color *client*foreground "inactive window border foreground" ; 
+"Colors" Color *menu*background "menu background" ; 
+"Colors" Color *menu*foreground "menu foreground" ; 
+"Colors" Color *feedback*background "feedback background" ; 
+"Colors" Color *feedback*foreground "feedback foreground" ; 
+"Colors" Number *matteWidth "matte width" ; 
+"Colors" Color *matteBackground "matte background" ; 
+"Colors" Color *matteForeground "matte foreground" ; 
+
+"Fonts" Font *fontList "all fonts" ; 
+"Fonts" Font *title*fontList "window title font" ; 
+"Fonts" Font *client*fontList "window frame font" ; 
+"Fonts" Font *menu*fontList "menu font" ; 
+"Fonts" Font *feedback*fontList "feedback font" ; 
+
+"Size of Windows" SelectOne *limitResize 
+"do not allow\nresizing windows greater\nthan maximum size" 
+	true = "true" 
+	false = "false" ; 
+"Size of Windows" SelectOne *maximumMaximumSize 
+"window size\nwhen maximized" 
+	16x16 = "16x16" 
+	100x100 = "100x100" 
+	250x250 = "250x250" 
+	500x500 = "500x500" 
+	500x750 = "500x750" 
+	750x500 = "750x500" 
+	750x750 = "750x750" 
+	1265x995 = "whole display" ; 
+"Size of Windows" SelectOne *frameBorderWidth 
+"width of window frame\nwithout resize handles\n(default is 5 pixels)" 
+	0 = "0" 
+	1 = "1" 
+	2 = "2" 
+	3 = "3" 
+	4 = "4" 
+	5 = "5" 
+	6 = "6" 
+	7 = "7" 
+	8 = "8" 
+	9 = "9" 
+	10 = "10" 
+	15 = "11" 
+	20 = "20" ; 
+"Size of Windows" SelectOne *resizeBorderWidth 
+"width of window frame\nwith resize handles\n(default is 10 pixels)" 
+	0 = "0" 
+	1 = "1" 
+	2 = "2" 
+	3 = "3" 
+	4 = "4" 
+	5 = "5" 
+	6 = "6" 
+	7 = "7" 
+	8 = "8" 
+	9 = "9" 
+	10 = "10" 
+	15 = "11" 
+	20 = "20" ; 
+
+"Location" SelectOne *interactivePlacement 
+"method of initial\nplacement is interactive" 
+	true = "true" 
+	false = "false" ; 
+"Location" SelectOne *clientAutoPlace 
+"stack left corners\nwhen application does\nnot specify position" 
+	true = "true" 
+	false = "false" ; 
+"Location" SelectOne *positionIsFrame 
+"position application\naccording to" 
+	true = "window frame" 
+	false = "application area" ; 
+"Location" SelectOne *positionOnScreen 
+"position application so\nit is not clipped" 
+	true = "true" 
+	false = "false" ; 
+
+"Icon" Picture *iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color *iconImageBackground "icon picture background" ; 
+"Icon" Color *iconImageForeground "icon picture foreground" ; 
+"Icon" Font *icon*fontList "icon font" ; 
+"Icon" SelectOne *iconImageMaximum "maximum picture size" 
+	16x16 = "16x16" 
+	24x24 = "24x24" 
+	32x32 = "32x32" 
+	50x50 = "50x50" 
+	64x64 = "64x64" 
+	75x75 = "75x75" 
+	100x100 = "100x100" 
+	128x128 = "128x128" ; 
+"Icon" SelectOne *iconImageMinimum "minimum picture size" 
+	16x16 = "16x16" 
+	24x24 = "24x24" 
+	32x32 = "32x32" 
+	50x50 = "50x50" 
+	64x64 = "64x64" 
+	75x75 = "75x75" 
+	100x100 = "100x100" 
+	128x128 = "128x128" ; 
+
+"Icon Behaviors" Filename *bitmapDirectory 
+"directory containing icons" ; 
+"Icon Behaviors" SelectOne *iconDecoration "icon decoration" 
+	label_image = "label and picture" 
+	label = "label only" 
+	image = "picture only" ; 
+"Icon Behaviors" SelectOne *iconAutoPlace 
+"automatically place icons" 
+	true = "true" 
+	false = "false" ; 
+"Icon Behaviors" SelectOne *iconPlacement "icon placement" 
+	"top left" = "top to bottom, left to right" 
+	"top right" = "top to bottom, right to left" 
+	"bottom left" = "bottom to top, left to right" 
+	"bottom right" = "bottom to top, right to left" 
+	"left top" = "left to right, top to bottom" 
+	"left bottom" = "left to right, bottom to top" 
+	"right top" = "right to left, top to bottom" 
+	"right bottom" = "right to left, bottom to top" ; 
+
+"Icon Behaviors" SelectOne *useClientIcon 
+"application supplied\nicon has precedence" 
+	true = "true" 
+	false = "false" ; 
+"Icon Behaviors" SelectOne *fadeNormalIcon 
+"gray out icon\nwhen application is\nnormalized" 
+	true = "true" 
+	false = "false" ; 
+"Icon Behaviors" SelectOne *lowerOnIconify 
+"place icon\nunder all windows" 
+	true = "true" 
+	false = "false" ; 
+"Icon Behaviors" SelectOne *iconClick 
+"icon menu remains\nposted on click" ; 
+"Icon Behaviors" Number *iconPlacementMargin 
+"margin between\nicons and screen\n(pixels)" ; 
+
+"Icon Box" SelectOne *useIconBox "use icon box" 
+	true = "true" 
+	false = "false" ; 
+"Icon Box" String *iconBoxTitle "icon box title" ; 
+"Icon Box" SelectOne *iconBoxGeometry "icon box location" 
+	+0+0 = "top left" 
+	-0+0 = "top right" 
+	+0-0 = "bottom left" 
+	-0-0 = "bottom right" ; 
+"Icon Box" SelectOne *iconBoxSBDisplayPolicy "icon box\nscroll bars" 
+	all = "all" 
+	vertical = "vertical" 
+	horizontal = "horizontal" ; 
+
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" " 
+	all = "turn on all decorations" 
+	resizeh = "resize border" 
+	border = "plain border" 
+	menu = "window menu button" 
+	title = "title bar" 
+	minimize = "minimize button" 
+	maximize = "maximize button" 
+	none = "turn off all decorations" ; 
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" " 
+	all = "turn on all operations" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	none = "turn off all operations" ; 
+"Graphics" SelectMany *transientDecoration 
+"transient window decorations" 
+	" " 
+	none = "turn off all decorations"
+	border = "border" 
+	maximize = "maximize" 
+	minimize = "minimize" 
+	resizeh = "resize handles" 
+	menu = "menu" 
+	title = "title" 
+	all = "turn on all decorations" ; 
+"Graphics" SelectMany *transientFunctions 
+"transient window operations" 
+	" " 
+	none = "turn off all operations"
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	all = "turn on all operations" ; 
+"Graphics" SelectMany *showFeedback 
+"show feedback window information" 
+	" " 
+	none = "turn off all feedback"
+	behavior = "behavior" 
+	kill = "kill" 
+	move = "move" 
+	placement = "placement" 
+	quit = "quit" 
+	resize = "resize" 
+	restart = "restart" 
+	all = "turn on all feedback" ; 
+"Graphics" SelectOne *resizeCursors "display resize cursors" 
+	true = "true" 
+	false = "false" ; 
+"Graphics" Cursor *menuCursor "menu cursor" ; 
+"Graphics" Picture *client*backgroundPixmap 
+"window frame\nbackground pattern" bitmap; 
+"Graphics" Picture *client*activeBackgroundPixmap 
+"active window frame\nbackground pixmap" bitmap; 
+"Graphics" SelectOne *cleanText "no bitmap on\ntitle background" 
+	true = "true" 
+	false = "false" ; 
+
+"Behaviors" SelectOne *focusAutoRaise 
+"raise window\nwhen mouse enters" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" SelectOne *doubleClickTime 
+"time allowed between\ndouble clicks" 
+	1000 = "slow" 
+	500 = "medium" 
+	100 = "fast" ; 
+"Behaviors" SelectOne *enableWarp 
+"reposition pointer\nduring moves" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" Number *autoRaiseDelay "time to delay\nbefore raising" ; 
+"Behaviors" Number *moveThreshold 
+"number of pixels\nbefore move is detected" ; 
+"Behaviors" Number *quitTimeout 
+"time to wait for\napplication before quiting" ; 
+"Behaviors" SelectOne *passButtons 
+"transfer button press\nevents to application" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" SelectOne *passSelectButton 
+"transfer select button press\nevents to application" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" String *screens "screen names\n(0 1 ... are defaults)" ; 
+"Behaviors" SelectOne *multiScreen "manage all\nscreens on display" 
+	true = "true" 
+	false = "false" ; 
+
+"Focus" SelectOne *colormapFocusPolicy "colormap focus policy" 
+	explicit = "explicit" 
+	pointer = "pointer" 
+	keyboard = "keyboard" ; 
+"Focus" SelectOne *keyboardFocusPolicy "keyboard focus policy" 
+	explicit = "explicit" 
+	pointer = "pointer" ; 
+"Focus" SelectOne *enforceKeyFocus 
+"globally active windows\nreceive keyboard focus" 
+	true = "true" 
+	false = "false" ; 
+"Focus" SelectOne *deiconifyKeyFocus 
+"window receives keyboard\nfocus when deiconified" 
+	true = "true" 
+	false = "false" ; 
+"Focus" SelectOne *raiseKeyFocus 
+"window receives keyboard\nfocus when raised" 
+	true = "true" 
+	false = "false" ; 
+"Focus" SelectOne *startupKeyFocus 
+"window receives keyboard\nfocus when mapped" 
+	true = "true" 
+	false = "false" ; 
+
+"Configuration File" Filename *configFile 
+"pathname for\nconfiguration file (.mwmrc)" ; 
+"Configuration File" String *buttonBindings 
+"button bindings name\n(must coincide with\nthe name in .mwmrc)" ; 
+"Configuration File" String *keyBindings 
+"key bindings name\n(must coincide with\nthe name in .mwmrc)" ; 

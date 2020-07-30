@@ -1,0 +1,85 @@
+## @(#)43	1.3  src/cmdtext/usr/bin/ibm3812/font/S2, cmdtext, cmdtext530 6/21/91 16:52:20
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3812/font/S2 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S2
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+dd	24 2 042	double dagger
+!=	24 2 043	not equal symbol
++	24 2 071	plus sign
+pl	"
+=	24 2 075	equal sign
+eq	"
+/	24 2 0103	slash
+sl	"
+'	24 2 054	minutes symbol
+fm	"
+is	24 2 055	integral symbol
+cu	24 2 056	union
+sb	24 2 057	is included in symbol
+sp	24 2 060	includes symbol
+*q	24 2 066	psi
+*e	24 2 067	epsilon
+*l	24 2 070	lambda
+*y	24 2 071	eta
+*i	24 2 072	iota
+*k	24 2 077	kappa
+*w	24 2 0100	omega
+*u	24 2 0101	upsilon
+*o	24 2 0102	omicron
+*r	24 2 0103	rho
+*g	24 2 0104	gamma
+*h	24 2 0105	theta
+*c	24 2 0111	xi
+*x	24 2 0112	chi
+*n	24 2 0113	nu
+*z	24 2 0114	zeta
+*Q	24 2 0133	PSI
+*P	24 2 0134	PI
+*L	24 2 0135	LAMBDA
+*C	24 2 0147	XI
+*D	24 2 0151	DELTA
+*U	24 2 0152	UPSILON
+lt	24 2 "\xe2%\x00\x05\001\073\xe2\xff\xfb"
+lb	24 2 "\xe2%\x00\x05\001\074\xe2\xff\xfb"
+rt	24 2 "\xe2\xff\xfb\001\106\xe2%\x00\x05"
+rb	24 2 "\xe2\xff\xfb\001\107\xe2%\x00\x05"
+pd	24 2 0140	partial differential symbol
+sq	24 2 0142	open square
+pt	24 2 0150	proportional to symbol
+~=	24 2 0153	approximately equal to symbol
+~	24 2 0154	tilde and approximates
+~	"
+ap	"

@@ -1,0 +1,174 @@
+#!/bin/ksh
+# @(#)80    1.9  src/gos/2d/XTOP/aixclients/xdm/config/xdmconf.cpp, xdmcp, gos530 11/1/96 14:00:34
+#
+# COMPONENT_NAME: XDMCP
+#
+# FUNCTIONS: xdmconf.cpp
+#
+# ORIGINS: 16, 27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1992, 1994
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+#	Configure xdm(1) to be started by the system at boot time.
+#
+
+XDMPATH="/usr/bin/X11/xdm"
+USER=`id | sed -e "s/\(.[^(]*(\)\(.[^)]*\)\(.*\)/\2/"`
+status=0
+delete="false"
+
+deletexdm()
+{
+
+ex $1 << EDIT > /dev/null
+%g/xdm/d
+w!
+EDIT
+
+}
+
+if [ $# -eq 1 -a "$1" = "-d" ]; then
+	delete="true"
+elif [ $# -gt 1 ]; then
+	echo "$0: Too many arguments."
+	echo "usage: `basename $0` [-d]"
+	exit 1
+fi
+
+if [ "root" != "$USER" ]; then
+	echo "$0: can only be run by the super user."
+	exit 1
+fi
+
+if [ ! -f $XDMPATH ]; then
+	echo "$0: missing xdm binary."
+	exit 1
+fi
+
+if [ ! -f /usr/lib/X11/xdm/Xservers ]; then
+	echo "$0: missing xdm Xservers file."
+	exit 1
+fi
+
+#
+# if we are enabling xdm, then we need to check and disable dtlogin
+#
+if [ "true" != "${delete-}" ];then
+	lsitab dt > /dev/null 2>&1
+	if [ "$?" -eq 0 ]; then
+		if [ -f /usr/dt/bin/dtconfig ]; then
+			/usr/dt/bin/dtconfig -d
+		fi
+	fi
+fi
+
+#
+#	Configure xdm in /etc/inittab if tcpip(5) is not being used.
+#
+
+egrep "^rctcpip" /etc/inittab > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	if [ "false" = "${delete-false}" ];then
+		egrep "^xdm" /etc/inittab > /dev/null 2>&1
+		if [ $? -ne 0 ]; then
+			echo 'xdm:2:wait:/usr/bin/X11/xdm > /dev/console 2>&1' \
+				>> /etc/inittab
+		else
+			status=`expr $status + 1`
+		fi
+	else
+		egrep "^xdm" /etc/inittab > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			deletexdm /etc/inittab
+		else
+			status=`expr $status + 1`
+		fi
+	fi
+	exit $status
+fi
+
+#
+#	Enable the startup & shutdown of xdm with tcpip(5).
+#
+
+if [ "true" != "${delete-}" ];then
+
+#
+#	Add a 'xdm' subsystem for srcmstr(1).
+#
+	
+	if [ -z "`odmget -qsubsysname=xdm SRCsubsys`" ]; then
+		mkssys -s xdm -p $XDMPATH -a "-nodaemon" -u 0 -S -n 15 -f 9 > /dev/null 2>&1	
+	else
+		status=`expr $status + 1`
+	fi
+	
+#
+#	Edit /etc/rc.tcpip to have xdm(1) started at boot time.
+#
+	
+	if [ -z "`grep xdm /etc/rc.tcpip`" ]; then
+		echo "start $XDMPATH \"\$src_running\"" >> /etc/rc.tcpip
+	else
+		status=`expr $status + 1`
+	fi
+	
+#
+#	Edit /etc/tcp.clean to have xdm(1) killed at shutdown(1).
+#
+	
+	if [ -z "`grep xdm /etc/tcp.clean`" ]; then
+
+ex /etc/tcp.clean << EDIT > /dev/null
+/for daemon in
+a
+	xdm \\
+.
+w!
+EDIT
+
+	else
+		status=`expr $status + 1`
+	fi
+
+else
+
+#
+#	Remove 'xdm' from the source master database.
+#
+
+	if [ ! -z "`odmget -qsubsysname=xdm SRCsubsys`" ]; then
+		rmssys -s xdm > /dev/null 2>&1
+	else
+		status=`expr $status + 1`
+	fi
+
+#
+#	Remove 'xdm' from /etc/rc.tcpip
+#
+
+	if [ ! -z "`grep xdm /etc/rc.tcpip`" ]; then
+		deletexdm /etc/rc.tcpip
+	else
+		status=`expr $status + 1`
+	fi
+
+#
+#	Remove 'xdm' from /etc/tcp.clean
+#
+
+	if [ ! -z "`grep xdm /etc/tcp.clean`" ]; then
+		deletexdm /etc/tcp.clean
+	else
+		status=`expr $status + 1`
+	fi
+
+fi
+
+exit $status

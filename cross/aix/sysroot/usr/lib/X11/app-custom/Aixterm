@@ -1,0 +1,143 @@
+! @(#)53        1.7  src/gos/apps/custom/app-custom/Aixterm.nls, custom, gos530 7/7/95 14:27:53
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/Aixterm.nls 1.7 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1993,1995 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+!
+! COMPONENT_NAME:  AIXwindows Customizing Tool (custom)
+!
+! FUNCTIONS: NONE
+!
+! ORIGINS:  27
+!
+! (C) COPYRIGHT International Business Machines Corp. 1993
+! All Rights Reserved
+! Licensed Materials - Property of IBM
+!
+! US Government Users Restricted Rights - Use, duplication or
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+!
+! Aixterm  -  Aixterm data file for all applications
+!
+"Colors" Color *background "window interior\nbackground" ;
+"Colors" Color *foreground "window interior\nforeground (text, etc.)" ;
+"Colors" SelectOne *reverseVideo "reverse video" 
+	true = "true" 
+	false = "false" ;
+
+"Fonts" Font *fontSet "normal sized text" ;
+
+"Size and Location" SelectOne .geometry "simple window location" 
+	+0+0 = "upper left" 
+	-0+0 = "upper right" 
+	+0-0 = "bottom left" 
+	-0-0 = "bottom right" ;
+
+"Icon" Picture $MWM**iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color $MWM**iconImageBackground "icon picture background *" ;
+"Icon" Color $MWM**iconImageForeground "icon picture foreground *" ;
+"Icon" String *iconName "icon name" ;
+"Icon" SelectOne *iconStartup "window state on\nstartup (iconified)" 
+	False = "full window" 
+	True = "iconified" ;
+
+"Graphics" String .title "window title" ;
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" "
+	none = "none" 
+	border = "border" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	resizeh = "resize-handles" 
+	menu = "menu" 
+	title = "title" 
+	all = "all" ;
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" "
+	none = "none" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	all = "all" ;
+"Graphics" Color *cursorColor "text cursor color" ;
+"Graphics" SelectOne *alwaysHighlight 
+	"always highlight\nthe cursor" 
+	true = "true" 
+	false = "false" ;
+"Graphics" SelectOne *fullCursor "display full text cursor" 
+	true = "true" 
+	false = "false" ;
+"Graphics" Cursor *pointerShape "mouse cursor shape" ;
+"Graphics" Color *pointerColor "mouse cursor color" ;
+"Graphics" Color *borderColor "border color" ;
+"Graphics" Number *borderWidth "border width" ;
+"Graphics" Number *internalBorder 
+	"number of pixels\nbetween text\nand border" ;
+
+"Scroll Bar" SelectOne *scrollBar "visible scroll bar" 
+	true = "true" 
+	false = "false" ;
+"Scroll Bar" SelectOne *scrollPosition "side to place\nscroll bar" 
+	right = "right" 
+	left = "left" ;
+"Scroll Bar" SelectOne *jumpScroll "jump scroll" 
+	true = "true" 
+	false = "false" ;
+"Scroll Bar" SelectOne *multiScroll "asynchronous scrolling" 
+	true = "true" 
+	false = "false" ;
+"Scroll Bar" SelectOne *pageScroll "scroll one page\nat a time" 
+	true = "true" 
+	false = "false" ;
+"Scroll Bar" Number *pageOverlap 
+	"number of lines\nfrom previous screen\nwhen scrolled" ;
+"Scroll Bar" Number *saveLines "number of scrolled\nlines to save" ;
+"Scroll Bar" SelectOne *scrollInput "scroll to bottom on input" 
+	true = "true" 
+	false = "false" ;
+"Scroll Bar" SelectOne *scrollKey "scroll to bottom\nif key pressed" 
+	true = "true" 
+	false = "false" ;
+
+"Behaviors" SelectOne $MWM**focusAutoRaise 
+	"raise window *\nwhen mouse enters" 
+	true = "true"
+	false = "false"; 
+"Behaviors" SelectOne *logging "keep a log\nof this session" 
+	true = "log" 
+	false = "do not log" ;
+"Behaviors" Filename *logFile "log file\n(if log is kept)" ;
+"Behaviors" SelectOne *marginBell "notify at right margin" 
+	true = "true" 
+	false = "false" ;
+"Behaviors" Number *nMarginBell 
+	"number of spaces\nbefore notification" ;
+"Behaviors" SelectOne *visualBell "visual or bell notification" 
+	true = "visual" 
+	false = "bell" ;
+"Behaviors" SelectOne *reverseWrap 
+	"enable reverse wrap-around\n mode" 
+	true = "true" 
+	false = "false" ;
+"Behaviors" Number *multiClickTime "time between double clicks" ;
+"Behaviors" SelectOne *loginShell "start as a login shell" 
+	true = "true" 
+	false = "false" ;
+"Behaviors" SelectOne *warp "center mouse at start" 
+	true = "true" 
+	false = "false" ;
+"Behaviors" SelectOne *deiconifyWarp "center mouse\nwhen deiconifying" 
+	true = "true" 
+	false = "false" ;

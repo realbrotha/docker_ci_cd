@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.rename 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Change the name of a Boot Environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu selection can be used to change the name of an existing Boot Environment. You will be asked the existing and new names of the Boot Environment. The \"CHOICES\" key will display a list of all Boot Environments."`"\n\n"\
+`gettext "Renaming a Boot Environment is often required to designate the OS release existing on that Boot Environment. For example, if you upgrade to Solaris 7 on a Boot Environment named, \"2.6 BE\" then it is convenient and desirable to rename the \"2.6 BE\" as \"7 BE\"."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

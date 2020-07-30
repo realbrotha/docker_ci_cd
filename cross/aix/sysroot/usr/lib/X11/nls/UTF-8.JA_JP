@@ -1,0 +1,18 @@
+# @(#)56	1.3  src/gos/2d/XTOP/lib/nls/Xibm/UTF-8.JA_JP, xcfgnls, gos530, 0426A_530 6/14/04 13:11:25
+#
+#         Locale File: UTF-8 (Multibyte Form of UCS-2)
+#
+# This file is used for printing of IBM PAGES and Canon LIPS4 Printers
+# Japan Data Stream.
+#
+XLC_FONTSET
+# CS0
+UCS2.BASE-0
+# CS1 : Unicode Ext.B
+UNICODE-2
+# CS2 : Unicode
+UCS2.CJK_JAPAN-0
+END XLC_FONTSET
+#
+# END OF FILE
+#

@@ -1,0 +1,51 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Text.lockerr 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Live Upgrade"`
+
+close=nop
+
+begrow=any
+begcol=any
+rows=4
+columns=70
+altslks=true
+
+`gettext "Strike the CANCEL function key to return to main menu." | message -t`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text=`gettext "Live Upgrade"`" "`gettext "$ARG1"`" "`gettext "operation is not possible."`"\n\n"`gettext "A LOCK file exists for one of the following reasons:"`"\n"`gettext "1. Another Live Upgrade operation is already in progress."`"\n"`gettext "2. A Live Upgrade Copy/Create operation is scheduled."`"\n"`gettext "3. A Upgrade operation is in progress or has been scheduled."`"\n\n"\
+`gettext "The LOCK file will be cleared once the operation has completed."`"\n"
+
+`indicator -w`
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=
+button=16
+action=nop

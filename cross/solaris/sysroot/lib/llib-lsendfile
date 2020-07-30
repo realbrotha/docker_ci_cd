@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) 2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lsendfile	1.1	01/08/15 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <sys/sendfile.h>

@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+idldir=${prefix}/share/idl/gnome-speech-1.0
+
+Name: gnome-speech
+Description: GNOME text to speech infrastructure
+Requires: libbonobo-2.0
+Version: 0.3.5
+Libs: -L${libdir} -lgnomespeech
+Cflags: -I${includedir}/gnome-speech-1.0

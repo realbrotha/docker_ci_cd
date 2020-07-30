@@ -1,0 +1,244 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)luupd_boot.sh 5.6     03/01/29 SMI"
+#
+# USAGE:        luupd_boot -i <internal_config_file>
+# FUNCTION:     Ensure that ABE root disk has a loader and correct VTOC
+# INPUT:        Internal Config File
+# OUTPUT:
+# DEV:          WLH
+#
+# ALGORITHM:
+# 
+# If ABE and PBE are on the same disk, the disk already has a loader
+# and the VTOC is set to be bootable, so we're done.
+#
+# Otherwise (ABE and PBE on different devices), call luactivate with
+# ABE and -u option to install a loader and update the VTOC. The -u
+# option directs luactivate to not call setboot.
+# 
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+ICF=""
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] -i <ABE_icf_file>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit 3
+  fi
+  exit "$1"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+### LU_OPTFS=${LU_OPTFS:=/etc/lu/optfs}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_x="" # -x n = set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts i:l:o:x:X c
+  do
+    case $c in
+      i) # -i abe_icf_file
+	 ICF=$OPTARG
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      n) # -n "n" - be name.
+	 lulib_cannot_duplicate_option "${flag_n}" "${OPTARG}" "-n"
+	 flag_n="${OPTARG}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ $# -ne 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF file of the ABE to make bootable.'`"
+  usage 3
+fi
+
+# Validate the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+ABE_NAME=`nawk -F: 'NR == 1 { print $1 }' $ICF`
+if [ -z "$ABE_NAME" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> format error: BE name not defined.'`" "${ICF}"
+  exit 1
+fi
+
+# Determine ABE root slice from ICF
+ABE_root_bdevice=`nawk -F: '($2 == "/") { printf("%s\n",$3) }' $ICF`
+if [ -z "$ABE_root_bdevice" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Internal Configuration File <%s> format error: BE <%s> root slice not defined.'`" "${ICF}" "${ABE_NAME}"
+  exit 1
+fi
+
+# Determine ABE root slice from ICF
+# Use ABE root slice to get cdevice from device.tab
+ABE_root_cdevice="`lulib_get_cdevice $ABE_root_bdevice`"
+if [ -z "$ABE_root_cdevice" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine character device node for BE <%s> from <%s>.'`" "${ABE_NAME}" "$ABE_root_cdevice"
+  exit 1
+fi
+
+# ABE_device will be the part after /dev/rdsk
+ABE_device=`basename $ABE_root_cdevice`
+if [ -z "$ABE_device" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine character device node for BE <%s> from <%s>.'`" "${ABE_NAME}" "${ABE_root_cdevice}"
+  exit 1
+fi
+
+# Determine the block device for the current root file system (/);
+# e.g. /dev/dsk/c0t0d0s0.
+PBE_device=''
+PBE_root_bdevice="`${LUETCBIN}/ludo get_root_slice_from_mntpt '/' 2>/dev/null`"
+[ "$?" -eq '0' ] && PBE_device="`/usr/bin/basename \"${PBE_root_bdevice}\"`"
+if [ -z "$PBE_device" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine current boot device name.'`"
+  exit 1
+fi
+
+ABEmaj=`ls -l $ABE_root_bdevice | /usr/bin/sed 's/.*\/devices\//\//g' | sed 's/:.$//g'`
+PBEmaj=`ls -l $PBE_root_bdevice | /usr/bin/sed 's/.*\/devices\//\//g' | sed 's/:.$//g'`
+if [ "$ABEmaj" = "$PBEmaj" ]; then
+	# ABE and PBE are on same device. Nothing to do.
+	exit 0
+fi
+
+# The -u option directs luactivate to only update loader and vtoc
+# (doesn't call setboot)
+$LUBIN/luactivate -u -n "$ABE_NAME"
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Update of loader failed.'`"
+  exit 1
+fi
+
+exit 0

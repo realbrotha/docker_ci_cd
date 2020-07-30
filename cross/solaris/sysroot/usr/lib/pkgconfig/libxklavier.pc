@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libxklavier
+Description: libxklavier library
+Requires: libxml-2.0
+Version: 1.02
+Libs: -L${libdir} -lxklavier
+Cflags: -I${includedir}

@@ -1,0 +1,14 @@
+.>w
+<w+0=""
++/"linkage"16t"dip"16t"handle"nJJJ
++/"data_dma_attr"16t"cmd_dma_attr"16t"resp_dma_attr"nJJJ
++/"acc_attr"16t"fca_pkt_size"16t"fca_max_exch"nJXX
++/"state"16t"flags"16tnXX
++/"pwwn"
+.$<<la_wwn
+<w+0t80=""
++/"nwwn"
+.$<<la_wwn
+<w+0t88=""
++/"reset_action"16t"dma_behavior"16t"fcp_dma"nXXX
+<w+0t104=""

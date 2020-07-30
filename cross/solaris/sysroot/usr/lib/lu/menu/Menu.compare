@@ -1,0 +1,98 @@
+# Copyright 2004 Sun Microsystems, Inc. All rights reserved.
+# Use is subject to license terms.
+# Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Menu.compare 5.4     04/05/26 SMI"
+#
+
+#Main menu for Live Upgrade. This menu needs to be integrated in to OAM/OSA.
+#All the fields in this menu are in alphabetical order.
+
+menu=`gettext "Compare a BE contents to original stats or to an Active BE"`
+nrow=1
+rows=2
+HELP=open text $OBJ_DIR/$LININFO
+altslks=true
+
+#Field 1: Compare
+################################################################################
+#Compare is a Form. Choices should show all inactive & complete BEs.
+#Compare Field should not be shown in Main Menu when there is no lutab file.
+
+name=`gettext "Compare_To_Original"`
+description=`gettext "Compare a BE to its original stats"`
+itemmsg=`gettext "Move to an item with the arrow keys and strike ENTER to select."`
+lininfo=MainHelp.compare2
+show=`  if [ -f /etc/lutab ];
+	then echo TRUE;
+	else echo FALSE;
+	fi`
+# Process all complete BEs. 
+action=`
+message -w; 
+$LUBIN/lunames_list -c >/tmp/choice.${VPID};
+if [ -s /tmp/choice.${VPID} ];
+then 
+ set -l CMD="OPEN FORM $OBJ_DIR/Form.compare2 /tmp/choice.${VPID}";
+else 
+	gettext "There are no valid BEs available for Compare operation" | message -t;
+	set -l CMD="nop";
+fi;`$CMD
+
+#Field 2: Compare Active BE to a target ABE
+################################################################################
+
+name=`gettext "Compare_To_Active"`
+description=`gettext "Compare the contents of two Boot Environments"`
+itemmsg=`gettext "Move to an item with the arrow keys and strike ENTER to select."`
+lininfo=MainHelp.compare
+show=`  if [ -f /etc/lutab ];
+	then echo TRUE;
+	else echo FALSE;
+	fi`
+# Process all inactive complete BEs.
+action=`
+message -w; 
+$LUBIN/lunames_list -A -c >/tmp/choice.${VPID};
+if [ -s /tmp/choice.${VPID} ];
+then 
+ set -l CMD="OPEN FORM $OBJ_DIR/Form.compare /tmp/choice.${VPID}";
+else 
+	gettext "There are no valid BEs available for Compare operation" | message -t;
+	set -l CMD="nop";
+fi;`$CMD
+
+`indicator -w`
+
+
+name=
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=`gettext "ENTER"`
+button=11
+action=help
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

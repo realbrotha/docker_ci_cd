@@ -1,0 +1,12 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-ldevid	1.4	04/03/26 SMI"
+
+#include "devid.h"
+#include "libdevid.h"

@@ -1,0 +1,56 @@
+# @(#)08  1.1  src/cmdtext/usr/bin/canonls/font/IBM-932/DESC, cmdtext, cmdtext530 8/3/93 04:26:54
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/canonls/font/IBM-932/DESC 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDTEXT
+#
+# FUNCTIONS:
+#
+# ORIGINS: 27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#	Canon LASER SHOT in LIPS III mode
+#
+# 
+fonts 9 R I B BI G GI GB GD S
+sizes 6 7 8 9 10 11 12 14 16 18 20 22 24 28 36 0
+res 300
+hor 1
+vert 1
+unitwidth 50
+paperwidth 2360
+paperlength 3180
+codeset IBM-932
+charset
+\| \^ \& \` \' \- hy em
+*a *b *g *d *e *z *y *h *i *k *l *m *n *c *o *p *r *s *t *u *f *x *q *w ts
+*A *B *G *D *E *Z *Y *H *I *K *L *M *N *C *O *P *R *S *T *U *F *X *Q *W
+!= ** +- -> <- <= == >=
+em hy ul ru br bu
+sq bx ci 14 12 34
+de dg dd sc pp fm ct ps yn rg co tm ?? I? !! I! ss ui d< d>
+aa be cd ga hc mc og ri ..
+um ae AE oe OE fi fl
+pl mi eq ** sl
+sr rn >= <= == ~= ap != -> <- ua da mu di +- cu ca sb sp ib ip la lo or
+no l< l> fa te tf al if pd gr is pt es mo
+dm lh rh lt lb rt rb lk rk bv lc lf rc rf X0 X1 X2 X3 
+

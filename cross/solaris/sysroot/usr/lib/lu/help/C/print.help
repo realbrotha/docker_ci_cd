@@ -1,0 +1,10 @@
+\f2Help on Save Screen\f1
+
+Enter the name of the filename to store the data on the screen. The
+data will be stored as ASCII text. 
+
+The filename should not contain any blanks or special characters and
+it should be a absolute path.
+
+You can press F6 to ESCAPE to the main menu with out storing the screen 
+data into the file.

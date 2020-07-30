@@ -1,0 +1,48 @@
+# @(#)36	1.8 9/14/93 09:37:12
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3812/font/DESC 1.8 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# ditroff device description for the IBM Pageprinter 3816
+fonts 8 R I B C S S1 S2 S3
+sizes 8 10 12 18 24 0
+res 240
+hor 1
+vert 1
+unitwidth 10
+codeset IBM-850
+biggestfont 188
+charset
+!= ** *A *B *E *F *G *H *I *K *M *N *O *R *S *T *W *X *Y *Z *a *b
+*d *e *f *m *p *s *t +- -> 12 14 34 <- <= == >= \& \' \- 
+\^ \_ \` \e \| aa ap br bu bv bx ca cd ci co ct
+cu da dd de dg di em eq es fm ga gr hy if is lb lc lf lh lk
+lt mi mu no or pd pl pt rb rc rf rg rh rk rn rt ru sb sc sl sp
+sq sr ts ua ul ~= 
+ff fi fl Fi Fl bp en *o *D *L *C *P *U *Q *g *z *y *h *i *k 
+*l *n *c *r *u *x *q *w mo ib ip yn Rh Lh
+ps $B $D $J pp m. cs vs |= cm
+!! I! d< d> ?? I? \' \` AE ae O/ o/ ui ss $$ cd um .. ri ma mc be hc

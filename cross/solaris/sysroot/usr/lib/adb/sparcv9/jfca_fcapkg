@@ -1,0 +1,21 @@
+.>X
+.=n"FcaPackage"16tKn
+<X+0=""
++/"fc_packet"16t"jfca_target"16t"pkt_rsplen"nJJX4+
++/"pkt_resp"16t"flushed"8tnJB
+*(<X+0t36)>/i/f
+(##(<f)&0x00000001)="ABORT REQUESTED"16tBn
+(##(<f)&0x00000002)="ABORT FAILED"16tBn
+(##(<f)&0x00000010)="PORT OFFLINE"16tBn
+(##(<f)&0x00000020)="PORT TARGET RESET"16tBn
+*(<X+0t52)>/i/f
+(##(<f)&0x00000001)=n"PKG STARTED"t16tBn
+(##(<f)&0x00000002)="PKG SERVER CALLED"16tBn
+(##(<f)&0x00000004)="PKG TIMEOUT"16tBn
+(##(<f)&0x00000008)="PKG POLL WAKEUP"16tBn
+(##(<f)&0x00000010)="PKG TASK REQ"16tBn
+(##(<f)&0x00000020)="PKG COMPLETE"16tBn
+<X+0t40=""
++/"unsol buf"16t"plogi count"16t"debug_flags"nJXX
++/"orig type"16t"orig status"16tnXX
+<X+0t64=""

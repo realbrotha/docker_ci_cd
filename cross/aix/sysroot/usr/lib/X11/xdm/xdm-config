@@ -1,0 +1,28 @@
+# @(#)73    1.2  src/gos/2d/XTOP/aixclients/xdm/config/xdm-conf.cpp, xdmcp, gos530 11/7/95 13:49:35
+#
+# COMPONENT_NAME: XDMCP
+#
+# FUNCTIONS: xdm-conf.cpp
+#
+# ORIGINS: 27 
+#
+# (C) COPYRIGHT International Business Machines Corp. 1992, 1995
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+DisplayManager.errorLogFile:	/usr/lib/X11/xdm/xdm-errors
+DisplayManager.pidFile:		/usr/lib/X11/xdm/xdm-pid
+DisplayManager.keyFile:		/usr/lib/X11/xdm/xdm-keys
+DisplayManager.servers:		/usr/lib/X11/xdm/Xservers
+DisplayManager.accessFile:	/usr/lib/X11/xdm/Xaccess
+DisplayManager._0.authorize:	true
+DisplayManager._0.setup:	/usr/lib/X11/xdm/Xsetup_0
+DisplayManager*startup:		/usr/lib/X11/xdm/GiveConsole
+DisplayManager*reset:		/usr/lib/X11/xdm/TakeConsole
+DisplayManager*resources:	/usr/lib/X11/xdm/Xresources
+DisplayManager*session:		/usr/lib/X11/xdm/Xsession
+DisplayManager*authComplain:	false

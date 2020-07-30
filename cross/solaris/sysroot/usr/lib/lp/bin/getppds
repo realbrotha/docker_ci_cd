@@ -1,0 +1,31 @@
+#!/usr/bin/ksh
+#
+# ident	"@(#)getppds	1.1	04/04/15 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+
+#
+# get a list of the Models for this Model from the ppdcache
+#
+
+if [[ $# -lt 2 ]]; then
+        exit 1
+fi
+
+typeset model
+
+if [[ -f /usr/lib/lp/model/ppd/ppdcache ]]; then
+	typeset make=$1
+	shift
+	
+	/bin/grep $make /usr/lib/lp/model/ppd/ppdcache |
+	/bin/grep "$*:" |
+	nawk '{FS=":"; print $3}' 
+
+	exit 0
+else
+	exit 1
+fi

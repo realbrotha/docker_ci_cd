@@ -1,0 +1,589 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53L src/bos/usr/bin/sysdumpdev/smutil/dumpcheck.sh 1.8 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2000,2006 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)22        1.8  src/bos/usr/bin/sysdumpdev/smutil/dumpcheck.sh, cmddump, bos53L, l2006_43A7 9/21/06 17:53:14
+#
+# COMPONENT_NAME:   CMDDUMP   shell interface program.
+#
+# FUNCTIONS:  	dumpcheck and supporting functions.
+#
+
+
+
+#####################################################
+CLEANUP() {
+	rm -rf $TMPFILE
+	exit $1
+}
+
+#####################################################
+# Expand the platform dump space if necessary.
+#	See if expansion is needed.
+#	If so, do it.
+#
+#	It is important to note that platform_dump will log errors if
+#	the -L flag is given.  We only print messages if -p was given.
+#####################################################
+platform_dump_check() {
+	# Check space, don't report anything unless expansion needed.
+	# platform_dump always sends messages to stderr, and logs if -L is specified.
+	logit= 
+	ismounted=
+	[[ "$dolog" = 'y' ]] && logit="-L"
+
+	platform_dump -c >/dev/null 2>&1
+
+	# We only need continue if we need to expand the space.
+	[[ $? -ne 1 ]] && return
+
+	# Get the estimated size of platform dumps.
+	siz=`platform_dump -e $logit 2>&1`
+	if [[ $? -eq 2 ]]
+	then	# Error - perhaps show an error and return.
+		[[ "$doprnt" = 'y' ]] && echo $siz >&2
+		return
+	fi
+
+	# Expand the space.
+	fsn=`odmget -q "attribute = 'fwdump_dir'" SWservAt |\
+	  awk '$1 == "value" {gsub("\"","",$NF);printf("%s",$NF)}'` 
+    
+	ismounted=`mount | awk -v fsn=$fsn '$2 == fsn {print $2}'`
+    	if [ "$ismounted" != "$fsn" ] 
+    	then 
+		if [[ "$doprnt" = 'y' ]]
+		then
+       			 echo "$fsn \c" 
+		  	 dspmsg -s 5 cmderrlg.cat 198 "Platform dump file system not mounted " 
+		fi
+		if [[ "$dolog" = 'y' ]]
+		then	# Log the error
+			/usr/lib/ras/ras_logger << END
+DMPCHK_PLATMNT
+dumpcheck
+0
+$fsn
+END
+		fi
+
+        	 return
+	fi
+	msg=`platform_dump -f any $logit 2>&1`
+	if [[ $? -eq 0 ]]
+	then	# Perhaps show/log success message.
+		if [[ "$doprnt" = 'y' ]]
+		then	dspmsg -s 5 cmderrlg.cat 22 "File system name"
+			echo " $fsn \c"
+			dspmsg -s 5 cmderrlg.cat 72 "expanded as per platform dump size estimate"
+			echo " $siz"
+		fi
+		if [[ "$dolog" = 'y' ]]
+		then	# Log the expansion.
+			/usr/lib/ras/ras_logger << END
+DMPCHK_PLATEXP
+dumpcheck
+0
+$fsn
+$siz
+END
+		fi
+	else	# error - perhaps show a message.
+		[[ "$doprnt" = 'y' ]] && echo $msg >&2
+	fi
+}
+
+#####################################################
+# FUNCTION TO GET LOGICAL VOLUME SIZE
+#	Get the Number of Physical Partitions.
+# 	Get the size of each Partition.
+# 	Return the lv size.
+#####################################################
+get_lv_size () {
+  typeset -i lpsize=0
+  typeset -i noofpps=0
+
+  dumpdd_size=0
+  noofpps=`lslv $logvol 2>/dev/null |grep LP |grep -v MAX |grep -v COPY | awk '{printf $2}'`
+  lpsize=`lslv $logvol 2>/dev/null| grep SIZE | awk '{printf $6}'`
+  let "lpsize = $lpsize * 1024 "
+  let "dumpdd_size = $noofpps * $lpsize"
+
+}
+
+#####################################################
+# FUNCTION TO REMOVE DUMPCHECK ENTRY FROM CRONTAB
+#	Get the current crontab entried to a file
+# 	Remove the dumpcheck entry from the file
+# 	Add the new cron tab.
+#####################################################
+remove_cron_entry () {
+
+	crontab -l 2>/dev/null | grep -v "/usr/lib/ras/dumpcheck" >$TMPFILE
+	crontab $TMPFILE >/dev/null 2>&1
+	retv=$?
+	[ $retv = 2 ] && return 0
+	return $retv
+}
+
+#####################################################
+# FUNCTION TO ADD DUMPCHECK ENTRY TO CRONTAB
+#	Get the current crontab entried to a file
+#	Add a dumpcheck crontab entry.
+#	timesetting contains the cron time specification.
+#	Add the -l parameter if dolog is set.
+#	Add the -p parameter if doprnt is set.
+# 	Add the new cron tab.
+#####################################################
+add_cron_entry () {
+	crontab -l 2>/dev/null | grep -v "/usr/lib/ras/dumpcheck" >$TMPFILE
+	echo "$timesetting" "/usr/lib/ras/dumpcheck \c" >>$TMPFILE
+	[ $doprnt = y ] && echo "-p \c" >>$TMPFILE
+	[ $dolog = y ] && echo "-l \c" >>$TMPFILE
+	echo '>/dev/null 2>&1' >>$TMPFILE
+	crontab $TMPFILE >/dev/null 2>&1
+	retv=$?
+	[ $retv = 2 ] && return 0
+	return $retv
+}
+
+#####################################################
+# FUNCTION TO get default time setting.
+# Get the dumpcheck time specification from the crontab.
+#####################################################
+get_time() {
+	# Get timesetting from the last dumpcheck entry.
+	timesetting=`crontab -l | grep "/usr/lib/ras/dumpcheck" | awk '
+	  {print $1, $2, $3, $4, $5}'`
+	# Set timesetting to the default if not in the file.
+	[ -z "$timesetting" ] && timesetting="0 15 * * * "
+}
+
+#####################################################
+# FUNCTION TO LOG THE ERRORS
+#	Prepare the $TMPFILE depending on condidtions. 
+# 	Log the error using /usr/lib/ras/errlogger.
+#####################################################
+log_errors () {
+    if [ "$COMPON" = y ]
+    then
+	echo "DMPCHK_COMPON" >$TMPFILE
+	echo "dumpcheck\n0" >>$TMPFILE
+	if [ "$TOOSMALL" = y ]
+	then
+	dspmsg -s 5 cmderrlg.cat 13 "The largest dump device is too small.\n" >>$TMPFILE
+	fi
+	if [ "$NOSPACE" = y ]
+	then
+	dspmsg -s 5 cmderrlg.cat 20 "There is not enough free space in the \
+file system containing the copy directory to accommodate the dump.\n" >>$TMPFILE
+	fi
+	/usr/lib/ras/ras_logger <$TMPFILE
+	retv=$?
+   else
+	if [ "$TOOSMALL" = y ]
+	then
+	    if [ "$NOCOMP" = y ]
+	    then
+		echo "DMPCHK_TOOSMALLC" >$TMPFILE
+	    else
+		echo "DMPCHK_TOOSMALL" >$TMPFILE
+	    fi
+	    echo "dumpcheck\n0" >>$TMPFILE
+	    echo $workdumpd >>$TMPFILE
+	    echo $work_size >>$TMPFILE
+	    echo $est_dump_size >>$TMPFILE
+	    /usr/lib/ras/ras_logger <$TMPFILE
+	    retv=$?
+	fi
+	if [ "$NOSPACE" = y ]
+	then
+	    if [ "$NOCOMP" = y ]
+	    then
+		echo "DMPCHK_NOSPACEC" >$TMPFILE
+	    else
+		echo "DMPCHK_NOSPACE" >$TMPFILE
+	    fi
+	    echo "dumpcheck\n0" >>$TMPFILE
+	    echo $pcopydir >>$TMPFILE
+	    echo $copydir_size >>$TMPFILE
+	    echo $est_dump_size >>$TMPFILE
+	    /usr/lib/ras/ras_logger <$TMPFILE
+	    retv=$?
+	fi
+    fi
+    return $retv
+}
+#####################################################
+# FUNCTION TO LOG THE ERRORS
+#	Print the appropriate messages to screen using dspmsg.
+#####################################################
+print_errors () {
+	if [ "$COMPON" = y ]
+	then
+	    dspmsg -s 5 cmderrlg.cat 12 "Dump compression was turned on because\n"
+	    echo 
+	    if [ "$TOOSMALL" = y ]
+	    then
+		dspmsg -s 5 cmderrlg.cat 13 "The largest dump device is too small.\n"
+	    fi
+	    if [ "$NOSPACE" = y ]
+	    then
+		dspmsg -s 5 cmderrlg.cat 20 "There is not enough free space in the \
+file system containing the copy directory to accommodate the dump.\n"
+	    fi
+	else
+	    if [ "$TOOSMALL" = y ]
+	    then
+		dspmsg -s 5 cmderrlg.cat 13 "The largest dump device is too small.\n"
+		echo
+		dspmsg -s 5 cmderrlg.cat 16 "Largest dump device\n"
+		echo "\t" $workdumpd
+		dspmsg -s 5 cmderrlg.cat 17 "Largest dump device size in kb\n"
+		echo "\t" $work_size
+		dspmsg -s 5 cmderrlg.cat 18 "Current estimated dump size in kb\n"
+		echo "\t" $est_dump_size
+		if [ "$NOCOMP" = y ]
+		then
+		   dspmsg -s 5 cmderrlg.cat 24 "You may wish to turn dump compression back on.\n"
+		fi
+	    fi
+	    if [ "$NOSPACE" = y ]
+	    then
+		dspmsg -s 5 cmderrlg.cat 20 "There is not enough free space in the \
+file system containing the copy directory to accommodate the dump.\n"
+		echo
+		dspmsg -s 5 cmderrlg.cat 22 "File system name\n"
+		echo "\t" $pcopydir
+		dspmsg -s 5 cmderrlg.cat 23 "Current free space in kb\n"
+		echo "\t" $copydir_size
+		dspmsg -s 5 cmderrlg.cat 18 "Current estimated dump size in kb\n"
+		echo "\t" $est_dump_size
+		if [ "$NOCOMP" = y ]
+		then
+		   dspmsg -s 5 cmderrlg.cat 24 "You may wish to turn dump compression back on.\n"
+		fi
+	    fi
+	fi
+
+	return 0
+}
+
+#####################################################
+debug () {
+ echo "primary = " 			$pprimary
+ echo "secondary = " 			$psecondary
+ echo "copy dir = " 			$pcopydir
+ echo "primary size = " 		$primary_size
+ echo "Secondary size = " 		$secondary_size
+ echo "copy dir Size = " 		$copydir_size
+ echo "Iscompression ON = " 		$pcompresson 
+ echo "Estimated Dump size = " 		$est_dump_size
+ echo "Estimated Compressed Dump size = " $cmp_dump_size
+
+ echo 
+ echo "Working device =" 		$workdumpd
+ echo "working size = " 		$work_size
+}
+
+#####################################################
+usage () {
+	dspmsg -s 1 cmddump.cat 575 "Usage:\n\
+dumpcheck [[-l] [-p ] [-t time-parameters] [-P ]]\n\
+dumpcheck [-r ]\n\
+\n\
+Checks to see that the dump device and copy directory \n\
+are able to receive the system dump.\n\
+\n\
+-l                      Log any warnings to the error log. \n\
+-p                      Print any warnings produced to stdout.\n\
+-r                      Remove the crontab entry for this function.\n\
+-P                      Indicates that the changes are to be made permenently.\n\
+-t time-parameters      Change the time when dumpcheck is executed.\n\
+\n\
+The -r parameter must be specified alone, \n\
+(i.e.) it is not valid with any other parameters.\n"
+
+}
+# ----------------------------------------------------------
+# ---------------------  M  A  I  N  -----------------------
+# ----------------------------------------------------------
+
+set -f
+userid=`id -ru`
+if [ "$userid" != 0 ]
+then
+	echo "Must be root user [0] to use this utility."
+	CLEANUP 2
+fi
+
+PROGNAME=`basename $0`
+TMPFILE=/tmp/dump_ch$$
+#
+# Set flags.
+#
+dolog=n                 # Log an error if warranted.
+doprnt=n                # Print the output to screen.
+dochent=n		# Make the Specifications Permenent.
+dorment=n		# Remove the crontab entry.
+timesetting=
+
+
+TOOSMALL=
+COMPON=
+NOSPACE=
+NOCOMP=
+
+typeset -i secondary_size=0
+typeset -i primary_size=0
+typeset -i copydir_size=0
+typeset -i dumpdd_size=0
+typeset -i work_size=0
+typeset -i est_dump_size=0
+typeset -i cmp_dump_size=0
+typeset -i compr_factor=1
+dump_to_paging=0
+
+dorest=n
+action=n
+
+get_time
+
+trap "CLEANUP 5 " 2
+
+# Save off current umask and set it to 077.
+UMASKSAVE=`umask`
+umask 077
+
+set -- `getopt rlPpt: $*`
+rc=$?
+
+if [ "$rc" != 0 ]
+then
+	usage
+	CLEANUP 1
+fi
+
+while [ "$1" != -- ]
+do
+        case $1 in
+        -r)
+		dorment=y
+		action=y
+		shift;;
+        -l)
+		dolog=y
+		action=y
+		shift;;
+        -p)
+		doprnt=y
+		action=y
+		shift;;
+        -P)
+		dochent=y
+		action=y
+		shift;;
+        -t)
+		action=y
+		dochent=y
+		timesetting="$2 $4 $5 $6 $7"
+		shift;
+		shift;;
+        *)
+                usage
+                CLEANUP 1
+                ;;
+        esac
+done
+
+
+if [ "$action" = n ]
+then
+	dolog=y
+fi
+
+if [ "$dolog" = y -o "$doprnt" = y -o "$dochent" = y ]
+then
+	dorest=y
+fi
+
+
+if [ "$dorment" = y -a "$dorest" = y ]
+then
+	usage
+        CLEANUP 5
+fi
+
+if [ "$dorment" = y ]
+then
+	remove_cron_entry
+	CLEANUP $?
+fi
+
+if [ "$dochent" = y ]
+then
+	add_cron_entry
+	CLEANUP $?
+fi
+
+
+
+# Check platform dump space.
+platform_dump_check
+
+# For Security Delete the existing File 
+rm -rf $TMPFILE
+# Save the original Language.
+ORIGM=LC_MESSAGES
+LC_MESSAGES=C; export LC_MESSAGES
+est_dump_size=`/usr/bin/sysdumpdev -e | awk '{printf $NF}'`
+/usr/bin/sysdumpdev -l > $TMPFILE
+rc=$?
+
+pprimary=`grep primary $TMPFILE | cut -f "3" -d / |awk ' { printf $1}'`
+psecondary=`grep secondary $TMPFILE | cut -f "3" -d / | awk '{ printf $1}'`
+
+pcompresson=`grep compression $TMPFILE | awk '{printf $3}'`
+pcopydir=`grep directory $TMPFILE | awk '{printf $3}'`
+
+if [ "$rc" != 0 -o "$pprimary" = "" -o "$psecondary" = "" -o "$pcompresson" = "" -o "$pcopydir" = "" ]
+then
+        dspmsg -s 5 cmderrlg.cat 265 "There was an error writing a temporary file to the /tmp filesystem.\n"
+        CLEANUP $rc
+fi
+
+
+copydir_size=`/usr/sbin/savecore -dF $pcopydir |  awk '{printf $1}'`
+
+# Restore the original Messages.
+LC_MESSAGES=$ORIGM; export LC_MESSAGES
+
+logvol=$pprimary
+get_lv_size
+let "primary_size = $dumpdd_size * 1 "
+let "est_dump_size = $est_dump_size / 1024 "
+
+# Pick the largest dump device.
+# If secondary is sysdumpnull, pick primary.
+# else pick the largest of the two.
+
+
+if [ $psecondary = "sysdumpnull" ]
+then
+	workdumpd=$pprimary
+	let "work_size = $primary_size * 1 "
+	let " secondary_size = 0"
+else	
+	logvol=$psecondary
+	get_lv_size
+	let "secondary_size = $dumpdd_size "
+	
+	if [ $secondary_size -gt $primary_size ]
+	then 
+		workdumpd=$psecondary
+		let "work_size = $secondary_size * 1"
+	else
+		workdumpd=$pprimary
+		let "work_size = $primary_size  * 1"
+	fi
+fi
+
+# If the working size is 0.
+# Exit with a return code 9.
+# This can be case for dump devices set to tape 
+# or remote dump device.
+
+
+lsps $workdumpd >/dev/null 2>&1
+if [[ $? = 0 ]]
+then    # dumpdd is paging.
+	dump_to_paging=1
+fi
+
+
+if [ $work_size -eq 0 ]	
+then
+	CLEANUP 9
+fi
+
+if [ "$pcompresson" = "ON" ]
+then
+	let " cmp_dump_size = est_dump_size / compr_factor "
+else
+	compr_factor=`odmget -q"attribute=dump_compress_factor" SWservAt |grep value |  awk '{printf int(substr($NF,2,1)) }'`
+
+	let " cmp_dump_size = est_dump_size / compr_factor "
+fi
+
+#debug
+
+if [ $work_size -gt $est_dump_size ]	
+then
+    if [ "$dump_to_paging" = 1  ]
+    then 
+	if [ $copydir_size -gt $est_dump_size ]
+	then
+		CLEANUP 0
+	else		#est_dump_size
+	     NOSPACE=y
+	     if [ "$pcompresson" = "OFF" -a $copydir_size -gt $cmp_dump_size ]
+	     then
+			COMPON=y
+	     fi 	#enough space in dir.
+	fi		#$copydir_size -gt $est_dump_size
+    else		#dump_to_paging
+	CLEANUP 0
+    fi			#dump_to_paging
+else			# Dump does not fit in dump device.
+    TOOSMALL=y
+    if [ "$dump_to_paging" = 1  ]
+    then 
+	if [ $copydir_size -lt $est_dump_size ]
+	then
+	     NOSPACE=y
+	fi
+	if [ "$pcompresson" = "OFF" -a $copydir_size -gt $cmp_dump_size -a $work_size -gt $cmp_dump_size ]
+	then
+		COMPON=y
+	fi
+    fi		# If paging.
+fi		# main if worksize > est_dump_size
+
+
+  if [ "$COMPON" = y ]
+  then
+	/usr/bin/sysdumpdev -Ci
+	if [[ $? != 0 ]]
+	then   
+		COMPON=
+		NOCOMP=y
+	fi
+  fi 
+
+
+if [ "$doprnt" = y ]
+then
+	print_errors
+fi
+
+if [ "$dolog" = y ]
+then
+	log_errors
+	CLEANUP $?
+fi
+
+CLEANUP 0
+

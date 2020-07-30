@@ -1,0 +1,24 @@
+llbd - Local Location Broker Subsystem
+
+The local location broker subsystem (llbd) is part of the network computing
+system (NCS). It manages the local location broker (LLB) database, which
+stores information about NCS based server programs running on the local
+host.
+
+A host must run llbd if it is to support the location broker forwarding
+function or to allow remote access, for example by the Local Broker
+Administration (lb_admin) to the LLB database. In general, any host that
+runs NCS-based servers should run an llbd, and llbd should be running before
+any such servers are started. Additionally, any network or internet
+supporting NCS activity should have at least one host running a global
+location broker subsystem (glbd).
+
+Syntax
+
+startsrc -s llbd [ -a " -dl " ]
+
+Parameters
+
+-dl
+     Prints debugging information.
+

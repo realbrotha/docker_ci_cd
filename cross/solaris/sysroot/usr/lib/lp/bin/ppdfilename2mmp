@@ -1,0 +1,23 @@
+#!/usr/bin/ksh
+#
+# ident	"@(#)ppdfilename2mmp	1.1	04/04/15 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#
+# Get the make/model/nickname from ppdfilename
+#
+
+if [[ $# -lt 1 ]]; then
+        exit 1
+fi
+
+if [[ -f /usr/lib/lp/model/ppd/ppdcache ]]; then
+	/bin/grep $1 /usr/lib/lp/model/ppd/ppdcache | 
+	nawk '{FS=":"; print $1; print $2; print $3}'
+	exit 0
+else
+	exit 1
+fi

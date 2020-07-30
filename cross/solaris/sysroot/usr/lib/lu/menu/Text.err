@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Text.err 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Result of the Live Upgrade"`" "`gettext "$ARG2"`" "`gettext "operation"`
+
+wrap=true
+altslks=true
+close=nop
+
+begrow=any
+begcol=any
+rows=8
+columns=70
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text="\n"`gettext "Live Upgrade"`" "`gettext "$ARG2"`" "`gettext "operation did not complete successfully"`".\n"`gettext "Following errors occurred during the"`" "`gettext "$ARG2"`" "`gettext "operation"`".\n\n"`cat $ARG1`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=`rm -f $ARG1`CLEANUP
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

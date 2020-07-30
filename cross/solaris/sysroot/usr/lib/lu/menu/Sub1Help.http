@@ -1,0 +1,56 @@
+#
+#ident	"@(#)Sub1Help.http	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+title=`gettext "HTTP Retrieval Method"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "The HTTP Retrieval method allows you to retrieve an archive from an HTTP server.  You can specify the following  options:"`"\n"\
+`gettext "URL:\tThis is the URL that will be used to retrieve the archive.  It is of the form http://[<user>:<password>@]<host>[:<port>]/<path>"`"\n"\
+`gettext "Proxy Host:\tThis is the proxy host to use.  You use this if you are behind a firewall, for example."`"\n"\
+`gettext "Proxy Port:\tThis is the TCP port on the proxy host to use.  You use this if you are behind a firewall, for example."`"\n"\
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

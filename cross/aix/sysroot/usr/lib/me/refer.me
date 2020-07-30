@@ -1,0 +1,125 @@
+.\" @(#)24	1.5 10/30/91 11:13:11"
+.. IBM_PROLOG_BEGIN_TAG 
+.. This is an automatically generated prolog. 
+..  
+.. cmdtext530 src/cmdtext/usr/share/lib/me/refer.me 1.5 
+..  
+.. Licensed Materials - Property of IBM 
+..  
+.. (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+.. All Rights Reserved 
+..  
+.. US Government Users Restricted Rights - Use, duplication or 
+.. disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+..  
+.. IBM_PROLOG_END_TAG 
+.\"
+.\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+.\"
+.\" FUNCTIONS:
+.\"
+.\" ORIGINS: 26, 27
+.\"
+'\" (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+'\" All Rights Reserved
+'\"
+'\" US Government Users Restricted Rights - Use, duplication or
+'\" disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+.\"	refer.me	2.2	8/17/84
+.\"	%beginstrip%
+.nr _0 \n(c.
+.de ][				\" *** refer output
+.if \\$1>5 .tm 1 4"Bad arg to []"
+.[\\$1
+..
+.de [0				\" --- other
+.(f
+.ip "\\*([F.\0"
+.if !"\\*([A"" \\*([A,
+.if !"\\*([T"" \\f2\\*([T\\f1\c
+.if !"\\*([T"" .if !"\\*([O"" ,\ 
+.ie !"\\*([O"" \\*([O
+.el .if !"\\*([T"" \&.
+.if !"\\*([D"" \\*([D.
+.@p
+.)f
+..
+.de [1				\" --- journal article
+.(f
+.ip "\\*([F.\0"
+\\*([A,
+.if !"\\*([T"" \\*(lq\\*([T,\\*(rq
+.if "\\*([V"" \\f2\\*([J\\f1,
+.if !"\\*([V"" \\f2\\*([J\\f1
+.if !"\\*([V"" .if n Vol.\&
+.if !"\\*([V"" \\f3\\*([V\\f1\c
+.if !"\\*([N"" (\\*([N)\c
+.if !"\\*([P"" \
+\{\
+.	ie \\n([P>0 \ pp.\&
+.	el \ p.\&
+\\*([P
+.\}
+.if !"\\*([I"" .if "\\*([R"" \\*([I,
+(\\*([D).
+.if !"\\*([O"" \\*([O
+.)f
+..
+.de [2				\" --- book
+.(f
+.ip "\\*([F.\0"
+\\*([A, \\f2\\*([T,\\f1
+\\*([I\c
+.if !"\\*([C"" , \\*([C\c
+ (\\*([D).
+.ds {c 1 48"Gov't. ordering no."
+.if !"\\*([G"" \\*({c \\*([G
+.if !"\\*([O"" \\*([O
+.)f
+..
+.de [3				\" --- article in book
+.(f
+.ip "\\*([F.\0"
+\\*([A, \\*(lq\\*([T,\\*(rq
+.if !"\\*([P"" pp. \\*([P
+in \\f2\\*([B\\f1, \c
+.if !"\\*([E"" ed. \\*([E,\c
+.if !"\\*([I"" \\*([I\c
+.if !"\\*([C"" ,  \\*([C\c
+ (\\*([D).
+.if !"\\*([O"" \\*([O
+.)f
+..
+.de [4				\" --- report
+.(f
+.ip "\\*([F.\0"
+\\*([A, \\*(lq\\*([T,\\*(rq
+\\*([R\c
+.if !"\\*([G"" \& (\\*([G)\c
+.if !"\\*([I"" ,  \\*([I\c
+.if !"\\*([C"" ,  \\*([C\c
+ (\\*([D).
+.if !"\\*([O"" \\*([O
+.)f
+..
+.de [5				\" --- tm style
+.(f
+.ip "\\*([F.\0"
+\\*([A, \\f2\\*([T\\f1,
+.ie \\n(TN \\*([M.
+.el Bell Laboratories internal memorandum (\\*([D).
+.)f
+..
+.de ]<
+.ds {c 1 43"References"
+.$p \\*({c
+.lp
+.rm (f )f
+..
+.de ]>
+.sp
+..
+.de ]-
+.rm [V [P [A [T [N [C [B [O [R [I [E [D
+..
+.nr c. \n(_0

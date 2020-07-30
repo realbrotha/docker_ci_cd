@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: gnome-icon-theme
+Description: A collection of icons used as the basis for GNOME themes
+Version: 1.2.0
+Requires: 
+Libs: 
+Cflags: 

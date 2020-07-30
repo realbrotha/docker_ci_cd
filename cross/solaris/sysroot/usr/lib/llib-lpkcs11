@@ -1,0 +1,11 @@
+/*
+ * Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lpkcs11	1.1	03/06/11 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <security/cryptoki.h>

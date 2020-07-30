@@ -1,0 +1,25 @@
+! @(#)94        1.1  src/sysmgt/websm/WebSM/apps/config/configassist.resources, wsmconfig, websm43D, 9752A_43D 12/18/97 14:05:10
+*XmCascadeButton*shadowThickness:	1
+*XmCascadeButtonGadget*shadowThickness:	1
+*XmDrawnButton*shadowThickness:	1
+*XmList*shadowThickness:	1
+*XmPanedWindow*sashShadowThickness:	1
+*XmPushButton*shadowThickness:	1
+*XmPushButtonGadget*shadowThickness:	1
+*XmScale*shadowThickness:	1
+*XmScrollBar*shadowThickness:	1
+*XmSelectionBox*shadowThickness:	1
+*XmText*shadowThickness:	1
+*XmTextField*shadowThickness:	1
+*enableBtn1Transfer:	False
+*enableButtonTab:	True
+*enableDefaultButton:	True
+*enableEtchedInMenu:	True
+*enableMenuInCascade:	True
+*enableToggleColor:	True
+*enableToggleVisual:	True
+*highlightThickness:	1
+*enableDragIcon:	True
+IADthelpview*fontList:	-dt-interface system-medium-r-normal-l*-*-*-*-*-*-*-*:
+IADthelpview*rows:	40
+IADthelpview*columns:	90

@@ -1,0 +1,26 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+#pragma ident	"@(#)llib-luuid	1.2	02/07/03 SMI"
+
+#include <sys/uuid.h>
+#include <pkginfo.h>
+
+/*
+ * usr/src/lib/libuuid
+ */
+/* main.c */
+void uuid_clear(uuid_t);
+int uuid_compare(uuid_t, uuid_t);
+void uuid_copy(uuid_t, uuid_t);
+void uuid_generate(uuid_t);
+void uuid_generate_random(uuid_t);
+void uuid_generate_time(uuid_t);
+int uuid_is_null(uuid_t);
+int uuid_parse(char *, uuid_t);
+time_t uuid_time(uuid_t, struct timeval *);
+void uuid_unparse(uuid_t, char *);

@@ -1,0 +1,269 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Notes_View"
+	type="shlib" location="/usr/lib/bonobo/libnautilus-notes-view">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="description" type="string" value="Notes side pane for Nautilus"/>
+	<oaf_attribute name="description-af" type="string" value="Nautilus: Aantekeninge-sypaneel"/>
+	<oaf_attribute name="description-ar" type="string" value="لوح المسودة الجانبي لنوتلس"/>
+	<oaf_attribute name="description-az" type="string" value="Nautilus üçün qeydlər yan çubuğu"/>
+	<oaf_attribute name="description-be" type="string" value="Бакавая панэля заўвагаў для &quot;Наўтылюса&quot;"/>
+	<oaf_attribute name="description-bg" type="string" value="Страничен панел на Nautilus за бележки"/>
+	<oaf_attribute name="description-bn" type="string" value="নটিলাসের নোট প্রদর্শক পেন"/>
+	<oaf_attribute name="description-ca" type="string" value="Barra lateral de notes per al Nautilus"/>
+	<oaf_attribute name="description-cs" type="string" value="Boční panel poznámky pro Nautilus"/>
+	<oaf_attribute name="description-cy" type="string" value="Panel ochr Nodiadau ar gyfer Nautilus"/>
+	<oaf_attribute name="description-da" type="string" value="Notesidepanel til Nautilus"/>
+	<oaf_attribute name="description-de" type="string" value="Anmerkungen-Seitenfenster für Nautilus"/>
+	<oaf_attribute name="description-el" type="string" value="Πλευρικό ταμπλώ σημειώσεων του Ναυτίλου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Notes side pane for Nautilus"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Notes side pane for Nautilus"/>
+	<oaf_attribute name="description-es" type="string" value="Panel lateral de las notas para Nautilus"/>
+	<oaf_attribute name="description-et" type="string" value="Nautiluse märkmete küljepaan"/>
+	<oaf_attribute name="description-eu" type="string" value="Nautilus-en oharren albo-panela"/>
+	<oaf_attribute name="description-fi" type="string" value="Nautiluksen muistiinpanosivupaneeli"/>
+	<oaf_attribute name="description-fr" type="string" value="Volet latéral de notes de Nautilus"/>
+	<oaf_attribute name="description-gu" type="string" value="નોટિલસ માટે નોંધણી માટે બાજુમાંની તકતી"/>
+	<oaf_attribute name="description-he" type="string" value="חלונית צד הערות לנאוטילוס"/>
+	<oaf_attribute name="description-hr" type="string" value="Bočna ploča za bilješke za Nautilus "/>
+	<oaf_attribute name="description-hu" type="string" value="A Nautilus feljegyzés-oldalpanele"/>
+	<oaf_attribute name="description-id" type="string" value="Pane samping Catatan untuk Nautilus"/>
+	<oaf_attribute name="description-is" type="string" value="Síðustika minnismiða fyrir Nautilus"/>
+	<oaf_attribute name="description-it" type="string" value="Riquadro laterale «Annotazioni» per Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus のノートサイド区画"/>
+	<oaf_attribute name="description-ko" type="string" value="노틸러스 사이드 창"/>
+	<oaf_attribute name="description-li" type="string" value="Opmirkinge-ziejpeniel veur Nautilus"/>
+	<oaf_attribute name="description-lt" type="string" value="Pastabų šoninis skydelis Nautilus programai"/>
+	<oaf_attribute name="description-lv" type="string" value="Nautilus Piezīmju sāna rūts"/>
+	<oaf_attribute name="description-mk" type="string" value="Забелешки странична-линија панел за Nautilus"/>
+	<oaf_attribute name="description-ml" type="string" value="നോട്ടലസിനുവേണ്ടിയുള്ള കുറിപ്പ് തലം"/>
+	<oaf_attribute name="description-mn" type="string" value="Тэмдэглэлийн хажуугийн самбар (Наутилусын)"/>
+	<oaf_attribute name="description-ms" type="string" value="Jendela tepi nota bagi Nautilus"/>
+	<oaf_attribute name="description-ne" type="string" value="नटिलस टिप्पणीको किनारा पेन"/>
+	<oaf_attribute name="description-nl" type="string" value="Opmerkingen-zijpaneel voor Nautilus"/>
+	<oaf_attribute name="description-nn" type="string" value="Nautilus-sidepanel for notatar"/>
+	<oaf_attribute name="description-no" type="string" value="Nautilus-sidepanel for notater"/>
+	<oaf_attribute name="description-pa" type="string" value="ਨਾਟਲਿਸ ਲਈ ਟਿੱਪਣੀ ਜਗਾ"/>
+	<oaf_attribute name="description-pl" type="string" value="Panel paska bocznego Nautilusa zawierający notatki"/>
+	<oaf_attribute name="description-pt" type="string" value="Painel lateral de notas para o Nautilus"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Painel de notas da barra lateral para o Nautilus"/>
+	<oaf_attribute name="description-ro" type="string" value="Panou lateral Note pentru Nautilus"/>
+	<oaf_attribute name="description-ru" type="string" value="Боковая панель заметок для &quot;Наутилуса&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Panel poznámok pre bočný panel Nautilu"/>
+	<oaf_attribute name="description-sl" type="string" value="Stranski pult opomb za Nautilusa"/>
+	<oaf_attribute name="description-sq" type="string" value="Paneli anësor i shënimeve të Nautilus"/>
+	<oaf_attribute name="description-sr" type="string" value="Белешке постранце за Наутилус"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Beleške postrance za Nautilus"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Биљешке постранце за Наутилус"/>
+	<oaf_attribute name="description-sv" type="string" value="Anteckningssidopanel för Nautilus"/>
+	<oaf_attribute name="description-th" type="string" value="หน้าต่างหมายเหตุสำหรับ Nautilus"/>
+	<oaf_attribute name="description-tr" type="string" value="Nautilus için not yan paneli"/>
+	<oaf_attribute name="description-uk" type="string" value="Бічна панель нотаток для &quot;Наутілуса&quot;"/>
+	<oaf_attribute name="description-vi" type="string" value="Ô bên lề ghi chú cho Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Nautilus 注释侧栏"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Nautilus 的備忘側列窗格"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Nautilus 的備忘側列窗格"/>
+	<oaf_attribute name="name" type="string" value="Notes side pane"/>
+	<oaf_attribute name="name-af" type="string" value="Aantekeninge-sypaneel"/>
+	<oaf_attribute name="name-ar" type="string" value="لوح المسودة الجانبي"/>
+	<oaf_attribute name="name-az" type="string" value="Qeydlər yan çubuğu"/>
+	<oaf_attribute name="name-be" type="string" value="Бакавая панэля заўвагаў"/>
+	<oaf_attribute name="name-bg" type="string" value="Страничен панел за бележки"/>
+	<oaf_attribute name="name-bn" type="string" value="নোট প্রদর্শক পেন"/>
+	<oaf_attribute name="name-ca" type="string" value="Barra lateral de notes"/>
+	<oaf_attribute name="name-cs" type="string" value="Boční panel poznámky"/>
+	<oaf_attribute name="name-cy" type="string" value="Panel ochr nodiadau"/>
+	<oaf_attribute name="name-da" type="string" value="Notesidepanel"/>
+	<oaf_attribute name="name-de" type="string" value="Anmerkungen-Seitenfenster"/>
+	<oaf_attribute name="name-el" type="string" value="Πλευρικό ταμπλώ σημειώσεων"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Notes side pane"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Notes side pane"/>
+	<oaf_attribute name="name-es" type="string" value="Panel lateral de las notas"/>
+	<oaf_attribute name="name-et" type="string" value="Märkmete küljepaan"/>
+	<oaf_attribute name="name-eu" type="string" value="Oharren albo-panela"/>
+	<oaf_attribute name="name-fi" type="string" value="Muistiinpanosivupaneeli"/>
+	<oaf_attribute name="name-fr" type="string" value="Volet latéral Notes"/>
+	<oaf_attribute name="name-gu" type="string" value="નોંધણી માટે બાજુમાંની તકતી"/>
+	<oaf_attribute name="name-he" type="string" value="חלונית צד הערות"/>
+	<oaf_attribute name="name-hr" type="string" value="Bočna ploča za bilješke "/>
+	<oaf_attribute name="name-hu" type="string" value="Feljegyzés-oldalpanel"/>
+	<oaf_attribute name="name-id" type="string" value="Pane samping Catatan"/>
+	<oaf_attribute name="name-is" type="string" value="Síðustika f. minnismiða"/>
+	<oaf_attribute name="name-it" type="string" value="Riquadro laterale Note"/>
+	<oaf_attribute name="name-ja" type="string" value="ノートサイド区画"/>
+	<oaf_attribute name="name-ko" type="string" value="노트 사이드 창"/>
+	<oaf_attribute name="name-li" type="string" value="Opmirkinge-ziejpeniel"/>
+	<oaf_attribute name="name-lt" type="string" value="Pastabų šoninis skydelis"/>
+	<oaf_attribute name="name-lv" type="string" value="Piezīmju sāna rūts"/>
+	<oaf_attribute name="name-mk" type="string" value="Забелешки странична-линија панел"/>
+	<oaf_attribute name="name-ml" type="string" value="പാര്ശ്വതലക്കുറിപ്പുകള്‌"/>
+	<oaf_attribute name="name-mn" type="string" value="Тэмдэглэлийн хажуугийн самбар"/>
+	<oaf_attribute name="name-ms" type="string" value="Jendela tepi nota"/>
+	<oaf_attribute name="name-ne" type="string" value="टिप्पणीको किनारा पेन"/>
+	<oaf_attribute name="name-nl" type="string" value="Opmerkingen-zijpaneel"/>
+	<oaf_attribute name="name-nn" type="string" value="Sidepanel for notatar"/>
+	<oaf_attribute name="name-no" type="string" value="Sidepanel for notater"/>
+	<oaf_attribute name="name-pa" type="string" value="ਟਿੱਪਣੀ ਪੱਟੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Panel boczny uwag"/>
+	<oaf_attribute name="name-pt" type="string" value="Painel lateral de notas"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Painel lateral de notas"/>
+	<oaf_attribute name="name-ro" type="string" value="Panou lateral Note"/>
+	<oaf_attribute name="name-ru" type="string" value="Боковая панель заметок"/>
+	<oaf_attribute name="name-sk" type="string" value="Panel Poznámky pre bočný panel"/>
+	<oaf_attribute name="name-sl" type="string" value="Stranski pult opomb"/>
+	<oaf_attribute name="name-sq" type="string" value="Paneli anësor Shënime"/>
+	<oaf_attribute name="name-sr" type="string" value="Белешке постранце"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Beleške postrance"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Биљешке постранце"/>
+	<oaf_attribute name="name-sv" type="string" value="Anteckningssidopanel"/>
+	<oaf_attribute name="name-th" type="string" value="หน้าต่างหมายเหตุ"/>
+	<oaf_attribute name="name-tr" type="string" value="Not yan paneli"/>
+	<oaf_attribute name="name-uk" type="string" value="Бічна панель нотаток"/>
+	<oaf_attribute name="name-vi" type="string" value="Panel vạch lề của ghi chú"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="节点侧窗格"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="註解側邊窗格"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="註解側邊窗格"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-af" type="string" value="Aantekeninge"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-am" type="string" value="ማስታወሻዎች"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ar" type="string" value="مسودة"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-az" type="string" value="Qeydlər"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-be" type="string" value="Заўвагі"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bg" type="string" value="Бележки"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bn" type="string" value="নোট"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ca" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cs" type="string" value="Poznámky"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cy" type="string" value="Nodiadau"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-da" type="string" value="Noter"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-de" type="string" value="Anmerkungen"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-el" type="string" value="Σημειώσεις"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_CA" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_GB" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-es" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-et" type="string" value="Märkmed"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-eu" type="string" value="Oharrak"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fi" type="string" value="Muistiinpanot"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fr" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ga" type="string" value="Notaí"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gl" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gu" type="string" value="નોંધો"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-he" type="string" value="הערות"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hi" type="string" value="नोट्स"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hr" type="string" value="Bilješke"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hu" type="string" value="Jegyzetek"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-id" type="string" value="Catatan"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-is" type="string" value="Athugasemd"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-it" type="string" value="Note"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ja" type="string" value="ノート"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ko" type="string" value="노트"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-li" type="string" value="Opmirkinge"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lt" type="string" value="Pastabos"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lv" type="string" value="Piezīmes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mk" type="string" value="Забелешки"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ml" type="string" value="കുറിപ്പുകള്"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mn" type="string" value="Тэмдэглэл"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ms" type="string" value="Nota"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ne" type="string" value="टिप्पणी"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nl" type="string" value="Opmerkingen"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nn" type="string" value="Notat"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-no" type="string" value="Notater"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pa" type="string" value="ਟਿੱਪਣੀ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pl" type="string" value="Notatki"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt_BR" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ro" type="string" value="Note"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ru" type="string" value="Заметки"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sk" type="string" value="Poznámky"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sl" type="string" value="Opombe"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sq" type="string" value="Shënime"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr" type="string" value="Белешке"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@Latn" type="string" value="Beleške"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@ije" type="string" value="Биљешке"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sv" type="string" value="Anteckningar"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-th" type="string" value="หมายเหตุ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-tr" type="string" value="Notlar"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-uk" type="string" value="Примітки"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-vi" type="string" value="Ghi chú"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-wa" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_CN" type="string" value="注释"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_HK" type="string" value="便條"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_TW" type="string" value="便條"/>
+	<oaf_attribute name="nautilus:recommended_uri_schemes" type="stringv">
+		<item value="*"/>
+	</oaf_attribute>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="*/*"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:property_page_name" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-af" type="string" value="Aantekeninge"/>
+	<oaf_attribute name="nautilus:property_page_name-am" type="string" value="ማስታወሻዎች"/>
+	<oaf_attribute name="nautilus:property_page_name-ar" type="string" value="مسودة"/>
+	<oaf_attribute name="nautilus:property_page_name-az" type="string" value="Qeydlər"/>
+	<oaf_attribute name="nautilus:property_page_name-be" type="string" value="Заўвагі"/>
+	<oaf_attribute name="nautilus:property_page_name-bg" type="string" value="Бележки"/>
+	<oaf_attribute name="nautilus:property_page_name-bn" type="string" value="নোট"/>
+	<oaf_attribute name="nautilus:property_page_name-ca" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-cs" type="string" value="Poznámky"/>
+	<oaf_attribute name="nautilus:property_page_name-cy" type="string" value="Nodiadau"/>
+	<oaf_attribute name="nautilus:property_page_name-da" type="string" value="Noter"/>
+	<oaf_attribute name="nautilus:property_page_name-de" type="string" value="Anmerkungen"/>
+	<oaf_attribute name="nautilus:property_page_name-el" type="string" value="Σημειώσεις"/>
+	<oaf_attribute name="nautilus:property_page_name-en_CA" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-en_GB" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-es" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:property_page_name-et" type="string" value="Märkmed"/>
+	<oaf_attribute name="nautilus:property_page_name-eu" type="string" value="Oharrak"/>
+	<oaf_attribute name="nautilus:property_page_name-fi" type="string" value="Muistiinpanot"/>
+	<oaf_attribute name="nautilus:property_page_name-fr" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-ga" type="string" value="Notaí"/>
+	<oaf_attribute name="nautilus:property_page_name-gl" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:property_page_name-gu" type="string" value="નોંધો"/>
+	<oaf_attribute name="nautilus:property_page_name-he" type="string" value="הערות"/>
+	<oaf_attribute name="nautilus:property_page_name-hi" type="string" value="नोट्स"/>
+	<oaf_attribute name="nautilus:property_page_name-hr" type="string" value="Bilješke"/>
+	<oaf_attribute name="nautilus:property_page_name-hu" type="string" value="Jegyzetek"/>
+	<oaf_attribute name="nautilus:property_page_name-id" type="string" value="Catatan"/>
+	<oaf_attribute name="nautilus:property_page_name-is" type="string" value="Athugasemd"/>
+	<oaf_attribute name="nautilus:property_page_name-it" type="string" value="Note"/>
+	<oaf_attribute name="nautilus:property_page_name-ja" type="string" value="ノート"/>
+	<oaf_attribute name="nautilus:property_page_name-ko" type="string" value="노트"/>
+	<oaf_attribute name="nautilus:property_page_name-li" type="string" value="Opmirkinge"/>
+	<oaf_attribute name="nautilus:property_page_name-lt" type="string" value="Pastabos"/>
+	<oaf_attribute name="nautilus:property_page_name-lv" type="string" value="Piezīmes"/>
+	<oaf_attribute name="nautilus:property_page_name-mk" type="string" value="Забелешки"/>
+	<oaf_attribute name="nautilus:property_page_name-ml" type="string" value="കുറിപ്പുകള്"/>
+	<oaf_attribute name="nautilus:property_page_name-mn" type="string" value="Тэмдэглэл"/>
+	<oaf_attribute name="nautilus:property_page_name-ms" type="string" value="Nota"/>
+	<oaf_attribute name="nautilus:property_page_name-ne" type="string" value="टिप्पणी"/>
+	<oaf_attribute name="nautilus:property_page_name-nl" type="string" value="Opmerkingen"/>
+	<oaf_attribute name="nautilus:property_page_name-nn" type="string" value="Notat"/>
+	<oaf_attribute name="nautilus:property_page_name-no" type="string" value="Notater"/>
+	<oaf_attribute name="nautilus:property_page_name-pa" type="string" value="ਟਿੱਪਣੀ"/>
+	<oaf_attribute name="nautilus:property_page_name-pl" type="string" value="Notatki"/>
+	<oaf_attribute name="nautilus:property_page_name-pt" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:property_page_name-pt_BR" type="string" value="Notas"/>
+	<oaf_attribute name="nautilus:property_page_name-ro" type="string" value="Note"/>
+	<oaf_attribute name="nautilus:property_page_name-ru" type="string" value="Заметки"/>
+	<oaf_attribute name="nautilus:property_page_name-sk" type="string" value="Poznámky"/>
+	<oaf_attribute name="nautilus:property_page_name-sl" type="string" value="Opombe"/>
+	<oaf_attribute name="nautilus:property_page_name-sq" type="string" value="Shënime"/>
+	<oaf_attribute name="nautilus:property_page_name-sr" type="string" value="Белешке"/>
+	<oaf_attribute name="nautilus:property_page_name-sr@Latn" type="string" value="Beleške"/>
+	<oaf_attribute name="nautilus:property_page_name-sr@ije" type="string" value="Биљешке"/>
+	<oaf_attribute name="nautilus:property_page_name-sv" type="string" value="Anteckningar"/>
+	<oaf_attribute name="nautilus:property_page_name-th" type="string" value="หมายเหตุ"/>
+	<oaf_attribute name="nautilus:property_page_name-tr" type="string" value="Notlar"/>
+	<oaf_attribute name="nautilus:property_page_name-uk" type="string" value="Примітки"/>
+	<oaf_attribute name="nautilus:property_page_name-vi" type="string" value="Ghi chú"/>
+	<oaf_attribute name="nautilus:property_page_name-wa" type="string" value="Notes"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_CN" type="string" value="注释"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_HK" type="string" value="便條"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_TW" type="string" value="便條"/>
+	<oaf_attribute name="nautilus:can_handle_multiple_files" type="boolean" value="false"/>
+</oaf_server>
+
+</oaf_info>

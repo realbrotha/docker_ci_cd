@@ -1,0 +1,16 @@
+.>x
+<x+0=""
++/"code"16t"result"16t"flags"nXXX
++/"counter"16t"cb_arg"16tnXJ
++/"mutex"
+.$<<mutex
+<x+0t32=""
++/"fctl_sema"
+.$<<sema
+<x+0t48=""
++/"port_sema"
+.$<<sema
+<x+0t64=""
++/"comp"16t"ulp_pkts"16t"ulp_listlen"nJJX4+
++/"private"16t"arg"16t"next"nJJJ
+<x+0t112=""

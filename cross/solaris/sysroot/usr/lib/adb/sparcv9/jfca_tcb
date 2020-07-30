@@ -1,0 +1,19 @@
+.>Y
++/"frame_head fhead"n8Bn8Bn8Bn9B
++/"control"8t"reserved0"8t"sg_cache_ptr"nBB8tB
++/"fcp_cmnd fcp_lun"n8B
++/"fcp_cmnd scsi_cntl"n4B
++/"fcp_cmnd fcp_cdb"n8Bn8B
++/"fcp_cmnd fcp_ldl"n4B
++/"next_tcb_addr"n8B
++/"sg_list_addr"n11B
++/"reserved1"8t"info_host_addr"nB8t8B
++/"xfer_rdy_count0"8t"xfer_rdy_count1"nB8tB
++/"xfer_rdy_count2"8t"xfer_rdy_count3"8t"hst_cfg_ctl"8t"reserved2[0]"8t"reserved2[1]"nB8tB8tB8tB8tB
++/"control1"8t"tcb_index0"8t"tcb_index1"8t"reserved4[0]"8t"reserved4[1]"nB8tB8tB8tB8tB
++/"evar_index0"8t"evar_index1"8t"eecredit_cnt0"8t"eecredit_cnt1"nB8tB8tB8tB
++/"tov_base_cnt0"8t"tov_base_cnt1"8t"tov_base_cnt2"nB8tB8tB
++/"tov_base_cnt3"8t"unack0"8t"unack1"nB8tBB
++/"control2"nB8t1+
++/"tcb_handle"n8B
+<Y+0t128=""

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE module SYSTEM "urn:sun:n1:cacao:module:dtd:1_1">
+
+<!--
+ Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+ ident	"$Revision: 1.12 $	SMI"
+-->
+
+<module name="com.sun.cacao.instrum" 
+        initial-administrative-state="UNLOCKED"
+        ignored-at-startup="No"
+        enable-on-demand="No">
+ <description>
+    This module is the instrum module.
+ </description>
+ <module-class>
+      com.sun.cacao.instrum.impl.InstrumModule
+ </module-class>
+   <public-path>
+      <path-element>
+        file:../lib/cacao_instrum.jar
+      </path-element>
+  </public-path>
+  <cacao-version-supported>
+       2.0
+  </cacao-version-supported>
+  <heap-requirements-kilobytes>
+       100
+  </heap-requirements-kilobytes>
+ </module>

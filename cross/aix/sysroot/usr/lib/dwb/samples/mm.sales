@@ -1,0 +1,36 @@
+'\"  @(#)65	1.3  src/cmdtext/usr/lib/dwb/samples/mm.sales, cmdtext, cmdtext530 4/15/91 13:26:15  
+'\"
+'\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+'\"
+'\" FUNCTIONS:
+'\"
+'\" ORIGINS: 54 
+'\"
+.ds HF 3 3 3 3
+.ND "October 30, 1984"
+.TL
+New York Sales Assignments
+.AU "A. B. Smith"
+.AF "Business Computer Systems, Inc."
+.MT "PROPOSAL"
+.P
+Pending your approval, here are the sales assignments for New York for 1985.
+.HU "New York"
+.DS
+.TS
+box tab(;);
+l l.
+district; sales representative 
+_
+Manhattan;Smith
+Westchester;Smith
+Albany;Roberts
+Syracuse;Smith
+Buffalo;Roberts
+.TE
+.DE
+.SG
+.AV "John Johnson: Director"
+.NS
+B. Roberts
+.NE

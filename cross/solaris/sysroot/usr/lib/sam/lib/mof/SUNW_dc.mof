@@ -1,0 +1,81 @@
+/*
+ * Copyright 2006, 2005 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ *
+ */
+
+/*
+Title      	SUNW_dc MOF Specification
+Description	includes SUNW_dc Class and Properties
+Date        	04/29/2005
+Version     	1.0
+*/
+
+[Provider("java:com.sun.cns.sam.datacollector.provider.SUNWdcProvider")]
+class SUNW_dc
+{
+
+    [Key, Description("The name of the host system")]
+    string Hostname;
+
+    [Description("System Model")]
+    string SystemModel;
+
+    [Description("Serial Number")]
+    string SerialNumber;
+
+    [Description("Host ID")]
+    string HostID;
+
+    [Description("Host Aliases")]
+    string HostAliases;
+
+    [Description("Host Address(es)")]
+    string HostAddresses;
+
+    [Description("DNS Domain")]
+    string DNSDomain;
+
+    [Description("NIS Domain")]
+    string NISDomain;
+
+    [Description("MAC Address")]
+    string MACAddress;
+
+    [Description("CPU Type")]
+    string CPUType;
+
+    [Description("Main Memory")]
+    string MainMemory;
+
+    [Description("Total Disk Space")]
+    string TotalDiskSpace;
+
+    [Description("Total Disks")]
+    sint32 TotalDisks;
+
+    [Description("TotalCdroms")]
+    sint32 TotalCdroms;
+
+    [Description("ROM Type")]
+    string ROMType;
+
+    [Description("Timezone")]
+    string Timezone;
+
+    [Description("Boot Time")]
+    string BootTime;
+
+    [Description("Locale")]
+    string Locale;
+
+    [Description("CPU Status")]
+    string CPUStatus[];
+
+    [Description("CPU Count")]
+    sint32 CPUCount;
+
+    [Description("CPU Speed")]
+    string CPUSpeed;
+
+};

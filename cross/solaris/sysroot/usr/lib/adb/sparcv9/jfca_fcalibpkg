@@ -1,0 +1,13 @@
+.>X
+.=n"FcaLib Package"16tKn
+<X+0=""
++/"pkg"16t"fcapkg"16t"device"nJJJ
++/"tcb_desc"16t"fca"16t"status"nJJX
++/"done_status"16t"callback"16t"cmd_flags"nXpX4+
++/"resp_soft"16t"resp_hard"16t"resp_sync"nJJp
++/"sgList_handle"16tnJ
++/"lock"
+.$<<kmutex_t
++/"abort_handle"
+.$<<jfca_handle
+<X+0t192=""

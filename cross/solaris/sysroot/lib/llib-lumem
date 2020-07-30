@@ -1,0 +1,11 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+/*
+ * Copyright 2000-2002 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lumem	1.2	02/09/18 SMI"
+
+#include <sys/vmem.h>
+#include <umem.h>

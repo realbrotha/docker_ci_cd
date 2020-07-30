@@ -1,0 +1,121 @@
+120
+6x12.pcf.Z -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso8859-1
+6x13.pcf.Z -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
+6x10.pcf.Z -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
+symbolR18.pcf.Z -ibm-symbol-medium-r-normal-iso9241-19-180-75-75-p-99-adobe-fontspecific
+symbolR21.pcf.Z -ibm-symbol-medium-r-normal-iso9241-22-210-75-75-p-106-adobe-fontspecific
+special11p8x15.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-15-110-100-100-c-80-ibm-special
+special6x10.pcf.Z -ibm--medium-r-medium--10-70-100-100-c-60-ibm-special
+smw12.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--12-87-100-100-m-60-iso8859-15
+smw24.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--24-173-100-100-m-120-iso8859-15
+6x13B.pcf.Z -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
+sansBO18.pcf.Z -ibm-sans serif-bold-o-normal-iso9241-19-180-75-75-p-96-iso8859-1
+sansBO21.pcf.Z -ibm-sans serif-bold-o-normal-iso9241-22-210-75-75-p-102-iso8859-1
+Bld14.iso1.pcf.Z -ibm-roman-bold-r-normal--20-140-100-100-c-90-iso8859-1
+sansBO24.pcf.Z -ibm-sans serif-bold-o-normal-iso9241-25-240-75-75-p-119-iso8859-1
+special9x14.pcf.Z -ibm--medium-r-medium--14-100-100-100-c-90-ibm-special
+8x13.pcf.Z -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1
+special12p9x19.pcf.Z -ibm--medium-r-medium--19-120-100-100-c-90-ibm-special
+9x15.pcf.Z -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
+sansR24.pcf.Z -ibm-sans serif-medium-r-normal-iso9241-25-240-75-75-p-106-iso8859-1
+sansR21.pcf.Z -ibm-sans serif-medium-r-normal-iso9241-22-210-75-75-p-102-iso8859-1
+sansR18.pcf.Z -ibm-sans serif-medium-r-normal-iso9241-19-180-75-75-p-93-iso8859-1
+Rom6.iso1.pcf.Z -ibm-roman-medium-r-normal--8-50-100-100-c-40-iso8859-1
+8x13B.pcf.Z -misc-fixed-bold-r-normal--13-120-75-75-c-80-iso8859-1
+vtsingle.pcf.Z vtsingle
+smw10.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--10-72-100-100-m-50-iso8859-15
+9x15B.pcf.Z -misc-fixed-bold-r-normal--15-140-75-75-c-90-iso8859-1
+sansB24.pcf.Z -ibm-sans serif-bold-r-normal-iso9241-25-240-75-75-p-113-iso8859-1
+sansB21.pcf.Z -ibm-sans serif-bold-r-normal-iso9241-22-210-75-75-p-103-iso8859-1
+smw10.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--10-72-100-100-m-50-ibm-1252
+smw14.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--14-101-100-100-m-70-ibm-1252
+smw18.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--18-130-100-100-m-90-ibm-1252
+tnr10.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--10-72-100-100-p-50-ibm-1252
+tnr14.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--14-101-100-100-p-20-ibm-1252
+tnr18.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--18-130-100-100-p-30-ibm-1252
+sansB18.pcf.Z -ibm-sans serif-bold-r-normal-iso9241-19-180-75-75-p-94-iso8859-1
+sansO21.pcf.Z -ibm-sans serif-medium-o-normal-iso9241-22-210-75-75-p-102-iso8859-1
+sansO24.pcf.Z -ibm-sans serif-medium-o-normal-iso9241-25-240-75-75-p-112-iso8859-1
+sansO18.pcf.Z -ibm-sans serif-medium-o-normal-iso9241-19-180-75-75-p-95-iso8859-1
+serifBI21.pcf.Z -ibm-serif-bold-i-normal-iso9241-22-210-75-75-p-103-iso8859-1
+smw16.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--16-116-100-100-m-80-iso8859-15
+smw20.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--20-145-100-100-m-100-iso8859-15
+smw32.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--32-231-100-100-m-160-iso8859-15
+serifBI24.pcf.Z -ibm-serif-bold-i-normal-iso9241-25-240-75-75-p-120-iso8859-1
+serifBI18.pcf.Z -ibm-serif-bold-i-normal-iso9241-19-180-75-75-p-91-iso8859-1
+special6.pcf.Z -ibm--medium-r-medium--8-50-100-100-c-40-ibm-special
+special7.pcf.Z -ibm--medium-r-medium--9-60-100-100-c-60-ibm-special
+special8.pcf.Z -ibm--medium-r-medium--11-70-100-100-c-60-ibm-special
+Rom8.iso1.pcf.Z -ibm-roman-medium-r-normal--11-70-100-100-c-60-iso8859-1
+smw14.iso15.pcf.Z -monotype-sansmonowt-medium-r-normal--14-101-100-100-m-70-iso8859-15
+cursor.pcf.Z cursor
+tnr16.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--16-116-100-100-p-20-iso8859-15
+tnr20.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--20-145-100-100-p-30-iso8859-15
+tnr32.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--32-231-100-100-p-50-iso8859-15
+BlockB17.iso1.pcf.Z -ibm-block-bold-r-normal--23-160-100-100-c-110-iso8859-1
+serifR18.pcf.Z -ibm-serif-medium-r-normal-iso9241-19-180-75-75-p-82-iso8859-1
+serifR24.pcf.Z -ibm-serif-medium-r-normal-iso9241-25-240-75-75-p-110-iso8859-1
+serifR21.pcf.Z -ibm-serif-medium-r-normal-iso9241-22-210-75-75-p-96-iso8859-1
+nil2.pcf.Z -misc-nil-medium-r-normal--2-20-75-75-c-10-misc-fontspecific
+Itl14.iso1.pcf.Z -ibm-roman-medium-i-normal--20-140-100-100-c-90-iso8859-1
+serifI21.pcf.Z -ibm-serif-medium-i-normal-iso9241-22-210-75-75-p-97-iso8859-1
+serifI24.pcf.Z -ibm-serif-medium-i-normal-iso9241-25-240-75-75-p-112-iso8859-1
+special28.pcf.Z -ibm--medium-r-medium--40-280-100-100-c-160-ibm-special
+special29.pcf.Z -ibm--medium-r-medium--40-280-100-100-c-180-ibm-special
+special10.pcf.Z -ibm--medium-r-medium--14-100-100-100-c-80-ibm-special
+special11.pcf.Z -ibm--medium-r-medium--15-100-100-100-c-70-ibm-special
+special16.pcf.Z -ibm--medium-r-medium--22-150-100-100-c-70-ibm-special
+special17.pcf.Z -ibm--medium-r-medium--23-160-100-100-c-110-ibm-special
+serifI18.pcf.Z -ibm-serif-medium-i-normal-iso9241-19-180-75-75-p-85-iso8859-1
+special14.pcf.Z -ibm--medium-r-medium--20-140-100-100-c-90-ibm-special
+special22.pcf.Z -ibm--medium-r-medium--30-210-100-100-c-120-ibm-special
+special15.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-20-150-100-100-c-120-ibm-special
+Block11.iso1.pcf.Z -ibm-block-medium-r-normal--15-100-100-100-c-70-iso8859-1
+Ergo11.iso1.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-15-110-100-100-c-80-iso8859-1
+ErgoB15.iso1.pcf.Z -ibm-ergonomic-bold-r-normal-iso9241-20-150-100-100-c-120-iso8859-1
+serifB18.pcf.Z -ibm-serif-bold-r-normal-iso9241-19-180-75-75-p-90-iso8859-1
+special17p12x23.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-23-170-100-100-c-120-ibm-special
+serifB24.pcf.Z -ibm-serif-bold-r-normal-iso9241-25-240-75-75-p-116-iso8859-1
+special17p13x27.pcf.Z -ibm--medium-r-medium--27-170-100-100-c-130-ibm-special
+serifB21.pcf.Z -ibm-serif-bold-r-normal-iso9241-22-210-75-75-p-102-iso8859-1
+Block16.iso1.pcf.Z -ibm-block-medium-r-normal--22-150-100-100-c-70-iso8859-1
+tnr14.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--14-101-100-100-p-20-iso8859-15
+Block17.iso1.pcf.Z -ibm-block-medium-r-normal--23-160-100-100-c-110-iso8859-1
+Ergo17.iso1.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-23-170-100-100-c-120-iso8859-1
+Rom29.iso1.pcf.Z -ibm-roman-medium-r-normal--40-280-100-100-c-180-iso8859-1
+special22p12x30.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-30-220-100-100-c-120-ibm-special
+smw20.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--20-145-100-100-m-100-ibm-1252
+smw24.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--24-173-100-100-m-120-ibm-1252
+smw28.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--28-202-100-100-m-140-ibm-1252
+smw32.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--32-231-100-100-m-160-ibm-1252
+smw40.ibm1252.pcf.Z -monotype-sansmonowt-medium-r-normal--40-289-100-100-m-200-ibm-1252
+tnr20.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--20-145-100-100-p-30-ibm-1252
+tnr24.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--24-173-100-100-p-40-ibm-1252
+tnr28.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--28-202-100-100-p-50-ibm-1252
+tnr32.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--32-231-100-100-p-50-ibm-1252
+tnr40.ibm1252.pcf.Z -monotype-timesnewroman-medium-r-normal--40-289-100-100-p-70-ibm-1252
+Block14.iso1.pcf.Z -ibm-block-medium-r-normal--20-140-100-100-c-90-iso8859-1
+Ergo22.iso1.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-30-220-100-100-c-120-iso8859-1
+special23p17x35.pcf.Z -ibm--medium-r-medium--35-230-100-100-c-170-ibm-special
+Ergo15.iso1.pcf.Z -ibm-ergonomic-medium-r-normal-iso9241-20-150-100-100-c-120-iso8859-1
+typeR24.pcf.Z -ibm-typewriter-medium-r-normal-iso9241-25-240-75-75-m-180-iso8859-1
+typeR21.pcf.Z -ibm-typewriter-medium-r-normal-iso9241-22-210-75-75-m-150-iso8859-1
+typeR18.pcf.Z -ibm-typewriter-medium-r-normal-iso9241-19-180-75-75-m-120-iso8859-1
+tnr12.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--12-87-100-100-p-20-iso8859-15
+tnr24.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--24-173-100-100-p-40-iso8859-15
+Rom10.iso1.pcf.Z -ibm-roman-medium-r-normal--14-100-100-100-c-80-iso8859-1
+typeB24.pcf.Z -ibm-typewriter-bold-r-normal-iso9241-25-240-75-75-m-180-iso8859-1
+typeB21.pcf.Z -ibm-typewriter-bold-r-normal-iso9241-22-210-75-75-m-150-iso8859-1
+typeB18.pcf.Z -ibm-typewriter-bold-r-normal-iso9241-19-180-75-75-m-120-iso8859-1
+typeO21.pcf.Z -ibm-typewriter-medium-o-normal-iso9241-22-210-75-75-m-150-iso8859-1
+typeO24.pcf.Z -ibm-typewriter-medium-o-normal-iso9241-25-240-75-75-m-180-iso8859-1
+typeBO18.pcf.Z -ibm-typewriter-bold-o-normal-iso9241-19-180-75-75-m-120-iso8859-1
+special10x15.pcf.Z -ibm--medium-r-medium--15-100-100-100-c-100-ibm-special
+typeBO21.pcf.Z -ibm-typewriter-bold-o-normal-iso9241-22-210-75-75-m-150-iso8859-1
+typeBO24.pcf.Z -ibm-typewriter-bold-o-normal-iso9241-25-240-75-75-m-180-iso8859-1
+typeO18.pcf.Z -ibm-typewriter-medium-o-normal-iso9241-19-180-75-75-m-120-iso8859-1
+vtbold.pcf.Z vtbold
+tnr10.iso15.pcf.Z -monotype-timesnewromanwt-medium-r-normal--10-72-100-100-p-10-iso8859-15
+Rom14.iso1.pcf.Z -ibm-roman-medium-r-normal--20-140-100-100-c-90-iso8859-1
+Rom22.iso1.pcf.Z -ibm-roman-medium-r-normal--30-210-100-100-c-120-iso8859-1
+ErgoI15.iso1.pcf.Z -ibm-ergonomic-medium-i-normal-iso9241-20-150-100-100-c-120-iso8859-1

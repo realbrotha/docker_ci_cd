@@ -1,0 +1,16 @@
+#!/bin/bsh
+# @(#)60      1.6  src/cmdtext/usr/bin/spell/compress.sh, cmdtext, cmdtext53N, n2007_36A0 3/30/07 06:22:13
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 3
+#
+#	compress - compress the spell program log
+
+trap '/usr/bin/rm -f /usr/tmp/spellhist;exit' 1 2 3 15
+echo "COMPRESSED `/usr/bin/date`" > /usr/tmp/spellhist
+/usr/bin/grep -v ' ' /usr/lib/spell/spellhist | /usr/bin/sort -fud >> /usr/tmp/spellhist
+/usr/bin/cp /usr/tmp/spellhist /usr/lib/spell
+/usr/bin/rm -f /usr/tmp/spellhist

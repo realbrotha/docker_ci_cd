@@ -1,0 +1,32 @@
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/lib/X11/Xim.ad 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1997 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! SCCSID_BEGIN_TAG
+! @(#)51  1.1  src/gos/2d/XTOP/lib/X11/Xim.ad, xlib, gos530 9/19/97 01:46:49
+! SCCSID_END_TAG
+!
+! COMPONENT_NAME: xlib
+!
+! FUNCTIONS: Xim
+!
+! ORIGINS: 27
+ 
+!
+! XIM Protocol default behavior
+!
+!*.Xim.UseAuth:             ON
+*.Xim.Delaybinding:         ON
+*.Xim.Reconnect:            ON
+!*.Xim.PreeditDefaultStyle: XIMPreeditPosition
+!*.Xim.StatusDefaultStyle:  XIMStatusArea

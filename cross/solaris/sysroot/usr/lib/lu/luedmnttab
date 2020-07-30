@@ -1,0 +1,352 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)luedmnttab.sh 5.6     03/01/29 SMI"
+#
+# Given the name of a Internal Configuration File that represents a boot environment
+# that is already mounted, and whos mount point is already set in the LU_ALT environment
+# variable, creates a new /etc/mnttab on the target BE to use the correct device names
+# as reflected in the /etc/vfstab file on the BE
+#
+# This is intended to be called after an ABE is first populated, to make sure that the
+# mnttab file is properly configured so that a chroot'ed shell can be started using the
+# ABE root partition as the root directory.
+#
+# Starting with Solaris 9, /etc/mnttab is no longer an ordinary file but rather a
+# filesystem that is mounted early on in system initialization via /etc/init.d/buildmnttab.
+# The script creates /etc/mnttab as a file, first removing it if it is a directory. It
+# then mounts the "mntfs" filesystem on top of /etc/mnttab.
+#
+# For versions of Solaris earlier than Solaris 9, the system has been observed to
+# not be able to boot if the mnttab file exists but has a bogus entries for the
+# root filesystem. If the file exists on Solaris 9, it appears to be ignored. For
+# this reason we still create the mnttab file on the ABE just in case it is
+# needed.
+#
+# Private usage:	luedmnttab [-l error_log] [-o outfile] -i <internal_config_file> -m <ABE root mount point>
+#
+# Returns:	0	- Update of /etc/mnttab on BE succeeded.
+#		1	- Update of /etc/mnttab on BE failed: failure to perform specific operation requested.
+#		2	- Update of /etc/mnttab on BE failed: unexpected failure outside of requested operation.
+#		3	- Update of /etc/mnttab on BE failed: command line / user request error.
+#
+# ALGORITHM:
+# 1. Save the current version of ABE mnttab
+# 2. Create ABE mnttab by scanning the PBE icf file and removing all shared and swap devices.
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+ABE_MNTTAB=""
+CURR_BE=""
+ICF=""
+LU_ALT=""
+ABEMNTTAB_CAN_BE_DELETED=""
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts
+
+  # 1- SIGHUP (hangup)
+  # 2- SIGINT (user interrupt)
+  # 3- SIGQUIT (user quit)
+  # 9- SIGKILL (kill process - can not be caught or ignored :)
+  # 15- SIGTERM (software termination request)
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  # Cause the script to exit
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'Usage: %s [-l error_log] [-o outfile] -i <ABE_icf_file> -m <ABE_mount_point>'`" "${LU_PROG_NAME}"
+  if [ -z "$1" ] ; then
+    exit_script 3 "yes"
+  fi
+  exit_script "$1" "yes"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+#		$2 = optional suppress exit status message ("" or none = do NOT suppress)
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # If the mnttab file can be deleted, then remove it.
+
+  if [ -n "${ABEMNTTAB_CAN_BE_DELETED}" -a ! -z "${ABE_MNTTAB}" ] ; then
+    ${LUPRINTF} -lp1 "`gettext 'Removing incomplete mnttab file <%s> from ABE.'`" "${ABE_MNTTAB}"
+    /bin/rm -f "${ABE_MNTTAB}"
+  fi
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  # Output the exit status message if not suppressed. 
+
+  if [ -z "$2" ] ; then
+    if [ "${retcode}" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The update of the mnttab file on the ABE failed.'`"
+    fi
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts i:l:m:o:x:X c
+  do
+    case $c in
+      i) ICF="$OPTARG"
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      m) LU_ALT="$OPTARG"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# Add command to session log file and to standard error output if debug mode enabled.
+
+${LUPRINTF} -p1D - "`gettext \"Updating ABE's /etc/mnttab file.\"`"
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Validate the ABE mount point.
+
+lulib_validate_bemntpt "${LU_ALT}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-m> option to specify the mount point of the ABE where to create the /etc/mnttab file.'`"
+  usage 3
+fi
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF file to use to build the /etc/mnttab file from.'`"
+  usage 3
+fi
+
+# Validate the ICF file
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# Determine the disk partition information for the ABE.
+
+ABE_MNTTAB="${LU_ALT}/etc/mnttab"
+CURR_BE="`lulib_lucurr`"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active BE.'`"
+  exit_script 2
+fi
+
+CBE_ICF="`$LUBIN/lumk_iconf -F \"$CURR_BE\"`"
+if [ "$?" -ne "0" -o -z "${CBE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine disk partition configuration information for BE <%s>.'`" "${CURR_BE}"
+  exit_script 2
+fi
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+# Remove any existing ABE_ROOT/etc/mnttab file or directory
+
+if [ -d "${ABE_MNTTAB}" ] ; then
+  /bin/rm -rf "${ABE_MNTTAB}" 2>/dev/null
+elif [ -f "${ABE_MNTTAB}" ] ; then
+  /bin/rm -f "${ABE_MNTTAB}" 2>/dev/null
+fi
+
+# Set flag so that the mnttab file on the abe will be removed if we
+# are interrupted or when we exit.
+
+ABEMNTTAB_CAN_BE_DELETED="yes"
+
+# Create a new ABE_ROOT/etc/mnttab file
+
+ERRMSG=`/bin/touch "${ABE_MNTTAB}" 2>&1`
+if [ ! -w "${ABE_MNTTAB}" ] ; then
+  [ -n "${ERRMSG}" ] && ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to create mount table file <%s> on ABE.'`" "${ABE_MNTTAB}"
+  exit_script 1
+fi
+
+${LUPRINTF} -lp2D - "`gettext 'Created mount table file <%s> on ABE.'`" "${ABE_MNTTAB}"
+
+# Fill in ABE_ROOT/etc/mnttab with ICF entries
+
+${LUETCBIN}/ludo filter_shared_and_swap $CBE_ICF ${ICF} | nawk -F: '{ printf("%s %s\n", $2, $3); }' |
+while read mntpt device
+do
+  ${LUPRINTF} -lp2D - "`gettext 'Adding mount point <%s> on device <%s> to mount table file <%s>.'`" "${mntpt}" "${device}" "${ABE_MNTTAB}"
+  grep "^${device}[ 	]" /etc/mnttab | nawk -v mntpt=${mntpt} '{ printf("%s %s %s %s %s\n", $1, mntpt, $3, $4, $5) }'
+done > ${ABE_MNTTAB}
+
+# Finally set the mode of the file so that its read only
+
+/bin/chmod 444 ${ABE_MNTTAB}
+
+# Unset flag so that the mnttab file on the abe will NOT be removed if we
+# are interrupted or when we exit.
+
+ABEMNTTAB_CAN_BE_DELETED=""
+exit_script 0

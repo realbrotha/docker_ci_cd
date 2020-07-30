@@ -1,0 +1,46 @@
+#!/sbin/sh
+#
+#ident	"@(#)fsckall.sh	1.1	00/02/28 SMI"
+#
+# Copyright (c) 2000 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+#	Copyright (c) 1984, 1986, 1987, 1988, 1989 AT&T
+#	  All Rights Reserved
+#
+#	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T
+#	The copyright notice above does not evidence any
+#	actual or intended publication of such source code.
+
+#
+# Produce a list of the file systems that are not already
+# mounted.
+#
+for fsckdev in $* ; do
+	/usr/sbin/fsck -m -F ufs $fsckdev >/dev/null 2>&1
+	if [ $? != 33 ]; then
+		ufs_fscklist="$ufs_fscklist $fsckdev"
+	else
+		echo "$fsckdev already mounted"
+	fi
+done
+
+#
+# Check the file systems in parallel
+#
+
+if [ "$ufs_fscklist" ]; then
+	echo "checking ufs filesystems"
+	/usr/sbin/fsck -o p $ufs_fscklist
+	case $? in
+	0|40|33)	# file system OK
+			exit 0
+			;;
+
+	*)	# couldn't fix the filesystems - return an error
+		exit 1
+		;;
+	esac
+fi
+
+exit 0

@@ -1,0 +1,11 @@
+.>w
+<w+0=""
++/"ls_code"
+.$<<ls_code
+<w+0t4=""
++/"nport_id"
+.$<<port_id
+<w+0t8=""
++/"nport_ww_name"
+.$<<la_wwn
+<w+0t16=""

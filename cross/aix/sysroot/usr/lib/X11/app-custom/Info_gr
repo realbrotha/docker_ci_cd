@@ -1,0 +1,66 @@
+! @(#)46        1.6  src/gos/apps/custom/app-custom/Info_gr.nls, custom, gos530 3/31/94 10:50:30
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/Info_gr.nls 1.6 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! COMPONENT_NAME: (custom) AIXwindows Customizing Tool 
+! 
+! FUNCTIONS: app-custom file
+!
+! ORIGINS: 27 
+! 
+! (C) COPYRIGHT International Business Machines Corp. 1992, 1993 
+! All Rights Reserved 
+! Licensed Materials - Property of IBM 
+! 
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+! 
+! Info_gr data file for the info (InfoExplorer) application 
+! 
+"Colors" Color *background "window interior\nbackground" ; 
+"Colors" Color *foreground "window interior\nforeground" ; 
+"Colors" Color *txColor "article text" ; 
+"Colors" Color *hlColor "hypertext links" ; 
+
+"Fonts" Font *fontList "labels, buttons, & menus" ; 
+
+"Icon" Picture $MWM**iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color $MWM**iconImageBackground "icon picture background *" ; 
+"Icon" Color $MWM**iconImageForeground "icon picture foreground *" ; 
+
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" " 
+	all = "turn on all decorations" 
+	resizeh = "resize border" 
+	border = "plain border" 
+	menu = "window menu button" 
+	title = "title bar" 
+	minimize = "minimize button" 
+	maximize = "maximize button" 
+	none = "turn off all decorations" ; 
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" " 
+	all = "turn on all operations" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	none = "turn off all operations" ; 
+
+"Behaviors" SelectOne $MWM**focusAutoRaise 
+"raise window *\nwhen mouse enters" 
+	true = "true" 
+	false = "false" ; 

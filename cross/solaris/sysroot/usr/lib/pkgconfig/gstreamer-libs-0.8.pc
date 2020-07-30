@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/gstreamer-0.8
+
+Name: GStreamer Plugin Libraries
+Description: Streaming-media framework, plugin libraries
+Requires: gstreamer-0.8
+Version: 0.8.3
+Libs: 
+Cflags: -I${includedir}

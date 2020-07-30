@@ -1,0 +1,56 @@
+! @(#)95        1.1  src/gos/2d/XTOP/aixclients/aixconsole/Aixconsole, xclients, gos530 10/3/94 12:14:08
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/aixclients/aixconsole/Aixconsole 1.1 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+!
+! COMPONENT_NAME: AIXCONSOLE
+!
+! FUNCTIONS: n/a
+!
+! ORIGINS: 27
+!
+! (C) COPYRIGHT International Business Machines Corp. 1993,1994
+! All Rights Reserved
+! Licensed Materials - Property of IBM
+!
+! US Government Users Restricted Rights - Use, duplication or
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+!
+! Default application resources for aixconsole.
+!
+*allowShellResize:		true
+Aixconsole.translations:		#override\
+	<MapNotify>:		Deiconified()	\n\
+	<UnmapNotify>:		Iconified()	\n\
+	<Message>WM_PROTOCOLS:	Quit()
+Aixconsole.baseTranslations:		#override\
+	<MapNotify>:		Deiconified()	\n\
+	<UnmapNotify>:		Iconified()	\n\
+	<Message>WM_PROTOCOLS:	Quit()
+*text.translations:		#override\
+	Ctrl<KeyPress>C:	Clear()	\n\
+	<KeyPress>Clear:	Clear()
+*text.baseTranslations:		#override\
+	Ctrl<KeyPress>C:	Clear()	\n\
+	<KeyPress>Clear:	Clear()
+!*scrollVertical:		whenNeeded
+!*text
+*Aixconsole*editable:		False
+*Aixconsole*editMode:		MULTI_LINE_EDIT
+*Aixconsole*columns:		80
+*Aixconsole*rows:		10
+*Aixconsole*geometry:		-0+0
+*FontList:                	-dt-interface user-medium-r-normal-xs*-*-*-*-*-*-*-*:
+*XmText*FontList:		-dt-interface user-medium-r-normal-xs*-*-*-*-*-*-*-*:
+

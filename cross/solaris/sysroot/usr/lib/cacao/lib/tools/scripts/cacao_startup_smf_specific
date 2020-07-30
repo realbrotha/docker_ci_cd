@@ -1,0 +1,299 @@
+#!/bin/sh
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident	"$Revision: 1.6 $ SMI"
+#
+
+# Script functions list:
+#
+# - cacao_create_instance_startup         : Create the instance startup smf service
+# - cacao_delete_instance_startup         : Delete the instance startup smf service
+# - cacao_delete_startup                  : Delete the whole cacao startup smf service
+# 
+# - cacao_update_smf_service_manifest   : Update the SMF service manifest for an
+#                                         instance.
+# - cacao_register_instance_smf_service : Registers service in SMF registry for
+#                                         an instance.
+# - cacao_get_highest_install_id    : Print the hihest install id found in startup resources
+
+
+
+#------------------------------------------------------------------------------
+# cacao_create_instance_startup
+#
+# DESCRIPTION :
+# Create the instance startup smf service
+# 
+# PARAMETERS :
+# The instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_create_instance_startup() {
+
+    # Create for a given instance
+    if [ $# -eq 1 ]; then
+        cacao_do_create_smf_startup "${1}"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]; then
+            return ${CACAO_CR_ERROR}
+        fi
+        return ${CACAO_CR_SUCCESS}
+    fi
+
+    # Create for all existing instances
+    instances="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ ${?} -ne 0 ]; then
+        instances="default"
+    fi
+    for i in ${instances}; do
+        cacao_is_embedded_instance ${i}
+        # don't startup embedded stuff
+        if [ ${?} -eq ${CACAO_FALSE} ]; then
+            # Current user must be root
+            if [ ${cacao_current_id} -eq 0 ]; then
+                cacao_do_create_smf_startup "${i}"
+                if [ ${?} -ne ${CACAO_CR_SUCCESS} ]; then
+                    return ${CACAO_CR_ERROR}
+                fi
+            fi
+        fi
+    done
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_create_smf_startup
+#
+# DESCRIPTION :
+# Internal create smf startup method
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_create_smf_startup() {
+
+    instance_name="$1"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+
+    # should be svcs -l call
+    if [ -z "`${SVCCFG} -s ${service_name} list 2>/dev/null`" ]; then
+         # Update service manifest file
+         # Register instance service   
+         cacao_update_smf_service_manifest "${instance_name}"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_SMF_MANIFEST_UPDATE}" \
+                   "${instance_name}"
+            return ${CACAO_CR_ERROR}
+        fi
+ 
+        cacao_register_instance_smf_service "${instance_name}"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+        then
+             cacao_print_error_message "${CACAO_MSG_ERROR_SMF_REGISTRATION}" \
+                   "${instance_name}"
+            return ${CACAO_CR_ERROR}
+        fi
+
+        #enable the service if needed
+        cacao_is_enabled_instance "${instance_name}"
+        if [ ${?} -eq ${CACAO_TRUE} ]
+        then
+            cacao_do_smf_enable_at_boot_internal "${instance_name}"
+            if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+            then
+                cacao_print_error_message "${CACAO_MSG_ERROR_SMF_ENABLING}" \
+                   "${instance_name}"
+                return ${CACAO_CR_ERROR}
+             fi
+        fi
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_delete_instance_startup
+#
+# DESCRIPTION :
+# Delete the instance startup smf service
+# 
+# PARAMETERS :
+# The instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_delete_instance_startup() {
+    instance_name=$1
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}":"${instance_name}"
+
+    # should be svcs -l call
+    if [ -n "`${SVCCFG} -s ${service_name} list 2>/dev/null`" ]; then
+        ${SVCCFG} delete -f "${full_service_name}" >/dev/null 2>&1
+        if [ ${?} -ne 0 ]
+        then
+             # print only message when needed (not a rollback)
+            if [ -z "${cacao_creating_instance}" ]
+            then
+                cacao_print_error_message \
+                    "${CACAO_MSG_ERROR_SMF_UNREGISTRATION}" "${instance_name}"
+            fi
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#-------------------------------------------------------------------------------
+# cacao_delete_startup
+#
+# DESCRIPTION :
+# Delete (with -f option) the whole cacao startup smf service
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_delete_startup() {
+    full_service_name=${CACAO_SMF_SVC_NAME_PREFIX}"${cacao_unique_name}"
+    service_name=${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}"${cacao_unique_name}"
+
+    ret_val=${CACAO_CR_SUCCESS}
+    # should be svcs -l call
+    if [ -n "`${SVCCFG} -s ${service_name} list  2>/dev/null`" ]; then
+        ${SVCCFG} delete -f "${full_service_name}" >/dev/null 2>&1
+        if [ ${?} -ne 0 ] 
+        then    
+            cacao_print_error_message \
+                    "${CACAO_MSG_ERROR_SMF_SERVICE_UNREGISTRATION}" "${service_name}"
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_update_smf_service_manifest
+#
+# DESCRIPTION :
+# Update the SMF service manifest file for a given instance. Update consist in
+# updating the instance name of the SMF service and having relocated links.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_update_smf_service_manifest() {
+
+    instance_name="${1}"
+    etc_instance_dir="${cacao_etc_instances_dir}/${instance_name}"
+
+    # copy and update manifest file
+    service_manifest_file="${etc_instance_dir}"/private/${CACAO_SMF_SVC_MANIFEST_FILE_NAME}
+    template_manifest_file="${cacao_template_startup_dir}"/${CACAO_SMF_SVC_MANIFEST_FILE_NAME}
+    smf_service_name="${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}${cacao_unique_name}"
+    cacao_copy_and_update_file ${template_manifest_file} ${service_manifest_file} "_SMF_SERVICE_NAME_#${smf_service_name}" "_CACAO_TOOLS_DIR_#${cacao_tools_dir}" "_SMF_INSTANCE_NAME_#${instance_name}" "_CACAO_BASE_DIR_#${cacao_rt_base_dir}"
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR} 
+    fi
+     
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_register_instance_smf_service
+#
+# DESCRIPTION :
+# Register inside SMF registry a cacao instance service.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_register_instance_smf_service() {
+
+    instance_name="${1}"
+    etc_dir="${cacao_etc_instances_dir}/${instance_name}"
+    service_manifest_file="${etc_dir}"/private/${CACAO_SMF_SVC_MANIFEST_FILE_NAME}
+
+    # Register the restarter service into SMF
+    ${SVCCFG} import "${service_manifest_file}" >/dev/null 2>&1
+    if [ ${?} -ne 0 ] 
+    then    
+        return ${CACAO_CR_ERROR};
+    fi    
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_highest_install_id
+#
+# DESCRIPTION :
+# Print the hihest install id found in startup resources
+# 
+# PARAMETERS :
+# None
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_CR_SUCCESS in case of sucess
+#
+# OUTPUT:
+# See description
+#------------------------------------------------------------------------------
+cacao_get_highest_install_id() {
+
+    _max_id=`${SVCCFG} list ${CACAO_SMF_SVC_SERVICE_NAME_PREFIX}${CACAO_STARTUP_PREFIX}[0-9]* 2>/dev/null | \
+        ${AWK}  'BEGIN {higher=0} {last=split($0,res,"-") ; if (res[last] > higher) higher=res[last]} END {print higher}'`
+
+    if [ -z "${_max_id}" ] 
+    then
+	#should not happen, higher is initialized to 0
+	_max_id=0
+    fi
+    
+    ${ECHO} "${_max_id}"
+
+}
+

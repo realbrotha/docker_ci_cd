@@ -1,0 +1,66 @@
+XCOMM IBM_PROLOG_BEGIN_TAG 
+XCOMM This is an automatically generated prolog. 
+XCOMM  
+XCOMM gos530 src/gos/2d/XTOP/config/cf/Server.tmpl 1.1 
+XCOMM  
+XCOMM Licensed Materials - Property of IBM 
+XCOMM  
+XCOMM (C) COPYRIGHT International Business Machines Corp. 1996 
+XCOMM All Rights Reserved 
+XCOMM  
+XCOMM US Government Users Restricted Rights - Use, duplication or 
+XCOMM disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+XCOMM  
+XCOMM IBM_PROLOG_END_TAG 
+XCOMM SCCSID_BEGIN_TAG
+XCOMM @(#)45  1.1  src/gos/2d/XTOP/config/cf/Server.tmpl, xclients, gos530 7/31/96 14:41:52
+XCOMM SCCSID_END_TAG
+/*
+ * Server imakefile info  - this contains any special redefinitions, etc.
+ * that Imakefiles in the server subtree will need.
+ */
+
+XCOMM $XConsortium: Server.tmpl,v 1.13 94/04/08 16:59:46 rws Exp $
+
+#define PassCDebugFlags CDEBUGFLAGS="$(CDEBUGFLAGS)" LDSTRIPFLAGS="$(LDSTRIPFLAGS)"
+
+#ifndef ServerCcCmd
+#define ServerCcCmd CcCmd
+#endif
+#ifndef ServerCCOptions
+#define ServerCCOptions DefaultCCOptions
+#endif
+#ifndef ServerDefines
+#define ServerDefines StandardDefines
+#endif
+#ifndef ServerCDebugFlags
+#define ServerCDebugFlags DefaultCDebugFlags
+#endif
+#ifndef DoThreadedServer
+#define DoThreadedServer NO
+#endif
+#ifndef InstallServerSetUID
+#define InstallServerSetUID NO
+#endif
+
+/*
+ * SetUIDServerTarget - compile, link, and relink a setuid server
+ */
+#ifndef SetUIDServerTarget
+#if InstallServerSetUID
+#define	SetUIDServerTarget(server,subdirs,objects,libs,syslibs)		@@\
+ServerTargetWithFlags(server,subdirs,objects,libs,syslibs,$(INSTUIDFLAGS))
+#else
+#define	SetUIDServerTarget ServerTarget
+#endif
+#endif /* SetUIDServerTarget */
+
+         CC = ServerCcCmd
+  CCOPTIONS = ServerCCOptions
+#if DoThreadedServer
+SERVER_THREAD_DEFINES = XThreadsDefines ThreadTypeDefines
+#endif
+STD_DEFINES = ServerDefines $(SERVER_THREAD_DEFINES)
+CDEBUGFLAGS = ServerCDebugFlags
+EXT_DEFINES = ExtensionDefines
+

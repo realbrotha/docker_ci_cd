@@ -1,0 +1,20 @@
+\f2Help on Schd+Exit\f1
+
+The Live Upgrade populate tasks include the creation of the new BE 
+filesystems, copy of the active BE contents to the new BE and making the 
+new BE bootable.
+
+Since the Live Upgrade populate tasks are I/O intensive, your system may
+experience a performance degradation during this time. You may choose
+to schedule the populate process for a time when the system I/O
+activity is less.
+
+The populate tasks will be scheduled using at (1). 
+Following are some example 'at' formats. 
+        8:15am Jan 24
+        now + 1 day
+        now + 6 hours
+        6 pm Friday
+
+By Pressing F6, you can escape to the main menu without scheduling the 
+populate process.

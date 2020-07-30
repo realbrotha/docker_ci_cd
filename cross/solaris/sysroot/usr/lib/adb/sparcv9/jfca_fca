@@ -1,0 +1,106 @@
+.>X
+<X+0=""
++/"device"16tnJ
+<X+0t8=""
++/"syslib"16tnJ
+<X+0t16=""
++/"mod_info"16tnJ
+<X+0t24=""
++/"prm"16tnJ
+<X+0t32=""
++/"frame_size"16tnU
+*(<X+0t40)=n"dma attributes"ttK
+*(<X+0t40)$<<jfca_hbadma
+<X+0t48=nn""
++/"active command list"
+.$<<jfca_list
+<X+0t112=""
++/"link state"
+.$<<jfca_link
+<X+0t280=""
++/"els_sesp"16tnJ
+<X+0t288=""
++/"scsi_sesp"16tnJ
+<X+0t296=""
++/"ip_sesp"16tnJ
+<X+0t304=""
++/"ct_sesp"16tnJ
+<X+0t312-0t4=""
++/"fca_transport"
+.$<<fca_tran
+<X+0t552=""
++/"fca_bind"
+.$<<fc_fca_bind
+<X+0t584=""
++/"bound"16tnX
+<X+0t592=""
++/"unsolicited buffer pool"
+.$<<jfca_pool
+<X+0t744=""
++/"unsolicited buffer list"
+.$<<jfca_list
+<X+0t808=""
++/"jfca lock"
+.$<<kmutex_t
+<X+0t816=""
++/"target pool"
+.$<<jfca_pool
+<X+0t968=""
++/"target list"
+.$<<jfca_list
+<X+0t1032=""
++/"poll lock"
+.$<<kmutex_t
+<X+0t1040=""
++/"abort lock"
+.$<<kmutex_t
+<X+0t1048=""
++/"poll_cv"8tnx
+<X+0t1050=""
++/"abort_cv"8tnx8t
+<X+0t1052=""
++/"flush_cv"8tnx8t
+<X+0t1056=""
++/"flogi_retry_cnt"16tnU
+<X+0t1064=""
++/"callback task"
+.$<<jfca_task
+<X+0t1176=""
++/"flush_count"16tnU
+<X+0t1184=""
++/"flush lock"
+.$<<kmutex_t
+<X+0t1192=""
++/"aborted packages queue"
+.$<<jfca_list
+<X+0t1256=""
++/"status lock"
+.$<<kmutex_t
+<X+0t1264=""
++/"fca_rnid"16tnX
+<X+0t1320=""
++/"link_status"16tnU
+<X+0t1324=""
++/"fca_ip_disabled"16tnU
+<X+0t1328=""
++/"FCode operation lock"
+.$<<kmutex_t
+<X+0t1336=""
++/"busy"16tnX
+<X+0t1340=""
++/"enablefp"16tnU
+<X+0t1344=""
++/"libpkg_offset"16tnU
+<X+0t1348=""
++/"fcapkg_offset"16tnU
+<X+0t1352=""
++/"prealloc list head"8tnJ8t
+<X+0t1360=""
++/"prealloc list tail"8tnJ8t
+<X+0t1368=""
++/"prealloc list lock"
+.$<<kmutex_t
++/"Bound lock"
+.$<<kmutex_t
++/"hba_channel_id"16t"ioctl_active"16tnUU
+<X+0t1392=""

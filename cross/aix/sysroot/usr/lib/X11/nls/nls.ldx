@@ -1,0 +1,215 @@
+# @(#)78	1.15  src/gos/2d/XTOP/lib/nls/Xibm/nls.ldx, xlib, gos530 1/9/02 14:14:22
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/nls.ldx 1.15 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1987,1995 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME:       Xlib
+#
+# FUNCTIONS:            nls.ldx
+#
+# ORIGINS:              27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1987,1996
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+# This file contains locale dependent X (LDX) information
+#
+# File Format
+#
+# Column 1              Column 2                Column 3
+# --------------------  ----------------------  --------------------
+# Full locale name      LDX type                LDX option
+#                       - LDX_DYNAMIC           - LDX name
+#                       - LDX_STATIC_SIM        - NONE
+#                       - LDX_STATIC_MIM        - NONE
+#                                               Path is determined with LOCPATH
+#                                               If this name contain '/', this
+#                                               name is handled as full path
+#                                               name of LDX module.
+C                       LDX_STATIC_SIM          NONE
+Ar_AA.IBM-1046          LDX_STATIC_SIM          NONE
+Ar_AA                   LDX_STATIC_SIM          NONE
+Et_EE.IBM-922           LDX_STATIC_SIM          NONE
+Et_EE                   LDX_STATIC_SIM          NONE
+Iw_IL.IBM-856           LDX_STATIC_SIM          NONE
+Iw_IL.IBM-856@alt       LDX_STATIC_SIM          NONE
+Iw_IL                   LDX_STATIC_SIM          NONE
+Iw_IL@alt               LDX_STATIC_SIM          NONE
+Ja_JP.IBM-932           LDX_STATIC_MIM          NONE
+Ja_JP.IBM-932@DoubleByte  LDX_STATIC_MIM        NONE
+Ja_JP.IBM-943           LDX_STATIC_MIM          NONE
+Ja_JP.IBM-943@DoubleByte  LDX_STATIC_MIM        NONE
+Ja_JP                   LDX_STATIC_MIM          NONE
+Ja_JP@DoubleByte        LDX_STATIC_MIM          NONE
+Lt_LT.IBM-921           LDX_STATIC_SIM          NONE
+Lt_LT                   LDX_STATIC_SIM          NONE
+Lv_LV.IBM-921           LDX_STATIC_SIM          NONE
+Lv_LV                   LDX_STATIC_SIM          NONE
+POSIX                   LDX_STATIC_SIM          NONE
+Zh_TW.big5              LDX_STATIC_MIM          NONE
+Zh_TW                   LDX_STATIC_MIM          NONE
+ar_AA.ISO8859-6         LDX_STATIC_SIM          NONE
+ar_AA                   LDX_STATIC_SIM          NONE
+bg_BG.ISO8859-5         LDX_STATIC_SIM          NONE
+bg_BG                   LDX_STATIC_SIM          NONE
+ca_ES.IBM-1252          LDX_STATIC_SIM          NONE
+ca_ES.ISO8859-1         LDX_STATIC_SIM          NONE
+ca_ES.8859-15           LDX_STATIC_SIM          NONE
+ca_ES                   LDX_STATIC_SIM          NONE
+cs_CZ.ISO8859-2         LDX_STATIC_SIM          NONE
+cs_CZ                   LDX_STATIC_SIM          NONE
+da_DK.ISO8859-1         LDX_STATIC_SIM          NONE
+da_DK.8859-15           LDX_STATIC_SIM          NONE
+da_DK                   LDX_STATIC_SIM          NONE
+de_CH.ISO8859-1         LDX_STATIC_SIM          NONE
+de_CH.8859-15           LDX_STATIC_SIM          NONE
+de_CH                   LDX_STATIC_SIM          NONE
+de_DE.IBM-1252          LDX_STATIC_SIM          NONE
+de_DE.ISO8859-1         LDX_STATIC_SIM          NONE
+de_DE.8859-15           LDX_STATIC_SIM          NONE
+de_DE                   LDX_STATIC_SIM          NONE
+el_GR.ISO8859-7         LDX_STATIC_SIM          NONE
+el_GR                   LDX_STATIC_SIM          NONE
+en_AU.8859-15           LDX_STATIC_SIM          NONE
+en_AU                   LDX_STATIC_SIM          NONE
+en_BE.8859-15           LDX_STATIC_SIM          NONE
+en_BE                   LDX_STATIC_SIM          NONE
+en_ZA.8859-15           LDX_STATIC_SIM          NONE
+en_ZA                   LDX_STATIC_SIM          NONE
+en_GB.IBM-1252          LDX_STATIC_SIM          NONE
+en_GB.IBM-1252@alt      LDX_STATIC_SIM          NONE
+en_GB.ISO8859-1         LDX_STATIC_SIM          NONE
+en_GB.8859-15           LDX_STATIC_SIM          NONE
+en_GB.ISO8859-1@alt     LDX_STATIC_SIM          NONE
+en_GB                   LDX_STATIC_SIM          NONE
+en_GB@alt               LDX_STATIC_SIM          NONE
+en_US.ISO8859-1         LDX_STATIC_SIM          NONE
+en_US.8859-15           LDX_STATIC_SIM          NONE
+en_US                   LDX_STATIC_SIM          NONE
+es_ES.IBM-1252          LDX_STATIC_SIM          NONE
+es_ES.ISO8859-1         LDX_STATIC_SIM          NONE
+es_ES.8859-15           LDX_STATIC_SIM          NONE
+es_ES                   LDX_STATIC_SIM          NONE
+fi_FI.IBM-1252          LDX_STATIC_SIM          NONE
+fi_FI.IBM-1252@alt      LDX_STATIC_SIM          NONE
+fi_FI.ISO8859-1         LDX_STATIC_SIM          NONE
+fi_FI.8859-15           LDX_STATIC_SIM          NONE
+fi_FI.ISO8859-1@alt     LDX_STATIC_SIM          NONE
+fi_FI                   LDX_STATIC_SIM          NONE
+fi_FI@alt               LDX_STATIC_SIM          NONE
+fr_BE.IBM-1252          LDX_STATIC_SIM          NONE
+fr_BE.ISO8859-1         LDX_STATIC_SIM          NONE
+fr_BE.8859-15           LDX_STATIC_SIM          NONE
+fr_BE                   LDX_STATIC_SIM          NONE
+fr_CA.ISO8859-1         LDX_STATIC_SIM          NONE
+fr_CA.8859-15           LDX_STATIC_SIM          NONE
+fr_CA                   LDX_STATIC_SIM          NONE
+fr_CH.ISO8859-1         LDX_STATIC_SIM          NONE
+fr_CH.8859-15           LDX_STATIC_SIM          NONE
+fr_CH                   LDX_STATIC_SIM          NONE
+fr_FR.IBM-1252          LDX_STATIC_SIM          NONE
+fr_FR.IBM-1252@alt      LDX_STATIC_SIM          NONE
+fr_FR.ISO8859-1         LDX_STATIC_SIM          NONE
+fr_FR.8859-15           LDX_STATIC_SIM          NONE
+fr_FR.ISO8859-1@alt     LDX_STATIC_SIM          NONE
+fr_FR                   LDX_STATIC_SIM          NONE
+fr_FR@alt               LDX_STATIC_SIM          NONE
+hr_HR.ISO8859-2         LDX_STATIC_SIM          NONE
+hr_HR                   LDX_STATIC_SIM          NONE
+hu_HU.ISO8859-2         LDX_STATIC_SIM          NONE
+hu_HU                   LDX_STATIC_SIM          NONE
+is_IS.ISO8859-1         LDX_STATIC_SIM          NONE
+is_IS.8859-15           LDX_STATIC_SIM          NONE
+is_IS                   LDX_STATIC_SIM          NONE
+it_CH.8859-15           LDX_STATIC_SIM          NONE
+it_CH                   LDX_STATIC_SIM          NONE
+it_IT.IBM-1252          LDX_STATIC_SIM          NONE
+it_IT.IBM-1252@alt      LDX_STATIC_SIM          NONE
+it_IT.ISO8859-1         LDX_STATIC_SIM          NONE
+it_IT.8859-15           LDX_STATIC_SIM          NONE
+it_IT.ISO8859-1@alt     LDX_STATIC_SIM          NONE
+it_IT                   LDX_STATIC_SIM          NONE
+it_IT@alt               LDX_STATIC_SIM          NONE
+iw_IL.ISO8859-8         LDX_STATIC_SIM          NONE
+iw_IL.ISO8859-8@alt     LDX_STATIC_SIM          NONE
+iw_IL                   LDX_STATIC_SIM          NONE
+iw_IL@alt               LDX_STATIC_SIM          NONE
+ja_JP.IBM-eucJP         LDX_STATIC_MIM          NONE
+ja_JP                   LDX_STATIC_MIM          NONE
+ko_KR.IBM-eucKR         LDX_STATIC_MIM          NONE
+ko_KR                   LDX_STATIC_MIM          NONE
+mk_MK.ISO8859-5         LDX_STATIC_SIM          NONE
+mk_MK                   LDX_STATIC_SIM          NONE
+nl_BE.IBM-1252          LDX_STATIC_SIM          NONE
+nl_BE.ISO8859-1         LDX_STATIC_SIM          NONE
+nl_BE.8859-15           LDX_STATIC_SIM          NONE
+nl_BE                   LDX_STATIC_SIM          NONE
+nl_NL.IBM-1252          LDX_STATIC_SIM          NONE
+nl_NL.ISO8859-1         LDX_STATIC_SIM          NONE
+nl_NL.8859-15           LDX_STATIC_SIM          NONE
+nl_NL                   LDX_STATIC_SIM          NONE
+no_NO.ISO8859-1         LDX_STATIC_SIM          NONE
+no_NO.8859-15           LDX_STATIC_SIM          NONE
+no_NO                   LDX_STATIC_SIM          NONE
+pl_PL.ISO8859-2         LDX_STATIC_SIM          NONE
+pl_PL                   LDX_STATIC_SIM          NONE
+pt_BR.ISO8859-1         LDX_STATIC_SIM          NONE
+pt_BR.8859-15           LDX_STATIC_SIM          NONE
+pt_BR                   LDX_STATIC_SIM          NONE
+pt_PT.IBM-1252          LDX_STATIC_SIM          NONE
+pt_PT.ISO8859-1         LDX_STATIC_SIM          NONE
+pt_PT.8859-15           LDX_STATIC_SIM          NONE
+pt_PT                   LDX_STATIC_SIM          NONE
+ro_RO.ISO8859-2         LDX_STATIC_SIM          NONE
+ro_RO                   LDX_STATIC_SIM          NONE
+ru_RU.ISO8859-5         LDX_STATIC_SIM          NONE
+ru_RU                   LDX_STATIC_SIM          NONE
+sh_SP.ISO8859-2         LDX_STATIC_SIM          NONE
+sh_SP                   LDX_STATIC_SIM          NONE
+sl_SI.ISO8859-2         LDX_STATIC_SIM          NONE
+sl_SI                   LDX_STATIC_SIM          NONE
+sk_SK.ISO8859-2         LDX_STATIC_SIM          NONE
+sk_SK                   LDX_STATIC_SIM          NONE
+sq_AL.ISO8859-1         LDX_STATIC_SIM          NONE
+sq_AL.8859-15           LDX_STATIC_SIM          NONE
+sq_AL                   LDX_STATIC_SIM          NONE
+sr_SP.ISO8859-5         LDX_STATIC_SIM          NONE
+sr_SP                   LDX_STATIC_SIM          NONE
+sv_SE.ISO8859-1         LDX_STATIC_SIM          NONE
+sv_SE.8859-15           LDX_STATIC_SIM          NONE
+sv_SE.ISO8859-1@alt     LDX_STATIC_SIM          NONE
+sv_SE                   LDX_STATIC_SIM          NONE
+sv_SE@alt               LDX_STATIC_SIM          NONE
+tr_TR.ISO8859-9         LDX_STATIC_SIM          NONE
+tr_TR                   LDX_STATIC_SIM          NONE
+zh_TW.IBM-eucTW         LDX_STATIC_MIM          NONE
+zh_TW                   LDX_STATIC_MIM          NONE
+zh_CN.IBM-eucCN         LDX_STATIC_MIM          NONE
+zh_CN                   LDX_STATIC_MIM          NONE
+ZH_CN.UTF-8             LDX_STATIC_MIM          NONE
+ZH_CN                   LDX_STATIC_MIM          NONE
+Zh_CN.GBK               LDX_STATIC_MIM          NONE
+Zh_CN                   LDX_STATIC_MIM          NONE
+UNIVERSAL.UTF-8         LDX_STATIC_MIM          NONE
+UNIVERSAL               LDX_STATIC_MIM          NONE
+ET_EE.UTF-8             LDX_STATIC_MIM          NONE
+ET_EE                   LDX_STATIC_MIM          NONE
+LT_LT.UTF-8             LDX_STATIC_MIM          NONE
+LT_LT                   LDX_STATIC_MIM          NONE
+LV_LV.UTF-8             LDX_STATIC_MIM          NONE
+LV_LV                   LDX_STATIC_MIM          NONE

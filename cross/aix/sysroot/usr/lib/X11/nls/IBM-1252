@@ -1,0 +1,31 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/IBM-1252 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1998 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+########################################################################
+#
+#	  Locale File: IBM-1252
+#   
+#  This is definition of locale of 8-bit latin-1
+#
+XLC_FONTSET
+# CS0
+IBM-1252,ISO8859-1
+# CS1
+IBM-1252
+END XLC_FONTSET
+#
+# END OF FILE
+#

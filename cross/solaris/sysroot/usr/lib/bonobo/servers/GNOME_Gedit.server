@@ -1,0 +1,443 @@
+<oaf_info>
+	<oaf_server iid="OAFIID:GNOME_Gedit_Factory" type="exe" location="gedit">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:GNOME/ObjectFactory:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-af" type="string" value="gedit-outomeerfabriek"/>
+		<oaf_attribute name="name-ar" type="string" value="معاين تألية gedit"/>
+		<oaf_attribute name="name-az" type="string" value="gedit avtomatikləşdirmə e&apos;malatxanası"/>
+		<oaf_attribute name="name-be" type="string" value="Аўтаматызаваная вытворчасьць gedit"/>
+		<oaf_attribute name="name-bg" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-bn" type="string" value="জিএডিট অটোমেশন ফ্যাক্টরি"/>
+		<oaf_attribute name="name-ca" type="string" value="factoria d&apos;automatització del gedit"/>
+		<oaf_attribute name="name-cs" type="string" value="generátor GEdit"/>
+		<oaf_attribute name="name-cy" type="string" value="ffatri awtomeiddio gedit"/>
+		<oaf_attribute name="name-da" type="string" value="Tekstredigeringautomatfabrik"/>
+		<oaf_attribute name="name-de" type="string" value="gedit-Automatisierungsfabrik"/>
+		<oaf_attribute name="name-el" type="string" value="Αυτοματοποιήσεις gedit "/>
+		<oaf_attribute name="name-en_CA" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-en_GB" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-es" type="string" value="fábrica de automatización de gedit"/>
+		<oaf_attribute name="name-et" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-fi" type="string" value="gedit-automaatiotehdas"/>
+		<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;automatisation gedit"/>
+		<oaf_attribute name="name-gu" type="string" value="જીએડીટ સ્વયંસંચાલિત યંત્ર કારખાનું"/>
+		<oaf_attribute name="name-he" type="string" value="יצרן לאוטומציה של gedit"/>
+		<oaf_attribute name="name-hi" type="string" value="जिएडिट स्वचालन कारखाना"/>
+		<oaf_attribute name="name-hr" type="string" value="tvornica gedit automatizacije"/>
+		<oaf_attribute name="name-hu" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-id" type="string" value="pabrikan pengautomatisan gedit"/>
+		<oaf_attribute name="name-it" type="string" value="Fabbrica di automazione gedit"/>
+		<oaf_attribute name="name-ja" type="string" value="gedit オートメーションファクトリ"/>
+		<oaf_attribute name="name-ko" type="string" value="gedit 자동화 팩토리"/>
+		<oaf_attribute name="name-lt" type="string" value="gedit automatizacijos gamykla"/>
+		<oaf_attribute name="name-lv" type="string" value="gedit automatizācijas ražotne"/>
+		<oaf_attribute name="name-mk" type="string" value="gedit фабрика "/>
+		<oaf_attribute name="name-ml" type="string" value="ജി-എഡിറ്റ് സ്വയം നിയന്ത്രിത ശാല"/>
+		<oaf_attribute name="name-mn" type="string" value="Гедит-автоматжуулалтын үйлдвэр"/>
+		<oaf_attribute name="name-mr" type="string" value="जिएडीट स्वयंसिद्धता कारखाना"/>
+		<oaf_attribute name="name-ms" type="string" value="kilang automasi gedit"/>
+		<oaf_attribute name="name-ne" type="string" value="जीइडित स्वचालन कारखाना"/>
+		<oaf_attribute name="name-nl" type="string" value="gedit automatiseringsfabriek"/>
+		<oaf_attribute name="name-nn" type="string" value="automatiseringsfabrikk for gedit"/>
+		<oaf_attribute name="name-no" type="string" value="gedit automatiseringsfabrikk"/>
+		<oaf_attribute name="name-pa" type="string" value="ਜੀਆਡਿਟ ਆਟੋਮੇਸ਼ਨ ਫੈਕਟਰੀ"/>
+		<oaf_attribute name="name-pl" type="string" value="generator automatyzacji gedit"/>
+		<oaf_attribute name="name-pt" type="string" value="fábrica de automação gedit"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="gerador de automação gedit"/>
+		<oaf_attribute name="name-ro" type="string" value="Fabrica de automatizare Gedit"/>
+		<oaf_attribute name="name-ru" type="string" value="фабрика автоматизации &quot;gedit&quot;"/>
+		<oaf_attribute name="name-sk" type="string" value="vytváracie rozhranie pre gedit automation"/>
+		<oaf_attribute name="name-sl" type="string" value="tovarna samodejnosti gedit"/>
+		<oaf_attribute name="name-sq" type="string" value="Fabrika e automatizimit të gedit"/>
+		<oaf_attribute name="name-sr" type="string" value="производња гедит аутоматизације"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="proizvodnja gedit automatizacije"/>
+		<oaf_attribute name="name-sv" type="string" value="automatiserade fabriksinställningar för gedit"/>
+		<oaf_attribute name="name-tk" type="string" value="gedit otomasýon karhanasy"/>
+		<oaf_attribute name="name-tr" type="string" value="gedit otomasyon üreticisi"/>
+		<oaf_attribute name="name-uk" type="string" value="Фабрика програми gedit"/>
+		<oaf_attribute name="name-vi" type="string" value="gedit automation factory"/>
+		<oaf_attribute name="name-wa" type="string" value="oujhene d&apos; otomatijhaedje gedit"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="gedit 自动化工厂"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="gedit Automation Factory"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="gedit Automation Factory"/>
+	</oaf_server>
+
+	<oaf_server iid="OAFIID:GNOME_Gedit_Application" type="factory" location="OAFIID:GNOME_Gedit_Factory">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+			<item value="IDL:GNOME/Gedit/Application:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="gedit application"/>
+		<oaf_attribute name="name-af" type="string" value="gedit-toepassing"/>
+		<oaf_attribute name="name-am" type="string" value="የgedit ፕሮግራም"/>
+		<oaf_attribute name="name-ar" type="string" value="تطبيق gedit"/>
+		<oaf_attribute name="name-az" type="string" value="gedit proqramı"/>
+		<oaf_attribute name="name-be" type="string" value="Дастасаваньне gedit"/>
+		<oaf_attribute name="name-bg" type="string" value="приложение gedit"/>
+		<oaf_attribute name="name-bn" type="string" value="জিএডিট আপ্লিকেশন"/>
+		<oaf_attribute name="name-ca" type="string" value="aplicació gedit"/>
+		<oaf_attribute name="name-cs" type="string" value="aplikace GEdit"/>
+		<oaf_attribute name="name-cy" type="string" value="rhaglen gedit"/>
+		<oaf_attribute name="name-da" type="string" value="Tekstredigeringprogram"/>
+		<oaf_attribute name="name-de" type="string" value="gedit-Anwendung"/>
+		<oaf_attribute name="name-el" type="string" value="εφαρμογή gedit "/>
+		<oaf_attribute name="name-en_CA" type="string" value="gedit application"/>
+		<oaf_attribute name="name-en_GB" type="string" value="gedit application"/>
+		<oaf_attribute name="name-es" type="string" value="Aplicación gedit"/>
+		<oaf_attribute name="name-et" type="string" value="gedit rakendus"/>
+		<oaf_attribute name="name-fa" type="string" value="برنامه‌ی gedit"/>
+		<oaf_attribute name="name-fi" type="string" value="gedit-sovellus"/>
+		<oaf_attribute name="name-fr" type="string" value="application gedit"/>
+		<oaf_attribute name="name-ga" type="string" value="Clár gedit"/>
+		<oaf_attribute name="name-gu" type="string" value="જીએડીટ કાર્યક્રમ"/>
+		<oaf_attribute name="name-he" type="string" value="יישום gedit"/>
+		<oaf_attribute name="name-hi" type="string" value="जिएडिट अनुप्रयोग"/>
+		<oaf_attribute name="name-hr" type="string" value="gedit aplikacija"/>
+		<oaf_attribute name="name-hu" type="string" value="gedit alkalmazás"/>
+		<oaf_attribute name="name-id" type="string" value="aplikasi gedit"/>
+		<oaf_attribute name="name-it" type="string" value="Applicazione gedit"/>
+		<oaf_attribute name="name-ja" type="string" value="gedit アプリケーション"/>
+		<oaf_attribute name="name-kn" type="string" value="ಗೆಡಿಟ್ ಅನ್ವಯ"/>
+		<oaf_attribute name="name-ko" type="string" value="gedit 응용프로그램"/>
+		<oaf_attribute name="name-lt" type="string" value="programa gedit"/>
+		<oaf_attribute name="name-lv" type="string" value="gedit aplikācija"/>
+		<oaf_attribute name="name-mk" type="string" value="gedit апликација"/>
+		<oaf_attribute name="name-ml" type="string" value="ജി-എഡിറ്റ് പ്രയോഗം"/>
+		<oaf_attribute name="name-mn" type="string" value="Гедит-Х.программ"/>
+		<oaf_attribute name="name-mr" type="string" value="जिएडीट कार्यक्रम"/>
+		<oaf_attribute name="name-ms" type="string" value="aplikasi gedit"/>
+		<oaf_attribute name="name-ne" type="string" value="जीइडित एप्लिकेसन"/>
+		<oaf_attribute name="name-nl" type="string" value="gedit-toepassing"/>
+		<oaf_attribute name="name-nn" type="string" value="gedit-program"/>
+		<oaf_attribute name="name-no" type="string" value="gedit applikasjon"/>
+		<oaf_attribute name="name-pa" type="string" value="ਜੀਆਡਿਟ ਕਾਰਜ"/>
+		<oaf_attribute name="name-pl" type="string" value="aplikacja gedit"/>
+		<oaf_attribute name="name-pt" type="string" value="aplicação gedit"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="aplicativo gedit"/>
+		<oaf_attribute name="name-ro" type="string" value="aplicaţia Gedit"/>
+		<oaf_attribute name="name-ru" type="string" value="приложение &quot;gedit&quot;"/>
+		<oaf_attribute name="name-sk" type="string" value="aplikácia gedit"/>
+		<oaf_attribute name="name-sl" type="string" value="program gedit"/>
+		<oaf_attribute name="name-sq" type="string" value="Programi gedit"/>
+		<oaf_attribute name="name-sr" type="string" value="програм гедит"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="program gedit"/>
+		<oaf_attribute name="name-sv" type="string" value="programmet gedit"/>
+		<oaf_attribute name="name-ta" type="string" value="gedit செயல்பாடு"/>
+		<oaf_attribute name="name-th" type="string" value="แอพพลิเคชัน gedit "/>
+		<oaf_attribute name="name-tk" type="string" value="gedit programi"/>
+		<oaf_attribute name="name-tr" type="string" value="gedit uygulaması"/>
+		<oaf_attribute name="name-uk" type="string" value="Додаток gedit"/>
+		<oaf_attribute name="name-vi" type="string" value="ứng dụng gedit"/>
+		<oaf_attribute name="name-wa" type="string" value="Programe gedit"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="gedit 应用程序"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="gedit 應用程式"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="gedit 應用程式"/>
+	</oaf_server>
+
+	<oaf_server iid="OAFIID:GNOME_Gedit_ViewerFactory"
+		    type="shlib" location="/usr/lib/bonobo/libgedit-control">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-af" type="string" value="Gedit-aansigfabriek"/>
+		<oaf_attribute name="name-ar" type="string" value="مصنع تألية جإدت"/>
+		<oaf_attribute name="name-az" type="string" value="Gedit nümayişçisi e&apos;malatxanası"/>
+		<oaf_attribute name="name-be" type="string" value="Вытворчасьць праглядальніка gedit"/>
+		<oaf_attribute name="name-bg" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-bn" type="string" value="জিএডিট প্রদর্শক ফ্যাক্টরি"/>
+		<oaf_attribute name="name-ca" type="string" value="Factoria del visor del Gedit"/>
+		<oaf_attribute name="name-cs" type="string" value="Generátor prohlížeče Gedit"/>
+		<oaf_attribute name="name-cy" type="string" value="ffatri golwg Gedit"/>
+		<oaf_attribute name="name-da" type="string" value="Fabrik til tekstredigeringsvisning"/>
+		<oaf_attribute name="name-de" type="string" value="gedit-Ansichtsfabrik"/>
+		<oaf_attribute name="name-el" type="string" value="Εργοστάσιο προβολής gedit "/>
+		<oaf_attribute name="name-en_CA" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-en_GB" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-es" type="string" value="Fábrica del visor de Gedit"/>
+		<oaf_attribute name="name-fi" type="string" value="Geditin katselintehdas"/>
+		<oaf_attribute name="name-fr" type="string" value="Fabrique de visionneur Gedit"/>
+		<oaf_attribute name="name-gu" type="string" value="જીએડીટ દર્શક કારખાનું"/>
+		<oaf_attribute name="name-he" type="string" value="יצרן מציג Gedit"/>
+		<oaf_attribute name="name-hi" type="string" value="जिएडिट दर्शय कारखाना"/>
+		<oaf_attribute name="name-hr" type="string" value="Tvornica Gedit pogleda"/>
+		<oaf_attribute name="name-hu" type="string" value="Gedit nézet factory"/>
+		<oaf_attribute name="name-id" type="string" value="Pabrikan penampilan Gedit"/>
+		<oaf_attribute name="name-it" type="string" value="Fabbrica della vista gedit"/>
+		<oaf_attribute name="name-ja" type="string" value="Gedit ビューアファクトリ"/>
+		<oaf_attribute name="name-ko" type="string" value="Gedit 뷰어 팩토리"/>
+		<oaf_attribute name="name-lt" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-mk" type="string" value="Gedit поглед фабрика"/>
+		<oaf_attribute name="name-mn" type="string" value="Гедит-харагчийн үйлдвэр"/>
+		<oaf_attribute name="name-ms" type="string" value="kilang pelihat gedit"/>
+		<oaf_attribute name="name-ne" type="string" value="जीइडित दृष्य कारखाना"/>
+		<oaf_attribute name="name-nl" type="string" value="Gedit weergavefabriek"/>
+		<oaf_attribute name="name-nn" type="string" value="Gedit-framsyningsfabrikk"/>
+		<oaf_attribute name="name-no" type="string" value="Factory for Gedit-visning"/>
+		<oaf_attribute name="name-pa" type="string" value="ਜੀਆਡਿਟ ਦਰਸ਼ਕ ਫੈਕਟਰੀ"/>
+		<oaf_attribute name="name-pl" type="string" value="Generator przeglądarek gedit"/>
+		<oaf_attribute name="name-pt" type="string" value="Fábrica de vista Gedit"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="Fábrica do visualizador gedit"/>
+		<oaf_attribute name="name-ro" type="string" value="Fabrica de vizualizare Gedit"/>
+		<oaf_attribute name="name-ru" type="string" value="Фабрика режима просмотра &quot;gedit&quot;"/>
+		<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre Gedit"/>
+		<oaf_attribute name="name-sl" type="string" value="Tovarga pogledov gedit"/>
+		<oaf_attribute name="name-sq" type="string" value="Fabrika e shikuesit Gedit"/>
+		<oaf_attribute name="name-sr" type="string" value="Производња Гедит прегледа"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja Gedit pregleda"/>
+		<oaf_attribute name="name-sv" type="string" value="Gedit-visarfabrik"/>
+		<oaf_attribute name="name-th" type="string" value="โปรแกรม Gedit viewer"/>
+		<oaf_attribute name="name-tk" type="string" value="Gedit namaýyşçysy karhanasy"/>
+		<oaf_attribute name="name-tr" type="string" value="Gedit görüntüleyici üreticisi"/>
+		<oaf_attribute name="name-uk" type="string" value="Фабрика переглядача gedit"/>
+		<oaf_attribute name="name-vi" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="name-wa" type="string" value="Oujhene di håyneus gedit"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="Gedit 查看器工厂"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="Gedit 顯示模式工廠"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="Gedit 顯示模式工廠"/>
+		<oaf_attribute name="description" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-af" type="string" value="Gedit-aansigfabriek"/>
+		<oaf_attribute name="description-ar" type="string" value="مصنع تألية جإدت"/>
+		<oaf_attribute name="description-az" type="string" value="Gedit nümayişçisi e&apos;malatxanası"/>
+		<oaf_attribute name="description-be" type="string" value="Вытворчасьць праглядальніка gedit"/>
+		<oaf_attribute name="description-bg" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-bn" type="string" value="জিএডিট প্রদর্শক ফ্যাক্টরি"/>
+		<oaf_attribute name="description-ca" type="string" value="Factoria del visor del Gedit"/>
+		<oaf_attribute name="description-cs" type="string" value="Generátor prohlížeče Gedit"/>
+		<oaf_attribute name="description-cy" type="string" value="ffatri golwg Gedit"/>
+		<oaf_attribute name="description-da" type="string" value="Fabrik til tekstredigeringsvisning"/>
+		<oaf_attribute name="description-de" type="string" value="gedit-Ansichtsfabrik"/>
+		<oaf_attribute name="description-el" type="string" value="Εργοστάσιο προβολής gedit "/>
+		<oaf_attribute name="description-en_CA" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-en_GB" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-es" type="string" value="Fábrica del visor de Gedit"/>
+		<oaf_attribute name="description-fi" type="string" value="Geditin katselintehdas"/>
+		<oaf_attribute name="description-fr" type="string" value="Fabrique de visionneur Gedit"/>
+		<oaf_attribute name="description-gu" type="string" value="જીએડીટ દર્શક કારખાનું"/>
+		<oaf_attribute name="description-he" type="string" value="יצרן מציג Gedit"/>
+		<oaf_attribute name="description-hi" type="string" value="जिएडिट दर्शय कारखाना"/>
+		<oaf_attribute name="description-hr" type="string" value="Tvornica Gedit pogleda"/>
+		<oaf_attribute name="description-hu" type="string" value="Gedit nézet factory"/>
+		<oaf_attribute name="description-id" type="string" value="Pabrikan penampilan Gedit"/>
+		<oaf_attribute name="description-it" type="string" value="Fabbrica della vista gedit"/>
+		<oaf_attribute name="description-ja" type="string" value="Gedit ビューアファクトリ"/>
+		<oaf_attribute name="description-ko" type="string" value="Gedit 뷰어 팩토리"/>
+		<oaf_attribute name="description-lt" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-mk" type="string" value="Gedit поглед фабрика"/>
+		<oaf_attribute name="description-mn" type="string" value="Гедит-харагчийн үйлдвэр"/>
+		<oaf_attribute name="description-ms" type="string" value="kilang pelihat gedit"/>
+		<oaf_attribute name="description-ne" type="string" value="जीइडित दृष्य कारखाना"/>
+		<oaf_attribute name="description-nl" type="string" value="Gedit weergavefabriek"/>
+		<oaf_attribute name="description-nn" type="string" value="Gedit-framsyningsfabrikk"/>
+		<oaf_attribute name="description-no" type="string" value="Factory for Gedit-visning"/>
+		<oaf_attribute name="description-pa" type="string" value="ਜੀਆਡਿਟ ਦਰਸ਼ਕ ਫੈਕਟਰੀ"/>
+		<oaf_attribute name="description-pl" type="string" value="Generator przeglądarek gedit"/>
+		<oaf_attribute name="description-pt" type="string" value="Fábrica de vista Gedit"/>
+		<oaf_attribute name="description-pt_BR" type="string" value="Fábrica do visualizador gedit"/>
+		<oaf_attribute name="description-ro" type="string" value="Fabrica de vizualizare Gedit"/>
+		<oaf_attribute name="description-ru" type="string" value="Фабрика режима просмотра &quot;gedit&quot;"/>
+		<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre Gedit"/>
+		<oaf_attribute name="description-sl" type="string" value="Tovarga pogledov gedit"/>
+		<oaf_attribute name="description-sq" type="string" value="Fabrika e shikuesit Gedit"/>
+		<oaf_attribute name="description-sr" type="string" value="Производња Гедит прегледа"/>
+		<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja Gedit pregleda"/>
+		<oaf_attribute name="description-sv" type="string" value="Gedit-visarfabrik"/>
+		<oaf_attribute name="description-th" type="string" value="โปรแกรม Gedit viewer"/>
+		<oaf_attribute name="description-tk" type="string" value="Gedit namaýyşçysy karhanasy"/>
+		<oaf_attribute name="description-tr" type="string" value="Gedit görüntüleyici üreticisi"/>
+		<oaf_attribute name="description-uk" type="string" value="Фабрика переглядача gedit"/>
+		<oaf_attribute name="description-vi" type="string" value="Gedit viewer factory"/>
+		<oaf_attribute name="description-wa" type="string" value="Oujhene di håyneus gedit"/>
+		<oaf_attribute name="description-zh_CN" type="string" value="Gedit 查看器工厂"/>
+		<oaf_attribute name="description-zh_HK" type="string" value="Gedit 顯示模式工廠"/>
+		<oaf_attribute name="description-zh_TW" type="string" value="Gedit 顯示模式工廠"/>
+	</oaf_server>
+
+	<oaf_server iid="OAFIID:GNOME_Gedit_Control" type="factory"
+		    location="OAFIID:GNOME_Gedit_ViewerFactory">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/Unknown:1.0" />
+			<item value="IDL:Bonobo/Control:1.0" />
+			<item value="IDL:Bonobo/PersistStream:1.0"/>
+			<item value="IDL:Bonobo/Persist:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+			<item value="text/*"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="Gedit View" />
+		<oaf_attribute name="name-af" type="string" value="Gedit-aansig" />
+		<oaf_attribute name="name-ar" type="string" value="مشهد جإدت" />
+		<oaf_attribute name="name-az" type="string" value="Gedit Görünüşü" />
+		<oaf_attribute name="name-be" type="string" value="Тэкст (gedit)" />
+		<oaf_attribute name="name-bg" type="string" value="Преглед с gedit" />
+		<oaf_attribute name="name-bn" type="string" value="জিএডিট দৃশ্য" />
+		<oaf_attribute name="name-ca" type="string" value="Vista del gedit" />
+		<oaf_attribute name="name-cs" type="string" value="Pohled Gedit" />
+		<oaf_attribute name="name-cy" type="string" value="Golwg Gedit" />
+		<oaf_attribute name="name-da" type="string" value="Tekstredigeringsvisning" />
+		<oaf_attribute name="name-de" type="string" value="gedit-Ansicht" />
+		<oaf_attribute name="name-el" type="string" value="Προβολή Gedit" />
+		<oaf_attribute name="name-en_CA" type="string" value="Gedit View" />
+		<oaf_attribute name="name-en_GB" type="string" value="Gedit View" />
+		<oaf_attribute name="name-es" type="string" value="Vista de Gedit" />
+		<oaf_attribute name="name-fi" type="string" value="Geditin näkymä" />
+		<oaf_attribute name="name-fr" type="string" value="Vue Gedit" />
+		<oaf_attribute name="name-ga" type="string" value="Amharc Gedit" />
+		<oaf_attribute name="name-gu" type="string" value="જીએડીટ દ્રશ્ય" />
+		<oaf_attribute name="name-he" type="string" value="תצוגת Gedit" />
+		<oaf_attribute name="name-hi" type="string" value="जिएडिट दर्शय" />
+		<oaf_attribute name="name-hr" type="string" value="Gedit pogled" />
+		<oaf_attribute name="name-hu" type="string" value="Gedit nézet" />
+		<oaf_attribute name="name-id" type="string" value="Gedit Tampil" />
+		<oaf_attribute name="name-it" type="string" value="Vista gedit" />
+		<oaf_attribute name="name-ja" type="string" value="Gedit ビュー" />
+		<oaf_attribute name="name-ko" type="string" value="Gedit 뷰" />
+		<oaf_attribute name="name-lt" type="string" value="Gedit vaizdas" />
+		<oaf_attribute name="name-mk" type="string" value="Gedit поглед" />
+		<oaf_attribute name="name-mn" type="string" value="Gedit Харагдац" />
+		<oaf_attribute name="name-ms" type="string" value="Paparan Gedit" />
+		<oaf_attribute name="name-ne" type="string" value="जीइडित दृष्य" />
+		<oaf_attribute name="name-nl" type="string" value="Gedit-weergave" />
+		<oaf_attribute name="name-nn" type="string" value="Gedit-framsyning" />
+		<oaf_attribute name="name-no" type="string" value="Gedit-visning" />
+		<oaf_attribute name="name-pa" type="string" value="ਜੀਆਡਿਟ ਦਰਿਸ਼" />
+		<oaf_attribute name="name-pl" type="string" value="Widok gedita" />
+		<oaf_attribute name="name-pt" type="string" value="Vista Gedit" />
+		<oaf_attribute name="name-pt_BR" type="string" value="Visualização Gedit" />
+		<oaf_attribute name="name-ro" type="string" value="Vizualizare Gedit" />
+		<oaf_attribute name="name-ru" type="string" value="Окно Gedit" />
+		<oaf_attribute name="name-sk" type="string" value="Pohľad Gedit" />
+		<oaf_attribute name="name-sl" type="string" value="Pogled Gedit" />
+		<oaf_attribute name="name-sq" type="string" value="Shikuesi Gedit" />
+		<oaf_attribute name="name-sr" type="string" value="Гедит преглед" />
+		<oaf_attribute name="name-sr@Latn" type="string" value="Gedit pregled" />
+		<oaf_attribute name="name-sv" type="string" value="Gedit-vy" />
+		<oaf_attribute name="name-ta" type="string" value="Gedit காட்சி" />
+		<oaf_attribute name="name-th" type="string" value="มุมมอง Gedit" />
+		<oaf_attribute name="name-tk" type="string" value="Gedit Görnöşi" />
+		<oaf_attribute name="name-tr" type="string" value="Gedit Görünümü" />
+		<oaf_attribute name="name-uk" type="string" value="Вікно Gedit" />
+		<oaf_attribute name="name-vi" type="string" value="Khung xem Gedit" />
+		<oaf_attribute name="name-zh_CN" type="string" value="Gedit 视图" />
+		<oaf_attribute name="name-zh_HK" type="string" value="Gedit 顯示模式" />
+		<oaf_attribute name="name-zh_TW" type="string" value="Gedit 顯示模式" />
+		<oaf_attribute name="description" type="string" value="Gedit View." />
+		<oaf_attribute name="description-af" type="string" value="Gedit-aansig." />
+		<oaf_attribute name="description-ar" type="string" value="مشهد جإدت." />
+		<oaf_attribute name="description-az" type="string" value="Gedit Görünüşü." />
+		<oaf_attribute name="description-be" type="string" value="Тэкст (gedit)." />
+		<oaf_attribute name="description-bg" type="string" value="Преглед с gedit." />
+		<oaf_attribute name="description-bn" type="string" value="জিএডিট দৃশ্য" />
+		<oaf_attribute name="description-ca" type="string" value="Vista del gedit." />
+		<oaf_attribute name="description-cs" type="string" value="Pohled Gedit." />
+		<oaf_attribute name="description-cy" type="string" value="Golwg Gedit." />
+		<oaf_attribute name="description-da" type="string" value="Tekstredigeringsvisning." />
+		<oaf_attribute name="description-de" type="string" value="gedit-Ansicht." />
+		<oaf_attribute name="description-el" type="string" value="Προβολή Gedit." />
+		<oaf_attribute name="description-en_CA" type="string" value="Gedit View." />
+		<oaf_attribute name="description-en_GB" type="string" value="Gedit View." />
+		<oaf_attribute name="description-es" type="string" value="Vista de Gedit." />
+		<oaf_attribute name="description-fi" type="string" value="Geditin näkymä." />
+		<oaf_attribute name="description-fr" type="string" value="Vue Gedit." />
+		<oaf_attribute name="description-ga" type="string" value="Amharc Gedit." />
+		<oaf_attribute name="description-gu" type="string" value="જીએડીટ દ્રશ્ય." />
+		<oaf_attribute name="description-he" type="string" value="תצוגת Gedit." />
+		<oaf_attribute name="description-hi" type="string" value="जिएडिट दर्शय." />
+		<oaf_attribute name="description-hr" type="string" value="Gedit pogled." />
+		<oaf_attribute name="description-hu" type="string" value="Gedit nézet." />
+		<oaf_attribute name="description-id" type="string" value="Gedit Tampil." />
+		<oaf_attribute name="description-it" type="string" value="Vista gedit." />
+		<oaf_attribute name="description-ja" type="string" value="Gedit ビューです。" />
+		<oaf_attribute name="description-ko" type="string" value="Gedit 뷰." />
+		<oaf_attribute name="description-lt" type="string" value="Gedit vaizdas" />
+		<oaf_attribute name="description-mk" type="string" value="Gedit поглед." />
+		<oaf_attribute name="description-mn" type="string" value="Gedit Харагдац." />
+		<oaf_attribute name="description-ms" type="string" value="Paparan Gedit." />
+		<oaf_attribute name="description-ne" type="string" value="जीइडित दृष्य" />
+		<oaf_attribute name="description-nl" type="string" value="Gedit-weergave" />
+		<oaf_attribute name="description-nn" type="string" value="Gedit-framsyning." />
+		<oaf_attribute name="description-no" type="string" value="Gedit-Visning." />
+		<oaf_attribute name="description-pa" type="string" value="ਜੀਆਡਿਟ ਦਰਿਸ਼" />
+		<oaf_attribute name="description-pl" type="string" value="Widok gedita." />
+		<oaf_attribute name="description-pt" type="string" value="Vista Gedit." />
+		<oaf_attribute name="description-pt_BR" type="string" value="Visualização Gedit." />
+		<oaf_attribute name="description-ro" type="string" value="Vizualizare Gedit." />
+		<oaf_attribute name="description-ru" type="string" value="Окно Gedit." />
+		<oaf_attribute name="description-sk" type="string" value="Pohľad Gedit." />
+		<oaf_attribute name="description-sl" type="string" value="Pogled Gedit." />
+		<oaf_attribute name="description-sq" type="string" value="Shikuesi Gedit." />
+		<oaf_attribute name="description-sr" type="string" value="Гедит преглед." />
+		<oaf_attribute name="description-sr@Latn" type="string" value="Gedit pregled." />
+		<oaf_attribute name="description-sv" type="string" value="Gedit-vy." />
+		<oaf_attribute name="description-ta" type="string" value="Gedit காட்சி." />
+		<oaf_attribute name="description-th" type="string" value="มุมมอง Gedit" />
+		<oaf_attribute name="description-tk" type="string" value="Gedit Görnöşi." />
+		<oaf_attribute name="description-tr" type="string" value="Gedit Görünümü." />
+		<oaf_attribute name="description-uk" type="string" value="Вікно Gedit." />
+		<oaf_attribute name="description-vi" type="string" value="Khung xem Gedit." />
+		<oaf_attribute name="description-zh_CN" type="string" value="Gedit 视图。" />
+		<oaf_attribute name="description-zh_HK" type="string" value="Gedit 顯示模式" />
+		<oaf_attribute name="description-zh_TW" type="string" value="Gedit 顯示模式" />
+		<oaf_attribute name="nautilus:view_as_name" type="string" value="Source"/>
+		<oaf_attribute name="nautilus:view_as_name-af" type="string" value="Bron"/>
+		<oaf_attribute name="nautilus:view_as_name-ar" type="string" value="المصدر"/>
+		<oaf_attribute name="nautilus:view_as_name-az" type="string" value="Mənbə"/>
+		<oaf_attribute name="nautilus:view_as_name-be" type="string" value="Крыніца"/>
+		<oaf_attribute name="nautilus:view_as_name-bg" type="string" value="Източник"/>
+		<oaf_attribute name="nautilus:view_as_name-bn" type="string" value="সর্স"/>
+		<oaf_attribute name="nautilus:view_as_name-ca" type="string" value="Font"/>
+		<oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Zdroj"/>
+		<oaf_attribute name="nautilus:view_as_name-cy" type="string" value="Ffynhonnell"/>
+		<oaf_attribute name="nautilus:view_as_name-da" type="string" value="Kildekode"/>
+		<oaf_attribute name="nautilus:view_as_name-de" type="string" value="Quelltext"/>
+		<oaf_attribute name="nautilus:view_as_name-el" type="string" value="Πηγή"/>
+		<oaf_attribute name="nautilus:view_as_name-en_CA" type="string" value="Source"/>
+		<oaf_attribute name="nautilus:view_as_name-en_GB" type="string" value="Source"/>
+		<oaf_attribute name="nautilus:view_as_name-es" type="string" value="Fuente"/>
+		<oaf_attribute name="nautilus:view_as_name-fi" type="string" value="Lähde"/>
+		<oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Source"/>
+		<oaf_attribute name="nautilus:view_as_name-ga" type="string" value="Foinse"/>
+		<oaf_attribute name="nautilus:view_as_name-gu" type="string" value="સ્ત્રોત"/>
+		<oaf_attribute name="nautilus:view_as_name-he" type="string" value="מקור"/>
+		<oaf_attribute name="nautilus:view_as_name-hi" type="string" value="मूल"/>
+		<oaf_attribute name="nautilus:view_as_name-hr" type="string" value="Izvor"/>
+		<oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Forrás"/>
+		<oaf_attribute name="nautilus:view_as_name-id" type="string" value="Sumber"/>
+		<oaf_attribute name="nautilus:view_as_name-it" type="string" value="Fonte"/>
+		<oaf_attribute name="nautilus:view_as_name-ja" type="string" value="ソース"/>
+		<oaf_attribute name="nautilus:view_as_name-ko" type="string" value="소스"/>
+		<oaf_attribute name="nautilus:view_as_name-lt" type="string" value="Kodas"/>
+		<oaf_attribute name="nautilus:view_as_name-mk" type="string" value="Извор"/>
+		<oaf_attribute name="nautilus:view_as_name-ml" type="string" value="ഉറവിടം"/>
+		<oaf_attribute name="nautilus:view_as_name-mn" type="string" value="Эх"/>
+		<oaf_attribute name="nautilus:view_as_name-ms" type="string" value="Sumber"/>
+		<oaf_attribute name="nautilus:view_as_name-ne" type="string" value="श्रोत"/>
+		<oaf_attribute name="nautilus:view_as_name-nl" type="string" value="Bron"/>
+		<oaf_attribute name="nautilus:view_as_name-nn" type="string" value="Kjelde"/>
+		<oaf_attribute name="nautilus:view_as_name-no" type="string" value="Kilde"/>
+		<oaf_attribute name="nautilus:view_as_name-pa" type="string" value="ਸਰੋਤ"/>
+		<oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Źródło"/>
+		<oaf_attribute name="nautilus:view_as_name-pt" type="string" value="Código Fonte"/>
+		<oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Fonte"/>
+		<oaf_attribute name="nautilus:view_as_name-ro" type="string" value="Sursă"/>
+		<oaf_attribute name="nautilus:view_as_name-ru" type="string" value="исходный текст"/>
+		<oaf_attribute name="nautilus:view_as_name-sk" type="string" value="Zdroj"/>
+		<oaf_attribute name="nautilus:view_as_name-sl" type="string" value="Izvor"/>
+		<oaf_attribute name="nautilus:view_as_name-sq" type="string" value="Buruesi"/>
+		<oaf_attribute name="nautilus:view_as_name-sr" type="string" value="Извор"/>
+		<oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string" value="Izvor"/>
+		<oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Källa"/>
+		<oaf_attribute name="nautilus:view_as_name-ta" type="string" value="மூலம்"/>
+		<oaf_attribute name="nautilus:view_as_name-th" type="string" value="ที่มา"/>
+		<oaf_attribute name="nautilus:view_as_name-tk" type="string" value="Çeşme"/>
+		<oaf_attribute name="nautilus:view_as_name-tr" type="string" value="Kaynak"/>
+		<oaf_attribute name="nautilus:view_as_name-uk" type="string" value="Вихідний текст"/>
+		<oaf_attribute name="nautilus:view_as_name-vi" type="string" value="Mã nguồn"/>
+		<oaf_attribute name="nautilus:view_as_name-wa" type="string" value="Sourdant"/>
+		<oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="来源"/>
+		<oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="原始內容"/>
+		<oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="原始內容"/>
+	</oaf_server>
+</oaf_info>

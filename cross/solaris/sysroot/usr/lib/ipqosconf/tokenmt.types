@@ -1,0 +1,19 @@
+#
+# Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#ident	"@(#)tokenmt.types	1.2	02/03/14 SMI"
+
+fmt_version 1.0
+mod_version 1.0
+
+params	red_action_name		action
+params	yellow_action_name	action
+params	green_action_name	action
+params	committed_rate		uint32
+params	peak_rate		uint32
+params	committed_burst		uint32
+params	peak_burst		uint32
+params	color_aware		boolean
+params	color_map	int_array	64,{GREEN=0x01,YELLOW=0x02,RED=0x04}

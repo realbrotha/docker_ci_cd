@@ -1,0 +1,35 @@
+#!/unix
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53A src/bos/kernext/exp/posix_aio.exp 1.6 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 2002 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* static char sccsid[] = "@(#)37  1.6  src/bos/kernext/exp/posix_aio.exp, sysxaio, bos53A, a2004_30A3 7/1/04 13:52:51"
+_posix_kaio_rdwr syscall
+_posix_kaio_rdwr64 syscall64
+_posix_listio syscall
+_posix_listio64 syscall64
+_posix_acancel syscall
+_posix_acancel64 syscall64
+_posix_iosuspend syscall
+_posix_iosuspend64 syscall64
+_posix_kaio_stats syscall3264
+_posix_aio_nwait syscall3264
+_posix_aio_nwait64 syscall3264
+_posix_aio_nwait_timeout syscall3264
+_posix_aio_nwait_timeout64 syscall3264
+_posix_aio_cntl syscall
+_posix_iofsync syscall
+_posix_iofsync64 syscall64
+
+* For debugging - total requests outstanding
+requestcount

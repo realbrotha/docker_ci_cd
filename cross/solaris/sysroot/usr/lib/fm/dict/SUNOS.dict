@@ -1,0 +1,17 @@
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)SUNOS.dict	1.4	04/10/23 SMI"
+
+FMDICT: name=SUNOS version=1 maxkey=4
+
+ereport.sunos.unix.fm_panic=0
+defect.sunos.eft.undiagnosable_problem=1
+defect.Deprecated defect.io.pci.driver fault.io.pci.bus fault.io.pci.device=2
+defect.Deprecated fault.io.pci.bus fault.io.pci.device=3
+defect.Deprecated defect.io.pci.driver fault.io.pci.device=4
+defect.Deprecated defect.io.pci.driver fault.io.pci.bus=5
+defect.Deprecated fault.io.pci.device=6
+defect.Deprecated fault.io.pci.bus=7
+defect.Deprecated defect.io.pci.driver=8

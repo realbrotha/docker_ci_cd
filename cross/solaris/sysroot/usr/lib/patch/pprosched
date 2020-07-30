@@ -1,0 +1,150 @@
+#!/bin/ksh
+#
+# ident	"@(#)pprosched.sh	1.4	04/03/14 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+PRG=$0
+
+usage() {
+	echo "usage: $PRG [<filename>| -r <command>]"
+	exit 1;
+}
+
+#
+# This returns a string with no dangerous characters in it
+#
+benignString() {
+    echo ${1#*/} | sed s@/@\\\\/@g
+}
+
+#
+# Remove from crontab the command
+#
+removeFromCrontab() {
+   command=$1
+   echo Removing from crontab $command
+#  copy the user's crontab file to /tmp
+   crontab -l > ${userfile}
+
+#  command is an absolute path
+   pproCmd="${command}"
+
+#  determine if the command is already in /tmp/userfile
+   if grep "${pproCmd}" ${userfile} > /dev/null 2>&1
+   then
+#      remove the command command
+       echo "Updating cron to remove $pproCmd ... "
+       sed /"${pproCmd}"/d ${userfile}  > ${userfile}.bak
+       crontab ${userfile}.bak
+       rm -f ${userfile}.bak
+   fi
+
+   rm -f ${userfile}
+
+   exit 0   
+}
+
+
+#
+# Confirm that the user is root.
+#
+confirmRoot() {
+	Uid=`id | sed 's/uid=\([0-9]*\)(.*/\1/'`
+	if [ $Uid -ne 0 ]; then
+		echo ${NOTROOTERR}
+		exit 1
+	fi
+}
+
+#
+# Main routine
+#
+numofarg=$#
+
+if [[ $numofarg -lt 1 ]]; then
+   echo "Incorrect arguments"
+   usage
+   exit 1
+fi
+
+username=`whoami`
+usercrontabdir=/var/spool/cron/crontabs/
+userfile=/tmp/${username}crontab$$.tmp
+usercrontabfile=${usercrontabdir}${username}
+
+# determine if its the -r option
+# to remove command from crontab
+if [[ $1 = "-r" ]];
+then
+   shift
+   removeFromCrontab "$*"
+fi
+
+commandfile=$1
+
+# determine if the file containing exists 
+if [[ ! -a $commandfile ]];
+then
+   echo "Error cannot find file : $commandfile"
+   exit 1
+fi
+
+# determine if user has crontab file
+if [[ -s ${usercrontabfile} ]];
+then
+#   user has crontab file
+#   count number of rows in commandfile
+    numOfRows=`egrep -c '^.*$' "$commandfile"`
+
+#   the most numof rows in a command file 
+#   is 2.
+    if [[ $numOfRows -le 2 ]];
+    then
+
+#       copy the user's crontab file to /tmp
+        crontab -l > ${userfile}
+
+#       determine if users crontab file
+#       contains the command
+#       retrieves the command in first line
+        linecommand=`awk -F 'NR==1' "$commandfile"`
+
+#       eliminates the min, hour, dayOfMonth, month, dayOfWeek field 
+        command=`echo "${linecommand}" | 
+                  nawk '{$1="";$2="";$3="";$4="";$5="";print }'"`
+#       command is an absolute path with option
+
+        pproCmd="$(benignString "${command}")"
+
+#       determine if the command is already in /tmp/userfile
+        if grep "${pproCmd}" ${userfile} > /dev/null 2>&1
+        then
+#          remove the previous command
+           echo "Updating previous cron to new schedule ... "
+           sed /"${pproCmd}"/d ${userfile}  > ${userfile}.bak
+           sed -n '/^.*$/ p' $commandfile >> ${userfile}.bak  
+           crontab < ${userfile}.bak
+           rm -f ${userfile} ${userfile}.bak
+        else
+#       append this command to the crontab
+           echo "Adding new schedule to cron"
+           sed -n '/^.*/p' $commandfile >> $userfile
+           crontab < $userfile
+           rm -f ${userfile}
+        fi
+
+    fi
+else
+#   create the file containing the command 
+#   to temporary crontab file 
+#    echo ${username} has no scheduled cron
+    echo "Adding new schedule to cron"
+    sed -n '/^.*$/ p' $commandfile > $userfile  
+    crontab < $userfile
+
+    rm -f ${userfile}
+fi
+
+

@@ -1,0 +1,92 @@
+#
+# @(#)install_twmrc 1.2 01/01/01 SMI"
+#
+# Copyright (c) 1992-2001 Sun Microsystems, Inc.
+# All Rights Reserved. Sun
+# 
+# TWM menu used on desktop running suninstall
+#
+# Copyright (c) 1992-2001 Sun Microsystems, Inc.
+# All Rights Reserved. Sun
+#
+# Initial valuse from Xconsortium's default system.twmrc file:
+# $XConsortium: system.twmrc,v 1.8 91/04/23 21:10:58 gildea Exp $
+#
+
+NoGrabServer
+RestartPreviousState
+DecorateTransients
+TitleFont "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
+ResizeFont "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
+MenuFont "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
+IconFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+IconManagerFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*"
+#ClientBorderWidth
+
+Color
+{
+    BorderColor "slategrey"
+    DefaultBackground "maroon"
+    DefaultForeground "gray85"
+    TitleBackground "maroon"
+    TitleForeground "gray85"
+    MenuBackground "maroon"
+    MenuForeground "gray85"
+    MenuTitleBackground "gray70"
+    MenuTitleForeground "maroon"
+    IconBackground "maroon"
+    IconForeground "gray85"
+    IconBorderColor "gray85"
+    IconManagerBackground "maroon"
+    IconManagerForeground "gray85"
+}
+
+#
+# Define some useful functions for motion-based actions.
+#
+MoveDelta 3
+Function "move-or-lower" { f.move f.deltastop f.lower }
+Function "move-or-raise" { f.move f.deltastop f.raise }
+Function "move-or-iconify" { f.move f.deltastop f.iconify }
+
+#
+# Set some useful bindings.  Sort of uwm-ish, sort of simple-button-ish
+#
+Button3 = : root : f.menu "defops"
+
+Button1 = m : window|icon : f.function "move-or-lower"
+Button2 = m : window|icon : f.iconify
+Button3 = m : window|icon : f.function "move-or-raise"
+
+Button1 = : title : f.function "move-or-raise"
+Button2 = : title : f.raiselower
+
+Button1 = : icon : f.function "move-or-iconify"
+Button2 = : icon : f.iconify
+
+Button1 = : iconmgr : f.iconify
+Button2 = : iconmgr : f.iconify
+
+#
+# And a menus with the usual things
+#
+menu "defops"
+{
+"Twm"	f.title
+"설치 다시 시작..." f.exec "/sbin/suninstall &"
+""		f.nop
+"콘솔"	f.exec "/usr/openwin/bin/xterm -C -title Console -sb -sl 3000 &"
+"터미널"	f.exec "/usr/openwin/bin/xterm -title Terminal -sb -sl 3000 &"
+""		f.nop
+"갱신"	f.refresh
+"포커스"		f.focus
+"포커스 해제"	f.unfocus
+"Iconmgr 표시"	f.showiconmgr
+"Iconmgr 숨김"	f.hideiconmgr
+""		f.nop
+"창 삭제"	f.delete
+"WM 다시 시작"	f.restart
+""		f.nop
+"시스템 정지"	f.exec "/usr/sbin/halt" 
+"시스템 재부트"	f.exec "/usr/sbin/reboot"
+}

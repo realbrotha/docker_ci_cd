@@ -1,0 +1,35 @@
+# @(#)42 1.2 src/bos/usr/bin/setmaps/sbcs, cmdtty, bos530 10/14/93 11:31:08
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/bin/setmaps/sbcs 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1988,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTTY)
+#
+# FUNCTIONS:
+#
+# ORIGINS: 27, 83
+#
+#                  -- (                            when
+# combined with the aggregated modules for this product)
+# OBJECT CODE ONLY SOURCE MATERIALS
+# (C) COPYRIGHT International Business Machines Corp. 1988, 1993
+# All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# LEVEL 1, 5 Years Bull Confidential Information
+#
+Name : sbcs
+Type : S

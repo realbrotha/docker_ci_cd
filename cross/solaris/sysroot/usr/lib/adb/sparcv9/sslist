@@ -1,0 +1,8 @@
+.>a
+*<a>b
+*<b>c
+.="Soft state structure pointers"n
+*(<b+0x18)>d
+<c,<d/K
+*(<b+0x20)>d
+<d,<d$<sslist

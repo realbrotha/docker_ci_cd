@@ -1,0 +1,94 @@
+# @(#)61  1.2  src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/TIS-620, xlib, gos530 4/6/04 11:01:21
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/TIS-620 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1997,2004 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#  XLocale Database for TIS-620.
+#
+
+# 
+#   XLC_FONTSET category
+# 
+XLC_FONTSET
+
+#   fs0 class 
+fs0     {
+        charset         UCS2.THAI-0:GL
+        font            UCS2.THAI-0:GL
+}
+#   fs1 class 
+fs1     {
+        charset         UCS2.THAI-0:GR
+        font            UCS2.THAI-0:GR
+}
+#   fs2 class 
+fs2     {
+        charset         UCS2.THAI-0:GR
+        font            UCS2.THAI-0:GR
+}
+#   fs3 class 
+fs3     {
+        charset         UCS2.THAI-0:GR
+        font            UCS2.THAI-0:GR
+}
+
+object_name unicode
+# on_demand_loading
+
+END XLC_FONTSET
+
+# 
+#   XLC_XLOCALE category
+# 
+
+XLC_XLOCALE
+encoding_name           TIS-620
+mb_cur_max              1
+state_depend_encoding   False
+wc_encoding_mask        \x00008080
+wc_shift_bits           8
+
+#   cs0 class
+cs0     {
+        side            GL:Default
+        length          2
+        wc_encoding     \x00000000
+        ct_encoding     UCS2.THAI-0:GL
+}
+
+#   cs1 class
+cs1     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00008080
+        ct_encoding     UCS2.THAI-0:GR
+}
+#   cs2 class
+cs2     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00008080
+        ct_encoding     UCS2.THAI-0:GR
+}
+#   cs3 class
+cs3     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00008080
+        ct_encoding     UCS2.THAI-0:GR
+}
+
+END XLC_XLOCALE
+

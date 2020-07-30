@@ -1,0 +1,325 @@
+# @(#)10    1.1  src/gos/2d/XTOP/lib/nls/Xibm/README, i18n, gos530 4/6/94 21:38:34
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/README 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: i18n
+#
+#   FUNCTIONS: README
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1993
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+1.0 X Locale Database
+
+   Purpose:
+
+     Defines the X specific information associated with a locale
+
+   Description:
+
+     This file is used to describe set of fonts needed for a given
+     code set.  The source definition consists of a category header,
+     a category body, and a category trailer.  Currently, the only
+     category recognized is XLC_FONTSET.  Lines that are empty or
+     lines containing '#' in the first column are treated as comment
+     lines and are ignored by the LDX functions.
+
+     The XLocale database is provided for each code set that is
+     supported on AIX and are localed in /usr/lib/X11/nls.  The
+     convention is that the XLocale file name should match the code
+     set name that is defined in the charmap of the locale.  The
+     following describes the format for each category:
+
+       - The category header shall be a line that begins with
+         category name.
+
+       - The XLC_FONTSET category body defines the possible font
+         charsets that may be associated with the each character set
+         ID (csid) of the code set.  The character set ID's for each
+         code set is defined in the CHARSETID section of the code
+         set's charmap file.  The syntax for the source definition is:
+
+           fontset         := fontset cs_definition
+           cs_definition   := csid_name charsets '\n'
+           csid_name       := 'CS'digit
+           digit           := [0-9]+
+           charsets        := charsets ',' charset_name
+           charset_name    := CharsetRegistry'-'CharsetEncoding as
+                              defined by the X Logical Font Descriptor
+                              (XLFD).
+
+       Each keyboard in the XLC_FONTSET definition is matched to a
+       character set ID of the associated locale's code set.  If the
+       charset_name of the font found does not match the code set
+       name (obtained by calling nl_langinfo(CODESET)) the Xlib
+       functions will attempt to convert from the code set of the
+       locale to the charset_name by using an iconv conversion.  If
+       no iconv conversion is available that match the to/from
+       names, then the characters will be drawn using the default
+       string of the XLocale.
+
+     - The category trailer is a line which consists of 'END category_name'
+
+     Example:
+
+     #
+     #     XLocale File: ISO8859-1
+     #
+     #  This is definition of locale of 8-bit latin-1
+     #
+     XLC_FONTSET
+     # CS0
+     ISO8859-1,IBM-850,IBM-PC850
+     # CS1
+     ISO8859-1,IBM-850,IBM-PC850
+     END XLC_FONTSET
+
+     #
+     #     XLocale File for IBM-eucJP/IBM-932
+     #
+
+     XLC_FONTSET
+     # CS0 : 7 bit ASCII
+     JISX0201.1976-0,IBM-850,ISO8859-1,IBM-PC850
+     # CS1 : KANJI
+     JISX0208.1983-0
+     # CS2 : Half-KANA
+     JISX0201.1976-0
+     # CS3 : UDC
+     IBM-udcJP,IBM-IBMCS01007EXT
+     END XLC_FONTSET
+
+   Related Information:
+
+     Refer to the localedef utility and the CHARSETID section of a
+     charmap for more in formation on what the character set ID is. 
+     Source definition of charmaps are located in /usr/lib/nls/charmap.
+
+     Refer to the csid() and wcsid() functions for how to determine
+     the character set ID of a given character.
+
+
+1.1. nls.dir
+
+   Purpose:
+
+     Provides a list of supported locales and their associated XLocales
+
+   Description:
+
+     Provides a directory of supported locales along with it's
+     respective XLocale.  There is one entry per line with each
+     entry defining the XLocale database file name and it's
+     associated locale name.   A single line containing the number
+     of entries must precede all entries. Empty lines and lines
+     beginning with '#' will be ignored.
+
+     The format of each entry is:
+
+              "%s %s", Xlocale_name, locale_name
+
+
+     Example:
+
+       #
+       # number of entries in the nls.dir
+       #
+       4
+       #
+       # file_name language name
+       #
+       IBM-850         C
+       #
+       # standard locale ... 21
+       #
+       ISO8859-1       da_DK.ISO8859-1
+       ISO8859-1       de_CH.ISO8859-1
+       ISO8859-1       de_DE.ISO8859-1
+
+   Related Information:
+
+     This file affects the XCreateFontSet, XOpenIM, and the
+     XGetFile/StringDatabase functions.
+
+1.2. nls.alias
+
+   Purpose:
+
+     Provide an alias list of locale names.
+
+   Description:
+
+     Provides an alias list of locale names that is search if the
+     locale name in the nls.dir is not found.  There is one entry
+     per line with each entry defining the alias name and it's
+     associated locale name that can be found in the nls.dir file. 
+     A single line containing the number of entries must precede all
+     entries.  Empty lines and lines beginning with '#' will be ignored.
+
+     The format of each entry is:
+
+              "%s %s", alias_name, locale_name
+
+     Example:
+
+       #
+       # number of aliases
+       #
+       40
+       #
+       # standard locale ... 21
+       #
+       da_DK           da_DK.ISO8859-1
+       de_CH           de_CH.ISO8859-1
+       de_DE           de_DE.ISO8859-1
+       el_GR           el_GR.ISO8859-7
+       en_GB           en_GB.ISO8859-1
+
+   Related Information:
+
+     This file affects the XCreateFontSet, XOpenIM, and the
+     XGetFile/StringDatabase functions.
+
+1.3. nls.ldx
+
+   Purpose:
+
+     Defines the linkage of Xlib I18N functions to an Locale
+     Dependent X (LDX) object.
+
+   Description:
+
+     This file is treated as a database that defines the type of
+     binding that should occur to an LDX object.  Each LDX object
+     contains a set of locale dependent functions that are used by
+     the Xlib I18N functions, e.g. XmbLookupString(). The AIX
+     libX11.a is pre-bound in with two LDX's that can support any
+     locale supplied with the system (see LDX_STATIC_SIM and
+     LDX_STATIC_MIM) below.
+
+     The file shall consist of multiple lines with each line
+     identifying the locale, type of binding and any options.  Empty
+     lines and lines beginning with '#' will be ignored.  Each line
+     will be in the following format:
+
+              sscanf(buf, "%s %s %s", locale, type, path).
+
+     The locale identifies the locale name to be bound to.  The type
+     may be one of the following strings.  If the locale name is not
+     found, the Xlib will use LDX_STATIC_SIM as the default type. 
+     The option string is dependent on the LDX that is identified by
+     the type.
+
+       - LDX_STATIC_SIM
+
+         This type indicates that the locale name refers to a simple
+         input method that does not do any callbacks.  Path is
+         ignored by this type.
+
+       - LDX_STATIC_MIM
+
+         This type indicates the X functions that support complex
+         input methods which are usually multibyte input methods. 
+         Path is ignored by this type.
+
+       - LDX_SERVER
+
+         This type is reserved for future use.
+
+       - LDX_DYNAMIC
+
+         This type is used to indicate an LDX that will be loaded at
+         run time. The LDX object is loaded using the system load()
+         function and follows the search rules defined by
+         XCreateFontSet and XOpenIM.  This allows users to extend
+         the Xlib to run with the MIT sample implementation LDX
+         objects of either Xsi or Ximp.
+
+         NOTE: Use of dynamic LDX's can cause unpredictable behavior
+             if it mixed with I18N functions defined in libc. 
+             Specifically, the wchar_t encoding used by the Xsi and
+             Ximp sample implementations do not match the AIX libc
+             run time environment.
+
+     The LDX object is search using the following hierarchy:
+
+       1. If path begins with a '/', the LDX object is expected to
+          be found in file 'path.ldx'.
+
+       2. If path is given but does not begin with a '/', the LDX
+          object is searched for using the LOCPATH<F0> environment
+          variable using the following name: $LOCPATH/X11/path.ldx
+
+       3. If no path is given,  then the LDX object is searched for
+          using the LOCPATH environment variable using the following
+          name:
+
+              '$LOCPATH/X11/%L.ldx.
+
+          Where %L represents the locale name.
+
+     The loadable object must declare the entry point of the
+     loadable object to be a variable of type _LC_core_ldx_t.  This
+     structure is used to bind the Xlib to the LDX's initialization
+     functions.  Refer to Xlcint.h for more information in the
+     sample directory listed below.
+
+     User should refer to the following directories for directions
+     on how to build the sample implementation to be used as an
+     LDX_DYNAMIC object.
+ 
+           /usr/lpp/X11/Xamples/lib/X/Ximp
+           /usr/lpp/X11/Xamples/lib/X/Xsi
+  
+   Examples:
+
+     #
+     # This file contains locale dependent X (LDX) information
+     #
+     # File Format
+     #
+     # Column 1              Column 2                Column 3
+     # --------------------  -----------------  --------------------
+     # Full locale name      LDX type           LDX option
+     #                       - LDX_DYNAMIC      - LDX name
+     #                       - LDX_STATIC_SIM   - NONE
+     #                                          Path is determined with
+     #                                          LOCPATH.  If this name
+     #                                          contain '/', the name is
+     #                                          handled as full path name
+     #                                          of LDX module.
+     #                                          Path_name.ldx is expected.
+
+
+     C                       LDX_STATIC_SIM     NONE
+     En_US                   LDX_STATIC_SIM     NONE
+     ko_KR                   LDX_STATIC_MIM     NONE
+     zh_TW                   LDX_STATIC_MIM     NONE
+     ja_JP                   LDX_STATIC_MIM     NONE
+     ja_JP.IBM-eucJP         LDX_STATIC_MIM     NONE
+     ja_JP.SJIS              LDX_DYNAMIC        /usr/lpp/X11/Xamples/lib/X/Ximp/ximp
+     ja_JP.AJEC              LDX_DYMAMIC        /usr/lpp/X11/Xamples/lib/X/Xsi/xsi
+
+   Related Information:
+
+     Refer to XCreateFontSet, XOpenIM and XGetFile/StringDatabase.
+

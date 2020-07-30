@@ -1,0 +1,118 @@
+'\" t
+.\" ident	"@(#)ccr.1.sunman	1.1	02/11/26 SMI"
+.\"
+.\"
+.TH CCR 1
+.SH NAME
+ccr \- Client Config Registry command line interface
+.SH SYNOPSIS
+.B /usr/lib/cc-ccr/bin/ccr
+[ options ]
+.SH DESCRIPTION
+
+The Client Config Registry (CCR) is a mapping from string keys to
+string values, used by Customer Network Services clients. A Client
+Configuration Registry is implemented as a set of three or more
+property files:
+
+.PP
+.PD 0
+.TP 2
+.BI *
+A declaration file, /var/cc-ccr/ccr.properties, which describes the allowed keys. The declaration file is not written by the CCR, only read. This file is protected with file mode 444 and is never modified post-install.
+.TP
+.BI *
+A value file for privileged properties, /var/cc-ccr/privileged.properties. The CCR creates this file as necessary. The CCR protects this file with mode 600.
+.TP
+.BI *
+A value file for non-privileged properties, /var/cc-ccr/nonprivileged.properties. The CCR creates this file as necessary. The CCR protects this file with mode 644.
+.TP
+.BI *
+If a process that uses the CCR needs to add more property declarations then
+these new properties are added to the directory that contains
+the default CCR declaration file, /var/cc-ccr. The naming convention is
+name.properties.
+
+.PP
+.I ccr
+is the command line access to the entries in the Client Config Registry.
+
+.SH OPTIONS
+.PP
+.PD 0
+.TP 11
+.BI \-d  "\| key\^"
+Look up the key in the declaration file. If it is declared in the
+declaration file, print "Y" to standard output, otherwise print "N",
+followed by a line feed.
+.TP
+.BI \-c  "\| key\^"
+Look up the key in the appropriate value file. If it is not declared in the declaration file, error out. Otherwise, if it is present, print "Y" to standard output, otherwise print "N", followed by a line feed. Note that every key has a default value specified in the declaration file. This command determines whether the value has been customized.
+.TP
+.BI \-g  "\| key\^"
+Look up the key and print the value to standard output.
+.TP
+.BI \-G  "\| key\^"
+Look up the key and print the value to standard output. First, print a line consisting of the number of lines in the value. This is the number of line feeds present in the value, plus one. If the value has been customized, print the customized value, otherwise print the default from the declaration file. In either case, terminate the output with a line feed.
+.TP
+.BI \-p  "\| key\^"
+.TP
+.BI \-v  "\| value\^"
+-p is used in conjunction with -v to put the value for the key. -p
+indicates the key name, -v indicates the new value. Nothing is printed.
+.TP
+.BI \-r  "\| key\^"
+Remove any customized value associated with the key. Nothing is printed.
+.TP
+.BI \-k
+Lookup of all keys that can be accessed by user. If user cannot access privileged properties then those keys are not returned. The program prints the number of matching keys to standard output, followed by a line feed. Then the matching keys are printed one per line. Use -g to get the values.
+.TP
+.BI \-w  "\| pattern\^"
+Regexp wildcard lookup of matching keys that can be accessed by user. If user cannot access privileged properties then those keys are not returned. The program prints the number of matching keys to standard output, followed by a line feed. Then the matching keys are printed one per line. Use -g to get the values.
+
+.SH "EXIT STATUS"
+The CCR command line returns the following result/error codes:
+
+.PP
+.PD 0
+.TP 11
+.BI 0
+Operation succeeded
+.TP
+.BI 1
+Property not defined in declarations
+.TP
+.BI 2
+Property declared but not overridden
+.TP
+.BI 3
+Cannot acquire CCR lock
+.TP
+.BI 4
+Parameter to C API invalid or missing
+.TP
+.BI 5
+I/O error
+.TP
+.BI 6
+Access to privileged key denied
+.TP
+.BI 7
+Generic error not defined above
+
+.SH "CCR ACCESS"
+Certain properties are marked as secret and only priviledged users may
+access these properties. The secret designation and the user running the CCR client code dictates access to CCR values. By owner we mean the user that owns the CCR files. The default CCR is owned by root.
+.sp
+.TS
+box;
+cbp-1 | cbp-1 | cbp-1
+l | l | l .
+	Secret	Not Secret
+=
+Owner	get/put/remove/	get/put/remove/
+	declares/contains	declares/contains
+=
+Non-Owner	declares	get/declares/contains
+.TE
+.PP

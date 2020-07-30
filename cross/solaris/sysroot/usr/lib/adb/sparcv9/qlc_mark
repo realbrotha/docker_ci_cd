@@ -1,0 +1,6 @@
+./"entry_type"8t"entry_count"8t"sys_define"nB8tB8tB
++/"entry_status"8t"sys_define_2"16t"reserved"nB8tXB
++/"target"8t"modifier"8t"reserved_1"nBB8tB
++/"sequence_number"8t2B
++/"lun_l"8t"lun_h"8tnBB
++/"reserved_2"8t48B

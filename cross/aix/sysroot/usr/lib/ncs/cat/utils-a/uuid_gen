@@ -1,0 +1,19 @@
+uuid_gen - UUID Generator
+
+Use the uuid_gen tool to generate the UUID (universal unique identifier)
+for an NCS cell. The UUID is a string of 28 hexadecimal characters, and is
+contained in the glb_obj.txt file.
+
+Syntax
+
+uuid_gen
+
+Example
+
+To generate the UUID:
+
+uuid_gen
+
+This is an example of the output:
+
+54c7874546ae.0.2.81.87.92.34.0.0.00.00

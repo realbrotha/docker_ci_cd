@@ -1,0 +1,76 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-dmi	1.1	06/08/01 SMI"
+#
+# Method script for the Sun Solstice Enterprise
+# DMI Service Provider and Mapper Subagent
+#
+
+. /lib/svc/share/smf_include.sh
+
+DMI_CONF=/etc/dmi/conf/dmispd.conf
+DMI_BIN=/usr/lib/dmi/dmispd
+SNMPX_CONF=/etc/dmi/conf/snmpXdmid.conf
+SNMPX_BIN=/usr/lib/dmi/snmpXdmid
+CIINV_CMD=/etc/dmi/ciagent/ciinvoke
+
+case "$1" in
+start)
+	if [ ! -f $DMI_CONF ]; then
+		echo "Configuration file $DMI_CONF does not exist." \
+		    "Not starting dmispd"
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	if [ ! -x $DMI_BIN ]; then
+		echo "$DMI_BIN not found. Not starting dmispd"
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	if /usr/bin/egrep -v '^[	  ]*(#|$)' ${DMI_CONF} > \
+	    /dev/null 2>&1; then
+		:
+	else
+		#
+		# Do not start dmi if dmispd.conf contents are trivial.
+		#
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	if [ ! -f $SNMPX_CONF ]; then
+		echo "Configuration file $SNMPX_CONF does not exist." \
+		    "Not starting snmpXdmid"
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	if [ ! -x $SNMPX_BIN ]; then
+		echo "$SNMPX_BIN not found. Not starting snmpXdmid"
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	${DMI_BIN}
+
+	### dmi is dependent on snmpdx ###
+	${SNMPX_BIN} -s ${_INIT_UTS_NODENAME:=`/usr/bin/uname -n`}
+
+	if [ -x ${CIINV_CMD} ]; then
+		dirents=`echo /etc/dmi/ciagent/*`
+		if [ "$dirents" != ${CIINV_CMD} ]; then
+			${CIINV_CMD}
+		fi
+	fi
+	;;
+
+stop)
+	/usr/bin/pkill -9 -x -u 0 -z ${_INIT_ZONENAME:=`/sbin/zonename`} \
+	    '(snmpXdmid|dmispd)'
+	;;
+
+*)
+	echo "Usage: $0 { start | stop }"
+	exit $SMF_EXIT_ERR_CONFIG
+	;;
+esac

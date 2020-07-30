@@ -1,0 +1,13 @@
+/*
+ * Copyright 2002 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lipmp	1.1	02/11/27 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <ipmp.h>
+#include <ipmp_mpathd.h>
+#include <ipmp_query_impl.h>

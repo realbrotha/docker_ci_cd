@@ -1,0 +1,223 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_imswitcher_Factory"
+    	    type="exe"
+            location="/usr/lib/gnome-im-switcher-applet">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string"
+		value="InputMethod Switcher Applet Factory"/>
+        <oaf_attribute name="name-bn" type="string"
+		value="InputMethod অদল-বদলকারী অ্যাপ্লেট ফ্যাক্টরি"/>
+        <oaf_attribute name="name-cs" type="string"
+		value="Aplet přepínače klávesnice"/>
+        <oaf_attribute name="name-de" type="string"
+		value="Fabrik für das Eingabemethoden-Umschalter-Applet"/>
+        <oaf_attribute name="name-es" type="string"
+		value="Fábrica de la miniaplicación Selector del método de entrada"/>
+        <oaf_attribute name="name-fr" type="string"
+		value="Fabrique de l&apos;applet Changeur de méthode d&apos;entrée"/>
+        <oaf_attribute name="name-gu" type="string"
+		value="ઈનપુટ પદ્ધતિ બદલનાર એપ્લેટ કારખાનું"/>
+        <oaf_attribute name="name-hi" type="string"
+		value="InputMethod स्विचर एप्लेट"/>
+        <oaf_attribute name="name-it" type="string"
+		value="Fabbrica dell&apos;applet Selettore del metodo di input"/>
+        <oaf_attribute name="name-ja" type="string"
+		value="入力方式スイッチアプレットのファクトリ"/>
+        <oaf_attribute name="name-ko" type="string"
+		value="입력언어 전환기  애플릿 공장"/>
+        <oaf_attribute name="name-pa" type="string"
+		value="ਇੰਪੁੱਟ ਢੰਗ ਤਬਦੀਲੀਕਾਰ ਐਪਲਿਟ ਫੈਕਟਰੀ"/>
+        <oaf_attribute name="name-pl" type="string"
+		value="Ustawienia domyślne apletu przełączania metody wprowadzania"/>
+        <oaf_attribute name="name-pt_BR" type="string"
+		value="Gerador do Miniaplicativo Alternador do InputMethod"/>
+        <oaf_attribute name="name-ru" type="string"
+		value="Фабрика апплета переключателя метода ввода"/>
+        <oaf_attribute name="name-sv" type="string"
+		value="Fabrik för panelprogrammet Inmatningsmetodbytare"/>
+        <oaf_attribute name="name-ta" type="string"
+		value="உள்ளிடும்முறை மாற்றி ஆப்லட் தொழிற்சாலை"/>
+        <oaf_attribute name="name-zh_CN" type="string"
+		value="输入法切换器Applet"/>
+        <oaf_attribute name="name-zh_HK" type="string"
+		value="輸入法切換器 Applet 工廠"/>
+        <oaf_attribute name="name-zh_TW" type="string"
+		value="輸入法切換器 Applet 工廠"/>
+        <oaf_attribute name="description" type="string"
+		value="Applet for switching InputMethod used in GTK applications"/>
+        <oaf_attribute name="description-bn" type="string"
+		value="GTK অ্যাপ্লিকেশনে ব্যবহৃত InputMethod অদল-বদল করবার জন্য অ্যাপ্লেট"/>
+        <oaf_attribute name="description-cs" type="string"
+		value="Aplet pro přepínání klávesnice v GTK aplikacích"/>
+        <oaf_attribute name="description-de" type="string"
+		value="Applet zum Wechseln der Eingabemethode für GTK-Anwendungen"/>
+        <oaf_attribute name="description-es" type="string"
+		value="Miniaplicación utilizada para la selección del método de entrada, utilizada en las aplicaciones GTK"/>
+        <oaf_attribute name="description-fr" type="string"
+		value="Applet de basculement de la méthode d&apos;entrée utilisée dans les applications GTK"/>
+        <oaf_attribute name="description-gu" type="string"
+		value="GTK કાર્યક્રમોમાં વપરાતી ઈનપુટ પદ્ધતિ માટેની એપ્લેટ"/>
+        <oaf_attribute name="description-hi" type="string"
+		value="GTK अनुप्रयोग में प्रयुक्त InputMethod को स्विच करने के लिए Applet"/>
+        <oaf_attribute name="description-it" type="string"
+		value="Applet per selezionare il metodo di input usato nelle applicazioni GTK"/>
+        <oaf_attribute name="description-ja" type="string"
+		value="GTK アプリケーションで使う入力方式を切り替えるアプレット"/>
+        <oaf_attribute name="description-ko" type="string"
+		value="GTK 응용 프로그램의 입력언어를 전환해주는 애플릿입니다."/>
+        <oaf_attribute name="description-pa" type="string"
+		value="GTK ਕਾਰਜ ਵਿੱਚ ਇੰਪੁੱਟ ਢੰਗ ਤਬਦੀਲ ਕਰਨ ਲਈ ਐਪਲਿਟ"/>
+        <oaf_attribute name="description-pl" type="string"
+		value="Aplet do przełączania metody wprowadzania tekstu wykorzystywanej w aplikacjach GTK"/>
+        <oaf_attribute name="description-pt_BR" type="string"
+		value="Miniaplicativo para alternar o InputMethod usado em aplicações GTK"/>
+        <oaf_attribute name="description-ru" type="string"
+		value="Апплет для переключения между методами ввода, используемыми в приложениях GTK"/>
+        <oaf_attribute name="description-sv" type="string"
+		value="Panelprogram för växling av inmatningsmetod som används i GTK-program"/>
+        <oaf_attribute name="description-ta" type="string"
+		value="GTK பயன்பாடுகளில் பயன்படுத்தப்படும் உள்ளிடும் முறையில் மாறுவதற்கான ஆப்லட்"/>
+        <oaf_attribute name="description-zh_CN" type="string"
+		value="为GTK应用程序切换输入法的Applet"/>
+        <oaf_attribute name="description-zh_HK" type="string"
+		value="在 GTK 應用程式中用來切換輸入法的 Applet"/>
+        <oaf_attribute name="description-zh_TW" type="string"
+		value="在 GTK 應用程式中用來切換輸入法的 Applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_imswitcher"
+	    type="factory"
+            location="OAFIID:GNOME_imswitcher_Factory">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+                <item value="IDL:Bonobo/Control:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string"
+		value="InputMethod Switcher"/>
+        <oaf_attribute name="name-bn" type="string"
+		value="InputMethod অদল-বদলকারী"/>
+        <oaf_attribute name="name-cs" type="string"
+		value="Přepínač klávesnice"/>
+        <oaf_attribute name="name-de" type="string"
+		value="Eingabemethoden-Umschalter"/>
+        <oaf_attribute name="name-es" type="string"
+		value="Selector del método de entrada"/>
+        <oaf_attribute name="name-fr" type="string"
+		value="Changeur de méthode d&apos;entrée"/>
+        <oaf_attribute name="name-gu" type="string"
+		value="ઈનપુટ પદ્ધતિ બદલનાર"/>
+        <oaf_attribute name="name-hi" type="string"
+		value="InputMethod स्विचर"/>
+        <oaf_attribute name="name-it" type="string"
+		value="Selettore del metodo di input"/>
+        <oaf_attribute name="name-ja" type="string"
+		value="入力方式スイッチ"/>
+        <oaf_attribute name="name-ko" type="string"
+		value="입력언어 전환기"/>
+        <oaf_attribute name="name-pa" type="string"
+		value="ਇੰਪੁੱਟ ਢੰਗ ਤਬਦੀਲੀਕਾਰ"/>
+        <oaf_attribute name="name-pl" type="string"
+		value="Przełącznik metody wprowadzania tekstu"/>
+        <oaf_attribute name="name-pt_BR" type="string"
+		value="Alternador do InputMethod"/>
+        <oaf_attribute name="name-ru" type="string"
+		value="Переключатель метода ввода"/>
+        <oaf_attribute name="name-sv" type="string"
+		value="Inmatningsmetodbytare"/>
+        <oaf_attribute name="name-ta" type="string"
+		value="உள்ளிடும்முறை மாற்றி"/>
+        <oaf_attribute name="name-zh_CN" type="string"
+		value="输入法切换器"/>
+        <oaf_attribute name="name-zh_HK" type="string"
+		value="輸入法切換器"/>
+        <oaf_attribute name="name-zh_TW" type="string"
+		value="輸入法切換器"/>
+        <oaf_attribute name="description" type="string"
+		value="Switch Input Languages for GTK+ application"/>
+        <oaf_attribute name="description-bn" type="string"
+		value="GTK+ অ্যাপ্লিকেশনের জন্য ইনপুট ভাষা বদল করো"/>
+        <oaf_attribute name="description-cs" type="string"
+		value="Přepínač klávesnice pro GTK+ aplikace"/>
+        <oaf_attribute name="description-de" type="string"
+		value="Eingabesprachen für GTK+-Anwendungen wechseln"/>
+        <oaf_attribute name="description-es" type="string"
+		value="Seleccionar idiomas de entrada en la aplicación GTK+"/>
+        <oaf_attribute name="description-fr" type="string"
+		value="Basculer les langues d&apos;entrée pour les applications GTK+"/>
+        <oaf_attribute name="description-gu" type="string"
+		value="GTK+ કાર્યક્રમો માટે ઈનપુટ ભાષાઓ બદલો"/>
+        <oaf_attribute name="description-hi" type="string"
+		value="GTK+ अनुप्रयोग के लिए आगत भाषाओं को स्विच करें"/>
+        <oaf_attribute name="description-it" type="string"
+		value="Seleziona le lingue di input per le applicazioni GTK+"/>
+        <oaf_attribute name="description-ja" type="string"
+		value="GTK+ アプリケーションの入力言語を切り替える"/>
+        <oaf_attribute name="description-ko" type="string"
+		value="GTK+ 응용 프로그램의 입력 언어를 바꾸어줍니다"/>
+        <oaf_attribute name="description-pa" type="string"
+		value="GTK+ ਕਾਰਜਾਂ ਲਈ ਇੰਪੁੱਟ ਭਾਸ਼ਾ ਤਬਦੀਲ ਕਰਨ ਲਈ"/>
+        <oaf_attribute name="description-pl" type="string"
+		value="Przełączanie języków wprowadzania dla aplikacji GTK+"/>
+        <oaf_attribute name="description-pt_BR" type="string"
+		value="Alternar idiomas de entrada para a aplicação GTK+"/>
+        <oaf_attribute name="description-ru" type="string"
+		value="Переключать языки ввода для приложения GTK+"/>
+        <oaf_attribute name="description-sv" type="string"
+		value="Byt inmatningsspråk för GTK+-program"/>
+        <oaf_attribute name="description-ta" type="string"
+		value="GTK+ பயன்பாடுகளுக்காக உள்ளிடும் முறையில் மாற்றம் செய்யவும்"/>
+        <oaf_attribute name="description-zh_CN" type="string"
+		value="为GTK+程序切换输入语言"/>
+        <oaf_attribute name="description-zh_HK" type="string"
+		value="為GTK+應用程式切換輸入語言"/>
+        <oaf_attribute name="description-zh_TW" type="string"
+		value="為 GTK+ 應用程式切換輸入語言"/>
+        <oaf_attribute name="panel:category" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-bn" type="string" value="ইউটিলিটি"/>
+        <oaf_attribute name="panel:category-cs" type="string" value="Nástroje"/>
+        <oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+        <oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+        <oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+        <oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગિતા"/>
+        <oaf_attribute name="panel:category-hi" type="string" value="उपयोगिता"/>
+        <oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+        <oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+        <oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+        <oaf_attribute name="panel:category-pa" type="string" value="ਸਹੂਲਤ"/>
+        <oaf_attribute name="panel:category-pl" type="string" value="Narzędzie"/>
+        <oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+        <oaf_attribute name="panel:category-ru" type="string" value="Утилита"/>
+        <oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+        <oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+        <oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+        <oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+        <oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-bn" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-de" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-es" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-fr" type="string" value="gnome-paramètres-im.png"/>
+	<oaf_attribute name="panel:icon-gu" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-hi" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-it" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-ja" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-ko" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-pa" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-pt_BR" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-sv" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-ta" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-zh_CN" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-zh_HK" type="string" value="gnome-settings-im.png"/>
+	<oaf_attribute name="panel:icon-zh_TW" type="string" value="gnome-settings-im.png"/>
+
+</oaf_server>
+
+</oaf_info>

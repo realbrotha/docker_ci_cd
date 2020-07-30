@@ -1,0 +1,89 @@
+#
+#ident	"@(#)Menu.flash.retr	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Menu.flash
+#       Arguments:    None
+#############################################################################
+# Menu for selecting retrieval types.  Each retrieval type form is passed
+# an argument which is the next unique id that can
+# be used to write out to the archive state file (see Menu.flash).
+# This is done so we don't have to calculate the next
+# integer in each retrieval type form (it would duplicate
+# work, and would require embedded backquoted expressions,
+# which FMLI doesn't handle very well.)
+#############################################################################
+
+#############################################################################
+# Menu-wide information
+#############################################################################
+menu=`gettext "Select Retrieval Method"`
+HELP=SubHelp1.flash
+altslks=true
+framemsg=`gettext "Select the retrieval method for this archive"`
+
+help=open text $OBJ_DIR/Sub2Help.flash
+
+#############################################################################
+# Menu items.  There is one for each retrieval type, and these items
+# are NOT dynamically generated.  It is here that we calculate the
+# next integer available (always one greater than the last line in
+# the ARCHIVELIST, or 0).
+#############################################################################
+
+name="HTTP"
+lininfo=`if [ -f ${ARCHIVELIST} ] ; then
+		tail -1 ${ARCHIVELIST} | cut -d'|' -f1 ;
+	else
+		echo "0";
+	fi`
+action=open form $OBJ_DIR/Form.flash.http `fmlexpr $LININFO + 1`
+
+name="NFS"
+lininfo=`if [ -f ${ARCHIVELIST} ] ; then
+		tail -1 ${ARCHIVELIST} | cut -d'|' -f1 ;
+	else
+		echo "0";
+	fi`
+action=open form $OBJ_DIR/Form.flash.nfs `fmlexpr $LININFO + 1`
+
+name=`gettext "Local File"`
+lininfo=`if [ -f ${ARCHIVELIST} ] ; then
+		tail -1 ${ARCHIVELIST} | cut -d'|' -f1 ;
+	else
+		echo "0";
+	fi`
+action=open form $OBJ_DIR/Form.flash.lf `fmlexpr $LININFO + 1`
+
+
+name=`gettext "Local Tape"`
+lininfo=`if [ -f ${ARCHIVELIST} ] ; then
+		tail -1 ${ARCHIVELIST} | cut -d'|' -f1 ;
+	else
+		echo "0";
+	fi`
+action=open form $OBJ_DIR/Form.flash.lt `fmlexpr $LININFO + 1`
+
+
+name=`gettext "Local Device"`
+lininfo=`if [ -f ${ARCHIVELIST} ] ; then
+		tail -1 ${ARCHIVELIST} | cut -d'|' -f1 ;
+	else
+		echo "0";
+	fi`
+action=open form $OBJ_DIR/Form.flash.ld `fmlexpr $LININFO + 1`
+
+
+name=`gettext "OK"`
+button=9
+action=done
+
+name=`gettext "CANCEL"`
+button=14
+action=close
+
+name=`gettext "HELP"`
+button=16
+action=help

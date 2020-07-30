@@ -1,0 +1,15 @@
+.>U
+<U+0=""
++/"redzone"16t"addr_lo"16t"addr_hi"nX4+JJ
++/"max_count"16t"alignment"16t"burstsizes"nJJX
++/"min_xfer"16t"max_xfer"16t"segmentation"nXJJ
++/"sg_length"16t"granularity"16t"dma speed (KBps)"nXXX
+*(<U+0t76)>/i/f
+(<f)="dma flags "ttK
+(##<f&0x00000001)="HBA 32BIT MODE"ttB
+(##<f&0x00000002)="HBA 64BIT MODE"ttB
+(##<f&0x00000010)="HBA BIG ENDIAN"ttB
+(##<f&0x00000020)="HBA LITTLE ENDIAN"ttB
+(##<f&0x00000100)="HBA PCI TYPE"ttB
+(##<f&0x00000200)="HBA SBUS TYPE"ttB
+<U+0t80=""

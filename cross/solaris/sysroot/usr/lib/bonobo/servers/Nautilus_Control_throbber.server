@@ -1,0 +1,263 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Throbber_Factory"
+	type="exe" location="/usr/lib/nautilus-throbber">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="throbber factory"/>
+	<oaf_attribute name="name-af" type="string" value="bonsfabriek"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع النابض"/>
+	<oaf_attribute name="name-az" type="string" value="zonquldayıcı e&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="вытворчасьць пульсатара"/>
+	<oaf_attribute name="name-bg" type="string" value="фабрика на пулсатор"/>
+	<oaf_attribute name="name-bn" type="string" value="থ্রোবার ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="polsador original"/>
+	<oaf_attribute name="name-cs" type="string" value="generátor pro pulzovač"/>
+	<oaf_attribute name="name-cy" type="string" value="ffatri curwyr"/>
+	<oaf_attribute name="name-da" type="string" value="Throbber-fabrik"/>
+	<oaf_attribute name="name-de" type="string" value="Pulsator-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο φτερουγιστή"/>
+	<oaf_attribute name="name-en_CA" type="string" value="throbber factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="throbber factory"/>
+	<oaf_attribute name="name-es" type="string" value="fábrica para pulsador"/>
+	<oaf_attribute name="name-et" type="string" value="throbber factory"/>
+	<oaf_attribute name="name-eu" type="string" value="taupaden fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="sykintehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="fabrique pour le pulsateur"/>
+	<oaf_attribute name="name-gu" type="string" value="થ્રોબરનું કારખાનુ"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן סמלון"/>
+	<oaf_attribute name="name-hi" type="string" value="थ्रोबर कारखाना"/>
+	<oaf_attribute name="name-hr" type="string" value="tvornica pulsiranja"/>
+	<oaf_attribute name="name-hu" type="string" value="pörgettyű factory"/>
+	<oaf_attribute name="name-id" type="string" value="Factory animasi"/>
+	<oaf_attribute name="name-is" type="string" value="throbber verksmiðja"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica di throbber"/>
+	<oaf_attribute name="name-ja" type="string" value="throbber ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="진동 팩토리"/>
+	<oaf_attribute name="name-li" type="string" value="animasietol-febrik"/>
+	<oaf_attribute name="name-lt" type="string" value="užimtumo indikatoriaus gamykla"/>
+	<oaf_attribute name="name-lv" type="string" value="trobera ražotne"/>
+	<oaf_attribute name="name-mk" type="string" value="throbber фабрика"/>
+	<oaf_attribute name="name-ml" type="string" value="സ്പന്ദന നിറ്മ്മാണശാല"/>
+	<oaf_attribute name="name-mn" type="string" value="Лугшуур (цохилуур)-ын үйлдвэр"/>
+	<oaf_attribute name="name-ms" type="string" value="kilang throbber"/>
+	<oaf_attribute name="name-ne" type="string" value="थ्रोबर कारखाना"/>
+	<oaf_attribute name="name-nl" type="string" value="animatietol-fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="pulsikon-fabrikk"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for throbber"/>
+	<oaf_attribute name="name-pa" type="string" value="ਕੰਬਾਊ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="generator znaczników zajętości"/>
+	<oaf_attribute name="name-pt" type="string" value="fábrica de latência"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="gerador de pulsador"/>
+	<oaf_attribute name="name-ro" type="string" value="uzină throbber"/>
+	<oaf_attribute name="name-ru" type="string" value="фабрика пульсатора"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre Pulzovač"/>
+	<oaf_attribute name="name-sl" type="string" value="tovarna premikanj"/>
+	<oaf_attribute name="name-sq" type="string" value="fabrika e throbber"/>
+	<oaf_attribute name="name-sr" type="string" value="фабрика куцала"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="fabrika kucala"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="фабрика куцала"/>
+	<oaf_attribute name="name-sv" type="string" value="snurrfabrik"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงาน throbber"/>
+	<oaf_attribute name="name-tr" type="string" value="çarpım üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="фабрика пульсатора"/>
+	<oaf_attribute name="name-vi" type="string" value="factory của nhịp hoạt hình"/>
+	<oaf_attribute name="name-wa" type="string" value="oujhene po l&apos; animåcion"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="throbber factory"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="throbber 工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="throbber 工廠"/>
+	<oaf_attribute name="description" type="string" value="throbber object factory"/>
+	<oaf_attribute name="description-af" type="string" value="bonsvoorwerpfabriek"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع الجسم النابض"/>
+	<oaf_attribute name="description-az" type="string" value="zonquldayıcı obyekt e&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="вытворчасьць аб&apos;екта пульсатара"/>
+	<oaf_attribute name="description-bg" type="string" value="фабрика на обект пулсатор"/>
+	<oaf_attribute name="description-bn" type="string" value="থ্রোবার অবজেক্ট ফ্যাক্টরি"/>
+	<oaf_attribute name="description-ca" type="string" value="original per l&apos;objecte polsador"/>
+	<oaf_attribute name="description-cs" type="string" value="generátor pro objekt pulzovač"/>
+	<oaf_attribute name="description-cy" type="string" value="ffatri gwrthrychau curo"/>
+	<oaf_attribute name="description-da" type="string" value="fabrik for Throbber-objektet"/>
+	<oaf_attribute name="description-de" type="string" value="Pulsator-Objektfabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο αντικειμένου φτερουγιστή"/>
+	<oaf_attribute name="description-en_CA" type="string" value="throbber object factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="throbber object factory"/>
+	<oaf_attribute name="description-es" type="string" value="fábrica para objeto pulsador"/>
+	<oaf_attribute name="description-et" type="string" value="throbber object factory"/>
+	<oaf_attribute name="description-eu" type="string" value="taupada-objektuen fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="sykinoliotehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="fabrique pour l&apos;objet du pulsateur"/>
+	<oaf_attribute name="description-gu" type="string" value="થ્રોબર વસ્તુનું કારખાનુ"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן אובייקט סמלון"/>
+	<oaf_attribute name="description-hi" type="string" value="थ्रोबर वस्तु कारखाना"/>
+	<oaf_attribute name="description-hr" type="string" value="tvornica objekta za pulsiranje"/>
+	<oaf_attribute name="description-hu" type="string" value="pörgettyű object factory"/>
+	<oaf_attribute name="description-id" type="string" value="Factory objek animasi"/>
+	<oaf_attribute name="description-is" type="string" value="throbber object verksmiðja"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica dell&apos;oggetto throbber"/>
+	<oaf_attribute name="description-ja" type="string" value="throbber オブジェクトファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="진동 객체 팩토리"/>
+	<oaf_attribute name="description-li" type="string" value="animasietol-objekfebrik"/>
+	<oaf_attribute name="description-lt" type="string" value="užimtumo indikatoriaus objektų gamykla"/>
+	<oaf_attribute name="description-lv" type="string" value="trobera objekta ražotne"/>
+	<oaf_attribute name="description-mk" type="string" value="throbber објект фабрика"/>
+	<oaf_attribute name="description-ml" type="string" value="സ്പന്ദന വസ്തു നിറ്മാമാണശാല"/>
+	<oaf_attribute name="description-mn" type="string" value="Лугшуур (цохилуурын)-ын объектийн үйлдвэр"/>
+	<oaf_attribute name="description-ms" type="string" value="kilang objeck throbber"/>
+	<oaf_attribute name="description-ne" type="string" value="थ्रोबर वस्तु कारखाना"/>
+	<oaf_attribute name="description-nl" type="string" value="animatietol-objectfabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="pulsikonobjekt-fabrikk"/>
+	<oaf_attribute name="description-no" type="string" value="throbber objekt factory"/>
+	<oaf_attribute name="description-pa" type="string" value="ਕੰਬਾਊ ਵਸਤੂ (ਆਬਜੈਕਟ) ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="generator obiektów znacznika zajętości"/>
+	<oaf_attribute name="description-pt" type="string" value="fábrica de objectos de latência"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="gerador de objeto pulsador"/>
+	<oaf_attribute name="description-ro" type="string" value="uzina pentru obiecte throbber"/>
+	<oaf_attribute name="description-ru" type="string" value="фабрика объекта пульсатора"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre Pulzovač"/>
+	<oaf_attribute name="description-sl" type="string" value="tovarna objektov premikanj"/>
+	<oaf_attribute name="description-sq" type="string" value="fabrika e objektit pulsues"/>
+	<oaf_attribute name="description-sr" type="string" value="фабрика куцало објекта"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="fabrika kucalo objekta"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="фабрика куцало објекта"/>
+	<oaf_attribute name="description-sv" type="string" value="snurrobjektsfabrik"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานวัตถุ throbber"/>
+	<oaf_attribute name="description-tr" type="string" value="çarpım nesnesi üreticisi"/>
+	<oaf_attribute name="description-uk" type="string" value="фабрика об&apos;єкту пульсатора"/>
+	<oaf_attribute name="description-vi" type="string" value="factory của đối tưọng nhịp hoạt hình"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="throbber object factory"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="throbber 物件工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="throbber 物件工廠"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Nautilus_Throbber" type="factory" location="OAFIID:Nautilus_Throbber_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	</oaf_attribute>
+<oaf_attribute name="name" type="string" value="throbber"/>
+<oaf_attribute name="name-af" type="string" value="bonser"/>
+<oaf_attribute name="name-ar" type="string" value="نابض"/>
+<oaf_attribute name="name-az" type="string" value="zonquldayıcı"/>
+<oaf_attribute name="name-be" type="string" value="пульсатар"/>
+<oaf_attribute name="name-bg" type="string" value="пулсатор"/>
+<oaf_attribute name="name-bn" type="string" value="থ্রোবার"/>
+<oaf_attribute name="name-ca" type="string" value="polsador"/>
+<oaf_attribute name="name-cs" type="string" value="pulzovač"/>
+<oaf_attribute name="name-cy" type="string" value="curwr"/>
+<oaf_attribute name="name-da" type="string" value="Throbber"/>
+<oaf_attribute name="name-de" type="string" value="Pulsator"/>
+<oaf_attribute name="name-el" type="string" value="Φτερουγιστής"/>
+<oaf_attribute name="name-en_CA" type="string" value="throbber"/>
+<oaf_attribute name="name-en_GB" type="string" value="throbber"/>
+<oaf_attribute name="name-es" type="string" value="pulsador"/>
+<oaf_attribute name="name-eu" type="string" value="taupada"/>
+<oaf_attribute name="name-fi" type="string" value="sykin"/>
+<oaf_attribute name="name-fr" type="string" value="pulsateur"/>
+<oaf_attribute name="name-gu" type="string" value="થ્રોબર"/>
+<oaf_attribute name="name-he" type="string" value="סמלון"/>
+<oaf_attribute name="name-hi" type="string" value="थ्रोबर"/>
+<oaf_attribute name="name-hr" type="string" value="pulsiranje"/>
+<oaf_attribute name="name-hu" type="string" value="pörgettyű"/>
+<oaf_attribute name="name-id" type="string" value="animasi"/>
+<oaf_attribute name="name-is" type="string" value="throbber"/>
+<oaf_attribute name="name-it" type="string" value="Throbber"/>
+<oaf_attribute name="name-ja" type="string" value="throbber"/>
+<oaf_attribute name="name-ko" type="string" value="진동"/>
+<oaf_attribute name="name-li" type="string" value="animasietol"/>
+<oaf_attribute name="name-lt" type="string" value="užimtumo indikatorius"/>
+<oaf_attribute name="name-lv" type="string" value="troberis"/>
+<oaf_attribute name="name-mk" type="string" value="throbber"/>
+<oaf_attribute name="name-ml" type="string" value="സ്പന്ദനി"/>
+<oaf_attribute name="name-mn" type="string" value="Лугшуур (цохилуур)"/>
+<oaf_attribute name="name-ms" type="string" value="throbber"/>
+<oaf_attribute name="name-ne" type="string" value="थ्रोबर"/>
+<oaf_attribute name="name-nl" type="string" value="animatietol"/>
+<oaf_attribute name="name-nn" type="string" value="pulsikon"/>
+<oaf_attribute name="name-no" type="string" value="throbber"/>
+<oaf_attribute name="name-pa" type="string" value="ਕੰਬਾਊ"/>
+<oaf_attribute name="name-pl" type="string" value="znacznik zajętości"/>
+<oaf_attribute name="name-pt" type="string" value="latência"/>
+<oaf_attribute name="name-pt_BR" type="string" value="pulsador"/>
+<oaf_attribute name="name-ro" type="string" value="throbber"/>
+<oaf_attribute name="name-ru" type="string" value="пульсатор"/>
+<oaf_attribute name="name-sk" type="string" value="Pulzovač"/>
+<oaf_attribute name="name-sl" type="string" value="premikanje"/>
+<oaf_attribute name="name-sq" type="string" value="ndizet e fiket"/>
+<oaf_attribute name="name-sr" type="string" value="куцало"/>
+<oaf_attribute name="name-sr@Latn" type="string" value="kucalo"/>
+<oaf_attribute name="name-sr@ije" type="string" value="куцало"/>
+<oaf_attribute name="name-sv" type="string" value="snurra"/>
+<oaf_attribute name="name-th" type="string" value="throbber"/>
+<oaf_attribute name="name-tr" type="string" value="çarpıcı"/>
+<oaf_attribute name="name-uk" type="string" value="пульсатор"/>
+<oaf_attribute name="name-vi" type="string" value="nhịp họat hình"/>
+<oaf_attribute name="name-wa" type="string" value="animåcion"/>
+<oaf_attribute name="name-zh_CN" type="string" value="脉搏"/>
+<oaf_attribute name="name-zh_HK" type="string" value="throbber"/>
+<oaf_attribute name="name-zh_TW" type="string" value="throbber"/>
+<oaf_attribute name="description" type="string" value="animation to indicate on-going activity"/>
+<oaf_attribute name="description-af" type="string" value="animasie om deurlopende aktiwiteite toon"/>
+<oaf_attribute name="description-ar" type="string" value="رسوم متحركة للدلالة على سير نشاط العمل"/>
+<oaf_attribute name="description-az" type="string" value="davam edən fəaliyyəti göstərən animasiya"/>
+<oaf_attribute name="description-be" type="string" value="анімацыя для адлюстраваньня дзейнасьці"/>
+<oaf_attribute name="description-bg" type="string" value="анимация за инидикация на активност"/>
+<oaf_attribute name="description-bn" type="string" value="চলমান কাজ সম্পর্কে ধারনা দেওয়ার জন্য অ্যানিমেশন ব্যবহার করো"/>
+<oaf_attribute name="description-ca" type="string" value="animació per indicar una activitat en procés"/>
+<oaf_attribute name="description-cs" type="string" value="animace pro indikaci aktivity"/>
+<oaf_attribute name="description-cy" type="string" value="Bywlun i dynodi gweithgaredd sy&apos;n parhau"/>
+<oaf_attribute name="description-da" type="string" value="animation til at vise aktivitet"/>
+<oaf_attribute name="description-de" type="string" value="Animation, die Hintergrundaktivität darstellt"/>
+<oaf_attribute name="description-el" type="string" value="κινούμενα σχέδια για την υπόδειξη της προόδου της λειτουργίας"/>
+<oaf_attribute name="description-en_CA" type="string" value="animation to indicate on-going activity"/>
+<oaf_attribute name="description-en_GB" type="string" value="animation to indicate on-going activity"/>
+<oaf_attribute name="description-es" type="string" value="animación para indicar una actividad en proceso"/>
+<oaf_attribute name="description-et" type="string" value="animatsioon toimuva tegevuse indikaatorina"/>
+<oaf_attribute name="description-eu" type="string" value="lanean ari dela adierazteko animazioa"/>
+<oaf_attribute name="description-fi" type="string" value="animaatio, joka ilmaisee käynnissä olevaa toimintaa"/>
+<oaf_attribute name="description-fr" type="string" value="animation pour indiquer qu&apos;une action est en cours"/>
+<oaf_attribute name="description-gl" type="string" value="animación para indicar actividade a se realizar"/>
+<oaf_attribute name="description-gu" type="string" value="ચાલી રહેલી ગતિવિધિઓ બતાવવા માટેનું એનિમેશન"/>
+<oaf_attribute name="description-he" type="string" value="אנימציה לציון פעילות"/>
+<oaf_attribute name="description-hi" type="string" value="चल रही गतिविधियों को दर्शाने के लिए एनीमेशन"/>
+<oaf_attribute name="description-hr" type="string" value="animacija kojom se označava da je nešto u toku"/>
+<oaf_attribute name="description-hu" type="string" value="animáció mutatja, hogy történik valami"/>
+<oaf_attribute name="description-id" type="string" value="animasi untuk menunjukan aktivitas yang sedang berjalan"/>
+<oaf_attribute name="description-is" type="string" value="hreyfimynd sem gefa á til kynna viðvarandi aðgerð"/>
+<oaf_attribute name="description-it" type="string" value="Animazione per indicare l&apos;attività corrente"/>
+<oaf_attribute name="description-ja" type="string" value="実行中であることを示すためのアニメーション"/>
+<oaf_attribute name="description-ko" type="string" value="진행 중인 동작을 표시할 애니메이션"/>
+<oaf_attribute name="description-li" type="string" value="animasie veur veurtgaonde aktiviteit aan te gaeve"/>
+<oaf_attribute name="description-lt" type="string" value="animacija, rodanti aktyvumą"/>
+<oaf_attribute name="description-lv" type="string" value="animācija lai parādītu notiekošo aktivitāti"/>
+<oaf_attribute name="description-mk" type="string" value="анимација што ја индицира активноста"/>
+<oaf_attribute name="description-mn" type="string" value="Систем дотор хийгдэж буй үйл ажиллагааг үзүүлэх хөдөлгөөнт үзүүлбэр"/>
+<oaf_attribute name="description-ms" type="string" value="animasi untuk menunjuk aktiviti semasa"/>
+<oaf_attribute name="description-ne" type="string" value="चली रहेको गतिविधि दर्शाउने एनीमेशन"/>
+<oaf_attribute name="description-nl" type="string" value="animatie om voortgaande activiteit aan te geven"/>
+<oaf_attribute name="description-nn" type="string" value="animasjon som viser at noko skjer"/>
+<oaf_attribute name="description-no" type="string" value="animasjon for å vise pågående aktivitet"/>
+<oaf_attribute name="description-pa" type="string" value="ਸਜੀਵਤਾ (ਐਨੀਮੇਸ਼ਨ) ਰੁਝੇਵਾ ਦਰਸਾ ਰਹੀ ਹੈ"/>
+<oaf_attribute name="description-pl" type="string" value="animacja informująca o aktywności aplikacji"/>
+<oaf_attribute name="description-pt" type="string" value="animação para indicar uma actividade em curso"/>
+<oaf_attribute name="description-pt_BR" type="string" value="animação para indicar atividade em andamento"/>
+<oaf_attribute name="description-ro" type="string" value="animaţie pentru a indica activitate în desfăşurare"/>
+<oaf_attribute name="description-ru" type="string" value="анимация для индикации хода выполнения процесса"/>
+<oaf_attribute name="description-sk" type="string" value="animovať pre zobrazenie aktivity"/>
+<oaf_attribute name="description-sl" type="string" value="animacija, ki označuje aktivno dogajanje"/>
+<oaf_attribute name="description-sq" type="string" value="animacion për të treguar aktivitetin aktual"/>
+<oaf_attribute name="description-sr" type="string" value="анимација којом се означава да је нешто у току"/>
+<oaf_attribute name="description-sr@Latn" type="string" value="animacija kojom se označava da je nešto u toku"/>
+<oaf_attribute name="description-sr@ije" type="string" value="анимација којом се означава да је нешто у току"/>
+<oaf_attribute name="description-sv" type="string" value="animation som visar pågående aktivitet"/>
+<oaf_attribute name="description-th" type="string" value="ภาพเคลื่อนไหวสำหรับตอนกำลังทำงาน"/>
+<oaf_attribute name="description-tr" type="string" value="süregelen etkinliği gösteren canlandırma"/>
+<oaf_attribute name="description-uk" type="string" value="анімація для індикації стану активності"/>
+<oaf_attribute name="description-vi" type="string" value="hoạt hình chỉ các hành động chuyển động"/>
+<oaf_attribute name="description-wa" type="string" value="animåcion ki mostere ki nautilus overe"/>
+<oaf_attribute name="description-zh_CN" type="string" value="表示正在进行的操作的动画"/>
+<oaf_attribute name="description-zh_HK" type="string" value="以動畫方式表示操作進行中"/>
+<oaf_attribute name="description-zh_TW" type="string" value="以動畫方式表示操作進行中"/>
+</oaf_server>
+
+</oaf_info>

@@ -1,0 +1,20 @@
+#!/usr/lib/IbGxLib.a(shr_64.o)
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53D src/bos/usr/lib/IbGxLib/IbGxLib.64.exp 1.1 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 2005 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)55  1.1  src/bos/usr/lib/IbGxLib/IbGxLib.64.exp, sysxlhca, bos53D, d2005_10C5 2/28/05 18:17:56
+* $Header: /home/cvsroot/ib/src/bos/usr/lib/IbGxLib/IbGxLib.64.exp,v 1.2 2005/03/01 00:16:16 lehall Exp $
+IbDllGetFuncList

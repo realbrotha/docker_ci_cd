@@ -1,0 +1,26 @@
+#!/sbin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)print-cleanup	1.2	04/09/09 SMI"
+
+. /lib/svc/share/smf_include.sh
+
+case "$1" in
+'start')
+	if [ -f /usr/lib/print/printd ]; then
+		rm -f /var/spool/print/tf* >/dev/null 2>&1
+		/usr/lib/print/printd &
+	else
+		echo "Error: /usr/lib/print/printd missing."
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+	;;
+
+*)
+	echo "Usage: $0 { start }"
+	exit 1
+	;;
+esac
+exit $SMF_EXIT_OK

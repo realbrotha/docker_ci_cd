@@ -1,0 +1,100 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/IBM-932 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1996,1997 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# SCCSID_BEGIN_TAG
+# @(#)53  1.4  src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/IBM-932, xlib, gos530 7/17/97 16:56:34
+# SCCSID_END_TAG
+#  XLocale Database Sample for IBM-932.
+#
+# 
+#   XLC_FONTSET category
+# 
+XLC_FONTSET
+
+#   fs0 class       (7 bit ASCII)
+fs0     {
+        charset         JISX0201.1976-0:GL
+        font            JISX0201.1976-0:GL; IBM-850:GL;   \
+	                ISO8859-1:GL; IBM-PC850:GL 
+}
+#   fs1 class       (KANJI)
+fs1     {
+        charset         JISX0208.1983-0:GR 
+        font            JISX0208.1983-0:GR 
+}
+#   fs2 class       (Half-KANA)
+fs2     {
+        charset         JISX0201.1976-0:GR 
+        font            JISX0201.1976-0:GR 
+}
+#   fs3 class       (UDC)
+fs3     {
+        charset         IBM-udcJP:GR 
+        font            IBM-udcJP:GR; IBM-IBMCS01007EXT:GR 
+}
+
+# object_name
+# on_demand_loading
+
+END XLC_FONTSET
+
+# 
+#   XLC_XLOCALE category
+# 
+
+XLC_XLOCALE
+encoding_name           IBM-932
+mb_cur_max              2
+state_depend_encoding   False
+wc_encoding_mask        \x00008080
+wc_shift_bits           8
+
+#   cs0 class
+cs0     {
+        side            GL:Default
+        length          1
+        wc_encoding     \x00000000
+        ct_encoding     JISX0201.1976-0:GL; IBM-850:GL;   \
+                        ISO8859-1:GL; IBM-PC850:GL
+}
+
+#   cs1 class
+cs1     {
+        side            GR:Default
+        length          2
+        wc_encoding     \x00008080
+	ct_encoding     JISX0208.1983-0:GR 
+}
+
+#   cs2 class
+cs2     {
+        side            GR:Default
+        length          1
+        mb_encoding     <SS> \x8e
+        wc_encoding     \x00008080
+        ct_encoding     JISX0201.1976-0:GR 
+}
+
+#   cs3 class
+cs3     {
+        side            GR:Default
+        length          2
+        mb_encoding     <SS> \x8f
+        wc_encoding     \x00008080
+        ct_encoding     IBM-udcJP:GR; IBM-IBMCS01007EXT:GR
+}
+
+
+END XLC_XLOCALE
+

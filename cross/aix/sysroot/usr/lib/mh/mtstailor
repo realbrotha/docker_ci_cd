@@ -1,0 +1,5 @@
+mmdfldir:	/usr/spool/mail
+mmdflfil:	
+hostable:	/usr/lib/mh/hosts
+servers:	localhost \01localnet
+lockstyle:	0

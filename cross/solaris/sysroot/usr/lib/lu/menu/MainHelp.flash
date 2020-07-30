@@ -1,0 +1,67 @@
+#
+#ident	"@(#)MainHelp.flash	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  MainHelp.flash
+#       Arguments: None
+#############################################################################
+# Text frame telling the user how to use flash.  Seen from Menu.lu and
+# Form.flash.
+#############################################################################
+title=`gettext "Perform a Flash install on an alternate boot environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu selection allows you to select Flash archives and an alternate boot environmentm for the purpose of installing the selected archives on an alternate boot environment."`"\n"\
+`gettext "You must specify an inactive Boot Environment to apply the archives to, as well the location of a Solaris Install image that knows how to operate on Flash Archives."`"\n"\
+`gettext "The archives themselves can be specified by selecting a retrieval method (HTTP, NFS, ...), and the location information of each archive."`"\n"\
+`gettext "If a Solaris Operating System Flash is selected and a Live Upgrade create/copy operation is pending (scheduled), the install will not be permitted."`"\n"
+
+`indicator -w`
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

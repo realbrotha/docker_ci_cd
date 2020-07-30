@@ -1,0 +1,85 @@
+# @(#)35	1.6 7/19/91 13:47:36
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/ibm3816/font/S 1.6 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Symbol
+name S
+special
+ligatures 0
+spacewidth 11
+charset
+\|	6 0 000		1/6 em space
+\^	3 0 000		1/12 em space
+\&	00 0 000	no space
+ts	0 0 0		dummy character
+ž	24 0 0236	multiplication sign   
+mu	"
+ª	24 0 0252	logical not   
+no	"
+³	24 3 0263	vertical bar   
+bv	"
+´	24 2 0264	right side  middle 
+lk	"
+Ã	24 2 0303	left side  middle 
+rk	"
+Ú	24 2 0332	left ceiling   
+lc	"
+À	24 2 0300	left floor   
+lf	"
+¿	24 2 0277	right ceiling   
+rc	"
+Ù	24 2 0331	right floor   
+rf	"
+ñ	24 2 0361	plus or  minus sign
++-	"
+ö	24 0 0366	division sign   
+di	"
+È	24 2 0310	double lower  left corner
+Î	24 2 0316	double intersection   
+°	24 2 0260	quarter hashed   
+±	24 2 0261	half hashed   
+²	24 2 0262	full hashed   
+¹	24 2 0271	double right  side middle
+º	24 2 0272	double vertical  box bar
+»	24 2 0273	double upper  right corner
+¼	24 2 0274	double lower  right corner
+Ê	24 2 0312	double bottom  side middle
+Ë	24 2 0313	double top  side middle
+Ì	24 2 0314	double left  side middle
+Í	24 2 0315	double center  box bar
+Á	24 2 0301	bottom side  middle 
+Â	24 2 0302	top side  middle 
+Ä	24 2 0304	center box bar
+Å	24 2 0305	intersection
+É	24 2 0311	double right  side middle
+Õ	9 2 0325	small dotless  i 
+Û	24 2 0333	bright cell   
+Ü	24 2 0334	bright cell  lower half
+ß	24 2 0337	bright cell  upper half
+æ	24 2 0346	mu
+î	24 2 0356	overbar

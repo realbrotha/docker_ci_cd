@@ -1,0 +1,663 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_EOG_Factory"
+	type="exe" location="/usr/lib/eog-image-viewer">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/GenericFactory:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="name-af" type="string" value="EOG-beeldbekyker fabriek"/>
+  <oaf_attribute name="name-am" type="string" value="የEOG ምስል የተመልካች ፋብሪካ"/>
+  <oaf_attribute name="name-ar" type="string" value="مصنع عارض صور آي أوف جنوم"/>
+  <oaf_attribute name="name-az" type="string" value="EOG Rəsm nümayişçisi e&apos;malatxanası"/>
+  <oaf_attribute name="name-be" type="string" value="Вытворчасьць прагляду відарысаў EOG"/>
+  <oaf_attribute name="name-bg" type="string" value="Фабрика за Преглд на Картинки EOG"/>
+  <oaf_attribute name="name-bn" type="string" value="ইওজি চিত্র দর্শক কারখানা"/>
+  <oaf_attribute name="name-ca" type="string" value="Creació de visualitzadors d&apos;imatges EOG"/>
+  <oaf_attribute name="name-cs" type="string" value="Generátor prohlížeče obrázků EOG"/>
+  <oaf_attribute name="name-cy" type="string" value="Ffatri Gwelyddion Delwedd EOG"/>
+  <oaf_attribute name="name-da" type="string" value="EOG-billedfremviserfabrik"/>
+  <oaf_attribute name="name-de" type="string" value="Fabrik für EOG-Bildanzeigeprogramm"/>
+  <oaf_attribute name="name-el" type="string" value="Εργοστάσιο εφαρμογής προβολής Εικόνων EOG"/>
+  <oaf_attribute name="name-en_CA" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="name-en_GB" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="name-es" type="string" value="Fábrica de visores de imagen EOG"/>
+  <oaf_attribute name="name-eu" type="string" value="EOG irudi-ikustailearen fabrika"/>
+  <oaf_attribute name="name-fa" type="string" value="کارخانه‌ی نمایش تصویر EOG"/>
+  <oaf_attribute name="name-fi" type="string" value="Gnomen silmä -kuvakatselintehdas"/>
+  <oaf_attribute name="name-fr" type="string" value="Fabrique de la visionneuse d&apos;images EOG"/>
+  <oaf_attribute name="name-gl" type="string" value="Fábrica do visualizador de imaxes EOG"/>
+  <oaf_attribute name="name-gu" type="string" value="EOG ચિત્ર દર્શક કારખાનંુ"/>
+  <oaf_attribute name="name-he" type="string" value="יצרן תצוגת תמונה של עי&quot;ן"/>
+  <oaf_attribute name="name-hi" type="string" value="इओजी चित्र दर्शक कारखाना"/>
+  <oaf_attribute name="name-hr" type="string" value="Tvornica EOG preglednika slika"/>
+  <oaf_attribute name="name-hu" type="string" value="EOG képnéző factory"/>
+  <oaf_attribute name="name-id" type="string" value="EOG Factory penampil gambar"/>
+  <oaf_attribute name="name-is" type="string" value="Verksmiðja EOG myndarýnis"/>
+  <oaf_attribute name="name-it" type="string" value="Fabbrica visualizzatore di immagini EOG"/>
+  <oaf_attribute name="name-ja" type="string" value="EOG イメージビューアファクトリ"/>
+  <oaf_attribute name="name-ko" type="string" value="EOG 이미지 뷰어 팩토리"/>
+  <oaf_attribute name="name-lt" type="string" value="EOG paveikslėlių žiūryklės gamykla"/>
+  <oaf_attribute name="name-lv" type="string" value="EOG attēlu skatītāja darbnīca"/>
+  <oaf_attribute name="name-mk" type="string" value="EOG Фабрика за прегледувач на слики"/>
+  <oaf_attribute name="name-mn" type="string" value="EOG-зургийн үзүллэнгийн боловсруулагч"/>
+  <oaf_attribute name="name-ms" type="string" value="Kilang pelihat Imej EOG"/>
+  <oaf_attribute name="name-nl" type="string" value="EOG afbeeldingsweergavefabriek"/>
+  <oaf_attribute name="name-nn" type="string" value="EOG-biletevisarfabrikk"/>
+  <oaf_attribute name="name-no" type="string" value="Factory for EOG bildevisning"/>
+  <oaf_attribute name="name-pa" type="string" value="EOG ਚਿੱਤਰ ਦਰਿਸ਼ ਫੈਕਟਰੀ"/>
+  <oaf_attribute name="name-pl" type="string" value="Generator przeglądarki obrazów EOG"/>
+  <oaf_attribute name="name-pt" type="string" value="Fábrica de visualizador de imagem EOG"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Fábrica do visualizador de imagem EOG"/>
+  <oaf_attribute name="name-ro" type="string" value="Fabrica de vizualizare de imagini EOG"/>
+  <oaf_attribute name="name-ru" type="string" value="Фабрика программы просмотра изображений EOG"/>
+  <oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie prehliadača obrázkov EOG"/>
+  <oaf_attribute name="name-sl" type="string" value="Tovarna pregledovalnikov slik EOG"/>
+  <oaf_attribute name="name-sq" type="string" value="EOG, fabrika për shikimin e figurave"/>
+  <oaf_attribute name="name-sr" type="string" value="Производња ЕОГ прегледника слика"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja EOG preglednika slika"/>
+  <oaf_attribute name="name-sv" type="string" value="EOG-bildvisarfabrik"/>
+  <oaf_attribute name="name-ta" type="string" value="EOG ஓவிய காட்டி தொழிற்சாலை"/>
+  <oaf_attribute name="name-th" type="string" value="โรงงาน EOG ตัวแสดงรูป"/>
+  <oaf_attribute name="name-tr" type="string" value="EOG Resim gösterici üreticisi"/>
+  <oaf_attribute name="name-uk" type="string" value="Фабрика переглядачів зображень"/>
+  <oaf_attribute name="name-vi" type="string" value="Factory Trình xem ảnh EOG"/>
+  <oaf_attribute name="name-wa" type="string" value="Oujhene di håyneu d&apos; imådjes EOG"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="EOG 图像查看器工厂"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="EOG 圖像瀏覽程式工廠"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="EOG 圖像瀏覽程式工廠"/>
+  <oaf_attribute name="description" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="description-af" type="string" value="EOG-beeldbekyker fabriek"/>
+  <oaf_attribute name="description-am" type="string" value="የEOG ምስል የተመልካች ፋብሪካ"/>
+  <oaf_attribute name="description-ar" type="string" value="مصنع عارض صور آي أوف جنوم"/>
+  <oaf_attribute name="description-az" type="string" value="EOG Rəsm nümayişçisi e&apos;malatxanası"/>
+  <oaf_attribute name="description-be" type="string" value="Вытворчасьць прагляду відарысаў EOG"/>
+  <oaf_attribute name="description-bg" type="string" value="Фабрика за Преглд на Картинки EOG"/>
+  <oaf_attribute name="description-bn" type="string" value="ইওজি চিত্র দর্শক কারখানা"/>
+  <oaf_attribute name="description-ca" type="string" value="Creació de visualitzadors d&apos;imatges EOG"/>
+  <oaf_attribute name="description-cs" type="string" value="Generátor prohlížeče obrázků EOG"/>
+  <oaf_attribute name="description-cy" type="string" value="Ffatri Gwelyddion Delwedd EOG"/>
+  <oaf_attribute name="description-da" type="string" value="EOG-billedfremviserfabrik"/>
+  <oaf_attribute name="description-de" type="string" value="Fabrik für EOG-Bildanzeigeprogramm"/>
+  <oaf_attribute name="description-el" type="string" value="Εργοστάσιο εφαρμογής προβολής Εικόνων EOG"/>
+  <oaf_attribute name="description-en_CA" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="description-en_GB" type="string" value="EOG Image viewer factory"/>
+  <oaf_attribute name="description-es" type="string" value="Fábrica de visores de imagen EOG"/>
+  <oaf_attribute name="description-eu" type="string" value="EOG irudi-ikustailearen fabrika"/>
+  <oaf_attribute name="description-fa" type="string" value="کارخانه‌ی نمایش تصویر EOG"/>
+  <oaf_attribute name="description-fi" type="string" value="Gnomen silmä -kuvakatselintehdas"/>
+  <oaf_attribute name="description-fr" type="string" value="Fabrique de la visionneuse d&apos;images EOG"/>
+  <oaf_attribute name="description-gl" type="string" value="Fábrica do visualizador de imaxes EOG"/>
+  <oaf_attribute name="description-gu" type="string" value="EOG ચિત્ર દર્શક કારખાનંુ"/>
+  <oaf_attribute name="description-he" type="string" value="יצרן תצוגת תמונה של עי&quot;ן"/>
+  <oaf_attribute name="description-hi" type="string" value="इओजी चित्र दर्शक कारखाना"/>
+  <oaf_attribute name="description-hr" type="string" value="Tvornica EOG preglednika slika"/>
+  <oaf_attribute name="description-hu" type="string" value="EOG képnéző factory"/>
+  <oaf_attribute name="description-id" type="string" value="EOG Factory penampil gambar"/>
+  <oaf_attribute name="description-is" type="string" value="Verksmiðja EOG myndarýnis"/>
+  <oaf_attribute name="description-it" type="string" value="Fabbrica visualizzatore di immagini EOG"/>
+  <oaf_attribute name="description-ja" type="string" value="EOG イメージビューアファクトリ"/>
+  <oaf_attribute name="description-ko" type="string" value="EOG 이미지 뷰어 팩토리"/>
+  <oaf_attribute name="description-lt" type="string" value="EOG paveikslėlių žiūryklės gamykla"/>
+  <oaf_attribute name="description-lv" type="string" value="EOG attēlu skatītāja darbnīca"/>
+  <oaf_attribute name="description-mk" type="string" value="EOG Фабрика за прегледувач на слики"/>
+  <oaf_attribute name="description-mn" type="string" value="EOG-зургийн үзүллэнгийн боловсруулагч"/>
+  <oaf_attribute name="description-ms" type="string" value="Kilang pelihat Imej EOG"/>
+  <oaf_attribute name="description-nl" type="string" value="EOG afbeeldingsweergavefabriek"/>
+  <oaf_attribute name="description-nn" type="string" value="EOG-biletevisarfabrikk"/>
+  <oaf_attribute name="description-no" type="string" value="Factory for EOG bildevisning"/>
+  <oaf_attribute name="description-pa" type="string" value="EOG ਚਿੱਤਰ ਦਰਿਸ਼ ਫੈਕਟਰੀ"/>
+  <oaf_attribute name="description-pl" type="string" value="Generator przeglądarki obrazów EOG"/>
+  <oaf_attribute name="description-pt" type="string" value="Fábrica de visualizador de imagem EOG"/>
+  <oaf_attribute name="description-pt_BR" type="string" value="Fábrica do visualizador de imagem EOG"/>
+  <oaf_attribute name="description-ro" type="string" value="Fabrica de vizualizare de imagini EOG"/>
+  <oaf_attribute name="description-ru" type="string" value="Фабрика программы просмотра изображений EOG"/>
+  <oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie prehliadača obrázkov EOG"/>
+  <oaf_attribute name="description-sl" type="string" value="Tovarna pregledovalnikov slik EOG"/>
+  <oaf_attribute name="description-sq" type="string" value="EOG, fabrika për shikimin e figurave"/>
+  <oaf_attribute name="description-sr" type="string" value="Производња ЕОГ прегледника слика"/>
+  <oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja EOG preglednika slika"/>
+  <oaf_attribute name="description-sv" type="string" value="EOG-bildvisarfabrik"/>
+  <oaf_attribute name="description-ta" type="string" value="EOG ஓவிய காட்டி தொழிற்சாலை"/>
+  <oaf_attribute name="description-th" type="string" value="โรงงาน EOG ตัวแสดงรูป"/>
+  <oaf_attribute name="description-tr" type="string" value="EOG Resim gösterici üreticisi"/>
+  <oaf_attribute name="description-uk" type="string" value="Фабрика переглядачів зображень"/>
+  <oaf_attribute name="description-vi" type="string" value="Factory Trình xem ảnh EOG"/>
+  <oaf_attribute name="description-wa" type="string" value="Oujhene di håyneu d&apos; imådjes EOG"/>
+  <oaf_attribute name="description-zh_CN" type="string" value="EOG 图像查看器工厂"/>
+  <oaf_attribute name="description-zh_HK" type="string" value="EOG 圖像瀏覽程式工廠"/>
+  <oaf_attribute name="description-zh_TW" type="string" value="EOG 圖像瀏覽程式工廠"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_EOG_Control" type="factory"
+ location="OAFIID:GNOME_EOG_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/Control:1.0"/>
+    <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+    <item value="IDL:Bonobo/Persist:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="name-af" type="string" value="EOG-beeldbekyker"/>
+  <oaf_attribute name="name-am" type="string" value="የEOG ምስል ተመልካች"/>
+  <oaf_attribute name="name-ar" type="string" value="عارض صور آي أوف جنوم"/>
+  <oaf_attribute name="name-az" type="string" value="EOG Rəsm Nümayçisi"/>
+  <oaf_attribute name="name-be" type="string" value="Праглядальнік відарысаў EOG"/>
+  <oaf_attribute name="name-bg" type="string" value="EOG Програма за преглед на Картинка"/>
+  <oaf_attribute name="name-bn" type="string" value="ইওজি চিত্র প্রদর্শক"/>
+  <oaf_attribute name="name-ca" type="string" value="Visualitzador d&apos;imatges EOG"/>
+  <oaf_attribute name="name-cs" type="string" value="Prohlížeč obrázků EOG"/>
+  <oaf_attribute name="name-cy" type="string" value="Gwelydd Delwedd EOG"/>
+  <oaf_attribute name="name-da" type="string" value="EOG-billedfremviser"/>
+  <oaf_attribute name="name-de" type="string" value="EOG-Bildanzeigeprogramm"/>
+  <oaf_attribute name="name-el" type="string" value="Εφαρμογή Προβολής Εικόνων EOG"/>
+  <oaf_attribute name="name-en_CA" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="name-en_GB" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="name-es" type="string" value="Visor de imágenes EOG"/>
+  <oaf_attribute name="name-et" type="string" value="EOG pildivaatur"/>
+  <oaf_attribute name="name-eu" type="string" value="EOG irudi-ikustailea"/>
+  <oaf_attribute name="name-fa" type="string" value="نمایشگر تصویر EOG"/>
+  <oaf_attribute name="name-fi" type="string" value="Gnomen silmä -kuvakatselin"/>
+  <oaf_attribute name="name-fr" type="string" value="Visionneuse d&apos;images EOG"/>
+  <oaf_attribute name="name-ga" type="string" value="Amharcóir íomhanna EOG"/>
+  <oaf_attribute name="name-gl" type="string" value="Visualizador de imaxes EOG"/>
+  <oaf_attribute name="name-gu" type="string" value="EOG ચિત્ર દર્શક"/>
+  <oaf_attribute name="name-he" type="string" value="מציג התמונות עי&quot;ן"/>
+  <oaf_attribute name="name-hi" type="string" value="इओजी चित्र दर्शक"/>
+  <oaf_attribute name="name-hr" type="string" value="EOG preglednik slika"/>
+  <oaf_attribute name="name-hu" type="string" value="EOG képnéző"/>
+  <oaf_attribute name="name-id" type="string" value="EOG Program penampil Gambar"/>
+  <oaf_attribute name="name-is" type="string" value="EOG myndarýnir"/>
+  <oaf_attribute name="name-it" type="string" value="Visualizzatore Immagini EOG"/>
+  <oaf_attribute name="name-ja" type="string" value="EOG イメージビューア"/>
+  <oaf_attribute name="name-ko" type="string" value="EOG 이미지 뷰어 프로그램"/>
+  <oaf_attribute name="name-lt" type="string" value="EOG paveikslėlių žiūrėjimo programa"/>
+  <oaf_attribute name="name-lv" type="string" value="EOG Attēlu Pārlūks"/>
+  <oaf_attribute name="name-mk" type="string" value="EOG Прегледувач на слики"/>
+  <oaf_attribute name="name-mn" type="string" value="EOG-Зургийн үзүүлэн"/>
+  <oaf_attribute name="name-ms" type="string" value="Pelihat Imej EOG"/>
+  <oaf_attribute name="name-nl" type="string" value="EOG afbeeldingsweergave"/>
+  <oaf_attribute name="name-nn" type="string" value="EOG Biletevisar"/>
+  <oaf_attribute name="name-no" type="string" value="EOG bildevisning"/>
+  <oaf_attribute name="name-pa" type="string" value="EOG ਚਿੱਤਰ ਦਰਸ਼ਕ"/>
+  <oaf_attribute name="name-pl" type="string" value="Przeglądarka obrazów EOG"/>
+  <oaf_attribute name="name-pt" type="string" value="Visualizador de Imagens EOG"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Visualizador de imagem EOG"/>
+  <oaf_attribute name="name-ro" type="string" value="Vizualizator imagini EOG"/>
+  <oaf_attribute name="name-ru" type="string" value="Программа просмотра изображений EOG"/>
+  <oaf_attribute name="name-sk" type="string" value="Prehliadač obrázkov EOG"/>
+  <oaf_attribute name="name-sl" type="string" value="Pregledovalnik slik EOG"/>
+  <oaf_attribute name="name-sq" type="string" value="EOG, Shikuesi i figurave"/>
+  <oaf_attribute name="name-sr" type="string" value="ЕОГ прегледник слика"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="EOG preglednik slika"/>
+  <oaf_attribute name="name-sv" type="string" value="EOG-bildvisare"/>
+  <oaf_attribute name="name-ta" type="string" value="கனோம்-கண் ஓவியக் காட்டி"/>
+  <oaf_attribute name="name-th" type="string" value="EOG ตัวแสดงรูป"/>
+  <oaf_attribute name="name-tr" type="string" value="EOG Resim Gösterici"/>
+  <oaf_attribute name="name-uk" type="string" value="Переглядач зображень"/>
+  <oaf_attribute name="name-vi" type="string" value="Trình xem ảnh EOG"/>
+  <oaf_attribute name="name-wa" type="string" value="Håyneu d&apos; imådjes EOG"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="EOG 图像查看器"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="EOG 圖像瀏覽程式"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="EOG 圖像瀏覽程式"/>
+  <oaf_attribute name="description" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="description-af" type="string" value="EOG-beeldbekyker"/>
+  <oaf_attribute name="description-am" type="string" value="የEOG ምስል ተመልካች"/>
+  <oaf_attribute name="description-ar" type="string" value="عارض صور آي أوف جنوم"/>
+  <oaf_attribute name="description-az" type="string" value="EOG Rəsm Nümayçisi"/>
+  <oaf_attribute name="description-be" type="string" value="Праглядальнік відарысаў EOG"/>
+  <oaf_attribute name="description-bg" type="string" value="EOG Програма за преглед на Картинка"/>
+  <oaf_attribute name="description-bn" type="string" value="ইওজি চিত্র প্রদর্শক"/>
+  <oaf_attribute name="description-ca" type="string" value="Visualitzador d&apos;imatges EOG"/>
+  <oaf_attribute name="description-cs" type="string" value="Prohlížeč obrázků EOG"/>
+  <oaf_attribute name="description-cy" type="string" value="Gwelydd Delwedd EOG"/>
+  <oaf_attribute name="description-da" type="string" value="EOG-billedfremviser"/>
+  <oaf_attribute name="description-de" type="string" value="EOG-Bildanzeigeprogramm"/>
+  <oaf_attribute name="description-el" type="string" value="Εφαρμογή Προβολής Εικόνων EOG"/>
+  <oaf_attribute name="description-en_CA" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="description-en_GB" type="string" value="EOG Image Viewer"/>
+  <oaf_attribute name="description-es" type="string" value="Visor de imágenes EOG"/>
+  <oaf_attribute name="description-et" type="string" value="EOG pildivaatur"/>
+  <oaf_attribute name="description-eu" type="string" value="EOG irudi-ikustailea"/>
+  <oaf_attribute name="description-fa" type="string" value="نمایشگر تصویر EOG"/>
+  <oaf_attribute name="description-fi" type="string" value="Gnomen silmä -kuvakatselin"/>
+  <oaf_attribute name="description-fr" type="string" value="Visionneuse d&apos;images EOG"/>
+  <oaf_attribute name="description-ga" type="string" value="Amharcóir íomhanna EOG"/>
+  <oaf_attribute name="description-gl" type="string" value="Visualizador de imaxes EOG"/>
+  <oaf_attribute name="description-gu" type="string" value="EOG ચિત્ર દર્શક"/>
+  <oaf_attribute name="description-he" type="string" value="מציג התמונות עי&quot;ן"/>
+  <oaf_attribute name="description-hi" type="string" value="इओजी चित्र दर्शक"/>
+  <oaf_attribute name="description-hr" type="string" value="EOG preglednik slika"/>
+  <oaf_attribute name="description-hu" type="string" value="EOG képnéző"/>
+  <oaf_attribute name="description-id" type="string" value="EOG Program penampil Gambar"/>
+  <oaf_attribute name="description-is" type="string" value="EOG myndarýnir"/>
+  <oaf_attribute name="description-it" type="string" value="Visualizzatore Immagini EOG"/>
+  <oaf_attribute name="description-ja" type="string" value="EOG イメージビューア"/>
+  <oaf_attribute name="description-ko" type="string" value="EOG 이미지 뷰어 프로그램"/>
+  <oaf_attribute name="description-lt" type="string" value="EOG paveikslėlių žiūrėjimo programa"/>
+  <oaf_attribute name="description-lv" type="string" value="EOG Attēlu Pārlūks"/>
+  <oaf_attribute name="description-mk" type="string" value="EOG Прегледувач на слики"/>
+  <oaf_attribute name="description-mn" type="string" value="EOG-Зургийн үзүүлэн"/>
+  <oaf_attribute name="description-ms" type="string" value="Pelihat Imej EOG"/>
+  <oaf_attribute name="description-nl" type="string" value="EOG afbeeldingsweergave"/>
+  <oaf_attribute name="description-nn" type="string" value="EOG Biletevisar"/>
+  <oaf_attribute name="description-no" type="string" value="EOG bildevisning"/>
+  <oaf_attribute name="description-pa" type="string" value="EOG ਚਿੱਤਰ ਦਰਸ਼ਕ"/>
+  <oaf_attribute name="description-pl" type="string" value="Przeglądarka obrazów EOG"/>
+  <oaf_attribute name="description-pt" type="string" value="Visualizador de Imagens EOG"/>
+  <oaf_attribute name="description-pt_BR" type="string" value="Visualizador de imagem EOG"/>
+  <oaf_attribute name="description-ro" type="string" value="Vizualizator imagini EOG"/>
+  <oaf_attribute name="description-ru" type="string" value="Программа просмотра изображений EOG"/>
+  <oaf_attribute name="description-sk" type="string" value="Prehliadač obrázkov EOG"/>
+  <oaf_attribute name="description-sl" type="string" value="Pregledovalnik slik EOG"/>
+  <oaf_attribute name="description-sq" type="string" value="EOG, Shikuesi i figurave"/>
+  <oaf_attribute name="description-sr" type="string" value="ЕОГ прегледник слика"/>
+  <oaf_attribute name="description-sr@Latn" type="string" value="EOG preglednik slika"/>
+  <oaf_attribute name="description-sv" type="string" value="EOG-bildvisare"/>
+  <oaf_attribute name="description-ta" type="string" value="கனோம்-கண் ஓவியக் காட்டி"/>
+  <oaf_attribute name="description-th" type="string" value="EOG ตัวแสดงรูป"/>
+  <oaf_attribute name="description-tr" type="string" value="EOG Resim Gösterici"/>
+  <oaf_attribute name="description-uk" type="string" value="Переглядач зображень"/>
+  <oaf_attribute name="description-vi" type="string" value="Trình xem ảnh EOG"/>
+  <oaf_attribute name="description-wa" type="string" value="Håyneu d&apos; imådjes EOG"/>
+  <oaf_attribute name="description-zh_CN" type="string" value="EOG 图像查看器"/>
+  <oaf_attribute name="description-zh_HK" type="string" value="EOG 圖像瀏覽程式"/>
+  <oaf_attribute name="description-zh_TW" type="string" value="EOG 圖像瀏覽程式"/>
+  <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="image/bmp"/>
+    <item value="image/gif"/>
+    <item value="image/jpeg"/>
+    <item value="image/png"/>
+    <item value="image/tiff"/>
+    <item value="image/x-bmp"/>
+    <item value="image/x-cmu-raster"/>
+    <item value="image/x-icb"/>
+    <item value="image/x-ico"/>
+    <item value="image/x-png"/>
+    <item value="image/x-portable-anymap"/>
+    <item value="image/x-portable-bitmap"/>
+    <item value="image/x-portable-graymap"/>
+    <item value="image/x-portable-pixmap"/>
+    <item value="image/x-xpixmap"/>
+    <item value="image/xpm"/>
+    <item value="image/svg"/>
+    <item value="image/svg+xml"/>
+  </oaf_attribute>
+  <oaf_attribute name="nautilus:view_as_name" type="string" value="Image"/>
+  <oaf_attribute name="nautilus:view_as_name-af" type="string" value="Beeld"/>
+  <oaf_attribute name="nautilus:view_as_name-am" type="string" value="ምስል"/>
+  <oaf_attribute name="nautilus:view_as_name-ar" type="string" value="صورة"/>
+  <oaf_attribute name="nautilus:view_as_name-az" type="string" value="Rəsm"/>
+  <oaf_attribute name="nautilus:view_as_name-be" type="string" value="Відарыс"/>
+  <oaf_attribute name="nautilus:view_as_name-bg" type="string" value="Картинка"/>
+  <oaf_attribute name="nautilus:view_as_name-bn" type="string" value="চিত্র"/>
+  <oaf_attribute name="nautilus:view_as_name-ca" type="string" value="Imatge"/>
+  <oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Obrázek"/>
+  <oaf_attribute name="nautilus:view_as_name-cy" type="string" value="Delwedd"/>
+  <oaf_attribute name="nautilus:view_as_name-da" type="string" value="Billede"/>
+  <oaf_attribute name="nautilus:view_as_name-de" type="string" value="Bild"/>
+  <oaf_attribute name="nautilus:view_as_name-el" type="string" value="Εικόνα"/>
+  <oaf_attribute name="nautilus:view_as_name-en_CA" type="string" value="Image"/>
+  <oaf_attribute name="nautilus:view_as_name-en_GB" type="string" value="Image"/>
+  <oaf_attribute name="nautilus:view_as_name-es" type="string" value="Imagen"/>
+  <oaf_attribute name="nautilus:view_as_name-et" type="string" value="Pilt"/>
+  <oaf_attribute name="nautilus:view_as_name-eu" type="string" value="Irudia"/>
+  <oaf_attribute name="nautilus:view_as_name-fa" type="string" value="تصویر"/>
+  <oaf_attribute name="nautilus:view_as_name-fi" type="string" value="Kuva"/>
+  <oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Image"/>
+  <oaf_attribute name="nautilus:view_as_name-ga" type="string" value=" Íomha"/>
+  <oaf_attribute name="nautilus:view_as_name-gl" type="string" value="Imaxe"/>
+  <oaf_attribute name="nautilus:view_as_name-gu" type="string" value="ચિત્ર"/>
+  <oaf_attribute name="nautilus:view_as_name-he" type="string" value="תמונה"/>
+  <oaf_attribute name="nautilus:view_as_name-hi" type="string" value="चित्र"/>
+  <oaf_attribute name="nautilus:view_as_name-hr" type="string" value="Slika"/>
+  <oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Kép"/>
+  <oaf_attribute name="nautilus:view_as_name-id" type="string" value="Gambar"/>
+  <oaf_attribute name="nautilus:view_as_name-is" type="string" value="Mynd"/>
+  <oaf_attribute name="nautilus:view_as_name-it" type="string" value="Immagine"/>
+  <oaf_attribute name="nautilus:view_as_name-ja" type="string" value="画像"/>
+  <oaf_attribute name="nautilus:view_as_name-kn" type="string" value="ಚಿತ್ರ"/>
+  <oaf_attribute name="nautilus:view_as_name-ko" type="string" value="이미지"/>
+  <oaf_attribute name="nautilus:view_as_name-lt" type="string" value="Paveiksliukas"/>
+  <oaf_attribute name="nautilus:view_as_name-lv" type="string" value="Attēls"/>
+  <oaf_attribute name="nautilus:view_as_name-mk" type="string" value="Слика"/>
+  <oaf_attribute name="nautilus:view_as_name-ml" type="string" value="ചിത്രം"/>
+  <oaf_attribute name="nautilus:view_as_name-mn" type="string" value="Зураг"/>
+  <oaf_attribute name="nautilus:view_as_name-ms" type="string" value="Imej"/>
+  <oaf_attribute name="nautilus:view_as_name-nl" type="string" value="Afbeelding"/>
+  <oaf_attribute name="nautilus:view_as_name-nn" type="string" value="Bilete"/>
+  <oaf_attribute name="nautilus:view_as_name-no" type="string" value="Bilde"/>
+  <oaf_attribute name="nautilus:view_as_name-pa" type="string" value="ਚਿੱਤਰ"/>
+  <oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Obraz"/>
+  <oaf_attribute name="nautilus:view_as_name-pt" type="string" value="Imagem"/>
+  <oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Imagem"/>
+  <oaf_attribute name="nautilus:view_as_name-ro" type="string" value="Imagine"/>
+  <oaf_attribute name="nautilus:view_as_name-ru" type="string" value="Изображение"/>
+  <oaf_attribute name="nautilus:view_as_name-sk" type="string" value="Obrázok"/>
+  <oaf_attribute name="nautilus:view_as_name-sl" type="string" value="Slika"/>
+  <oaf_attribute name="nautilus:view_as_name-sq" type="string" value="Figura"/>
+  <oaf_attribute name="nautilus:view_as_name-sr" type="string" value="Слика"/>
+  <oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string" value="Slika"/>
+  <oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Bild"/>
+  <oaf_attribute name="nautilus:view_as_name-ta" type="string" value="உருவம்"/>
+  <oaf_attribute name="nautilus:view_as_name-th" type="string" value="รูป"/>
+  <oaf_attribute name="nautilus:view_as_name-tr" type="string" value="Resim"/>
+  <oaf_attribute name="nautilus:view_as_name-uk" type="string" value="Зображення"/>
+  <oaf_attribute name="nautilus:view_as_name-vi" type="string" value="Ảnh"/>
+  <oaf_attribute name="nautilus:view_as_name-wa" type="string" value="Imådje"/>
+  <oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="图像"/>
+  <oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="圖像"/>
+  <oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="圖像"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_EOG_Embeddable" type="factory"
+ location="OAFIID:GNOME_EOG_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    <item value="IDL:Bonobo/Embeddable:1.0"/>
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+    <item value="IDL:Bonobo/Persist:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="name-af" type="string" value="Verskansbare EOG-beeld"/>
+  <oaf_attribute name="name-ar" type="string" value="صورة آي أوف جنوم قابلة للتضمين"/>
+  <oaf_attribute name="name-az" type="string" value="Hopdurula bilmən EOG Rəsmi"/>
+  <oaf_attribute name="name-be" type="string" value="Відарыс EOG, які магчыма ўбудаваць"/>
+  <oaf_attribute name="name-bg" type="string" value="Вградена EOG Картинка"/>
+  <oaf_attribute name="name-bn" type="string" value="গেঁথে দেয়ার যোগ্য (Embeddable) ইওজি ছবি"/>
+  <oaf_attribute name="name-ca" type="string" value="Imatge EOG incrustable"/>
+  <oaf_attribute name="name-cs" type="string" value="Zapouzdřený obrázek EOG"/>
+  <oaf_attribute name="name-cy" type="string" value="Delwedd Mewnadeiladwy EOG"/>
+  <oaf_attribute name="name-da" type="string" value="Indlejret EOG-billede"/>
+  <oaf_attribute name="name-de" type="string" value="Einbettbares EOG-Bild"/>
+  <oaf_attribute name="name-el" type="string" value="Ενσωματωμένη Εικόνα EOG"/>
+  <oaf_attribute name="name-en_CA" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="name-en_GB" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="name-es" type="string" value="Imagen de EOG incrustada"/>
+  <oaf_attribute name="name-eu" type="string" value="EOG irudi kapsulagarria"/>
+  <oaf_attribute name="name-fi" type="string" value="Upotettava Gnomen silmä -kuva"/>
+  <oaf_attribute name="name-fr" type="string" value="Image EOG incorporable"/>
+  <oaf_attribute name="name-gl" type="string" value="Imaxe de EOG embebible"/>
+  <oaf_attribute name="name-gu" type="string" value="જડી શકાય તેવુ EOG ચિત્ર"/>
+  <oaf_attribute name="name-he" type="string" value="תמונת עי&quot;ן מוטבעת"/>
+  <oaf_attribute name="name-hr" type="string" value="Ugradiva EOG slika"/>
+  <oaf_attribute name="name-hu" type="string" value="Beilleszthető EOG kép"/>
+  <oaf_attribute name="name-id" type="string" value="Gambar EOG yang bisa diembed"/>
+  <oaf_attribute name="name-is" type="string" value="Innfelld EOG mynd"/>
+  <oaf_attribute name="name-it" type="string" value="Immagine EOG incorporabile"/>
+  <oaf_attribute name="name-ja" type="string" value="埋込可能 EOG 画像"/>
+  <oaf_attribute name="name-ko" type="string" value="내장 가능한 EOG 이미지"/>
+  <oaf_attribute name="name-lt" type="string" value="Įdiegiamas EOG paveiksliukas"/>
+  <oaf_attribute name="name-lv" type="string" value="Iedarināms EOG Attēls"/>
+  <oaf_attribute name="name-mk" type="string" value="Embeddable EOG Слика"/>
+  <oaf_attribute name="name-mn" type="string" value="Хүрээлүүлсэн EOG-Зураг"/>
+  <oaf_attribute name="name-ms" type="string" value="Imej EOG boleh diembed"/>
+  <oaf_attribute name="name-nl" type="string" value="Ingebedde EOG afbeelding"/>
+  <oaf_attribute name="name-nn" type="string" value="Innvevbart EOG-bilete"/>
+  <oaf_attribute name="name-no" type="string" value="Innbyggbart EOG-bilde"/>
+  <oaf_attribute name="name-pa" type="string" value="ਵਿੱਚ ਰਲਣਯੋਗ EOG ਚਿੱਤਰ"/>
+  <oaf_attribute name="name-pl" type="string" value="Osadzany obraz EOG"/>
+  <oaf_attribute name="name-pt" type="string" value="Imagem EOG Imbutível"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Imagem EOG embutível"/>
+  <oaf_attribute name="name-ro" type="string" value="Imagine EOG încorporată"/>
+  <oaf_attribute name="name-ru" type="string" value="Встраиваемое изображение программы EOG"/>
+  <oaf_attribute name="name-sk" type="string" value="Vložiteľný obrázok EOG"/>
+  <oaf_attribute name="name-sl" type="string" value="Vgradljiva slika EOG"/>
+  <oaf_attribute name="name-sq" type="string" value="Imazh EOG embeddable"/>
+  <oaf_attribute name="name-sr" type="string" value="Уметна ЕОГ слика"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="Umetna EOG slika"/>
+  <oaf_attribute name="name-sv" type="string" value="Inbäddbar EOG-bild"/>
+  <oaf_attribute name="name-ta" type="string" value="உட்பொதிக்கக்கூடிய கனோம்-கண் ஓவியம்"/>
+  <oaf_attribute name="name-th" type="string" value="รูป EOG ที่ฝังตัวได้"/>
+  <oaf_attribute name="name-tr" type="string" value="Gömülebilir EOG Resmi"/>
+  <oaf_attribute name="name-uk" type="string" value="Зображення, що вбудовується (програма EOG)"/>
+  <oaf_attribute name="name-vi" type="string" value="Ảnh EOG nhúng"/>
+  <oaf_attribute name="name-wa" type="string" value="Imådje EOG ravalåve"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="可嵌入 EOG 图像"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="可嵌入式 EOG 圖像"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="可嵌入式 EOG 圖像"/>
+  <oaf_attribute name="description" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="description-af" type="string" value="Verskansbare EOG-beeld"/>
+  <oaf_attribute name="description-ar" type="string" value="صورة آي أوف جنوم قابلة للتضمين"/>
+  <oaf_attribute name="description-az" type="string" value="Hopdurula bilmən EOG Rəsmi"/>
+  <oaf_attribute name="description-be" type="string" value="Відарыс EOG, які магчыма ўбудаваць"/>
+  <oaf_attribute name="description-bg" type="string" value="Вградена EOG Картинка"/>
+  <oaf_attribute name="description-bn" type="string" value="গেঁথে দেয়ার যোগ্য (Embeddable) ইওজি ছবি"/>
+  <oaf_attribute name="description-ca" type="string" value="Imatge EOG incrustable"/>
+  <oaf_attribute name="description-cs" type="string" value="Zapouzdřený obrázek EOG"/>
+  <oaf_attribute name="description-cy" type="string" value="Delwedd Mewnadeiladwy EOG"/>
+  <oaf_attribute name="description-da" type="string" value="Indlejret EOG-billede"/>
+  <oaf_attribute name="description-de" type="string" value="Einbettbares EOG-Bild"/>
+  <oaf_attribute name="description-el" type="string" value="Ενσωματωμένη Εικόνα EOG"/>
+  <oaf_attribute name="description-en_CA" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="description-en_GB" type="string" value="Embeddable EOG Image"/>
+  <oaf_attribute name="description-es" type="string" value="Imagen de EOG incrustada"/>
+  <oaf_attribute name="description-eu" type="string" value="EOG irudi kapsulagarria"/>
+  <oaf_attribute name="description-fi" type="string" value="Upotettava Gnomen silmä -kuva"/>
+  <oaf_attribute name="description-fr" type="string" value="Image EOG incorporable"/>
+  <oaf_attribute name="description-gl" type="string" value="Imaxe de EOG embebible"/>
+  <oaf_attribute name="description-gu" type="string" value="જડી શકાય તેવુ EOG ચિત્ર"/>
+  <oaf_attribute name="description-he" type="string" value="תמונת עי&quot;ן מוטבעת"/>
+  <oaf_attribute name="description-hr" type="string" value="Ugradiva EOG slika"/>
+  <oaf_attribute name="description-hu" type="string" value="Beilleszthető EOG kép"/>
+  <oaf_attribute name="description-id" type="string" value="Gambar EOG yang bisa diembed"/>
+  <oaf_attribute name="description-is" type="string" value="Innfelld EOG mynd"/>
+  <oaf_attribute name="description-it" type="string" value="Immagine EOG incorporabile"/>
+  <oaf_attribute name="description-ja" type="string" value="埋込可能 EOG 画像"/>
+  <oaf_attribute name="description-ko" type="string" value="내장 가능한 EOG 이미지"/>
+  <oaf_attribute name="description-lt" type="string" value="Įdiegiamas EOG paveiksliukas"/>
+  <oaf_attribute name="description-lv" type="string" value="Iedarināms EOG Attēls"/>
+  <oaf_attribute name="description-mk" type="string" value="Embeddable EOG Слика"/>
+  <oaf_attribute name="description-mn" type="string" value="Хүрээлүүлсэн EOG-Зураг"/>
+  <oaf_attribute name="description-ms" type="string" value="Imej EOG boleh diembed"/>
+  <oaf_attribute name="description-nl" type="string" value="Ingebedde EOG afbeelding"/>
+  <oaf_attribute name="description-nn" type="string" value="Innvevbart EOG-bilete"/>
+  <oaf_attribute name="description-no" type="string" value="Innbyggbart EOG-bilde"/>
+  <oaf_attribute name="description-pa" type="string" value="ਵਿੱਚ ਰਲਣਯੋਗ EOG ਚਿੱਤਰ"/>
+  <oaf_attribute name="description-pl" type="string" value="Osadzany obraz EOG"/>
+  <oaf_attribute name="description-pt" type="string" value="Imagem EOG Imbutível"/>
+  <oaf_attribute name="description-pt_BR" type="string" value="Imagem EOG embutível"/>
+  <oaf_attribute name="description-ro" type="string" value="Imagine EOG încorporată"/>
+  <oaf_attribute name="description-ru" type="string" value="Встраиваемое изображение программы EOG"/>
+  <oaf_attribute name="description-sk" type="string" value="Vložiteľný obrázok EOG"/>
+  <oaf_attribute name="description-sl" type="string" value="Vgradljiva slika EOG"/>
+  <oaf_attribute name="description-sq" type="string" value="Imazh EOG embeddable"/>
+  <oaf_attribute name="description-sr" type="string" value="Уметна ЕОГ слика"/>
+  <oaf_attribute name="description-sr@Latn" type="string" value="Umetna EOG slika"/>
+  <oaf_attribute name="description-sv" type="string" value="Inbäddbar EOG-bild"/>
+  <oaf_attribute name="description-ta" type="string" value="உட்பொதிக்கக்கூடிய கனோம்-கண் ஓவியம்"/>
+  <oaf_attribute name="description-th" type="string" value="รูป EOG ที่ฝังตัวได้"/>
+  <oaf_attribute name="description-tr" type="string" value="Gömülebilir EOG Resmi"/>
+  <oaf_attribute name="description-uk" type="string" value="Зображення, що вбудовується (програма EOG)"/>
+  <oaf_attribute name="description-vi" type="string" value="Ảnh EOG nhúng"/>
+  <oaf_attribute name="description-wa" type="string" value="Imådje EOG ravalåve"/>
+  <oaf_attribute name="description-zh_CN" type="string" value="可嵌入 EOG 图像"/>
+  <oaf_attribute name="description-zh_HK" type="string" value="可嵌入式 EOG 圖像"/>
+  <oaf_attribute name="description-zh_TW" type="string" value="可嵌入式 EOG 圖像"/>
+  <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="image/bmp"/>
+    <item value="image/gif"/>
+    <item value="image/jpeg"/>
+    <item value="image/png"/>
+    <item value="image/tiff"/>
+    <item value="image/x-bmp"/>
+    <item value="image/x-cmu-raster"/>
+    <item value="image/x-icb"/>
+    <item value="image/x-ico"/>
+    <item value="image/x-png"/>
+    <item value="image/x-portable-anymap"/>
+    <item value="image/x-portable-bitmap"/>
+    <item value="image/x-portable-graymap"/>
+    <item value="image/x-portable-pixmap"/>
+    <item value="image/x-xpixmap"/>
+    <item value="image/xpm"/>
+    <item value="image/svg"/>
+    <item value="image/svg+xml"/>
+  </oaf_attribute>
+  </oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_EOG_Image" type="factory"
+ location="OAFIID:GNOME_EOG_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:GNOME/EOG/Image:1.0"/>
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/ItemContainer:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+    <item value="IDL:Bonobo/Persist:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" value="EOG Image"/>
+  <oaf_attribute name="name-af" type="string" value="EOG-beeld"/>
+  <oaf_attribute name="name-am" type="string" value="የEOG ምስል"/>
+  <oaf_attribute name="name-ar" type="string" value="صورة آي أوف جنوم"/>
+  <oaf_attribute name="name-az" type="string" value="EOG Rəsmi"/>
+  <oaf_attribute name="name-be" type="string" value="Відарыс EOG"/>
+  <oaf_attribute name="name-bg" type="string" value="EOG Картинка"/>
+  <oaf_attribute name="name-bn" type="string" value="ইওজি চিত্র"/>
+  <oaf_attribute name="name-ca" type="string" value="Imatge EOG"/>
+  <oaf_attribute name="name-cs" type="string" value="Obrázek EOG"/>
+  <oaf_attribute name="name-cy" type="string" value="Delwedd EOG"/>
+  <oaf_attribute name="name-da" type="string" value="EOG-billede"/>
+  <oaf_attribute name="name-de" type="string" value="EOG-Bild"/>
+  <oaf_attribute name="name-el" type="string" value="Εικόνα EOG"/>
+  <oaf_attribute name="name-en_CA" type="string" value="EOG Image"/>
+  <oaf_attribute name="name-en_GB" type="string" value="EOG Image"/>
+  <oaf_attribute name="name-es" type="string" value="Imagen de EOG"/>
+  <oaf_attribute name="name-et" type="string" value="EOG pilt"/>
+  <oaf_attribute name="name-eu" type="string" value="EOG irudia"/>
+  <oaf_attribute name="name-fa" type="string" value="تصویر EOG"/>
+  <oaf_attribute name="name-fi" type="string" value="Gnomen silmä -kuva"/>
+  <oaf_attribute name="name-fr" type="string" value="Image EOG"/>
+  <oaf_attribute name="name-ga" type="string" value="Íomha do SdG"/>
+  <oaf_attribute name="name-gl" type="string" value="Imaxe do EOG"/>
+  <oaf_attribute name="name-gu" type="string" value="EOG ચિત્ર"/>
+  <oaf_attribute name="name-he" type="string" value="תמונת עי&quot;ן"/>
+  <oaf_attribute name="name-hi" type="string" value="इओजी चित्र"/>
+  <oaf_attribute name="name-hr" type="string" value="EOG slika"/>
+  <oaf_attribute name="name-hu" type="string" value="EOG kép"/>
+  <oaf_attribute name="name-id" type="string" value="Gambar EOG"/>
+  <oaf_attribute name="name-is" type="string" value="EOG mynd"/>
+  <oaf_attribute name="name-it" type="string" value="Immagine EOG"/>
+  <oaf_attribute name="name-ja" type="string" value="EOG 画像"/>
+  <oaf_attribute name="name-ko" type="string" value="EOG 이미지"/>
+  <oaf_attribute name="name-lt" type="string" value="EOG paveikslėlis"/>
+  <oaf_attribute name="name-lv" type="string" value="EOG Attēls"/>
+  <oaf_attribute name="name-mk" type="string" value="EOG Слика"/>
+  <oaf_attribute name="name-mn" type="string" value="EOG-Зураг"/>
+  <oaf_attribute name="name-ms" type="string" value="Imej EOG"/>
+  <oaf_attribute name="name-nl" type="string" value="EOG afbeelding"/>
+  <oaf_attribute name="name-nn" type="string" value="EOG-bilete"/>
+  <oaf_attribute name="name-no" type="string" value="EOG-bilde"/>
+  <oaf_attribute name="name-pa" type="string" value="EOG ਚਿੱਤਰ"/>
+  <oaf_attribute name="name-pl" type="string" value="Obraz EOG"/>
+  <oaf_attribute name="name-pt" type="string" value="Imagem EOG"/>
+  <oaf_attribute name="name-pt_BR" type="string" value="Imagem do EOG"/>
+  <oaf_attribute name="name-ro" type="string" value="Imagine EOG"/>
+  <oaf_attribute name="name-ru" type="string" value="Изображение EOG"/>
+  <oaf_attribute name="name-sk" type="string" value="Obrázok EOG"/>
+  <oaf_attribute name="name-sl" type="string" value="Slika EOG"/>
+  <oaf_attribute name="name-sq" type="string" value="Figurë EOG"/>
+  <oaf_attribute name="name-sr" type="string" value="ЕОГ слика"/>
+  <oaf_attribute name="name-sr@Latn" type="string" value="EOG slika"/>
+  <oaf_attribute name="name-sv" type="string" value="EOG-bild"/>
+  <oaf_attribute name="name-ta" type="string" value="கனோம்-கண் ஓவியம்"/>
+  <oaf_attribute name="name-th" type="string" value="รูปสำหรับ EOG"/>
+  <oaf_attribute name="name-tr" type="string" value="EOG Resmi"/>
+  <oaf_attribute name="name-uk" type="string" value="Зображення EOG"/>
+  <oaf_attribute name="name-vi" type="string" value="Ảnh EOG"/>
+  <oaf_attribute name="name-wa" type="string" value="Imådje EOG"/>
+  <oaf_attribute name="name-zh_CN" type="string" value="EOG 图像"/>
+  <oaf_attribute name="name-zh_HK" type="string" value="EOG 圖像"/>
+  <oaf_attribute name="name-zh_TW" type="string" value="EOG 圖像"/>
+  <oaf_attribute name="description" type="string" value="EOG Image"/>
+  <oaf_attribute name="description-af" type="string" value="EOG-beeld"/>
+  <oaf_attribute name="description-am" type="string" value="የEOG ምስል"/>
+  <oaf_attribute name="description-ar" type="string" value="صورة آي أوف جنوم"/>
+  <oaf_attribute name="description-az" type="string" value="EOG Rəsmi"/>
+  <oaf_attribute name="description-be" type="string" value="Відарыс EOG"/>
+  <oaf_attribute name="description-bg" type="string" value="EOG Картинка"/>
+  <oaf_attribute name="description-bn" type="string" value="ইওজি চিত্র"/>
+  <oaf_attribute name="description-ca" type="string" value="Imatge EOG"/>
+  <oaf_attribute name="description-cs" type="string" value="Obrázek EOG"/>
+  <oaf_attribute name="description-cy" type="string" value="Delwedd EOG"/>
+  <oaf_attribute name="description-da" type="string" value="EOG-billede"/>
+  <oaf_attribute name="description-de" type="string" value="EOG-Bild"/>
+  <oaf_attribute name="description-el" type="string" value="Εικόνα EOG"/>
+  <oaf_attribute name="description-en_CA" type="string" value="EOG Image"/>
+  <oaf_attribute name="description-en_GB" type="string" value="EOG Image"/>
+  <oaf_attribute name="description-es" type="string" value="Imagen de EOG"/>
+  <oaf_attribute name="description-et" type="string" value="EOG pilt"/>
+  <oaf_attribute name="description-eu" type="string" value="EOG irudia"/>
+  <oaf_attribute name="description-fa" type="string" value="تصویر EOG"/>
+  <oaf_attribute name="description-fi" type="string" value="Gnomen silmä -kuva"/>
+  <oaf_attribute name="description-fr" type="string" value="Image EOG"/>
+  <oaf_attribute name="description-ga" type="string" value="Íomha do SdG"/>
+  <oaf_attribute name="description-gl" type="string" value="Imaxe do EOG"/>
+  <oaf_attribute name="description-gu" type="string" value="EOG ચિત્ર"/>
+  <oaf_attribute name="description-he" type="string" value="תמונת עי&quot;ן"/>
+  <oaf_attribute name="description-hi" type="string" value="इओजी चित्र"/>
+  <oaf_attribute name="description-hr" type="string" value="EOG slika"/>
+  <oaf_attribute name="description-hu" type="string" value="EOG kép"/>
+  <oaf_attribute name="description-id" type="string" value="Gambar EOG"/>
+  <oaf_attribute name="description-is" type="string" value="EOG mynd"/>
+  <oaf_attribute name="description-it" type="string" value="Immagine EOG"/>
+  <oaf_attribute name="description-ja" type="string" value="EOG 画像"/>
+  <oaf_attribute name="description-ko" type="string" value="EOG 이미지"/>
+  <oaf_attribute name="description-lt" type="string" value="EOG paveikslėlis"/>
+  <oaf_attribute name="description-lv" type="string" value="EOG Attēls"/>
+  <oaf_attribute name="description-mk" type="string" value="EOG Слика"/>
+  <oaf_attribute name="description-mn" type="string" value="EOG-Зураг"/>
+  <oaf_attribute name="description-ms" type="string" value="Imej EOG"/>
+  <oaf_attribute name="description-nl" type="string" value="EOG afbeelding"/>
+  <oaf_attribute name="description-nn" type="string" value="EOG-bilete"/>
+  <oaf_attribute name="description-no" type="string" value="EOG-bilde"/>
+  <oaf_attribute name="description-pa" type="string" value="EOG ਚਿੱਤਰ"/>
+  <oaf_attribute name="description-pl" type="string" value="Obraz EOG"/>
+  <oaf_attribute name="description-pt" type="string" value="Imagem EOG"/>
+  <oaf_attribute name="description-pt_BR" type="string" value="Imagem do EOG"/>
+  <oaf_attribute name="description-ro" type="string" value="Imagine EOG"/>
+  <oaf_attribute name="description-ru" type="string" value="Изображение EOG"/>
+  <oaf_attribute name="description-sk" type="string" value="Obrázok EOG"/>
+  <oaf_attribute name="description-sl" type="string" value="Slika EOG"/>
+  <oaf_attribute name="description-sq" type="string" value="Figurë EOG"/>
+  <oaf_attribute name="description-sr" type="string" value="ЕОГ слика"/>
+  <oaf_attribute name="description-sr@Latn" type="string" value="EOG slika"/>
+  <oaf_attribute name="description-sv" type="string" value="EOG-bild"/>
+  <oaf_attribute name="description-ta" type="string" value="கனோம்-கண் ஓவியம்"/>
+  <oaf_attribute name="description-th" type="string" value="รูปสำหรับ EOG"/>
+  <oaf_attribute name="description-tr" type="string" value="EOG Resmi"/>
+  <oaf_attribute name="description-uk" type="string" value="Зображення EOG"/>
+  <oaf_attribute name="description-vi" type="string" value="Ảnh EOG"/>
+  <oaf_attribute name="description-wa" type="string" value="Imådje EOG"/>
+  <oaf_attribute name="description-zh_CN" type="string" value="EOG 图像"/>
+  <oaf_attribute name="description-zh_HK" type="string" value="EOG 圖像"/>
+  <oaf_attribute name="description-zh_TW" type="string" value="EOG 圖像"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="image/bmp"/>
+    <item value="image/gif"/>
+    <item value="image/jpeg"/>
+    <item value="image/png"/>
+    <item value="image/tiff"/>
+    <item value="image/x-bmp"/>
+    <item value="image/x-cmu-raster"/>
+    <item value="image/x-icb"/>
+    <item value="image/x-ico"/>
+    <item value="image/x-png"/>
+    <item value="image/x-portable-anymap"/>
+    <item value="image/x-portable-bitmap"/>
+    <item value="image/x-portable-graymap"/>
+    <item value="image/x-portable-pixmap"/>
+    <item value="image/x-xpixmap"/>
+    <item value="image/xpm"/>
+    <item value="image/svg"/>
+    <item value="image/svg+xml"/>
+  </oaf_attribute>
+</oaf_server>
+
+</oaf_info>

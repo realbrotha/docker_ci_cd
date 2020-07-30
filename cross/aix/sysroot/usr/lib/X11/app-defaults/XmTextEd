@@ -1,0 +1,27 @@
+! @(#)71        1.2  src/gos/2d/XTOP/extras/xmtexted/XmTextEd.ad, xsample, gos530 6/14/02 09:52:59
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/2d/XTOP/extras/xmtexted/XmTextEd.ad 1.2 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 2002 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! XmTextEd application class resource file
+! 
+
+*Foreground:		#FFFFFFFFFFFF
+*Background:		#8A0082008E00
+
+*FontList:		-dt-interface system-medium-r-normal-m*-*-*-*-*-*-*-*-*:
+*XmText.FontList:	-dt-interface user-medium-r-normal-m*-*-*-*-*-*-*-*-*:
+
+*XmText.Rows: 		24
+*XmText.Columns:	80

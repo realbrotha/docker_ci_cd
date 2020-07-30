@@ -1,0 +1,34 @@
+#!/bin/bsh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/bin/uucp/uudemon.hour 1.5 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1985,1989 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)32	1.5  src/bos/usr/bin/uucp/uudemon.hour, cmduucp, bos530 9/30/93 15:53:29
+# 
+# COMPONENT_NAME: CMDUUCP uudemon.hour
+# 
+# FUNCTIONS: 
+#
+# ORIGINS: 10  27  3 
+#
+# (C) COPYRIGHT International Business Machines Corp. 1985, 1989
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+cd /usr/sbin/uucp
+/usr/sbin/uucp/uusched &
+/usr/sbin/uucp/uuxqt &

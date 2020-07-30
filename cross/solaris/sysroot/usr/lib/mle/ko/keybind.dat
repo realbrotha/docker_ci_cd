@@ -1,0 +1,72 @@
+##############################################################################
+# @(#)keybind.dat	1.18 97/10/31 SMI; ALE copyright 1989 Sun Microsystems, Inc.
+#
+# Conversion mode and keybinding definition file
+#
+# In this file the text after a pound sign (#) until end of line is a comment.
+# A set of definitions for a conversion manager (CM) starts with
+# tow percentage signs (%%) and ends with either two percentage signs
+# which indidate the start of another CM definitions or End-of-File.
+# For each CM a number of input modes can be specified after a
+# percentage signs (%).
+# This set of definition is described as follows:
+#
+# %%<cm library identification words>	
+#	%<input mode>:<key names>:<function key name>:<message displayed>
+#		<special key name>{=<key names>}{=<function key>}
+#
+# A CM reads <cm library identification words> to match its identification
+# words.  When such <cm library identification words> are found, the CM
+# read the keybinding and mode information till two percentage signs or EOF.
+#
+# <Input mode> is read by a CM.  A CM can be turned into this mode by a user
+# with either the key(s) <key names> or the function key <function key name>.
+# When the CM is in a certain mode the corresponding <message displayed> is
+# displayed in the mode region.  (ref to <mle/cm.h> and <mle/env.h>)
+# The set of <special key names> defines the special keys the CM supports
+# during the input conversion.  A user can bind one or more key names 
+# or function keys to a <special key name>
+# Some examples of <special key names> are listed as follows:
+#		CM_ON			Conversion on
+#		CM_OFF			Conversion off
+#		CV			Convert and display focus area
+#		NC			Display the next choice
+#		PC			Display the previous choice
+#		CM			Commit the intermediate region
+#		FR			Move focus area to right
+#		FL			Move focus area to left
+#		FLON			Lengthen the focus area
+#		FSHO			Shorten the focus area
+#		ER			Erase backward by one character
+#		NG			Display next group of choice
+#		PG			Display previous group of choice
+#		LX			Enter or exit associate state
+#		DS			Display the selection region.
+#		AS			Abort the selection region.
+#		SC			Enter character display.
+# A control key is indicated by an up-arrow key follows by a upper case letter.
+# E.g. <control-K> is indicated by ^K.
+# If a <special key name> is not bound for a CM, CM uses its default
+# key binding.  If the binding of <special key name> is specified inside an
+# <input mode>, this binding exists only for this <input mode>.
+#
+# Default
+#
+%%KLE_DEFAULT			# do not change this name unless new CM created.
+				# for Korean, only following 'special key names'
+				# are valid.
+	# CM_ON only has one key, don't use Function keys here
+	%CM_ON:		^@::"「한글」"			# Hangul ON
+	# first one is always ctrl key and second one is always Function key
+	%CM_OFF:	^@::"「영문」"			# Hangul OFF
+	%HEX_MODE_ON_OFF: ^X:F12:"「코드」"		# hex input ON & OFF
+	%AUTOMATA:
+		PG=^P=<			# Display previous group of Hanja
+		NG=^N=>			# Display next group of Hanja
+		AS=^A			# Abort selection
+		DS=^W			# Start Hanja selection
+		NC=^N			# Start forward stepping Hanja choices
+		PC=^P			# Start backward stepping Hanja choices
+		SC=^J			# Display special character menu
+                CM=^K                   # Commit preedit text
+%%

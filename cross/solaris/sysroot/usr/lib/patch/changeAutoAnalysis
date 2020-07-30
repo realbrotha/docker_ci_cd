@@ -1,0 +1,141 @@
+#! /bin/sh
+#
+# ident	"%Z%%M%	%I%	%E% SMI"
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# This script is used to enable or disable a cron job which
+# runs auto analysis at a random time, once a day.
+#
+
+#
+# control logging method
+#
+log=echo
+
+command=swupAuto
+
+if [ $1 = "enable" ]; then
+
+    ####################################################################
+    #  Create swup agent cron job that runs in auto analysis mode
+    ####################################################################
+    
+    user=root
+    
+    # set the cron job to run at a random time once a day between 12:00am and 3:59:am
+    min=`date +%M`
+    hrs=`date +%H`
+    
+    randhrs=`echo "$hrs % 4" | /usr/bin/bc`
+    
+    entry="$min $randhrs * * * /usr/lib/patch/swupAuto > /dev/null 2>&1"
+    
+    tmp_dir="/tmp/swupCron.$$"
+    
+    if [ ! -d $tmp_dir ] ; then
+	/usr/bin/mkdir -m 0755 $tmp_dir
+    fi
+    
+    # a tmp file for crontab entries
+    tmp_crontab="$tmp_dir/tmp_crontab.$$"
+    
+    # see if a crontab exists for the root
+    crontab_file="/var/spool/cron/crontabs/$user"
+    if [ -f $crontab_file ] ; then
+	    # read the existing crontab into a file
+	    /usr/bin/crontab -l $user > $tmp_crontab
+	    if [ $? -ne 0 ] ; then
+		    $log "ERROR: could not get crontab for $user"
+		    rm -rf $tmp_dir
+		    exit 1
+	    fi
+    else
+	    # create an empty tmp_crontab
+	    /usr/bin/touch $tmp_crontab
+    fi
+    
+    # is there an existing entry? If so, exit the installation with warning
+    /usr/bin/fgrep "$command" $tmp_crontab > /dev/null
+    if [ $? -eq 0 ] ; then
+	    $log "WARNING: root user's crontab has an entry for $command"
+	    /usr/bin/rm -rf $tmp_crontab
+	    $log "Exiting the installation with out making changes to the crontab"
+	    exit 0
+    fi
+    
+    echo "$entry" >> $tmp_crontab
+    
+    /usr/bin/crontab $tmp_crontab
+    if [ $? -ne 0 ] ; then
+	$log "ERROR: crontab could not be updated with an entry for the Inventory agent"
+	/usr/bin/rm -rf $tmp_crontab
+	exit 1
+    fi
+    
+    # remove the cron file
+    /usr/bin/rm -rf $tmp_dir
+    
+    exit 0
+
+elif [ $1 = "disable" ]; then
+	#################################################################################
+	#  Remove the cron entry for the swup agent that runs in auto analysis mode
+	#################################################################################
+	
+	# create temp dir for manipulation of cron files
+	tmp_dir="/tmp/tmp_crons.$$"
+	if [ ! -d $tmp_dir ] ; then
+	    /usr/bin/mkdir -m 0755 $tmp_dir
+	    if [ $? -ne 0 ] ; then
+		    $log "ERROR: could not create $tmp_dir"
+		    exit 1
+	    fi
+	fi
+	
+	# create tmp files of crontab entries
+	# old file is before the removal of crontab entry
+	# new file is after the removal of crontab entry
+	old_crontab="$tmp_dir/old_crontab.$$"
+	new_crontab="$tmp_dir/new_crontab.$$"
+	
+	# read the crontab into this file
+	/usr/bin/crontab -l > $old_crontab
+	if [ $? -ne 0 ] ; then
+		$log "ERROR: could not get crontab"
+		exit 1
+	fi
+	
+	# Find out if there is an entry for the swup Auto agent and if found,
+	# remove it.
+	
+	crontab_entry=`/usr/bin/fgrep "$command" $old_crontab 2>/dev/null`
+	
+	if [ -n "$crontab_entry" ] ; then
+	
+	    # edit the data to remove the line with the entry
+	
+	    /usr/bin/sed /"${command}"/d  $old_crontab > $new_crontab
+	    if [ $? -ne 0 ]; then
+		    $log "ERROR: sed edit of crontab file failed"
+		    exit 1
+	    fi
+	    
+	    # update the crontab file
+	    /usr/bin/crontab $new_crontab
+	    #    /usr/bin/su $user -c "/usr/bin/crontab $new_crontab"
+	    if [ $? -ne 0 ] ; then
+		    $log "ERROR: installation of edited crontab failed"
+		    exit 1
+	    fi
+	fi
+	
+	# remove the data directory as it is no longer needed
+	/usr/bin/rm -rf $tmp_dir
+	
+	exit 0
+
+else
+    echo "Usage: changeAutoAnalysis disable | enable"
+fi

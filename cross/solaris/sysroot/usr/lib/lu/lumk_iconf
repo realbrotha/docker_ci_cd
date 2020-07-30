@@ -1,0 +1,700 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright  2006 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lumk_iconf.sh 5.19     06/04/11 SMI"
+# 
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        lumk_iconf [-l error_log] [-o outfile] ( [-n] "BE_name" )
+# PRIVATE OPTIONS:
+#		-S - do NOT calculate slice sizes - all slice sizes are returned as "0"
+#			This makes lumk_iconf significantly faster.
+#		-R - leave root slice mounted on specified mount point - useful if next
+#			operation is to mount BE to avoid unnecessary mount/umount of
+#			the root slice.
+#		-F - update /etc/lu/ICF.### file for the specified BE if it needs updating
+#			(based on whether or not vfstab files have changed) and return
+#			name of ICF file so that it can be used.
+#		-f - force operation even if BE is not complete.
+# FUNCTION:     Creates an internal configuration file for a given (existing) BE
+#		from the BE's vfstab file.
+# INPUT:        be_name - name of an existing BE
+# OUTPUT:       Writes an internal configuration file for the given BE to the stdout
+# NOTES:        If the be_name contains spaces, it MUST be in single quotes
+#               (i.e. lumk_iconf "BE 3.00")
+# DEV:          JKJ
+#
+# Algorithm:
+# 1. Obtain the numeric ID of the BE.
+# 2. Make sure the BE is Complete; if it is not, and an ICF file exists for the
+#    BE then return those results; otherwise, exit with an error. If the BE status
+#    is complete, then build an ICF file from the /etc/lutab and the BEs /etc/vfstab.
+# 3. Obtain the root (/) slice for the BE from the BEs /etc/lutab file.
+# 4. Mount the root slice if not the current BE - if its already mounted, use that mount point.
+# 5. Use ludefine to create a temporary ICF file from the /etc/vfstab file on the BE.
+# 6. Generate a sort/uniq list of all file systems listed in:
+#    -> the BE's temporary ICF file.
+#    -> the BE's /etc/lutab file for the BE.
+# 7. Verify that each slice in the list exists in the BE's /etc/vfstab file; exit if not.
+# 8. For each file system in the BE's /etc/vfstab file, if the file system is in the list
+#    then generate an ICF entry for that filesystem; exit if the entry cannot be generated.
+# 
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+##################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+MOUNT_PT=/tmp/.alt.lumkiconf.$$
+MOUNT_PT_CAN_BE_UNMOUNTED=""
+ROOT_SLICE=''
+BE_ICF_FILE=''
+TMP_FS=/tmp/.lumkiconf.tmpfs.1.$$
+TMP_ICF=/tmp/.lumkiconf.icf.$$
+TMP_RESULTS=/tmp/.lumkiconf.results.$$
+TMP_LUDBLCL=/tmp/.lumkiconf.ludblcl.$$
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "1").
+# Example:	usage 1
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [ -X ] [ -l error_log ] [ -o outfile ] \
+[ -E ] ( [ -n ] BE_name )'`" "${LU_PROG_NAME}"
+  ${LUPRINTF} -Wp2 "`gettext 'The BE_name should be enclosed in single quotes.'`"
+  if [ -z "$1" ] ; then
+    exit_script 1
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		interruptHandler
+# Description:	Handle an armed shell "trap"
+# Local Prefix:	<none>
+# Arguments:	<none>
+# Example:      trap "interruptHandler" 1 2 3 9 15
+# Returns:	call script cleanup function with exit code "4"
+#################################################################################################
+
+interruptHandler()
+{
+  # Reset all traps to be ignored so that termination can take place
+  # without further interrupts
+
+  # 1- SIGHUP (hangup)
+  # 2- SIGINT (user interrupt)
+  # 3- SIGQUIT (user quit)
+  # 9- SIGKILL (kill process - can not be caught or ignored :)
+  # 15- SIGTERM (software termination request)
+  trap "" 1 2 3 9 15
+
+  # Output indication of interrupt processed
+  ${LUPRINTF} -Ilp2 "`gettext 'Interrupted (Signal received): cleaning up...'`"
+
+  exit_script 1
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  # If not successful, or successful and -R *NOT* specified,
+  # and if not the current (root) file system and the mount
+  # point can be unmounted, unmount the root file system.
+  if [ "${retcode}" -ne "0" -o -z "${flag_R}" ] ; then
+    if [ "$MOUNT_PT" != "/" -a -n "${MOUNT_PT_CAN_BE_UNMOUNTED}" ] ; then
+      if [ -n "${ROOT_SLICE}" ] ; then
+	# sync data to storage medium before unmounting
+	/bin/sync
+	# force log to be flushed before unmounting
+	if [ -x "/usr/sbin/lockfs" ] ; then
+		/usr/sbin/lockfs -f "${MOUNT_PT}" 1>/dev/null 2>&1
+	fi
+	# Unmount root slice
+	/usr/sbin/umount "${ROOT_SLICE}"
+	[ $? -ne 0 ] && /usr/sbin/umount -f "${ROOT_SLICE}"
+      fi
+      [ -d "$MOUNT_PT" ] && /bin/rmdir $MOUNT_PT
+    fi
+  fi
+
+  # Remove temporary files.
+  /bin/rm -f $TMP_FS $TMP_ICF $TMP_RESULTS ${TMP_LUDBLCL}
+
+  # Exit.
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		validate_icf_file
+# Description:	Given a BE ID and a BE vfstab, examine the existing ICF file in /etc/lu to see
+#		if it is up to date with respect to the VFSTAB file.
+# Local Prefix:	vif_
+# Arguments:	$1 = ID of the be.
+#		$2 = path to VFSTAB file for the be specified in $1
+# Example:      validate_icf_file "${BE_ID}" "$MP/etc/vfstab"
+# Returns:	0 - the ICF file is up to date and does not need updating.
+#		1 - the ICF file is out of date and needs to be updated.
+#################################################################################################
+
+validate_icf_file()
+{
+	vif_beId="$1"
+	vif_beVfstab="$2"
+
+	# Calculate the name of the BE icf file.
+	vif_beIcfFile="/etc/lu/ICF.${vif_beId}"
+
+	[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 1 \
+"`gettext 'Validating existing ICF file <%s> for BE <%s>.'`" "${vif_beIcfFile}" "${BE_NAME}"
+
+	# If either BE icf or BE icf sum file is empty, ICF file is out of date.
+	[ ! -s "${vif_beIcfFile}" ] && return 1
+	[ ! -s "${LU_DB_LOCAL}" ] && return 1
+
+	# Obtain the expected checksums of the BE icf and BE vfstab files.
+	vif_beVfstabExpectedSum=`/bin/fgrep ' data-type="vfstab" ' \
+"${LU_DB_LOCAL}" | /bin/fgrep " beId=\"${vif_beId}\" " \
+| /bin/cut -d'"' -f 8`
+	vif_beIcfFileExpectedSum=`/bin/fgrep ' data-type="icf" ' \
+"${LU_DB_LOCAL}" | /bin/fgrep " beId=\"${vif_beId}\" " \
+| /bin/cut -d'"' -f 8`
+
+	# If either checksum is incorrect, ICF file is out of date.
+	vif_beIcfFileSum="`${LUBIN}/lucomm_del \"${vif_beIcfFile}\" | /bin/sum`"
+	[ "${vif_beIcfFileSum}" != "${vif_beIcfFileExpectedSum}" ] && return 1
+
+	vif_beVfstabSum="`${LUBIN}/lucomm_del \"${vif_beVfstab}\" | /bin/sum`"
+	[ "${vif_beVfstabSum}" != "${vif_beVfstabExpectedSum}" ] && return 1
+
+	# ICF file is current.
+	return 0
+}
+
+#################################################################################################
+# Name:		update_icf_file
+# Description:	Given a BE ID, a new ICF file contents, and a BE vfstab, update the ICF file for
+#		the BE and update the sum file for the ICF file.
+# Local Prefix:	uifs_
+# Arguments:	$1 = ID of the be.
+#		$2 = file containing new ICF file contents for the BE.
+#		$3 = path to VFSTAB file for the be specified in $1
+# Example:      update_icf_file "${BE_ID}" "/tmp/newicffile" "$MP/etc/vfstab"
+# Returns:	0 - the ICF file has been updated.
+#		1 - the ICF file could not be updated.
+#################################################################################################
+
+update_icf_file()
+{
+	uifs_beId="$1"
+	uifs_newIcfFile="$2"
+	uifs_vfstab="$3"
+
+	# Calculate the name of the BE icf file.
+	uifs_beIcfFile="/etc/lu/ICF.${uifs_beId}"
+
+	# Output debug information
+	[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 1 \
+"`gettext 'Updating ICF file <%s> for BE <%s>.'`" "${uifs_beIcfFile}" "${BE_NAME}"
+
+	# Copy the new ICF file contents into the real ICF file
+	ERRMSG="`/bin/cp \"${uifs_newIcfFile}\" \"${uifs_beIcfFile}\" 2>&1`"
+	if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 \
+"`gettext 'Unable to update internal configuration file <%s>.'`" "${uifs_beIcfFile}"
+	   return 1
+	fi
+
+	# Update the sum db file; format:
+	#    <icfSum source="lumk_iconf" beId="?" data-type="?" sum="?" />
+	#    beId := i.d. of the be this sum is for
+	#    data-type := type of data (vfstab, icf)
+	#    sum := sum of "file" (e.g. 12345 6)
+	# An entry exists for each BE.
+
+	# Remove all entries for this BE i.d. from the ludb.
+	/bin/rm -f "${TMP_LUDBLCL}"
+	if [ -s "${LU_DB_LOCAL}" ] ; then
+		/bin/fgrep -v " beId=\"${uifs_beId}\" " "${LU_DB_LOCAL}" > "${TMP_LUDBLCL}"
+	fi
+	${LUBIN}/lucomm_del "${uifs_vfstab}" | /bin/sum | ${LUPRINTF} -X -a \
+"${TMP_LUDBLCL}" -T icfSum 'source="lumk_iconf" beId="%d" data-type="vfstab" sum="%R"' \
+"${uifs_beId}"
+	${LUBIN}/lucomm_del "${uifs_beIcfFile}" | /bin/sum | ${LUPRINTF} -X -a \
+"${TMP_LUDBLCL}" -T icfSum 'source="lumk_iconf" beId="%d" data-type="icf" sum="%R"' \
+"${uifs_beId}"
+
+	[ -s "${TMP_LUDBLCL}" ] && /bin/cp "${TMP_LUDBLCL}" "${LU_DB_LOCAL}"
+
+	return 0
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_E="" # -E - return warnings if BE is incomplete or references missing/unavailable devices or has no config data (for ludelete).
+flag_f="" # -f - force operation even if BE is not complete. (PRIVATE)
+flag_F="" # -F - update /etc/lu/ICF.## file based on vfstab file cksum and return contents if no updating needed
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_n="" # -n "beName" - be name.
+flag_R="" # -R "mountPoint" - leave root slice mounted - use specified mount point.
+flag_S="" # -S - do not calculate slize sizes (return 0 for all slice sizes)
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts EfFl:n:o:R:Sx:X c
+  do
+    case $c in
+      E) # -E - return warnings if BE is incomplete or references missing/unavailable devices or has no config data (for ludelete).
+	 flag_E="yes"
+	 ;;
+      f) # -f - force operation even if BE is not complete. (PRIVATE)
+	 flag_f="yes"
+	 ;;
+      F) # -F - update /etc/lu/ICF.## file based on vfstab file cksum and return contents if no updating needed
+	 flag_F="yes"
+	 ;;
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 [ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 2 "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      n) # -n "n" - be name.
+	 lulib_cannot_duplicate_option "${flag_n}" "${OPTARG}" "-n"
+	 flag_n="${OPTARG}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 [ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 2  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to.'`" "${OPTARG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      R) # -R "mountPoint" - leave root slice mounted - use specified mount point.
+	 lulib_cannot_duplicate_option "${flag_R}" "${OPTARG}" "-R"
+	 flag_R="${OPTARG}"
+	 ;;
+      S) # -S - do not calculate slize sizes (return 0 for all slice sizes)
+	 # Set it to "-S" so it can be passed down to ludefine it set.
+	 flag_S="-S"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# Validate the number of arguments.
+if [ $# -gt 1 ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The boot environment name should be enclosed in single quotes, like %c%s%c.'`" "'" "$*" "'"
+  usage 1
+fi
+
+# Name of target BE (ABE).
+if [ -n "${flag_n}" -a -z "$1" ] ; then
+  BE_NAME="${flag_n}"
+elif [ -z "${flag_n}" -a -n "$1" ] ; then
+  BE_NAME="$1"
+elif [ -z "${flag_n}" -a -z "$1" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must specify the BE to use either with the <-n> option or by providing the BE name on the command line.'`"
+  usage 1
+else
+  ${LUPRINTF} -Eelp2 "`gettext 'You must specify the BE to use either with the <-n> option or by providing the BE name on the command line, but not both.'`"
+  usage 1
+fi
+
+lulib_is_be_name_inuse "${BE_NAME}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to make configuration file for boot environment <%s>.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Check to see if we are building a Internal conf file for the current BE
+# If so, we will not want to mount
+CURR_BE=`lulib_lucurr`
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active boot environment.'`"
+  exit_script 1
+fi
+
+if [ "$BE_NAME" = "$CURR_BE" -a -z "${flag_R}" ] ; then
+  MOUNT_PT=/
+elif [ -n "${flag_R}" ] ; then
+  MOUNT_PT="${flag_R}"
+fi
+
+# signal handling for cleanup.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+trap "interruptHandler" 1 2 3 9 15
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f ${LU_LUTAB_FILE} -o ! -s ${LU_LUTAB_FILE} ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No boot environments are configured on this system.'`"
+  exit_script 1
+fi
+
+### Obtain the numeric ID of the BE.
+
+ID=`${LUETCBIN}/ludo get_be_id "${BE_NAME}" 2>&1`
+if [ "$?" -ne "0" ] ; then
+  [ -n "${ID}" ] && ${LUPRINTF} -Eelp2 '%s' "${ID}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to create configuration file for the target boot environment <%s>.'`" "${BE_NAME}"
+  exit_script 2
+fi
+
+[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 2 "`gettext 'BE id for boot environment <%s> is <%d>.'`" "${BE_NAME}" "${ID}"
+
+### Make sure the BE is Complete; if it is not, and an ICF file exists for the
+### BE then return those results; otherwise, exit with an error. If the BE status
+### is complete, then build an ICF file from the /etc/lutab and the BEs /etc/vfstab.
+
+BE_STATUS="`${LUETCBIN}/ludo get_be_status_from_be_name \"$BE_NAME\"`"
+if [ "$?" -ne "0" ] ; then
+  if [ -n "${flag_E}" ] ; then
+    ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> BE ID <%s> configuration is missing.'`" "${BE_NAME}" "${ID}"
+    exit_script 0
+  fi
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the target BE <%s> BE ID <%s> configuration.'`" "${BE_NAME}" "${ID}"
+  exit_script 1
+fi
+
+if [ -z "${flag_f}" -a "$BE_STATUS" != "C" ] ; then
+  if [ -r /etc/lu/ICF.${ID} ] ; then
+    if [ -n "${flag_F}" ] ; then
+      echo "/etc/lu/ICF.${ID}"
+    else
+      /bin/cat /etc/lu/ICF.${ID}
+    fi
+    exit_script 0
+  elif [ -n "${flag_E}" ] ; then
+    # BE is incomplete and has no ICF file - issue warning but continue as it doesnt matter what we do to this BE.
+    ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> ID <%s> is incomplete and has no internal configuration information.'`" "${BE_NAME}" "${ID}"
+    exit_script 0
+  fi
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the target BE <%s> BE ID <%s> configuration.'`" "${BE_NAME}" "${ID}"
+  exit_script 1
+fi
+
+## Obtain the root (/) slice for the BE.
+ROOT_SLICE=`${LUETCBIN}/ludo get_root_slice_from_be_name "${BE_NAME}" 2>&1`
+if [ "$?" -ne "0" ] ; then
+  if [ -n "${flag_E}" ] ; then
+    [ -n "${ROOT_SLICE}" ] && ${LUPRINTF} -Welp2 '%s' "${ROOT_SLICE}"
+    ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> root slice not found.'`" "${BE_NAME}"
+    exit_script 0
+  fi
+  [ -n "${ROOT_SLICE}" ] && ${LUPRINTF} -Eelp2 '%s' "${ROOT_SLICE}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the root slice for BE <%s>.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 1 "`gettext 'Root slice for BE <%s> is <%s>.'`" "${BE_NAME}" "${ROOT_SLICE}"
+
+### Mount the root slice if not the current BE - if its already mounted, use that mount point.
+
+if [ "$MOUNT_PT" != "/" ] ; then
+  if [ ! -r "$ROOT_SLICE" ] ; then
+    if [ -n "${flag_E}" ] ; then
+      ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> BE ID <%s> root slice <%s> cannot be read.'`" "${BE_NAME}" "${ID}" "${ROOT_SLICE}"
+      exit_script 0
+    fi
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to access the root slice <%s> for BE <%s>.'`" "${ROOT_SLICE}" "${BE_NAME}"
+    exit_script 1
+  fi
+
+  # mount ROOT for ID to $MOUNT_PT
+  # 
+  R_FST="`lulib_fstyp $ROOT_SLICE`"
+  if [ "$R_FST" = "" ] ; then
+    if [ -n "${flag_E}" ] ; then
+      ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> BE ID <%s> root slice <%s> file system type cannot be determined.'`" "${BE_NAME}" "${ID}" "${ROOT_SLICE}"
+      exit_script 0
+    fi
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the file system type for the ROOT slice <%s> for BE <%s>.'`" "${ROOT_SLICE}" "${BE_NAME}"
+    exit_script 1
+  fi
+
+  [ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 2 "`gettext 'File system type for root slice <%s> for BE <%s> is <%s>.'`" "${ROOT_SLICE}" "${BE_NAME}" "${R_FST}"
+
+  BAD_DEV="`${LUETCBIN}/ludo get_root_slice_from_mntpt \"${MOUNT_PT}\" 2>/dev/null`"
+  if [ "$?" -eq "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The mount point <%s> is already in use for root slice <%s> for BE <%s>.'`" "${MOUNT_PT}" "${BAD_DEV}" "${BE_NAME}"
+    exit_script 1
+  fi
+
+  # Create $MOUNT_PT if it doesn't exist
+  if [ ! -d "${MOUNT_PT}" ] ; then
+    [ -f "${MOUNT_PT}" ] && /bin/rm -f "${MOUNT_PT}" 2>/dev/null
+    ERRMSG="`/bin/mkdir -p ${MOUNT_PT} 2>&1`"
+    if [ "$?" -ne "0" ] ; then
+      ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to create mount point <%s> for root slice <%s> for BE <%s>.'`" "${MOUNT_PT}" "${ROOT_SLICE}" "${BE_NAME}"
+      exit_script 1
+    fi
+  fi
+
+  # Check to see if the file system is already mounted. If it is, we
+  # will not mount it.
+  ALREADY_MOUNTED="`${LUETCBIN}/ludo get_mntpt_from_root_slice \"${ROOT_SLICE}\" 2>/dev/null`"
+  if [ "$?" -eq "0" ] ; then
+    ${LUPRINTF} -Welp2 "`gettext 'The root slice <%s> for BE <%s> is already mounted to <%s>.'`" "${ROOT_SLICE}" "${BE_NAME}" "${ALREADY_MOUNTED}"
+    MOUNT_PT=$ALREADY_MOUNTED
+    MOUNT_PT_CAN_BE_UNMOUNTED=""
+  else
+    ERRMSG="`/sbin/mount -F $R_FST $ROOT_SLICE $MOUNT_PT 2>&1`"
+    if [ "$?" -ne "0" ] ; then
+      if [ -n "${flag_E}" ] ; then
+        ${LUPRINTF} -Welp2 '%s' "${ERRMSG}"
+        ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> BE ID <%s> unable to mount root slice <%s> to mount point <%s>.'`" "${BE_NAME}" "${ID}" "${ROOT_SLICE}" "${MOUNT_PT}"
+        exit_script 0
+      fi
+      ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount root slice <%s> for BE <%s> to mount point <%s>.'`" "${ROOT_SLICE}" "${BE_NAME}" "${MOUNT_PT}"
+      exit_script 1
+    fi
+    MOUNT_PT_CAN_BE_UNMOUNTED="YES"
+  fi
+  [ -n "${flag_R}" ] && MOUNT_PT_CAN_BE_UNMOUNTED=''
+fi
+
+# Set LUTAB to point to the correct vfstab for the alternate BE
+# This will cause ludefine to use the correct vfstab.
+
+VFSTAB="${MOUNT_PT}/etc/vfstab"
+
+# If the -F flag has been specified, then proceed with updating only if the 
+# local /etc/lu/ICF.## file for this be is out of date with respect to the
+# vfstab file on the target be root slice. If the -f flag is also specified,
+# then skip this step and force recreation of the ICF file.
+if [ -n "${flag_F}" ] ; then
+	BE_ICF_FILE="/etc/lu/ICF.${ID}"
+	if [ -z "${flag_f}" -a -s "${BE_ICF_FILE}" ] ; then
+		validate_icf_file "${ID}" "${VFSTAB}"
+		if [ "$?" -eq '0' ] ; then
+			[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 1 "`gettext 'Using existing ICF file <%s> for BE <%s>.'`" "${BE_ICF_FILE}" "${BE_NAME}"
+			/bin/echo "${BE_ICF_FILE}"
+			exit_script 0
+		fi
+	fi
+	[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 1 "`gettext 'Updating ICF file <%s> for BE <%s>.'`" "${BE_ICF_FILE}" "${BE_NAME}"
+fi
+
+### Use ludefine to create a temporary ICF file from the /etc/vfstab file on the BE.
+
+$LUBIN/ludefine -v ${VFSTAB} -n "${BE_NAME}" ${flag_S} > $TMP_ICF
+
+if [ "$?" -ne "0" ] ; then
+  if [ -n "${flag_E}" ] ; then
+    ${LUPRINTF} -Welp2 "`gettext 'Target BE <%s> BE ID <%s> unable to verify file systems belonging to BE are not mounted.'`" "${BE_NAME}" "${ID}"
+    exit_script 0
+  fi
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to create ICF file for boot environment <%s>.'`" "${BE_NAME}"
+  exit_script 1
+fi
+
+# Need to sort the list so the /etc/vfstab will always be in the correct order.
+
+/bin/cut -d":" -f2 $TMP_ICF | /bin/sort | /bin/uniq > $TMP_FS
+
+[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 3 "`gettext 'Filesystems from current boot environment:\n********************\n%R\n********************'`" < ${TMP_FS}
+
+### Verify that each slice in the list exists in the BE's /etc/vfstab file; exit if not.
+
+for FSYS in `cat $TMP_FS` ; do
+  RESULTS=`/bin/nawk -v FSYS=$FSYS '($3 == FSYS) { printf("%s, %s, %s, %s\n",$1,$2,$3,$4); exit 1 } ' < ${VFSTAB}`
+  if [ "$?" -ne "1" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to find filesystem <%s> in BE <%s> vfstab file <%s>.'`" "${FSYS}" "${BE_NAME}" "${VFSTAB}"
+    exit_script 1
+  fi
+  [ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 3 "`gettext 'Found vfstab entry for <%s>: <%s>.'`" "${FSYS}" "${RESULTS}"
+done
+
+### For each file system in the BE's /etc/vfstab file, if the file system is in the list
+### then generate an ICF entry for that filesystem; exit if the entry cannot be generated.
+
+/bin/rm -f ${TMP_RESULTS}
+ERRMSG="`${LUPRINTF} -c \"${TMP_RESULTS}\" 2>&1`"
+if [ $? -ne 0 ] ; then
+  [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to create temporary output file <%s>.'`" "${TMP_RESULTS}"
+  exit_script 1
+fi
+
+$LUBIN/lucomm_del ${VFSTAB} | while read line ; do
+  set $line
+
+  M_PT=$3
+  SLICE=$1
+  FS_TYPE=$4
+  FS_PASS=$5
+  MOUNT_ATBOOT=$6
+  MOUNT_OPTIONS="$7"
+
+  # Ignore swap devices
+  if [ $FS_TYPE = "swap" -a -f $SLICE ]; then
+    continue
+  fi
+
+  # Ignore devices mounted with "global" option
+  echo "${MOUNT_OPTIONS}" | /bin/egrep '^global$|^global,|,global$|,global,' >/dev/null
+  if [ $? = 0 ] ; then
+    continue
+  fi
+
+  /bin/grep "^${M_PT}\$" $TMP_FS > /dev/null
+  if [ $? -eq 0 ]; then
+
+    # GET fs size
+    # First look in the icf file generated by ludefine; use value from there if found,
+    # otherwise determine size directly using lulib_get_devsize.
+
+    SIZE="0"
+    if [ -z "${flag_S}" ] ; then
+      SIZE="`/bin/fgrep \":$SLICE:\" $TMP_ICF 2>/dev/null | /bin/cut -d: -f5`"
+      if [ $? -ne 0 -o -z "$SIZE" ] ; then
+	SIZE="`lulib_get_devsize $SLICE`"
+      fi
+      if [ $? -ne 0 -o -z "$SIZE" ]; then
+	# If the file system is either auto-fsck-d or auto-
+	# mounted then generate error otherwise ignore.
+	if [ "${FS_PASS}" != "-" -o "${MOUNT_ATBOOT}" = "yes" ] ; then
+	  ${LUPRINTF} -Ielp2 "`gettext 'Unable to determine size for file system <%s> for BE <%s>.'`" "${SLICE}" "${BE_NAME}"
+	fi
+	SIZE="0"
+      fi
+    fi
+
+    # 
+    # format information in internal conf format.
+    #
+    echo "$BE_NAME:$M_PT:$SLICE:$FS_TYPE:$SIZE" >> "${TMP_RESULTS}"
+  else
+    [ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -Wlp2D 2 "`gettext 'Ignoring mount point <%s>.'`" "${M_PT}"
+  fi
+done
+
+# Update the checksums of the ICF file and update the ICF file
+# ifself if the -F flag was specified.
+if [ -n "${flag_F}" -a -n "${BE_ICF_FILE}" ] ; then
+	update_icf_file "${ID}" "${TMP_RESULTS}" "${VFSTAB}"
+	echo "${BE_ICF_FILE}"
+else
+	# Output final results.
+	[ "${LU_DEBUG}" -ne '0' ] && ${LUPRINTF} -lp2D 3 "`gettext 'ICF file generated:\n********************\n%R\n********************'`" < ${TMP_RESULTS}
+	/bin/cat ${TMP_RESULTS}
+fi
+
+exit_script 0

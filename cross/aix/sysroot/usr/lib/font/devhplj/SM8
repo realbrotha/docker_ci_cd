@@ -1,0 +1,141 @@
+# @(#)22	1.4  src/cmdtext/usr/bin/hplj/font/SM8, cmdtext, cmdtext530 5/3/91 18:25:37
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/SM8 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Times-Roman, for HP LazerJet series II printer with K cartridge
+# Math8 symbol set
+# created 06/26/89, Interactive Systems Corporation
+name SM8
+
+special
+ligatures 0
+spacewidth 30
+charset
+bu	20 3 204
+dg	18 3 206
+pl	23 3 43
+mi	23 3 45
+eq	25 3 61
+*a	25 3 97
+*b	24 3 98
+*g	23 3 99
+*d	19 3 100
+*e	17 3 101
+*z	20 3 102
+*y	22 3 103
+*h	17 3 104
+*i	16 3 105
+*k	23 3 106
+*l	23 3 107
+*m	25 3 108
+*n	23 3 109
+*c	21 3 110
+*o	20 3 111
+*p	23 3 112
+*r	20 3 113
+*s	22 3 114
+ts	20 3 91
+*t	18 3 115
+*u	22 3 116
+*f	23 3 117
+*x	25 3 118
+*q	26 3 119
+*w	26 3 120
+*A	35 3 65
+*B	29 3 66
+*G	24 3 67
+*D	35 3 68
+*E	30 3 69
+*Z	31 3 70
+*Y	35 3 71
+*H	30 3 72
+*I	16 3 73
+*K	38 3 74
+*L	27 3 75
+*M	42 3 76
+*N	35 3 77
+*C	23 3 78
+*O	33 3 79
+*P	30 3 80
+*R	26 3 81
+*S	30 3 82
+*T	30 3 83
+*U	29 3 84
+*F	30 3 85
+*X	36 3 86
+*Q	31 3 87
+*W	28 3 88
+sr	35 3 33
+rn	35 3 176
+>=	24 3 94
+<=	24 3 92
+==	25 3 125
+~=	30 3 124
+!=	25 3 93
+->	39 3 162
+<-	39 3 164
+ua	21 3 161
+da	21 3 163
+mu	24 3 42
+di	23 3 37
++-	24 3 254
+cu	28 3 181
+ca	28 3 182 
+sb	28 3 186
+sp	28 3 187
+ib	28 3 190
+ip	28 3 191
+if	41 3 36
+pd	23 3 90
+gr	35 3 89
+no	27 3 200
+is	25 3 213
+pt	30 3 38
+es	31 3 196
+mo	28 3 183
+dd	18 3 207
+rh	39 3 166
+lh	39 3 168
+or	35 3 246
+ci	31 3 205
+lt	35 3 226
+lb	35 3 228
+rt	35 3 242
+rb	35 3 244
+lk	35 3 227
+rk	35 3 243
+bv	35 3 245
+lf	35 3 225
+rf	35 3 241
+lc	35 3 224
+rc	35 3 240
+# \<x>	24 3 42
+# \<-.>	27 3 200
+# \<&m>	25 3 108
+# \<:->	23 3 37
+# \<..>	14 3 203

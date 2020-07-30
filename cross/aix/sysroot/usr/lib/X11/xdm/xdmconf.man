@@ -1,0 +1,66 @@
+# @(#)75        1.1  src/gos/2d/XTOP/aixclients/xdm/config/xdmconf.man, xdmcp, gos530 10/7/93 15:36:04
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/aixclients/xdm/config/xdmconf.man 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1992,1993 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: XDMCP
+#
+# FUNCTIONS: xdmconf.man
+#
+# ORIGINS: 16, 27 
+#
+# (C) COPYRIGHT International Business Machines Corp. 1992, 1993
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+
+.\" 
+.\"  Copyright 1991, International Business Machines
+.\" 
+.TH xdmconf 1 AIX
+.SH NAME
+xdmconf \- configure the system to run the X Display Manager at boot time.
+.SH SYNOPSIS
+.B xdmconf 
+[
+.B -d
+]
+.SH DESCRIPTION
+This script creates a new \fIxdm\fR subsystem for the \fIsrcmstr\fR(1)
+source master, and enables the startup & shutdown of \fIxdm\fR with 
+\fItcpip\fR(5); however, if the system is not running \fItcpip\fR, then
+\fIxdm\fR is started by \fIinit\fR(1)."
+.LP
+This script does not configure \fIxdm\fR, or any of it's resources found
+in the \fI/usr/lib/X11/xdm\fR directory.
+.SH OPTION
+.IP "\fB-d\fR" 15
+Annul \fIxdm\fR configuration from the system.
+.SH EXAMPLES
+.IP "xdmconf" 15
+Construct the system to run \fIxdm\fR at boot time.
+.IP "xdmconf -d" 15
+Rescind the \fIxdm\fR startup/shutdown configuration from the system.
+.SH RETURNS
+Returns zero (0) for success, and a positive value to indicate failure.
+.SH SEE ALSO
+srcmstr(1), mkssys(1), rmssys(1), lssrc(1), tcpip(5), init(1).
+.SH FILES
+.IP /etc/rc.tcpip 15
+.IP /etc/tcp.clean 15
+.IP /etc/inittab 15

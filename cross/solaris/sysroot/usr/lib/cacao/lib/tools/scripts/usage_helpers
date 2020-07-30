@@ -1,0 +1,463 @@
+#! /bin/sh
+
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.8 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_usage         : Display cacaoadm usage.
+# - cacao_command_usage : Display cacaoadm command usage.
+
+#------------------------------------------------------------------------------
+# cacao_do_display_usage
+#
+# DESCRIPTION:
+# Display the cacaoadm sub-command usage specified in ${cacao_main_action} if
+# set and valid, otherwise, display the cacaoadm command usage.
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# None.
+# 
+# OUTPUT:
+# See description.
+#------------------------------------------------------------------------------
+cacao_do_display_usage() {
+
+    if [ -z "${CACAO_HLP_CATALOG_ALREADY_SOURCED}" ] 
+    then
+	. ${cacao_tools_dir}/help_messages.cfg
+    fi
+
+    if [ -z "${cacao_main_action}" ]
+    then
+	cacao_command_usage
+        cacao_print_message "${CACAO_HLP_MAN__________1}"
+        return
+    fi
+
+    case "${cacao_main_action}" in
+
+    "help")
+	cacao_command_usage
+        ;;
+    "disable")
+	cacao_print_message "${CACAO_HLP_DISABLE__HEAD1}"
+	cacao_print_message "${CACAO_HLP_DISABLE__HEAD2}"
+	cacao_print_message "${CACAO_HLP_DISABLE__HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "enable")
+	cacao_print_message "${CACAO_HLP_ENABLE___HEAD1}"
+	cacao_print_message "${CACAO_HLP_ENABLE___HEAD2}"
+	cacao_print_message "${CACAO_HLP_ENABLE___HEAD3}"
+	cacao_print_message "${CACAO_HLP_ENABLE___HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "restart")
+	cacao_print_message "${CACAO_HLP_RESTART__HEAD1}"
+	cacao_print_message "${CACAO_HLP_RESTART__HEAD2}"
+	cacao_print_message "${CACAO_HLP_RESTART__HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "start")
+	cacao_print_message "${CACAO_HLP_START____HEAD1}"
+	cacao_print_message "${CACAO_HLP_START____HEAD2}"
+	cacao_print_message "${CACAO_HLP_START____HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "stop")
+	cacao_print_message "${CACAO_HLP_STOP_____HEAD1}"
+	cacao_print_message "${CACAO_HLP_STOP_____HEAD2}"
+	cacao_print_message "${CACAO_HLP_STOP_____HEAD3}"
+	cacao_print_message "${CACAO_HLP_STOP_____HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_STOP___OPT_F_1}"
+	;;
+    "status")
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD1}"
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD2}"
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD3}"
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD4}"
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD5}"
+	cacao_print_message "${CACAO_HLP_STATUS___HEAD6}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_MODULE___ARG_1}"
+	;;
+    "get-param")
+	cacao_print_message "${CACAO_HLP_GETPARAM_HEAD1}"
+	cacao_print_message "${CACAO_HLP_GETPARAM_HEAD2}"
+	cacao_print_message "${CACAO_HLP_GETPARAM_HEAD3}"
+	cacao_print_message "${CACAO_HLP_GETPARAM_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_GETPARAM_OPT_1}"
+	cacao_print_message "${CACAO_HLP_GETPARAM_ARG_1}"
+	;;
+    "set-param")
+	cacao_print_message "${CACAO_HLP_SETPARAM_HEAD1}"
+	cacao_print_message "${CACAO_HLP_SETPARAM_HEAD2}"
+	cacao_print_message "${CACAO_HLP_SETPARAM_HEAD3}"
+	cacao_print_message "${CACAO_HLP_SETPARAM_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_SETPARAM_ARG_1}"
+	cacao_print_message "${CACAO_HLP_SETPARAM_ARG_2}"
+	;;
+    "list-params")
+	cacao_print_message "${CACAO_HLP_LSTPARAM_HEAD1}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_HEAD2}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_HEAD3}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_OPT_1}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_OPT_2}"
+	cacao_print_message "${CACAO_HLP_LSTPARAM_OPT_3}"
+	;;
+    "list-modules")
+	cacao_print_message "${CACAO_HLP_LSTMODUL_HEAD1}"
+	cacao_print_message "${CACAO_HLP_LSTMODUL_HEAD2}"
+	cacao_print_message "${CACAO_HLP_LSTMODUL_HEAD3}"
+	cacao_print_message "${CACAO_HLP_LSTMODUL_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_LSTMODUL_OPT_1}"
+	;;
+
+    "undeploy")
+	cacao_print_message "${CACAO_HLP_UNDEPLOY_HEAD1}"
+	cacao_print_message "${CACAO_HLP_UNDEPLOY_HEAD2}"
+	cacao_print_message "${CACAO_HLP_UNDEPLOY_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_MODULE___ARG_1}"
+	;;
+    "lock")
+	cacao_print_message "${CACAO_HLP_LOCK_____HEAD1}"
+	cacao_print_message "${CACAO_HLP_LOCK_____HEAD2}"
+	cacao_print_message "${CACAO_HLP_LOCK_____HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_MODULE___ARG_1}"
+	;;
+    "unlock")
+	cacao_print_message "${CACAO_HLP_UNLOCK___HEAD1}"
+	cacao_print_message "${CACAO_HLP_UNLOCK___HEAD2}"
+	cacao_print_message "${CACAO_HLP_UNLOCK___HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_MODULE___ARG_1}"
+	;;
+    "deploy")
+	cacao_print_message "${CACAO_HLP_DEPLOY___HEAD1}"
+	cacao_print_message "${CACAO_HLP_DEPLOY___HEAD2}"
+	cacao_print_message "${CACAO_HLP_DEPLOY___HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_XML_DD___ARG_1}"
+	;;
+    "get-filter")
+	cacao_print_message "${CACAO_HLP_GETFILTR_HEAD1}"
+	cacao_print_message "${CACAO_HLP_GETFILTR_HEAD2}"
+	cacao_print_message "${CACAO_HLP_GETFILTR_HEAD3}"
+	cacao_print_message "${CACAO_HLP_GETFILTR_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_GETFILTR_OPT_1}"
+	cacao_print_message "${CACAO_HLP_OPT_PERSISTE_1}"
+	cacao_print_message "${CACAO_HLP_GETFILTR_ARG_1}"
+	;;
+    "set-filter")
+	cacao_print_message "${CACAO_HLP_SETFILTR_HEAD1}"
+	cacao_print_message "${CACAO_HLP_SETFILTR_HEAD2}"
+	cacao_print_message "${CACAO_HLP_SETFILTR_HEAD3}"
+	cacao_print_message "${CACAO_HLP_SETFILTR_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_PERSISTE_1}"
+	cacao_print_message "${CACAO_HLP_SETFILTR_ARG_1}"
+	;;
+    "list-filters")
+	cacao_print_message "${CACAO_HLP_LSTFILTR_HEAD1}"
+	cacao_print_message "${CACAO_HLP_LSTFILTR_HEAD2}"
+	cacao_print_message "${CACAO_HLP_LSTFILTR_HEAD3}"
+	cacao_print_message "${CACAO_HLP_LSTFILTR_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_PERSISTE_1}"
+	cacao_print_message "${CACAO_HLP_LSTFILTR_OPT_1}"
+	;;
+    "create-keys")
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD1}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD2}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD3}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD4}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD5}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_HEAD6}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_O_D_1}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_O_D_2}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_O_F_1}"
+	cacao_print_message "${CACAO_HLP_CREATKEY_O_N_1}"
+	;;
+    "list-instances")
+	cacao_print_message "${CACAO_HLP_LSTINSTA_HEAD1}"
+	cacao_print_message "${CACAO_HLP_LSTINSTA_HEAD2}"
+	cacao_print_message "${CACAO_HLP_LSTINSTA_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	;;
+    "create-instance")
+	cacao_print_message "${CACAO_HLP_CR_INSTA_HEAD1}"
+	cacao_print_message "${CACAO_HLP_CR_INSTA_HEAD2}"
+	cacao_print_message "${CACAO_HLP_CR_INSTA_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_CR_INSTA_OPT_1}"
+	cacao_print_message "${CACAO_HLP_CR_INSTA_ARG_1}"
+        ;;
+    "delete-instance")
+	cacao_print_message "${CACAO_HLP_DELINSTA_HEAD1}"
+	cacao_print_message "${CACAO_HLP_DELINSTA_HEAD2}"
+	cacao_print_message "${CACAO_HLP_DELINSTA_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_DELINSTA_OPT_1}"
+	cacao_print_message "${CACAO_HLP_DELINSTA_ARG_1}"
+	cacao_print_message "${CACAO_HLP_DELINSTA_ARG_2}"
+        ;;
+    "show-trusted-cert")
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD1}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD2}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD3}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD4}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD5}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD6}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD3}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD4}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD7}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD8}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_HEAD9}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___1}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___2}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______1}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______2}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_O_V_1}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_O_F_1}"
+	cacao_print_message "${CACAO_HLP_SHOWTCER_O_F_2}"
+	cacao_print_message "${CACAO_HLP_ALIAS_CT_ARG_1}"
+        ;;
+    "add-trusted-cert")
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD1}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD2}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD3}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD4}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD5}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_HEAD6}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___1}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___2}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______1}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______2}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_O_F_1}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_O_F_2}"
+	cacao_print_message "${CACAO_HLP_ADD_TCER_O_F_3}"
+	cacao_print_message "${CACAO_HLP_ALIAS_CT_ARG_1}"
+	;;
+    "list-trusted-certs")
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD1}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD2}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD3}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD4}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD5}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_HEAD6}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___1}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___2}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______1}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______2}"
+	cacao_print_message "${CACAO_HLP_LST_TCER_OPT_1}"
+	;;
+    "show-cert-chain")
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD1}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD2}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD3}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD4}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD5}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_HEAD6}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___1}"
+	cacao_print_message "${CACAO_HLP_OPT_JMXURL___2}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______1}"
+	cacao_print_message "${CACAO_HLP_OPT_CNT______2}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_OPT_1}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_OPT_2}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_OPT_3}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_OPT_4}"
+	cacao_print_message "${CACAO_HLP_SHOWCERC_OPT_5}"
+	;;
+    "register-module")
+	cacao_print_message "${CACAO_HLP_REGMODUL_HEAD1}"
+	cacao_print_message "${CACAO_HLP_REGMODUL_HEAD2}"
+	cacao_print_message "${CACAO_HLP_REGMODUL_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_XML_DD___ARG_1}"
+	;;
+    "unregister-module")
+	cacao_print_message "${CACAO_HLP_UNRMODUL_HEAD1}"
+	cacao_print_message "${CACAO_HLP_UNRMODUL_HEAD2}"
+	cacao_print_message "${CACAO_HLP_UNRMODUL_HEAD3}"
+	cacao_print_message "${CACAO_HLP_UNRMODUL_HEAD4}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	cacao_print_message "${CACAO_HLP_XML_DD___ARG_2}"
+	;;
+    "verify-configuration")
+	cacao_print_message "${CACAO_HLP_VERICONF_HEAD1}"
+	cacao_print_message "${CACAO_HLP_VERICONF_HEAD2}"
+	cacao_print_message "${CACAO_HLP_VERICONF_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "rebuild-dependencies")
+	cacao_print_message "${CACAO_HLP_RBLDCONF_HEAD1}"
+	cacao_print_message "${CACAO_HLP_RBLDCONF_HEAD2}"
+	cacao_print_message "${CACAO_HLP_RBLDCONF_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_1}"
+	cacao_print_message "${CACAO_HLP_OPT_INSTANCE_2}"
+	;;
+    "prepare-uninstall")
+	cacao_print_message "${CACAO_HLP_PREPUNIN_HEAD1}"
+	cacao_print_message "${CACAO_HLP_PREPUNIN_HEAD2}"
+	cacao_print_message "${CACAO_HLP_PREPUNIN_HEAD3}"
+	cacao_print_message "${CACAO_HLP_HELP_________1}"
+	;;
+    *)
+	cacao_command_usage
+        ;;
+    esac
+    cacao_print_message "${CACAO_HLP_MAN__________1}"
+}
+
+#------------------------------------------------------------------------------
+# cacao_command_usage
+#
+# DESCRIPTION:
+# Display the cacaoadm command usage.
+#
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# None.
+# 
+# OUTPUT:
+# See description.
+#------------------------------------------------------------------------------
+cacao_command_usage() {
+
+    if [ -z "${CACAO_HLP_CATALOG_ALREADY_SOURCED}" ] 
+    then
+	. ${cacao_tools_dir}/help_messages.cfg
+    fi
+
+
+    cacao_print_message "${CACAO_HLP_COMMAND_HEAD_1}"
+    cacao_print_message "${CACAO_HLP_COMMAND_HEAD_2}"
+    cacao_print_message "${CACAO_HLP_COMMAND_HEAD_3}"
+    cacao_print_message "${CACAO_HLP_HELP_________1}"
+    cacao_print_message "${CACAO_HLP_VERSION______1}"
+    cacao_print_message "${CACAO_HLP_VERSION______2}"
+    cacao_print_message "${CACAO_HLP_COMMAND_HEAD_4}"
+    cacao_print_message "${CACAO_HLP_CMD__DISABLE_1}"
+    cacao_print_message "${CACAO_HLP_CMD__DISABLE_2}"
+    cacao_print_message "${CACAO_HLP_CMD___ENABLE_1}"
+    cacao_print_message "${CACAO_HLP_CMD___ENABLE_2}"
+    cacao_print_message "${CACAO_HLP_CMD___ENABLE_3}"
+    cacao_print_message "${CACAO_HLP_CMD__RESTART_1}"
+    cacao_print_message "${CACAO_HLP_CMD____START_1}"
+    cacao_print_message "${CACAO_HLP_CMD_____STOP_1}"
+    cacao_print_message "${CACAO_HLP_CMD___STATUS_1}"
+    cacao_print_message "${CACAO_HLP_CMD_GETPARAM_1}"
+    cacao_print_message "${CACAO_HLP_CMD_SETPARAM_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LSTPARAM_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LSTMODUL_1}"
+    cacao_print_message "${CACAO_HLP_CMD_UNDEPLOY_1}"
+    cacao_print_message "${CACAO_HLP_CMD_____LOCK_1}"
+    cacao_print_message "${CACAO_HLP_CMD___UNLOCK_1}"
+    cacao_print_message "${CACAO_HLP_CMD___DEPLOY_1}"
+    cacao_print_message "${CACAO_HLP_CMD_GETFILTR_1}"
+    cacao_print_message "${CACAO_HLP_CMD_SETFILTR_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LSTFILTR_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LSTFILTR_2}"
+    cacao_print_message "${CACAO_HLP_CMD_CREATKEY_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LSTINSTA_1}"
+    cacao_print_message "${CACAO_HLP_CMD_CR_INSTA_1}"
+    cacao_print_message "${CACAO_HLP_CMD_DELINSTA_1}"
+    cacao_print_message "${CACAO_HLP_CMD_SHOWTCER_1}"
+    cacao_print_message "${CACAO_HLP_CMD_SHOWTCER_2}"
+    cacao_print_message "${CACAO_HLP_CMD_ADD_TCER_1}"
+    cacao_print_message "${CACAO_HLP_CMD_ADD_TCER_2}"
+    cacao_print_message "${CACAO_HLP_CMD_LST_TCER_1}"
+    cacao_print_message "${CACAO_HLP_CMD_LST_TCER_2}"
+    cacao_print_message "${CACAO_HLP_CMD_SHOWCERC_1}"
+    cacao_print_message "${CACAO_HLP_CMD_REGMODUL_1}"
+    cacao_print_message "${CACAO_HLP_CMD_REGMODUL_2}"
+    cacao_print_message "${CACAO_HLP_CMD_UNRMODUL_1}"
+    cacao_print_message "${CACAO_HLP_CMD_UNRMODUL_2}"
+    cacao_print_message "${CACAO_HLP_CMD_UNRMODUL_3}"
+    cacao_print_message "${CACAO_HLP_CMD_UNRMODUL_4}"
+    cacao_print_message "${CACAO_HLP_CMD_VERICONF_1}"
+    cacao_print_message "${CACAO_HLP_CMD_VERICONF_2}"
+    cacao_print_message "${CACAO_HLP_CMD_VERICONF_3}"
+    cacao_print_message "${CACAO_HLP_CMD_RBLDCONF_1}"
+    cacao_print_message "${CACAO_HLP_CMD_RBLDCONF_2}"
+    cacao_print_message "${CACAO_HLP_CMD_PREPUNIN_1}"
+    cacao_print_message "${CACAO_HLP_CMD_PREPUNIN_2}"
+    cacao_print_message "${CACAO_HLP_CMD_PREPUNIN_3}"
+    cacao_print_message "${CACAO_HLP_COMMAND_FOOT_1}"
+    cacao_print_message "${CACAO_HLP_COMMAND_FOOT_2}"
+}

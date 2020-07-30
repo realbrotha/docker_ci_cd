@@ -1,0 +1,36 @@
+/* IBM_PROLOG_BEGIN_TAG                                                   */
+/* This is an automatically generated prolog.                             */
+/*                                                                        */
+/* gos530 src/gos/2d/XTOP/include/bitmaps/xlogo11 1.2                     */
+/*                                                                        */
+/* Licensed Materials - Property of IBM                                   */
+/*                                                                        */
+/* (C) COPYRIGHT International Business Machines Corp. 1988,1994          */
+/* All Rights Reserved                                                    */
+/*                                                                        */
+/* US Government Users Restricted Rights - Use, duplication or            */
+/* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.      */
+/*                                                                        */
+/* IBM_PROLOG_END_TAG                                                     */
+/* @(#)26       1.2  src/gos/2d/XTOP/include/bitmaps/xlogo11, xlib, gos530 2/11/94 17:55:53 */
+/*
+ *   COMPONENT_NAME: X11
+ *
+ *   FUNCTIONS: none
+ *
+ *   ORIGINS: 16,27,40,42
+ *
+ *
+ *   (C) COPYRIGHT International Business Machines Corp. 1988,1991,1994
+ *   All Rights Reserved
+ *   Licensed Materials - Property of IBM
+ *   US Government Users Restricted Rights - Use, duplication or
+ *   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+#define xlogo11_width 11
+#define xlogo11_height 11
+
+static char xlogo11_bits[] = {
+ 0x0f, 0x04, 0x0f, 0x02, 0x1e, 0x01, 0x3c, 0x01, 0xb8, 0x00, 0x58, 0x00,
+ 0xe8, 0x00, 0xe4, 0x01, 0xc4, 0x03, 0xc2, 0x03, 0x81, 0x07 };

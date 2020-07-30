@@ -1,0 +1,154 @@
+
+         RealPlayer 10.0.6.1358
+
+                Release Notes
+
+               March 2006
+
+  System Requirements
+
+     * 350MHz Intel Pentium II processor or
+       equivalent (500 MHz Pentium III or
+       greater recommended)
+     * 64MB of RAM
+     * 30MB available disk space
+     * 28.8Kbps modem (High-speed Internet
+       connection recommended)
+     * Sound card supported by OSS drivers
+     * 65,000-color video display card set
+       to display at 800x600 (video)
+
+   This is the readme file for the RealPlayer
+   10.0.6.1358 release. This file will be
+   modified as we have more information -
+   so please do check our website
+   periodically for new and updated
+   information.
+
+  What's New in 10.0.6.1358
+
+   This build includes many fixes and
+   incremental improvements over the
+   earlier releases. A lot of the work in
+   this build also has gone towards
+   stabilizing features and fixing many
+   known issues and bugs.
+
+  Security Issues Fixed in This Release
+
+     * Incorrect RIFF/DATA chunk size headers causes 
+       player to crash
+     * Long String in SMIL Parameter "system-screen-size" 
+       Causes Buffer Overflow
+
+  Other Issues Fixed in This Release
+
+     * audio/PCMU component missing
+       https://bugs.helixcommunity.org/show_bug.cgi?id=3506
+       Helix Player now has support for U-Law and
+       A-Law AU audio files.
+     * wvffplin.cpp requires SimplePayloadFormat
+       https://bugs.helixcommunity.org/show_bug.cgi?id=2440
+       Previously Helix Player was unable to play back
+       uncompressed audio because a portion of this code
+       was contained in a non-GPL library.  This code has
+       been moved so that WAV and PCM files now work.
+     * Chained Ogg support has been added.
+     * Some memory leaks have been fixed.
+     * Core dump when given illegal options after "-e"  
+       or "-c" has been fixed.
+     * One known Xerror on Sparc has been fixed.
+     * The output of -h option has been changed from   
+       'hxplayer' to 'realplay'
+
+  Known Issues
+
+     * If you are having problems playing
+       back media and are behind a proxy
+       you can try using rtsp transport via
+       http only (go to transports pane in
+       prefs, select "use specified
+       transport" and click "configure
+       rtsp." Then uncheck "attempt
+       multicast," "attempt udp," and
+       "attempt tcp.")
+     * Context Menu might not work while
+       managing favorites with older GTK
+       versions.
+     * If RealPlayer 8 is installed on the
+       system (via rpm) the RealPlayer 10
+       rpm does not remove RP8 before
+       installing RP10. This means that RP8
+       and RP10 coexist on the same system.
+       In the event that this configuration
+       results in any problems with the
+       embedded player (plugin) please
+       delete the file rpnp.so from your
+       mozilla plugins directory. (issue
+       #2678)
+     * Some content encoded in RealAudio 3
+       fails to play. Multimedia content
+       that uses RA3 as the audio codec
+       will still play without audio. RA3
+       has been deprecated.
+     * Player does not play gnome-vfs URI's
+       (smb://). Workaround is to mount the
+       samba share using smbmount etc
+       (issue #2269).
+     * Alsa and esound drivers are not
+       included in this build
+       The OSS device used for playback can
+       be set using the AUDIO environment
+       variable. eg export AUDIO=/dev/dsp2
+     * See the Helix Player bug tracker for
+       a list of the latest issues that
+       affect the player.
+     * The value of the UDPPort preference,
+       if used, needs to be set as a range,
+       for example:
+
+        UseUDPPort=1
+        UDPPort=7000-7010
+
+       Setting it to a single number
+       will result in a player crash.
+     * Multiple instances of Real Player 
+       result in a hang of second instance
+       when you start up Realplayer from menu 
+       or from command line. 
+       You can use "-n" option to start up 
+       multiple Players.
+     * If you click "General", "FAQ", etc. under 
+       help menu you probably get error "Couldn't
+       display...", and then the file browser is
+       launched.
+       To solve this problem you can specify the 
+       location of web browser in Realplayer 
+       preference->General, Realplayer will launch
+       web browser instead of file browser and go
+       to the specified document on internet if you
+       already set the proxy.  
+     * Garble messages displayed when executing 
+       realplay ?-help in gnome-terminal with
+       zh_CN/zh_TW/ja locale.
+       To solve this problem, use UTF-8 locale
+       instead in gnome-terminal.  
+     * Realplayer for Solaris has been given the L10N waiver 
+       for Swedish.      
+
+Technical Support
+
+   Support pages for RealPlayer are avaiable at
+   http://service.real.com. Click on
+   RealPlayer and choose RealPlayer 10 for
+   Linux/Unix from the drop down list.
+
+   To reach the development team please
+   send email to
+   sun-realplayer@Sun.COM.
+
+   You can check the player help page in
+   the Helix Player project:
+   http://player.helixcommunity.org
+
+   Thank you for using the RealPlayer!

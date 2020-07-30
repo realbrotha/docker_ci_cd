@@ -1,0 +1,71 @@
+#
+#ident	"@(#)Text.flash.invalid	5.1	01/04/04 SMI"
+#
+# Copyright (c) 2001 Sun Microsystems, Inc.  All Rights Reserved.
+#
+#############################################################################
+#	Module Name:  Text.flash.invalid
+#       Arguments: $ARG1 - file containing error that occured when archive
+#                          was attempted to be validated.
+#############################################################################
+# Text frame telling user that the archive location they typed in was
+# not valid for some reason.  Essentially we show them a text frame
+# containing the output of pfinstall -F.
+#
+#############################################################################
+title=`gettext "Error"`
+
+wrap=true
+altslks=true
+close=nop
+
+#############################################################################
+# Text and formatting directives
+#############################################################################
+# This is the error we will show.
+text=`cat $ARG1`
+
+begrow=any
+begcol=any
+rows=8
+columns=70
+
+`gettext "Strike the CANCEL function key to return." | message`
+framemsg=`gettext "Strike the CANCEL function key to return."`
+
+
+#############################################################################
+# SLK Buttons
+#############################################################################
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

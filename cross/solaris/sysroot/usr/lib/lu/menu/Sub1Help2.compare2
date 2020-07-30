@@ -1,0 +1,54 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Sub1Help2.compare2 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Name of the child BE associated with the snap-shot"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "Enter the name of the child BE that is associated with the snap-shot. This BE comparison is to a snap-shot. Snap-shots are taken when a alternate BE is created. When you want to compare a BE to its snap-shot, you must give the name of the alternate BE that triggered the snap-shot. This comparison will tell the user what files have changed on a BE since the creation of a child BE."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

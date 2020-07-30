@@ -1,0 +1,13 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+defaultemulation=xterm
+
+Name: vte
+Description: Vte terminal widget.
+Version: 0.11.11
+Requires: xft >= 2.0 glib-2.0 gobject-2.0 gtk+-2.0 >= 2.2 fontconfig pangoxft >= 1.1.0 pangox
+Libs: -L${libdir} -lvte -L/usr/sfw/lib -R/usr/sfw/lib -lfreetype -lcurses  -lSM -lICE  -lX11 -lsocket  -lnsl  -lm
+Cflags: -I${includedir} -I/usr/sfw/include/freetype2 -I/usr/sfw/include 

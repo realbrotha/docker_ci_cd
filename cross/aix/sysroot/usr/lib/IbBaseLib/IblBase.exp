@@ -1,0 +1,82 @@
+#!/usr/lib/IbBaseLib.a(shr.o)
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53S src/bos/usr/lib/IbBaseLib/IblBase.exp 1.6 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* COPYRIGHT International Business Machines Corp. 2005,2008 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)43  1.6  src/bos/usr/lib/IbBaseLib/IblBase.exp, sysxicm, bos53S, s2008_32C7 7/21/08 16:05:52
+* $Header: /home/cvsroot/ib/src/bos/usr/lib/IbBaseLib/IblBase.exp,v 1.6 2005/03/01 00:12:07 lehall Exp $
+IbAddrHandleCreate
+IbAddrHandleDestroy
+IbAddrHandleModify
+IbAddrHandleQuery
+IbCmAccept
+IbCmBusy
+IbCmConnect
+IbCmDisconnect
+IbCmListen
+IbCmReady
+IbCmReject
+IbCmStopListen
+IbCqCreate
+IbCqDestroy
+IbCqPoll
+IbCqQuery
+IbCqReqNotify
+IbCqResize
+IbHcaClose
+IbHcaOpen
+IbHcaQuery
+IbHcaQueryPort
+IbHcaQueryInfo
+IbMcastAttach
+IbMcastDetach
+IbMcastFetchRecords
+IbMcastGroupJoin
+IbMcastGroupLeave
+IbMcastGroupQuery
+IbMcastSubscribe
+IbMcastUnSubscribe
+IbMemRegionDereg
+IbMemRegionQuery
+IbMemRegionReg
+IbMemRegionRegPhys
+IbMemRegionRegShared
+IbMemWindowAlloc
+IbMemWindowBind
+IbMemWindowDealloc
+IbMemWindowQuery
+IbPathAltRsp
+IbPathFetchRecords
+IbPathFind
+IbPathLoadAlternate
+IbPdAlloc
+IbPdDealloc
+IbQpCreate
+IbQpDestroy
+IbQpModify
+IbQpPostRecv
+IbQpPostSend
+IbQpQuery
+IbServiceFind
+IbServiceRegister
+IbServiceReply
+IbServiceUnregister
+IbSetAsyncHandler
+IbSetCmHandler
+IbSetCqHandler
+IbGetDeviceList
+IbGetDeviceName
+IbGetDeviceId
+IbSetAddrArraySize

@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib/sparcv9
+includedir=${prefix}/include
+
+Name: Pango FT2
+Description: Freetype 2.0 font support for Pango
+Version: 1.5.2
+Requires: pango
+Libs: -L${libdir} -lpangoft2-1.0 
+Cflags: -I${includedir}/pango-1.0     -I/usr/sfw/include/freetype2 -I/usr/sfw/include
+

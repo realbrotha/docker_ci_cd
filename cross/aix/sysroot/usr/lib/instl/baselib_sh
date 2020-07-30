@@ -1,0 +1,3781 @@
+#!/usr/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53V src/bos/usr/sbin/install/baselib_sh/baselib_sh.sh 1.4.1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# COPYRIGHT International Business Machines Corp. 2005,2009 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)10      1.4.1.4  src/bos/usr/sbin/install/baselib_sh/baselib_sh.sh, libinstall, bos53V, v2009_09B0 2/25/09 14:15:10
+
+########################################################################
+## Function: init_baselib - Initlialize base libraries for operations. 
+########################################################################
+init_baselib()
+{
+   typeset ERROR='eval pmerror "init_baselib()"; return 1'
+
+###########################################################
+## Set global command name.
+###########################################################
+
+   export GLOBALCMD=baselib_sh # initialize
+   [[ -n $1 ]] && GLOBALCMD=$1 || $ERROR  
+ 
+###########################################################
+## Initialize POSIX commands
+###########################################################
+
+   init_pos_cmds || $ERROR
+
+###########################################################   
+## Initialize system variables
+###########################################################
+
+   init_sys_vars || $ERROR
+
+###########################################################
+## Setup WORKDIR variable.
+###########################################################
+
+   WORKDIR=$($LIBINST_MKWORKDIR) 
+   if [[ $? -ne 0 || -z $WORKDIR ]]; then
+      pmerror $LIBINST_MKWORKDIR
+      $ERROR  
+   fi
+  
+   check_dir $WORKDIR || $ERROR
+ 
+###########################################################
+## Global exports.
+###########################################################
+
+   export WORKDIR
+   export POSIXLY_CORRECT=1
+   export DEBUG=0
+   export MSG_BUF=$WORKDIR/msgbuf.$RANDOM
+   export ERRTOKEN=$WORKDIR/errtoken
+
+   return 0
+
+}  # end of init_baselib()
+
+########################################################################
+## Function: init_libinst_cmds 
+########################################################################
+init_libinst_cmds()
+{
+   export LIBINST_AVAIL=0
+   typeset LIBINSTPATH="/usr/lib/instl"
+   typeset LIBINSTCMDS1
+   typeset CMD
+   typeset -u UCMD
+
+###########################################################
+## First set of libinst commands.
+###########################################################
+
+   LIBINSTCMDS1="libinst_mkworkdir realpath libinst_whichfs libinst_getfsinfo"
+   LIBINSTCMDS1="$LIBINSTCMDS1 libinst_mntqry libinst_fsync"
+
+   inc LIBINST_AVAIL
+   for CMD in $LIBINSTCMDS1; do
+      if [[ -x ${LIBINSTPATH}/${CMD} ]]; then
+         UCMD=$CMD
+         eval export $UCMD=${LIBINSTPATH}/${CMD}
+      else
+         dec LIBINST_AVAIL 
+         break 
+      fi
+   done
+         
+   return 0   
+
+}  # end of init_libinst_cmds()
+
+
+########################################################################
+## Function: is_text_file()
+## Parameters: <NODE>
+## Returns: 0 = yes, is text file, 1 = not text file, 2 = error
+########################################################################
+
+is_text_file()
+{
+   typeset ERROR='eval pmerror "is_text_file()"; return 2'
+   typeset ISTEXTF='eval return 0'
+   typeset NOTEXTF='eval perror 381 "$NODE"; return 1'
+   typeset AWKERROR='eval pmerror "$AWK"; $ERROR'
+   typeset BUF=""
+   typeset NODE="$1"
+
+   # Check for internal error
+   [[ -z $NODE ]] && $ERROR
+
+   # If it is not a file, then it can't be a text file.
+   check_file $NODE || $NOTEXTF
+
+########################################################################
+## awk will read the first line of the given file and compare all of
+## the characters in that first line against the ASCII character set
+## based on the POSIX locale. This function  expects ony POSIX ascii
+## characters to be in a text file.. so this is not a good routine to
+## execute against a file that may contain non-POSIX characters.
+########################################################################
+
+   BUF=$(LC_ALL=C LANG=C awk '{ if($0 ~ "^[\b-\~]*$" )
+         exit(0); print "1"; exit(0) }' $NODE) || $AWKERROR
+
+   # Sanity check..
+   [[ -n "$BUF" && "$BUF" != "1" ]] && $ERROR
+
+   # If BUF empty, then this is a text file, otherwise it is not.
+   [[ -z $BUF ]] && $ISTEXTF || $NOTEXTF
+
+   # Should never get here.
+   $ERROR
+
+}  # end of is_text_file()
+
+########################################################################
+## Function: btoi() Changes boolean variable (y or no, etc) to int
+## Parameters: <boolean variable>
+## Returns: 0 = OK, !0 = ERROR
+## Note: Changes <boolean varible> to 0 = no/false, 1 = yes/true
+########################################################################
+btoi()
+{
+   typeset ERROR='eval pmerror "btoi()" ; return 1'
+   typeset VAR=$1
+   typeset VAL
+   typeset RC
+
+   [[ -z $VAR ]] && $ERROR
+   eval VAL="$"$VAR
+
+   isYorN "$VAL"; RC=$?
+
+   [[ $RC -ne 0 && $RC -ne 1 ]] && $ERROR
+
+   eval $VAR=$RC
+
+   return 0
+
+}  # end of btoi()
+
+########################################################################
+## Function: print_uniq_iname()
+## Parameters: <NODE>
+## Returns: outputs uniq file/dir name in same directory. If the file
+##          or dir exists, will add a .integer sufix.
+########################################################################
+print_uniq_iname()
+{
+   typeset ERROR='eval pmerror "print_uniq_iname()"; return 1'
+   typeset NODE="$1"
+   typeset UNODE  # uniq node
+   typeset c=0 # local counter
+   typeset SUM
+   typeset NODE_EXISTS=1
+   typeset MAXLOOP=256
+
+   [[ -z $NODE ]] && $ERROR
+
+   # If the file/dir does not exist, return its name as uniq.
+   check_node "$NODE" || return 0
+
+   # Get the absolute path of existing node.
+   NODE=$(abspath $NODE) || $ERROR
+
+   UNODE=$NODE
+   while [[ $NODE_EXISTS -eq 1 ]]; do
+      inc c
+      # loop safety
+      [[ $c -gt $MAXLOOP ]] && $ERROR
+      UNODE="${NODE}.${c}"
+      check_node $UNODE && continue
+      NODE_EXISTS=0
+      break
+   done
+
+   echo "$UNODE"
+
+   return 0
+
+}  # end of print_uniq_iname()
+
+########################################################################
+## Function: does_ar_mem_exist()
+## Parameters: <ARCHIVE FILE> <ARCHIVE MEMBER>
+## Output: 1 = yes, 0 = no
+########################################################################
+does_ar_mem_exist()
+{
+   typeset ERROR='eval pmerror "does_ar_mem_exist()"; return 1'
+   typeset AFILE=$1
+   typeset MEMBER=$2
+   typeset RC=$?
+
+   # Check the input
+   [[ -z $AFILE ]] && $ERROR
+   check_file $AFILE
+   [[ $? -ne 0 || -z $MEMBER ]] && $ERROR
+
+   $AR -X 32_64 -t $AFILE $MEMBER > /dev/null 2>&1
+   RC=$?
+
+   [[ $RC -eq 0 ]] && echo 1 || echo 0
+
+   return 0
+
+}  # end of does_ar_mem_exist()
+
+########################################################################
+## Function: get_ar_sum()
+## Parameters: <ARCHIVE FILE> <ARCHIVE MEMBER>
+########################################################################
+get_ar_sum()
+{
+   typeset ERROR='eval perror 242; return 1'
+   typeset AFILE=$1
+   typeset MEMBER=$2
+   typeset EAR='eval pmerror $AR; $ERROR'
+   typeset CKSUM=0
+
+   # Check the input
+   check_file $AFILE
+   [[ $? -ne 0 || -z $MEMBER ]] && $ERROR
+
+   # Set actual member location
+   $RM -f $MEMBER # just in case
+
+   # Extract the member into WORKDIR.
+   extract_ar_member "$AFILE" "$MEMBER" "$WORKDIR" || $ERROR
+
+   # Set the full location for member..
+   MEMBER=$WORKDIR/$MEMBER
+
+   # Get the sum.
+   CKSUM=$(getfsum "$MEMBER") || $ERROR
+
+   # Remove member
+   $RM -f $MEMBER
+
+   echo "$CKSUM"
+
+   return 0
+
+}  # end of get_ar_sum()
+
+########################################################################
+## Function: chmod
+## Parameters: <MODE> <FILE>
+########################################################################
+chmod()
+{
+   typeset MODE=$1
+   typeset FILE=$2
+   typeset ERROR='eval pmerror "chmod()"; return 1'
+
+   check_file $FILE
+   [[ $? -ne 0 || -z $MODE ]] && $ERROR
+
+   $CHMOD "$MODE" "$FILE" || $ERROR
+
+   return 0
+
+}  # end of chmod()
+
+########################################################################
+## Function: chown
+## Parameters: <OWN STRING> <NODE>
+########################################################################
+chown()
+{
+   typeset OWNSTR=$1
+   typeset NODE=$2
+   typeset ERROR='eval pmerror "chown()"; return 1'
+
+   check_node $NODE
+   [[ $? -ne 0 || -z $OWNSTR ]] && $ERROR
+
+   $CHOWN "$OWNSTR" "$NODE" || $ERROR
+
+   return 0
+
+}  # end of chown()
+
+########################################################################
+## Function: extract_ar_member()
+## Parameters: <ARCHIVE FILE> <ARCHIVE MEMBER> <TARGET DIR>
+########################################################################
+extract_ar_member()
+{
+   typeset ERROR='eval perror 240; return 1'
+   typeset AFILE=$1
+   typeset MEMBER=$2
+   typeset TDIR=$3
+   typeset EAR='eval pmerror $AR; $ERROR'
+   typeset SIZE=0
+   typeset RC=0
+   typeset EXTMEM
+   typeset BUF
+
+   # Check the input
+   check_file $AFILE
+   [[ $? -ne 0 || -z $MEMBER ]] && $ERROR
+   check_dir $TDIR || $ERROR
+
+   AFILE=$(abspath $AFILE) || ERROR
+   cd $TDIR || $ERROR
+   [[ "$TDIR" != "$PWD" ]] && $ERROR
+
+   # Make sure we have space..
+   SIZE=$(get_ar_msize $AFILE $MEMBER) || $ERROR
+   addbuf SIZE 14 64
+   ck_exp_fs $PWD $SIZE
+
+   # Ok, lets get our ar member
+   $AR -X 32_64 -lx $AFILE $MEMBER ; RC=$?
+
+   EXTMEM=$PWD/$MEMBER
+   ERROR='eval $RM -f $EXTMEM; perror 240; return 1'
+   cd $OLDPWD
+
+   [[ $RC -ne 0 ]] && $EAR
+
+   check_file "$EXTMEM" || $ERROR
+
+   # One more task.. we need to reset the ownership to
+   # what is in the previous archive.  Get the archive string.
+
+   BUF=$($AR -X 32_64 -tv $AFILE $MEMBER)
+   [[ $? -ne 0 || -z $BUF ]] && $EAR
+
+   # Parse out for ownership. Replace "/" with ":"
+   BUF=$(echo "$BUF" | $AWK '{gsub("/",":",$2); print $2 }')
+   [[ $? -ne 0 || -z $BUF ]] && $ERROR
+ 
+   # Set the right ownership..
+   chown "$BUF" "$EXTMEM" || $ERROR
+
+   return 0
+
+}  # end of extract_ar_member()
+
+########################################################################
+## Function: get_ar_msize()
+## Parameters: <ARCHIVE FILE> <ARCHIVE MEMBER>
+########################################################################
+get_ar_msize()
+{
+   typeset ERROR='eval perror 239; return 1'
+   typeset AFILE=$1
+   typeset MEMBER=$2
+   typeset EAR='eval pmerror $AR; $ERROR'
+   typeset BUF
+
+   # Check the input
+   check_file $AFILE
+   [[ $? -ne 0 || -z $MEMBER ]] && $ERROR
+
+   # Get line of output as buffer
+   BUF=$($AR -X 32_64 -tv $AFILE $MEMBER)
+   [[ $? -ne 0 || -z $BUF ]] && $EAR
+
+   # Parse the line out for size
+   BUF=$(echo "$BUF" | $AWK '{print $3}') || $ERROR
+
+   # Check that the buf is good.
+   isnum $BUF || $ERROR
+
+   # Convert this into 512 bb. We also add a small buffer.
+   addbuf BUF 5 512
+   (( BUF = $BUF / 512 ))
+
+   echo "$BUF"
+
+   return 0
+
+}  # end of get_ar_msize()
+
+########################################################################
+## Function: is_ar_member()
+## Parameters: <ARCHIVE FILE> <ARCHIVE MEMBER>
+## Returns: 0 = yes, 1 = no, 2 = ERROR
+########################################################################
+is_ar_member()
+{
+   typeset ERROR='eval pmerror "is_ar_member()"; return 1'
+   typeset AFILE=$1
+   typeset MEMBER=$2
+
+   # Check the input
+   check_file $AFILE
+   [[ $? -ne 0 || -z $MEMBER ]] && $ERROR
+
+   # Do the check
+   eval $AR -X 32_64 -t $AFILE $MEMBER > /dev/null 2>&1
+
+   # Return the output
+   return $?
+
+}  # end of is_ar_member()
+
+########################################################################
+## Function: get_parent_dir()
+########################################################################
+get_parent_dir()
+{
+   typeset ERROR='eval pmerror "get_parent_dir()"; return 1'
+   typeset NODE=$1
+
+   [[ -z $NODE ]] && $ERROR
+   NODE=$(abspath $NODE) || $ERROR
+
+   if [[ -d $NODE ]]; then
+      echo "$NODE"
+      return 0
+   elif [[ -f $NODE ]]; then
+      # remove initial "/"
+      NODE=${NODE#/}
+      # remove file if still has slashes
+      [[ "$NODE" != ${NODE%/*} ]] && NODE=${NODE%/*} || NODE=""
+      # add slash back in
+      NODE="/${NODE}"
+      # check results
+      check_dir $NODE || $ERROR
+      # print results
+      echo "$NODE"
+      return 0
+   fi
+
+   # If we got here, something went wrong.
+   $ERROR
+
+}  # end of get_parent_dir()
+
+########################################################################
+## Function: toupper
+########################################################################
+toupper()
+{
+   typeset ERROR='eval pmerror "toupper()"; return 1'
+   typeset -u STR=$1
+   [[ -z $STR ]] && $ERROR
+   echo "$STR"
+   return 0
+
+}  # end of toupper()
+
+########################################################################
+## Function: check_fdup_space (Check that we have space to dup a file
+##                             within its own filesystems).
+## Parameters: <FILE> [ <BUFFER> ] [ <FS> ]
+########################################################################
+check_fdup_space()
+{
+   typeset ERROR='eval pmerror "check_fdup_space()"; return 1'
+   typeset NEEDSIZE
+   typeset FILE="$1"
+   typeset BUF=$2
+   typeset FS="$3"
+
+   [[ -z $FILE ]] && $ERROR
+
+   # Make sure that we have enough space to write out the file copy
+   # Note.. the file must exist !
+
+   NEEDSIZE=$(getfsize $FILE) || $ERROR
+   if [[ -n $FS ]]; then
+      FS=$(whichfs $FS)
+   else
+      # default
+      FS=$(whichfs $FILE) || $ERROR
+   fi
+
+   # Add buffer if needed..
+
+   if [[ -n $BUF ]]; then
+       addbuf NEEDSIZE $BUF || $ERROR
+       [[ $NEEDSIZE -lt 32 ]] && NEEDSIZE=32
+   fi
+
+   # Do the check-expand.
+   ck_exp_fs $FS $NEEDSIZE || $ERROR
+
+   # Done !
+   return 0
+
+}  # end of check_fdup_space()
+
+########################################################################
+## Function: slibclean (Executes slibclean)
+########################################################################
+
+slibclean()
+{
+   typeset ERROR='eval pmerror "slibclean()"; return 1'
+
+   if [[ "$PLATFORM" = "AIX" && -z $INUCLIENTS ]]; then
+
+      # Set slibclean
+      setcmd slibclean || $ERROR
+
+      # Exec slibclean
+      $SLIBCLEAN || $ERROR
+
+   fi
+
+   return 0
+
+}  # end of slibclean()
+
+########################################################################
+## Function: dec() (decrement variable by 1)
+########################################################################
+
+dec()
+{
+    # decrement variable by 1
+    typeset -i CUR_VALUE=0
+    typeset -i NEW_VALUE=0
+    typeset ERROR='eval pmerror "dec()" ; return 1'
+
+    eval isnum "$"$1 || $ERROR
+
+    eval CUR_VALUE="$"$1
+    (( NEW_VALUE = $CUR_VALUE - 1 ))
+    eval $1=$NEW_VALUE
+
+    return 0
+
+}   # end of dec()
+
+########################################################################
+## Function: which_lpp()  Which LPP owns this file ?
+########################################################################
+
+which_lpp()
+{
+   typeset ERROR='eval perror 99; perror 131 $FILE; return 1'
+   typeset BUF
+   typeset FILE="$1"
+   typeset FILESET=""
+
+###########################################################
+## Check that we are at least in the right neighborhood.
+###########################################################
+
+   [[ "$PLATFORM" != "AIX" || -z $FILE ]] && $ERROR
+
+###########################################################
+## Is the fileset installed ? If yes, get the data.
+###########################################################
+
+   BUF=$(LC_ALL=C LANG=C $LSLPP -qwc $FILE)
+
+   if [[ $? -ne 0 ]]; then
+      pmerror $LSLPP
+      $ERROR
+   fi
+   [[ -z $BUF ]] && $ERROR
+   FILESET=$(echo $BUF | $AWK -F":" '{ print $2 }')
+   [[ $? -ne 0 || -z $FILESET ]] && $ERROR
+
+   echo "$FILESET"
+
+   return 0
+
+}  # end of which_lpp()
+
+########################################################################
+## Function: addbuf() (Add Buffer to Variable)
+## Parameters: <Variable> <Percent to Buffer> (note: this
+## is approximate) <Flat add>
+########################################################################
+
+addbuf()
+{
+    # increment variable by 1
+    typeset -i CUR_VALUE=0
+    typeset -i NEW_VALUE=0
+    typeset BUF_PERCENT=$2
+    typeset FLATADD=$3
+    typeset DIVISOR=100
+    typeset ERROR='eval pmerror "addbuf()" ; return 1'
+    [[ -z $FLATADD ]] && FLATADD=0
+
+    # Make sure the input is valid
+    isnum $FLATADD || $ERROR
+    eval isnum "$"$1 || $ERROR
+    isnum $BUF_PERCENT || $ERROR
+    [[ $BUF_PERCENT -eq 0 ]] && return 0
+    [[ $BUF_PERCENT -lt 0 || $BUF_PERCENT -gt 100 ]] && $ERROR
+
+    # Calculate the divisor
+    (( DIVISOR = 100 / $BUF_PERCENT ))
+    [[ $DIVISOR -eq 0 ]] && $ERROR
+
+    eval CUR_VALUE="$"$1
+    (( NEW_VALUE = $CUR_VALUE + ($CUR_VALUE / $DIVISOR) ))
+    [[ $NEW_VALUE -eq $CUR_VALUE ]] && (( NEW_VALUE = $NEW_VALUE +1 ))
+
+    # Finally, add the flat.
+    (( NEW_VALUE = $NEW_VALUE + $FLATADD ))
+
+    # Upvar the results.
+    eval $1=$NEW_VALUE
+
+    return 0
+
+}   # end of addbuf()
+
+#######################################################################
+## Function: get_lpp_level()
+## Returns: 0 = OK, !0 = Error
+## Output: LPP level if fileset is installed. If fileset is not
+##         installed, then NULL is returned.
+########################################################################
+
+get_lpp_level()
+{
+   typeset ERROR='eval perror 99; return 1'
+   typeset BUF
+   typeset FILESET="$1"
+   typeset STATE
+   typeset LEVEL
+   typeset JUNK
+
+###########################################################
+## Check that we are at least in the right neighborhood.
+###########################################################
+
+   [[ "$PLATFORM" != "AIX" || -z $FILESET ]] && $ERROR
+
+###########################################################
+## Is the fileset installed ? If yes, get the data.
+###########################################################
+
+   LC_ALL=C LANG=C $LSLPP -qLc > $MSG_BUF
+
+   if [[ $? -ne 0 ]]; then
+      $RM -f $MSG_BUF
+      pmerror $LSLPP
+      $ERROR
+   fi
+
+   BUF=$($AWK -v F=$FILESET -F: '{if ($2 == F)
+         {print $3" "$6 ; exit(0)}}' $MSG_BUF) || $ERROR
+
+   $RM -f $MSG_BUF
+
+###########################################################
+## If BUF is null, then the fileset is not installed,
+## just return with 0 return code.
+###########################################################
+
+   [[ -z $BUF ]] && return 0
+
+###########################################################
+## Read in STATE and LEVEL
+###########################################################
+
+   echo "$BUF" | read LEVEL STATE JUNK
+   [[ -z $LEVEL || -z $STATE || -n $JUNK ]] && $ERROR
+###########################################################
+## Make sure that the fileset is Applied or Committed.
+###########################################################
+
+   [[ $STATE != "C" && $STATE != "A" ]] && perror 100 "$FILESET"
+
+   echo "$LEVEL"
+
+   return 0
+
+}  # end of get_lpp_level()
+
+
+########################################################################
+## Function: clevels() (Compare levels in VRMF format)
+## Parameters LEV1, LEV2, CONDITIONAL 
+##   CONDITIONAL: LT,GT,EQ,LE,GE,VONLY(verify only)
+## Returns: 0 = Condition true, 1 = Condition false, 2 = Error
+########################################################################
+
+clevels()
+{
+   typeset ERROR='eval pmerror "clevels()"; return 2'
+   typeset T='eval return 0'  # return true
+   typeset F='eval return 1'  # return false
+   typeset LEV1[3]  # array to hold level
+   typeset LEV2[3]  # array to hold level
+   typeset OP="$3"
+   typeset VRMF="1 2 3 4"
+   typeset TOK 
+   typeset REL=""
+
+   [[ -z $1 || -z $2 || -z $OP ]] && $ERROR   
+   case $OP in 
+      LT|GT|EQ|LE|GE|VONLY)
+         : ;;
+      *) $ERROR ;;
+   esac
+
+##########################################################
+## Break the level fields into tokens and load into arrays.
+###########################################################
+
+   IFS="."  # Set break point to "."
+   i=0; for TOK in $1; do inc i || $ERROR; LEV1[$i]=$TOK; done 
+   i=0; for TOK in $2; do inc i || $ERROR; LEV2[$i]=$TOK; done
+
+##########################################################
+## Check that we did not get an invalid level.
+##########################################################
+
+   unset IFS
+   for TOK in $VRMF; do
+      isnum ${LEV1[$TOK]} || {
+         perror 98 "$1"; $ERROR 
+      }
+      isnum ${LEV2[$TOK]} || {
+         perror 98 "$2"; $ERROR
+      } 
+   done
+      
+##########################################################
+## If this is a verify only, then we are done..  
+##########################################################
+ 
+   [[ $OP = "VONLY" ]] && return 0
+
+##########################################################
+## Get the relationship ("REL"):
+## E = equal
+## G = greater then
+## L = less then
+##########################################################
+
+   for TOK in $VRMF; do
+      if [[ ${LEV1[$TOK]} -gt ${LEV2[$TOK]} ]]; then
+         REL=G
+         break 
+      elif [[ ${LEV1[$TOK]} -lt ${LEV2[$TOK]} ]]; then
+         REL=L
+         break
+      fi
+   done
+   
+   # if we get here then they are equal
+   [[ -z $REL ]] && REL="E"
+
+##########################################################
+## Figure out the return.
+##########################################################
+
+   case $OP in
+      LE) [[ $REL = "L" || $REL = "E" ]] && $T || $F ;; 
+      GE) [[ $REL = "G" || $REL = "E" ]] && $T || $F ;;
+      GT) [[ $REL = "G" ]] && $T || $F ;;
+      LT) [[ $REL = "L" ]] && $T || $F ;;
+      EQ) [[ $REL = "E" ]] && $T || $F ;;
+       *) $ERROR
+   esac
+
+   # If we got here, we suffered some sort of error
+   $ERROR
+
+}  # end of clevels()
+
+#######################################################################
+## Function: isfopen() (Is the file open ?)
+## Parameters: FILE
+## Returns: 1 = open, 0 = closed, 2 = ERROR
+########################################################################
+
+isfopen()
+{
+   typeset ERROR='eval pmerror "isfopen()"; return 2'
+   typeset OPEN='eval return 1'
+   typeset CLOSED='eval return 0'
+   typeset FILE="$1"
+   typeset FUSER_CMD
+   typeset BUF
+   typeset WAITPID
+
+   [[ -z $FILE ]] && $ERROR
+   check_file $FILE || $ERROR
+
+   # If this is alt-root, then nothing should be running there..
+   # lets hope.
+   [[ -n $INUCLIENTS ]] && return 0
+
+   [[ "$PLATFORM" = "AIX" ]] && FUSER_CMD="$FUSER -xf" || FUSER_CMD="$FUSER"
+
+   # Run a process to trigger any dormant libraries. This is mainly
+   # done for libc.a
+   $SLEEP 5 > /dev/null 2>&1 &
+
+   WAITPID=$!
+
+   BUF=$(eval $FUSER_CMD "$"FILE 2> $MSG_BUF)
+   if [ $? -ne 0 ]; then
+      $CAT $MSG_BUF >&2
+      pmerror "$FUSER_CMD"
+      $ERROR
+   fi
+
+   kill -TERM $WAITPID
+
+   # If BUF is full return "open", if not return closed.
+   [[ -n $BUF ]] && $OPEN || $CLOSED
+
+   # If we got here, there is a problem.
+   $ERROR
+
+}  # end of isfopen()
+
+########################################################################
+## Function: print_line()
+########################################################################
+
+print_line()
+{
+
+   typeset LINEOPT="$1"
+   typeset LINEOUT=""
+
+   [[ -z $LINEOPT ]] && return 1
+
+   case "$LINEOPT" in
+      "dashes")
+         LINEOUT="+-------------------------------------"
+         LINEOUT="$LINEOUT----------------------------------------+";;
+
+      "stars" )
+         LINEOUT="**************************************"
+         LINEOUT="$LINEOUT*****************************************";;
+
+      "equals" )
+         LINEOUT="======================================"
+         LINEOUT="$LINEOUT=========================================";;
+
+       *) return 1;;
+   esac
+
+   [[ $EMGRLOG -eq 1 ]] && echo "$LINEOUT" >> $LOG
+   [[ $QUIET -eq 0 ]] && echo "$LINEOUT"
+
+   return 0
+
+}  # end of print_line()
+
+########################################################################
+## Function: inc() (increment variable by 1)
+########################################################################
+
+inc()
+{
+    # increment variable by 1
+    typeset -i CUR_VALUE=0
+    typeset -i NEW_VALUE=0
+    typeset ERROR='eval pmerror "inc()" ; return 1'
+
+    eval isnum "$"$1 || $ERROR
+
+    eval CUR_VALUE="$"$1
+    (( NEW_VALUE = $CUR_VALUE + 1 ))
+    eval $1=$NEW_VALUE
+
+    return 0
+
+}   # end of inc()
+
+########################################################################
+## Function: get_wouldbe_fs()
+########################################################################
+
+get_wouldbe_fs()
+{
+   typeset ERROR='eval pmerror "get_wouldbe_fs()"; return 1'
+   typeset FLOC="$1"   # future location
+   typeset FOUND=0     # is it found ?
+   typeset FS=""       # future file system
+
+   [[ -z $FLOC ]] && $ERROR
+
+###########################################################
+## This function loops until it finds a filesystem that
+## would host a file that is TO BE delivered. It returns
+## that filesystem.
+###########################################################
+
+   while [[ ! -d $FLOC && ! -f $FLOC ]]; do
+      FLOC=${FLOC%/*}
+      [[ -z $FLOC ]] && FLOC="/"
+   done
+
+   FS=$(whichfs "$FLOC") || $ERROR
+   [[ -z $FS ]] && $ERROR
+
+   echo "$FS"
+
+   return 0 
+
+}  # end of get_wouldbe_fs()
+
+########################################################################
+## Function: check_root (is root ? returns 9 if yes, 1 if no)
+########################################################################
+
+check_root()
+{
+   isnum "$UID"
+   if [[ $? -ne 0 ]]; then
+      pmerror "check_root()"
+      return 1
+   fi
+
+   if [[ $UID -ne 0 ]]; then
+      perror 86
+      return 1
+   fi
+
+   return 0
+
+}  # end of check_root()
+
+########################################################################
+## Function: isin() (Is in ?)  isin <VAR> <LIST> [ <COUNT> ]
+## Returns: 0 = ok, !0 = error
+## Output: 1 = TRUE, 0 = false, (if COUNT="G" = number of times)
+########################################################################
+
+isin()
+{
+   eval $SIGTRAP
+
+   typeset ERROR='eval pmerror "isin()"; return 1'
+   typeset VAR="$1"
+   typeset LIST="$2"
+   typeset COUNT="$3"
+   typeset MAXLOOP=15000
+   typeset C=0 # counter
+   typeset OUTPUTC='eval echo "$C"; return 0'
+   typeset E  # element index
+   typeset GETCOUNT=0
+
+###########################################################
+## Check if VAR is in LIST.  For example, if VAR="a" and
+## LIST="a b c", then isin() returns true (i.e. 1). If the
+## COUNT flag is set, then we return true if VAR occurs
+## in LIST $COUNT times or more. If COUNT = "G",
+## then we return the number of times VAR is in LIST with
+## a MAXLOOP of 15000.
+###########################################################
+
+   [[ -z $VAR ]] && $ERROR
+   [[ -z $LIST ]] && $OUTPUTC
+
+   if [[ $COUNT = "G" ]]; then
+      GETCOUNT=1
+   elif [[ -n $COUNT ]]; then
+      isnum "$COUNT" || $ERROR
+      [[ $COUNT -eq 0 ]] && $ERROR
+   fi
+
+   for E in $LIST; do
+
+     [[ $E != $VAR ]] && continue
+
+     (( C = $C + 1 ))
+
+     # If COUNT is blank, then we are done.
+     [[ -z $COUNT ]] && break
+
+     # If we need to get the total cout, keep going !
+     [[ $GETCOUNT -eq 1 ]] && continue
+
+     # If we need to check for a certain count, then lets
+     [[ $GETCOUNT -eq 1 ]] && continue
+
+     # If we need to check for a certain count, then lets
+     # check if we got there yet.
+
+     [[ $C -ge $COUNT ]] && break
+
+     # If something went terribly wrong..
+     [[ $C -gt $MAXLOOP ]] && $ERROR
+
+   done
+
+   # Check if we go the right min count Set C to
+   # true if yes and false if no
+
+   if [[ $GETCOUNT -eq 0 && -n $COUNT ]]; then
+      [[ $C -eq $COUNT ]] && C=1 || C=0
+   fi
+
+   $OUTPUTC
+
+   # Should never get here.
+   $ERROR
+
+}  # end of isin()
+
+########################################################################
+## Function: perror (Print Error)
+########################################################################
+
+perror()
+{
+   ISERROR=1
+   print_msg "$@" >&2 || return 1
+   ISERROR=0
+
+   return 0
+}
+
+########################################################################
+## Function: whichfs ("Which FS", prints the FS for a given file or
+##           directory)
+## Input Parameters: Node (file or directory or link to file/directory)
+########################################################################
+
+whichfs()
+{
+
+   typeset NODE="$1"
+   typeset BUF=""
+   typeset ERROR='eval pmerror "whichfs()"; return 1'
+   typeset DEV
+   typeset FS
+   typeset ISDEV=0           # Is device or special case file system
+   typeset LOOPMAXHARD=256   # max number of loops allowed
+   typeset LOOPMAXSOFT=128   # max number of attempts we will make before
+                             # giving an answer
+
+   typeset LOOPC=0           # loop count
+
+   [[ -z $NODE ]] && $ERROR
+
+############################################################
+## If the libinst functions is available, use it.
+############################################################
+
+   if [[ $LIBINST_AVAIL -gt 0 ]]; then
+      $LIBINST_WHICHFS $NODE || $ERROR
+      return 0
+   fi
+ 
+   if [[ -d $NODE ]]; then
+      check_dir $NODE || $ERROR
+   elif [[ -f $NODE ]]; then
+      check_file $NODE || $ERROR
+   else
+      $ERROR  # not a file or dir and not a link to a file or a dir
+              # what the heck is it then ? Hopefully not a block or
+              # char device.
+   fi
+
+   while : ; do
+
+      # Loop safety
+      inc LOOPC
+      [[ $LOOPC -gt $LOOPMAXHARD ]] && $ERROR
+
+      # Get df output into BUF
+      BUF=$(LC_ALL=C LANG=C $DF $NODE/) || $ERROR
+
+      # Drop header within BUF
+      BUF=$(echo "$BUF" | $AWK '{if (NR>1) {print $0; exit(0)}}') || $ERROR
+
+      # Set the device
+      DEV=$(echo "$BUF" | $AWK1 )
+      [[ $? -ne 0 || -z $DEV ]] && $ERROR
+
+#######################################################################
+## Is DEV a device ? If yes, then we set FS and return it. If it is
+## not a device, then we set DEV as the new NODE and start again.
+## Note: If we have looped more then LOOPMAXSOFT, then this seems to
+## not be getting anywhere. Lets give a warning and return whatever
+## we have at the time. If the INUCLIENTS variable is set, then we are
+## in a chrooted environment and (where mount install is not allowed)
+## and will take the first FS NODE we get back
+#######################################################################
+
+      # If DEV is a device or a "special case" file system device, then
+      # set ISDEV to true.
+
+      [[ -b $DEV || -c $DEV || "$DEV" != "/"* ]] && ISDEV=1;
+
+      if [[ $ISDEV -eq 1 || $LOOPC -gt $LOOPMAXSOFT || -n $INUCLIENTS ]]
+      then
+
+         [[ $LOOPC -gt $LOOPMAXSOFT ]] && pmerror "whichfs()"
+
+         # Get the FS
+         FS=$(echo "$BUF" | $AWK '{ print $NF }') || $ERROR
+
+         # We are done !
+         break
+
+      else
+
+         # Set DEV as new search NODE
+         NODE=$DEV
+
+      fi
+
+   done  # end of loop
+
+   if [[ -n $FS ]]; then
+      echo "$FS"
+      return 0
+   fi
+
+   # If we got here, then there is a problem.
+   $ERROR
+
+}  # end of whichfs()
+
+########################################################################
+## Function: subshrc (Sub-shell Return Codes)
+########################################################################
+
+subshrc()
+{
+
+############################################################
+## Since ksh is not very good about communicating return
+## codes between subshells (without getting very complex),
+## We have deviced our own simple method of leving and
+## checking for ERROR tokens..  This function supports
+## two operations:
+## "PUTRC"   -> Gets the RC from the previous command.
+##              If RC != 0, then a token file is generated.
+## "GETRC"   -> Prints the RC as recorded by the last PUTRC
+##              call. Note, if there is no token file, then
+##              RC=0.
+############################################################
+
+############################################################
+## Set the return code form the command that ran previous to
+## this function..
+############################################################
+
+   typeset PRC=$?
+   typeset RETRC=0
+
+############################################################
+## Setup Operation and ERROR.
+############################################################
+   typeset OP="$1"                     # operation
+   typeset ERROR='eval pmerror "subshrc()"; return 1'
+
+   if [[ $OP = "PUTRC" ]]; then
+      # Check PRC, this is a little paranoid, but better safe then sorry
+      isnum $PRC || $ERROR
+      $RM -f $ERRTOKEN
+      [[ $PRC -eq 0 ]] && return 0
+      echo "$PRC" > $ERRTOKEN  || $ERROR
+      return 0
+   fi
+
+   if [[ $OP = "GETRC" ]]; then
+      if [[ ! -s $ERRTOKEN ]]; then
+         echo "0"
+         return 0
+      fi
+      RETRC=$($CAT $ERRTOKEN)
+      $RM -f $ERRTOKEN
+      isnum $RETRC || $ERROR
+      echo "$RETRC"
+      return 0
+   fi
+
+   # If we get here, then there is a problem.
+   $ERROR
+
+}  # end of subshrc()
+
+########################################################################
+## Function: verifysum (Verify Sum)
+## Parameters: <TAGET FILE>  <EXPECTED SUM>
+########################################################################
+
+verifysum()
+{
+   typeset FILE="$1"    # File to check
+   typeset ESUM=$2      # Expected sum
+   typeset ASUM=0       # Actual sum
+   typeset MEMBER=$4
+   typeset ERROR='eval pmerror "verifysum()"; return 1'
+
+############################################################
+## Make sure the parameters are valid.
+############################################################
+
+   isnum $ESUM
+   if [[ $? -ne 0 ]]; then
+      $ERROR
+   fi
+
+   check_file $FILE || return 1
+
+############################################################
+## If ESUM is volitile (i.e. 0), then we are done.
+############################################################
+
+   [[ $ESUM -eq 0 ]] && return 0
+
+############################################################
+## Get the actual sum on FILE..
+############################################################
+
+   ASUM=$(getfsum $FILE) || $ERROR
+
+############################################################
+## Compare the actual sum to the expected sum.
+############################################################
+
+   if [[ $ASUM -ne $ESUM ]]; then
+      perror 54 $FILE
+      perror 58 "$ESUM" "$ASUM"
+      return 1
+   fi
+
+   # OK !
+   return 0
+
+}  # end of verifysum()
+
+########################################################################
+## Function: pmerror (Print Module Error)
+########################################################################
+
+pmerror()
+{
+   perror 26 "$1"
+   return 0
+
+}  # end of pmerror()
+
+########################################################################
+## Function: pcerror (Print Common Error)
+########################################################################
+
+pcerror()
+{
+   perror 22
+
+}  # end of pcerror
+
+########################################################################
+## Function: init_pos_cmds  (Initialize POSIX Commands)
+########################################################################
+init_pos_cmds()
+{
+
+   typeset CMDS     # Posix commands
+   typeset ERROR='eval return 1'
+   [[ -n "$BASESHLIB_IGNORE_CMDNOFIND" ]] && ERROR='eval continue'
+
+############################################################
+## Setup simple commands
+############################################################
+
+   CMDS="awk du sum wc egrep rm mv mkdir rmdir date tail sed sort df uname"
+   CMDS="$CMDS dd printf fuser id compress ln tar cp vi cat touch zcat chmod"
+   CMDS="$CMDS chown sleep tee diff ar mount umount ps ls sync find bc split"
+   CMDS="$CMDS backup restore xargs"
+
+   PERL=/usr/bin/perl
+
+############################################################
+## Loop through $CMDS and $PATHS to find the correct
+## location for this system. If we do not find the given
+## command in any of the paths, then report an error and
+## return.
+############################################################
+
+   for CMD in $CMDS; do
+      setcmd "$CMD" || $ERROR
+   done # end of CMDS
+
+############################################################
+## Setup complex commands.
+############################################################
+
+   export AWK1="eval $AWK '{ print \$1 }'"
+   export AWK2="eval $AWK '{ print \$2 }'"
+   export DBAWK="$AWK -F $DS"
+   export DF="$DF -P"
+
+############################################################
+## That is it !
+############################################################\
+
+   return 0
+
+}  # end of init_pos_cmds()
+
+########################################################################
+## Function: check_file
+########################################################################
+
+check_dir()
+{
+   typeset DIR="$1"
+
+   [[ -z $DIR ]] && DIR="<NULL>"
+
+   if [[ ! -d $DIR || ! -x $DIR ]]; then
+      perror 56 "$DIR"
+      return 1
+   fi
+
+   return 0
+
+}  # check_dir
+
+
+########################################################################
+# Function: abspath()
+########################################################################
+
+abspath()
+{
+   typeset RELPATH="$1"    # local relative path (input)
+   typeset ABSPATH=""      # absolute path (return)
+   typeset ISFILE=0        # Is it a file ?
+   typeset ISDIR=0         # Is it a directory ?
+   typeset RC=0            # Local RC
+   typeset FILEDIR         # directory that contains the file
+   typeset FILE            # The name of the actual file
+
+   typeset ERROR='eval pmerror "abspath()"; return 1'
+   [[ -z $RELPATH ]] && $ERROR
+
+   ERROR='eval perror 55 "$RELPATH"; return 1' 
+   check_node $RELPATH || $ERROR
+
+############################################################
+## If the libinst functions is available, use it.
+############################################################
+
+   if [[ $LIBINST_AVAIL -gt 0 ]]; then
+      $REALPATH "$RELPATH" || $ERROR
+      return 0
+   fi
+
+############################################################
+## If this is a directory, then just check it and cd into 
+## the path.
+############################################################
+
+   if [[ $ISDIR -eq 1 ]]; then
+      check_dir $RELPATH || return 1
+      cd $RELPATH
+      if [[ $? -ne 0 ]]; then
+         perror 55 "$RELPATH"
+         return 1
+      fi
+      ABSPATH=$PWD 
+      cd $OLDPWD
+   fi
+
+############################################################
+## If this is a file, then it is a little more complicated.
+## We have to get the directory the file is in, check it
+## and cd into it to get the absolute path. 
+############################################################
+
+   if [[ $ISFILE -eq 1 ]]; then
+
+      # First, check that the file is valid and accessible
+      check_file $RELPATH || return 1
+
+      # Parse dir from file
+      FILEDIR=${RELPATH%/*}
+      FILE=${RELPATH##*/}
+
+############################################################
+## Lets interprate the output a little: 
+##  1. If FILEDIR equals FILE, then we have a RELPATH 
+##     with no slashes. This means that FILEDIR is the 
+##     current directory.
+##  2. If FILE is set, but FILEDIR is not, that means
+##     FILE was in "/"
+############################################################
+
+      [[ $FILEDIR = $FILE ]] && FILEDIR=$PWD
+      [[ -n $FILE && -z $FILEDIR ]] && FILEDIR="/"
+      
+############################################################
+## Check that the DIR we got is valid, we make a recursive 
+## call to get the absolute path of FILEDIR 
+############################################################
+       
+      check_dir $FILEDIR || return 1
+      ABSPATH=$(abspath $FILEDIR) || return 1
+
+      # Tack on the file name (we avoid the "//" prEFIX)
+      if [[ $ABSPATH != "/" ]]; then
+         ABSPATH=$ABSPATH/$FILE
+      else
+         ABSPATH=/$FILE
+      fi
+
+   fi
+
+############################################################
+## Lets check if our output is valid.
+############################################################
+
+   if [[ $ISDIR -eq 1 ]]; then
+      check_dir $ABSPATH || return 1
+   else 
+      check_file $ABSPATH || return 1
+   fi
+
+   # Output absolute path..   
+   echo "$ABSPATH"
+   return 0
+
+}  # end of abspath()
+
+
+########################################################################
+# Function: ck_exp_fs()
+########################################################################
+
+ck_exp_fs()
+{
+   typeset FREESPACE                 # space available in local filesystem
+   typeset FS="$1"                   # local filesystem
+   typeset FREE_SPACE_REQ="$2"       # free space required in 512bb
+   typeset ADDSPACE                  # You guessed it ! Space we need to add
+                                     # to FREESPACE to get FREE_SPACE_REQ
+   typeset CANEXPAND=0
+   typeset ERROR='eval pmerror "ck_exp_fs()"; return 1'
+   typeset EXPAND_MAX_MEG=128        # 128 megabytes
+   typeset EXPAND_MAX_512            # 128 megs in 512BB 
+   typeset ERROR='eval pmerror "ck_exp_fs()"; return 1'
+
+   [[ -z $FS || -z $FREE_SPACE_REQ ]] && $ERROR
+      
+   # Did the user set a variable to ignore space requirements ?
+   isYorN $EPKG_IGNORE_SPREQ
+   [[ $? -eq 1 ]] && return 0
+
+   # Get the formal FS name
+   FS=$(whichfs $FS) || $ERROR
+
+   # Get free space
+   FREE_SPACE=$(getfsfree $FS) || return 1
+
+   # Make sure FREE_SPACE_REQ is valid
+   isnum "$FREE_SPACE_REQ" || $ERROR 
+
+############################################################
+## Ok, lets do the math.  Note, all buffering should be done
+## before this call is made.
+############################################################
+
+   if [[ $FREE_SPACE -lt $FREE_SPACE_REQ ]]; then
+      (( ADD_SPACE = $FREE_SPACE_REQ - $FREE_SPACE ))
+   else
+      return 0
+   fi
+
+############################################################
+## Determine if expansion is possible, allowed, and 
+## requisted..
+############################################################
+
+   [[ -z $EXP_REQUESTED ]] && EXP_REQUESTED=0
+
+   # If this is alt-root, unset EXP_REQUESTED
+   [[ -n $INUCLIENTS ]] && EXP_REQUESTED=0
+
+   if [[ "$PLATFORM" = "AIX" && $EXP_REQUESTED -eq 1 ]]; then
+      CANEXPAND=1
+      print_msg 49 $FS 
+   else
+      perror 50 "$FS" "$ADD_SPACE" 
+      return 1
+   fi
+
+############################################################
+## Check to make sure we did not pass EXPAND_MAX
+############################################################
+
+   (( EXPAND_MAX_512 = $EXPAND_MAX_MEG * 2048 ))
+
+   if [[ $ADD_SPACE -gt $EXPAND_MAX_512 && $FORCE -ne 1 ]]; then
+
+      # We have to stop.  We calculate some values to give them
+      # a good error message.
+
+      # Put ADD_SPACE int megs
+      (( ADD_SPACE = $ADD_SPACE / 2048 ))
+
+      [[ $ADD_SPACE -eq $EXPAND_MAX_MEG ]] && inc ADD_SPACE 
+  
+      perror 89 "$EXPAND_MAX_MEG" "$FS" "$ADD_SPACE"
+      return 1
+
+   fi
+ 
+############################################################
+## Do the expansion.
+############################################################
+  
+   /usr/sbin/chfs -a size=+$ADD_SPACE $FS
+
+   if [[ $? -ne 0 ]]; then 
+      perror 51
+      return 1
+   fi
+
+   return 0
+   
+}  # end of ck_exp_fs()
+
+########################################################################
+# Function: getfsfree()  (Get filesystem free space)
+########################################################################
+
+getfsfree()
+{
+   typeset FS="$1"  # File system
+   typeset SUMBUF    # Local buffer
+   typeset RC        # Local return code
+   typeset BUF  
+   typeset ERROR='eval pmerror "getfsfree()"; return 1'
+
+   [[ -z $FS ]] && $ERROR
+   ERROR='eval perror 48 "$FS"; return 1'
+
+############################################################
+## If the libinst functions is available, use it.
+############################################################
+
+   if [[ $LIBINST_AVAIL -gt 0 ]]; then
+      BUF=$($LIBINST_GETFSINFO -f${FS} -eB) || $ERROR
+      isnum $BUF || $ERROR
+      echo "$BUF"
+      return 0
+   fi
+
+   FS=$(whichfs $FS)
+   if [[ $? -ne 0 ]]; then
+      perror 48 "$1"
+      return 1
+   fi
+
+   BUF=$(LC_ALL=C LANG=C $DF $FS/)
+   if [[ $? -ne 0 || -z $BUF ]]; then
+      perror 48 "$FS"
+      return 1
+   fi
+
+   BUF=$(echo "$BUF" | $AWK '{getline; print $4}')
+   RC=$?
+   isnum "$BUF" || RC=1
+
+   if [[ $RC -ne 0 || -z $BUF ]]; then
+      perror 48 "$FS"
+      return 1
+   fi
+
+   echo "$BUF"
+   return 0
+
+}  # end of getfsfree
+
+########################################################################
+## Function: timestamp
+########################################################################
+
+timestamp()
+{
+   typeset OUT           # local ouput
+   typeset FORMAT="$1"   # timestamp format
+   typeset ERROR='eval pmerror "timestamp()"; return 1'
+   typeset STRINGS=""
+   typeset M="%" # Magic (this is done because the cmvc checkin
+                 # process can misinterprate some of the symbols meant
+                 # for dater)..
+
+   [[ -z $FORMAT ]] && $ERROR
+
+   case $FORMAT in
+      FULL) # Month Month-day hour minutes seconds century
+            OUT=$($DATE +m%md%dt%H:%m:%Sy%y) ;;
+       MDY) # Month - day
+            OUT=$($DATE +%y%m%d);;
+       RAW) OUT=$($DATE +"$M"m"$M"d"$M"H"$M"m"$M"S"$M"y) ;;
+        DT) OUT=$($DATE +"%D %T") ;;
+    MDYHMS) OUT=$($DATE +"$M"y"$M"m"$M"d"$M"H"$M"M"$M"S);;
+         *) $ERROR;;
+   esac
+
+
+   [[ $? -ne 0 || -z "$OUT" ]] && $ERROR
+
+   echo "$OUT"
+   return 0
+
+}  # end of timestamp()
+
+########################################################################
+## Function: check_file_full (Check that the file is not empty).
+########################################################################
+check_file_full()
+{
+
+   typeset FILE="$1"
+
+   check_file "$FILE" || return 1
+
+   if [[ ! -s $FILE ]]; then
+      perror 83 "$FILE"
+      return 1
+   fi
+
+}  # end of check_file_full()
+
+########################################################################
+## Function: check_file
+########################################################################
+
+check_file()
+{
+   typeset FILE="$1"
+   [[ -z $FILE ]] && FILE="<NULL>"
+
+   if [[ ! -f $FILE || ! -r $FILE ]]; then
+      perror 28 "$FILE"
+      return 1
+   fi
+
+   return 0
+
+}  # check_file
+
+########################################################################
+## Function: isYorN
+## Return Status: 1 = "yes", 0 = "no", 2 = failure
+########################################################################
+
+isYorN()
+{
+   typeset ANS="$1"  # local answer
+   typeset YESSTR
+   typeset NOSTR
+   typeset STR
+
+   [[ -z $ANS ]] && return 2
+
+   if [ -x /usr/bin/locale ]; then
+      # We should be able to use yes/no strings.
+      YESSTR=$(/usr/bin/locale yesstr 2> /dev/null) || YESSTR="yes:y:Y:YES:Yes"
+      NOSTR=$(/usr/bin/locale nostr 2> /dev/null) || NOSTR="no:n:N:NO:No"
+      YESSTR="$YESSTR:YES:Yes"
+      NOSTR="$NOSTR:NO:No"
+   else
+      YESSTR="yes:y:Y:YES:Yes"
+      NOSTR="no:n:N:NO:No"
+   fi
+
+   YESSTR="$YESSTR:1"
+   NOSTR="$NOSTR:0"
+
+   # Set the Internal Field Separator (IFS) to ":"
+   typeset IFS=:
+
+   for STR in $YESSTR; do
+      if [[ "$ANS" = "$STR" ]]; then
+         return 1
+      fi
+   done
+
+   for STR in $NOSTR; do
+      if [[ "$ANS" = "$STR" ]]; then
+         return 0
+      fi
+   done
+
+   # If we go here, then something went wrong
+   return 2
+
+}  # end of isYorN()
+
+########################################################################
+## Function: isnum
+## Returns: 0 = STR is all digits 0-9, 1 = STR is not all digits
+########################################################################
+isnum()
+{
+   typeset STR="$1"
+   typeset ERROR='eval pmerror "isnum()"; return 1'
+   typeset COUNT=0
+
+   STR=${STR#-} # remove negative
+   [[ -z "$STR" ]] && return 1
+
+   while [[ -n "$STR" ]]; do
+     [[ "$STR" = "${STR%[0-9]}" ]] && return 1
+     STR=${STR%[0-9]}
+
+     # loop safety
+     (( COUNT = $COUNT + 1 ))
+     [[ $COUNT -gt 40000 ]] && $ERROR
+
+   done
+
+   return 0
+
+}  # end of isnum()
+
+########################################################################
+## Function: getfsum
+########################################################################
+
+getfsum()
+{
+   typeset FILE="$1"
+   typeset FSUM
+   typeset RC=0
+   typeset ERROR='eval perror 24 $FILE; return 1'
+
+   if [[ -z "$FILE" ]]; then
+      perror 24 "<NULL>"
+      return 1
+   fi
+
+   check_file $FILE || $ERROR
+   FSUM=$($SUM $FILE/) || $ERROR
+   FSUM=$(echo "$FSUM" | $AWK1) || $ERROR
+   isnum "$FSUM" || $ERROR
+
+   echo "$FSUM"
+
+   return 0
+}  # end of getfsum()
+
+########################################################################
+## Function: getfsize
+########################################################################
+
+getfsize()
+{
+   typeset FILE="$1"
+   typeset FSIZE
+   typeset RC=0
+   typeset ERROR='eval perror 23 "$FILE"; return 1'
+
+   if [[ -z "$FILE" ]]; then
+      perror 23 "<NULL>"
+      return 1
+   fi
+
+   check_file $FILE || $ERROR
+   FSIZE=$($DU -s $FILE/) || $ERROR
+
+   FSIZE=$(echo "$FSIZE" | $AWK1) || $ERROR
+   isnum "$FSIZE" || $ERROR
+
+   echo "$FSIZE"
+
+   return 0
+
+}  # end of getfsize()
+
+########################################################################
+## Function: init_sys_vars (Initialize System Variables)
+########################################################################
+
+init_sys_vars()
+{
+
+   typeset ERROR='eval perror 62; return 1'
+   typeset VAR VARS
+   typeset CMD
+
+############################################################
+## We track all system variables in the VARS local variable.
+############################################################
+
+   VARS="UID PLATFORM AIX_VERSION"
+
+############################################################
+## Get values for the different variables.. Note we do not
+## use "export" in the original assignments so we can check
+## the return codes from commands within the assignments.
+############################################################
+
+   UID=$($ID -u) || $ERROR
+   PLATFORM=$($UNAME) || $ERROR
+
+   if [[ $PLATFORM = "AIX" ]]; then
+      AIX_VERSION=$($UNAME -v) || $ERROR
+   else
+      AIX_VERSION=0  
+   fi
+
+   for VAR in $VARS; do
+      eval export $VAR="$"$VAR
+   done
+
+############################################################
+## Now, that we have the platform, go ahead and set platform
+## specific commands that will be used more than once by
+## some applications.
+############################################################
+
+   if [[ $PLATFORM = "AIX" ]]; then
+      for CMD in lslpp odmget odmchange aclput aclget; do
+         setcmd $CMD || $ERROR
+      done
+   fi
+
+############################################################
+## Set the correct message printer based on current locale.
+############################################################
+
+   if [[ $PLATFORM = "AIX" && "$LANG" != "C" && "$LANG" != "en_US" ]] ||
+      [[ $EMGR_FORCE_LOCPRINT = 1 ]]
+   then
+      setcmd inuumsg || $ERROR
+      LOCPRINT=1  
+   fi 
+
+###########################################################
+## Set RPM variables
+###########################################################
+
+   export OPTFS="/opt"
+   export RPM_INST_ROOT=${OPTFS}/RPM_inst_root
+   export RPM_INST_ROOT_INV=${RPM_INST_ROOT}/rpm_inst_root_inventory
+   export RPM_DB_DIR=/var/opt/freeware/lib/rpm
+   export RPM_PACKAGES=${RPM_DB_DIR}/packages.rpm
+   export RRPM=/usr/opt/freeware/bin/rpm  # real rpm
+
+###########################################################
+## Initialize libinst commands
+###########################################################
+
+   init_libinst_cmds || $ERROR
+ 
+   return 0 
+
+}  # end of init_sys_vars()
+
+########################################################
+## Function: check4debug()
+########################################################
+
+check4debug()
+{
+
+########################################################
+## Check up-front for the debug flag.
+########################################################
+
+   typeset OPT
+   typeset i
+
+   for OPT in $@; do
+      if [ "$OPT" = "-D" ]; then
+         set -x
+         for i in $(typeset +f); do typeset -ft $i; done
+         export DEBUG=1
+         return 0
+      fi
+   done
+
+   return 1
+
+}  # end of check4debug()
+
+
+########################################################################
+## Function: print_msg
+########################################################################
+
+print_msg()
+{
+
+   [ "$ELIB_PRINT_MSG_DBG" -ne 1 ] && set +x
+   
+   typeset msg                    # local temp message var
+   typeset tmsg                   # translated message
+   typeset MSG_OPTION="$1"	  # local message number 
+   typeset CMD="epkg:"
+   typeset C=0 
+   typeset ERROR='eval echo "Error in print_msg()"; return 1'
+
+   [ -z "$MSG_OPTION" ] && return 1
+
+   if [[ -z $GLOBALCMD ]]; then
+      [[ $EMGR -eq 1 ]] && CMD="emgr:"
+   else
+      CMD="${GLOBALCMD}:"
+   fi
+   
+   case "$MSG_OPTION" in
+      1) msg="Initializing epkg..\n";;
+      2) msg="Enter efix abstract [$2 bytes maximum]:\n";; 
+      3) msg="Does this efix deliver one or more files ? (yes/no):";;
+      4) msg="Enter the location for the pre-install script or \".\" to skip.\n";;
+      5) msg="Enter the location for the post-install script or \".\" to skip.\n";;
+      6) msg="Enter the ship file location for efix file number $2:\n";;
+      7) msg="Enter target file location or archive for efix file number $2:\n";;
+      8) msg="Select file type for efix file number $2:\n";;
+      9) msg="Standard (file or executable)\n";;
+     10) msg="Archive/Library Member\n";;
+     11) msg="Other\n";;            
+     12) msg="Select the installer which tracks the file that is being fixed by efix\nfile number $2:\n";;
+     13) msg="Currently tracked by installp.\n";;
+     14) msg="Currently tracked by RPM.\n";;
+     15) msg="Currently tracked by ISMP.\n";;
+     16) msg="Currently NOT tracked -OR- tracked by another installer.\n";;
+     17) msg="NEW file that will NOT be tracked.\n";;
+     18) msg="Are there more efix files ? (yes/no):";;
+     19) msg="Is a reboot required after installing this efix ? (yes/no):";;
+     20) C=1; msg="$CMD 0645-001 The efix label cannot exceed $2 characters.\n";;
+     21) C=1; msg="$CMD 0645-002 Invalid file attribute value: attribute=$2, file=$3.\n";;
+     22) C=1; msg="$CMD 0645-003 Error.\n";;
+     23) C=1; msg="$CMD 0645-004 Error getting file size of $2.\n";; 
+     24) C=1; msg="$CMD 0645-005 Error getting file checksum for $2.\n";;
+     25) C=1; msg="$CMD 0645-006 Failed to create efix package.\n";;
+     26) C=1; msg="$CMD 0645-007 ATTENTION: $2 returned an unexpected result.\n";;
+     27) C=1; msg="$CMD 0645-008 Input byte limit exceeded, please try again.\n";;
+     28) C=1; msg="$CMD 0645-009 Unable to locate or access file $2\n";;
+     29) C=1; msg="$CMD 0645-010 Target file location must be an absolute path.\n";;
+     30) C=1; msg="$CMD 0645-011 Invalid selection.\n";;
+     31) msg="NEW file that will be tracked by installp.\n";;
+     32) msg="NEW file that will be tracked by RPM.\n";;
+     33) msg="NEW file that will be tracked by ISMP.\n";;
+     34) msg="NEW file that will be tracked by another installer.\n";;
+     35) msg="Enter the installp fileset that will track this file:\n";; 
+     36) C=1; msg="$CMD 0645-012 Error writing file information to efix control file.\n";;
+     37) msg="Located existing efix directory $2\n";;
+     38) msg="Creating efix directory $2.\n";; 
+     39) msg="epkg has located existing efix control file $2.\nShould epkg use this control file instead of creating a new one ? (yes/no):\n";;
+     40) msg="[Previous Answer: \"$2\", "Enter" to accept.]\n";;
+     41) C=1; msg="$CMD 0645-013 Error setting up working directory. $2 is a file.\nPlease specify alternate work directory.\n";;
+     42) msg="Enter the location for the pre-remove script or \".\" to skip.\n";;
+     43) msg="Enter the location for the post-remove script or \".\" to skip.\n";;
+     44) C=1; msg="$CMD 0645-014 String \"$2\" contains invalid character group \"$3\".\n";; 
+     45) C=1; msg="$CMD 0645-015 Error processing efix control file information.\n";; 
+     46) C=1; msg="$CMD 0645-016 Unable to read file information for efix number $2.\n";;
+     47) msg="Processing efix control file ...\n";;
+     48) C=1; msg="$CMD 0645-017 Error getting file system size for $2.\n";;
+     49) msg="Expanding $2 file system ...\n";; 
+     50) C=1; msg="$CMD 0645-018 $2 requires an additional $3 512-bb of free space.\n";;
+     51) C=1; msg="$CMD 0645-019 Error expanding file system.\n";;
+     52) C=1; msg="$CMD 0645-020 Error populating efix package directory.\n";;
+     53) C=1; msg="$CMD 0645-021 Invalid value for efix attribute $2.\n";;
+     54) C=1; msg="$CMD 0645-022 Checksum mismatch for file $2.\n";;
+     55) C=1; msg="$CMD 0645-023 Error resolving absolute path for $2.\n";;
+     56) C=1; msg="$CMD 0645-024 Unable to access directory $2\n";;
+     57) C=1; msg="$CMD 0645-025 Unable to locate command module $2.\n";;
+     58) msg="      Expected sum=$2, Actual sum=$3.\n";;
+     59) C=1; msg="$CMD 0645-026 Error creating efix package file.\n";; 
+     60) msg="Packing efix package file ...\n";;
+     61) msg="Package file is: $2\n";;
+     62) C=1; msg="$CMD 0645-027 Error initializing system variables.\n";;
+     63) msg="Are you sure you want to quit this epkg session ? (yes/no):\n";;
+     64) msg="Populating efix directory ...\n";;
+     65) C=1; msg="$CMD 0645-028 Signal received, cleaning up.\n";;
+     66) msg="Enter the location for the efix description file or \".\" to compose it\nin an editor:\n";; 
+     67) C=1; msg="\n$CMD 0645-029 Error editing description file.\n";;
+     68) msg="Enter the location for the installp prerequisite file or \".\" to skip.\n";;
+     69) C=1; msg="$CMD 0645-030 Error calculating install work size.\n";;
+     70) C=1; msg="$CMD 0645-031 Error verifying efix control file.\n";;
+     71) msg="Verifying efix control file ...\n";;
+     72) C=1; msg="$CMD 0645-032 Duplicate target locations for $2.\n";;
+     73) msg="Total number of efix files removed is $2.\n";; 
+     74) msg="Return Status: FAILURE\n";;
+     75) C=1; msg="$CMD 0645-033 Error installing efix package.\n";;
+     76) C=1; msg="$CMD 0645-034 Error setting up work directory.\n";;
+     77) msg="Efix Manager Initialization\n";;
+     78) msg="Accessing efix metadata ...\n";;
+     79) C=1; msg="$CMD 0645-035 Efix package did not pass all preview checks.\n";;
+     80) msg="Return Status = SUCCESS\n";;
+     81) msg="Unpacking efix package file ...\n";;
+     82) C=1; msg="$CMD 0645-108 Error processing extraction space requirements.\n";;
+     83) C=1; msg="$CMD 0645-036 The file $2 is zero length.\n";;
+     84) C=1; msg="$CMD 0645-037 Error extracting efix metadata.\n";;
+     85) C=1; msg="$CMD 0645-038 Error unpacking efix package.\n";; 
+     86) C=1; msg="$CMD 0645-039 You must have root user authority to execute this function.\n";;
+     87) C=1; msg="$CMD 0645-040 Error processing space requirements.\n";; 
+     88) msg="Checking space requirements ...\n";;
+     89) C=1; msg="$CMD 0645-041 ATTENTION: this operation is attempting to expand a file system by more then $2 megabytes. If this is correct, please retry this operation with the force flag (\"-F\").\nFile system=$3, Space Needed=$4 megabytes.\n";;
+     90) msg="File system: $2, Free: $3, Required: $4, Deficit: $5.\n";;
+     91) msg="ATTENTION: expansion will be required for file system $2.\n";; 
+     92) msg="Space Requirements\n";;
+     93) msg="Efix Description\n";;
+     94) msg="Efix Attributes\n";;
+     95) msg="None\n";;
+     96) C=1; msg="$CMD 0645-042 Description file size cannot exceed $2 512 byte-blocks.\n";;
+     97) msg="\nSpace statistics (in 512 byte-blocks):\n";;
+     98) C=1; msg="$CMD 0645-043 Error processing VRMF level $2\n";;
+     99) C=1; msg="$CMD 0645-044 Error processing installp fileset data.\n";; 
+    100) C=1; msg="$CMD 0645-045 ATTENTION: Fileset $2 is in an unknown state.\n";;
+    101) C=1; msg="$CMD 0645-046 Error processing installp prerequisites.\n";;
+    102) msg="Installp Prerequisite Verification\n";;
+    103) msg="Verifying prerequisite file ...\n";;
+    104) msg="No prerequisites specified.\n";;
+    105) C=1; msg="$CMD 0645-047 Error verifying prerequisite file.\n";;
+    106) C=1; msg="$CMD 0645-048 The prerequisite file is currently limited to $2 entries.\n";;
+    107) msg="Prerequisite Number: $2\n   Fileset: $3\n   Minimal Level: $4\n"
+         msg=""$msg"   Maximum Level: $5\n   Actual Level: $6\n"
+         msg=""$msg"   Type: $7\n   Requisite Met: $8\n";;
+    108) msg="Checking prerequisites ...\n";;
+    109) C=1; msg="$CMD 0645-049 Upper prerequisite level is higher than lower limit.\n";;
+    110) C=1; msg="$CMD 0645-050 Prerequisite number $2 did not pass all checks. Please see\ndetails above.\n" ;;
+    111) msg="All prerequisites have been met.\n";;
+    112) C=1; msg="$CMD 0645-051 Syntax or content error in configuration file:\n$2\n";;
+    113) C=1; msg="$CMD 0645-052 Unable to locate any valid configuration file entries.\n";; 
+    114) msg="Installing efix file #$2 (File: $3) ...\n";; 
+    115) C=1; msg="$CMD 0645-053 Error installing efix file number $2.\n";;  
+    116) msg="Removing efix file #$2 (File: $3) ...\n";;
+    117) C=1; msg="$CMD 0645-054 Error removing efix file number $2.\n";;
+    118) msg="Saving all files that will be replaced ...\n";;
+    119) C=1; msg="$CMD 0645-055 Error saving efixed files.\n";;
+    120) msg="Efix Installation Setup\n";;
+    121) msg="Initializing efix installation ...\n";;
+    122) C=1; msg="$CMD 0645-056 Error setting up for efix installation.\n";;
+    123) C=1; msg="$CMD 0645-057 ATTENTION: existing directory $2 will be renamed $3\n";;
+    124) msg="Installing all efix files:\n";;
+    125) msg="Total number of efix files installed is $2.\nAll efix files installed successfully.\n";;
+    126) msg="Efix File Removal\n";;
+    127) msg="Removing all efix files (in reverse order of installation):\n";;
+    128) C=1; msg="$CMD 0645-058 Removal of efix has failed.\n";;
+    129) C=1; msg="$CMD 0645-059 The save directory is incomplete.\n";;
+    130) msg="Setting up for removal of efix files ...\n";;
+    131) C=1; msg="$CMD 0645-060 Unable to determine owning fileset for $2.\n";;
+    132) msg="Building file-to-package list ...\n";;
+    133) msg="Enter access attributes for file $2 in the following format:\n<owner>:<group>:<octal modes>\nFor example to make the user=\"root\", the group=\"system\", and the modes \"444\",\nyou would enter root:system:444. Enter \".\" if you want to keep the default\n(i.e. current) permissions on the existing target file.\n";;
+    134) C=1; msg="$CMD 0645-061 Invalid format for access attributes string.\n" ;;
+    135) msg="Enter access attributes for file $2 in the following format:\n<owner>:<group>:<octal modes>\nFor example to make the user=\"root\",the group=\"system\", and the modes \"444\",\nyou would enter root:system:444.\n";;
+    136) C=1; msg="$CMD 0645-062 You must specify specific permissions for NEW files.\n";;
+    137) C=1; msg="$CMD 0645-063 Error writing to efix database.\n";;
+    138) C=1; msg="$CMD 0645-064 Error processing efix database.\n";;
+    139) C=1; msg="$CMD 0645-065 An efix with label \"$2\" is already installed.\n";; 
+    140) C=1; msg="$CMD 0645-066 Unable to locate label \"$2\" in efix database.\n";;
+    141) C=1; msg="$CMD 0645-067 Error writing efix data for file $2.\n";;
+    142) C=1; msg="$CMD 0645-068 File entry already exists.\nLabel=\"$2\", File=\"$3\".\n";;
+    143) C=1; msg="$CMD 0645-069 Error deleting file from efix database.\nLabel=\"$2\", File=\"$3\".\n";;
+    144) C=1; msg="$CMD 0645-070 Target file $2 is locked by efix label \"$3\".\n";;
+    145) msg="Efix Lock Management\n";;
+    146) C=1; msg="$CMD 0645-109 Error processing efix lock data.\n";;  
+    147) msg="Checking locks for file $2 ...\n";;
+    148) msg="All files have passed lock checks.\n";;
+    149) C=1; msg="$CMD 0645-071 The following target files have failed lock checks:\n";;
+    150) msg="EFIX MANAGER PREVIEW START\n";;
+    151) msg="EFIX MANAGER PREVIEW END\n";;
+    152) C=1; msg="$CMD 0645-072 ATTENTION: missing install data for file $2. File will be skipped.\n";;
+    153) C=1; msg="$CMD 0645-073 Error reading efix database.\n";;
+    154) C=1; msg="$CMD 0645-074 Error reading efix file database.\n";;
+    155) C=1; msg="$CMD 0645-075 ATTENTION: efix data states that the number of files should be $2,\nbut the number of files emgr was able to locate is $3.\n";;
+    156) C=1; msg="$CMD 0645-110 Error executing packaging script.\n";;
+    157) msg="pre-install";;
+    158) msg="post-install";;
+    159) msg="pre-remove";;
+    160) msg="post-remove";;
+    161) C=1; msg="$CMD 0645-076 The $2 script has returned an error.\n";;
+    162) msg="Executing $2 script ...\n";;
+    163) msg="Efix File Installation\n";;
+    164) msg="Pre-Install Script\n";;
+    165) msg="Post-Install Script\n";;
+    166) msg="Pre-Remove Script\n";;
+    167) msg="Post-Remove Script\n";;
+    168) msg="Return code from $2 script is: $3\n";;
+    169) msg="Install Failure Cleanup\n";;
+    170) msg="Initializing failed efix install cleanup ...\n";;
+    171) C=1; msg="$CMD 0645-077 ATTENTION: cleanup did not succeed.\n";; 
+    172) msg="Successfully cleaned up failed install.\n";;
+    173) msg="INSTALLING\n";;
+    174) msg="REMOVING\n" ;;
+    175) msg="BROKEN\n" ;;
+    176) msg="STABLE\n" ;;
+    177) msg="NONE\n" ;;
+    178) C=1; msg="$CMD 0645-078 ATTENTION: efix \"$2\" has the state of \"$3\".\n";;
+    179) C=1; msg="$CMD 0645-079 Error changing efix state.\n";;
+    180) msg="Setting efix state to: $2\n";;
+    181) msg="Efix State\n";;
+    182) msg="There is no efix data on this system.\n";;
+    183) msg="Initializing log $2 ...\n";;
+    184) msg="STATE codes:\n S = STABLE\n M = MOUNTED\n U = UNMOUNTED\n Q = REBOOT REQUIRED\n B = BROKEN\n I = INSTALLING\n R = REMOVING\n";; 
+    185) C=1; msg="$CMD 0645-080 Efix did not pass all remove preview checks.\n";;
+    186) C=1; msg="$CMD 0645-081 Unable to locate efix with id number $2.\n";;
+    187) C=1; msg="$CMD 0645-082 Unale to locate efix with VUID \"$2\".\n";;
+    188) C=1; msg="$CMD 0645-083 Label name \"$2\" is reserved or invalid.\n";;
+    189) C=1; msg="$CMD 0645-084 Error writing to efix prerequisite database.\n";;
+    190) C=1; msg="$CMD 0645-085 Error checking efix status.\n";;
+    191) C=1; msg="$CMD 0645-086 Error checking efix with label \"$2\"\n";;
+    192) msg="Checking file number $2: $3 ...\n";;
+    193) msg="Efix passed all level $2 checks.\n";; 
+    194) msg="EFIX ID: $2\nEFIX LABEL: $3\n";; 
+    195) C=1; msg="$CMD 0645-087 Access attributes mismatch for file $2\n";; 
+    196) msg="Expected access attributes:\n";;
+    197) msg="Actual access attributes:\n";;
+    198) msg="Checking access attributes for $2 ...\n";;
+    199) C=1; msg="$CMD 0645-088 ATTENTION: file $2 will not be removed.\n*** This new file was installed by emgr. During the install, emgr could ***\n*** not determine or lock the owning package. If you have not installed ***\n*** the permanent version of this file, you can safely remove it.       ***\n" ;;
+    200) C=1; msg="$CMD 0645-089 Efix \"$2\" no longer meets the following prerequisites:\n";;
+    201) msg="   Level at Install: $2\n";;
+    202) msg="Check level is $2.\n";;
+    203) C=1; msg="$CMD 0645-090 Invalid level for verbose flag. Valid levels are $2.\n";;
+    204) C=1; msg="$CMD 0645-091 Error processing ODM database.\n";;
+    205) C=1; msg="$CMD 0645-092 No ODM data available for fileset $2.\n";;
+    206) C=1; msg="$CMD 0645-093 Error changing emgr bit in ODM.\n";;
+    207) msg="$2: installp fileset $3 is already locked by emgr.\n";;
+    208) msg="$2: locking installp fileset $3.\n";; 
+    209) C=1; msg="$CMD 0645-094 Error locking package $2.\n";;
+    210) C=1; msg="$CMD 0645-095 Error unlocking package $2.\n";;
+    211) msg="$2: unlocking installp fileset $3.\n";;
+    212) msg="$2: installp fileset $3 is already unlocked.\n";;
+    213) msg="$2: no lockable package for this file.\n";;
+    214) C=1; msg="$CMD 0645-096 Error processing package locks.\n";;
+    215) C=1; msg="$CMD 0645-097 Error processing inventory data for file number $2.\n";;
+    216) msg="Processing package locking for all files.\n";;
+    217) msg="All package locks processed successfully.\n";;
+    218) msg="Package Locking\n";;
+    219) msg="Initializing emgr manual maintenance tools.\n";;
+    220) C=1; msg="$CMD 0645-098 ATTENTION: File number $2 will be replaced by an efix file that\nhas been designated as \"new\" by the package. The replaced file has been saved\nin $3.\n* Original File: $4\n* Saved File: $5\n";;  
+    221) msg="Processing package unlocking for all files.\n";;
+    222) msg="$2: installp fileset $3 is locked by another label.\n";;
+    223) C=1; msg="$CMD 0645-099 Error writing to pkglock database.\n";;
+    224) msg="Operation Summary\n";;
+    225) C=1; msg="$CMD 0645-100 Error listing package locks.\n";;
+    226) msg="No locks for the specified packages.\n";;
+    227) msg="Reboot Processing\n";;
+    228) msg="Reboot is not required by this efix package.\n";;
+    229) msg="\n*** NOTICE ***\nThis efix package requires the target system to be rebooted after the current\noperation is complete. It is recommended that you reboot the target system as\nsoon as possible after installation to avoid disruption of current functionality.\n";;
+    230) msg="\n*** NOTICE ***\nemgr has detected that this operation is executing in an alternate root\nenvironment (such as NIM SPOT or alt_disk_install). The efix package being\ninstalled has specified that a reboot is required. Be sure that the boot\nimage is rebuilt before booting from the target alternate root environment.\n";;
+    231) C=1; msg="$CMD 0645-101 Error during reboot processing.\n";;
+    232) msg="Rebuilding boot image ...\n";;
+    233) C=1; msg="$CMD 0645-102 Error rebuilding boot image.\n";;
+    234) msg="Successfully rebuilt boot image.\n";;
+    235) msg="ATTENTION: boot image rebuilding aborted by user.\n";;
+    236) C=1; msg="$CMD 0645-103 Error installing archive member.\n";;
+    237) msg="Enter the file name of the target archive member for efix file number $2.\nThis should be the name of the archive member that will be installed or\nreplaced in the target archive $3.\n";;
+    238) C=1; msg="$CMD 0645-104 Error initializing efix database.\n";;
+    239) C=1; msg="$CMD 0645-105 Error getting archive member size.\n";;
+    240) C=1; msg="$CMD 0645-106 Error extracting archive member.\n";;
+    241) msg="Archiving member $2 ...\n";;
+    242) C=1; msg="$CMD 0645-107 Error getting archive member checksum.\n";;
+    243) msg="Force removing efix with label \"$2\"...\n";;
+    244) msg="Efix Force Removal\n";; 
+    245) C=1; msg="$CMD 0645-148 ATTENTION: efix label \"$2\" is selected for force removal.\nThe recommended method for removing an installed efix is to use the standard\nremoval process (-r flag). The force remove option will not delete any of the\nefix files, saved data, or execute remove scripts. This option should only\nbe used if the standard remove process cannot be accomplished.\n";;
+    246) C=1; msg="$CMD 0645-111 This operation requires that you confirm it with the FORCE\nflag (-F flag).\n";; 
+    247) C=1; msg="$CMD 0645-112 Error initializing log $2\n";;
+    248) msg="Efix package file is: $2\n";;
+    249) msg="Processing Efix Package $2 of $3.\n";;
+    250) msg="Processing Efix Selection $2 of $3.\n";; 
+    251) C=1; msg="$CMD 0645-113 No valid entries to process in bundle file $2.\n";;
+    252) C=1; msg="$CMD 0645-114 Error processing label variable.\n";;
+    253) msg="Initializing check operation ...\n";;
+    254) msg="INSTALL";; 
+    255) msg="REMOVE";;
+    256) msg="CHECK";;
+    257) msg="FORCE REMOVE";;
+    258) msg="FAILURE CLEANUP";;
+    259) msg="FAILURE";;
+    260) msg="SUCCESS";;
+    261) msg="Unknown";;
+    262) msg="EFIX NUMBER";;
+    263) msg="EPKG NUMBER";;
+    264) msg="INSTALL PREVIEW";;
+    265) msg="REMOVE PREVIEW";;
+    266) msg="Cumulative Space Requirements\n";;
+    267) C=1; msg="$CMD 0645-115 Error processing cumulative space requirements.\n";; 
+    268) msg="Processing space requirements for all successful operations ...\n";;
+    269) C=1; msg="$CMD 0645-116 ATTENTION: label \"$2\" has already been processed.\n";;
+    270) C=1; msg="$CMD 0645-117 Target file $2 will be locked by efix label \"$3\".\n";;
+    271) msg="Efix label \"$2\" was mount installed.\n";;
+    272) msg="Unmounting efix file $2 ...\n";;
+    273) msg="Efix Mounts\n";;
+    274) C=1; msg="$CMD 0645-118 Error removing efix mounts.\n";;
+    275) msg="MOUNTED\n";;
+    276) msg="UNMOUNTED\n";;
+    277) C=1; msg="$CMD 0645-119 file $2 is not mounted.\n";;
+    278) C=1; msg="$CMD 0645-120 Error mounting efix files.\n";;
+    279) C=1; msg="$CMD 0645-121 Efix with label \"$2\" is not mount installed.\n";;
+    280) msg="EFIX MOUNT";;
+    281) msg="EFIX UNMOUNT";;
+    282) msg="Mounting efix label \"$2\".\n";; 
+    283) msg="File $2: $3 is already mounted.\n";;
+    284) msg="File $2: $3 is NOT mounted. Mounting ...\n";;
+    285) msg="All files successfully mounted.\n";;
+    286) C=1; msg="$CMD 0645-122 Error unmounting efix files.\n";;
+    287) msg="All files successfully unmounted.\n";;
+    288) msg="Unmounting efix label \"$2\".\n";;
+    289) msg="File $2: $3 is already unmounted.\n";;
+    290) msg="File $2: $3 is mounted. Unmounting ...\n";;
+    291) C=1; msg="$CMD 0645-123 There are no mount installed efix files on this system.\n";;
+    292) C=1; msg="$CMD 0645-124 Efix package file name must end in the \"$2\" extension.\n";;
+    293) C=1; msg="$CMD 0645-125 Error processing emgr locks.\n";;
+    294) C=1; msg="$CMD 0645-126 emgr is currently locked by process $2. If you believe\nthis lock is in error, use the -K flag to force unlock.\n";;
+    295) C=1; msg="$CMD 0645-127 Error processing TCB state.\n";;
+    296) C=1; msg="$CMD 0645-128 Error processing TCB data.\n";;
+    297) C=1; msg="$CMD 0645-129 Efix file number $2 cannot be mount installed because it is\ndesignated as \"new\".\n";;
+    298) C=1; msg="$CMD 0645-130 Mount install is not supported on TCB enabled systems.\n";;
+    299) msg="ATTENTION: This file may still be tracked in the TCB database. If the file is\nreplaced with a non-TCB file, you should unregister it from TCB with the\nfollowing command: /usr/bin/tcbck -d $2.\n";;
+    300) C=1; msg="$CMD 0645-131 ATTENTION: efix file number $2 will not be removed because\nit was designated as new and has been replaced by a tracked file.\n";;
+    301) C=1; msg="$CMD 0645-132 Efix file number $2 has been designated as new by the package,\nbut it is tracked by one or more installers on this system.\n";;
+    302) return 0;; # held for emgr usage
+    303) return 0;; # held for epkg usage
+    304) msg="Log file is $2\n";;
+    305) msg="** For help, enter \"h!\" at any question prompt. **\n";;
+    306) msg="epkg subcommands
+================
+b!  Return to the previous question (i.e. "back").
+h!  Display help information for the current question.
+q!  Quit without saving the input for this session.
+s!  Show the current input for this session.
+sq! Save existing input for this session and quit.
+sh! Shell escape.\n" ;;
+    307) msg="Briefly describe the efix package. The abstract is limited to 38 bytes.\n";; 
+    308) msg="An efix package may or may not deliver efix files. If this efix package\ndelivers one or more efix files enter \"yes\". Otherwise, enter \"no\".\n";;
+    309) msg="Enter the absolute or relative path of the efix file that will be archived\nand shipped with this efix package. This is the file that contains the efix\ncode. Please note that the name of this file is immaterial to the efix install\ntools (emgr) and only the efix package target information will be used for\ninstallation purposes.\n";;
+
+    310) msg="Enter the absolute path of the file or archive (i.e. library) that is targeted\nby this efix file. This is the location that will be the install target when\nthis efix file is installed. If this file is tracked by an installer (e.g.\ninstallp, RPM, ISMP, etc), enter the exact tracked location.\n";; 
+
+    311) msg="Select the corresponding type for this efix file. For example:\n/usr/bin/ls would be \"Standard file or executable\" and shr.o (as a member of a\nlibrary) would be \"Archive/Library Member\". Note: this description applies to\nthe ship file. If the ship file will be shr.o as an archive member of target\nfile /usr/ccs/lib/libc.a, you would select \"Archive/Library Member\".\"\n";;
+
+    312) msg="Example: If the ship file will be shr.o as an archive member of target file\n/usr/ccs/lib/libc.a, you would enter \"shr.o\".\n";;
+
+    313) msg="Select the installer (if any) that tracks the target file. If the target file\nis new (i.e. it does not exist on the target system), then be sure to\ndesignate it as \"NEW\". If it is not new, be sure to select its tracked status.\n";; 
+
+    314) msg="For a full explanation of octal modes see the chmod man page and\ndocumentation. For a full explanation of file owner and group designations,\nsee the chown man page and documentation. Note: If the ship file is an archive\nmember, the permissions will apply to the member and not the archive or\nlibrary.\n" ;;
+
+    315) msg="This is the script that will be executed by emgr before any efix files are\ninstalled and before the post-install script. A failure in this script will\nabort the installation.\n" ;;
+
+    316) msg="This is the script that will be executed by emgr after all efix files are\ninstalled and after the pre-install script is executed. A failure in this\nscript will cause the installation to fail and clean up.\n" ;;
+
+    317) msg="This is the script that will be executed by emgr before any efix files are\nremoved and before the post-remove script. A failure in this script will fail\nthe remove operation.\n" ;;
+
+    318) msg="This is the script that will be executed by emgr after all efix files are\nremoved and after the pre-remove script is executed. A failure in this\nscript will fail the remove operation.\n" ;;
+  
+    319) msg="If the proper integration of this efix requires a reboot, enter \"yes\". This\nwill cause emgr to rebuild the boot image and issue a reboot requirement\nstatement to the user.\n";; 
+
+    320) msg="Enter the absolute or relative path of the prerequisite file. This is a file\nthat contains prerequisite information for AIX installp filesets. If the\ntarget system does not meet all specified prerequisites, emgr will block the\ninstallation. Please see epkg documentation for a full explanation of\nprerequisite files.\n";;
+
+    321) msg="Enter the absolute or relative path of the description file OR enter \".\" to\ncompose the description in an editor. You can specify which editor to use by\nsetting the EDITOR global environment variable. The default editor is vi.\nIf epkg finds an epkg.desc.tpl file in $HOME, it will use that file as\nthe template.\n";; 
+
+    322) msg="Selecting \"yes\" will resume the previously saved epkg session. Selecting\n\"no\" will start a new epkg session from the beginning.\n";;
+
+    323) msg="Selecting \"yes\" will save and end this epkg session. Selecting \"no\" will resume\nthe current session.\n";; 
+
+    324) msg="CANCELLED";;
+    325) msg="Overwrite install option selected. Removing currently installed\nefix \"$2\".\n";;
+    326) msg="Overwrite Processing\n";;
+    327) msg="ATTENTION: overwrite option selected. Actual install will remove currently\ninstalled efix \"$2\" before installing the current efix package.\n";; 
+    328) msg="Previously installed efix removed successfully.\nInstalling current efix package ...\n";;
+    329) C=1; msg="$CMD 0645-133 Previously installed efix could not be successfully removed.\nCanceling installation of current efix package.\n";;
+    330) msg="EMGR RCBOOT";;
+    331) msg="REBOOT REQUIRED";;
+    332) msg="Boot Image Processing\n";;
+    333) C=1; msg="$CMD 0645-134 ATTENTION: boot image processing has failed.\n";;
+    334) msg="ATTENTION: system reboot is required. Please see the \"Reboot Processing\"\nsections in the output above or in the $2 file.\n";;
+    335) C=1; msg="$CMD 0645-135 Mount install is not supported for efix packages with install or\nremove scripts.\n";;
+    336) C=1; msg="$CMD 0645-136 Mount install is not supported for efix packages without files.\n";;
+    337) C=1; msg="$CMD 0645-137 Mount install is not supported for efix packages that require\nrebooting.\n";; 
+    338) msg="Save directory is: $2\n";;
+    339) msg="File $2: Saving $3 as $4 ...\n";;
+    340) msg="File Archiving\n";;
+    341) C=1; msg="$CMD 0645-144 ATTENTION: function $2 aborted or altered by user.\n";;
+    342) C=1; msg="$CMD 0645-138 ATTENTION: the level of emgr being executed is lower than the\nlevel of the epkg command used to create this efix package.\n";; 
+    343) C=1; msg="$CMD 0645-139 ATTENTION: the level of emgr being executed is higher than the\nlevel of the epkg command used to create this efix package.\n";; 
+    344) C=1; msg="$CMD 0645-140 ATTENTION: emgr has issued $2 attention notice(s).\nSuch notices may not indicate an immediate failure, but may require\nfurther attention. Please see the output above or the log for more details.\n";; 
+    345) C=1; msg="$CMD 0645-141 ATTENTION: An error occurred processing installp ODM\ninventory data. Object data in error is: $2.\n" ;;
+    346) C=1; msg="$CMD 0645-142 ATTENTION: An error occurred processing hard links for target\nfile $2.\n" ;;
+    347) C=1; msg="$CMD 0645-143 ATTENTION: An error occurred resetting hard links for target\nfile $2.\n" ;;
+    348) msg="Resetting hard link from $2 to $3\n";;
+    349) C=1; msg="$CMD 0645-145 ATTENTION: The target file $2 appears to be\na kernel module. emgr was not able to locate a link to this module from $3\nor from $4. This kernel module may not be integrated into the\nboot image.\n";;
+    350) C=1; msg="$CMD 0645-146 Unable to locate SHIP_FILE attribute for file number $2.\n" ;;
+    351) C=1; msg="$CMD 0645-147 The EFIX_FILES attribute specified a total of $2 ship file(s),\nbut epkg was able to locate ship file data for a total of only $3 file(s).\n";;
+    352) msg="Not Installed" ;;
+    # NOTE: 0645-148 used by 245
+    353) msg="Select reboot policy for this efix package:\n" ;;
+    354) msg="Reboot is NOT required.\n" ;;
+    355) msg="Reboot is required. The boot image will be rebuilt.\n" ;;
+    356) msg="Reboot is required. The boot image will NOT be rebuilt.\n" ;;
+    357) C=1; msg="$CMD 0645-149 The BUILD_BOOT_IMAGE attribute cannot be set to \"yes\" if the\nREBOOT attribute is set to \"no\".\n" ;;
+    358) C=1; msg="$CMD 0645-150 ATTENTION: The target file $2 appears to be\na kernel module, but the BUILD_BOOT_IMAGE attribute is set to \"no\". This kernel module may not be integrated into the boot image.\n";;
+    359) msg="Enter the location for the additional package locks file or \".\" to skip.\n";; 
+    360) C=1; msg="$CMD 0645-151 Error verifying additional package locks file.\n";;
+    361) msg="Verifying additional package locks file ...\n" ;;
+    362) C=1; msg="$CMD 0645-152 This configuration file is currently limited to $2 entries.\n";;
+    363) C=1; msg="$CMD 0645-153 Package locking for $2 packages is not currently supported.\n";;
+    364) C=1; msg="$CMD 0645-154 Error processing additional package locks.\n" ;;
+    365) msg="Processing additional package locks ...\n";; 
+    366) C=1; msg="$CMD 0645-155 Package $2 is not installed.\n" ;;
+    367) msg="File $2";;
+    368) msg="Explicit Lock";;
+    369) msg="Enter the location for the efix supersede file or "." to skip.\n";;
+    370) C=1; msg="$CMD 0645-156 Error verifying supersede file.\n" ;;
+    371) C=1; msg="Verifying efix supersede file ...\n" ;;
+    372) msg="Removing superseded efix package \"$2\" ...\n";;
+    373) msg="ATTENTION: the currently selected efix package supersedes efix \"$2\".\nemgr will remove efix package \"$3\" before performing installation of\nthe current efix package.\n" ;; 
+    374) C=1; msg="$CMD 0645-157 Error processing supersedes.\n" ;;
+    375) C=1; msg="Supersede Processing\n" ;;
+    376) msg="No superseded efix labels are installed.\n" ;;
+    377) msg="All superseded efixes removed successfully.\nInstalling current efix package ...\n";;
+    378) C=1; msg="$CMD 0645-158 Efix name entry matches current label.\n";;
+    379) msg="OVERWRITE REMOVE";;
+    380) msg="SUPERSEDE REMOVE";;
+    381) C=1; msg="$CMD 0645-159 ATTENTION: $2 is not a text file.\n";;
+    382) C=1; msg="$CMD 0645-160 Error verifying efix to efix prerequisite file.\n" ;;
+    383) C=1; msg="Verifying efix to efix prerequisite file ...\n" ;;
+    384) C=1; msg="$CMD 0645-161 Error processing efix to efix prerequisites.\n" ;;
+    385) C=1; msg="$CMD 0645-162 This \"$2\" entry was previously designated as \"$3\".\n" ;; 
+    386) C=1; msg="$CMD 0645-163 The efix entry \"$2\" is listed in both the supersede file\nand as a PREREQ in the efix to efix prerequisite file.\n";;
+    387) msg="Entering shell! Exit to resume $2 session.\n";;
+    388) msg="Enter the location for the efix to efix prerequisite file or "." to skip.\n";;
+    389) C=1; msg="$CMD 0645-164 The efix PREREQ \"$2\" is required to be installed.\n";;
+    390) C=1; msg="$CMD 0645-165 The efix XREQ \"$2\" is required to NOT be installed.\n";;
+    391) msg="Efix to Efix Requisite Number: $2\n   Efix Label: $3\n   Type: $4\n   Install Status: $5\n   Requisite Met: $6\n";;
+    392) msg="Installed\n";; 
+    393) msg="Efix to Efix Prerequisite Verification\n";;
+    394) msg="All efix to efix prerequisites successfully processed.\n";;
+    395) msg="Superseded\n";;
+    396) C=1; msg="$CMD 0645-166 The following previously installed efixes list this efix\npackage as an XREQ:\n";;
+    397) C=1; msg="$CMD 0645-167 The following previously installed efixes list efix \"$2\"\nas a PREREQ:\n";;
+    398) C=1; msg="$CMD 0645-168 Error displaying efix package.\n";;
+    399) msg="DISPLAY";;
+    400) C=1; msg="$CMD 0645-069 List file size cannot exceed $2 512 byte-blocks.\n";;
+    401) C=1; msg="Install Scripts:\n";;
+    402) C=1; msg="$CMD 0645-170 Error displaying configuration file.\n";;
+    403) C=1; msg="$CMD 0645-171 ATTENTION: Unable to display configuration file \"$2\"\nbecause it is not a text file.\n";;
+    404) msg="Displaying Configuration File \"$2\"\n";;
+    405) C=1; msg="$CMD 0645-172 ATTENTION: Error generating MD5 checksum.\n";;
+    406) msg="MD5 generating command is $2\n";;
+    407) msg="MD5 checksum is $2\n";;
+    408) msg="ATTENTION: system reboot will be required by the actual (not preview) operation.\nPlease see the \"Reboot Processing\" sections in the output above or in the\n$2 file.\n";;
+    409) C=1; msg="$CMD 0645-173 ATTENTION: label \"$2\" has been marked as \"$3\" by a\npreviously processed label during this preview operation.\n";;
+    410) msg="To be Installed\n" ;;
+    411) msg="To be Removed\n" ;;
+    412) msg="Processing efix label \"$2\" ...\n" ;;
+    414) C=1; msg="$CMD 0645-174 Error processing description file.\n";;
+
+# Version 5 messages
+
+    415) msg="STATE codes:\n S = STABLE\n M = MOUNTED\n U = UNMOUNTED\n Q = REBOOT REQUIRED\n B = BROKEN\n I = INSTALLING\n R = REMOVING\n T = TESTED\n";;
+    416) msg="Reboot is NOT required. The boot image will be rebuilt.\n" ;;
+    417) msg="ATTENTION: changing package label to user specified label \"$2\".\n";;
+    418)  C=1; msg="$CMD 0645-175 ATTENTION: reboot and boot image processing skipped in\nalternate install location.\n";; 
+    419)  C=1; msg="$CMD 0645-176 ATTENTION: installp prerequisite processing skipped in\nalternate install location.\n";; 
+    420) msg="ALTERNATE INSTALL PATH: $2\n";;
+
+      *) $ERROR;;
+   esac
+
+############################################################
+## See if we need to print out a message in the local 
+## locale.. i.e. other than English. Right now, we only
+## support AIX's install message catalog.
+############################################################
+
+   if [[ $LOCPRINT -eq 1 ]]; then
+      # Make adjustments for catalog order
+      if [[ $MSG_OPTION -le 337 ]]; then
+         (( MSG_OPTION = $MSG_OPTION + 305 ))
+      else
+         (( MSG_OPTION = $MSG_OPTION + 309 ))
+      fi
+
+      [[ $C -ne 1 ]] && CMD=""
+      tmsg=$($INUUMSG $MSG_OPTION $CMD "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" 2>&1) 
+      if [[ $? -eq 0 ]]; then 
+         # If inuumsg succeeded, issue the translated message; else
+         # issue the untranslated message.
+         msg="${tmsg}\n"
+      fi    
+
+   fi # end of LOCPRINT=1
+
+   if [[ $EMGRLOG -eq 1 ]]; then
+      echo "$msg\c" 2>&1 >> $LOG 
+      [[ $QUIET -eq 1 && $ISERROR -eq 0 ]] && return 0 
+   fi 
+
+   echo "$msg\c" 2>&1
+   
+}  # end of print_msg()  
+
+########################################################################
+## Function: setcmd
+########################################################################
+setcmd()
+{
+   typeset ERROR='eval perror 57 "$CMD"; return 1'
+   typeset IERROR='eval pmerror "setcmd()"; return 1'
+   typeset PATHS    # All known common paths
+   typeset -u UCMD  # Posix commands in uppercase (for variable assignments)
+   typeset P        # PATH index
+   typeset CMD="$1" # command
+
+   [[ -z $CMD ]] && $IERROR
+
+############################################################
+## Setup known PATHS
+############################################################
+
+   PATHS="$EMGRBIN /usr/bin /usr/sbin /bin /sbin /usr/local/bin /usr/local/sbin"
+
+############################################################
+## Loop through $PATHS to find the correct location for this
+## system. If we do not find the given command in any of the
+## paths, then report an error and return.
+############################################################
+
+   for P in $PATHS; do
+      if [[ -x $P/$CMD ]]; then
+         UCMD=$CMD
+         eval export $UCMD=$P/$CMD
+         return 0
+      fi
+   done
+
+   # If we got here, then we did not find the command
+   $ERROR
+
+}  # end of setcmd()
+
+########################################################################
+## Function: get_byte_fsize
+########################################################################
+get_byte_fsize()
+{
+
+   typeset FILE="$1"
+   typeset FSIZE=0
+   typeset ERROR='eval perror 23 "$FILE"; return 1'
+
+   if [[ -z "$FILE" ]]; then
+      perror 23 "<NULL>"
+      return 1
+   fi
+
+   check_file $FILE || $ERROR
+
+   FSIZE=$($LS -l $FILE) || $ERROR
+   FSIZE=$(echo "$FSIZE" | $AWK '{print $5}') || $ERROR
+
+   isnum $FSIZE || $ERROR
+
+   echo "$FSIZE"
+
+   return 0
+
+}  # end of get_byte_fsize()
+
+########################################################################
+## Function: which_rpm()
+## Parameter: rpm file
+## Output: owning rpm package
+## Returns: 0 = OK, not 0 = ERROR
+########################################################################
+which_rpm()
+{
+
+  typeset ERROR='eval pmerror "which_rpm()"; return 1'
+  typeset BUF=""
+  typeset FILE=$1
+
+  [[ -z $FILE ]] && $ERROR
+
+  setcmd rpm || $ERROR
+
+###########################################################
+## Execute rpm command to determine the owning package.
+## Strip of the release value, etc.
+###########################################################
+
+  BUF=$($RPM -qf --queryformat '%{NAME}\n' $FILE)
+
+  [[ $? -ne 0 || -z $BUF ]] && $ERROR
+
+  echo "$BUF"
+
+  return 0
+
+} # end of which_rpm()
+
+########################################################################
+## Function: Disable function.
+## Paramenters: Function name
+## Output: None
+########################################################################
+abort_function()
+{
+   typeset ERROR='eval $RM -f $BUF; pmerror "abort_function"; return 1'
+   typeset FUNCTION=$1
+   typeset BUF=.abort_function.$$
+   [[ -n $WORKDIR ]] && BUF=${WORKDIR}/${BUF}
+
+   [[ -z $FUNCTION ]] && return 0
+   [[ "$FUNCTION" = "abort_function()" ]] && $ERROR
+
+   setcmd rm || $ERROR
+
+   $RM -f $BUF
+   typeset -f "$FUNCTION" > /dev/null 2>&1 || $ERROR
+
+   # Create the function
+   echo "#!/usr/bin/ksh\n$FUNCTION()\n{\nreturn 0\n}\n" > $BUF || $ERROR
+
+   # Reload the function
+   . $BUF || $ERROR
+
+   perror 341 "$FUNCTION()"
+
+   rm -f $BUF
+   return 0
+
+}  # end of abort_function()
+
+########################################################################
+## Function: shiftbit() (Shifts $START by $NUM in direction $DIRECTION)
+## Parameters: START number, NUM to shift, DIRECTION of shift (L or R)
+## Returns: 0 = ok, != 0 = fail
+## Output Returns: New value after shift.
+########################################################################
+
+shiftbit()
+{
+   typeset START=$1
+   typeset NUM=$2
+   typeset DIRECTION=$3
+   typeset NEW=0
+   typeset ERROR='eval pmerror "shiftbit()"; return 1'
+
+   # Validate arguments
+   isnum $START || $ERROR
+   isnum $NUM || $ERROR
+   [[ "$DIRECTION" != "L" && "$DIRECTION" != "R" ]] && $ERROR
+
+   # Do the shift based on direction
+   if [[ "$DIRECTION" = "L" ]]; then
+      (( NEW = $START << $NUM ))
+   else
+      (( NEW = $START >> $NUM ))
+   fi
+
+   # Validate and output return
+   isnum $NEW && echo "$NEW" || $ERROR
+
+   return 0
+
+}  # end of shiftbit()
+
+
+########################################################################
+## Function: isbitset() (Is bit $BIT set in $VALUE)
+## Parameters: VALUE, BIT
+## Returns: 0 = is set, 1 =  fail, 2 = not set
+########################################################################
+isbitset()
+{
+   typeset VALUE=$1
+   typeset BIT=$2
+   typeset ERROR='eval pmerror "isbitset()"; return 1'
+   typeset SET='eval return 0'
+   typeset NOT_SET='eval return 2'
+
+   # Validate arguments
+   isnum $VALUE || $ERROR
+   isnum $BIT || $ERROR
+
+   (( $VALUE & $BIT )) && $SET || $NOT_SET
+
+}  # end of isbitset()
+
+#######################################################################
+## Function: is_hlinked()  Is node1 a link to done2.
+## Parameters: <node1> <node2>
+## Returns: 0 = linked, 1 = not linked  >1 =  failure
+#######################################################################
+
+is_hlinked()
+{
+   typeset ERROR='eval pmerror "is_hlinked()"; return 2'
+   typeset N1=$1   # node1
+   typeset N2=$2   # node2
+   typeset LINKED='eval return 0'
+   typeset NOT_LINKED='eval return 1'
+   typeset B1 B2   # buffer 1 and 2
+
+   [[ -z $N1 || -z $N2 ]] && $ERROR
+   [[ -f $N1 && -f $N2 ]] || $NOT_LINKED
+   [[ -L $N1 || -L $N2 ]] && $NOT_LINKED
+
+   # Compare the node numbers
+   B1=$(get_inode -f $N1) || $ERROR
+   B2=$(get_inode -f $N2) || $ERROR
+   [[ $B1 -ne $B2 ]] && $NOT_LINKED
+
+   # Make sure both nodes are in the same file system
+   B1=$(whichfs $N1) || $ERROR
+   B2=$(whichfs $N2) || $ERROR
+   [[ "$B1" != "$B2" ]] && $NOT_LINKED
+
+   # get the abspath for N1 and N2 and make sure N1 and N2 are
+   # not the same path !
+   N1=$(abspath $N1) || $ERROR
+   N2=$(abspath $N2) || $ERROR
+   [[ "$N1" = "$N2" ]] && $NOT_LINKED
+
+   $LINKED
+
+}  # end of is_hlinked()
+
+########################################################################
+## Function: get_installp_links() Gets installp link list from
+##           the inventory ODM database
+## Parameters: <Target> [<fileset lpp>]
+## Output: comma separated link list, if there is one
+## Returns: 0 = ok, !0 = failure
+########################################################################
+
+get_installp_links()
+{
+   typeset ERROR='eval perror 345 "links"; return 1' 
+   typeset TARGET="$1"
+   typeset LPP="$2"
+   typeset BUF=""
+
+   # check args, etc
+   [[ $PLATFORM != "AIX" ]] && return 0
+   [[ -z $TARGET ]] && $ERROR
+
+   # Get the lpp/fileset that owns this link if it has not been
+   # provided.
+
+   if [[ -z $LPP ]]; then
+      LPP=$(which_lpp $TARGET) || $ERROR
+   fi
+
+   # Get the list of files associated with this fileset
+   BUF=$($LSLPP -cf $LPP) || $ERROR
+
+   # Parse out all links 
+   BUF=$(echo "$BUF" | $AWK -v TARGET=$TARGET -F: '{ 
+
+         if ($3!~"->") next;
+         split($3,split_array," -> ");
+         link_array[split_array[1]]=split_array[2];
+
+       } END {
+
+         anchor=""
+         # find the anchor
+         for (link in link_array) {
+              if (link==TARGET) { anchor=link_array[link]; break; }
+              if (link_array[link]==TARGET) { anchor=TARGET; break; }
+         } 
+
+         # if anchoer is null, then we are done
+         if(anchor==NULL) exit(0);
+
+         # print out all links connected to the anchor (except the TARGET)
+         for (link in link_array) 
+              if (link_array[link] == anchor && link != TARGET ) 
+                  print link;
+         if (anchor != TARGET ) print anchor;
+
+         exit(0); 
+
+       }') || $ERROR 
+ 
+   [[ -n $BUF ]] && echo "$BUF"
+   return 0
+ 
+}  # end of get_installp_links()
+
+
+########################################################################
+## Function: get_inode()
+## Parameters: 
+## [-L = follow sym links>]
+## [-f = file or a link to a file ]
+## [-d = directory or a link to a directory ]
+## [-b = file or directory or a link to either ] 
+## [-z = anything that has an inode number ]
+## <Target>
+## Output: inode number
+## Returns: 0 = ok, !0 = failure
+########################################################################
+
+get_inode()
+{
+
+   typeset ERROR='eval pmerror "get_inode()"; return 1'
+   typeset BUF 
+   typeset OPTION 
+   typeset Lflag 
+   typeset FILE
+   typeset DIR
+   typeset TARGET
+
+   # node status
+   typeset ISFILE=0  # is file
+   typeset ISDIR=0   # is directory
+   typeset ISDF=0    # is file or directory
+   typeset ISLINK=0  # is link
+
+   # set inode reference types
+   typeset BNODE=0
+   typeset ZNODE=0 
+ 
+   while getopts ":f:d:z:b:L" OPTION; do
+      case $OPTION in
+         L) Lflag="-L" ;;      # get inode of file link points to
+                               # (not inode of link)
+         f) FILE=$OPTARG ;;    # must be a file or a link to a file
+         d) DIR=$OPTARG ;;     # must be a dir or a link to a dir
+         b) TARGET=$OPTARG     # can be a file or a dir or a link to either
+            BNODE=1 ;;
+         z) TARGET=$OPTARG     # can be anything that has an inode number
+            ZNODE=1 ;; 
+         *) $ERROR ;;
+      esac
+   done
+
+   # Check syntax
+   [[ -n $FILE ]] && TARGET=$FILE
+   [[ -n $DIR ]] && TARGET=$DIR
+   [[ -z $TARGET ]] && $ERROR
+ 
+   # Set node description variables
+   [[ -f $TARGET ]] && ISFILE=1
+   [[ -d $TARGET ]] && ISDIR=1
+   [[ -L $TARGET ]] && ISLINK=1
+   (( ISDF = $ISDIR + $ISFILE ))
+
+   # Check internal consistency 
+   [[ $ISDF -gt 1 ]] && $ERROR
+   (( $ISFILE + $ISDIR + $ISLINK < 1 )) && $ERROR
+
+   # Check if this is the correct reference type
+   [[ -n $FILE && $ISFILE -eq 0 ]] && $ERROR
+   [[ -n $DIR && $ISDIR -eq 0 ]] && $ERROR
+   [[ $BNODE -eq 1 && $ISDF -eq 0 ]] && $ERROR 
+   [[ $ZNODE -eq 1 && $ISDF -eq 0 && $ISLINK -eq 0 ]] && $ERROR
+
+   # If ZNODE is set, and this is a broken link, just get the
+   # inode of the link.
+
+   [[ $ZNODE -eq 1 && $ISDF -eq 0 ]] && Lflag="" 
+
+   BUF=$($LS $Lflag -di $TARGET) || $ERROR
+   BUF=$(echo "$BUF" | $AWK1) || $ERROR
+   isnum "$BUF" || $ERROR
+ 
+   echo "$BUF"
+   return 0
+
+}  # end of get_inode()
+
+########################################################################
+## Function: get_lcount()  # get hard link count
+## Parameters: $TARGET 
+## Output: link count 
+## Returns: 0 = ok, !0 = failure
+########################################################################
+
+get_lcount()
+{
+   typeset ERROR='eval pmerror "get_lcount()"; return 1'
+   typeset BUF
+   typeset TARGET=$1
+
+   [[ -f $TARGET || -d $TARGET || -c $TARGET || -b $TARGET ]] || $ERROR
+
+   BUF=$($LS -l $TARGET) || $ERROR
+   BUF=$(echo "$BUF" | $AWK2) || $ERROR
+   isnum "$BUF" || $ERROR 
+
+   echo "$BUF"
+   return 0
+
+}  # end of get_lcount()
+
+########################################################################
+## Function: check_node
+## Parameters: <node>
+## Returns: 0 = node exists, 1 = node does not exist or error
+########################################################################
+
+check_node()
+{
+   typeset NODE="$1"
+   typeset ERROR='eval pmerror "check_node()" ; return 1'
+
+   [[ -z $NODE ]] && $ERROR
+   [[ ! -L $NODE && ! -r $NODE ]] && return 1
+
+   return 0
+
+}  # end of check_node()
+
+#######################################################################
+## Function: is_slinked()  Is the symlink pointing to target?
+## Parameters: <LINK> <TARGET>
+## Returns: 0 = linked, 1 = not linked  >1 =  failure
+#######################################################################
+
+is_slinked()
+{
+   typeset ERROR='eval pmerror "is_slinked()"; return 2'
+   typeset LINK=$1
+   typeset TARGET=$2
+   typeset LINKED='eval return 0'
+   typeset NOT_LINKED='eval return 1'
+   typeset LN TN   # inodes
+   typeset LFS TFS # link fs and target fs
+
+   [[ -z $LINK || -z $TARGET ]] && $ERROR
+   [[ ! -L $LINK || -L $TARGET ]] && $NOT_LINKED
+
+   # Compare the inode numbers
+   LN=$(get_inode -Lz $LINK)  || $ERROR
+   TN=$(get_inode -b $TARGET) || $ERROR
+   [[ $LN -ne $TN ]] && $NOT_LINKED
+
+   # Get the target file systems for LINK and TARGET. Make sure they
+   # are the same.
+   LFS=$(whichfs $LINK 2> /dev/null ) || $NOT_LINKED
+   TFS=$(whichfs $TARGET 2> /dev/null ) || $NOT_LINKED
+
+   [[ "$LFS" != "$TFS" ]] && $NOT_LINKED
+
+   $LINKED
+
+} # end of is_slinked()
+
+########################################################################
+## Function: strcat [-au ] [-f <delimiter>] -v <var_name> -s <string>
+########################################################################
+strcat()
+{
+   eval $SIGTRAP
+
+   typeset ERROR='eval pmerror "strcat()"; return 1'
+   typeset VAR_NAME=""      # variable to alter
+   typeset CURR_VAL=""      # current value holder
+   typeset STRING=""        # string to concatenate
+   typeset DEL=""           # delimiter
+   typeset ALWAYS=0         # create always
+   typeset SP=" "           # blank space (default delimiter)
+
+   DEL="$SP"  # set default delimiter
+
+   while getopts ":f:v:s:a" OPTION; do
+      case "$OPTION" in
+         f) DEL="$OPTARG";;
+         a) ALWAYS=1;;
+         s) STRING="$OPTARG";;
+         v) VAR_NAME="$OPTARG";;
+         *) $ERROR
+      esac
+   done
+
+   # Check for required args
+   [[ -z $VAR_NAME ]] && $ERROR
+
+   # Store the current value
+   eval CURR_VAL="$"$VAR_NAME
+
+   # Check if empty and initialize
+   if [[ -z $CURR_VAL ]]; then
+      eval $VAR_NAME='$STRING'
+      return 0
+   fi
+
+   # If $STRING is null, check if the add ALWAYS flag is on
+   [[ -z $STRING && $ALWAYS -eq 0 ]] && return 0
+
+   # Concatenate with new string
+   eval $VAR_NAME='$CURR_VAL$DEL$STRING'
+
+   return 0
+
+} # end of strcat()
+
+########################################################################
+## Function: print_cfgfile()  Streams the output of a confguration file
+##           removing any white space and comment lines. Also, sets
+##           the subshrc error token if there is an error.
+## Parameters: <config file>
+## Returns: 0 = ok, 1 = failure (also sets subshrc error token)
+########################################################################
+
+print_cfgfile()
+{
+   typeset METOK='eval echo 2 > $ERRTOKEN'  # mark error token
+   typeset ERROR='eval $METOK; pmerror "print_cfgfile()"; return 1'
+   typeset CFGFILE=$1
+
+   [[ -z $CFGFILE ]] && $ERROR
+   check_file $CFGFILE || $ERROR
+   is_text_file $CFGFILE || $ERROR
+
+   $AWK '
+   { if ($0~"^[\t| ]*#|^$|^[\t| ]*$") next;
+     str=$0;
+     gsub("^[\t| ]*","",str) ;  # remove leading whitespace
+     gsub("[\t| ]*$","",str) ;  # remove ending whitespace
+
+     rc=is_printed(str);
+     if (rc == 0 ) next;
+     print str;
+     strarray[str]=1;
+
+   } # end of MAIN
+
+   function is_printed(STR) {
+      for (istr in strarray)
+         if (istr == STR) return(0); # found a matching str already printed
+      return(1); # did not find a matching str already printed
+   }' $CFGFILE || $ERROR
+
+   subshrc PUTRC || $ERROR
+
+   return 0
+
+}  # end of print_cfgfile()
+
+########################################################################
+## Function: sync() syncs data to disk
+## Parameters: [<BACKGROUND>]
+## Output: None
+## Returns: 0 = ok, 1 = fail
+########################################################################
+
+sync()
+{
+   typeset BACKGROUND=$1
+
+   if [[ -n $BACKGROUND ]]; then
+      $SYNC &
+      return 0
+   else
+      $SYNC && return 0 || pmerror $SYNC
+   fi
+
+   #If we got here, then there is an error.
+   return 1
+
+}  # end of sync()
+
+########################################################################
+## Function: getfsntype()
+## Parameter: <NODE>  i.e. path
+## Output: Integer value for fs type 
+########################################################################
+getfsntype()
+{
+   typeset ERROR='eval pmerror "getfsntype()"; return 1'
+   typeset NODE=$1
+   typeset BUF
+
+   [[ -z $NODE || $LIBINST_AVAIL -lt 1 ]] && $ERROR
+
+   BUF=$($LIBINST_GETFSINFO -t -f $NODE) || $ERROR
+   isnum $BUF || $ERROR
+
+   echo "$BUF"
+   return 0
+
+}  # end of getfsntype()
+
+########################################################################
+## Function: conv_fsn()  # Converts fs number to word
+## Parameter: <FS number>
+## Output: Corresponding FS word based on /etc/vfs
+########################################################################
+conv_fsn()
+{
+   typeset ERROR='eval pmerror "conv_fsn()"; return 1'
+   typeset FSNUM=$1
+   typeset BUF
+   typeset VFS=/etc/vfs
+
+   isnum $FSNUM || $ERROR
+   check_file_full $VFS || $ERROR
+
+   BUF=$($AWK -v "FSNUM=${FSNUM}" '{if($2==FSNUM) {print $1; exit(0)}}' $VFS)
+   [[ $? -ne 0 || -z $BUF ]] && $ERROR
+
+   echo "$BUF"
+   return 0
+
+}  # end of conv_fsn()
+
+#######################################################################
+## Function: getfstype()
+## Parameter: <NODE>
+## Output: Returns word for file system type
+########################################################################
+getfstype()
+{
+   typeset ERROR='eval pmerror "getfstype()"; return 1'
+   typeset NODE=$1
+   typeset BUF
+
+   [[ -z $NODE || $LIBINST_AVAIL -lt 1 ]] && $ERROR
+
+   BUF=$(getfsntype $NODE) || $ERROR
+   BUF=$(conv_fsn $BUF) || $ERROR
+
+   echo "$BUF"
+   return 0
+
+}  # end of getfstype()
+
+#######################################################################
+## Function: rm_regexp_line()  Removes line from file that matches
+##                             regular expression.
+## Parameters: <REGEXP> <FILE>
+########################################################################
+rm_regexp_line()
+{
+   typeset ERROR='eval pmerror "rm_regexp_line()"; return 1'
+   typeset REGEXP="$1"
+   typeset FILE="$2"
+   typeset TF=$WORKDIR/rm_regexp_line.$RANDOM
+   typeset RC=0
+
+   [[ -z $REGEXP || -z $FILE ]] && $ERROR
+   # If file does not exist - error.
+   check_file $FILE || $ERROR 
+   # If file exists, but empty - no work!
+   [[ ! -s $FILE ]] && return 0
+   # Remove tmp file
+   $RM -f $TF
+
+   # Now, lets check that we have space in $TF's file system to
+   # host $FILE
+   check_fdup_space $FILE 5 $WORKDIR || $ERROR
+
+   # awk limits strings to 399 bytes :-( 
+   #$AWK -v "regexp=${REGEXP}" '{  
+   #   if($0 ~ regexp) next;  print;}' $FILE > $TF || $ERROR
+
+   # Do the remove
+   $EGREP -v ${REGEXP} $FILE > $TF || RC=$?
+   [[ $RC -ne 0 && $RC -ne 1 ]] && $ERROR 
+   
+   # Move $TF to $FILE
+   $MV $TF $FILE || $ERROR
+
+   return 0
+
+}  # end of rm_regexp_line()
+
+#######################################################################
+## Function: baselib_mntqry() Forwards arguments to libinst_mntqry
+##                            command. 
+########################################################################
+baselib_mntqry()
+{
+   typeset ERROR='eval pmerror "baselib_mntqry"; return 1' 
+   typeset CMD_ERROR='eval pmerror $LIBINST_MNTQRY; return 1'
+
+   [[ $LIBINST_AVAIL -lt 1 ]] && $ERROR
+
+   $LIBINST_MNTQRY "$@" || $CMD_ERROR
+
+   return 0
+
+}  # end of baselib_mntqry()
+
+########################################################################
+## Function: get_dir_fcount()
+## Parameters: 
+########################################################################
+get_dir_fcount()
+{
+   typeset ERROR='eval pmerror "get_dir_fcount()"; return 1'
+   typeset DIR=$1
+   typeset COUNT 
+   typeset RC
+
+   [[ -z $DIR ]] && $ERROR
+   check_dir $DIR || $ERROR
+
+   COUNT=$(($LS $DIR; subshrc PUTRC) | $WC -l) 
+   (( RC = $? + $(subshrc GETRC) ))
+
+   COUNT=$(echo $COUNT | $AWK1) || RC=3 
+   isnum $COUNT || RC=4
+
+   # Check return codes
+   [[ $RC -ne 0 ]] && $ERROR
+
+   # Output
+   echo "$COUNT"
+   return 0
+
+}  # end of get_dir_fcount()
+
+#######################################################################
+## Function: revstrm() Reverses members in string separated by white
+##                     space.
+## Parameters: <String>
+## Output: reversed string
+## Note: For reversing all characters in string see
+########################################################################
+revstrm()
+{
+   typeset ERROR='eval pmerror "revstrm()"; return 1'
+   typeset STR="$1"
+   typeset N=0
+   typeset VAL
+
+   [[ -z $STR ]] && $ERROR
+   unset IFS
+   set ${STR} || $ERROR
+
+   N="$#"
+   isnum $N || $ERROR
+
+   STR=""
+   while [[ $N -gt 0 ]]; do
+
+     eval VAL="$"$N
+     [[ -z $VAL ]] && $ERROR
+
+     [[ -n $STR ]] && STR="${STR} ${VAL}" || STR="$VAL"
+     dec N
+
+   done
+
+   [[ $N -ne 0 || -z $STR ]] && $ERROR
+   echo "$STR"
+
+   return 0
+
+}  # end of revstrm()
+
+
+########################################################################
+## Function: revflines() Reverses the order of lines in a file.
+##                       Writes the output to that file. 
+## Parameter: <FILE>
+########################################################################
+revflines()
+{
+   typeset ERROR='eval pmerror "revflines()"; return 1'
+   typeset FILE=$1
+   typeset TF=$WORKDIR/revflines.$RANDOM
+  
+   [[ -z $FILE ]] && $ERROR
+   # If file does not exist - error.
+   check_file $FILE || $ERROR
+   # If file exists, but empty - no work!
+   [[ ! -s $FILE ]] && return 0
+
+   $CP $FILE $TF
+   $AWK '
+      { A[NR]=$0 }
+      END { for (n=NR; n>0 ; n--) print A[n] }
+   ' $TF > $FILE || $ERROR
+
+   $RM -f $TF
+   return 0
+
+}  # end of revflines()
+
+########################################################################
+## Function: mount_dev() Mount and verify.
+########################################################################
+mount_dev()
+{
+   typeset ERROR='eval pmerror "mount_dev()"; return 1'
+   typeset DEV="$1"
+   typeset MNT="$2"
+   typeset RC
+   typeset BUF
+
+   [[ -z $DEV || -z $MNT ]] && $ERROR
+
+   # If DEB = EFS, than mount using /etc/filesystems 
+   [[ "$DEV" = "EFS" ]] && DEV=""
+
+   # Is it mounted already? If yes, we are done
+   RC=$(baselib_mntqry -im ${MNT}) || $ERROR
+
+   if [[ $RC -eq 1 ]]; then
+
+      # Is the right device mounted? If no device, than assume yes.
+      [[ -z "$DEV" ]] && return 0
+      DEV=$(abspath "$DEV") || $ERROR
+      BUF=$(baselib_mntqry -dm ${MNT}) || $ERROR
+      [[ "$BUF" != "$DEV" ]] && $ERROR
+      return 0
+
+   fi      
+
+   [[ -L ${MNT} ]] && $ERROR
+ 
+   # Do the mount
+   if [[ -n "$DEV" ]]; then
+      $MOUNT "$DEV" "$MNT" || $ERROR
+   else
+      $MOUNT "$MNT" || $ERROR
+   fi 
+
+   # It better be mounted now.
+   RC=$(baselib_mntqry -im ${MNT}) || $ERROR
+   [[ $RC -ne 1 ]] && $ERROR
+   
+   return 0
+
+}  # end of mount_dev()
+
+########################################################################
+## Function: unmount_dev() Mount and verify.
+########################################################################
+unmount_dev()
+{
+   typeset ERROR='eval pmerror "unmount_dev()"; return 1'
+   typeset MNT="$1"
+   typeset RC
+
+   [[ -z $MNT ]] && $ERROR
+
+   # Is it unmounted already? If yes, we are done
+   RC=$(baselib_mntqry -im ${MNT}) || $ERROR
+   [[ $RC -eq 0 ]] && return 0
+  
+   # Do the mount
+   $UMOUNT -f "$MNT" >/dev/null || $ERROR
+
+   # It better be unmounted now.
+   RC=$(baselib_mntqry -im ${MNT}) || $ERROR
+   [[ $RC -ne 0 ]] && $ERROR
+   
+   return 0
+
+}  # end of unmount_dev()
+
+########################################################################
+## Function: is_cd_dev()
+## Output: 1 = is cdrom device, 0 = is not cdrom device 
+########################################################################
+is_cd_dev()
+{
+   typeset ERROR='eval pmerror "is_cd_dev()"; return 1'
+   typeset DEV="$1"
+   typeset ISCD='eval echo 1; return 0'
+   typeset NOTCD='eval echo 0; return 0'
+
+   [[ "$DEV" = "/dev/cd"* ]] || $NOTCD
+
+   isnum ${DEV##/dev/cd} || $NOTCD
+
+   $ISCD
+
+}  # end of is_cd_dev()
+
+########################################################################
+## Function: is_dev_mounted()
+## Parameters: Device
+## Output: 1 = mounted, 0 = not mounted
+########################################################################
+is_dev_mounted()
+{
+   typeset ERROR='eval pmerror "is_dev_mounted()"; return 1'
+   typeset DEV="$1" 
+   typeset MDEV 
+   typeset MOUNTED='eval echo 1; return 0'
+   typeset NOT_MOUNTED='eval echo 0; return 0'
+   typeset RC
+
+   (baselib_mntqry -D; subshrc PUTRC) | while read MDEV
+   do
+      [[ "$MDEV" = "$DEV" ]] && $MOUNTED
+   done
+
+   # Check for baselib_mntqry() error.
+   RC=$(subshrc GETRC) || $ERROR
+  
+   [[ $RC -eq 0 ]] && $NOT_MOUNTED
+
+   $ERROR 
+
+}  # end of is_dev_mounted()
+
+########################################################################
+## Function: is_pid_alive()
+########################################################################
+is_pid_alive()
+{
+   typeset ERROR='eval pmerror "is_pid_alive()"; return 1'
+   typeset PID="$1"
+   typeset ALIVE=0
+
+   isnum "$PID" || $ERROR
+
+   $PS -p $PID > /dev/null && ALIVE=1
+
+   echo "$ALIVE"
+
+   return 0
+
+}  # end of is_pid_alive()
+
+
+########################################################################
+## Function: getflines()  Gets the number of lines in a file.
+## Parameters: <FILE>
+########################################################################
+getflines()
+{
+   typeset ERROR='eval pmerror "getflines()"; return 1'
+   typeset FILE=$1
+   typeset LINES=0
+
+   [[ -z $FILE ]] && $ERROR
+   check_file $FILE || $ERROR
+
+   LINES=$($WC -l $FILE) || $ERRPR
+   LINES=$(echo "$LINES" | $AWK1) || $ERROR
+
+   isnum $LINES || $ERROR
+
+   echo "$LINES"
+  
+   return 0
+
+}  # end of getflines()
+
+#######################################################################
+## Function: baselib_fsync() Forwards arguments to libinst_fsync
+##                           command.
+########################################################################
+baselib_fsync()
+{
+   typeset ERROR='eval pmerror "baselib_fsync"; return 1'
+   typeset CMD_ERROR='eval pmerror $LIBINST_FSYNC; return 1'
+
+   [[ $LIBINST_AVAIL -lt 1 ]] && $ERROR
+
+   $LIBINST_FSYNC "$@" || $CMD_ERROR
+
+   return 0
+
+}  # end of baselib_fsync()
+
+########################################################################
+## Function: add2listf()
+## Parameters: <ITEM> <LIST>
+########################################################################
+add2listf()
+{
+   typeset ERROR='eval pmerror "add2listf()"; return 1'
+   typeset ITEM="$1"
+   typeset LIST="$2"
+
+   [[ -z $ITEM || -z $LIST ]] && $ERROR
+
+   echo "$ITEM" >> $LIST || $ERROR
+   check_file_full $LIST || $ERROR
+
+   baselib_fsync $LIST || $ERROR
+
+   return 0
+
+}  # end of add2listf()
+
+########################################################################
+## Function: rmfromlistf()
+## Parameters: <ITEM> <LIST>
+########################################################################
+rmfromlistf()
+{
+   typeset ERROR='eval pmerror "rmfromlistf()"; return 1'
+   typeset ITEM="$1"
+   typeset LIST="$2"
+   typeset TF=$WORKDIR/rmfromlistf.$$
+
+   [[ -z $ITEM || -z $LIST ]] && $ERROR
+   $RM -f $TF
+
+   check_file $LIST || $ERROR
+
+   $AWK -v "item=$ITEM" '{
+      if($0==item) next; else print $0;
+   }' $LIST > $TF || $ERROR
+
+   $MV $TF $LIST || $ERROR
+
+   baselib_fsync $LIST || $ERROR
+
+   return 0
+
+}  # end of rmfromlistf()
+
+########################################################################
+## Function: inlistf()
+## Parameters: <ITEM> <LIST>
+########################################################################
+inlistf()
+{
+   typeset ERROR='eval pmerror "inlistf()"; return 1'
+   typeset ITEM="$1"
+   typeset LIST="$2"
+
+   typeset BUF=0
+
+   [[ -z $LIST ]] && $ERROR
+   check_file $LIST || $ERROR
+
+   BUF=$($AWK -v "item=$ITEM" 'BEGIN{found=0} {if($1==item)
+      {found=1; exit(0);}} END {print found}' $LIST) || $ERROR
+
+   isnum $BUF || $ERROR
+
+   echo "$BUF"
+   return 0
+
+}  # end of inlistf()
+
+########################################################################
+## Function: oaclput()
+## Parameters: <target file> <ACL file>
+########################################################################
+oaclput()
+{
+   typeset ERROR='eval pmerror "oaclput()"; return 1'
+   [[ $EMGR_IGNORE_ACLERR = "1" ]] && ERROR='eval pmerror "oaclput()"'
+   typeset TARGET="$1"
+   typeset ACLIN="$2"
+   typeset OWNER
+   typeset GROUP
+
+   [[ -z $TARGET || -z $ACLIN ]] && $ERROR
+
+   check_node $TARGET || $ERROR
+   check_file $ACLIN  || $ERROR
+
+   if [[ "$PLATFORM" = "AIX" ]]; then
+
+      # Exec oaclput
+      LC_ALL=C LANG=C $ACLPUT -i $ACLIN $TARGET || $ERROR
+
+      ERROR='eval pmerror $AWK; pmerror "oaclput()"; return 1'
+      # Get the OWNER and GROUP from ACLIN.
+
+      OWNER=$($AWK '/ owner\(.*\):/  {
+            sub("^.*owner\\(","",$0); sub("\\):.*$","",$0);
+            print $0; exit(0);}' $ACLIN)
+      [[ $? -ne 0 || -z $OWNER ]] && $ERROR
+
+      GROUP=$($AWK '/ group\(.*\):/ {
+            sub("^.*group\\(","",$0); sub("\\):.*$","",$0);
+            print $0; exit(0);}' $ACLIN)
+      [[ $? -ne 0 || -z $GROUP ]] && $ERROR
+
+      ERROR='eval pmerror "oaclput()"; return 1'
+      chown "$OWNER:$GROUP" "$TARGET" || $ERROR
+
+      return 0
+
+   fi
+
+   $ERROR    
+
+}  # end of oaclput()
+
+########################################################################
+## Function: oaclget()
+## Parameters: <target file> <ACL file>
+########################################################################
+oaclget()
+{
+   typeset ERROR='eval pmerror "oaclget()"; return 1'
+   [[ $EMGR_IGNORE_ACLERR = "1" ]] && ERROR='eval pmerror "oaclget()"'
+   typeset TARGET="$1"
+   typeset ACLOUT="$2"
+
+   [[ -z $TARGET || -z $ACLOUT ]] && $ERROR
+  
+   check_node $TARGET || $ERROR
+
+   if [[ "$PLATFORM" = "AIX" ]]; then
+      # Exec aclget
+      LC_ALL=C LANG=C $ACLGET -o $ACLOUT $TARGET || $ERROR
+      check_file_full $ACLOUT || $ERROR
+      return 0
+   fi
+
+   $ERROR
+  
+}  # end of oaclget()
+
+########################################################################
+## Function: get_rpm_inst_root_list()
+## Parameters: None.
+########################################################################
+get_rpm_inst_root_list()
+{
+   typeset ERROR='eval pmerror "get_rpm_inst_root_list()"; return 1'
+   typeset TF1=${WORKDIR}/tmpfile1.$$.${RANDOM}
+   typeset TF2=${WORKDIR}/tmpfile2.$$.${RANDOM}
+   typeset NODE
+   typeset FS
+   typeset PARENT
+
+   $RM -f $TF1 $TF2
+   $RRPM -qal > $TF1 || $ERROR
+
+   ck_exp_fs "$WORKDIR" 1024 || $ERROR
+
+   # Remove everthing that
+   # 1) Does not start with "/"
+   # 2) Starts with /opt
+   # 3) Starts with /usr
+   $AWK '{ if(($0 ~ "^/.*$") &&
+      ($0 !~ "^/opt/.*|^/usr/.*")) print }' $TF1 > $TF2 || $ERROR
+
+   $RM -f $TF1
+   $SORT -u $TF2 -o $TF1 || $ERROR
+
+   while read NODE; do
+
+      # If the path does not exist, skip it
+      check_node $NODE || continue
+      
+      # If the target node path in root, its always good 
+      FS=$(whichfs $NODE) || $ERROR
+      is_path_in_root_part $FS 
+      if [[ $? -eq 0 ]]; then
+         echo "$NODE"
+         continue
+      fi
+
+      # We know that target node path is not in root. If NODE is
+      # not a link, it can't possibly reside in root. 
+      [[ ! -L $NODE ]] && continue
+
+      # This is a link, we must check parent's location. It does not
+      # really matter where the link points since any copy operation
+      # would not follow links. 
+      PARENT=$(getpdir $NODE) || $ERROR
+      FS=$(whichfs $PARENT) || $ERROR
+      is_path_in_root_part $FS && echo "$NODE"
+ 
+   done < $TF1
+
+   return 0
+
+}  # end of get_rpm_inst_root_list()
+
+########################################################################
+## Function: update_owners() Sets ownership of <NewNode> that of 
+##                           <OriginalNode>.
+## 
+## Parameters: <OriginalNode> <NewNode> 
+########################################################################
+update_owners()
+{
+   typeset ERROR='eval pmerror "update_owners()"; return 1'
+   typeset ORIGNODE="$1"
+   typeset NEWNODE="$2"
+   typeset OWNSTR
+
+   # Check parameters
+   check_node "$ORIGNODE" || $ERROR
+   check_node "$NEWNODE"  || $ERROR
+
+############################################################
+## Copy the ownership from $ORIGNODE to $NEWNODE.
+############################################################
+
+   OWNSTR=$(get_owners $ORIGNODE) || $ERROR
+
+   $CHOWN -h "${OWNSTR}" "$NEWNODE"  || $ERROR
+
+   return 0
+
+}  # end of update_owners()
+
+########################################################################
+## Function: get_owners() Gets ownership of <Node> 
+## Parameters: <Node> 
+## Output: Returns string in <User:Group> format.
+########################################################################
+get_owners()
+{
+   typeset ERROR='eval pmerror "get_owners()"; return 1'
+   typeset NODE="$1"
+   typeset BUF
+   typeset OWNER
+   typeset GROUP
+   typeset JUNK
+
+   [[ -z $NODE ]] && $ERROR
+   check_node $NODE || $ERROR
+
+############################################################
+## Get the node's owner and group using the $LS command.
+## Parse the owner group into a chown-able string (ie.
+## "owner:group").
+############################################################
+
+   BUF=$($LS -dn $NODE) || $ERROR
+   echo "$BUF" | read JUNK JUNK OWNER GROUP JUNK
+
+   isnum $OWNER || $ERROR
+   isnum $GROUP || $ERROR
+
+   echo "${OWNER}:${GROUP}"
+
+   return $?
+
+}  # end of get_owners()
+
+########################################################################
+## Function: getpdir() Gets parent directory.
+## Parameters: <NODE_PATH>
+## Output: Parent directory.
+## NOTE: The evaluation is done purely by string manipulation
+##       and assumes that NODE_PATH is a properly formatted path.
+########################################################################
+getpdir()
+{
+   typeset ERROR='eval pmerror "getpdir()"; return 1'
+   typeset NODE_PATH="$1"
+   [[ -z $NODE_PATH ]] && $ERROR
+
+   # Strip off ending /, then strip off ending "/", if
+   # nothing left, the parent dir is "/"*.
+   # NOTE: the evaluation is done purely by string manipulation
+   #       and assumes that NODE_PATH is a properly formatted path.
+
+   NODE_PATH=${NODE_PATH%/}
+   NODE_PATH=${NODE_PATH%/*}
+   [[ -z $NODE_PATH ]] && NODE_PATH="/"
+
+   echo "$NODE_PATH"
+   return 0
+
+}  # end of getpdir()
+
+########################################################################
+## Function: update_operms() Sets ownership and modes of <NewNode> that 
+##                           of <OriginalNode>.
+##
+## Parameters: <OriginalNode> <NewNode>
+########################################################################
+update_operms()
+{
+   typeset ERROR='eval [[ -z $OACLFILE ]] && $RM -f $ACLFILE; pmerror "update_operms()"; return 1'
+   typeset SOURCE="$1"  # source
+   typeset TARGET="$2"  # target
+   typeset ACLFILE=$OACLFILE # legacy retrofit
+
+   if [[ -z $ACLFILE ]]; then
+      ACLFILE=.update_operms.$RANDOM
+      [[ -n $WORKDIR && -d $WORKDIR ]] && ACLFILE=$WORKDIR/$ACLFILE
+   fi
+
+   [[ -z $SOURCE || -z $TARGET ]] && $ERROR
+   check_node $SOURCE || $ERROR
+   check_node $TARGET || $ERROR
+
+   if [[ -L $SOURCE ]]; then
+      update_owners "$SOURCE" "$TARGET"
+   else
+      oaclget "$SOURCE" "$ACLFILE" || $ERROR
+      oaclput "$TARGET" "$ACLFILE" || $ERROR
+   fi
+
+   [[ -z $OACLFILE ]] && $RM -f $ACLFILE
+
+   return 0
+
+}  # end of update_operms()
+
+########################################################################
+## Function: is_path_in_root_part() Is the given path in the "root" 
+##           install part ?
+## Parameters: <NODE_PATH>
+## Returns: 0 = is in root part, 1 = is not in root part, 2 = error
+########################################################################
+is_path_in_root_part()
+{
+   typeset ERROR='eval pmerror "is_path_in_root_part()"; return 2'
+   typeset NODE_PATH=$1
+
+   [[ -z $NODE_PATH ]] && $ERROR
+
+   case $NODE_PATH in
+      /dev/*|/etc/*|/sbin/*|/var/*|/tmp/*) return 0 ;;
+                /dev|/etc|/sbin|/var|/tmp) return 0 ;;
+                                        *) return 1 ;;
+
+   esac
+
+   $ERROR
+
+}  # end of is_path_in_root_part()
+
+########################################################################
+## Function: brlist() Backup and restore a list of files from one
+##                    location to another.
+## Parameters: <SOURCE location> <TARGET location> <LIST>
+## Note: List must contain only relative starting with ".")
+## Returns: 0 = OK, !0 = ERROR
+########################################################################
+brlist()
+{
+   typeset SAVEPWD=$PWD
+   typeset ERROR='eval cd $SAVEPWD; pmerror "brlist()" ; return 1'
+   typeset SOURCE="$1"
+   typeset TARGET="$2"
+   typeset LIST="$3"
+   typeset RC=0
+
+   [[ -z $SOURCE || -z $TARGET || -z $LIST ]] && $ERROR
+   check_dir $SOURCE || $ERROR
+   check_dir $TARGET || $ERROR
+
+   # Verify list, make sure all entries are relative and start with "."
+   check_file_full $LIST || $ERROR
+   LIST=$(abspath $LIST) || $ERROR
+   $EGREP -qv "^\." $LIST && $ERROR
+
+   # chwpd to target
+   cd "$TARGET" || $ERROR
+ 
+   (cd "$SOURCE" && $BACKUP -iqf- < ${LIST} ; subshrc PUTRC) |\
+       $RESTORE -xqf- > /dev/null
+
+   (( RC = $? + $(subshrc GETRC) ))
+   [[ $RC -ne 0 ]] && $ERROR
+
+   cd "$SAVEPWD"
+
+   return 0
+
+}  # end of brlist()

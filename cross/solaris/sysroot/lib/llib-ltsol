@@ -1,0 +1,14 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-ltsol	1.1	06/05/03 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <tsol/label.h>
+#include <sys/tsol/label.h>
+#include <sys/tsol/priv.h>
+#include <sys/tsol/label_macro.h>

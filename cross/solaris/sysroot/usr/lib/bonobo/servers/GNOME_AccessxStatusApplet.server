@@ -1,0 +1,298 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_AccessxStatusApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/accessx-status-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="AccessX Status Applet Factory"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج حالة AccessX"/>
+	<oaf_attribute name="name-az" type="string" value="AccessX Vəziyyət Apleti E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета стану даступнасьцяў"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика на Аплета за Състоянието на Достъпа до Графичната Среда"/>
+	<oaf_attribute name="name-bn" type="string" value="এক্সেস-এক্স অ্যাপলেট কারখানা"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet d&apos;estat d&apos;AccessX"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor pro stavový aplet AccessX"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennig Cyflwr AccessX"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik for AccessX-statuspanelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="AccessX-Status-Applet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου AccessX"/>
+	<oaf_attribute name="name-en_CA" type="string" value="AccessX Status Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="AccessX Status Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de miniaplicaciones de estado AccessX"/>
+	<oaf_attribute name="name-eu" type="string" value="AccessX egoeraren applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="AccessX-tilasovelman tehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;applet d&apos;état AccessX"/>
+	<oaf_attribute name="name-gu" type="string" value="અેક્સેસ X સ્થિતિ અેપ્લેટ કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון מצב AccessX"/>
+	<oaf_attribute name="name-hi" type="string" value="एकसेसएक्स सतर अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica appleta AccessX statusa"/>
+	<oaf_attribute name="name-hu" type="string" value="AccessX Status Applet Factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet stato accessX"/>
+	<oaf_attribute name="name-ja" type="string" value="AccessX ステータスアプレットのファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="AccessX 상태 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="AccessX būklės įtaiso gamykla"/>
+	<oaf_attribute name="name-mk" type="string" value="AccessX Статус Аплет Фабрички"/>
+	<oaf_attribute name="name-ml" type="string" value="ആക്സസ്സ്X അവസ്ഥ ആപ്-ലെറ്റ് ശാല"/>
+	<oaf_attribute name="name-mn" type="string" value="AccessX статус Апплет байгуулагч"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Status AccessX"/>
+	<oaf_attribute name="name-nl" type="string" value="AccessX-status Applet-Fabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Fabrikk for tilgjengestatusprogram"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for AccessX-statusapplet"/>
+	<oaf_attribute name="name-pa" type="string" value="AccessX ਸਥਿਤੀ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletów stanu AccessX"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Applet de Estado AccessX"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo de status do AccessX"/>
+	<oaf_attribute name="name-ro" type="string" value="Uzina status aplet AccessX"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика апплета состояния AccessX"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet stavu AccessX"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavkov stanj AccessX"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika për Statusin e Applet AccessX"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња програмчета за стање употребљивости"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za stanje upotrebljivosti"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för AccessX-statuspanelprogrammet"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตสถานะ AccessX"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплету стану AccessX"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory Applet Trạng thái AccessX"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="AccessX 状态小程序工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="AccessX 狀態面板程式工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="AccessX 狀態面板程式工廠"/>
+	<oaf_attribute name="description" type="string" value="Keyboard Accessibility Status Applet Factory"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع بريمج حالة الإعانة للوحة المفاتيح"/>
+	<oaf_attribute name="description-az" type="string" value="Klaviatura Yetişmə Qabiliyyəti Vəziyyəti Appleti E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета стану даступнасьці клявіятуры"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за Аплета на Състоянието·на·Достъпноста·на·Клавиатурата"/>
+	<oaf_attribute name="description-bn" type="string" value="কিবোর্ড সহায়ক প্রযুক্তির অবস্থা অ্যাপ্লেট কারখানা"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;applet d&apos;estat d&apos;accessibilitat del teclat"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor apletu Stav zpřístupnění klávesnice"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri Rhaglenning Cyflwr Hygyrchedd Bysellfwrdd"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik for status for tastaturtilgængelighed"/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik für das Applet Tastatur-Eingabehilfe-Status"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Εφαρμογιδίου κατάστασης προσβασιμότητας πληκτρολογίου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Keyboard Accessibility Status Applet Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Keyboard Accessibility Status Applet Factory"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de miniaplicaciones de estado de accesibilidad del teclado"/>
+	<oaf_attribute name="description-eu" type="string" value="Teklatuaren erabilerraztasunaren egoeraren applet-aren fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Näppäimistön esteettömyystila -sovelman tehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique d&apos;applet d&apos;état d&apos;accessibilité du clavier"/>
+	<oaf_attribute name="description-gu" type="string" value="કીબોર્ડની સુલભ સ્થિતિઅો માટેનું અેપ્લેટ કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן יישומון מצב נגישות מקלדת"/>
+	<oaf_attribute name="description-hi" type="string" value="कीबोर्ड अभिन्यास बदलने एपलेट फैक्ट्री"/>
+	<oaf_attribute name="description-hr" type="string" value="Keyboard Accessibility Status Applet Factory"/>
+	<oaf_attribute name="description-hu" type="string" value="Billentyűzet kisegítő lehetőségek állapota factory"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica applet stato accesso facilitato tastiera"/>
+	<oaf_attribute name="description-ja" type="string" value="キーボードアクセシビリティステータスアプレットのファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="키보드 액세스 기능 상태 애플릿 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Klaviatūros prieinamumo būklės įtaiso gamykla"/>
+	<oaf_attribute name="description-mk" type="string" value="Тастура Пристапност Статус Аплет Фабрички"/>
+	<oaf_attribute name="description-mn" type="string" value="Гар Орлуулагчийн Статус Аплет Байгуулагч"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Aplet Status Kebolehcapaian Papan Kekunci"/>
+	<oaf_attribute name="description-nl" type="string" value="Toetsenbord toegankelijkheidsstatus appletfabriek"/>
+	<oaf_attribute name="description-nn" type="string" value="Fabrikk for program for status for tilgjengeleg tastatur"/>
+	<oaf_attribute name="description-no" type="string" value="Fabrikk for panelprogram for tilgjengelighet for tastatur"/>
+	<oaf_attribute name="description-pa" type="string" value="ਕੀ-ਬੋਰਡ ਸੁਲੱਭਤਾ ਸਥਿਤੀ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator apletów stanu dostępności klawiatury"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica da Applet de Estado de Acessibilidade de Teclado"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador do miniaplicativo de status de acessibilidade do teclado"/>
+	<oaf_attribute name="description-ro" type="string" value="Uzina aplet status pentru accesibilitatea tastaturii"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика апплета состояния специальных возможностей клавиатуры"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet stavu prístupnosti klávesnice"/>
+	<oaf_attribute name="description-sl" type="string" value="Totvarna vstavkov stanj dostopnosti tipkovnice"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika për Applet e Statusit të Tastierës së Lehtësuar"/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за стање употребљивости тастатуре"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za stanje upotrebljivosti tastature"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för tillverkning av statuspanelprogram för tangentbordshjälpmedel"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตสถานะแป้นพิมพ์ระบบช่วยเหลือผู้พิการ"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика стану спеціальних можливостей клавіатури"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory Applet Trạng thái Truy nhập Bàn phím"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="键盘辅助功能状态 Applet 工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="鍵盤輔助功能狀態面板程式工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="鍵盤輔助功能狀態面板程式工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_AccessxStatusApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_AccessxStatusApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Keyboard Accessibility Status"/>
+	<oaf_attribute name="name-ar" type="string" value="حالة الإعانة للوحة المفاتيح"/>
+	<oaf_attribute name="name-az" type="string" value="Klaviatura Yetişmə Qabiliyyəti Vəziyyəti"/>
+	<oaf_attribute name="name-be" type="string" value="Стан даступнасьці клявіятуры"/>
+	<oaf_attribute name="name-bg" type="string" value="Състояние на Достъпноста на Клавиатурата"/>
+	<oaf_attribute name="name-bn" type="string" value="কিবোর্ড সহায়ক প্রযুক্তির অবস্থা"/>
+	<oaf_attribute name="name-ca" type="string" value="Estat de l&apos;accessibilitat del teclat"/>
+	<oaf_attribute name="name-cs" type="string" value="Stav zpřístupnění klávesnice"/>
+	<oaf_attribute name="name-cy" type="string" value="Cyflwr Hygyrchedd Bysellfwrdd"/>
+	<oaf_attribute name="name-da" type="string" value="Tastaturtilgængelighed"/>
+	<oaf_attribute name="name-de" type="string" value="Tastatur-Eingabehilfe-Status"/>
+	<oaf_attribute name="name-el" type="string" value="Κατάσταση προσβασιμότητας πληκτρολογίου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Keyboard Accessibility Status"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Keyboard Accessibility Status"/>
+	<oaf_attribute name="name-es" type="string" value="Estado de la accesibilidad del teclado"/>
+	<oaf_attribute name="name-eu" type="string" value="Teklatuaren erabilerraztasunaren egoera"/>
+	<oaf_attribute name="name-fi" type="string" value="Näppäimistön esteettömyystila"/>
+	<oaf_attribute name="name-fr" type="string" value="État d&apos;accessibilité du clavier"/>
+	<oaf_attribute name="name-gu" type="string" value="કીબોર્ડની સુલભ સ્થિતિઅો"/>
+	<oaf_attribute name="name-he" type="string" value="מצב נגישות מקלדת"/>
+	<oaf_attribute name="name-hi" type="string" value="कीबोर्ड अभिन्यास सतर"/>
+	<oaf_attribute name="name-hr" type="string" value="Stanje upotrebljivosti tipkovnice"/>
+	<oaf_attribute name="name-hu" type="string" value="Billentyűzet kisegítő lehetőségeinek állapota"/>
+	<oaf_attribute name="name-is" type="string" value="Staða lyklaborðsaðgengis"/>
+	<oaf_attribute name="name-it" type="string" value="Stato accesso facilitato tastiera"/>
+	<oaf_attribute name="name-ja" type="string" value="キーボードアクセシビリティのステータス"/>
+	<oaf_attribute name="name-ko" type="string" value="키보드 액세스 기능 상태"/>
+	<oaf_attribute name="name-lt" type="string" value="Klaviatūros prieinamumo būklė"/>
+	<oaf_attribute name="name-mk" type="string" value="Статус за достапност на тастатурата"/>
+	<oaf_attribute name="name-mn" type="string" value="Гар орлуулагчийн Статус"/>
+	<oaf_attribute name="name-ms" type="string" value="Status Kebolehcapaian Papan Kekunci"/>
+	<oaf_attribute name="name-nl" type="string" value="Toetsenbord toegankelijkheidsstatus"/>
+	<oaf_attribute name="name-nn" type="string" value="Status for tilgjengeleg tastatur"/>
+	<oaf_attribute name="name-no" type="string" value="Status for tilgjengelighet for tastaturet"/>
+	<oaf_attribute name="name-pa" type="string" value="ਕੀ-ਬੋਰਡ ਸੁਲੱਭਤਾ ਸਥਿਤੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Stan dostępności klawiatury"/>
+	<oaf_attribute name="name-pt" type="string" value="Estado de Acessibilidade do Teclado"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Status de acessibilidade do teclado"/>
+	<oaf_attribute name="name-ro" type="string" value="Status accesibilitate tastatură"/>
+	<oaf_attribute name="name-ru" type="string" value="Состояние специальных возможностей клавиатуры"/>
+	<oaf_attribute name="name-sk" type="string" value="Stav prístupnosti klávesnice"/>
+	<oaf_attribute name="name-sl" type="string" value="Stanje dostopnosti tipkovnice"/>
+	<oaf_attribute name="name-sq" type="string" value="Statusi i Tastierës së Lehtësuar"/>
+	<oaf_attribute name="name-sr" type="string" value="Стање употребљивости тастатуре"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Stanje upotrebljivosti tastature"/>
+	<oaf_attribute name="name-sv" type="string" value="Status för tangentbordshjälpmedel"/>
+	<oaf_attribute name="name-th" type="string" value="สถานะแป้นพิมพ์ระบบช่วยเหลือผู้พิการ"/>
+	<oaf_attribute name="name-tr" type="string" value="Klavye Erişilebilirlik Durumu"/>
+	<oaf_attribute name="name-uk" type="string" value="Стан спеціальних можливостей клавіатури"/>
+	<oaf_attribute name="name-vi" type="string" value="Trạng thái Truy nhập Bàn phím"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="键盘辅助功能状态"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="鍵盤輔助功能狀態"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="鍵盤輔助功能狀態"/>
+	<oaf_attribute name="description" type="string" value="Shows the status of keyboard accessibility features"/>
+	<oaf_attribute name="description-ar" type="string" value="يعرض حالة ميزات الإعانة للوحة المفاتيح"/>
+	<oaf_attribute name="description-az" type="string" value="Klaviatura yetişmə qabiliyyəti vəziyyətini göstər"/>
+	<oaf_attribute name="description-be" type="string" value="Адлюстроўвае стан мажлівасьцей даступнасьці клявіятуры"/>
+	<oaf_attribute name="description-bg" type="string" value="Показва състоянието на достъпноста на клавиатурата"/>
+	<oaf_attribute name="description-bn" type="string" value="কিবোর্ড সহায়ক প্রযুক্তির অবস্থা প্রদর্শন করে"/>
+	<oaf_attribute name="description-ca" type="string" value="Mostra l&apos;estat de les funcionalitats d&apos;accessibilitat del teclat"/>
+	<oaf_attribute name="description-cs" type="string" value="Zobrazí stav vlastností zpřístupnění klávesnice"/>
+	<oaf_attribute name="description-cy" type="string" value="Dangosir cyflwr nodweddion hygyrchedd bysellfwrdd"/>
+	<oaf_attribute name="description-da" type="string" value="Viser status for tastaturtilgængelighedsfaciliteter"/>
+	<oaf_attribute name="description-de" type="string" value="Zeigt den Status der Tastatur-Eingabehilfefunktionen an"/>
+	<oaf_attribute name="description-el" type="string" value="Εμφανίζει την κατάσταση των λειτουργιών της προσβασιμότητας πληκτρολογίου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Shows the status of keyboard accessibility features"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Shows the status of keyboard accessibility features"/>
+	<oaf_attribute name="description-es" type="string" value="Muestra el estado de las funciones de accesibilidad del teclado"/>
+	<oaf_attribute name="description-eu" type="string" value="Teklatuaren erabilerraztasunaren eginbideen egoera erakusten du"/>
+	<oaf_attribute name="description-fi" type="string" value="Näyttää näppäimistön esteettömyysominaisuuksien tilan"/>
+	<oaf_attribute name="description-fr" type="string" value="Affiche l&apos;état des fonctions d&apos;accessibilité du clavier"/>
+	<oaf_attribute name="description-gu" type="string" value="કીબોર્ડની સુલભ લાક્ષણિકતાઅોની સ્થિતિઅો બતાવે છે"/>
+	<oaf_attribute name="description-he" type="string" value="מציג את המצב של תכונות נגישות המקלדת"/>
+	<oaf_attribute name="description-hr" type="string" value="Prikazuje stanje za mogućnosti pristupačnosti tipkovnice"/>
+	<oaf_attribute name="description-hu" type="string" value="A billentyűzet kisegítő funkcióinak megjelenítése"/>
+	<oaf_attribute name="description-is" type="string" value="Sýnir stöðu lyklaborðsaðgengisþátta"/>
+	<oaf_attribute name="description-it" type="string" value="Mostra lo stato delle caratteristiche di accesso facilitato della tastiera"/>
+	<oaf_attribute name="description-ja" type="string" value="キーボードアクセシビリティの設定値を表示します"/>
+	<oaf_attribute name="description-ko" type="string" value="키보드 액세스 기능의 상태를 표시합니다."/>
+	<oaf_attribute name="description-lt" type="string" value="Rodo klaviatūros pagalbinių ypatybių būklę"/>
+	<oaf_attribute name="description-mk" type="string" value="Го покажува статусот на опциите на достапноста на тастатурата"/>
+	<oaf_attribute name="description-mn" type="string" value="Гар орлуулагчийн тохиргооны статусыг харуулах"/>
+	<oaf_attribute name="description-ms" type="string" value="Papar status bagi kebolehan kebolehcapaian papan kekunci"/>
+	<oaf_attribute name="description-nl" type="string" value="Toont de status van de toegankelijkheidsmogelijkheden"/>
+	<oaf_attribute name="description-nn" type="string" value="Viser status for tilgjengefungsjonar for tastaturet"/>
+	<oaf_attribute name="description-no" type="string" value="Viser status for tilgjengelighetsfunksjoner for tastaturet"/>
+	<oaf_attribute name="description-pa" type="string" value="ਕੀ-ਬੋਰਡ ਸੁਲੱਭਤਾ ਫੀਚਰ ਦੀ ਸਥਿਤੀ ਵੇਖਾੳੁ"/>
+	<oaf_attribute name="description-pl" type="string" value="Pokazuje stan funkcji dostępności klawiatury"/>
+	<oaf_attribute name="description-pt" type="string" value="Apresenta o estado das funcionalidades de acessibilidade de teclado"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Mostra o status dos recursos de acessibilidade do teclado"/>
+	<oaf_attribute name="description-ro" type="string" value="Arată statusul pentru facilităţile de accesibilitate a tastaturii"/>
+	<oaf_attribute name="description-ru" type="string" value="Показывает состояние специальных возможностей клавиатуры"/>
+	<oaf_attribute name="description-sk" type="string" value="Zobrazí stav funkcií pre sprístupnenie klávesnice"/>
+	<oaf_attribute name="description-sl" type="string" value="Kaži stanje možnosti dostopnosti tipkovnice"/>
+	<oaf_attribute name="description-sq" type="string" value="Tregon gjendjen e tastierës së thjeshtuar"/>
+	<oaf_attribute name="description-sr" type="string" value="Приказује стање за могућоности у вези са употребљивошћу тастатуре"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Prikazuje stanje za mogućonosti u vezi sa upotrebljivošću tastature"/>
+	<oaf_attribute name="description-sv" type="string" value="Visar statusen för funktionerna för tangentbordshjälpmedel"/>
+	<oaf_attribute name="description-th" type="string" value="แสดงสถานะแป้นพิมพ์ระบบช่วยเหลือผู้พิการ"/>
+	<oaf_attribute name="description-uk" type="string" value="Показує стан спеціальних можливостей можливостей клавіатури"/>
+	<oaf_attribute name="description-vi" type="string" value="Hiện trạng thái tính năng truy nhập bàn phím"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="显示键盘辅助功能的状态"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="顯示鍵盤輔助功能的狀態"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="顯示鍵盤輔助功能的狀態"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="أداة"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Карыснасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Инструменти"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="কাজের প্রোগ্রাম"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitats"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Cyfleuster"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Ohjelma"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Feidhmchlár"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગીતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="उपयोगी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-is" type="string" value="Verkfæri"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Pagalbinė programa"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Aлатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Хэрэгсэл"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਉਪਯੋਿਗਤਾ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitate"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Orodje"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Помоћни алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Yardımcı"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Usteye"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="accessx-status-applet/ax-applet.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        <oaf_attribute name="bugzilla:component" type="string" value="other-applets"/>
+
+</oaf_server>
+
+</oaf_info>

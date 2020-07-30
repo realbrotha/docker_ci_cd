@@ -1,0 +1,26 @@
+#!/sbin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)identity-domain	1.3	04/11/16 SMI"
+
+. /lib/svc/share/smf_include.sh
+
+#
+# Set LDAP/NIS+/NIS domainname if locally configured.
+#
+if [ -f /etc/defaultdomain ]; then
+	mydomain=`cat /etc/defaultdomain`
+	/usr/bin/domainname $mydomain
+	name_service=""
+	[ -f /var/ldap/ldap_client_file ] && name_service="LDAP "
+	[ -f /var/nis/NIS_COLD_START ] && name_service="${name_service}NIS+ "
+	[ -d /var/yp/binding/$mydomain ] && name_service="${name_service}NIS "
+	[ -n "$name_service" ] &&  \
+		echo "${name_service}domain name is $mydomain" | smf_console
+else
+	echo "/etc/defaultdomain absent: no domain name set"
+fi
+
+exit $SMF_EXIT_OK

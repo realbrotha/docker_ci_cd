@@ -1,0 +1,89 @@
+#!/bin/sh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# rspc53S src/rspc/usr/sbin/cvfc/vfc_client_collect 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# COPYRIGHT International Business Machines Corp. 2008 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+if [ "$PASSNO" = 1 ]
+then
+    (( size = 0 ));
+#   Number of VFC client adapters
+    CADAPTERS=`lsdev -C| grep "Virtual Fibre"  | wc -l` ;
+
+    if test "$CADAPTERS" -gt 0
+    then
+
+        #     estimated size of lscfg and lspath
+        (( size = size + 2200 )) ;
+        (( temp = 0 )) ;
+
+        # number of children
+        CCHILDREN=`lsdev -C| grep "hdisk" | wc -l`  ;
+
+        ((temp = CADAPTERS * 150000))  ;
+        ((size = size + temp ))  ;
+        ((temp = CCHILDREN * 150000)) ;
+        ((size = size + temp )) ;
+
+        echo "VFC Client First pass $CADAPTERS" >> $SCRIPTLOG  ;
+    fi
+
+    # report size of adapters
+    echo "$size" > $SCRIPTSIZE ;
+    echo "VFC Client First pass reporting size= $size" >> $SCRIPTLOG  ;
+    exit 0;
+#end of first pass
+fi
+  
+# Second pass,  return without error on first pass
+
+if [[ -z $SNAPDIR ]]
+then
+    echo "ERROR: the script directory was not created  " >> $SCRIPTLOG
+    exit 1
+fi
+
+#   number of VFC adapters
+    CADAPTERS=`lsdev -C| grep "Virtual Fibre"  | wc -l`
+
+if test "$CADAPTERS" -gt 0
+then
+    echo "Collecting Virtual FC  client config info in $SNAPDIR"  >> $SCRIPTLOG
+    echo "client config info" >> $SNAPDIR/vfc_client.config
+    lscfg >> $SNAPDIR/vfc_client.config
+    echo "client MPIO config info" >> $SNAPDIR/vfc_client.config
+    lspath >> $SNAPDIR/vfc_client.config
+    errpt -a > $SNAPDIR/errpt.out
+
+    /usr/sbin/ctctrl -D -c vfcdd -r -d $SNAPDIR
+
+    VCLIENT=`lsdev -C| grep "Virtual Fibre" | cut -f 1 -d " "`
+
+    echo "Collecting Virtual FC client data in $SNAPDIR"  >> $SCRIPTLOG
+
+    for i in $VCLIENT
+    do
+          CMDS="vfcsglob; "
+          CMDS="$CMDS vfcs $i; vfcrq $i; scsidisk;"
+
+      echo $CMDS | kdb > $SNAPDIR/$i.state
+    done
+fi
+
+
+SERVER=`lsdev -C| grep "vfchost"  | wc -l` ;
+if test "$SERVER" -gt 0
+then
+echo "A VFC server may be configured in the client partition" >> $SNAPDIR/vfc_client.config;
+fi
+

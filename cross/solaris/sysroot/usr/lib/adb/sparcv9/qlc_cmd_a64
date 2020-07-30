@@ -1,0 +1,14 @@
+./"entry_type"8t"entry_count"8t"sys_define"nB8tB8tB
++/"entry_status"8t"handle_l_l"8t"handle_l_h"nB8tB8tB
++/"handle_h"8t"reserved"8t"target"nx8tB8tB
++/"lun_l"8t"lun_h"8t"control_flags_l"nBBB
++/"control_flags_h"8tnB8t
++/"reserved_1"8t2B
++/"timeout_l"8t"timeout_h"8t"dseg_count_l"nB8tB8tB
++/"dseg_count_h"8tnB8t
++/"scsi_cdb"8t16B
++/"byte_count"16tnX
++/"dseg_0_address"16t2X
++/"dseg_0_length"16tnX
++/"dseg_1_address"16t2X
++/"dseg_1_length"16tnX

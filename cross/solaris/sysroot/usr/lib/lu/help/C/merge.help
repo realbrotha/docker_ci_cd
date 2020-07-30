@@ -1,0 +1,16 @@
+\f2Help on Merge\f1
+
+The \f2Merge\f1 window lists the name of the mount point that will be 
+merged into its parent directory. It asks for confirmation before doing
+the merge. Pressing any key other than the \f2Abort (F6)\f1 and \f2Help
+(ESC)\f1 will continue with the merging.
+
+The Recommended Min size of the parent directory will be increased to 
+accommodate this merging of a new directory into it.
+
+For example, suppose your New BE contains the mount points /, /opt,
+/usr, and /var.  You can use \f2Merge\f1 to delete the /usr or /var mount
+points. If you merge /usr, the contents of /usr will be copied from the
+Active BE to the /usr directory of the root ('/') file system on New BE.
+
+\f2Split\f1 can be used to undo the effect of \f2Merge\f1.

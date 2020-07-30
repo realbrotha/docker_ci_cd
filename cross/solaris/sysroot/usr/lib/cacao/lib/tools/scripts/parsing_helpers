@@ -1,0 +1,1255 @@
+#! /bin/sh
+
+
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.23 $ SMI"
+#
+# Script functions list:
+#
+# - cacao_is_privilegied_action       : Check if the action needs some priviledges
+# - cacao_is_locked_action            : Check if the action needs to take the lock
+# - cacao_is_allowed_instance_action  : Check if the action can run on an
+#                                       instance 
+# - cacao_is_force_option_allowed     : Check if the action accept '--force' option
+#
+# - cacao_parse_args                  : perform initial parsing
+# - cacao_find_main_action            : parse argument string to get main action
+#
+# - cacao_get_option_with_arg         : parse argument string to get argument of 
+#                                       specified option
+# - cacao_get_option                   : parse argument string to check if option is present 
+# - cacao_is_remainings_arguments      : check if there remaining argument inside arg string
+# - cacao_is_remainings_options        : check if there remaining option inside arg string
+# - cacao_is_remainings_options_arg    : check if there remaining option or args inside arg string
+#
+# - cacao_get_next_arg_elem             : get the next token inside arg string
+# - cacao_flush_arg_elems               : get the remaining elements inside arg string
+#
+# - cacao_option_format_short_to_long   : translate inside argument string short format
+#                                         option to long format
+# - cacao_get_main_action_token         : look for main action token inside its arg
+# - cacao_get_option_short_format       : get the option short format from long format
+# - cacao_is_end_of_option_token        : check if it is a end of option token
+# - cacao_is_option_token_with_arg      : check if argument is a wanted option with arg
+# - cacao_is_long_option_token          : check if argument is like --YYYY
+# - cacao_is_option_token               : check if argument is like -YYYY
+# - cacao_option_parser_init            : initialise parsing engine
+
+# Current script globals variables:
+#
+# option parser result buffer
+cacao_option_parser_res=""
+# option parser command line buffer
+cacao_option_parser_buffer=""
+
+#------------------------------------------------------------------------------
+# cacao_is_privileged_action
+#
+# DESCRIPTION:
+# Check if the action is a privilegied action (start, stop, enable ..)
+#
+# PARAMETERS :
+# the action name to check
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_privileged_action() {
+
+    if [ ${#} -ne 1 ] || [ -z "${1}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    
+    action=$1
+    
+    case "${action}" in
+    "help")
+	return ${CACAO_FALSE}
+	;;
+    "version")
+	return ${CACAO_FALSE}
+	;;
+    "get-param")
+        return ${CACAO_FALSE}
+	;;
+    "list-params")
+        return ${CACAO_FALSE}
+	;;
+    "show-trusted-cert")
+        return ${CACAO_FALSE}
+	;;
+    "show-cert-chain")
+        return ${CACAO_FALSE}
+	;;
+    "list-trusted-certs")
+        return ${CACAO_FALSE}
+	;;
+    "list-instances")
+        return ${CACAO_FALSE}
+	;;
+    *)
+	return ${CACAO_TRUE}
+    esac
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_locked_action
+#
+# DESCRIPTION:
+# Check if the action has to take the lock or not
+#
+# PARAMETERS :
+# the action name to check
+# PARAMETERS:
+# None.
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_locked_action() {
+
+    if [ ${#} -ne 1 ] || [ -z "${1}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    action=$1
+    
+    case "${action}" in
+    "help")
+	return ${CACAO_FALSE}
+	;;
+    "version")
+	return ${CACAO_FALSE}
+	;;
+    "get-param")
+        return ${CACAO_FALSE}
+	;;
+    "list-params")
+        return ${CACAO_FALSE}
+	;;
+    "show-trusted-cert")
+        return ${CACAO_FALSE}
+	;;
+    "show-cert-chain")
+        return ${CACAO_FALSE}
+	;;
+    "list-trusted-certs")
+        return ${CACAO_FALSE}
+	;;
+    "list-instances")
+        return ${CACAO_FALSE}
+	;;
+    "list-modules")
+        return ${CACAO_FALSE}
+	;;
+    "list-filters")
+        return ${CACAO_FALSE}
+	;;
+     "get-filter")
+        return ${CACAO_FALSE}
+	;;	
+     "status")
+        return ${CACAO_FALSE}
+	;;
+     "prepare-uninstall") # take global lock
+        return ${CACAO_FALSE}
+	;;
+     "smf_start") # no lock for smf reentrance
+        return ${CACAO_FALSE}
+	;;
+     "smf_stop")  # no lock for smf reentrance
+        return ${CACAO_FALSE}
+	;;
+    *)
+	return ${CACAO_TRUE}
+    esac
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_force_option_allowed
+#
+# DESCRIPTION:
+# Check if the action is an action that can run with --force option
+#
+# PARAMETERS :
+# the action name to check
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_force_option_allowed () {
+    action=$1
+
+    if [ -z "${action}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    
+    case "${action}" in
+        "stop")
+            return ${CACAO_TRUE}
+            ;;
+	"smf_stop")
+            return ${CACAO_TRUE}
+            ;;
+	"non_embedded_stop")
+            return ${CACAO_TRUE}
+            ;;
+        "create-keys")
+            return ${CACAO_TRUE}
+            ;;
+        "create")
+            return ${CACAO_TRUE}
+            ;;
+        *)
+            return ${CACAO_FALSE}
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_allowed_instance_action
+#
+# DESCRIPTION:
+# Check if the action is an action that can run on an instance 
+# (start, stop, enable ..)
+#
+# PARAMETERS :
+# the action name to check
+# 
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_allowed_instance_action() {
+
+    action=$1
+
+    if [ -z "${action}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    
+    case "${action}" in
+        "help")
+            return ${CACAO_FALSE}
+            ;;
+        "version")
+            return ${CACAO_FALSE}
+            ;;
+        "create-instance")
+            return ${CACAO_FALSE}
+            ;;
+        "list-instances")
+            return ${CACAO_FALSE}
+            ;;
+        "prepare-uninstall")
+            return ${CACAO_FALSE}
+            ;;
+        *)
+            return ${CACAO_TRUE}
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_parse_args
+#
+# DESCRIPTION:
+# perform initial parsing
+# - locate main action
+# - locate global option
+# 
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_parse_args() {
+    #init parser
+    cacao_option_parser_init $*
+    if [ $? -ne ${CACAO_CR_SUCCESS} ] 
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    #first locate main action
+    cacao_find_main_action
+    retval=$?
+    
+    #we cannot use '-z' , if cacao_option_parser_res equal '=' it will 
+    #raise an error
+    if [ "${cacao_option_parser_res}" = "" ]
+    then 
+	return ${CACAO_CR_EINVALCOMMAND}
+    fi
+
+    cacao_main_action=${cacao_option_parser_res}
+    
+    if [ ${retval} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${retval}
+    fi
+
+    cacao_instance_mode=${CACAO_FALSE}
+    cacao_get_option_with_arg "--instance"
+    retval=$?
+    case "${retval}" in
+	"${CACAO_CR_SUCCESS}")
+	    retval=${CACAO_CR_SUCCESS}
+	    cacao_main_instance=${cacao_option_parser_res}
+	    cacao_instance_mode=${CACAO_TRUE}
+	    ;;
+	"${CACAO_CR_EINVAL}")
+	    retval=${CACAO_CR_SUCCESS}
+	    cacao_main_instance=""
+	    ;;
+	*)
+	    retval=${CACAO_CR_EINVAL}
+	    cacao_main_instance=""
+    esac
+    
+    if [ ${retval} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	#if the action accept '--force' option 
+	# look for it here
+	# WARNING : as --force and --file options have ambiguous short
+	#           format, they cannot be specify in the same command line
+	cacao_is_force_option_allowed "${cacao_main_action}"
+	if [ $? -eq ${CACAO_TRUE} ]
+	then
+	    cacao_get_option "--force"
+	    retval=$?
+	    case "${retval}" in
+		"${CACAO_CR_SUCCESS}")
+		    retval=${CACAO_CR_SUCCESS}
+		    cacao_force_mode=${CACAO_TRUE}
+		    ;;
+		"${CACAO_CR_EINVAL}")
+		    retval=${CACAO_CR_SUCCESS}
+		    cacao_force_mode=${CACAO_FALSE}
+		    ;;
+		*)
+		    retval=${CACAO_CR_EINVAL}
+		    cacao_force_mode=${CACAO_FALSE}
+	    esac
+	fi
+    fi
+
+    if [ ${retval} -eq ${CACAO_CR_SUCCESS} ] && [ "${cacao_main_action}" != "help" ]
+    then
+	#unless help action is already specified
+        # if 'version' option is found inside the arg string it become
+        # our main action (CLIP compliance)
+	cacao_get_option "--version"
+	retval=$?
+	if [ ${retval} -eq ${CACAO_CR_SUCCESS} ]
+	then
+	    cacao_main_action="version"
+	    retval=${CACAO_CR_SUCCESS}
+	fi
+	if [ ${retval} -eq ${CACAO_CR_EINVAL} ]
+	then
+	#it is ok to not find version option
+	    retval=${CACAO_CR_SUCCESS}
+	fi
+    fi    
+
+    return ${retval}
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_find_main_action
+#
+# DESCRIPTION:
+# locate main action token inside arg string
+# redundency not allowed
+# main action is first string inside argument
+# '--help' after an action become an option of this action
+# '--help' as first action become the special usage
+#
+# cacao_option_parser_res is updated with the result
+# in anycase cacao_option_parser_res is updated to let the caller print error message 
+# with details
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_CR_SUCCESS       : main action found
+# CACAO_CR_EINVALCOMMAND : no main action found
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_find_main_action() {
+    retval=${CACAO_CR_EINVALCOMMAND}
+    cacao_option_parser_res=""
+    
+    
+    token=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -d ' ' -f1`
+    
+    act_token=`cacao_get_main_action_token ${token}`
+    if [ -z "${act_token}" ]
+    then
+	#caller must be able to raise an error about invalid action 'token'
+	cacao_option_parser_res=${token}
+	retval=${CACAO_CR_EINVALCOMMAND}
+    else
+	cacao_option_parser_buffer=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -s -d ' ' -f2-`
+	cacao_option_parser_res=${act_token}
+	retval=${CACAO_CR_SUCCESS}
+    fi
+    
+    return ${retval}
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_option_with_arg
+#
+# DESCRIPTION:
+# parse argument string to get argument of specified option
+#
+# user can specify an option with the followings formats
+# -x <arg>
+# -x<arg>
+# --xxx-x <arg>
+# --xxx-x=<arg>
+#  redundency allowed : all occurence of wanted option are discarded
+#  only the argument of the last occurence is returned
+#  in case of success , cacao_option_parser_res is updated with result
+# PARAMETERS:
+# $1 : long format of wanted option
+# RETURN CODE:
+# CACAO_CR_SUCCESS : option found
+# CACAO_CR_EINVAL  : option not found
+# CACAO_CR_ERROR   : user entered malformed args string
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_get_option_with_arg() {
+     if [ $# -ne 1 ] 
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    opt_lf=$1
+
+    new_arg_string=""
+    retval=${CACAO_CR_EINVAL}
+    res=""
+
+    opt_sf=`cacao_get_option_short_format ${opt_lf}`
+
+    cacao_option_parser_res=""
+
+    option_already_catched=${CACAO_FALSE}
+    
+    parsing_on=${CACAO_TRUE}
+    
+    for token in ${cacao_option_parser_buffer}
+    do
+      if [ "${token}" = "--" ]
+      then
+	  parsing_on=${CACAO_FALSE}
+      fi
+      
+      if [ ${parsing_on} -eq ${CACAO_TRUE} ]
+      then
+	  if [ ${option_already_catched} -eq ${CACAO_TRUE} ]
+	  then
+	      #we caught the wanted option during previous loop
+	      #check if token is now the option's arg
+	      cacao_is_option_token ${token}
+	      if [ $? -eq ${CACAO_TRUE} ]
+	      then
+		  #invalid argument string -> raise a error
+		  retval=${CACAO_CR_ERROR}
+		  res=""
+	          break
+	      fi
+	      #we found a wanted option's arg
+	      res=${token}
+	      #we must not copy it inside new_arg_string
+	      #set it to empty
+	      token=""
+	      #redundency is alloewd
+	      #re-initialise for the next time
+	      option_already_catched=${CACAO_FALSE}
+	  else
+	      possible_res=`cacao_is_option_token_with_arg ${opt_sf} ${opt_lf} ${token}`
+	      if [ $? -eq ${CACAO_TRUE} ]
+	      then
+		  if [ -n "${possible_res}" ]
+		      then
+		      #argument was attched to option : -x<arg>|--x-xxx=<arg>
+		      res=${possible_res}
+		      #we don't need the next token, we already have option's argument
+		  else
+		      #else , warn the next loop to look for optin's arg
+		      option_already_catched=${CACAO_TRUE}
+		      # 1) redundency is allowed : re-initialised 'res' here 
+       		      #    if 'res' remain empty -> we gonna detect error
+		      # 2) if we are parsing the last token, need to raise
+		      #    an error : set 'res' to empty string
+		      res=""
+		  fi
+		  token=""
+		  
+	      fi
+	  fi
+      fi  
+	  
+      new_arg_string="${new_arg_string} ${token}"
+      
+    done
+
+    #we cannot use '-z' , if cacao_option_parser_res equal '=' it will 
+    #raise an error
+    if [ "${res}" = "" ]
+    then
+	#if we did not find the wanted option or
+	#the option was not followed by an argument    
+	retval=${retval}
+    else
+	#we only updated global arg string in case of success
+	cacao_option_parser_res=${res}
+	cacao_option_parser_buffer=${new_arg_string}
+	retval=${CACAO_CR_SUCCESS}
+    fi
+    
+    return ${retval}
+}
+#------------------------------------------------------------------------------
+# cacao_get_option
+#
+# DESCRIPTION:
+# parse argument string to check if option is present 
+# user can specify the option using the followings formats:
+# --xxx-x
+# -x
+# redundency allowed : all occurence of wanted option are discarded from option string
+# PARAMETERS:
+# $1 : long format of wanted option
+# RETURN CODE:
+# CACAO_CR_SUCCESS : option found
+# CACAO_CR_EINVAL  : option not found
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_get_option() {
+    if [ $# -ne 1 ] 
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    opt_lf=$1
+
+    opt_sf=`cacao_get_option_short_format ${opt_lf}`
+
+    cacao_option_parser_res=""
+
+    new_arg_string=""
+    local_retval=${CACAO_CR_EINVAL}
+
+    parsing_on=${CACAO_TRUE}
+    for token in ${cacao_option_parser_buffer}
+    do
+      if [ ${parsing_on} -eq ${CACAO_TRUE} ]
+      then
+	  if [ "${token}" = "--" ]
+	  then
+	      parsing_on=${CACAO_FALSE}
+	  fi
+	  if [ "${token}" = "${opt_sf}" ] || [ "${token}" = "${opt_lf}" ]
+	  then
+	      #foudn option are discarded
+	      token=""
+	      local_retval=${CACAO_CR_SUCCESS}
+	  fi
+      fi
+      new_arg_string="${new_arg_string} ${token}"
+    done
+    
+    if [ ${local_retval} -eq ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_option_parser_buffer=${new_arg_string}
+    fi
+    
+    return ${local_retval}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_remainings_arguments
+#
+# DESCRIPTION:
+# check if there remaining argument inside arg string
+# '--' token is ignored
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_TRUE  : yes
+# CACAO_FALSE : no
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_remainings_arguments() {
+    
+    #we cannot use '-z' , if cacao_option_parser_res equal '=' it will 
+    #raise an error
+    if [ "${cacao_option_parser_buffer}" = "" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+    
+    for elem in ${cacao_option_parser_buffer}
+    do
+      if [ "${elem}" != "--" ]
+      then
+	  return ${CACAO_TRUE}
+      fi
+    done
+
+    return ${CACAO_FALSE}
+    
+}
+#------------------------------------------------------------------------------
+# cacao_is_remainings_options
+#
+# DESCRIPTION:
+# check if there remaining options inside arg string
+# check stop after end of options token : '--'
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_TRUE  : yes
+# CACAO_FALSE : no
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_remainings_options() {
+    
+    #we cannot use '-z' , if cacao_option_parser_res equal '=' it will 
+    #raise an error
+    if [ "${cacao_option_parser_buffer}" = "" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    for tokens in ${cacao_option_parser_buffer}
+    do
+      if [ "${tokens}" = "--" ]
+      then
+	  return ${CACAO_FALSE}
+      fi
+      cacao_is_option_token "${tokens}"
+      if [ $? -eq ${CACAO_TRUE} ]
+      then
+	  return ${CACAO_TRUE}
+      fi
+      cacao_is_long_option_token "${tokens}"
+      if [ $? -eq ${CACAO_TRUE} ]
+      then
+	  return ${CACAO_TRUE}
+      fi
+    done 
+    
+    return ${CACAO_FALSE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_remainings_options_arg
+#
+# DESCRIPTION:
+# check if there remaining stuff inside arg buffer
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# CACAO_TRUE  : yes
+# CACAO_FALSE : no
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_remainings_options_arg() {
+    
+    
+    cacao_is_remainings_options
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    cacao_is_remainings_arguments
+    if [ $? -eq ${CACAO_TRUE} ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}
+#------------------------------------------------------------------------------
+# cacao_get_next_arg_elem
+#
+# DESCRIPTION:
+# get the next token inside arg string
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# none
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_get_next_arg_elem() {
+    #if the next token is "--" skip it
+    cacao_option_parser_res=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -d' ' -f1`
+    cacao_option_parser_buffer=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -s -d' ' -f2-`
+
+    #dummy but fast
+    if [ "${cacao_option_parser_res}" = "--" ]
+    then
+	#in that case do it again
+	cacao_option_parser_res=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -d' ' -f1`
+	cacao_option_parser_buffer=`${ECHO} ${cacao_option_parser_buffer} | ${CUT} -s -d' ' -f2-`
+    fi
+}
+#------------------------------------------------------------------------------
+# cacao_flush_arg_elems       
+#
+# DESCRIPTION:
+# get the remaining elements inside arg string
+#
+# PARAMETERS:
+# none
+# RETURN CODE:
+# none
+# OUTPUT:
+# none
+#------------------------------------------------------------------------------
+cacao_flush_arg_elems () {
+    
+    #remove '--' token if any
+    tmp_buf=""
+    for token in ${cacao_option_parser_buffer}
+    do
+      if [ ${token} != "--" ]
+      then
+	  tmp_buf="${tmp_buf} ${token}"
+      fi
+    done
+    cacao_option_parser_res="${tmp_buf}"
+    cacao_option_parser_buffer=""
+}
+
+#------------------------------------------------------------------------------
+# cacao_option_format_short_to_long
+#
+# DESCRIPTION:
+# translate inside argument string short format option to long format
+#
+# PARAMETERS:
+# an argument string
+# RETURN CODE:
+#  CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# the translated string
+#------------------------------------------------------------------------------
+cacao_option_format_short_to_long() {
+    res=""
+    
+    for token in $*
+    do
+      case "${token}" in
+	  "-i")
+	      res="${res} --instance"
+	      ;;
+	  "-?" | "-h")
+	      res="${res} --help"
+	      ;;
+	  "-l")
+	      res="${res} --levels"
+	      ;;
+	   "-v")
+	      res="${res} --value"
+	      ;;
+           "-d")
+	      res="${res} --description"
+	      ;;
+	   "-p")
+	      res="${res} --persistent"
+	      ;;
+           "-r")
+	      res="${res} --registered"
+	      ;;
+           "-n")
+	      res="${res} --nonss"
+	      ;;
+           "-u")
+	      res="${res} --url"
+	      ;;
+           "-e")
+	      res="${res} --embedded"
+	      ;;
+           "-c")
+	      res="${res} --connection-env"
+	      ;;
+	   "--")
+	      break
+	      ;;
+	  *)
+	      res="${res} ${token}"
+	      ;;
+      esac
+    done
+
+    # WARNING: cannot use echo command as -n and -e are intrepreted as args of echo
+    ${PRINTF} "%s" "${res}"
+  
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_long_option_token
+#
+# DESCRIPTION:
+# check if argument is like --yyyy
+#
+# PARAMETERS:
+# the argument to check 
+#
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_long_option_token() {
+    opt=$1
+
+    first_car=`${ECHO} ${opt} | ${CUT} -c1`
+    if [ "${first_car}" = "-" ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_is_option_token
+#
+# DESCRIPTION:
+# check if argument is like -yyyy:
+# the argument to check 
+#
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_option_token() {
+    opt=$1
+
+    first_car=`${ECHO} ${opt} | ${CUT} -c1`
+    if [ "${first_car}" = "-" ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_main_action_token
+#
+# DESCRIPTION:
+# look for main action token inside its argument
+# 
+# PARAMETERS:
+# a token
+# RETURN CODE:
+# nonoe
+# 
+# OUTPUT:
+# the main action found
+#------------------------------------------------------------------------------
+cacao_get_main_action_token() {
+    res=""
+    
+    case "$1" in
+	"-?" | "--help")
+	    res="help"
+	    ;;
+	"-V" | "--version")
+	    res="version"
+	    ;;
+	"enable")
+	    res="enable"
+	    ;;
+	"disable")
+	    res="disable"
+	    ;;
+	"get-param")
+	    res="get-param"
+	    ;;
+	"set-param")
+	    res="set-param"
+	    ;;
+	"list-params")
+	    res="list-params"
+	    ;;
+	"status")
+	    res="status"
+	    ;;
+	"list-modules")
+	    res="list-modules"
+	    ;;
+	"list-filters")
+	    res="list-filters"
+	    ;;
+	"get-filter")
+	    res="get-filter"
+	    ;;
+	"set-filter")
+	    res="set-filter"
+	    ;;
+	"create")
+	    res="create"
+	    ;;
+	"create-keys")
+	    res="create-keys"
+	    ;;
+	"debug")
+	    res="debug"
+	    ;;
+	"deploy")
+	    res="deploy"
+	    ;;
+	"undeploy")
+	    res="undeploy"
+	    ;;
+	"lock")
+	    res="lock"
+	    ;;
+	"unlock")
+	    res="unlock"
+	    ;;
+	"start")
+	    res="start"
+	    ;;
+	"stop")
+	    res="stop"
+	    ;;
+	"restart")
+	    res="restart"
+	    ;;
+	"create-instance")
+	    res="create-instance"
+	    ;;
+	"list-instances")
+	    res="list-instances"
+	    ;;
+	"delete-instance")
+	    res="delete-instance"
+	    ;;
+	"uninstall-instance")
+	    res="uninstall-instance"
+	    ;;
+	"show-trusted-cert")
+	    res="show-trusted-cert"
+	    ;;
+	"add-trusted-cert")
+	    res="add-trusted-cert"
+	    ;;
+	"list-trusted-certs")
+	    res="list-trusted-certs"
+	    ;;
+	"show-cert-chain")
+	    res="show-cert-chain"
+	    ;;
+	"smf_start")
+	    res="smf_start"
+	    ;;
+	"smf_stop")
+	    res="smf_stop"
+	    ;;
+	"enabled_at_boot_start")
+	    res="enabled_at_boot_start"
+	    ;;
+	"non_embedded_stop")
+	    res="non_embedded_stop"
+	    ;;
+	"verify-configuration")
+	    res="verify-configuration"
+	    ;;
+	"rebuild-dependencies")
+	    res="rebuild-dependencies"
+	    ;;
+	"register-module")
+	    res="register-module"
+	    ;;
+	"unregister-module")
+	    res="unregister-module"
+	    ;;
+        "prepare-uninstall")
+            res="prepare-uninstall"
+            ;;
+    esac
+    
+    # WARNING: cannot use echo command as -n and -e are intrepreted as args of echo
+    ${PRINTF} "%s" "${res}"
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_option_short_format
+#
+# DESCRIPTION:
+# get the option short format from long format
+#
+# PARAMETERS:
+# $1 : option long format
+# RETURN CODE:
+# 
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_get_option_short_format() {
+    case $1 in
+	"--help")
+	    res="-?"
+	    ;;
+	"--version")
+	    res="-V"
+	    ;;
+	"--instance")
+	     res="-i"
+	     ;;
+	"--force")
+	    res="-f"
+	    ;;
+	"--value")
+	    res="-v"
+	    ;;
+        "--description")
+	    res="-d"
+	    ;;
+	"--embedded")
+	    res="-e"
+	    ;;
+        "--registered")
+	    res="-r"
+	    ;;
+        "--levels")
+            res="-l"
+	    ;;
+        "--nonss")
+	    res="-n"
+	    ;;
+        "--directory")
+	    res="-d"
+	    ;;
+        "--verbose")
+	    res="-v"
+	    ;;
+        "--file")
+	    res="-f"
+	    ;;
+        "--url")
+	    res="-u"
+	    ;;
+        "--connection-env")
+	    res="-c"
+	    ;;
+	"--persistent")
+	    res="-p"
+	    ;;
+    esac
+
+    # WARNING: cannot use echo command as -n and -e are intrepreted as args of echo
+    ${PRINTF} "%s" "${res}"
+  
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_end_of_option_token
+#
+# DESCRIPTION:
+# check if it is a end of option token
+#
+# PARAMETERS:
+# the token
+# RETURN CODE:
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_end_of_option_token() {
+    opt=$1
+
+    if [ "${opt}" = "--" ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    return ${CACAO_FALSE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_option_token_with_arg
+#
+# DESCRIPTION:
+# check if argument is a wanted option with arg
+#
+# PARAMETERS:
+# $1 : short format option
+# $2 : long format option
+# $3 : the token to analyse
+# RETURN CODE:
+# CACAO_TRUE/CACAO_FALSE
+# 
+# OUTPUT:
+# option argument
+#------------------------------------------------------------------------------
+cacao_is_option_token_with_arg() {
+    short_pattern=$1
+    long_pattern=$2
+    parsed_str=$3
+
+    #notice : FALSE == 1
+    # line 1 match : -x or --x-xxx                      => echo ""
+    # line 2 match : -x<arg>  and NOT -x=<arg>          => echo <arg>
+    # line 3 match : --x-xxx=<arg> and NOT --x-xxx<arg> => echo <arg>
+    
+    arg_res=`${ECHO} ${parsed_str} | eval "${AWK} '
+        BEGIN {cr=0} \
+	 \\$1 == \"${short_pattern}\"             {output=\"\" ; cr=1 ; next}
+	 \\$1 == \"${long_pattern}\"              {output=\"\" ; cr=2 ; next}
+	 \\$1 ~ /^${short_pattern}[^=]/           {output=substr(\\$1,length(\"${short_pattern}\") + 1) ;cr=3;next } \
+         sub(/^${long_pattern}[=| ]+/,\"\") == 1  {output=\\$1 ; cr=4 ;next} \
+        END {print output ; exit cr}'"`
+	
+    if [ $? -gt 0 ]
+    then
+	found=${CACAO_TRUE}
+    else
+	found=${CACAO_FALSE}
+    fi
+
+    ${ECHO} "${arg_res}"
+    
+    return ${found}
+    
+}
+#------------------------------------------------------------------------------
+# cacao_is_long_option_token
+#
+# DESCRIPTION:
+# check if argument is like --YYYY
+#
+# PARAMETERS:
+# the token
+# RETURN CODE:
+# CACAO_TRUE/CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_long_option_token() {
+    opt=$1
+
+    first_cars=`${ECHO} $opt | ${CUT} -c1,2`
+    if [ "${first_cars}" = "--" ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    return ${CACAO_FALSE}
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_option_token
+#
+# DESCRIPTION:
+# check if argument is like -X
+#
+# PARAMETERS:
+# the token
+# RETURN CODE:
+# CACAO_TRUE/CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_option_token() {
+    opt=$1
+
+    first_car=`${ECHO} ${opt} | ${CUT} -c1`
+    if [ "${first_car}" = "-" ]
+    then
+	return ${CACAO_TRUE}
+    fi
+    
+    return ${CACAO_FALSE}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_option_parser_init
+#
+# DESCRIPTION:
+# initialise parsing engine
+#
+# PARAMETERS:
+# the argument string passed to the main script
+# 
+# RETURN CODE:
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_option_parser_init () {
+
+    cacao_option_parser_buffer=$*
+    cacao_option_parser_res=""
+    
+    return ${CACAO_CR_SUCCESS}
+}

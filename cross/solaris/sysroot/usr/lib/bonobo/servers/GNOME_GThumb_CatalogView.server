@@ -1,0 +1,221 @@
+<oaf_info>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_CatalogView_Factory" type="exe" 
+	    location="/usr/sfw/lib/gthumb-catalog-view">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Catalog View Factory"/>
+
+	<oaf_attribute name="description" type="string" 
+		       value="Factory for the GThumb catalog view control"/>
+</oaf_server>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_CatalogView" type="factory" 
+	    location="OAFIID:GNOME_GThumb_CatalogView_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Catalog View control"/>
+	<oaf_attribute name="description" type="string" 
+		       value="GThumb Catalog View control"/>
+
+	<oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+                <item value="x-directory/*"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="nautilus:view_as_name" type="string"
+		       value="Catalog"/>
+	<oaf_attribute name="nautilus:view_as_name-am" type="string"
+		       value="ማውጫ"/>
+	<oaf_attribute name="nautilus:view_as_name-az" type="string"
+		       value="Kataloq"/>
+	<oaf_attribute name="nautilus:view_as_name-ca" type="string"
+		       value="Catàleg"/>
+	<oaf_attribute name="nautilus:view_as_name-cs" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-da" type="string"
+		       value="Album"/>
+	<oaf_attribute name="nautilus:view_as_name-de" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-en_GB" type="string"
+		       value="Catalogue"/>
+	<oaf_attribute name="nautilus:view_as_name-es" type="string"
+		       value="Catálogo"/>
+	<oaf_attribute name="nautilus:view_as_name-fr" type="string"
+		       value="Catalogue"/>
+	<oaf_attribute name="nautilus:view_as_name-hr" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-hu" type="string"
+		       value="Katalógus"/>
+	<oaf_attribute name="nautilus:view_as_name-it" type="string"
+		       value="Catalogo"/>
+	<oaf_attribute name="nautilus:view_as_name-ja" type="string"
+		       value="カタログ"/>
+	<oaf_attribute name="nautilus:view_as_name-ko" type="string"
+		       value="카탈로그"/>
+	<oaf_attribute name="nautilus:view_as_name-lv" type="string"
+		       value="Katalogs"/>
+	<oaf_attribute name="nautilus:view_as_name-mk" type="string"
+		       value="Каталог"/>
+	<oaf_attribute name="nautilus:view_as_name-ms" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-nl" type="string"
+		       value="Catalogus"/>
+	<oaf_attribute name="nautilus:view_as_name-no" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-pl" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-pt" type="string"
+		       value="Catálogo"/>
+	<oaf_attribute name="nautilus:view_as_name-pt_BR" type="string"
+		       value="Catálogos"/>
+	<oaf_attribute name="nautilus:view_as_name-ru" type="string"
+		       value="Альбом"/>
+	<oaf_attribute name="nautilus:view_as_name-sr" type="string"
+		       value="Kаталог"/>
+	<oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string"
+		       value="Katalog"/>
+	<oaf_attribute name="nautilus:view_as_name-sv" type="string"
+		       value="Album"/>
+	<oaf_attribute name="nautilus:view_as_name-uk" type="string"
+		       value="Каталог"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_CN" type="string"
+		       value="一览表"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_HK" type="string"
+		       value="圖像集"/>
+	<oaf_attribute name="nautilus:view_as_name-zh_TW" type="string"
+		       value="圖像集"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string"
+		       value="View as Catalog"/>
+	<oaf_attribute name="nautilus:view_as_label-am" type="string"
+		       value="እንደ ማውጫ አሳይ"/>
+	<oaf_attribute name="nautilus:view_as_label-ca" type="string"
+		       value="Visualitza com a catàleg"/>
+	<oaf_attribute name="nautilus:view_as_label-cs" type="string"
+		       value="Zobrazit jako katalog"/>
+	<oaf_attribute name="nautilus:view_as_label-da" type="string"
+		       value="Vís som album"/>
+	<oaf_attribute name="nautilus:view_as_label-de" type="string"
+		       value="Katalogansicht"/>
+	<oaf_attribute name="nautilus:view_as_label-en_GB" type="string"
+		       value="View as Catalogue"/>
+	<oaf_attribute name="nautilus:view_as_label-es" type="string"
+		       value="Ver como catálogo"/>
+	<oaf_attribute name="nautilus:view_as_label-fr" type="string"
+		       value="Afficher en tant que catalogue"/>
+	<oaf_attribute name="nautilus:view_as_label-hu" type="string"
+		       value="Megjelenítés katalógusként"/>
+	<oaf_attribute name="nautilus:view_as_label-it" type="string"
+		       value="Mostra come catalogo"/>
+	<oaf_attribute name="nautilus:view_as_label-ja" type="string"
+		       value="カタログ表示"/>
+	<oaf_attribute name="nautilus:view_as_label-ko" type="string"
+		       value="카탈로그로 보기"/>
+	<oaf_attribute name="nautilus:view_as_label-lv" type="string"
+		       value="Skatīt kā Katalogu"/>
+	<oaf_attribute name="nautilus:view_as_label-mk" type="string"
+		       value="Види како каталог"/>
+	<oaf_attribute name="nautilus:view_as_label-ms" type="string"
+		       value="LIhat sebagai Katalog"/>
+	<oaf_attribute name="nautilus:view_as_label-nl" type="string"
+		       value="Catalogusweergave"/>
+	<oaf_attribute name="nautilus:view_as_label-no" type="string"
+		       value="Vis som katalog"/>
+	<oaf_attribute name="nautilus:view_as_label-pl" type="string"
+		       value="Wyświetlanie jako katalog"/>
+	<oaf_attribute name="nautilus:view_as_label-pt" type="string"
+		       value="Ver como Catálogo"/>
+	<oaf_attribute name="nautilus:view_as_label-pt_BR" type="string"
+		       value="Ver como catálogo"/>
+	<oaf_attribute name="nautilus:view_as_label-ru" type="string"
+		       value="Показать в виде альбома"/>
+	<oaf_attribute name="nautilus:view_as_label-sr" type="string"
+		       value="Погледај као каталог"/>
+	<oaf_attribute name="nautilus:view_as_label-sr@Latn" type="string"
+		       value="Pogledaj kao katalog"/>
+	<oaf_attribute name="nautilus:view_as_label-sv" type="string"
+		       value="Visa som album"/>
+	<oaf_attribute name="nautilus:view_as_label-uk" type="string"
+		       value="Показати каталогом"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_CN" type="string"
+		       value="以一览表方式查看"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_HK" type="string"
+		       value="以圖像集方式顯示"/>
+	<oaf_attribute name="nautilus:view_as_label-zh_TW" type="string"
+		       value="以圖像集方式顯示"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string"
+		       value="GThumb Catalog View"/>
+	<oaf_attribute name="nautilus:viewer_label-am" type="string"
+		       value="የGThumb ማውጫ ዕይታ"/>
+	<oaf_attribute name="nautilus:viewer_label-ca" type="string"
+		       value="Visualització del catàleg del GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-cs" type="string"
+		       value="Prohlížeč katalogu gThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-da" type="string"
+		       value="GThumb-albumvisning"/>
+	<oaf_attribute name="nautilus:viewer_label-de" type="string"
+		       value="Katalogansicht (gThumb)"/>
+	<oaf_attribute name="nautilus:viewer_label-en_GB" type="string"
+		       value="GThumb Catalogue View"/>
+	<oaf_attribute name="nautilus:viewer_label-es" type="string"
+		       value="Visor del catálogo GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-fr" type="string"
+		       value="Vue catalogue GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-hr" type="string"
+		       value="Pregled GThumb kataloga"/>
+	<oaf_attribute name="nautilus:viewer_label-hu" type="string"
+		       value="GThumb katalógusnézet"/>
+	<oaf_attribute name="nautilus:viewer_label-it" type="string"
+		       value="Vista catalogo (gThumb)"/>
+	<oaf_attribute name="nautilus:viewer_label-ja" type="string"
+		       value="GThumb カタログビュー"/>
+	<oaf_attribute name="nautilus:viewer_label-ko" type="string"
+		       value="GThumb 카탈로그 보기"/>
+	<oaf_attribute name="nautilus:viewer_label-lv" type="string"
+		       value="GThumb Kataloga Skats"/>
+	<oaf_attribute name="nautilus:viewer_label-mk" type="string"
+		       value="GThumb каталог поглед"/>
+	<oaf_attribute name="nautilus:viewer_label-ms" type="string"
+		       value="Pelihat Katalog GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-nl" type="string"
+		       value="GThumb catalogus-weergave"/>
+	<oaf_attribute name="nautilus:viewer_label-no" type="string"
+		       value="gThumb katalogvisning"/>
+	<oaf_attribute name="nautilus:viewer_label-pl" type="string"
+		       value="GThumb - widok katalogu"/>
+	<oaf_attribute name="nautilus:viewer_label-pt" type="string"
+		       value="Vista Catálogo GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-pt_BR" type="string"
+		       value="Visualizador de Catálogos GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-ru" type="string"
+		       value="Просмотр альбомов GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-sr" type="string"
+		       value="GThumb Каталошки преглед"/>
+	<oaf_attribute name="nautilus:viewer_label-sr@Latn" type="string"
+		       value="GThumb Kataloški pregled"/>
+	<oaf_attribute name="nautilus:viewer_label-sv" type="string"
+		       value="GThumb-albumvy"/>
+	<oaf_attribute name="nautilus:viewer_label-uk" type="string"
+		       value="Перегляд каталогів GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_CN" type="string"
+		       value="GThumb 一览表视图"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_HK" type="string"
+		       value="GThumb 圖像集顯示模式"/>
+	<oaf_attribute name="nautilus:viewer_label-zh_TW" type="string"
+		       value="GThumb 圖像集顯示模式"/>
+</oaf_server>
+
+
+</oaf_info>

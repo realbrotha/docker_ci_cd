@@ -1,0 +1,11 @@
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lfmd_adm	1.1	04/03/17 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <fm/fmd_adm.h>

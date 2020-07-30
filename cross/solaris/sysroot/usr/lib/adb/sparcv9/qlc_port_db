@@ -1,0 +1,16 @@
+./"options"8t"control"8t"master_state"nBBB
++/"slave_state"8t"hard_address"16t"rsvd"nB8tXB
++/"port_id"16tnX
++/"node_name"8t8B
++/"port_name"8t8B
++/"execution_throttle"8t"execution_count"8t"reset_count"nx16tx8tB
++/"reserved_2"8t"resource_allocation"8t"current_allocation"nB8tx16tx
++/"queue_head"8t"queue_tail"8t"transmit_execution_list_next"nx8tx8tx
++/"transmit_execution_list_previous"8t"common_features"8t"total_concurrent_sequences"nx32tx8tx
++/"RO_by_information_category"8t"recipient"8t"initiator"nx24tB8tB
++/"receive_data_size"8t"concurrent_sequences"8t"open_sequences_per_exchange"nx16tx16tx
++/"lun_abort_flags"8t"lun_stop_flags"8t"stop_queue_head"nx8tx8tx
++/"stop_queue_tail"8t"port_retry_timer"8t"next_sequence_id"nx8tx16tx
++/"frame_count"8t"PRLI_payload_length"8t"PRLI_service_parameter_word_0"nx8tx16tx
++/"PRLI_service_parameter_word_3"8t"loop_id"8t"extended_lun_info_list_pointer"nx24txx
++/"extended_lun_stop_list_pointer"8tnx24t

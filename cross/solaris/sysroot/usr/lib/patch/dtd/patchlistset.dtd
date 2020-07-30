@@ -1,0 +1,44 @@
+<!--
+        W3C Document Type Definition for the PatchPro Patch List version 1.0
+
+        Date: Tuesday May 10 2002
+
+        Author: Julian S. Taylor & Mahima Mallikarjuna
+
+        
+        PatchPro constructs the patchlistset containing one or more
+        patchlist  which a non-Java app (such as StorADE) may parse
+        to retrieve the appropriate patch information.  Each patchlist
+        contains patches which apply to either the primary host or an
+        intimately associated host.  Typically the XML records
+        representing this patchlist is stored on UNIX systems at
+        /var/spool/pkg/patchpro/patchlistset.xml and
+        their defining DTD is stored at BASEDIR/lib/dtd/patchlistset.dtd.
+-->
+
+<!ENTITY	% patchlistset "-//Sun Microsystems//DTD  patchlistset  1.0 Final//EN"
+
+        -- Typical usage:
+
+            <!DOCTYPE patchlistset PUBLIC 
+		"-//Sun Microsystems//DTD XML Version 1.0//EN" 				/opt/SUNWppro/lib/hostspatchlist.dtd>
+            <patchlistset>
+            ...
+            </patchlistset>
+        --
+>
+<!ELEMENT	patchlistset	(patchlist+)>
+<!ELEMENT	patchlist	(patch+)>
+<!ATTLIST	patchlist
+		hostType	CDATA	 #REQUIRED
+		hostIPAddress	CDATA	 #REQUIRED>
+<!ELEMENT	patch	(patchID, synopsis, error,	hwIdentifier*)>
+<!ELEMENT	patchID		(#PCDATA)>
+<!ELEMENT	synopsis  	(#PCDATA)>
+<!ELEMENT	error		(#PCDATA)>
+<!ELEMENT 	hwIdentifier (vendor, product, revision, serialNo, locator)>
+<!ELEMENT	vendor		(#PCDATA)>
+<!ELEMENT	product   	(#PCDATA)>
+<!ELEMENT	revision   	(#PCDATA)>
+<!ELEMENT	serialNo   	(#PCDATA)>
+<!ELEMENT	locator   	(#PCDATA)>

@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+	<TITLE> </TITLE>
+	 
+	
+</HEAD>
+<BODY>
+<!-- ident	"@(#)RtAll.html	1.2	00/07/17 SMI" -->
+
+
+When All is in the Rights Included column, it grants the right for a user or role to use any command when working in an administrator's shell, such as the Administrator's Korn or Administrator's C shells.
+<p>
+The normal policy for these shells is that they can only execute commands that have been explicitly assigned to a user (or role) through granted rights. Because using only the granted rights can be very limiting, it is common to give users the All right, which has a wild card entry matching every command.
+<p>
+However, no special process attributes are associated with the wild card, so the effect is that all commands matching the wild card run with the uid and gid of the current user (or role).
+<p>
+If you assign this right, it should always be last in the list of rights. If it is first, no other rights are consulted when looking up command attributes.
+<p>
+If All is grayed, then you are not entitled to Add or Remove this right.
+</BODY>
+</HTML>

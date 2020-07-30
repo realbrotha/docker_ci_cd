@@ -1,0 +1,234 @@
+# @(#)16	1.7  src/cmdtext/usr/bin/hplj/font/B, cmdtext, cmdtext530 7/19/91 12:52:47 
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/B 1.7 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Times-Roman Bold, for HP LazerJet series II printer with K cartridge
+# created 06/26/89, Interactive Systems Corporation
+name B
+
+ligatures 0
+spacewidth 17
+charset
+\|	6  0 000	1/6 em space
+\^	3  0 000	1/12 em space
+\&	0  0 000	no space
+ˇ	17 2 32
+!	14 2 33		exclam
+"	18 2 34		quotedbl
+#	28 2 35		numbersign
+$	24 2 36		dollar
+%	39 0 37		percent
+&	34 0 38		ampersand
+'	12 2 39		quoteright
+fm	"
+(	18 2 40		parenleft
+)	19 2 41		parenright
+*	24 2 42		asterisk
++	24 0 43		plus
+pl	"
+,	14 0 44		comma
+˜	"
+cd	"
+-	22 0 45		hyphen
+hy	"
+em	"
+\-	"
+.	14 0 46		period
+/	22 0 47		slash
+sl	"
+0	24 2 48		zero
+1	24 2 49		one
+2	24 2 50		two
+3	24 2 51		three
+4	24 2 52		four
+5	24 2 53		five
+6	24 2 54		six
+7	24 2 55		seven
+8	24 2 56		eight
+9	24 2 57		nine
+:	12 0 58		colon
+;	12 0 59		semicolon
+<	25 0 60		less
+=	26 0 61		equal
+eq	"
+>	25 0 62		greater
+?	22 2 63		question
+@	40 2 64		at
+A	32 2 65		A
+B	31 2 66		B
+C	31 2 67		C
+D	32 2 68		D
+E	28 2 69		E
+F	27 2 70		F
+G	35 2 71		G
+H	37 2 72		H
+I	18 2 73		I
+J	24 2 74		J
+K	33 2 75		K
+L	29 2 76		L
+M	39 2 77		M
+N	33 2 78		N
+O	34 2 79		O
+P	28 2 80		P
+Q	34 2 81		Q
+R	32 2 82		R
+S	26 2 83		S
+T	30 2 84		T
+U	35 2 85		U
+V	33 2 86		V
+W	40 2 87		W
+X	32 2 88		X
+Y	31 2 89		Y
+Z	32 2 90		Z
+[	13 2 91		bracketleft
+\	22 0 92		backslash
+]	14 2 93		bracketright
+^	26 2 94		circumflex
+_	33 1 95		underscore
+\_	"
+`	12 2 96		quoteleft
+a	23 0 97		a
+b	24 2 98		b
+c	21 0 99		c
+d	24 2 100	d
+e	21 0 101	e
+f	19 2 102	f
+g	23 1 103	g
+h	27 2 104	h
+i	14 2 105	i
+j	17 3 106	j
+k	26 2 107	k
+l	14 2 108	l
+m	36 0 109	m
+n	25 0 110	n
+o	23 0 111	o
+p	24 1 112	p
+q	24 1 113	q
+r	18 0 114	r
+s	18 0 115	s
+t	16 0 116	t
+u	24 0 117	u
+v	20 0 118	v
+w	32 0 119	w
+x	24 0 120	x
+y	23 1 121	y
+z	20 0 122	z
+{	16 2 123	braceleft
+|	8  2 124	bar
+}	17 2 125	braceright
+~	30 0 126	tilde
+∑	32 2 161
+∂	32 2 162
+‘	29 2 163
+“	29 2 164
+”	29 2 165
+◊	18 2 166
+ÿ	18 2 167
+Ô	12 2 168
+\'	"
+aa	"
+\`	12 2 169
+ga	"
+˘	19 2 171
+Î	35 2 173
+Í	35 2 174
+Ó	33 2 176
+¯	13 2 179
+de	"
+Ä	31 2 180
+á	21 2 181
+•	33 2 182
+§	25 2 183
+≠	14 2 184
+®	22 2 185
+œ	31 2 186
+ú	24 2 187
+æ	31 2 188
+ı	21 2 189
+sc	21 2 189
+ü	32 2 190
+Ω	23 2 191
+ct	23 2 191
+É	23 2 192
+à	21 2 193
+ì	23 2 194
+ñ	24 2 195
+†	23 2 196
+Ç	21 2 197
+¢	23 2 198
+£	24 2 199
+Ö	23 2 200
+ä	21 2 201
+ï	23 2 202
+ó	24 2 203
+Ñ	23 2 204
+â	21 2 205
+î	23 2 206
+Å	24 2 207
+è	32 2 208
+å	15 2 209
+ù	34 2 210
+í	40 2 211
+Ü	23 2 212
+°	14 2 213
+õ	24 2 214
+ë	29 2 215
+é	32 2 216
+ç	14 2 217
+ô	34 2 218
+ö	35 2 219
+ê	39 2 220
+ã	15 2 221
+·	27 2 222
+‚	34 2 223
+µ	32 2 224
+«	32 2 225
+∆	23 2 226
+—	34 2 227
+–	25 2 228
+÷	18 2 229
+ﬁ	18 2 230
+‡	34 2 231
+„	34 2 232
+Â	34 2 233
+‰	23 2 234
+È	35 2 237
+ò	31 2 239
+Á	27 2 241
+Ë	25 2 240
+˙	20 0 242
+	36 2 246
+¨	19 2 247
+14	"
+´	19 2 248
+12	"
+¶	21 2 249
+ß	20 2 250
+Æ	26 2 251
+Ø	25 2 253
+Ò	29 2 254

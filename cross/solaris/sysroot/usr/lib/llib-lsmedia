@@ -1,0 +1,10 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright(c) 1997 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+#pragma ident	"@(#)llib-lsmedia	1.1	99/06/24 SMI"
+
+#include	<sys/smedia.h>

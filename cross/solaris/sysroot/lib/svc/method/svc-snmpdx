@@ -1,0 +1,38 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-snmpdx	1.1	06/08/01 SMI"
+#
+# Start method script for the Sun Solstice Enterprise Master Agent
+#
+
+. /lib/svc/share/smf_include.sh
+
+SNMP_CONFDIR=/etc/snmp/conf
+
+SNMP_RSRC=${SNMP_CONFDIR}/snmpdx.rsrc
+SNMP_BIN=/usr/lib/snmp/snmpdx
+
+if [ ! -f $SNMP_RSRC ]; then
+	echo "Configuration file $SNMP_RSRC does not exist. Not starting snmpdx"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+if [ ! -x $SNMP_BIN ]; then
+	echo "$SNMP_BIN not found. Not starting snmpdx"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+if /usr/bin/egrep -sv '^[	  ]*(#|$)' ${SNMP_RSRC} 2> /dev/null ; then
+	:
+else
+	# Do not start snmpdx if snmpdx.rsrc contents are
+	# trivial.
+	echo "$SNMP_RSRC contains no definitions. Not starting snmpdx."
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+${SNMP_BIN}  -y -c ${SNMP_CONFDIR}
+exit $SMF_EXIT_OK

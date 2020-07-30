@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)net-dtspcd.src	1.1	06/05/19 SMI"
+#
+# For modifying parameters passed to dtspc, do not edit
+# this script. Instead use svccfg(1m) to modify the SMF
+# repository. For example:
+#
+# # svccfg
+# svc:> select network/cde-spc:default
+# svc:/network/cde-spc:default> setprop dtspc/debug = "true"
+# svc:/network/cde-spc:default> exit
+# svcadm refresh network/cde-spc:default
+
+FMRI=svc:network/cde-spc:default
+
+val=`svcprop -p dtspc/debug $FMRI`
+[ "$val" = "true" ] && arg="-debug"
+
+val=`svcprop -p dtspc/log $FMRI`
+[ "$val" = "true" ] && arg="$arg -log"
+
+val=`eval "echo \`svcprop -p dtspc/args $FMRI\`"`
+arg="$arg $val"
+
+if [ -x /usr/dt/bin/dtspcd ] ; then
+	/usr/dt/bin/dtspcd $arg
+else
+	echo "Error: /usr/dt/bin/dtspcd is missing or not executable"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+exit $SMF_EXIT_OK

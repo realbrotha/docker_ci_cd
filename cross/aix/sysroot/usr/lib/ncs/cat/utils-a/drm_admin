@@ -1,0 +1,191 @@
+drm_admin - GLBD Replicas Administration
+
+The GLBD Replicas Administration tool (drm_admin) administers servers based
+on the NCS location brokers such as glbd, the replicated version of the
+global location broker. With the GLBD Replicas Administration tool
+(drm_admin), the replica lists can be inspected or modified, databases can
+be merged to force convergence among replicas, servers can be stopped, and
+replicas can be deleted.
+
+The role of the GLBD Replicas Administration tool (drm_admin) is to
+administer the databases, not to change the data they contain. For
+instance, you can use GLBD Replicas Administration (drm_admin) to merge two
+replicas of the global location broker database, but the Local Broker
+Administration (lb_admin) must be used to add a new entry to the database.
+
+Also, although GLBD Replicas Administration (drm_admin) can stop or delete
+a global location broker replica, glbd must be invoked directly to start or
+create a replica. After you start it, GLBD Replicas Administration
+(drm_admin) enters an interactive mode in which it accepts the following
+commands.
+
+Syntax
+
+drm_admin [ -version ]
+
+Parameters
+
+-version
+     Displays the version of NCS that this GLBD Replicas Administration
+     (drm_admin) belongs to, but does not start the tool.
+
+Commands
+
+When you type:
+
+drm_admin
+
+you are prompted with this line:
+
+drm_admin:
+
+where you can enter the drm_admin commands.
+
+Most drm_admin commands operate on a default object (default_obj) at a
+default host (default_host). Together, default_obj and default_host specify
+a default replica. Defaults are established by the set command and are
+remembered until changed by another set. Currently, the only known object
+is glb. Some drm_admin commands operate on a host other than the default.
+Identify this host as other_host. The host name supplied as a default_host
+or an other_host takes the form family:host, where the host can be
+specified either by its name or by its network address. The following are
+examples of acceptable host names:
+
+ip:bertie
+
+ip:#192.5.5.5
+
+addrep other_host
+     Add other_host to the replica list at default_host. The replica at
+     default_host will propagate other_host to all other replica lists for
+     default_obj.
+
+chrep -from other_host -to new_other_host
+     Change the network address for other_host in the replica list at
+     default_host to new_other_host. The replica at default_host will
+     propagate this change to all other replica lists for default_obj. The
+     chrep command will fail if a replica of default_obj is running at
+     other_host or if other_host is not on the replica list at
+     default_host.
+
+delrep other_host
+     Delete the replica of default_obj at other_host. The delrep command
+     tells the replica at other_host to do the following:
+
+       1. Propagate all of the entries in its propagation queue.
+
+       2. Propagate a delete request to all other replicas, causing
+          other_host to be deleted from all other replica lists for
+          default_obj.
+
+       3. Delete its copy of default_obj.
+
+       4. Stop running.
+
+     The delrep command returns you immediately to the GLBD Replicas
+     Administration prompt, but the actual deletion of the replica can take
+     a long time for configurations that are not stable and intact. Check
+     to see if the daemon for the deleted replica has stopped by listing
+     the processes running on its host.
+
+info
+     Get status information about the replica for default_obj at
+     default_host.
+
+lrep [-d] [-clocks] [-na]
+     List replicas for default_obj as stored in the replica list at
+     default_host.
+
+     The -d option lists deleted as well as existing replicas.
+
+     The -clocks option shows the current time on each host and indicates
+     the time difference between the replicas.
+
+     The -na option lists the network address of each host.
+
+merge { -from | -to } other_host
+     The merge command copies entries in the default_obj database and
+     replica list from one replica to another. It copies an entry if no
+     corresponding entry exists in the destination database or if the
+     corresponding entry in the destination database bears an earlier time
+     stamp. A merge does not cause entries to be propagated. The database
+     and replica list at the origination are not changed.
+
+     The -from parameter copies entries from the default_obj database and
+     replica list at other_host to the default_obj database and replica
+     list at default_host.
+
+     The -to parameter copies entries from the database and replica list at
+     default_host to the database and replica list at other_host.
+
+     A merge -from followed by a merge -to causes the replicas at the two
+     hosts to converge.
+
+merge_all
+     The merge_all command uses default_host as the hub for a global merge
+     of all replicas for default_obj. For each host on the replica list at
+     default_host, a merge_all first runs a merge -from, then runs a merge
+     -to. All replicas of default_obj are thereby forced into a consistent
+     state. The merge_all operation does not cause any entries to be
+     propagated. You should run a merge_all when:
+        o A replica is purged
+        o A replica is reset
+        o A replica has been not communicating for two weeks or more
+        o A replica stops (for example, when its database is destroyed by a
+          disk failure)
+
+monitor [ -r n ]
+     This command causes drm_admin to read the clock of each replica of
+     default_obj every n minutes and to report any clock skews or
+     non-answering replicas. If -r is not specified, the period is 15
+     minutes.
+
+purgerep other_host
+     The purgerep command purges other_host from the replica list at
+     default_host. The replica at default_host then propagates a delete
+     request to the replicas at the hosts remaining on its list, thereby
+     removing other_host from all other replica lists for default_obj. The
+     delete request is not sent to other_host. A purgerep can cause data to
+     be lost and should only be used when a replica has "stopped". It is
+     strongly recommended that a merge_all operation be run after the
+     purgerep to prevent the remaining replicas of the default_obj database
+     from becoming inconsistent. If the purged replica is still running, it
+     should be reset. It is recommended that you use chrep (rather than
+     addrep and purgerep) to change entries on the replica list.
+
+quit
+     Quit the drm_admin session.
+
+reset other_host
+     Reset the replica of default_obj at other_host. The reset command
+     tells the replica at other_host to delete its copy of default_obj and
+     to stop running. It does not cause other_host to be deleted from any
+     other replica lists. This command can cause data to be lost unless a
+     successful merge_all is run first.
+
+set [ -o obj_name ] -h host_name
+     Set the default object and host. All subsequent commands will operate
+     on obj_name. Subsequent commands that do not specify a host will be
+     sent to host_name. If the -o option is not specified, drm_admin keeps
+     the current default_obj. If set is used with the -o option, drm_admin
+     checks the clocks at all hosts with replicas of the object.
+
+stop
+     Stop the server for default_obj that is running at default_host.
+
+Example
+
+The following example starts drm_admin, sets the default object to glb, and
+sets the default host to ip:mars:
+
+      drm_admin
+      drm_admin: set -o glb -h ip:mars
+
+This is the output:
+
+      Default object: glb default host:
+      ip:mars state: in service
+      Checking clocks of glb replicas
+      ip:mars 2003/04/09.17:09
+      ip:pluto 2003/04/09.17:09
+      ip:mercury 2003/04/09.17:07

@@ -1,0 +1,511 @@
+#!/sbin/sh
+
+################################################################################
+#
+#	Copyright (c) 2005 by Sun Microsystems, Inc. All Rights Reserved.
+#	Use is subject to license terms.
+#
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lupop.sh 5.11     05/08/18 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        lupop [-l logfile] [-o outfile] -i <internal_config_file>
+# FUNCTION:     driver program to call lucopy, and lumkboot
+# INPUT:        Internal Config File
+# OUTPUT:
+# DEV:          JKJ
+#
+# ALGORITHM:
+# Get ABE name from the ICF file
+# Call lucopy to copy contents of all file systems to ABE
+# Call lumkboot to alters ABE so that it's ready to serve as a boot device
+# Remove copy lock.
+# exit with good status
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best 
+# performance over /bin/sh and /bin/ksh.
+#
+################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+TMP_RESULT_FILE="/tmp/.lupop.results.tmp.$$"
+ICF=""
+PBE=""
+
+trap "" 1 2 3 15
+
+################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit to 
+#		terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+################################################################################
+
+usage()
+{
+  ${LUPRINTF} -p2 "`gettext 'USAGE: %s [-l error_log] [-o outfile] \
+[-p \\\"PBE_NAME\\\"] -i <internal_config_file>'`" "${LU_PROG_NAME}"
+  exit ${1:-3}
+}
+
+################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at 
+#		script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that 
+#		invoked this script.
+################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly \
+(/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+### LU_OPTFS=${LU_OPTFS:=/etc/lu/optfs}
+COPYLOCK=${COPYLOCK:=/etc/lu/COPY_LOCK}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not \
+installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f ${LU_LUTAB_FILE} -o ! -s ${LU_LUTAB_FILE} ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No boot environments are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_I="" # -I - no integrity check (PRIVATE).
+flag_i="" # -i n - abe icf file to use.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_p="" # -p n - parent boot environment to populate from.
+flag_s="" # -s f - file system skip file (PRIVATE).
+flag_x="" # -x n = set debug level to n (PRIVATE).
+flag_z="" # -z f - filter file (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts Ii:l:o:p:s:x:Xz: c
+  do
+    case $c in
+      I) # -I - no integrity check (PRIVATE).
+	 flag_I="-I"
+	 ;;
+
+      i) # -i abe_icf_file
+	 lulib_cannot_duplicate_option "${flag_i}" "${OPTARG}" "-i"
+	 flag_i="${OPTARG}"
+	 ICF="${OPTARG}"
+	 ;;
+
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified \
+can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or \
+appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be \
+created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or \
+appended to.'`" "${OPTARG}"
+	   exit 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+
+      p) # -p n - parent boot environment to populate from.
+	 lulib_cannot_duplicate_option "${flag_p}" "${OPTARG}" "-p"
+	 flag_p="${OPTARG}"
+	 PBE="${OPTARG}"
+	 ;;
+
+      s) # -s f - file system skip file (PRIVATE).
+	 lulib_cannot_duplicate_option "${flag_s}" "${OPTARG}" "-s"
+	 flag_s="-s ${OPTARG}"
+	 ;;
+
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+
+      X) # -X - set XML output mode.
+	 lulib_set_output_format 'xml'
+	 ;;
+
+      z) # -z f - filter file (PRIVATE).
+	 lulib_cannot_duplicate_option "${flag_z}" "${OPTARG}" "-z"
+	 flag_z="-z ${OPTARG}"
+	 ;;
+
+      \?) # unknown - option.
+	  usage 3
+	  esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# Make sure that an internal configuration file name was specified.
+
+if [ -z "${ICF}" ]; then
+  ${LUPRINTF} -Eelp2 "`gettext 'You must use the <-i> option to specify the ICF \
+file of the ABE to populate file systems on.'`"
+  usage 3
+fi
+
+# Validate the ICF file.
+
+lulib_icf_validate "${ICF}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The file <%s> specified by the <-i> option is \
+not a valid ICF file.'`" "${ICF}"
+  usage 3
+fi
+
+# Determine the status of SDS
+lulib_discover_sds_installation
+
+# Get ABE name from the ICF file
+ABE_NAME=`/bin/head -1 $ICF | /bin/awk -F: '{print $1}'`
+if [ -z "$ABE_NAME" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine ABE name from ICF file <%s>.'`" "${ICF}"
+  exit 1
+fi
+
+# Determine name of source BE; if -p use that otherwise use current BE.
+if [ -z "${PBE}" ] ; then
+  PBE="`lulib_lucurr`"
+  if [ "$?" -ne "0" -o -z "${PBE}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active BE.'`"
+    exit 1
+  fi
+fi
+CURR_BE="${PBE}"
+
+# Get disk configuration information for the source BE.
+PBE_ICF="`$LUBIN/lumk_iconf -F \"$PBE\"`"
+if [ "$?" -ne "0" -o -z "${PBE_ICF}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine disk partition configuration information for boot environment <%s>.'`" "${PBE}"
+  exit 1
+fi
+
+# Call lucopy to copy contents of all file systems to ABE
+if [ -z "${flag_p}" -o "${flag_p}" = '/' ] ; then
+	# No parent boot environment specified
+	$LUBIN/lucopy -i "$ICF" -p "$PBE_ICF" "${flag_I}" ${flag_z} ${flag_s}
+	RET=$?
+else
+	# Parent boot environment specified - pass -c option to lucopy
+	$LUBIN/lucopy -i "$ICF" -c "${PBE}" -p "$PBE_ICF" ${flag_I} ${flag_z} ${flag_s}
+	RET=$?
+fi
+
+if [ "$RET" != "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to copy file systems from boot environment <%s> to BE <%s>.'`" "${PBE}" "${ABE_NAME}"
+  exit 1
+fi
+
+# Call lumkboot to alter ABE so that it's ready to serve as a boot device.
+
+${LUPRINTF} -lp1 "`gettext 'Making boot environment <%s> bootable.'`" "${ABE_NAME}"
+$LUBIN/lumkboot -i $ICF -n "${ABE_NAME}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to make boot environment <%s> bootable.'`" "${ABE_NAME}"
+  /bin/rm -f $COPYLOCK
+  exit 1
+fi
+
+### Disable any root mirroring or encapsulation on the ABE.
+### This is done in case the parent of the population was
+### mirrored or encapsulated, or the ABE is being repopulated
+### and it was previously mirrored or encapsulated. Either
+### way the mirroring or encapsulation will be broken on the
+### ABE and it will not boot unless the mirroring or 
+### encapsulation is turned off.
+
+pbeRootMdFound='no'
+pbeRootVxFound='no'
+abeRootMdFound='no'
+abeRootVxFound='no'
+pbeRootMirrored='no'
+abeRootMirrored='no'
+
+# Determine if the currently active BE is on a meta-device or volume.
+
+pbeRootSlice=`${LUETCBIN}/ludo get_root_slice_from_be_name "${CURR_BE}" 2>&1`
+if [ "$?" -ne '0' -o -z "${pbeRootSlice}" ] ; then
+  [ -n "${pbeRootSlice}" ] && ${LUPRINTF} -lp2 '%s' "${pbeRootSlice}"
+  ${LUPRINTF} -Wlp1 "`gettext 'Unable to determine if mirroring must be \
+disabled on boot environment <%s>.'`" "${ABE_NAME}"
+  pbeRootSlice='unknown'
+else
+  echo "${pbeRootSlice}" | /bin/grep "^${SDS_DEVROOT}/dsk/" > /dev/null 2>&1
+  if [ "$?" -eq '0' ] ; then
+    pbeRootMirrored='yes'
+    pbeRootMdFound='yes'
+  fi
+  echo "${pbeRootSlice}" | /bin/grep "^/dev/vx/dsk/" > /dev/null 2>&1
+  if [ "$?" -eq '0' ] ; then
+    pbeRootMirrored='yes'
+    pbeRootVxFound='yes'
+  fi
+fi
+${LUPRINTF} -lp2D - "`gettext 'Current boot environment <%s> root slice <%s> \
+logical volume? <%s>.'`" "${CURR_BE}" "${pbeRootSlice}" "${pbeRootMirrored}"
+
+# Determine if the BE just populated is on a meta-device or volume.
+
+abeRootSlice=`${LUETCBIN}/ludo get_root_slice_from_be_name "${ABE_NAME}" 2>&1`
+if [ "$?" -ne '0' -o -z "${abeRootSlice}" ] ; then
+  [ -n "${abeRootSlice}" ] && ${LUPRINTF} -lp2 '%s' "${abeRootSlice}"
+  ${LUPRINTF} -Wlp1 "`gettext 'Unable to determine if mirroring must be \
+disabled on boot environment <%s>.'`" "${ABE_NAME}"
+  abeRootSlice='unknown'
+else
+  echo "${abeRootSlice}" | /bin/grep "^${SDS_DEVROOT}/dsk/" > /dev/null 2>&1
+  if [ "$?" -eq '0' ] ; then
+    abeRootMirrored='yes'
+    abeRootMdFound='yes'
+  fi
+  echo "${abeRootSlice}" | /bin/grep "^/dev/vx/dsk/" > /dev/null 2>&1
+  if [ "$?" -eq '0' ] ; then
+    abeRootMirrored='yes'
+    abeRootVxFound='yes'
+  fi
+fi
+${LUPRINTF} -lp2D - "`gettext 'Populated boot environment <%s> root slice <%s> \
+logical volume? <%s>.'`" "${ABE_NAME}" "${abeRootSlice}" "${abeRootMirrored}"
+
+# Determine root device name for ABE.
+abeBootDevice=`${LUETCBIN}/ludo get_boot_device_from_be_name "${ABE_NAME}"`
+if [ -z "${abeBootDevice}" -o ! -b "${abeBootDevice}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Root slice device <%s> for boot environment <%s> not found \
+or is not a block device.'`" "${abeBootDevice}" "${ABE_NAME}"
+  /bin/rm -f $COPYLOCK
+  exit 1
+fi
+
+# Correct the root slice if [Solstice DiskSuite/Solaris Volume Manager] is
+# present. 
+#
+# If the root file system is a /dev/md/dsk or /dev/dsk device, then
+# use the "metaroot" command to cause the root file system just populated
+# to be the one that the root file system will boot from.
+#
+# Otherwise use the metaroot command to force the boot environment to boot
+# from the boot device slice which will always be /dev/dsk/...
+# 
+# This requires the use of the "metaroot" command to modify the
+# /etc/system, /etc/vfstab, and md/mddb.cf files on the target BE to
+# boot from a physical disk and not a meta device.
+#
+
+if [ -n "${SDS_FOUND}" -a '(' "${pbeRootMdFound}" = 'yes' \
+     -o "${abeRootMdFound}" = 'yes' ')' ] ; then
+  # Choose proper root device:
+  # Use the $abeRootSlice (which can be either /dev/md or /dev/dsk)
+  # unless the abe root slice is NOT on a metadevice, in which case
+  # use the $abeBootDevice which is always /dev/dsk.
+  if [ "${abeRootMdFound}" = 'yes' ] ; then
+    rootSliceTouse="${abeRootSlice}"
+    ${LUPRINTF} -lp1 "`gettext 'Setting root slice to %s metadevice <%s>.'`" \
+      "${SDS_TEXTDESCRIPTION}" "${rootSliceTouse}"
+  else
+    rootSliceTouse="${abeBootDevice}"
+    ${LUPRINTF} -lp1 "`gettext 'Setting root slice to <%s>.'`" "${abeBootDevice}"
+  fi
+
+  # Mount the ABE so the metaroot command can be used.
+  BOOT_MNT=`LU_OUTPUT_FORMAT=text $LUBIN/lumount -i $ICF 2>${TMP_RESULT_FILE}`
+  if [ "$?" != "0" ] ; then
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount boot environment <%s>.'`" "${ABE_NAME}"
+    /bin/rm -f $COPYLOCK ${TMP_RESULT_FILE}
+    exit 1
+  fi
+  /bin/rm -f "${TMP_RESULT_FILE}"
+
+  # It debugging enabled, output what the metaroot command will do.
+  if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -ge "2" ] ; then
+    ${LUPRINTF} -flp2D 2 "`gettext 'SDS/SVM configuration: SDS_ARCH <%s> \
+SDS_FOUND <%s> SDS_PACKAGE <%s> SDS_METADB <%s> SDS_METASTAT <%s> SDS_METAROOT \
+<%s> SDS_MD_CF <%s> SDS_MDDB_CF <%s> SDS_DESCRIPTION <%s> SDS_TEXTDESCRIPTION \
+<%s> SDS_DEVROOT <%s> SDS_VERSION <%s> BOOT_MNT <%s> FILE <%s>.'`" "${SDS_ARCH}" \
+"${SDS_FOUND}" "${SDS_PACKAGE}" "${SDS_METADB}" "${SDS_METASTAT}" \
+"${SDS_METAROOT}" "${SDS_MD_CF}" "${SDS_MDDB_CF}" "${SDS_DESCRIPTION}" \
+"${SDS_TEXTDESCRIPTION}" "${SDS_DEVROOT}" "${SDS_VERSION}" "${BOOT_MNT}" \
+"${BOOT_MNT}/${SDS_MDDB_CF}"
+    /bin/egrep -v '^\*|^#|^[ 	]*$' $BOOT_MNT/etc/system | ${LUPRINTF} -lp2D 2 \
+"`gettext '********** <%s> contents before metaroot:\n****\n%R\n****'`" "$BOOT_MNT/etc/system"
+    /bin/egrep -v '^\*|^#|^[ 	]*$' $BOOT_MNT/etc/vfstab | ${LUPRINTF} -lp2D 2 \
+"`gettext '********** <%s> contents before metaroot:\n****\n%R\n****'`" "$BOOT_MNT/etc/vfstab"
+
+    ${SDS_METAROOT} -n -k $BOOT_MNT/etc/system -v $BOOT_MNT/etc/vfstab \
+      -c $BOOT_MNT/${SDS_MDDB_CF} "${rootSliceTouse}" 2>&1 | \
+      ${LUPRINTF} -lp2D 2 "`gettext '*** metaroot actions:\n%R\n***'`"
+      # This sleep is needed to prevent a race condition whereby a lock 
+      # left behind by the previous command prevents the next one from 
+      # succeeding. Note this is only done when debugging is enabled.
+    sleep 10
+  fi
+
+  # Use metaroot command to set the boot slice for the ABE.
+  ${SDS_METAROOT} -k $BOOT_MNT/etc/system -v $BOOT_MNT/etc/vfstab \
+    -c $BOOT_MNT/${SDS_MDDB_CF} "${rootSliceTouse}"
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to set metadevice booting on boot environment <%s>.'`" "${ABE_NAME}"
+    $LUBIN/luumount -f -i $ICF >/dev/null 2>&1
+    /bin/rm -f $COPYLOCK
+    exit 1
+  fi
+
+  # It debugging enabled, output what the metaroot command will do.
+  if [ -n "${LU_DEBUG}" -a "${LU_DEBUG}" -ge "2" ] ; then
+    /bin/egrep -v '^\*|^#|^[ 	]*$' $BOOT_MNT/etc/system | ${LUPRINTF} -lp2D 2 \
+"`gettext '********** <%s> contents after metaroot:\n****\n%R\n****'`" "$BOOT_MNT/etc/system"
+    /bin/egrep -v '^\*|^#|^[ 	]*$' $BOOT_MNT/etc/vfstab | ${LUPRINTF} -lp2D 2 \
+"`gettext '********** <%s> contents after metaroot:\n****\n%R\n****'`" "$BOOT_MNT/etc/vfstab"
+  fi
+
+  # Unmount ABE slices.
+  $LUBIN/luumount -f -i $ICF >/dev/null 2>&1
+fi
+
+# Turn off any VxVM root mirrors on ABE on ABE if either the source (parent) 
+# BE or the ABE root slice is on a meta device.
+#
+# This requires removal of these lines from the /etc/system file on the target BE:
+#	rootdev:/pseudo/vxio@0:0
+#	set vxio:vol_rootdev_is_volume=1
+# Then a call to the function "restore_commented_rootdev" from vxadm_syslib.sh is used
+# to restore any previous rootdev specifications.
+#
+if [ -f "/usr/sbin/vxinfo" -a -r "/dev/vx" \
+     -a -f /usr/lib/vxvm/voladm.d/lib/vxadm_syslib.sh \
+     -a '(' "${pbeRootVxFound}" = 'yes' -o "${abeRootVxFound}" = 'yes' ')' ] ; then
+  ${LUPRINTF} -Ilp1 "`gettext 'Disabling Veritas VxVM volume booting on boot environment <%s>.'`" \
+"${ABE_NAME}"
+  BOOT_MNT=`LU_OUTPUT_FORMAT=text $LUBIN/lumount -i $ICF 2>${TMP_RESULT_FILE}`
+  if [ "$?" -ne "0" ] ; then
+    [ -s "${TMP_RESULT_FILE}" ] && ${LUPRINTF} -elp2 '%R' < "${TMP_RESULT_FILE}"
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to mount boot boot environment <%s>.'`" "${ABE_NAME}"
+    /bin/rm -f $COPYLOCK ${TMP_RESULT_FILE}
+    exit 1
+  fi
+  /bin/rm -f "${TMP_RESULT_FILE}"
+  . /usr/lib/vxvm/voladm.d/lib/vxadm_syslib.sh
+  /bin/grep -v '^set vxio:vol_rootdev_is_volume=1' < $BOOT_MNT/etc/system | \
+/bin/grep -v '^rootdev:/pseudo/vxio@0:0' > /tmp/$$.vxrv
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to modify <%s> for boot environment <%s>.'`" \
+"$BOOT_MNT/etc/system" "${ABE_NAME}"
+    $LUBIN/luumount -f -i $ICF >/dev/null 2>&1
+    /bin/rm -f $COPYLOCK /tmp/$$.vxrv
+    exit 1
+  fi
+  /bin/mv /tmp/$$.vxrv $BOOT_MNT/etc/system
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to move <%s> to <%s> for boot environment <%s>.'`" \
+"/tmp/$$.vxrv" "$BOOT_MNT/etc/system" "${ABE_NAME}"
+    $LUBIN/luumount -f -i $ICF >/dev/null 2>&1
+    /bin/rm -f $COPYLOCK /tmp/$$.vxrv
+    exit 1
+  fi
+  restore_commented_rootdev $BOOT_MNT/etc/system
+  $LUBIN/luumount -f -i $ICF >/dev/null 2>&1
+  /bin/rm -f /tmp/$$.vxrv
+  ${LUPRINTF} -lp1 "`gettext 'Disabled volume booting on boot environment <%s>.'`" "${ABE_NAME}"
+fi
+
+# If any metadevices or volumes were discovered, they have been disabled
+# on the new BE which means the root device may have changed in the vfstab
+# file. Make sure that the root device for the BE is properly set in the 
+# BE databases.
+if [ "${pbeRootMirrored}" = 'yes' -o "${abeRootMirrored}" = 'yes' ] ; then
+  # Reflect any vfstab changes in local ICF file for the new BE.
+  ABE_ICF="`$LUBIN/lumk_iconf -f -F \"$ABE_NAME\"`"
+  if [ "$?" -ne "0" -o -z "${ABE_ICF}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine disk partition \
+configuration information for boot environment <%s>.'`" "${ABE_NAME}"
+      exit 1
+  fi
+  ABE_NEW_ROOT=`/bin/grep "^${ABE_NAME}:/:/" "${ABE_ICF}" 2>/dev/null | /bin/tail -1 | /bin/cut -f3 -d':'`
+  [ -n "${ABE_NEW_ROOT}" ] && ${LUETCBIN}/lusync -b ${ABE_NAME} -D "${ABE_NEW_ROOT}"
+fi
+
+# Successful.
+/bin/rm -f $COPYLOCK
+exit 0

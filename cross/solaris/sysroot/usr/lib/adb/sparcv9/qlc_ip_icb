@@ -1,0 +1,13 @@
+./"version"8t"reserved"8tnBB8t
++/"ip_firmware_options"8t2B
++/"ip_header_size"8t2B
++/"mtu_size"8t2B
++/"buf_size"8t2B
++/"reserved_1"8t8B
++/"queue_size"8t2B
++/"low_water_mark"8t2B
++/"queue_address"8t8B
++/"queue_inpointer"8t2B
++/"fast_post_reg_count"8t2B
++/"cc"8t2B
++/"reserved_2"8t2B

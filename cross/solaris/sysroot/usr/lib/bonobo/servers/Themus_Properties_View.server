@@ -1,0 +1,249 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Themus_Theme_Properties_View"
+        type="shlib" location="/usr/lib/bonobo/libthemus-theme-properties-view.so">
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+                <item value="IDL:Bonobo/Control:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="Themus Theme Properties view"/>
+        <oaf_attribute name="name-af" type="string" value="Themus-tema-eienskappe aansig"/>
+        <oaf_attribute name="name-ar" type="string" value="مشهد ثيموس لخصائص التيمة"/>
+        <oaf_attribute name="name-az" type="string" value="Themus Örtük Xassələri nümaişi"/>
+        <oaf_attribute name="name-be" type="string" value="Themus - праглядальнік уласьцівасьцяў тэмы"/>
+        <oaf_attribute name="name-bn" type="string" value="থিমাস Theme Properties view"/>
+        <oaf_attribute name="name-ca" type="string" value="Vista de propietats del tema de Themus"/>
+        <oaf_attribute name="name-cs" type="string" value="Pohled Themus Vlastnosti tématu"/>
+        <oaf_attribute name="name-cy" type="string" value="Golwg Priodweddai Thema Themus"/>
+        <oaf_attribute name="name-da" type="string" value="Temaegenskaber-visning"/>
+        <oaf_attribute name="name-de" type="string" value="Themus-Ansicht zur Anzeige von Themeneigenschaften"/>
+        <oaf_attribute name="name-el" type="string" value="Όψη ιδιοτήτων εικόνας του Themus"/>
+        <oaf_attribute name="name-en_CA" type="string" value="Themus Theme Properties view"/>
+        <oaf_attribute name="name-en_GB" type="string" value="Themus Theme Properties view"/>
+        <oaf_attribute name="name-es" type="string" value="Vista de propiedades del tema de Themus"/>
+        <oaf_attribute name="name-eu" type="string" value="Themus gai-propietateen ikuspegia"/>
+        <oaf_attribute name="name-fi" type="string" value="Themus - Teeman ominaisuusnäkymä"/>
+        <oaf_attribute name="name-fr" type="string" value="Vue des propriétés de thèmes Themus"/>
+        <oaf_attribute name="name-ga" type="string" value="Radharc eilimint na téama do Themus"/>
+        <oaf_attribute name="name-gu" type="string" value="થીમસ થીમનાં ગુણધર્મો જૂઓ"/>
+        <oaf_attribute name="name-he" type="string" value="תצוגת מאפייני ערכת נושא"/>
+        <oaf_attribute name="name-hr" type="string" value="Prikaz svojstava Themus teme"/>
+        <oaf_attribute name="name-hu" type="string" value="Themus tématulajdonságok nézet"/>
+        <oaf_attribute name="name-is" type="string" value="Themus-sjá fyrir þemaeiginleika"/>
+        <oaf_attribute name="name-it" type="string" value="Vista themus delle proprietà del tema"/>
+        <oaf_attribute name="name-ja" type="string" value="themes テーマプロパティビュー"/>
+        <oaf_attribute name="name-ko" type="string" value="Themus 테마 등록 정보 보기"/>
+        <oaf_attribute name="name-lt" type="string" value="Themus temų savybių rodymas"/>
+        <oaf_attribute name="name-lv" type="string" value="Themus Tēmas Rekvizītu skats"/>
+        <oaf_attribute name="name-mk" type="string" value="Преглед на својствата на Themus темата"/>
+        <oaf_attribute name="name-mn" type="string" value="Загварийн тодруулга харуулах Themus загвар"/>
+        <oaf_attribute name="name-ms" type="string" value="Paparan Ciri-ciri Tema Themus"/>
+        <oaf_attribute name="name-nl" type="string" value="Themus Thema-eigenschappenweergave"/>
+        <oaf_attribute name="name-nn" type="string" value="Themus framvising av eigenskapar ved drakta"/>
+        <oaf_attribute name="name-no" type="string" value="Themus visning for egenskaper for tema"/>
+        <oaf_attribute name="name-pa" type="string" value="ਥੰਮ ਸਰੂਪ ਵਿਸ਼ੇਸਤਾ ਦਰਿਸ਼"/>
+        <oaf_attribute name="name-pl" type="string" value="Widok ustawień motywu programu Themus"/>
+        <oaf_attribute name="name-pt" type="string" value="Vista Themus de Propriedades do Tema"/>
+        <oaf_attribute name="name-pt_BR" type="string" value="Vista de Propriedades de Tema Themus"/>
+        <oaf_attribute name="name-ro" type="string" value="Vizualizare proprietăţi temă Themus"/>
+        <oaf_attribute name="name-ru" type="string" value="Вид параметров темы Themus"/>
+        <oaf_attribute name="name-sk" type="string" value="Pohľad Vlastnosti tém"/>
+        <oaf_attribute name="name-sl" type="string" value="Pogled lastnosti teme Themus"/>
+        <oaf_attribute name="name-sq" type="string" value="Themus Shikuesi i Pronësive të Temës"/>
+        <oaf_attribute name="name-sr" type="string" value="Темус преглед особина тема"/>
+        <oaf_attribute name="name-sr@Latn" type="string" value="Temus pregled osobina tema"/>
+        <oaf_attribute name="name-sv" type="string" value="Temaegenskapsvy för Themus"/>
+        <oaf_attribute name="name-tr" type="string" value="Themus Tema Özellikleri görüntüsü"/>
+        <oaf_attribute name="name-uk" type="string" value="Вигляд параметрів теми Themus"/>
+        <oaf_attribute name="name-vi" type="string" value="Khung xem thuộc tính theme của Themus"/>
+        <oaf_attribute name="name-zh_CN" type="string" value="Themus 主体属性查看"/>
+        <oaf_attribute name="name-zh_HK" type="string" value="Themus 佈景屬性顯示模式"/>
+        <oaf_attribute name="name-zh_TW" type="string" value="Themus 佈景屬性顯示模式"/>
+        <oaf_attribute name="description" type="string" value="Theme Properties content view component"/>
+        <oaf_attribute name="description-af" type="string" value="Tema-eienskappe inhoud bekyk komponent"/>
+        <oaf_attribute name="description-ar" type="string" value="مكون عارض محتويات خصائص التيمات"/>
+        <oaf_attribute name="description-az" type="string" value="Örtük Xassələrinin məzmun nümaişi komponenti"/>
+        <oaf_attribute name="description-be" type="string" value="Кампанэнт прагляду зьместу ўласьцівасьцяў тэмы"/>
+        <oaf_attribute name="description-bn" type="string" value="Theme Properties content view-এর কম্পোনেন্ট"/>
+        <oaf_attribute name="description-ca" type="string" value="Component de vista de contingut de les propietats del tema"/>
+        <oaf_attribute name="description-cs" type="string" value="Komponenta zobrazení obsahu Vlastnosti tématu"/>
+        <oaf_attribute name="description-cy" type="string" value="Cydran golwg cynnwys Priodweddau Thema"/>
+        <oaf_attribute name="description-da" type="string" value="Indholdsvisningskomponent til temaegenskaber"/>
+        <oaf_attribute name="description-de" type="string" value="Themeneigenschaften-Komponente zur Inhaltsanzeige"/>
+        <oaf_attribute name="description-el" type="string" value="Συστατικό όψης περιεχομένου ιδιοτήτων θέματος"/>
+        <oaf_attribute name="description-en_CA" type="string" value="Theme Properties content view component"/>
+        <oaf_attribute name="description-en_GB" type="string" value="Theme Properties content view component"/>
+        <oaf_attribute name="description-es" type="string" value="Componente de vista de contenidos de propiedades del tema"/>
+        <oaf_attribute name="description-eu" type="string" value="Gai-propietateen edukia ikusteko osagaia"/>
+        <oaf_attribute name="description-fi" type="string" value="Teeman ominaisuusnäkymäkomponentti"/>
+        <oaf_attribute name="description-fr" type="string" value="Composant d&apos;affichage du contenu des propriétés de thèmes"/>
+        <oaf_attribute name="description-ga" type="string" value="comhpháirt le haighaidh feicaint ar eilimint na téama"/>
+        <oaf_attribute name="description-gu" type="string" value="થીમનાં ગુણધર્મો જોવા માટેનું સાધન"/>
+        <oaf_attribute name="description-he" type="string" value="רכיב תצוגת תוכן של מאפייני ערכת נושא"/>
+        <oaf_attribute name="description-hr" type="string" value="Komponenta za prikaz sadržaja svojstava teme"/>
+        <oaf_attribute name="description-hu" type="string" value="Téma tulajdonságai tartalomnézet komponens"/>
+        <oaf_attribute name="description-is" type="string" value="Sjá fyrir innihald þemaeiginleika"/>
+        <oaf_attribute name="description-it" type="string" value="Componente per la vista delle proprietà del tema"/>
+        <oaf_attribute name="description-ja" type="string" value="テーマプロパティ内容表示コンポーネント"/>
+        <oaf_attribute name="description-ko" type="string" value="테마 등록 정보 내용 보기 컴포넌트"/>
+        <oaf_attribute name="description-lt" type="string" value="Temos savybių turinio žiūrėjimo komponentas"/>
+        <oaf_attribute name="description-lv" type="string" value="Tēmas Rekvizītu satura skata komponents"/>
+        <oaf_attribute name="description-mk" type="string" value="Приказ на својствата на тематa"/>
+        <oaf_attribute name="description-mn" type="string" value="Агуулга харуулалтын бүрэлдэхүүний загварын шинж чанар"/>
+        <oaf_attribute name="description-ms" type="string" value="Komponen paparan kandungan Ciri-ciri Tema"/>
+        <oaf_attribute name="description-nl" type="string" value="Weergavecomponent thema-eigenschappen"/>
+        <oaf_attribute name="description-nn" type="string" value="Komponent for innhaldsframvising i drakteigenskapane"/>
+        <oaf_attribute name="description-no" type="string" value="Komponent for innholdsvisning for temaegenskaper"/>
+        <oaf_attribute name="description-pa" type="string" value="ਸਰੂਪ ਵਿਸ਼ੇਸਤਾ ਭਾਗ ਦਰਿਸ਼ ਹਿੱਸਾ"/>
+        <oaf_attribute name="description-pl" type="string" value="Komponent widoku zawartości z ustawieniami motywu"/>
+        <oaf_attribute name="description-pt" type="string" value="Componente de vista de conteúdo de Propriedades de Tema"/>
+        <oaf_attribute name="description-pt_BR" type="string" value="Propriedades de Tema do componente de visualização de conteúdo"/>
+        <oaf_attribute name="description-ro" type="string" value="Componentă vizualizare conţinut pentru proprietăţile temelor."/>
+        <oaf_attribute name="description-ru" type="string" value="Компонент просмотра свойств темы"/>
+        <oaf_attribute name="description-sk" type="string" value="Komponent pohľadu Vlastnosti tém"/>
+        <oaf_attribute name="description-sl" type="string" value="Pogled komponetne lastnosti teme"/>
+        <oaf_attribute name="description-sq" type="string" value="Komponenti shikues i përmbajtjes së pronësive të temës"/>
+        <oaf_attribute name="description-sr" type="string" value="Компонента помоћног прегледа особина тема"/>
+        <oaf_attribute name="description-sr@Latn" type="string" value="Komponenta pomoćnog pregleda osobina tema"/>
+        <oaf_attribute name="description-sv" type="string" value="Innehållsvykomponent för temaegenskaper"/>
+        <oaf_attribute name="description-tr" type="string" value="Tema Özellikleri içerik görüntüleme bileşeni"/>
+        <oaf_attribute name="description-uk" type="string" value="Компонент перегляду властивостей теми"/>
+        <oaf_attribute name="description-vi" type="string" value="Thành phần khung xem nội dung thuộc tính theme"/>
+        <oaf_attribute name="description-zh_CN" type="string" value="主题属性内容查看组件"/>
+        <oaf_attribute name="description-zh_HK" type="string" value="Themus 屬性內容顯示模式元件"/>
+        <oaf_attribute name="description-zh_TW" type="string" value="Themus 屬性內容顯示模式元件"/>
+        <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+                <item value="application/x-gnome-theme"/>
+                <item value="application/x-gnome-theme-installed"/>
+        </oaf_attribute>
+        <oaf_attribute name="nautilus:view_as_name" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:view_as_name-af" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-am" type="string" value="ጭብጥ"/>
+        <oaf_attribute name="nautilus:view_as_name-ar" type="string" value="التيمة"/>
+        <oaf_attribute name="nautilus:view_as_name-az" type="string" value="Örtük"/>
+        <oaf_attribute name="nautilus:view_as_name-be" type="string" value="Тэма"/>
+        <oaf_attribute name="nautilus:view_as_name-bg" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:view_as_name-bn" type="string" value="থিম"/>
+        <oaf_attribute name="nautilus:view_as_name-ca" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-cs" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:view_as_name-cy" type="string" value="Thema"/>
+        <oaf_attribute name="nautilus:view_as_name-da" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-de" type="string" value="Motiv"/>
+        <oaf_attribute name="nautilus:view_as_name-el" type="string" value="Θέμα"/>
+        <oaf_attribute name="nautilus:view_as_name-en_CA" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:view_as_name-en_GB" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:view_as_name-es" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-et" type="string" value="Teema"/>
+        <oaf_attribute name="nautilus:view_as_name-eu" type="string" value="Gaia"/>
+        <oaf_attribute name="nautilus:view_as_name-fa" type="string" value="تم"/>
+        <oaf_attribute name="nautilus:view_as_name-fi" type="string" value="Teema"/>
+        <oaf_attribute name="nautilus:view_as_name-fr" type="string" value="Thème"/>
+        <oaf_attribute name="nautilus:view_as_name-ga" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:view_as_name-gl" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-gu" type="string" value="થીમ"/>
+        <oaf_attribute name="nautilus:view_as_name-he" type="string" value="ערכת נושא"/>
+        <oaf_attribute name="nautilus:view_as_name-hi" type="string" value="थीम"/>
+        <oaf_attribute name="nautilus:view_as_name-hr" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-hu" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:view_as_name-id" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-is" type="string" value="Þema"/>
+        <oaf_attribute name="nautilus:view_as_name-it" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-ja" type="string" value="テーマ"/>
+        <oaf_attribute name="nautilus:view_as_name-ko" type="string" value="테마"/>
+        <oaf_attribute name="nautilus:view_as_name-lt" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-lv" type="string" value="Tēma"/>
+        <oaf_attribute name="nautilus:view_as_name-mk" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:view_as_name-ml" type="string" value="രംഗവിധാനം"/>
+        <oaf_attribute name="nautilus:view_as_name-mn" type="string" value="Загвар"/>
+        <oaf_attribute name="nautilus:view_as_name-ms" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-nl" type="string" value="Thema"/>
+        <oaf_attribute name="nautilus:view_as_name-nn" type="string" value="Drakt"/>
+        <oaf_attribute name="nautilus:view_as_name-no" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-pa" type="string" value="ਸਰੂਪ"/>
+        <oaf_attribute name="nautilus:view_as_name-pl" type="string" value="Motyw"/>
+        <oaf_attribute name="nautilus:view_as_name-pt" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-pt_BR" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-ro" type="string" value="Teme"/>
+        <oaf_attribute name="nautilus:view_as_name-ru" type="string" value="Темa"/>
+        <oaf_attribute name="nautilus:view_as_name-sk" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:view_as_name-sl" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-sq" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-sr" type="string" value="Теме"/>
+        <oaf_attribute name="nautilus:view_as_name-sr@Latn" type="string" value="Teme"/>
+        <oaf_attribute name="nautilus:view_as_name-sv" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-ta" type="string" value="உருகாறு"/>
+        <oaf_attribute name="nautilus:view_as_name-th" type="string" value="ชุดตกแต่ง"/>
+        <oaf_attribute name="nautilus:view_as_name-tr" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:view_as_name-uk" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:view_as_name-vi" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:view_as_name-wa" type="string" value="Tinme"/>
+        <oaf_attribute name="nautilus:view_as_name-zh_CN" type="string" value="主题"/>
+        <oaf_attribute name="nautilus:view_as_name-zh_HK" type="string" value="配色"/>
+        <oaf_attribute name="nautilus:view_as_name-zh_TW" type="string" value="配色"/>
+        <oaf_attribute name="nautilus:property_page_name" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:property_page_name-af" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-am" type="string" value="ጭብጥ"/>
+        <oaf_attribute name="nautilus:property_page_name-ar" type="string" value="التيمة"/>
+        <oaf_attribute name="nautilus:property_page_name-az" type="string" value="Örtük"/>
+        <oaf_attribute name="nautilus:property_page_name-be" type="string" value="Тэма"/>
+        <oaf_attribute name="nautilus:property_page_name-bg" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:property_page_name-bn" type="string" value="থিম"/>
+        <oaf_attribute name="nautilus:property_page_name-ca" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-cs" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:property_page_name-cy" type="string" value="Thema"/>
+        <oaf_attribute name="nautilus:property_page_name-da" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-de" type="string" value="Motiv"/>
+        <oaf_attribute name="nautilus:property_page_name-el" type="string" value="Θέμα"/>
+        <oaf_attribute name="nautilus:property_page_name-en_CA" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:property_page_name-en_GB" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:property_page_name-es" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-et" type="string" value="Teema"/>
+        <oaf_attribute name="nautilus:property_page_name-eu" type="string" value="Gaia"/>
+        <oaf_attribute name="nautilus:property_page_name-fa" type="string" value="تم"/>
+        <oaf_attribute name="nautilus:property_page_name-fi" type="string" value="Teema"/>
+        <oaf_attribute name="nautilus:property_page_name-fr" type="string" value="Thème"/>
+        <oaf_attribute name="nautilus:property_page_name-ga" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:property_page_name-gl" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-gu" type="string" value="થીમ"/>
+        <oaf_attribute name="nautilus:property_page_name-he" type="string" value="ערכת נושא"/>
+        <oaf_attribute name="nautilus:property_page_name-hi" type="string" value="थीम"/>
+        <oaf_attribute name="nautilus:property_page_name-hr" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-hu" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:property_page_name-id" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-is" type="string" value="Þema"/>
+        <oaf_attribute name="nautilus:property_page_name-it" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-ja" type="string" value="テーマ"/>
+        <oaf_attribute name="nautilus:property_page_name-ko" type="string" value="테마"/>
+        <oaf_attribute name="nautilus:property_page_name-lt" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-lv" type="string" value="Tēma"/>
+        <oaf_attribute name="nautilus:property_page_name-mk" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:property_page_name-ml" type="string" value="രംഗവിധാനം"/>
+        <oaf_attribute name="nautilus:property_page_name-mn" type="string" value="Загвар"/>
+        <oaf_attribute name="nautilus:property_page_name-ms" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-nl" type="string" value="Thema"/>
+        <oaf_attribute name="nautilus:property_page_name-nn" type="string" value="Drakt"/>
+        <oaf_attribute name="nautilus:property_page_name-no" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-pa" type="string" value="ਸਰੂਪ"/>
+        <oaf_attribute name="nautilus:property_page_name-pl" type="string" value="Motyw"/>
+        <oaf_attribute name="nautilus:property_page_name-pt" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-pt_BR" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-ro" type="string" value="Teme"/>
+        <oaf_attribute name="nautilus:property_page_name-ru" type="string" value="Темa"/>
+        <oaf_attribute name="nautilus:property_page_name-sk" type="string" value="Téma"/>
+        <oaf_attribute name="nautilus:property_page_name-sl" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-sq" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-sr" type="string" value="Теме"/>
+        <oaf_attribute name="nautilus:property_page_name-sr@Latn" type="string" value="Teme"/>
+        <oaf_attribute name="nautilus:property_page_name-sv" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-ta" type="string" value="உருகாறு"/>
+        <oaf_attribute name="nautilus:property_page_name-th" type="string" value="ชุดตกแต่ง"/>
+        <oaf_attribute name="nautilus:property_page_name-tr" type="string" value="Tema"/>
+        <oaf_attribute name="nautilus:property_page_name-uk" type="string" value="Тема"/>
+        <oaf_attribute name="nautilus:property_page_name-vi" type="string" value="Theme"/>
+        <oaf_attribute name="nautilus:property_page_name-wa" type="string" value="Tinme"/>
+        <oaf_attribute name="nautilus:property_page_name-zh_CN" type="string" value="主题"/>
+        <oaf_attribute name="nautilus:property_page_name-zh_HK" type="string" value="配色"/>
+        <oaf_attribute name="nautilus:property_page_name-zh_TW" type="string" value="配色"/>
+</oaf_server>
+
+</oaf_info>

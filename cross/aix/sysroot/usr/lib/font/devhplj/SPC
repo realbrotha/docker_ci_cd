@@ -1,0 +1,70 @@
+# @(#)23	1.4  src/cmdtext/usr/bin/hplj/font/SPC, cmdtext, cmdtext530 5/3/91 18:25:49
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/SPC 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Times-Roman, for HP LazerJet series II printer with K cartridge
+# PC8 symbol set
+# created 06/26/89, Interactive Systems Corporation
+name SPC
+
+special
+ligatures 0
+spacewidth 30
+charset
+°	30 3 176
+±	30 3 177
+²	30 3 178
+³	30 3 179
+´	30 3 180
+¹	30 3 185
+º	30 3 186
+»	30 3 187
+¼	30 3 188
+¿	30 3 191
+À	30 3 192
+Á	30 3 193
+Â	30 3 194
+Ã	30 3 195
+Ä	30 3 196
+Å	30 3 197
+È	30 3 200
+É	30 3 201
+Ê	30 3 202
+Ë	30 3 203
+Ì	30 3 204
+Í	30 3 205
+Î	30 3 206
+Ù	30 3 217
+Ú	30 3 218
+Û	30 3 219
+Ü	30 3 220
+Ý	30 3 179
+ß	30 3 223
+ú	30 3 250
+þ	30 3 222
+ÿ

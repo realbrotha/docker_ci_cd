@@ -1,0 +1,54 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Menu.choices 5.2     01/04/19 SMI"
+#
+###############################################################################
+#	Module Name: Menu.choices
+###############################################################################
+
+menu=`gettext "List of BEs"`
+lifetime=shortterm
+framemsg=`gettext "Move using ARROWS and Press RETURN to select the BE"`
+altslks=true
+
+`indicator -w;
+if [ ! -s $ARG1 ];
+then
+	gettext "There are no valid BEs available for this operation" | message -t;
+fi;
+cat $ARG1 | sort | regex '(.*)$0' '
+name="$m0"
+action=`set -l "Form_Choice=$m0"`CLOSE'`
+
+name=
+button=9
+action=
+
+name=
+button=10
+action=
+
+name=`gettext "ENTER"`
+button=11
+action=close
+
+name=
+button=12
+action=
+
+name=
+button=13
+action=
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=
+
+name=
+button=16
+action=

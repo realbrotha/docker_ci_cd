@@ -1,0 +1,1354 @@
+* @(#)89	1.11  src/bos/usr/lib/pios/printers.inv, cmdpios, bos500 7/23/99 17:06:34
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53N src/bos/usr/lib/pios/printers.inv 1.14 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+*
+*   COMPONENT_NAME: CMDPIOS
+*
+*   FUNCTIONS: none
+*
+*   ORIGINS: 27, 83
+*
+*
+*   (C) COPYRIGHT International Business Machines Corp. 1993, 1999
+*   All Rights Reserved
+*   Licensed Materials - Property of IBM
+*   US Government Users Restricted Rights - Use, duplication or
+*   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*
+* LEVEL 1, 5 Years Bull Confidential Information
+*
+printer:
+	type		=	bullpr88-vfu
+	description	=	"Bull PR-88 VFU Handling"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	154
+	manufacturer	=	"Bull"
+	package		=	printers.bullpr88-vfu.rte
+
+printer:
+	type		=	bullpr90
+	description	=	"Bull PR-90"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	95
+	manufacturer	=	"Bull"
+	package		=	printers.bullpr90.rte
+
+printer:
+	type		=	bull9142
+	description	=	"Bull Compuprint 914"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	155
+	manufacturer	=	"Bull"
+	package		=	printers.bull9142.rte
+
+printer:
+	type		=	bull9148
+	description	=	"Bull Compuprint 914 N"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	156
+	manufacturer	=	"Bull"
+	package		=	printers.bull9148.rte
+
+printer:
+	type		=	bull956
+	description	=	"Bull Compuprint 956"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	157
+	manufacturer	=	"Bull"
+	package		=	printers.bull956.rte
+
+printer:
+	type		=	bull200
+	description	=	"Bull Compuprint PageMaster 200"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	158
+	manufacturer	=	"Bull"
+	package		=	printers.bull200.rte
+
+printer:
+	type		=	bull413
+	description	=	"Bull Compuprint PageMaster 413"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	159
+	manufacturer	=	"Bull"
+	package		=	printers.bull413.rte
+
+printer:
+	type		=	bull815
+	description	=	"Bull Compuprint PageMaster 815"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	160
+	manufacturer	=	"Bull"
+	package		=	printers.bull815.rte
+
+printer:
+	type		=	bull825
+	description	=	"Bull Compuprint PageMaster 825"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	161
+	manufacturer	=	"Bull"
+	package		=	printers.bull825.rte
+
+printer:
+	type		=	bull1015
+	description	=	"Bull Compuprint PageMaster 1015"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	162
+	manufacturer	=	"Bull"
+	package		=	printers.bull1015.rte
+
+printer:
+	type		=	bull1025
+	description	=	"Bull Compuprint PageMaster 1025"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	163
+	manufacturer	=	"Bull"
+	package		=	printers.bull1025.rte
+
+printer:
+	type		=	bull1625
+	description	=	"Bull Compuprint PageMaster 1625"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	164
+	manufacturer	=	"Bull"
+	package		=	printers.bull1625.rte
+
+printer:
+	type		=	bull1070
+	description	=	"Bull Compuprint 1070"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	88
+	manufacturer	=	"Bull"
+	package		=	printers.bull1070.rte
+
+printer:
+	type		=	bull451
+	description	=	"Bull Compuprint 4/51"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	83
+	manufacturer	=	"Bull"
+	package		=	printers.bull451.rte
+
+printer:
+	type		=	bull454
+	description	=	"Bull Compuprint 4/54"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	85
+	manufacturer	=	"Bull"
+	package		=	printers.bull454.rte
+
+printer:
+	type		=	bull922
+	description	=	"Bull Compuprint 922"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	79
+	manufacturer	=	"Bull"
+	package		=	printers.bull922.rte
+
+printer:
+	type		=	bull923
+	description	=	"Bull Compuprint 923"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	80
+	manufacturer	=	"Bull"
+	package		=	printers.bull923.rte
+
+printer:
+	type		=	bull924
+	description	=	"Bull Compuprint 924"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	81
+	manufacturer	=	"Bull"
+	package		=	printers.bull924.rte
+
+printer:
+	type		=	bull924N
+	description	=	"Bull Compuprint 924 N"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	82
+	manufacturer	=	"Bull"
+	package		=	printers.bull924N.rte
+
+printer:
+	type		=	bull970
+	description	=	"Bull Compuprint 970"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	87
+	manufacturer	=	"Bull"
+	package		=	printers.bull970.rte
+
+printer:
+	type		=	bull1021
+	description	=	"Bull Compuprint PageMaster 1021"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	92
+	manufacturer	=	"Bull"
+	package		=	printers.bull1021.rte
+
+printer:
+	type		=	bull201
+	description	=	"Bull Compuprint PageMaster 201"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	93
+	manufacturer	=	"Bull"
+	package		=	printers.bull201.rte
+
+printer:
+	type		=	bull411
+	description	=	"Bull Compuprint PageMaster 411"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	89
+	manufacturer	=	"Bull"
+	package		=	printers.bull411.rte
+
+printer:
+	type		=	bull422
+	description	=	"Bull Compuprint PageMaster 422"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	90
+	manufacturer	=	"Bull"
+	package		=	printers.bull422.rte
+
+printer:
+	type		=	bull721
+	description	=	"Bull Compuprint PageMaster 721"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	91
+	manufacturer	=	"Bull"
+	package		=	printers.bull721.rte
+
+printer:
+	type		=	bullpr88
+	description	=	"Bull PR-88"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	94
+	manufacturer	=	"Bull"
+	package		=	printers.bullpr88.rte
+
+printer:
+	type		=	canlbp
+	description	=	"Canon Laser Shot LBP-B406/S/D/E,A404/E,A304E"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	98
+	manufacturer	=	"Canon"
+	package		=	printers.canlbp.rte
+
+printer:
+	type		=	canlbp-A404F
+	description	=	"Canon LASER SHOT LBP-A404F"
+	desc_cat_file	=	jle-devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	911
+	manufacturer	=	"Canon"
+	package		=	printers.canlbp-A404F_JP.rte
+
+printer:
+	type		=	canlbp-A404PS
+	description	=	"Canon LASER SHOT LBP-A404PS/Lite"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	121
+	manufacturer	=	"Canon"
+	package		=	printers.canlbp-A404PS.rte
+
+printer:
+	type		=	canlbp-B406G
+	description	=	"Canon LASER SHOT LBP-B406G"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	120
+	manufacturer	=	"Canon"
+	package		=	printers.canlbp-B406G.rte
+
+printer:
+	type		=	canon-lips4
+	description	=	"Canon LASER SHOT LIPS4 Printers"
+	desc_cat_file	=	jle-devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	912
+	manufacturer	=	"Canon"
+	package		=	printers.lips4_JP.rte
+
+printer:
+	type		=	dp2000
+	description	=	"Dataproducts BP2000 Line Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	10
+	manufacturer	=	"Dataproducts"
+	package		=	printers.dp2000.rte
+
+printer:
+	type		=	dp2665
+	description	=	"Dataproducts LZR 2665 Laser Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	9
+	manufacturer	=	"Dataproducts"
+	package		=	printers.dp2665.rte
+
+printer:
+	type		=	hplj-2
+	description	=	"Hewlett-Packard LaserJet II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	7
+	manufacturer	=	"Hewlett-Packard"
+	package		=	printers.hplj-2.rte
+
+printer:
+	type		=	hplj-3
+	description	=	"Hewlett-Packard LaserJet III"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	75
+	manufacturer	=	"Hewlett-Packard"
+	package		=	printers.hplj-3.rte
+
+printer:
+	type		=	hplj-3si
+	description	=	"Hewlett-Packard LaserJet IIISi"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	105
+	manufacturer	=	"Hewlett-Packard"
+	package		=	printers.hplj-3si.rte
+
+printer:
+	type		=	hplj-4
+	description	=	"Hewlett-Packard LaserJet 4,4M"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	106
+	manufacturer	=	"Hewlett-Packard"
+	package		=	printers.hplj-4.rte
+
+printer:
+        type            =       hplj-4si
+        description     =       "Hewlett-Packard LaserJet 4Si"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       130
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-4si.rte
+
+printer:
+        type            =       hplj-4+
+        description     =       "Hewlett-Packard LaserJet 4 Plus"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       131
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-4+.rte
+
+printer:
+        type            =       hplj-4v
+        description     =       "Hewlett-Packard LaserJet 4V"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       132
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-4v.rte
+
+printer:
+        type            =       hplj-c
+        description     =       "Hewlett-Packard LaserJet Color"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       133
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-c.rte
+
+printer:
+        type            =       hplj-5si
+        description     =       "Hewlett-Packard LaserJet 5Si/5Si MX"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       134
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-5si.rte
+
+printer:
+        type            =       hplj-5siMopier
+        description     =       "Hewlett-Packard LaserJet 5Si Mopier"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       135
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-5siMopier.rte
+
+printer:
+        type            =       hplj-4000
+        description     =       "Hewlett-Packard LaserJet 4000"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       136
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-4000.rte
+
+printer:
+        type            =       hplj-8000
+        description     =       "Hewlett-Packard LaserJet 8000"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       137
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-8000.rte
+
+printer:
+        type            =       hplj-8500
+        description     =       "Hewlett-Packard Color LaserJet 8500"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       138
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-8500.rte
+
+printer:
+        type            =       hplj-2500C
+        description     =       "Hewlett-Packard 2500C Color Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       142
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-2500C.rte
+
+printer:
+        type            =       hplj-4500
+        description     =       "Hewlett-Packard Color LaserJet 4500"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       140
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-4500.rte
+
+printer:
+        type            =       hplj-8100
+        description     =       "Hewlett-Packard LaserJet 8100"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       139
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-8100.rte
+
+printer:
+        type            =       hplj-D640
+        description     =       "Hewlett-Packard LaserJet 5000 D640 Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       141
+        manufacturer    =       "Hewlett-Packard"
+        package         =       printers.hplj-D640.rte
+
+printer:
+	type		=	ibm2380
+	description	=	"IBM 2380 Personal Printer II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	62
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2380.rte
+
+printer:
+	type		=	ibm2380-2
+	description	=	"IBM 2380 Plus printer (Model 2)"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	107
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2380-2.rte
+
+printer:
+	type		=	ibm2381
+	description	=	"IBM 2381 Personal Printer II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	63
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2381.rte
+
+printer:
+	type		=	ibm2381-2
+	description	=	"IBM 2381 Plus printer (Model 2)"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	108
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2381-2.rte
+
+printer:
+	type		=	ibm2390
+	description	=	"IBM 2390 Personal Printer II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	64
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2390.rte
+
+printer:
+	type		=	ibm2390-2
+	description	=	"IBM 2390 Plus printer (Model 2)"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	109
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2390-2.rte
+
+printer:
+	type		=	ibm2391
+	description	=	"IBM 2391 Personal Printer II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	65
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2391.rte
+
+printer:
+	type		=	ibm2391-2
+	description	=	"IBM 2391 Plus printer (Model 2)"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	110
+	manufacturer	=	"IBM"
+	package		=	printers.ibm2391-2.rte
+
+printer:
+	type		=	ibm3812-2
+	description	=	"IBM 3812 Model 2 Page Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	3
+	manufacturer	=	"IBM"
+	package		=	printers.ibm3812-2.rte
+
+printer:
+	type		=	ibm3816
+	description	=	"IBM 3816 Page Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	4
+	manufacturer	=	"IBM"
+	package		=	printers.ibm3816.rte
+
+printer:
+	type		=	ibm4019
+	description	=	"IBM 4019 LaserPrinter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	6
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4019.rte,printers.ibm4019_JP.rte,printers.ibm4019_KR.rte
+
+printer:
+	type		=	ibm4029
+	description	=	"IBM 4029 LaserPrinter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	66
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4029.rte,printers.ibm4029_JP.rte
+
+printer:
+	type		=	ibm4037
+	description	=	"IBM 4037 LP printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	111
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4037.rte
+
+printer:
+	type		=	ibm4039
+	description	=	"IBM 4039 LaserPrinter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	103
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4039.rte,printers.ibm4039_JP.rte
+
+printer:
+	type		=	ibm4070
+	description	=	"IBM 4070 IJ printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	96
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4070.rte
+
+printer:
+	type		=	ibm4072
+	description	=	"IBM 4072 ExecJet"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	59
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4072.rte
+
+printer:
+	type		=	ibm4076
+	description	=	"IBM 4076 IJ printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	112
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4076.rte
+
+printer:
+	type		=	ibm4079
+	description	=	"IBM 4079 Color Jetprinter PS"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	97
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4079.rte
+
+printer:
+	type		=	ibm4201-2
+	description	=	"IBM 4201 Model 2 Proprinter II"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	50
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4201-2.rte
+
+printer:
+	type		=	ibm4201-3
+	description	=	"IBM 4201 Model 3 Proprinter III"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	1
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4201-3.rte
+
+printer:
+	type		=	ibm4202-2
+	description	=	"IBM 4202 Model 2 Proprinter II XL"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	51
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4202-2.rte
+
+printer:
+	type		=	ibm4202-3
+	description	=	"IBM 4202 Model 3 Proprinter III XL"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	52
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4202-3.rte
+
+printer:
+	type		=	ibm4207-2
+	description	=	"IBM 4207 Model 2 Proprinter X24E"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	2
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4207-2.rte
+
+printer:
+	type		=	ibm4208-2
+	description	=	"IBM 4208 Model 2 Proprinter XL24E"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	53
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4208-2.rte
+
+printer:
+	type		=	ibm4208-502
+	description	=	"IBM 4208 Model 502 Proprinter XL24EK"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	56
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4208-502.rte
+
+printer:
+	type		=	ibm4212
+	description	=	"IBM 4212 Proprinter 24P"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	60
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4212.rte
+
+printer:
+	type		=	ibm4216-510
+	description	=	"IBM 4216 Model 510"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	55
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4216-510.rte
+
+printer:
+	type		=	ibm4216-31
+	description	=	"IBM 4216 Personal Page Printer, Model 031"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	4
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4216-31.rte
+
+printer:
+	type		=	ibm4224
+	description	=	"IBM 4224 Printer, Models 301,302,3C2,3E3"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	6
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4224.rte
+
+printer:
+	type		=	ibm4226
+	description	=	"IBM 4226 Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	61
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4226.rte
+
+printer:
+	type		=	ibm4234
+	description	=	"IBM 4234 Dot Band Printer, Model 013"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	7
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4234.rte
+
+printer:
+	type		=	ibm5202
+	description	=	"IBM 5202 Quietwriter III"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	3
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5202.rte
+
+printer:
+	type		=	ibm5204
+	description	=	"IBM 5204 Quickwriter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	54
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5204.rte
+
+printer:
+	type		=	ibm5327
+	description	=	"IBM 5327 Model 011"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	15
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5327.rte
+
+printer:
+	type		=	ibm5572
+	description	=	"IBM 5572 Model B02"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	57
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5572.rte
+
+printer:
+	type		=	ibm5573
+	description	=	"IBM 5573 Model H02"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	116
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5573.rte
+
+printer:
+        type            =       ibm5575
+        description     =       "IBM 5575 Model B02/F02"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       12
+        manufacturer    =       "IBM"
+	package		=	printers.ibm5575_KR.rte,printers.ibm5575_TW.rte
+
+printer:
+	type		=	ibm5577
+	description	=	"IBM 5577 Model B02/F02/H02/G02/FU2/J02/K02"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	117
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5577_KR.rte,printers.ibm5577_TW.rte
+
+printer:
+	type		=	ibm5579
+	description	=	"IBM 5579 Model H02/K02"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	118
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5579.rte
+
+printer:
+	type		=	ibm5584
+	description	=	"IBM 5584 Model G02/H02"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	119
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5584.rte
+
+printer:
+	type		=	ibm5585
+	description	=	"IBM 5585 Model H01"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	76
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5585.rte
+
+printer:
+	type		=	ibm5587
+	description	=	"IBM 5587 Model G01"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	70
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5587.rte
+
+printer:
+	type		=	ibm5587H
+	description	=	"IBM 5587 Model H01"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	72
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5587H.rte
+
+printer:
+	type		=	ibm5589
+	description	=	"IBM 5589 Model H01"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	77
+	manufacturer	=	"IBM"
+	package		=	printers.ibm5589.rte
+
+printer:
+	type		=	ibm6180
+	description	=	"IBM 6180 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	55
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6180.rte
+
+printer:
+	type		=	ibm6182
+	description	=	"IBM 6182 Auto Feed Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	56
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6182.rte
+
+printer:
+	type		=	ibm6184
+	description	=	"IBM 6184 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	57
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6184.rte
+
+printer:
+	type		=	ibm6185-1
+	description	=	"IBM 6185-1 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	60
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6185-1.rte
+
+printer:
+	type		=	ibm6185-2
+	description	=	"IBM 6185-2 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	61
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6185-2.rte
+
+printer:
+	type		=	ibm6186
+	description	=	"IBM 6186 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	58
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6186.rte
+
+printer:
+	type		=	ibm6252
+	description	=	"IBM 6252 Impactwriter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	73
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6252.rte
+
+printer:
+	type		=	ibm6262
+	description	=	"IBM 6262 Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	74
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6262.rte
+
+printer:
+	type		=	ibm7372
+	description	=	"IBM 7372 Color Plotter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	59
+	manufacturer	=	"IBM"
+	package		=	printers.ibm7372.rte
+
+printer:
+	type		=	ibm3112
+	description	=	"IBM 3112 Page Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	180
+	manufacturer	=	"IBM"
+	package		=	printers.ibm3112.rte
+
+printer:
+	type		=	ibm3116
+	description	=	"IBM 3116 Page Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	181
+	manufacturer	=	"IBM"
+	package		=	printers.ibm3116.rte
+
+printer:
+	type		=	ibm3130
+	description	=	"IBM 3130 LaserPrinter"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	186
+	manufacturer	=	"IBM"
+	package		=	printers.ibm3130.rte
+
+printer:
+	type		=	ibm4247
+	description	=	"IBM 4247 Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	187
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4247.rte
+
+printer:
+	type		=	ibm6400
+	description	=	"IBM 6400 Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	188
+	manufacturer	=	"IBM"
+	package		=	printers.ibm6400.rte
+
+printer:
+	type		=	ibm4303
+	description	=	"IBM Network Color Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	189
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4303.rte
+
+printer:
+	type		=	ibm4312
+	description	=	"IBM Network Printer 12"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	190
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4312.rte
+
+printer:
+	type		=	ibm4317
+	description	=	"IBM Network Printer 17"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	191
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4317.rte
+
+printer:
+        type            =       ibm4320
+        description     =       "IBM InfoPrint 20"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       193
+        manufacturer    =       "IBM"
+        package         =       printers.ibm4320.rte
+
+printer:
+	type		=	ibm4324
+	description	=	"IBM Network Printer 24"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	192
+	manufacturer	=	"IBM"
+	package		=	printers.ibm4324.rte
+
+printer:
+        type            =       ibm4332
+        description     =       "IBM InfoPrint 32"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       194
+        manufacturer    =       "IBM"
+        package         =       printers.ibm4332.rte
+
+printer:
+        type            =       ibm4340
+        description     =       "IBM InfoPrint 40"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       195
+        manufacturer    =       "IBM"
+        package         =       printers.ibm4340.rte
+
+printer:
+	type		=	ibm-pages
+	description	=	"IBM PAGES(558x) Printers"
+	desc_cat_file	=	jle-devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	903
+	manufacturer	=	"IBM"
+	package		=	printers.ibm-pages_JP.rte
+
+printer:
+        type            =       lex2380-3
+        description     =       "Lexmark 2380 Plus printer (Model 3)"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       211
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex2380-3.rte
+
+printer:
+        type            =       lex2381-3
+        description     =       "Lexmark 2381 Plus printer (Model 3)"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       212
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex2381-3.rte
+
+printer:
+        type            =       lex2390-3
+        description     =       "Lexmark 2390 Plus printer (Model 3)"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       213
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex2390-3.rte
+
+printer:
+        type            =       lex2391-3
+        description     =       "Lexmark 2391 Plus printer (Model 3)"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       214
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex2391-3.rte
+
+printer:
+        type            =       lex4039+
+        description     =       "Lexmark 4039 plus LaserPrinter"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       204
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4039+.rte
+
+printer:
+        type            =       lex4047
+        description     =       "Lexmark ValueWriter 600"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       203
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4047.rte
+
+printer:
+        type            =       lex4049
+        description     =       "Lexmark Optra laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       206
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4049.rte
+
+printer:
+        type            =       lex4076-2c
+        description     =       "Lexmark ExecJet IIc"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       202
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4076-2c.rte
+
+printer:
+        type            =       lex4079+
+        description     =       "Lexmark 4079 Color Jetprinter Plus"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       205
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4079+.rte
+
+printer:
+        type            =       lex4227
+        description     =       "Lexmark Forms Printer 4227"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       215
+        manufacturer    =       "Lexmark"
+        package         =       printers.lex4227.rte
+
+printer:
+        type            =       lexOptra+
+        description     =       "Lexmark Optra Plus laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       207
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptra+.rte
+
+printer:
+        type            =       lexOptraC
+        description     =       "Lexmark Optra C color laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       209
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraC.rte
+
+printer:
+        type            =       lexOptraE
+        description     =       "Lexmark Optra E laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       208
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraE.rte
+
+printer:
+        type            =       lexOptraEp
+        description     =       "Lexmark Optra Ep laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       216
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraEp.rte
+
+printer:
+        type            =       lexOptraN
+        description     =       "Lexmark Optra N laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       210
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraN.rte
+
+printer:
+        type            =       lexOptraS
+        description     =       "Lexmark Optra S laser printer Family"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       218
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraS.rte
+
+printer:
+        type            =       lexOptraSC
+        description     =       "Lexmark Optra SC color laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       219
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraSC.rte
+
+printer:
+        type            =       lexOptraC1200
+        description     =       "Lexmark Optra Color 1200 printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       222
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraC1200.rte
+
+printer:
+        type            =       lexOptraC40
+        description     =       "Lexmark Optra Color 40 printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       223
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraC40.rte
+
+printer:
+        type            =       lexOptraC45
+        description     =       "Lexmark Optra Color 45 printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       224
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraC45.rte
+
+printer:
+        type            =       lexOptraK12
+        description     =       "Lexmark Optra K 1220 laser printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       217
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraK12.rte
+
+printer:
+        type            =       lexOptraE310
+        description     =       "Lexmark Optra E310 Laser Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       228
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraE310.rte
+
+printer:
+        type            =       lexOptraM410
+        description     =       "Lexmark Optra M410 Laser Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       229
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraM410.rte
+
+printer:
+        type            =       lexOptraSe
+        description     =       "Lexmark Optra Se Laser Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       225
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraSe.rte
+
+printer:
+        type            =       lexOptraT
+        description     =       "Lexmark Optra T Laser Printer Family"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       231
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraT.rte
+
+printer:
+        type            =       lexOptraW810
+        description     =       "Lexmark Optra W810 Laser Printer"
+        desc_cat_file   =       devices.cat
+        desc_cat_setno  =       71
+        desc_cat_msgno  =       230
+        manufacturer    =       "Lexmark"
+        package         =       printers.lexOptraW810.rte
+
+printer:
+	type		=	oki801ps
+	description	=	"OKI MICROLINE 801PS/+F,801PSII/+F,800PSIILT"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	72
+	desc_cat_msgno	=	119
+	manufacturer	=	"OKI"
+	package		=	printers.oki801ps.rte
+
+printer:
+	type		=	oki_ps
+	description	=	"OKI Japanese PostScript Printers"
+	desc_cat_file	=	jle-devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	941
+	manufacturer	=	"OKI"
+	package		=	printers.oki400ps2_JP.rte
+
+printer:
+	type		=	p9012
+	description	=	"Printronix P9012 Line Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	11
+	manufacturer	=	"Printronix"
+	package		=	printers.p9012.rte
+
+printer:
+	type		=	qms100
+	description	=	"QMS ColorScript 100, Model 20"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	58
+	manufacturer	=	"QMS"
+	package		=	printers.qms100.rte
+
+printer:
+	type		=	ti2115
+	description	=	"Texas Instruments OmniLaser 2115 Page Printer"
+	desc_cat_file	=	devices.cat
+	desc_cat_setno	=	71
+	desc_cat_msgno	=	8
+	manufacturer	=	"Texas Instruments"
+	package		=	printers.ti2115.rte
+

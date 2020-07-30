@@ -1,0 +1,66 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/nls/X11/locale/XLC_LOCALE/IBM-1252 1.4 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1998 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#  
+#    XLC_FONTSET category
+#  
+XLC_FONTSET
+
+#    fs0 class 
+fs0     {
+        charset         IBM-1252:GL
+        font            IBM-1252:GL
+}
+#    fs1 class 
+fs1     {
+        charset         IBM-1252:GR 
+        font            IBM-1252:GR
+}
+
+#  object_name
+on_demand_loading False
+
+END XLC_FONTSET
+
+#  
+#    XLC_XLOCALE category
+#  
+
+XLC_XLOCALE
+encoding_name           IBM-1252
+mb_cur_max              1
+state_depend_encoding   False
+wc_encoding_mask        \x00008080
+wc_shift_bits           8
+
+#    cs0 class
+cs0     {
+        side            GL:Default
+        length          1
+        wc_encoding     \x00000000
+        ct_encoding     IBM-1252:GL
+}
+
+#    cs1 class
+cs1     {
+        side            GR:Default
+        length          1
+        wc_encoding     \x00008080
+        ct_encoding     IBM-1252:GR
+}
+
+END XLC_XLOCALE
+

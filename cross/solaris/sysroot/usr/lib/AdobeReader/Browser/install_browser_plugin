@@ -1,0 +1,287 @@
+#!/bin/sh
+#
+# Copyright (c) 1996-2005, Adobe Systems Incorporated
+# All Rights Reserved
+#
+
+#Used to specify the start directory for finding acroread
+script_path=
+
+#Contains the install directory path for acroread
+acroread_dir=
+
+#Contains the complete path of the browser plugin
+nppdf_file=
+
+#Maintains whether we need to continue with the installation and repeat it for more browsers
+install_more="y"
+
+
+
+#This function gets the complete path of this script.
+GetScriptPath()
+{
+	script_file=`which $0`
+	script_path=`dirname "$script_file"`
+	current_path=`pwd`
+	complete_path="$script_path"/../
+	cd "$complete_path"
+	script_path=`pwd`
+	cd "$current_path"
+}
+
+
+#This function installs the plugin for a specific installation of the browser.
+#If the installation is successful, then whenever the browser (specified in the browser install path) is run, for any user, it will have the plugin enabled.
+#The way to achieve this is to look for the 'plugins' folder in the browser install path (specified by the user), and copy our plugin file to this location.
+#If the plugin already exists, we prompt the user whether to overwrite or not, and proceed accordingly.
+#This mechanism has been tested for Mozilla, Firefox, Netscape and Opera. In all these browsers, the app searches for extensions/plugins in the 'plugins' folder.
+InstallBrowserGlobal()
+{
+    if [ -n "$nppdf_file" ]
+	then
+	while :
+	  do
+	  #Fetch and validate the browser location
+	  echo -n "Enter the browser install directory - "
+	  read browser_dir
+	  if [ -z "$browser_dir" ]
+	      then
+	      echo "You need to enter the browser directory to install the plugin."
+	      break
+	  fi
+	  
+	  browser_plugin_dir="$browser_dir/plugins"
+	  if [ ! -d "$browser_plugin_dir" ]
+	      then
+	      echo "Could not find the plugins folder ($browser_plugin_dir) of the browser."
+	      break
+	  fi
+	  
+	  #Check whether the file already exists
+	  browser_plugin_file="$browser_plugin_dir/nppdf.so"
+	  install_err=0
+	  if [ -f "$browser_plugin_file" ] || [ -h "$browser_plugin_file" ]
+	      then
+	      while :
+		do
+		echo -n "The plugin seems to be already installed. Are you sure you want to overwrite ? [y/n] "
+		read overwrite_choice
+	      
+		if [ "$overwrite_choice" = "y" ]
+		    then
+		    rm -f "$browser_plugin_file"
+		    if [ $? -ne 0 ]
+			then
+			echo "Could not remove previous version of the plugin in $browser_plugin_dir. Failure."
+			install_err=1
+		    fi
+		    break
+		elif [ "$overwrite_choice" = "n" ]
+		    then
+		    echo "Installation cancelled."
+		    install_err=1
+		    break
+		fi
+	      done
+	  elif [ -b "$browser_plugin_file" ] || [ -c "$browser_plugin_file" ] || [ -d "$browser_plugin_file" ]
+	      then
+	      echo "File $browser_plugin_file already exists as a special file and cannot overwrite it."
+	      install_err=1
+	  fi
+
+	  if [ $install_err -eq 1 ]
+	      then
+	      break
+	  fi
+	  
+	  #Copy the browser plugin file to the correct location
+	  cp "$nppdf_file" "$browser_plugin_file"
+	  if [ $? -ne 0 ]
+	      then
+	      echo "Could not copy the plugin file $nppdf_file to $browser_plugin_file. Failure."
+	      break
+	  else
+	      echo "Installation successful. Added the file $browser_plugin_file."
+	      break;
+	  fi
+
+	  break
+	done
+    fi
+}
+
+
+#This function installs the plugin for the current user only.
+#If the installation is successful, then whenever Mozilla or Firefox or Netscape is run, from anywhere, it will have the plugin enabled.
+#The way to achieve this is to copy our plugin file in the .mozilla/plugins folder in the users' home directory.
+#If the folder does not exist, we create it, and if the plugin already exists, we prompt the user whether to overwrite or not, and proceed accordingly.
+#This mechanism has been tested for Mozilla, Firefox and Netscape. In all these browsers, the app searches for extensions/plugins in ~/.mozilla/plugins folder.
+InstallBrowserUser()
+{
+    if [ -n "$nppdf_file" ]
+	then
+	if [ -z "$HOME" ]
+	    then
+	    echo "Unable to query HOME variable from the environment. Cannot find your home directory."
+	    exit 1
+	else
+	    current_dir=`pwd`
+	    cd
+	    if [ $? -ne 0 ]
+		then
+		echo "Unable to go to the home directory. Failure."
+		exit 1
+	    else
+		user_dir=`pwd`
+	    
+	        #Create the .mozilla & plugins folders if required
+		browser_dir="$user_dir/.mozilla"
+		if [ ! -d "$browser_dir" ]
+		    then
+		    mkdir "$browser_dir"
+		    if [ $? -ne 0 ]
+			then
+			echo "Could not create $browser_dir directory. Failure."
+			exit 1
+		    fi
+		fi
+		
+		browser_plugin_dir="$browser_dir/plugins"
+		if [ ! -d "$browser_plugin_dir" ]
+		    then
+		    mkdir "$browser_plugin_dir"
+		    if [ $? -ne 0 ]
+			then
+			echo "Could not create $browser_plugin_dir directory. Failure."
+			exit 1
+		    fi
+		fi
+		
+                #Check whether the file already exists
+		browser_plugin_file="$browser_plugin_dir/nppdf.so"
+		if [ -f "$browser_plugin_file" ] || [ -h "$browser_plugin_file" ]
+		    then
+		    while :
+		      do
+		      echo -n "The plugin seems to be already installed. Are you sure you want to overwrite ? [y/n] "
+		      read overwrite_choice
+		      
+		      if [ "$overwrite_choice" = "y" ]
+			  then
+			  rm -f "$browser_plugin_file"
+			  if [ $? -ne 0 ]
+			      then
+			      echo "Could not remove previous version of the plugin in $browser_plugin_dir. Failure."
+			      exit 1
+			  fi
+			  break
+		      elif [ "$overwrite_choice" = "n" ]
+			  then
+			  echo "Installation cancelled."
+			  exit 1
+			  break
+		      fi
+		    done
+		elif [ -b "$browser_plugin_file" ] || [ -c "$browser_plugin_file" ] || [ -d "$browser_plugin_file" ]
+		    then
+		    echo "File $browser_plugin_file already exists as a special file and cannot overwrite it."
+		    exit 1
+		fi
+		
+                #Copy the browser plugin file to the correct location
+		cp "$nppdf_file" "$browser_plugin_file"
+		if [ $? -ne 0 ]
+		    then
+		    echo "Could not copy the plugin file $nppdf_file to $browser_plugin_file. Failure."
+		    exit 1
+		fi
+		
+		echo "Installation successful. Added the file $browser_plugin_file."
+		echo "This will enable the plugin for Mozilla/Firefox/Netscape."
+		echo ""
+		echo "For the other browsers, either run this script again and choose 'Perform global installation',"
+		echo "or you would need to manually copy the file $nppdf_file"
+		echo "to the plugin folder of the browser."
+		echo ""
+		echo "In case of difficulties please refer to the documentation provided along with the browser for addition of new plugins."
+		cd "$current_dir"
+	    fi
+	fi
+    fi
+}
+
+#This function fetches the installation path if not specified and validates the existance of the plugin file.
+GetAcroreadInfo()
+{
+    #Prompt the user for acroread's installation path if not specified on the command prompt
+    if [ -z "$1" ]
+	then
+	GetScriptPath
+	echo -n "Enter the install directory for Adobe Reader 7.0 [$script_path] "
+	read acroread_dir
+	if [ -z "$acroread_dir" ]
+	    then
+	    acroread_dir="$script_path"
+	fi
+    else
+	acroread_dir="$1"
+    fi
+
+    #Check for the plugin file
+    nppdf_file="$acroread_dir/Browser/sparcsolaris/nppdf.so"
+    if [ ! -f "$nppdf_file" ]
+	then
+	echo "Could not find the browser plugin file $nppdf_file."
+	exit 1
+    fi
+}
+
+
+Init()
+{
+    echo "This will install the browser plugin for acroread."
+    echo ""
+    GetAcroreadInfo "$1"
+
+    while :
+      do
+      echo ""
+      echo "1. Perform global installation"
+      echo "2. Perform user-specific installation (works only for Mozilla/Firefox/Netscape)"
+      echo -n "Enter your choice [1/2] "
+      read install_choice
+      
+      if [ $install_choice -eq 1 ]
+	  then
+	  #Till the user explicitly asks to quit, we keep on installing, looking for more browsers.
+	  while [ "$install_more" = "y" ]
+	    do
+	    echo ""
+	    InstallBrowserGlobal
+
+	    while :
+	      do
+	      echo ""
+	      echo -n "Do you want to install another browser ? [y/n] "
+	      read install_more
+	      
+	      if [ "$install_more" = "y" ] || [ "$install_more" = "n" ]
+		  then
+		  break
+	      fi
+	    done
+	  done
+	  break;
+      elif [ $install_choice -eq 2 ]
+	  then
+	  echo ""
+	  InstallBrowserUser
+	  break
+      fi
+    done
+
+    exit 0
+}
+
+Init "$1"

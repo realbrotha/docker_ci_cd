@@ -1,0 +1,17 @@
+* @(#)01	1.3  src/tcpip/usr/sbin/dhcpsd/dhcp_api.exp, dhcp, tcpip530 5/18/00 10:46:38
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* tcpip530 src/tcpip/usr/sbin/dhcpsd/dhcp_api.exp 1.3 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* (C) COPYRIGHT International Business Machines Corp. 1999,2000 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+
+dhcpapi_logmessage

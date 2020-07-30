@@ -1,0 +1,6 @@
+.="ce receive completion ring structure"n
++/"comp_size"18t"comp_wrap_mask"18t"comp_rd_index"18t""nX18tX18tX
+.+10/"comp_desc_ring_h"18t"comp_desc_ring_mh"18t"comp_desc_ring_vp"nK18tK18tK
++/"comp_desc_ring_pp"n4X
+.+18/"ce_rxcomp_cnt"nX
+.+8/"rxcomphist_base"18t"rxcomphist"nK18tK

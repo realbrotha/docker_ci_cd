@@ -1,0 +1,52 @@
+# "@(#)mailx.help 1.2 93/06/16"    /* from SVr4.0 1.1.2.2 */
+                mailx 명령어들
+
+alias,group user ...		사용자명에 대한 별명 선언
+alternates user			사용자에 대한 대체명 선언
+cd,chdir [directory]		지정한 디렉토리로 변경하거나 홈 디렉토리
+				(지정하지 않은 경우)
+!command			shell escape
+copy [msglist] file		보관 마크 없이 파일에 메시지 보관
+delete [msglist]		메시지 삭제
+discard,ignore header		메시지 인쇄시 헤더 필드 무시
+dp,dt [msglist]			메시지를 삭제하고 다음 메시지 입력
+echo string			문자열 인쇄
+edit [msglist]                  메시지 편집
+folder,file filename		파일명으로 우편함 변경
+folders				현재 폴더의 디렉토리에 있는 파일 목록 표시
+followup [message]		메시지에 응답하고 사본 보관
+Followup [msglist]		메시지에 응답하고 사본 보관
+from [msglist]			msglist의 헤더 인쇄
+header [message]		활성화된 메시지의 페이지 인쇄
+help,?				이 도움말 메시지 인쇄
+hold,preserve [msglist]		우편함에 메시지 보유
+inc				신규 메시지를 현재 세션에 통합
+list				모든 명령어 목록 표시 (설명 없이)
+mail user			특정 사용자에 대한 우편
+Mail				특정 사용자에 대한 우편, 사본 보관
+mbox [msglist]			끝내면 메시지가 mbox로 들어감
+next [message]			다음으로 가서 메시지 입력
+pipe,| [msglist] shell-cmd	쉘 명령어에 메시지 파이프
+print,type [msglist]		메시지 인쇄
+Print,Type [msglist]		모든 헤더와 함께 메시지 인쇄
+quit				끝내고 읽혀지지 않은 메시지 보유
+reply,respond [message]		메시지 작성자와 수신인에 응답
+Reply,Respond [msglist]		메시지 작성자에 응답
+save [msglist] file		파일에 메시지 저장(이전 내용에 추가)
+Save [msglist]			작성자 이름으로 파일 보관
+set variable[=value]		변수를 값으로 설정
+size [msglist]			메시지의 크기 인쇄
+source file			파일로부터 명령어 읽기
+top [msglist]			메시지의 맨위 5행 인쇄
+touch [msglist]			끝내고 메시지 강제 보관
+undelete [msglist]		삭제된 메시지 복원
+undiscard,unignore header	인쇄된 목록에 다시 헤더 필드 추가
+unread,new [msglist]		읽혀지지 않은 메시지 마크
+version				버전 인쇄
+visual [msglist]		$VISUAL 편집기로 목록 편집
+write [msglist] file		헤더 없이 메시지 쓰기
+xit,exit			끝내고 모든 메시지 보유
+z [+/-]				10개 헤더의 다음 [last] 페이지 표시
+
+[msglist]는 번호, 작성자, 주제 또는 타입에 의해 메시지를 지정하며,
+생략가능합니다.  기본값은 현재 메시지입니다.

@@ -1,0 +1,46 @@
+XCOMM IBM_PROLOG_BEGIN_TAG 
+XCOMM This is an automatically generated prolog. 
+XCOMM  
+XCOMM gos530 src/gos/2d/XTOP/config/cf/ibmLib.tmpl 1.1 
+XCOMM  
+XCOMM Licensed Materials - Property of IBM 
+XCOMM  
+XCOMM (C) COPYRIGHT International Business Machines Corp. 1996 
+XCOMM All Rights Reserved 
+XCOMM  
+XCOMM US Government Users Restricted Rights - Use, duplication or 
+XCOMM disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+XCOMM  
+XCOMM IBM_PROLOG_END_TAG 
+XCOMM SCCSID_BEGIN_TAG
+XCOMM @(#)49  1.1  src/gos/2d/XTOP/config/cf/ibmLib.tmpl, xclients, gos530 7/31/96 14:42:10
+XCOMM SCCSID_END_TAG
+XCOMM $XConsortium: ibmLib.tmpl /main/18 1995/12/14 15:31:05 matt $
+
+/*
+ * AIX shared library template
+ */
+
+#if ThreadedX
+#define SharedX11Reqs -lpthreads
+#endif
+
+#define SharedXextReqs $(XLIBONLY)
+#define SharedXmuReqs $(XTOOLLIB) $(XLIB)
+#define SharedOldXReqs $(XLIBONLY)
+#if ThreadedX
+#define SharedXtReqs $(XLIBONLY) $(SMLIB) $(ICELIB) -lpthreads
+#else
+#define SharedXtReqs $(XLIBONLY) $(SMLIB) $(ICELIB) 
+#endif
+#define SharedXawReqs $(XMULIB) $(XTOOLLIB) $(XLIB)
+#define SharedXiReqs $(XLIB)
+#define SharedXtstReqs $(XLIB)
+#define SharedPexReqs $(XLIBONLY)
+#define SharedXieReqs $(XLIBONLY)
+#define SharedSMReqs $(ICELIB)
+
+#ifndef FixupLibReferences
+#define FixupLibReferences()						@@\
+DEPXTOOLLIB = _UseCat($(USRLIBDIR),$(TOOLKITSRC),/libXt.a)
+#endif

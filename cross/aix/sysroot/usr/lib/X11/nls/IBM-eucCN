@@ -1,0 +1,50 @@
+# @(#)11	1.2  src/gos/2d/XTOP/lib/nls/Xibm/IBM-eucCN, xcfgnls, gos530 3/16/95 23:41:14
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/IBM-eucCN 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1995 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: ils-zh_CN
+#
+#   FUNCTIONS: none
+#
+#   ORIGINS: 27
+#
+#                    -- (                            when
+#   combined with the aggregated modules for this product)
+#   OBJECT CODE ONLY SOURCE MATERIALS
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1995
+#   All Rights Reserved
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+#
+#         Locale File: IBM-eucCN
+#         
+# The use of UCS2.CJK-0 is for future usage when all fonts can be merged into a 
+# single UCS-2 CJK font.  The current charset standard takes higher precedence.
+#
+XLC_FONTSET
+# CS0 : 7 bit ASCII codeset
+ISO8859-1@CN, ISO8859-1@ZH, ISO8859-1
+# CS1 : Simplifed Chinese Characters  codeset
+GB2312.1980-0, UCS2.CJK-0, UCS2.GB2312.1980-0
+# CS1 : User defined Character codeset
+IBM-sbdCN, UCS2.CJK-0
+# CS1 : User defined Character codeset
+IBM-udcCN, UCS2.CJK-0
+END XLC_FONTSET
+#
+# END OF FILE
+#

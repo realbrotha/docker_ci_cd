@@ -1,0 +1,8 @@
+.>K
+<K+0=""
++/"flags"16t"soft_address"16t"hard_address"nX4+JJ
++/"size"16t"dma_handle"16tnU4+J
++/"dma_cookie"
+.$<<ddi_dma_cookie
++/"acc_handle"16tnJ
+<K+0t72=""

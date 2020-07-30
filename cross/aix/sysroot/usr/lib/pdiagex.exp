@@ -1,0 +1,63 @@
+#!/unix
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* bos53S src/bos/kernext/exp/pdiagex.exp 1.11 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* COPYRIGHT International Business Machines Corp. 1995,2008 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)40        1.11  src/bos/kernext/exp/pdiagex.exp, sysxdiag, bos53S, s2008_39B0 9/18/08 16:29:35
+*
+* COMPONENT_NAME: (sysxdiag) Diagnostic Kernel Extension
+*
+* FUNCTIONS: Diagnostic Kernel Extension Interface Export Symbols
+*
+* ORIGINS: 27
+*
+
+pdiag_cntl
+pdiag_dd_open           syscall
+pdiag_dd_close          syscall
+pdiag_dd_watch_for_interrupt         syscall
+pdiag_dd_kick_hdw_and_watch_for_interrupts_safe_mode	syscall
+pdiag_dd_interrupt_notify         syscall
+pdiag_intr              syscall
+pdiag_dd_dma_setup	syscall
+pdiag_dd_big_dma_setup  syscall
+pdiag_dd_big_dma_list_64_setup  syscall
+pdiag_dd_dma_enable	syscall
+pdiag_dd_dma_complete	syscall
+pdiag_dd_big_dma_complete       syscall
+pdiag_dd_big_dma_list_64_complete       syscall
+pdiag_dd_write          syscall
+pdiag_dd_read           syscall
+pdiag_convert_dds_old_to_64	syscall
+pdiag_convert_dds_msi_to_64	syscall
+pdiagex_hcall		syscall
+pdiag_dd_watch_interrupts_msi	syscall
+pdiag_dd_eoi		syscall
+pdiag_doorbell_alloc	syscall
+pdiag_doorbell_dealloc	syscall
+pdiag_kern_alloc	syscall
+pdiag_kern_dealloc	syscall
+pdiag_kern_copyin	syscall
+pdiag_kern_copyout	syscall
+pdiag_vm_galloc		syscall
+pdiag_vm_gfree		syscall
+pdiag_doorbell_copyin	syscall
+pdiag_doorbell_copyout	syscall
+pdiag_wait_for_resource	syscall
+pdiag_free_resource	syscall
+pdiag_globals_cntl      syscall
+pdiag_eeh_check		syscall
+pdiag_dd_read_slot_reset	syscall
+pdiag_dd_set_slot_reset	syscall

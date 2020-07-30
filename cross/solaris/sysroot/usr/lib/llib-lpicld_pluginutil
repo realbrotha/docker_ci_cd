@@ -1,0 +1,16 @@
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+/*
+ * Copyright (c) 1999-2000 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lpicld_pluginutil	1.1	00/05/31 SMI"
+
+#include <picl.h>
+#include <picltree.h>
+#include "picld_pluginutil.h"
+
+int	picld_pluginutil_parse_config_file(picl_nodehdl_t nh,
+	const char *filename);

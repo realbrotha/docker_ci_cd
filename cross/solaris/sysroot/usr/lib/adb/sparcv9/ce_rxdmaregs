@@ -1,0 +1,24 @@
+.="ce Rx DMA register structure"n
+./"config"nX
++/"page_size"18t"fifo_wr_ptr"18t"fifo_rd_ptr"nX18tX18tX
++/"ipp_fifo_wr_ptr"18t"ipp_fifo_swr_ptr"18t"ipp_fifo_rd_ptr"nX18tX18tX
++/"state_mch"18t"pause_threshold"18t"kick"nX18tX18tX
++/"descriptors_pp"n2X
++/"completion_pp"n2X
++/"completion"18t"completion_head"18t"completion_tail"nX18tX18tX
++/"blanking"18t"almost_empty_thresholds"nX18tX
++/"random_early_detect_en"nX
++/"fifo_fullness"18t"ipp_pkt_cnt"nX18tX
++/"working_dma_ptr"n2X
++/"bist"nX
++/"ctrl_fifo_wr_ptr"18t"ctrl_fifo_rd_ptr"18t"blanking_for_a_rd"nX18tX18tX
+.+1c/"fifo_addr"18t"fifo_tag"nX18tX
++/"fifo_data_l"18t"fifo_data_ht0"18t"fifo_data_ht1"nX18tX18tX
++/"c_b_fifo_addr"18t"ctrl_fifo_data_l"18t"ctrl_fifo_data_m"nX18tX18tX
+.+6c/"ctrl_fifo_data_h_flowid"nX
++/"ipp_fifo_addr"18t"ipp_fifo_tag"18t"ipp_fifo_data_l"nX18tX18tX
++/"ipp_fifo_data_ht0"18t"ipp_fifo_data_ht1"nX18tX
++/"hdr_page_ptr"n2X
++/"mtu_page_ptr"n2X
++/"ra_dma_tab_addr"nX
++/"ra_dma_data_l"18t"ra_dma_data_m"18t"ra_dma_data_h"nX18tX18tX

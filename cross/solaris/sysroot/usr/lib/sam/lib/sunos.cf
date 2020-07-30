@@ -1,0 +1,282 @@
+#
+#
+#  Copyright 2006, 2005 Sun Microsystems, Inc.  All rights reserved.
+#  Use is subject to license terms.
+#
+#
+#
+#ident  "$SunId$  SMI"
+#
+# Definitions
+#	Format of Definitions is:
+#
+#define	|DefineName	|StringKey	|NumericKey	|StrValue1|StrValue2
+#
+# System Model definitions
+#
+#	Values are from	"/usr/include/{sys,machine}/cpu.h".
+#	On OBP systems,	any model not listed here will
+#	have it's system model name looked up in OBP.
+#
+#			sun4c
+define	|SysModel	||0x51	|SPARCstation 1 (4/60)
+define	|SysModel	||0x52	|SPARCstation IPC (4/40)
+define	|SysModel	||0x53	|SPARCstation 1+ (4/65)
+define	|SysModel	||0x54	|SPARCstation SLC (4/20)
+define	|SysModel	||0x55	|SPARCstation 2 (4/75)
+define	|SysModel	||0x56	|SPARCstation ELC (4/25)
+define	|SysModel	||0x57	|SPARCstation IPX (4/50)
+#			sun4m
+define	|SysModel	||0x71	|SPARCsystem 600 (4/6x0)
+#			sun4
+define	|SysModel	||0x22	|4/110
+define	|SysModel	||0x21	|4/2x0
+define	|SysModel	||0x23	|SPARCsystem 300 (4/3x0)
+define	|SysModel	||0x24	|SPARCsystem 400 (4/4x0)
+#			sun4e
+define	|SysModel	||0x61	|SPARCengine 1E
+#			sun3
+define	|SysModel	||0x12	|3/50
+define	|SysModel	||0x17	|3/60
+define	|SysModel	||0x14	|3/110
+define	|SysModel	||0x11	|3/1x0
+define	|SysModel	||0x13	|3/2x0
+define	|SysModel	||0x18	|3/Eurocard
+#			sun3x
+define	|SysModel	||0x42	|3/80
+define	|SysModel	||0x41	|3/4x0
+#
+# Sub System Model
+#
+# It's important to order the most detailed entries before the less detailed.
+# i.e. The "Ultra-1 170E" should be before the "Ultra-1	170" since the 170E
+# has more detail to it.
+#
+#	FIELD		DESCRIPTION
+#	--------------	-------------------------------------------------------
+#	SYSMODEL	The key	name obtained from OBP to use this entry.
+#	EXPANDED NAME	The string used	to expand name.	 Variables ${} are
+#			case insensitive and defined as	follows:
+#
+#			VARIABLE	DESCRIPTION
+#			---------------	---------------------------------------
+#			BannerName	The value "banner" from	the OBP.
+#			CPUspeed	The speed (in MHz) of any CPU.
+#			NumCPU		The number of CPUs in the machine.
+#
+#	CPU SPEED	The speed (in MHz) of a	CPU required to	match entry.
+#	NUM CPU		The number of CPUs required to match entry.
+#	HAS DEVS	Names of devices (white	space seperated) required to
+#			match this entry.
+#	HAS DEVTYPES	The names of device types ("device_type" from OBP)
+#			required to match this entry.
+#
+#							 CPU  NUM HAS	 HAS
+#		     SYSMODEL		||EXPANDED NAME|SPEED|CPU|DEVS|DEVTYPES
+#
+# Expansion definitions	for Open Boot PROM variables
+#
+#		 VARIABLE			EXPANSION
+define	|obp	|dblbuf			||Double Buffered
+define	|obp	|iocache?		||I/O Cache
+define	|obp	|mid			||Module ID
+define	|obp	|mmu-nctx		||Number of MMU Contexts
+define	|obp	|mmu-npmg		||Number of MMU PMGs
+define	|obp	|multiple-cable-i/f?	||Multiple Cable Interface
+define	|obp	|n-xdbus		||Number of XDbus's
+define	|obp	|ncaches		||Number of Caches
+define	|obp	|nmmus			||Number of MMUs
+define	|obp	|scsi-initiator-id	||SCSI Initiator ID
+define	|obp	|sparc-version		||SPARC Version
+define	|obp	|vac-linesize		||Virtual Address Cache Line Size
+define	|obp	|vac-size		||Virtual Address Cache Size
+define	|obp	|vac_hwflush		||Virtual Address Cache HW Flush
+define	|obp	|ecache-size		||External Cache Size
+define	|obp	|ecache-line-size	||External Cache Line Size
+define	|obp	|ecache-associativity	||External Cache Associativity
+define	|obp	|dcache-size		||Data Cache Size
+define	|obp	|dcache-line-size	||Data Cache Line Size
+define	|obp	|dcache-associativity	||Data Cache Associativity
+#
+# CPU info
+#
+# NOTES:
+#	- The speed of hyperSPARC CPUs on systems with older OpenBootPROMs
+#	  will almost always appear as 40MHz since those CPUs connect to
+#	  the system bus at 40MHz, but internelly they run at higher speeds.
+#
+#		 PROM Name	 Speed	 Description
+define	|cpu	|Cypress,CY605	|40	|Model 100 SPARCmodule
+define	|cpu	|TI,TMS390Z50	|33	|Model 20 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z50	|36	|Model 30 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z50	|40	|Model 40 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z55	|40	|Model 41 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z50	|50	|Model 50 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z55	|50	|Model 51 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z50	|60	|Model 60 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z55	|60	|Model 61 SuperSPARC SPARCmodule
+define	|cpu	|TI,TMS390Z50	|75	|Model 70 SuperSPARC-IISPARCmodule
+define	|cpu	|TI,TMS390Z55	|75	|Model 71 SuperSPARC-IISPARCmodule
+define	|cpu	|TI,TMS390Z55	|85	|Model 81 SuperSPARC-IISPARCmodule
+define	|cpu	|TI,TMS390S10	|0	|microSPARC I
+define	|cpu	|FMI,MB86904	|0	|microSPARC II
+define	|cpu	|Ross,RT626	|150	|150 MHz hyperSPARC
+define	|cpu	|Ross,RT625	|150	|150 MHz hyperSPARC
+define	|cpu	|Ross,RT625	|125	|125 MHz hyperSPARC
+define	|cpu	|Ross,RT625	|100	|100 MHz hyperSPARC
+define	|cpu	|Ross,RT625	|90	|90 MHz hyperSPARC
+define	|cpu	|Ross,RT625	|-1	|hyperSPARC
+define	|cpu	|SUNW,UltraSPARC|143	|Model 140 UltraSPARC
+define	|cpu	|SUNW,UltraSPARC|167	|Model 170 UltraSPARC
+define	|cpu	|SUNW,UltraSPARC|0	|UltraSPARC
+#
+# Kernel Architectures
+#
+# These values are normally defined as *_ARCH in:
+#	/usr/include/sys/cpu.h
+#	/usr/include/machine/cpu.h
+#
+define	|karch			||0x10	|sun3
+define	|karch			||0x40	|sun3x
+define	|karch			||0x20	|sun4
+define	|karch			||0x50	|sun4c
+define	|karch			||0x60	|sun4e
+define	|karch			||0x70	|sun4m
+define	|karch			||0x80	|sun4d
+#
+# Part Info
+#
+#		 PART NUMBER	  NAME	  DESCRIPTION
+define	|part	|QLGC,ISP1000	||(DWIS/S) |Differential Wide SCSI/Sbus
+define	|part	|SUNW,500-1869 	||(SBE/S)  |SCSI Buffered Ethernet/Sbus
+define	|part	|SUNW,500-1902 	||(DSBE/S) |Differential SCSI Buffered Ethernet/Sbus
+define	|part	|SUNW,500-2015 	||(FSBE/S) |Fast SCSI Buffered Ethernet/Sbus
+define	|part	|SUNW,520-1511 	||(SPC/S)	 |Sun Serial Parallel Controller
+define	|part	|S/ATM 4615 SBus ATM||SunATM|Sun Sbus ATM
+#
+# Kernel Variables
+#
+#		 SYMBOL		  TYPE	 DESCRIPTION
+define|Kernel	|_maxuprc	||int	|Maximum number of processes per user
+define|Kernel	|_maxusers	||int	|Maximum number of users (for system tables)
+define|Kernel	|_npty		||int	|Maximum number of BSD (/dev/ptyXX) pty's
+define|Kernel	|_pt_cnt	||int	|Maximum number of System V (/dev/pts/*) pty's
+define|Kernel	|_vac_size	||int	|Size of the virtual address cache
+define|Kernel	|_ncallout	||int	|Size of the callout table
+define|Kernel	|_ufs_ninode	||int	|Size of the inode table
+define|Kernel	|_ncsize	||int	|Size of the directory name lookup cache
+define|Kernel	|_ndquot	||int	|Size of the quotas table
+define|Kernel	|_udp_cksum	||int	|UDP Check Summing
+define|Kernel	|_nstrpush	||int	|STREAMS: Maximum number of pushes allowed
+define|Kernel	|_nstrevent	||int	|STREAMS: Maximum event size
+define|Kernel	|_strmsgsz	||int	|STREAMS: Maximum message size
+define|Kernel	|_strctlsz	||int	|STREAMS: Maximum size of ctl part of message
+define|Kernel	|_nmblock	||int	|STREAMS: Total block size
+define|Kernel	|_bufhwm	||int	|Maximum memory allowed in buffer cache
+define|Kernel	|_maxclsyspri	||long	|Maximum global priority in sys class
+define|Kernel	|_nautoup	||long	|Auto update time limit (in seconds)
+define|Kernel	|_gpgslo	||long	|Page stealing low water mark
+define|Kernel	|_fsflushr	||long	|fsflush run rate
+define|Kernel	|_minarmem	||long	|Minimum resident memory for avoiding deadlock
+define|Kernel	|_minasmem	||long	|Minimum swapable memory for avoiding deadlock
+define|Kernel	|_version	||string|Kernel Version
+define|Kernel	|_ufs_vfsops	||bool	|Has UFS driver
+define|Kernel	|_nfs_vfsops	||bool	|Has NFS driver
+define|Kernel	|_pcfs_vfsops	||bool	|Has PCFS driver
+define|Kernel	|_rfs_vfsops	||bool	|Has RFS driver
+define|Kernel	|_lo_vfsops	||bool	|Has LOFS driver
+define|Kernel	|_tmp_vfsops	||bool	|Has TMPFS driver
+define|Kernel	|_ipiopen	||bool	|Has IPI driver
+define|Kernel	|_xdopen	||bool	|Has XD driver
+define|Kernel	|_xyopen	||bool	|Has XY driver
+define|Kernel	|_rfopen	||bool	|Has RF driver
+define|Kernel	|_sdopen	||bool	|Has SD driver
+define|Kernel	|_fdopen	||bool	|Has FD driver
+define|Kernel	|_stopen	||bool	|Has ST driver
+define|Kernel	|_tmopen	||bool	|Has TM driver
+define|Kernel	|_xtopen	||bool	|Has XT driver
+define|Kernel	|_sropen	||bool	|Has SR (CDROM) driver
+define|Kernel	|_nfs_getfh	||bool	|Has NFSSERVER
+define|Kernel	|_async_daemon	||bool	|Has NFSCLIENT
+#define|Kernel	|_semsys	||bool	|Has IPCSEMAPHORE
+#define|Kernel	|_msgsys	||bool	|Has IPCMESSAGE
+#define|Kernel	|_shmsys	||bool	|Has IPCSHMEM
+#define|Kernel	|_sysacct	||bool	|Has SYSACCT
+#
+# System Configuration
+#
+#	NAME and ID are	from <unistd.h>	and sysconf(2)
+#
+#	       NAME		 ID	 TYPE DESCRIPTION
+define|SysConf|_SC_ARG_MAX	|1	|long|Max combined size of argv[] and envp[]
+define|SysConf|_SC_CHILD_MAX	|2	|long|Max processes allowed to any UID
+define|SysConf|_SC_CLK_TCK	|3	|long|Clock ticks per second
+define|SysConf|_SC_NGROUPS_MAX	|4	|long|Max simultaneous groups per user
+define|SysConf|_SC_OPEN_MAX	|5	|long|Max open files per process
+define|SysConf|_SC_PAGESIZE	|11	|long|System memory page size
+define|SysConf|_SC_JOB_CONTROL	|6	|bool|Job control supported
+define|SysConf|_SC_SAVED_IDS	|7	|bool|Savid ids (seteuid()) supported
+define|SysConf|_SC_VERSION	|8	|long|Version of POSIX.1 standard supported
+define|SysConf|_SC_XOPEN_VERSION|12	|long|Version of the X/Open standard supported
+define|SysConf|_SC_LOGNAME_MAX	|10	|long|Max log name
+define|SysConf|_SC_PASS_MAX	|9	|long|Max password length
+define|SysConf|_SC_NPROCESSORS_CONF|14	|long|Number of processors (CPUs) configured
+define|SysConf|_SC_NPROCESSORS_ONLN|15	|long|Number of processors (CPUs) online
+define|SysConf|_SC_PHYS_PAGES	|500	|long|Total number of pages of physical memory
+define|SysConf|_SC_AVPHYS_PAGES	|501	|long|Number of pages of physical memory not currently in use
+define|SysConf|_SC_AIO_LISTIO_MAX|18	|long|Max number of I/O operations in single list I/O call
+define|SysConf|_SC_AIO_MAX	|19	|long|Max number of outstanding asyncronous I/O operations
+define|SysConf|_SC_AIO_PRIO_DELTA_MAX|20|long|Max amount a process can decrease its async I/O priority level
+define|SysConf|_SC_DELAYTIMER_MAX|22	|long|Max number of timer expiration overruns
+define|SysConf|_SC_MQ_OPEN_MAX	|29	|long|Max number of open message queue descriptors per process
+define|SysConf|_SC_MQ_PRIO_MAX	|30	|long|Max number of message priorities supported
+define|SysConf|_SC_RTSIG_MAX	|34	|long|Max number of realtime signals
+define|SysConf|_SC_SEM_NSEMS_MAX|36	|long|Max number of semaphores per process
+define|SysConf|_SC_SEM_VALUE_MAX|37	|long|Max value a semaphore may have
+define|SysConf|_SC_SIGQUEUE_MAX	|39	|long|Max number of queued signals per process
+define|SysConf|_SC_TIMER_MAX	|44	|long|Max number of timers per process
+define|SysConf|_SC_ASYNCHRONOUS_IO|21	|bool|Supports asyncronous I/O
+define|SysConf|_SC_FSYNC	|23	|bool|Supports File Synchronization
+define|SysConf|_SC_MAPPED_FILES	|24	|bool|Supports memory mapped files
+define|SysConf|_SC_MEMLOCK	|25	|bool|Supports process memory locking
+define|SysConf|_SC_MEMLOCK_RANGE|26	|bool|Supports range memory locking
+define|SysConf|_SC_MEMORY_PROTECTION|27	|bool|Supports memory protection
+define|SysConf|_SC_MESSAGE_PASSING|28	|bool|Supports message passing
+define|SysConf|_SC_PRIORITIZED_IO|31	|bool|Supports prioritized I/O
+define|SysConf|_SC_PRIORITY_SCHEDULING|32|bool|Supports process scheduling
+define|SysConf|_SC_REALTIME_SIGNALS|33	|bool|Supports realtime signals
+define|SysConf|_SC_SEMAPHORES	|35	|bool|Supports semaphores
+define|SysConf|_SC_SHARED_MEMORY_OBJECTS|38|bool|Supports shared memory objects
+define|SysConf|_SC_SYNCRONIZED_IO|42	|bool|Supports syncronized I/O
+define|SysConf|_SC_TIMERS	|44	|bool|Supports timers
+#
+# SCSI Device Types
+#
+#	From /usr/include/sys/scsi/generic/inquiry.h
+#
+define|SCSIdtype||0x00	|diskdrive	|Disk
+define|SCSIdtype||0x01	|tapedrive	|Tape Drive
+define|SCSIdtype||0x02	|		|Printer
+define|SCSIdtype||0x03	|		|Processor
+define|SCSIdtype||0x04	|		|WORM
+define|SCSIdtype||0x05	|diskdrive	|CD-ROM
+define|SCSIdtype||0x06	|		|Scanner
+define|SCSIdtype||0x07	|		|Optical
+define|SCSIdtype||0x08	|		|Changer
+define|SCSIdtype||0x09	|		|Comm
+define|SCSIdtype||0x0C	|		|Array Controller
+#
+# CD-ROM Speeds
+#	From CDROM_*_SPEED in /usr/include/sys/cdio.h
+#
+define|CDspeed	||0x00	|Normal Speed
+define|CDspeed	||0x01	|2X Speed
+define|CDspeed	||0x03	|4X Speed
+define|CDspeed	||0x0C	|12X Speed
+#
+# Swap device information
+#
+define|Misc|DUMP_DEV|1|bool|Dump device Configured
+define|Misc|SC_GETNSWP|4|long|Number of swap devices 
+define|Misc|SC_LIST|2|long|Swap space in 512-byte blocks
+#

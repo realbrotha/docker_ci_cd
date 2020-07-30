@@ -1,0 +1,340 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright 2006 Sun Microsystems, Inc. All rights reserved.
+#       Use is subject to license terms.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)ludefine.sh 5.13     06/08/31 SMI"
+#
+# This utility is not for public use; the interface is subject to change 
+# without notice.
+#
+# USAGE:        ludefine [-O output] [-n BE_Name]
+#		-S - do NOT calculate slice sizes - all slice sizes are returned as "0"
+#			This makes lumk_iconf significantly faster.
+# FUNCTION:     Creates an ICF for the currently running BE.
+# INPUT:        output - ICF file will be written to "output" file.
+#               BE_Name - BE_Name that will be included in ICF file.
+# OUTPUT:       If the -O option is given, the ICF file is written to the
+#               specified file. Otherwise, the ICF file is written out to 
+#               stdout.
+# DEV:          JKJ
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+
+usage() {
+    echo `gettext "Usage: "`"$0 "`gettext "[-n BE_Name] [-v vfstab] [-O output]"` >& 2
+}
+
+be_dir()
+{
+        # muoe953173
+        # The be_dir function determines whether a vfstab entry
+        # should be considered a BE or non-BE directory.
+        # Input: line from vfstab
+        # Returns: 0 - directory (i.e. field 3) is a BE directory
+        #          1 - not a BE directory
+        #
+
+	bd_fst=$4
+	bd_sp_fst="${LU_SUPPORTED_FILE_SYSTEM_TYPES}"
+	bd_usp_fst="${LU_UNSUPPORTED_FILE_SYSTEM_TYPES}"
+
+        if [ $4 = "swap" ] ; then
+		[ -f $1 ] && return 1
+		return 0
+        fi
+
+	#
+        # The code below does the following:
+        # - If LU_SUPPORTED_FILE_SYSTEM_TYPES environment variable is empty,
+        #   it sets the value of bd_sp_fst variable to "ufs vxfs"
+        # - If the value of bd_for_fst is equal to that of  bd_sp_fst,
+        #   then do the following steps.
+        #  -- If LU_UNSUPPORTED_FILE_SYSTEMS_TYPES environment variable is set,
+        #   check if the value of bd_for_fst falls inside that list, if so,
+        #   that filesystem type is not supported, return 1 to the caller.
+        #   else fall through.
+        #  -- Check that the filesystem just verified in the step above, exists
+        #    as a directory in the system. If not return 1, else return 0 to the
+        #    caller.
+        # - If the value of bd_for_fst is not equal to that of bd_sp_fst, return
+        #   1 to the caller of this routine.
+        #
+
+	[ -z "${bd_sp_fst}" ] && bd_sp_fst="ufs vxfs"
+
+        for bd_for_fst in $bd_sp_fst; do
+
+            if [ "${bd_for_fst}" = "${bd_fst}" ]; then
+
+                if [ -n "${bd_usp_fst}" ]; then
+                        echo "${bd_usp_fst}" | /bin/nawk -F " " -v FST_TYP=$bd_for_fst '{
+                                for (i=1; i <=NF; i+=1) {
+                                  if ($i == FST_TYP) {printf("%s\n",FST_TYP); exit 1;}
+                                }
+                            }'
+                         if [ $? -eq 1 ]; then
+                                {LUPRINTF} -lp2D 4 "`gettext 'Filesystem Type <%s> is not supported.'`" "${bd_for_fst}"
+                                return 1
+                         fi
+                fi
+
+                if [ -d "/usr/lib/fs/${bd_for_fst}" ]; then
+                        ${LUPRINTF} -lp2D 4 "`gettext 'Filesystem Type <%s> is supported.'`" "${bd_for_fst}"
+                        return 0
+                else
+                        ${LUPRINTF} -lp2D 4 "`gettext 'Filesystem Type <%s> is not supported.'`" "${bd_for_fst}"
+                        return 1
+                fi
+           fi
+        done
+
+        return 1
+
+}
+
+trap "" 1 2 3 15
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+### LU_OPTFS=${LU_OPTFS:=/etc/lu/optfs}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+REQUIRED_BE="/opt /usr /var /export/root /export/swap"
+
+###for i in `/bin/cat "$LU_OPTFS" | /bin/grep -v "#"` ; do
+###       REQUIRED_BE=${REQUIRED_BE}" $i"
+###done
+
+BE_NAME=""
+oflag=0
+VFSTAB=""
+flag_S="" # -S - do not calculate slize sizes (return 0 for all slice sizes)
+
+while [ $# -ne 0 ] ; do
+  while getopts n:O:Sv:X c
+  do
+	  case $c in
+	  S) # -S - do not calculate slize sizes (return 0 for all slice sizes)
+	     flag_S="-S"
+	     ;;
+	  O) oflag=1
+	     OUTPUTFILE=$OPTARG
+	     >$OUTPUTFILE
+	     if [ "$?" != "0" ] ; then
+	       ${LUPRINTF} -Eelp2 "`gettext 'Unable to create output file <%s>.'`" "${OUTPUTFILE}"
+	       exit 2
+	     fi
+	     ;;
+	  n) BE_NAME=$OPTARG;;
+	  v) VFSTAB=$OPTARG;;
+	  X) # -X - set XML output mode.
+	      lulib_set_output_format 'xml'
+	      ;;
+	  \?) usage
+	      exit 2;;
+	  *) usage
+	     exit 2;;
+	  esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+TMPFILE=/tmp/.$$luc
+/bin/rm -f $TMPFILE
+
+# If optional vfstab file specified, then force use of specified BE name
+if [ -n "${VFSTAB}" ] ; then
+  if [ -z "${BE_NAME}" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'You must specify BE name with -n when -v option specified.'`"
+    exit 1
+  fi
+elif [ -s "${LU_LUTAB_FILE}" ] ; then
+  ## Obtain the root device not translating (-a) any SDS meta devices
+  ## (e.g. /dev/md/...) or Veritas volumes (e.g. /dev/vx/...) into
+  ## logical devices (e.g. /dev/dsk/...) - this is because the root
+  ## device is used to index into the lutab file, which contains the
+  ## root device un untranslated form.
+  ROOTDEV=`${LUETCBIN}/lurootdev -a`
+  if [ "$?" -ne "0" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine root slice for the current boot environment.'`"
+    exit 1
+  fi
+  ${LUETCBIN}/ludo get_be_id_from_rootdev "${ROOTDEV}" 1>/dev/null
+  if [ $? != 0 ] ; then
+    # PBE not defined in lutab
+    if [ "$BE_NAME" = "" ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'The Current BE is not defined in the lutab and was not specified with the '-n BE_Name' option.'`"
+      exit 1
+    fi
+  else
+    CURR_BE="`lulib_lucurr`"
+    if [ $? != 0 ] ; then
+      ${LUPRINTF} -Eelp2 "`gettext 'Unable to determine the name of the current active boot environment.'`"
+      exit 1
+    fi
+
+    if [ "$BE_NAME" != "" -a "${BE_NAME}" != "${CURR_BE}" ] ; then
+      ${LUPRINTF} -Welp2 "`gettext 'Ignoring the <-n %s> option because current BE <%s> is already defined in /etc/lutab.'`" "${BE_NAME}" "${CURR_BE}"
+    fi
+    BE_NAME="${CURR_BE}"
+  fi
+else
+  if [ "$BE_NAME" = "" ] ; then
+    ${LUPRINTF} -Eelp2 "`gettext 'The current BE_name is NOT defined. Use '-n BE_name.'`"
+    exit 1
+  fi
+fi
+
+#
+# ignore commented out and blank lines
+#
+VFSTAB=${VFSTAB:=/etc/vfstab}
+$LUBIN/lucomm_del $VFSTAB | /bin/awk '
+{
+        #
+        # ignore remote and other "special" file systems
+        #
+        if ( ($4 != "nfs") && ($4 != "cdfs") && ($4 != "tmpfs") && ($4 != "hsfs") && ($1 != "/proc") && ($1 != "fd") && ($1 != "/stats") && ($1 != "/cache") && ($3 != "/install"))
+                printf("%s\n", $0);
+}' | ( 
+while read line
+do
+        # Get top-most directory name for mount point in vfstab (i.e. if
+        # mount point is /usr/bin/X11, basedir will be set to "/usr"
+        set `echo $line`
+        if [ $# -ge 7 ]
+        then
+                be_dir $*
+                if [ "$?" = "0" ]
+                then
+                        SLICE=$1
+                        M_PT=$3
+                        FS_TYPE=$4
+			FS_PASS=$5
+			MOUNT_ATBOOT=$6
+			MOUNT_OPTIONS="$7"
+
+			# Ignore devices mounted with "global" option
+			echo "${MOUNT_OPTIONS}" | /bin/egrep '^global$|^global,|,global$|,global,' >/dev/null
+			if [ $? = 0 ] ; then
+				continue
+			fi
+
+			SIZE="0"
+			if [ -z "${flag_S}" ] ; then
+			  SIZE="`lulib_get_devsize $SLICE`"
+			fi
+                        if [ $? -ne 0 -o -z "$BE_NAME" -o -z "$M_PT" \
+                                 -o -z "$SLICE" -o -z "$FS_TYPE" -o -z "$SIZE" ]
+                        then
+				# If the file system is either auto-fsck-d or auto-
+				# mounted then generate error otherwise ignore.
+				if [ "${FS_PASS}" != "-" -o "${MOUNT_ATBOOT}" = "yes" ] ; then
+					${LUPRINTF} -Eelp2 "`gettext 'An error occurred during creation of configuration file.'`"
+					exit 1
+				fi
+                        else
+				basedir=`echo $3 | /bin/awk '{ split($0, p, "/"); printf("/%s\n",p[2]); }'`
+				echo " $REQUIRED_BE " | /bin/egrep " $basedir | $basedir/swap | $basedir/root " > /dev/null 2>&1
+				echo "$BE_NAME:$M_PT:$SLICE:$FS_TYPE:$SIZE"
+                        fi
+
+
+
+                elif [ "$3" = "/" ]
+                then
+			## Obtain the root device not translating (-a) any SDS meta devices
+			## (e.g. /dev/md/...) or Veritas volumes (e.g. /dev/vx/...) into
+			## logical devices (e.g. /dev/dsk/...) - this is because the root
+			## device is used to create a VFSTAB entry and the entry must contain
+			## the root device un untranslated form.
+                        SLICE=`${LUETCBIN}/lurootdev -a`
+                        M_PT=$3
+                        FS_TYPE=$4
+			MOUNT_OPTIONS="$7"
+
+			# Ignore devices mounted with "global" option
+			echo "${MOUNT_OPTIONS}" | /bin/egrep '^global$|^global,|,global$|,global,' >/dev/null
+			if [ $? = 0 ] ; then
+				continue
+			fi
+
+			SIZE="0"
+			if [ -z "${flag_S}" ] ; then
+			  SIZE="`lulib_get_devsize $SLICE`"
+			fi
+                        if [ $? -ne 0 -o -z "$BE_NAME" -o -z "$M_PT" \
+                                 -o -z "$SLICE" -o -z "$FS_TYPE" -o -z "$SIZE" ]
+                        then
+				# If the file system is either auto-fsck-d or auto-
+				# mounted then generate error otherwise ignore.
+				if [ "${FS_PASS}" != "-" -o "${MOUNT_ATBOOT}" = "yes" ] ; then
+					${LUPRINTF} -Eelp2 "`gettext 'An error occurred during creating of configuration file.'`"
+					exit 1
+				fi
+                        else
+                                echo "$BE_NAME:$M_PT:$SLICE:$FS_TYPE:$SIZE"
+                        fi
+                fi  
+        else
+	  ${LUPRINTF} -Welp2 "`gettext 'Skipping corrupt line in /etc/vfstab: <%s>.'`" "${line}"
+                continue
+        fi
+done
+) > /tmp/.$$be
+rc=$?
+
+if [ "$oflag" = "0" ] ; then
+        /bin/cat /tmp/.$$be
+else
+        /bin/cp /tmp/.$$be $OUTPUTFILE
+fi
+/bin/rm -f $TMPFILE /tmp/.$$be
+exit $rc

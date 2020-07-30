@@ -1,0 +1,55 @@
+# @(#)30	1.9  src/cmdtext/usr/bin/hplj/font/DESC, cmdtext, cmdtext530 9/14/93 09:27:40
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# cmdtext530 src/cmdtext/usr/bin/hplj/font/DESC 1.9 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+#
+# FUNCTIONS:
+#
+# ORIGINS: 10,27
+#
+# (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Description file for "hplj" troff post-processor
+# For HP LaserJet II printer with the "K" cartridge installed
+# created 06/26/89, Interactive Systems Corporation
+fonts 10 R I B C CB SM8 SM7 SPI SPC SS
+sizes 8 10 0
+res 300
+hor 1
+vert 1
+unitwidth 10
+paperwidth 2400
+paperlength 3100
+codeset IBM-850
+biggestfont 188
+charset
+\& \' \- \^ \_ \` \|
+!= ** *A *B *C *D *E *F *G *H *I *K *L *M *N *O
+*P *Q *R *S *T *U *W *X *Y *Z *a *b *c *d *e *f
+*g *h *i *k *l *m *n *o *p *q *r *s *t *u *w *x
+*y *z +- -> 12 14 34 <- <= == >= Fi Fl aa ap br bs
+bu bv bx ca cd ci co ct cu da dd de dg di em eq es
+ff fi fl fm ga gr hy ib if ip is lb lc lf lh lk lt 
+mi mo mu no or pd pl pt rb rc rf rg rh rk rn rt ru
+sb sc sl sp sq sr ts ua ul ~=
+bp en pg yn ye Rh Lh
+ps $B $D $J pp m. cs vs |= cm
+!! I! d< d> ?? I? \' \` AE ae O/ o/ ui ss $$ cd um .. ri ma mc hc be

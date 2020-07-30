@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)rpc-cmsd	1.2	06/07/28 SMI"
+#
+# For modifying parameters passed to rpc.cmsd, do not edit
+# this script. Instead use svccfg(1m) to modify the SMF
+# repository. For example:
+#
+# svccfg -s network/rpc/cde-calendar-manager:default
+# svc:/network/rpc/cde-calendar-manager:default> setprop cmsd/debug = "true"
+# svc:/network/rpc/cde-calendar-manager:default> exit
+# svcadm refresh cde-calendar-manager:default
+
+FMRI=svc:network/rpc/cde-calendar-manager:default
+
+val=`svcprop -p cmsd/csa $FMRI`
+[ "$val" = "true" ] && arg="-c"
+
+val=`svcprop -p cmsd/debug $FMRI`
+[ "$val" = "true" ] && arg="$arg -d"
+
+val=`svcprop -p cmsd/gctime $FMRI`
+[ -n $val ] && gctime=`eval "echo $val"`
+if [ "$gctime" != "0400" ];then
+	arg="$arg -g $gctime"
+fi
+
+if [ -x /usr/dt/bin/rpc.cmsd ] ; then
+	/usr/dt/bin/rpc.cmsd $arg
+else
+	echo "Error: /usr/dt/bin/rpc.cmsd is missing or not executable"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+exit $SMF_EXIT_OK

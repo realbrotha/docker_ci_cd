@@ -1,0 +1,23 @@
+#
+#ident	"@(#)mapfile_execdata	1.1	04/10/11 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Linker mapfile to create an executable data segment definition within
+# an executable for applications which rely on this.  This is the default
+# for 32 bit x86 executable and all SPARC executables; this mapfile is
+# provided to facilitate an executable data segment for AMD64 executables.
+# The linker does not use this file automatically, so one must use the -M
+# option to cc or ld:
+#
+#       cc -M /usr/lib/ld/map.execdata myprogram.c
+#
+data = ?RWX;
+#
+# For programs with a separate BSS segment add a line for the BSS; just
+# adding the line creates a BSS segment so it is commented out.
+#
+# bss = ?RWX;
+#
+# See also /usr/lib/ld/map.noexdata

@@ -1,0 +1,64 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.list 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.list
+################################################################################
+
+`message -w;$LUBIN/lunames_get >/tmp/choice.${VPID};`
+form=`gettext "List the filesystems of a Boot Environment"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+framemsg=`gettext "Enter the name of Boot Environment and press SAVE"`
+altslks=true
+done=open text $OBJ_DIR/Text.list "$F1"
+close=`rm -f /tmp/choice.${VPID};`
+
+name=`gettext "Name of Boot Environment:"`
+lininfo=Sub1Help.list
+nrow=1
+ncol=3
+frow=1
+fcol=33
+rows=1
+columns=30
+
+#Choices should show all complete BE names.
+rmenu=open menu $OBJ_DIR/Menu.choices /tmp/choice.${VPID}
+       
+valid=`fmlgrep '^'$F1'$' /tmp/choice.${VPID}`
+
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name= 
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

@@ -1,0 +1,141 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.compare 5.2     01/04/19 SMI"
+#
+################################################################################
+#	Module Name:  Form.compare
+################################################################################
+
+form=`gettext "Compare a BE contents with Active BE"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+altslks=true
+close=`rm -f $ARG1`
+done=`
+if [ "$F2" = "yes" ];
+then 
+	run $LUBIN/lucompare -i "$F3" -o "$F5" "$F1";
+else
+	if [ "$F4" = "yes" ];
+	then run $LUBIN/lucompare -t -o "$F5" "$F1";
+	else run $LUBIN/lucompare -o "$F5" "$F1";
+	fi;
+fi;
+if [ "$RET" = "0" ];
+then
+        set -l CMD="open text $OBJ_DIR/Text.success Compare";
+else
+        set -l CMD="open text $OBJ_DIR/Text.fail Compare";
+fi;`$CMD
+
+name=`gettext "Name of Boot Environment:"`
+lininfo=Sub1Help.compare
+nrow=1
+ncol=1
+frow=1
+fcol=27
+rows=1
+columns=30
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`fmlgrep '^'$F1'$' $ARG1`
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "Do you want to provide the list of files to be compared?"`
+lininfo=Sub1Help2.compare
+nrow=2
+ncol=1
+frow=2
+fcol=64
+rows=1
+columns=4
+rmenu={ `gettext "yes"` `gettext "no"` }
+menuonly=true
+invalidmsg=`gettext "ERROR: Enter yes or no."`
+
+name=`gettext "Enter pathname of the file containing the list:"`
+lininfo=Sub1Help3.compare
+nrow=3
+ncol=1
+frow=3
+fcol=56
+rows=1
+columns=20
+scroll=true
+valid=`[ -s "$F3" ] && [ ! -d "$F3" ]`
+invalidmsg=`gettext "ERROR: The filename should be absolute & should be readable."`
+show=`gettext "yes" | grep "$F2" > /tmp/.compareyesno;
+	if [ -s /tmp/.compareyesno ];
+        then rm -f /tmp/.compareyesno; echo TRUE;
+        else rm -f /tmp/.compareyesno; echo FALSE;
+        fi`
+
+name=`gettext "Do you want to compare only the text files?"`
+lininfo=Sub1Help4.compare
+nrow=4
+ncol=1
+frow=4
+fcol=52
+rows=1
+columns=5
+rmenu={ `gettext "yes"` `gettext "no"` }
+menuonly=true
+invalidmsg=`gettext "ERROR: Enter yes or no."`
+show=`gettext "no" | grep "$F2" > /tmp/.compareyesno;
+	if [ -s /tmp/.compareyesno ];
+        then rm -f /tmp/.compareyesno; echo TRUE;
+        else rm -f /tmp/.compareyesno; echo FALSE;
+        fi`
+
+name=`gettext "Enter full pathname of the file to store output:"`
+lininfo=Sub1Help5.compare
+nrow=5
+ncol=1
+frow=5
+fcol=55
+rows=1
+columns=20
+scroll=true
+valid=`valpath -a "$F5";
+if [ $RET = 0 ];
+then
+   dirname "$F5" |set -l DIRNAME;
+   if [ -d $DIRNAME -a ! -d "$F5" ]; 
+   then echo TRUE;
+   else echo FALSE;
+   fi;
+else
+	echo FALSE;
+fi;`
+invalidmsg=`gettext "ERROR: The filename should be absolute & should exist."`
+
+name=
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+name=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel
+
+name=
+button=15
+action=nop
+
+name=`gettext "HELP"`
+button=16
+action=help

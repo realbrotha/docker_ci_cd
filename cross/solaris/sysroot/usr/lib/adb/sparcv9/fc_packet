@@ -1,0 +1,31 @@
+.>w
+<w+0=""
++/"tran_flags"8t"tran_type"8t"timeout"nx8tx8tX
++/"cmdlen"16t"rsplen"16t"datalen"nXXX4+
++/"cmd"16t"resp"16t"data"nJJJ
++/"data_buf"16t"ulp_comp"16t"ulp_private"nJJJ
++/"comp"16t"pd"16t"cmd_dma"nJJJ
++/"cmd_acc"16tnJ
+<w+0t104/n"cmd dmacookie"nJJXn
+<w+0t112=""
++/"resp_dma"16t"resp_acc"16tnJJ
+<w+0t128/n"resp dmacookie"nJJXn
+<w+0t136=""
++/"data_dma"16t"data_acc"16tnJJ
+<w+0t152/n"data dmacookie"nJJXn
+<w+0t192=""
++/"cmd_fhdr"
+.$<<frame_header
+<w+0t216=""
++/"fca_private"16t"state"8t"action"nJBB
++/"expln"8t"reason"16t"ena"nB1+XJ
++/"resp_fhdr"
+.$<<frame_header
+<w+0t264=""
++/"data_resid"16t"resp_resid"16t"fca_device"nXXJ
++/"ub_resp_token"16t"session"16t"security1"nJJJ
++/"security2"16t"qos1"16t"qos2"nJJJ
++/"ulp_rsvd1"16t"ulp_rsvd2"16t"fctl_rsvd1"nJJJ
++/"fctl_rsvd2"16t"fca_rsvd1"16t"fca_rsvd2"nJJJ
++/"rsvd"16tnJ
+<w+0t384=""

@@ -1,0 +1,47 @@
+#!/sbin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)console-login	1.2	04/10/10 SMI"
+#
+# For modifying parameters passed to ttymon, do not edit
+# this script. Instead use svccfg(1m) to modify the SMF
+# repository. For example:
+#
+# # svccfg
+# svc:> select system/console-login
+# svc:/system/console-login> setprop ttymon/terminal_type = "xterm"
+# svc:/system/console-login> exit
+
+FMRI=svc:/system/console-login
+
+getproparg() {
+	val=`svcprop -p $2 $FMRI`
+	[ -n "$val" ] && echo $1 $val
+}
+
+args="-g"
+
+val=`svcprop -p ttymon/device $FMRI`
+# if this isn't set, recover a little
+[ -z "$val" ] && val=/dev/console
+args="$args -d $val"
+
+args="$args `getproparg -l ttymon/label`"
+args="$args `getproparg -T ttymon/terminal_type`"
+args="$args `getproparg -m ttymon/modules`"
+
+val=`svcprop -p ttymon/nohangup $FMRI`
+[ "$val" = "true" ] && args="$args -h"
+
+val=`svcprop -p ttymon/timeout $FMRI`
+[ -n "$val" -a "$val" != "0" ] && args="$args -t $val"
+
+val=`svcprop -p ttymon/prompt $FMRI`
+if [ -n "$val" ]; then
+	prompt=`eval echo $val`
+	exec /usr/lib/saf/ttymon $args -p "`eval echo $prompt` "
+else
+	exec /usr/lib/saf/ttymon $args
+fi

@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/gstreamer-0.8
+
+Name: GStreamer Interfaces Library
+Description: Streaming-media framework, interfaces library
+Requires: gstreamer-0.8
+Version: 0.8.3
+
+Libs: -L${libdir} -lgstinterfaces-0.8
+Cflags: -I${includedir}

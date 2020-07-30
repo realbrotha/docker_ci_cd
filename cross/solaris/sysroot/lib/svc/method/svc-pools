@@ -1,0 +1,59 @@
+#!/sbin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-pools	1.1	06/06/05 SMI"
+#
+# Method script for the pools service.
+#
+
+. /lib/svc/share/smf_include.sh
+
+check_requirements () {
+	if [ ! -x /sbin/zonename ] || [ ! -x /usr/sbin/pooladm ] ||
+	    [ "${_INIT_ZONENAME:=`/sbin/zonename`}" != "global" ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+}
+
+check_requirements
+case "$1" in
+'start')
+	/usr/sbin/pooladm -e
+	if [ $? -ne 0 ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+	if [ -f /etc/pooladm.conf ]; then
+		/usr/sbin/pooladm -c
+		if [ $? -ne 0 ]; then
+			/usr/sbin/pooladm -d
+			exit $SMF_EXIT_ERR_CONFIG
+		fi
+	fi
+	;;
+'stop')
+	/usr/sbin/pooladm -x
+	if [ $? -ne 0 ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+	/usr/sbin/pooladm -d
+	if [ $? -ne 0 ]; then
+		exit $SMF_EXIT_ERR_FATAL
+	fi
+	;;
+'refresh')
+	if [ -f /etc/pooladm.conf ]; then
+		/usr/sbin/pooladm -c
+		if [ $? -ne 0 ]; then
+			exit $SMF_EXIT_ERR_CONFIG
+		fi
+	fi
+	;;
+*)
+	echo "Usage: $0 { start | stop | refresh}"
+	exit $SMF_EXIT_ERR_FATAL
+	;;
+esac
+
+exit $SMF_EXIT_OK

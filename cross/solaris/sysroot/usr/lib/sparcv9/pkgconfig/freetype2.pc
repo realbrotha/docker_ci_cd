@@ -1,0 +1,11 @@
+prefix=/usr/sfw
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib/64
+includedir=${prefix}/include
+
+Name: FreeType 2
+Description: A free, high-quality, and portable font engine.
+Version: 9.8.3
+Requires:
+Libs: -L${libdir} -R${libdir} -lfreetype 
+Cflags: -I${includedir} -I${includedir}/freetype2

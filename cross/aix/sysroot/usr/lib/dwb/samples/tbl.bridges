@@ -1,0 +1,31 @@
+'\" @(#)70	1.3  src/cmdtext/usr/lib/dwb/samples/tbl.bridges, cmdtext, cmdtext530 4/15/91 13:27:04  
+'\"
+'\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+'\"
+'\" FUNCTIONS:
+'\"
+'\" ORIGINS: 54 
+'\"
+.TS
+box,center;
+c s s
+c | c | c
+l | l | n.
+Major New York Bridges
+_
+Bridge	Designer	Length
+_
+Brooklyn	J. A. Roebling	1595
+Manhattan	G. Lindenthal	1470
+Williamsburg	L. L. Buck	1600
+_
+Queensborough	Palmer &	1182
+	  Hornbostel
+_
+		1380
+Triborough	O. H. Ammann	_
+		383
+_
+Bronx Whitestone	O. H. Ammann	2300
+Throgs Neck	O. H. Ammann	1800
+.TE

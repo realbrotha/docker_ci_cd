@@ -1,0 +1,27 @@
+#!/bin/ksh 
+
+echo FLASH REBOOT PROCESSING
+
+case "$1" in
+'start')
+	/usr/lib/flash/fdo dir_exec /etc/flash/reboot
+	if [ $? != 0 ]; then
+		echo "$(gettext "Precreation script failure.")"
+		exit 1
+	fi
+	;;
+
+'stop')
+        ;;
+
+*)
+        echo "Usage: $0 { start | stop }"
+        exit 1
+        ;;
+esac
+
+/usr/bin/rm -rf /etc/flash/reboot
+/usr/bin/rm /etc/rc2.d/S98flash_reboot
+/usr/bin/rm /etc/init.d/flash_reboot_processing
+
+exit 0

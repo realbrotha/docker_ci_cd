@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#ident	"@(#)dhtadm.sh	1.2	04/01/27 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+DMDIR=/usr/lib/inet/dhcp/svcadm
+L10NDIR=/usr/share/lib/locale
+
+CLASSPATH=${L10NDIR}:${DMDIR}/dhcpcli.jar:${DMDIR}/dhcpsvc.jar:${DMDIR}/dhcpcommon.jar
+export CLASSPATH
+
+exec /usr/java/bin/java com.sun.dhcpmgr.cli.dhtadm.DhtAdm "$@"

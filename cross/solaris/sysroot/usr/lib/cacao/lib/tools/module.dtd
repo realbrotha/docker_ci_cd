@@ -1,0 +1,169 @@
+<!--
+Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
+Use is subject to license terms.
+ident	"$Revision: 1.4 $	SMI"
+
+This is the XML DTD for a cacao module deployment descriptor.
+-->
+
+<!--
+ The module element is the root element of a cacao module
+ deployment descriptor.
+-->
+
+<!ELEMENT module (description?, module-dependencies?, module-class?, 
+                  public-path?, private-path?, library-path?,
+                  cacao-version-supported,
+                  heap-requirements-kilobytes?, 
+                  mbean-instances-descriptor?, parameters?)>
+
+<!--
+ The module element has three attributes. These are:
+
+    name
+    version
+    initial-state
+
+ name is the instance name of the module.
+
+ version is the module's version, which should follow the rule X.Y with
+ X being greater than 0 and Y being greater than or equal to 0.
+ If no value is provided, 1.0 is used as a default value.
+ Example: 1.0
+
+ initial-state is the initial value of the module's administrative state. 
+ If no value is provided, UNLOCKED value is used.
+
+ ignored-at-startup is a flag which drives the loading of the module at
+ startup of the cacao agent. 
+ If its value is Yes, the module will be ignored at cacao startup.
+ Default value is No.
+
+ enable-on-demand is an attribute for enabling a module only when at least
+ one another module depends on it.
+ The only case where this flag has an effect is if the flag value is Yes and 
+ the module is unused, with no other module depending on the module.
+ In that case, the module's manager operational state is set to DISABLED,
+ its availability status is set to OFF_LINE. 
+ Default value is No.
+-->
+
+<!ATTLIST module  
+  name CDATA #REQUIRED
+  version CDATA #IMPLIED
+  initial-administrative-state (LOCKED | UNLOCKED) #IMPLIED 
+  ignored-at-startup CDATA #IMPLIED
+  enable-on-demand CDATA #IMPLIED
+>
+
+<!--
+ Description of the module
+-->
+<!ELEMENT description (#PCDATA)>
+
+<!--
+ Allows the definition of a list of parameters for the module.
+ It defines a list of couples (parameter-name, parameter-value).
+ These parameters can be retrieved at runtime from the module's 
+ DeploymentDescriptor class in a Map.
+-->
+<!ELEMENT parameters (parameter)*>
+
+<!ELEMENT parameter (param-name , param-value)+>
+
+<!--
+ Parameter name.
+-->
+<!ELEMENT param-name (#PCDATA)>
+<!--
+ Parameter value.
+-->
+<!ELEMENT param-value (#PCDATA)>
+
+<!--
+ Defines one or more dependencies on other cacao modules.
+-->
+<!ELEMENT module-dependencies (instance-dependency)+>
+
+<!--
+ Dependency is defined as a couple : (name,version). 
+ If no version number is specified, the default version number is "1.0".
+
+ If module A has a STRONG_DEPENDENCY on module B,
+ this means that module A requires that module B be up and running to be able
+ to start, in other words that module B's administrative state should be 
+ UNLOCKED and its operational state should be ENABLED.
+
+ A WEAK_DEPENDENCY implies that the module B has been loaded, but
+ there are no constraints about its administrative or operational states.
+-->
+<!ELEMENT instance-dependency (name , version?)>
+<!ATTLIST  instance-dependency
+  dependency-type (STRONG_DEPENDENCY | WEAK_DEPENDENCY) #IMPLIED
+>
+
+<!--
+ Name of the cacao module on which the module has a dependency.
+-->
+<!ELEMENT name (#PCDATA)>
+
+<!--
+ Minimum version of dependency module which is supported by the module.
+ This attribute is not managed by Cacao 1.1.
+-->
+<!ELEMENT version (#PCDATA)>
+<!ATTLIST version  
+  allow-more-recent CDATA #IMPLIED
+>
+
+<!--
+ Name of the class implementing com.sun.cacao.Module interface.
+ Example: com.sun.cluster.ClusterModule
+-->
+<!ELEMENT module-class (#PCDATA)>
+
+<!--
+ Classpath required for the module and also used by the module clients.
+-->
+<!ELEMENT public-path (path-element)+>
+
+<!--
+ Classpath for module-private classes that are not available to 
+ the module clients.
+-->
+<!ELEMENT private-path (path-element)+>
+
+<!--
+ Library path used to specify paths for native libraries search
+-->
+<!ELEMENT library-path (path-element)+>
+
+<!--
+ Classpath element URL. Currently only the file protocol is supported.
+ Example: file:/export/jars/client.jar or file:/export/classes/
+ There must be only one URL per path-element.
+ Only absolute paths should be used.
+-->
+<!ELEMENT path-element (#PCDATA)>
+
+<!--
+ Defines the minimal cacao version on which the module could run. 
+ The specification of this element is mandatory. The format of the contained 
+ version follows the format X.Y with X being greater than 0 and Y being greater 
+ than 0. 
+ This attribute is not managed by Cacao 1.Y releases and is managed since
+ Cacao 2.0.
+-->
+<!ELEMENT cacao-version-supported (#PCDATA)>
+
+<!--
+ Approximate heap size needed by this module. 
+ This attribute is not managed by Cacao.
+-->
+<!ELEMENT heap-requirements-kilobytes (#PCDATA)>
+
+<!--
+ Absolute path to the MBean instances descriptor associated with
+ this module. This attribute is not managed by Cacao 1.0.
+-->
+<!ELEMENT mbean-instances-descriptor  (#PCDATA)>

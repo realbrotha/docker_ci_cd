@@ -1,0 +1,277 @@
+#!/sbin/sh
+
+#################################################################################################
+#
+#	Copyright (c) 1999-2003 by Sun Microsystems, Inc. All Rights Reserved.
+#	Copyright 1992-95 AT&T Global Information Solutions
+#
+# ident "@(#)lustat_set.sh 5.4     03/01/29 SMI"
+#
+# USAGE:         lustat_set -n "be_name" -s <status>
+# FUNCTION:      Sets the status field of lutab and calls updtall.
+# INPUT:         Target BE Name(Character String)
+#		        Status ( "C" for Completion "NC" for Incomplete )
+# OUTPUT:        None
+# DEV:           RAMAN
+#
+# Note: performance testing has proven that "/sbin/sh" provides the best performance over
+# /bin/sh and /bin/ksh.
+#
+#################################################################################################
+
+LU_PROG_FULL_PATH="$0"
+LU_PROG_NAME="`basename ${LU_PROG_FULL_PATH}`"; export LU_PROG_NAME
+TMP_LUTAB="/tmp/.lustat_set.lutab.$$"
+BACKUP_LUTAB="/tmp/lutab.backup.$$"
+LUTAB="/etc/lutab"
+
+#################################################################################################
+# Name:		usage
+# Description:	output command line usage information; then call exit_script to terminate execution.
+# Local Prefix:	<none>
+# Arguments:	$1 = exit code for script ("" defaults to "3").
+# Example:	usage 3
+# Returns:	<none> 
+#################################################################################################
+
+usage()
+{
+
+  ${LUPRINTF} -p2 "`gettext 'Usage: %s [-l error_log] [-o outfile] -n \\\"BE_name\\\" -s <status>'`" "${LU_PROG_NAME}"
+  ${LUPRINTF} -p2 "`gettext 'where <status> = C for Complete, NC for Incomplete.'`"
+
+  if [ -z "$1" ] ; then
+    exit_script 3
+  fi
+  exit_script "$1"
+}
+
+#################################################################################################
+# Name:		exit_script
+# Description:	Perform cleanup operations and exit this script.
+# Local Prefix:	<none>
+# Arguments:	$1 = optional exit value for script ("" or none is = "0")
+# Example:      exit_script "0"
+# Returns:	<none>
+#################################################################################################
+
+exit_script()
+{
+  /bin/rm -f ${TMP_LUTAB} ${BACKUP_LUTAB}
+
+  # Determine the exit status code.
+
+  retcode="0"
+  if [ -n "$1" ] ; then
+    retcode="$1"
+  fi
+
+  exit "${retcode}"
+}
+
+#################################################################################################
+# Name:		<main>
+# Description:	Main code (outside of any function definitions) - executed at script startup.
+# Local Prefix:	<none>
+# Arguments:	$0...$n = All arguments specified by user on command line that invoked this script.
+#################################################################################################
+
+# Dot the defaults file.
+
+if [ ! -s /etc/default/lu ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: Live Upgrade not installed properly (/etc/default/lu not found).'`"
+  exit 1
+fi
+. /etc/default/lu
+
+# Default global variables we expect to be set from /etc/default/lu.
+
+LUBIN=${LUBIN:=/usr/lib/lu}
+
+# Dot the Live Upgrade library functions.
+
+if [ ! -s $LUBIN/lulib ] ; then
+  echo "${LU_PROG_NAME}: ""`gettext 'ERROR: The Live Upgrade product is not installed properly (${LUBIN}/lulib not found).'`"
+  exit 1
+fi
+
+. $LUBIN/lulib
+
+# Check for existence and non-zero size of lutab file.
+
+if [ ! -f /etc/lutab -o ! -s /etc/lutab ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'No BEs are configured on this system.'`"
+  exit 1
+fi
+
+  ######################################################################################
+  ##################### Command line option and argument processing ####################
+  ######################################################################################
+
+# Reset all command line parse flags to default values.
+flag_o="" # -o f - output file path.
+flag_l="" # -l f - log file path.
+flag_n="" # -n "n" - be name.
+flag_s="" # -s "status" - status to set BE to.
+flag_x="" # -x n - set debug level to n (PRIVATE).
+
+while [ $# -ne 0 ] ; do
+  while getopts l:o:n:s:x:X c
+  do
+    case $c in
+      l) # -l f - error log file path.
+	 # This overrides the LU_ERROR_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_l}" "${OPTARG}" "-l"
+	 ${LUPRINTF} -lp2D - "`gettext 'Verifying that the error log file <%s> specified can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -l option may not be created or appended to: <%s>.'`" "${OPTARG}" "${ERRMSG}"
+	   exit_script 3
+	 fi
+	 flag_l="${OPTARG}"
+	 lulib_set_error_log_file "${flag_l}"
+	 ;;
+      o) # -o f - output file path.
+	 # This overrides the LU_SESSION_LOG_FILE setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_o}" "${OPTARG}" "-o"
+	 ${LUPRINTF} -lp2D -  "`gettext 'Verifying that the session log file <%s> can be created and appended to.'`" "${OPTARG}"
+	 ERRMSG="`${LUPRINTF} -c \"${OPTARG}\" 2>&1`"
+	 if [ $? -ne 0 ] ; then
+	   [ -n "${ERRMSG}" ] && ${LUPRINTF} -elp2 '%s' "${ERRMSG}"
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -o option may not be created or appended to: <%s>.'`" "${OPTARG}" "${ERRMSG}"
+	   exit_script 3
+	 fi
+	 flag_o="${OPTARG}"
+	 lulib_set_session_log_file "${flag_o}"
+	 ;;
+      n) # -n "n" - be name.
+	 lulib_cannot_duplicate_option "${flag_n}" "${OPTARG}" "-n"
+	 flag_n="${OPTARG}"
+	 ;;
+      s) # -s "status" - the status to set BE to.
+	 lulib_cannot_duplicate_option "${flag_s}" "${OPTARG}" "-s"
+	 flag_s="${OPTARG}"
+	 ;;
+      x) # -x n - set debug level to n (PRIVATE).
+	 # This overrides the default setting read from /etc/default/lu
+	 lulib_cannot_duplicate_option "${flag_x}" "${OPTARG}" "-x"
+	 /bin/test "${OPTARG}" -ge 0 2>/dev/null
+	 if [ $? -gt 1 ] ; then
+	   ${LUPRINTF} -Eelp2 "`gettext 'Argument <%s> to -x option is not a number.'`" "${OPTARG}"
+	   usage 3
+	 fi
+	 flag_x="${OPTARG}"
+	 lulib_set_debug "${flag_x}"
+	 ;;
+      X) # -X - set XML output mode.
+	  lulib_set_output_format 'xml'
+	  ;;
+      \?) # unknown - option.
+	  usage 3
+    esac
+  done
+
+  # Found either end of arguments, +option, or non-option argument; shift out
+  # what has been processed so far; if a non-option argument is present
+  # capture it and continue processing the command line arguments.
+  shift `/bin/expr $OPTIND - 1`
+  OPTIND=1
+  if [ $# -ne 0 -a "$1" = '+X' ] ; then
+      # +X - set TEXT output mode.
+      lulib_set_output_format 'text'
+      shift
+  else
+    break
+  fi
+done
+
+# Fixup debug, session log, and error log settings
+lulib_fixup_startup_settings
+
+  ######################################################################################
+  ############ Validate all command line arguments and options as possible #############
+  ######################################################################################
+
+# If any command line arguments provided, exit with error.
+if [ "$#" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Command line arguments <%s> not allowed.'`" "$*"
+  usage 3
+fi
+
+# A valid BE name must be provided.
+if [ -z "${flag_n}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The required target boot environment name was not specified with the -n option.'`"
+  usage 3
+fi
+BE_NAME="${flag_n}"
+
+# Validate the BE name option.
+lulib_is_be_name_inuse "${BE_NAME}"
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to use the target boot environment <%s>.'`" "${BE_NAME}"
+  exit_script 2
+fi
+
+# A valid status must be provided.
+if [ -z "${flag_s}" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The required target boot environment status was not specified with the -s option.'`"
+  usage 3
+fi
+STATUS="${flag_s}"
+
+# Validate the status argument
+
+if [ "${STATUS}" != "C" -a "${STATUS}" != "NC" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'The status <%s> specified by the -s option must be either \\\"C\\\" (for complete) or \\\"NC\\\" (for not complete).'`" "${STATUS}"
+  usage 3
+fi
+
+# Get the ID of the BE
+
+ID=`${LUETCBIN}/ludo get_be_id "$BE_NAME" 2>&1`
+if [ $? != 0 ] ; then
+  ${LUPRINTF} -Eelp2 '%s' "${ID}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to set the status of the target boot environment <%s>.'`" "${BE_NAME}"
+  usage 3
+  exit 1
+fi
+
+# signal handling for cleanup: ignore all signals.
+# 1- SIGHUP (hangup)
+# 2- SIGINT (user interrupt)
+# 3- SIGQUIT (user quit)
+# 9- SIGKILL (kill process - can not be caught or ignored :)
+# 15- SIGTERM (software termination request)
+
+trap "" 1 2 3 9 15
+
+# edit ${LUTAB} to set the status field of BE corresponding to ID
+
+VALUE=`echo "s/^\([ 	]*${ID}[ 	]*:[^#]*:\)[^#]*\(:[ 	]*0.*\)/\1${STATUS}\2/g"`
+
+ERRMSG=`/bin/sed -e "${VALUE}" "${LUTAB}" > "${TMP_LUTAB}" 2>&1`
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 '%s' "${ERRMSG} `/bin/cat ${TMP_LUTAB} 2>/dev/null`"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update status for boot environment <%s> to <%s>.'`" "${BE_NAME}" "${STATUS}"
+  exit_script 2
+fi
+
+# Backup current lutab file, then move newly created on over it, restoring the backup on error
+/bin/rm -f ${BACKUP_LUTAB} 2>/dev/null
+/bin/cp -p ${LUTAB} ${BACKUP_LUTAB} 2>/dev/null
+ERRMSG=`/bin/mv -f ${TMP_LUTAB} ${LUTAB} 2>&1`
+if [ "$?" -ne "0" ] ; then
+  /bin/cp -p ${BACKUP_LUTAB} ${LUTAB}
+  ${LUPRINTF} -Eelp2 '%s' "${ERRMSG}"
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to update status for boot environment <%s> to <%s>.'`" "${BE_NAME}" "${STATUS}"
+  exit_script 2
+fi
+
+$LUBIN/luupdall ${LUTAB}
+if [ "$?" -ne "0" ] ; then
+  ${LUPRINTF} -Eelp2 "`gettext 'Unable to propagate the file <%s> to all BEs.'`" "${LUTAB}"
+  exit_script 2
+fi
+
+exit_script 0

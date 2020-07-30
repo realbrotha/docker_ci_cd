@@ -1,0 +1,377 @@
+2005 年 3 月 14 日
+Adobe(R) Reader(R) for UNIX(R) お読みください
+
+このファイルには、Adobe(R) Reader(R) 7.0 に関する最新の情報が記載されてい
+ます。
+
+Adobe Reader 7.0 は Adobe Acrobat 7.0 に付属する無料の表示用ソフトウェア
+です。
+Adobe Reader を使用すると、Portable Document Format（PDF）ファイルを表示、
+閲覧、および印刷できます。Adobe Acrobat 7.0 は、PDF で情報を作成、拡張、
+レビュー、編集、および共有するための統合ソリューションです。 
+
+Adobe Acrobat 7.0 について詳しくは、
+http://www.adobe.co.jp/products/acrobat を参照してください。
+ 
+このファイルには以下の情報が記載されています。
+必要システム構成
+
+インストールの手順 
+ 
+トラブルシューティング
+ 
+ショートカットキー
+
+
+必要システム構成：
+====================
+
+Linux(R) 版 Adobe Reader 7.0 を実行するために必要なシステム構成
+- 32 ビット Intel Pentium(R) クラスのプロセッサ
+- Linux カーネル 2.4 以降
+- GLIBC バージョン 2.3 以降
+- 128 MB の RAM（256 MB を推奨）
+- 110 MB のハードディスク空き容量
+- アジア言語のフォント（オプション）をインストールする場合はさらに 40 MB 
+  のハードディスク空き容量
+- サポートされている Linux ディストリビューション：
+	o Red Hat Linux AS 3.0（2.4.21）、4.0（2.6.9）
+	o Red Hat Linux ES 3.0（2.4.21）、4.0（2.6.9）
+	o Red Hat Linux WS 3.0（2.4.21）、4.0（2.6.9）
+	o Red Hat Linux Desktop
+	o Red Hat Linux 9.0（2.4.20-6）
+	o SUSE Enterprise Server 9X（2.6）
+	o SUSE Professional 9.2（2.6.4）
+	o Novell Linux Desktop 9.x（2.6.4）
+	o Turbolinux 10 Desktop（2.6）
+	o Red Flag Linux Desktop 4.0
+ 
+
+Web ブラウザのサポート
+次のブラウザ内で PDF ファイルを表示できます。
+	o Mozilla 1.7.3、1.8
+	o Firefox 1.0
+	o Netscape 7
+
+
+インストールの手順：
+==========================
+ 
+Linux 版 Adobe Reader 7.0 のインストールとアンインストール
+ 
+Adobe Reader 7.0 をインストールするには、以下の手順に従ってください。 
+ 
+- RPM インストーラを使用する場合：
+	1. ハードディスクの空き容量が 110 MB 以上あることを確認します。
+	2. 「rpm -i AdobeReader_jpn-7.0.1-1.i386.rpm」を実行します。
+
+	Adobe Reader 7.0 をアンインストールするには、次のコマンドを実行し
+        ます。
+	rpm -e AdobeReader_jpn
+
+- Tarball インストーラを使用する場合：
+	1. ハードディスクの空き容量が 110 MB 以上あることを確認します。
+	2. 「tar -zxvf AdbeRdr70_linux_jpn.tar.gz」を実行します。
+	3. 作成された AdobeReader ディレクトリで「INSTALL」スクリプトを実
+        行します。
+
+	Adobe Reader 7.0 のアンインストール手順は簡単で、Adobe Reader 7.0 
+        がインストールされたディレクトリを削除するだけです。 
+
+ブラウザプラグインのインストール（デフォルトではインストールされません）：
+- ブラウザプラグインをインストールするには、
+「<INSTALL_PATH>/Browser/install_browser_plugin」スクリプトを実行する必要
+があります。手順について詳しくは、
+「<INSTALL_PATH>/Browser/Browser_Plugin_HowTo.txt」を参照してください。
+
+
+インストールに関する注意事項
+
+Adobe Reader を実行するには libstdc++.so.5 が必要です。システムによっては、
+デフォルトではインストールされていない場合があります。この問題を解決する
+には、 compat-libstdc++ パッケージをインストールする必要があります。
+
+
+トラブルシューティング：
+=======================
+
+Red Flag Linux の問題
+GLib に関する既知のバグのために Red Flag Linux 4.1 で Adobe Reader を起動
+できません。この問題はアクセシビリティ関係のモジュールをロードするときに
+起こります。  
+この問題を解決するには、新しいバージョンの GLib にアップグレードするか、
+<INSTALL_PATH>/bin/acroread スクリプト内の「export GTK_MODULES」という行
+をコメントアウトします。 [1106081]
+
+PPKLite.api をロードできない
+PPKLite を使用するにはシステムに OpenLDAP パッケージがインストールされて
+いる必要があります。このパッケージがインストールされていない場合、PPKLite 
+を初期化できません。acroread の起動時にこのエラーが発生する場合は、LDAP ラ
+イブラリ（OpenLDAP パッケージ）をインストールする必要があります。LDAP パ
+ッケージをロードしても PPKLite をロードできない場合は、既にインストールさ
+れている libldap.so.Xおよび liblber.so.X へのリンクを、
+<INSTALL_PATH>/Reader/intellinux/lib にそれぞれ「libldap.so」および
+「liblber.so」という名前で作成してください。 [1132741]
+
+一部のシステムフォントが表示されない
+Adobe Reader は、定義済みのシステムディレクトリに加えて、環境変数 
+PSRESOURCEPATH で指定されているディレクトリリスト内でシステムフォントを
+検索します。これ以外に Adobe Reader で検索されない可能性があるフォントデ
+ィレクトリがシステムに存在する場合は、Adobe Reader を起動する前に環境変数 
+PSRESOURCEPATH にこのようなディレクトリを追加できます。必要なフォントがド
+キュメントに埋め込まれていない場合、文書／ローカルフォントを使用オプショ
+ンをオンにすると、PSRESOURCEPATH 変数の指定に従ってシステムフォントが選択
+されます。
+
+CJK テキストを拡大したときの太字のテキストの表示
+元のアプリケーションで合成太字を使用して太字のテキストが作成されている場
+合、CJK の一部の太字の文字が不明瞭になることがあります。ページ表示の環境
+設定パネルで「文字のスムージング」と「CoolType 使用」がオフになっている場
+合、ドキュメントを拡大したときにテキスト内に白い部分が表示されたり、テキ
+ストが欠けて表示されることがあります。Acrobat 4.x では文字を 4 回描画する
+ことによって太字を実現していますが、一部のドキュメントでは、このようなテ
+キストが太字ではなく、4 本のラインとして表示される場合があります。Acrobat 
+5.0 では、合成太字が使用されています。太字のテキストを拡大したときに白い
+部分や欠けが表示されないようにするには、ページ表示の環境設定パネルで「文
+字のスムージング」と「CoolType 使用」をオンにすることをお勧めします。 
+[418447]  
+ 
+検索ダイアログボックス - 「検索」コマンドを使用した Unicode 文字の検索
+「検索」コマンドを使用して、PDF ドキュメント内の Unicode 文字を検索できま
+す。この場合、検索する Unicode 文字の前に「\u」を追加します。例えば、ASCII 
+文字「A」に対応する Unicode 文字を検索する場合は、検索ダイアログボックス
+に「\u0041」と入力します。Unicode「4e01」CJK 文字については、「\u4e01」の
+ように指定できます。 [413632] 
+  
+一部のシステムでページのテキストが伸張または傾斜して表示される
+特定のシステムでページの表示に対して伸張または傾斜効果が適用されたように
+表示される場合があります。この問題を解決するには、編集／環境設定／ページ
+表示をクリックし、「カスタム解像度」を現在表示されているシステムの設定値
+に設定します。 [1154513]
+
+ソケットファイルが原因で検索が終了しない
+指定した検索パスにソケットファイル（/tmp または $HOME のようなファイルパ
+ス）が含まれる場合、検索が終了しません。指定するパスに通常のファイルだけ
+が含まれ、ソケットファイルが含まれていないことを確認します。 [1148788]
+
+mutt を使用したメールの送信
+電子メールクライアントとして mutt を選択したときに、ターミナルウィンドウ
+が点滅する場合や、表示されない場合は、$HOME/.muttrc に「set autoedit=no」
+という行を追加すると、mutt を使用してメールを送信できるようになります。 
+[1117619]
+
+メールの送信時に evolution がクラッシュする
+この問題は初期のバージョンの evolution で発生します。メールの送信時に 
+evolution がクラッシュする場合（電子メールクライアントとして ebolution が
+選択されているとき）は、バックグラウンドで evolution を実行し続けてみます。
+それでもクラッシュする場合は、evolution 2.0 以降にアップグレードします。
+この場合も、バックグラウンドで実行し続けなければならない可能性があります。 
+[1087494]
+
+アクセシビリティがアクティブにならない
+システムでアクセシビリティのサポートが有効になっているかどうかを確認する
+ために、Adobe Reader は gconf レジストリを調べます。システムに gconftool-2 
+がない場合、Reader のアクセシビリティのサポートはオフになります。システム
+に gconftool-2 がない場合に、Adobe Reader のアクセシビリティ機能を使用す
+る場合は、<INSTALL_PATH>/bin/acroread ファイルの終わり近くにある「if 
+[ "$IS_GCONF_TOOL" = "no" ]」ブロックで「ACRO_AT_ACTIVE="false"」という行
+を「ACRO_AT_ACTIVE="true"」に変更します。 [1161246]
+
+ドキュメントのアクセシビリティの有効化
+1. gconf-editor または gconftool-2 を使用してキー 
+/desktop/gnome/interface/accessibility を true に設定して、システムのアク
+セシビリティのサポートを有効にします。
+2. キーボード選択カーソルを有効にします。F7 キーを押すとカーソルが切り替
+わります。編集／環境設定／アクセシビリティ／キーボード選択カーソルを常に
+表示を選択して有効にすることもできます。
+3. 編集／環境設定／読み方／文書のアクセシビリティを有効にするオプション
+をオンにします。
+
+香港文字セットと注釈やしおり
+Acrobat Reader 7.0 は PDF ファイルのテキストとして香港文字セットをサポー
+トしています。これは Adobe 繁体字中国語文字セットの拡張機能です。香港文字
+セットを使用するテキストを含む PDF ファイルを表示する場合は、繁体字中国語
+言語パックをインストールして繁体字中国語のサポートをインストールしてくだ
+さい。香港文字セットは標準のシステムフォントではないため、香港文字で注釈
+やしおりを作成することはできません。 [407877] 
+   
+Adobe Reader は pwd にアクセスする必要がある
+「pwd」コマンドの実行に失敗するディレクトリからの場合、 Adobe Reader が正
+常に実行されません。
+
+以前の環境設定の削除
+初めて Adobe Reader 7.0 を起動する前に、$HOME/.acrorc ファイルおよび 
+$HOME/.adobe ディレクトリ（存在する場合）を削除することをお勧めします。こ
+れによって、Adobe Reader を最初に実行するときにデフォルトの環境設定が使用
+されます。ただし、この作業は必須ではありません。実際、古いバージョンの Adobe 
+Reader を使用し続けるときはこの作業を行わないほうがよい場合もあります。
+
+最近使用したファイルの名前
+ファイルメニューに表示されるファイルは「最近使用したファイル」であり、実
+際のパス名に基づいています。セッション中に automounter を使用してファイル
+を開き、automounter が停止した場合、「最近使用したファイル」を開こうとす
+ると、「ファイルまたはディレクトリがありません」というエラーが表示されま
+す。このエラーは、ファイルが移動またはファイル名が変更された場合や、同一
+のファイルシステムがマウントされていない別のコンピュータから Adobe 
+Reader を実行した場合にも表示されます。
+
+最近使用したファイルのリストに一時ファイルが表示されないようにする
+一時ファイル（Web で開いたファイルなど）が「最近使用したファイル」のリス
+トに表示されないようにするには、mailcap エントリを次のように設定します。
+   
+application/pdf;acroread -tempFile %s
+
+環境設定ファイルの書き込み
+Adobe Reader では、環境設定ファイルに書き込めなかった場合に警告は表示され
+ません。環境設定を保存する場合は、「$HOME/.adobe」が書き込み可能なディレ
+クトリであることを確認してください。
+
+ウィンドウマネージャ
+KDE および GNOME 環境でテスト済みです。
+
+パスワードで保護された PDF の印刷
+ユーザはパスワードで保護された PDF ドキュメントを Adobe Reader から印刷
+することはできますが、コマンドラインから PostScript に出力することはでき
+ません。
+
+異機種ファイルサーバ環境
+Novell サーバを使用する異機種ネットワーク環境で運用する場合、PDF ファイル
+に（32 文字を超える）長い名前を付けないでください。Novell(R) サーバは 
+Macintosh(R) コンピュータのユーザに対して長いファイル名を表示しますが、
+MacOS(R) 上の Adobe Reader でこのファイルを開くことができません。この問題
+は Windows では発生しません。
+
+コマンドラインのヘルプ
+コマンドラインで、「acroread -help」または「acroread -helpall」と入力する
+と、コマンドラインオプションの詳細が表示されます。このコマンドラインを使
+用する場合、環境で DISPLAY 変数が定義されていない場合は、DISPLAY 変数を指
+定する必要があります。 
+
+印刷：ドキュメントが印刷されない / lp ログのエラー
+lp foo.ps を実行すると、スプールファイルから foo.ps ファイルへのシンボリ
+ックリンクが作成されます。これによってファイルシステム上の領域が節約され
+ます。ただし、Adobe Reader は、スプールに一時ファイルを作成し、PostScript 
+ファイルを書き出した後、lpd プロセスが一時ファイルを取得する前に一時ファ
+イルを削除します。この問題を解決するには、印刷ダイアログボックスで lp ま
+たは lpr コマンドに「-c」（コピー）オプションを含めます。これによって、lpd 
+プロセスはリンクを作成する代わりに、ファイルをスプール領域にコピーします。
+
+Adobe Reader の検索
+クロスプラットフォームで使用できる全文検索用インデックスを作成する場合は、
+インデックスを作成するファイルに ISO 9660 ファイル命名規則（8.3 形式、大
+文字、制限された文字セット）を使用する必要があります。このような名前を使
+用しない場合、UNIX 版の Adobe Reader は Unix ファイル名を推測しようとしま
+す。これによって検索の速度が遅くなり、ファイルが見つからない可能性もあり
+ます。
+
+選択ツールとスナップショットツール
+選択ツールを使用してドキュメント内のテキストを選択したり、スナップショッ
+トツールを使用してページ内の一部の領域を選択したりできます。選択した内容
+は自動的にクリップボードにコピーされます。
+
+複数のインスタンスを実行している場合 Web ブラウザからフォームを送信でき
+ない Netscape（またはその他の Web ブラウザ）で、.Netscape フォルダに
+ロックファイルが見つかったという警告が表示された場合、Web でフォームを
+送信できません。この警告（最初に Netscape を起動したときに表示される）は、
+通常、Netscape をもう 1 つ実行していることを意味します。Netscape を 1 つ
+だけ実行するようにすることで、この問題を解決できる場合があります。
+Netscape がクラッシュしたためにロックファイルが残っている場合は、
+.Netscape/lock ファイルを削除してください。
+
+
+ショートカットキー：
+===================
+
+ホットキーまたはアクセラレータ：
+Alt キーを押してメニューバーをアクティブにして、次のいずれかのキーを押し
+ます。
+f - ファイルメニュー
+e - 編集メニュー
+v - 表示メニュー
+d - 文書メニュー
+t - ツールメニュー
+w - ウィンドウメニュー
+h - ヘルプメニュー
+
+ナビゲーションツール：
+Page Up 前の画面を表示
+Page Down 次の画面を表示
+左矢印 前のページを表示
+右矢印 次のページを表示
+上矢印 上へスクロール
+下矢印 下へスクロール
+Ctrl+L 全画面表示を切り替え
+Shift+Ctrl+N 特定のページに移動
+
+ファンクションキー：
+F8 ツールバーの表示を切り替え
+
+ドキュメントの編集：
+Ctrl+A すべてを選択
+Ctrl+C コピー
+Ctrl+M ズーム
+Ctrl+O 開く
+Ctrl+P 印刷
+Ctrl+Q 終了
+Ctrl+W ドキュメントを閉じる
+Ctrl+0 ウィンドウに合わせる
+Ctrl+1 実際のサイズに合わせる
+Ctrl+2 幅に合わせる
+Ctrl+3 表示領域に合わせる
+Ctrl+プラス記号 ズームイン
+Ctrl+マイナス記号 ズームアウト
+Shift+Ctrl+A すべてを選択解除
+Shift+Ctrl+P ページの設定
+Shift+Ctrl+S 別名で保存
+Shift+Ctrl+プラス記号 時計回りに回転
+Shift+Ctrl+マイナス記号 反時計回りに回転
+
+ドキュメントのアクセシビリティ
+F7 キーボードキャレットを切り替え
+
+検索：
+Ctrl+F 検索
+Shift+Ctrl+F 検索パネルを開く
+
+ドキュメント情報と環境設定：
+Ctrl+D ドキュメントの概要のダイアログボックスを表示
+Ctrl+K 一般環境設定ダイアログボックスを表示
+
+
+====================================================================== 
+Copyright (C) 1987-2005 Adobe Systems Incorporated and its 
+licensors. All rights reserved. Adobe, the Adobe logo, Acrobat, the 
+Acrobat logo, PostScript, and the PostScript logo are either registered 
+trademarks or trademarks of Adobe Systems Incorporated in the 
+United States and/or other countries. Distiller, Adobe Type Manager, 
+ATM, Illustrator, PageMaker, and Photoshop are trademarks of 
+Adobe Systems Incorporated.  Sun, Sun Microsystems, the Sun Logo, 
+and Solaris are trademarks or registered trademarks of Sun 
+Microsystems, Inc. in the United States and other countries.  All 
+SPARC trademarks are used under license and are trademarks or 
+registered trademarks of SPARC International, Inc. in the United 
+States and other countries.  Products bearing SPARC trademarks are 
+based upon an architecture developed by Sun Microsystems, Inc. 
+UNIX is a registered trademark in the United States and other 
+countries, licensed exclusively through X/Open Company Ltd.  X 
+Window System is a trademark of the Massachusetts Institute of 
+Technology. Linux is a registered trademark of Linus Torvalds.  Novell 
+is a registered trademark of Novell, Inc. Macintosh and MacOS is a 
+trademark of Apple Computer, Inc., registered in the United States and 
+other countries. NCD and PC-Xware are trademarks or registered 
+trademarks of Network Computing Devices, Inc. in the United States 
+and other countries.  STSongo is a trademark of ChangZhou SinoType 
+Technology Co., Ltd.
+All other trademarks are the property of their respective owners.  
+The contents of this file are subject to the Mozilla Public License 
+Version 1.1 (the "License"); you may not use this file except in 
+compliance with the License. You may obtain a copy of the License at 
+http://www.mozilla.org/MPL.This file has not been modified by Adobe 
+and Source code may be found at http://www.mozilla.org/source.html. 
+The Original Code is Mozilla Communicator client code, released 
+March 31, 1998.The Initial Developer of the Original Code is 
+Netscape Communications Corporation. Portions created by Netscape 
+are Copyright (C) 1998 Netscape Communications Corporation. All 
+Rights Reserved.
+=======================================================================
+

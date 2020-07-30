@@ -1,0 +1,1050 @@
+#! /bin/sh
+
+
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.53 $ SMI"
+#
+
+
+# Script functions list:
+#
+# - cacao_do_create_instance        : main instance creation wrapper
+# - cacao_is_instance_exists        : Check if the instance exists.
+# - cacao_is_core_instance          : check if instance is a user one.
+# - cacao_instance_files_create     : Create the instance directories.
+# - cacao_instance_files_update     : Update the instance files.
+# - cacao_core_instance_files_update : Update a core instance files.
+# - cacao_instance_files_delete     : Delete the instance directories.
+# - cacao_instance_check_userdir    : Check that dir used by the user is correct
+# - cacao_create_instance_rollback  : Undo instance create in case of error.
+# - cacao_instance_context_load     : Loads the configuration environment for
+#                                     the given instance.
+# - cacao_instance_context_set      : Loads the instance configuration if the
+#                                     called action can run on instances.
+# - cacao_instance_name_check       : Checks the instance name
+# - cacao_instance_init_dirs        : init instance runtime dirs
+# - cacao_is_allowed_embedded_action: return true if the action can be performed
+#                                    in embedded mode
+# - cacao_print_error_running: Print an error message to tell that the agent is
+#                              not running or, in case of an embedded instance,
+#                              the instance is not reachable.
+# - cacao_do_hard_register_module    : Registers a module 
+
+#------------------------------------------------------------------------------
+# cacao_print_error_running
+#
+# DESCRIPTION :
+# Print an error message to tell that the agent is not running or, in case of
+# an embedded instance, the instance is not reachable.
+# 
+# PARAMETERS :
+# None.
+# 
+# RETURN CODE: 
+# None.
+# 
+# OUTPUT:
+# See description.
+#------------------------------------------------------------------------------
+cacao_print_error_running() {
+
+        # Embedded instance may be starting and connector not yet operational
+        if [ "${cacao_is_embedded}" = "${CACAO_TRUE_VALUE}" ]
+        then
+            cacao_print_error_message \
+                "${CACAO_MSG_EMBEDDED} ${CACAO_MSG_EMBEDDED_CONNECT}" \
+                "${cacao_main_instance}"
+        else
+            cacao_print_error_message "${CACAO_MSG_ERROR_NOT_RUNNING}"
+        fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_is_instance_exists
+#
+# DESCRIPTION :
+# Check if the instance exists.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_instance_exists() {
+    _inst_name=$1
+
+    if [ -z "${_inst_name}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+    
+    if [ -f "${cacao_etc_instances_dir}/${_inst_name}/private/cacao.properties" ]
+    then
+	return ${CACAO_TRUE}
+    else
+	return ${CACAO_FALSE}
+    fi
+}
+#------------------------------------------------------------------------------
+# cacao_is_core_instance
+#
+# DESCRIPTION :
+# check is the instance is a core instance
+# an instance is a core instance if we can found a description file
+# inside our tools dir
+#
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_TRUE
+# CACAO_FALSE
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_core_instance() {
+    
+    _inst_cfg=${cacao_tools_dir}/instance_definition_${1}.cfg
+
+    if [ -s "${_inst_cfg}" ]
+    then
+	return ${CACAO_TRUE}
+    else
+	return ${CACAO_FALSE}
+    fi
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_hard_register_module
+#
+# DESCRIPTION :
+# registers a module 
+# -> copy the the deployment descriptor into the private repository
+# -> create the <module>.property alongside which stores the original canonical
+#    path
+#
+# PARAMETERS :
+# $1 the path to the module deployment descriptor
+# $2 the target etc directory
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS : the module is registered
+# CACAO_CR_EINVAL  : the deployment descriptor xml file is invalid
+# CACAO_CR_ERROR   : the module cannot be registered
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_hard_register_module () {
+    _xml_filename=$1
+    _target_etc_dir=$2
+    
+    if [ ! -f "${_xml_filename}" ] || [ ! -r "${_xml_filename}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_INVALID}" "${_xml_filename}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    if [ ! -d "${_target_etc_dir}" ] || [ ! -w "${_target_etc_dir}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_INVALID}" "${_target_etc_dir}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    # Need to check right for this file
+    case ${_xml_filename} in
+	/*)
+	    real_xml_filename=${_xml_filename}
+	    ;;
+	*)
+	    our_cwd=`pwd 2>/dev/null`
+	    if [ $? -ne 0 ]
+	    then
+		cacao_print_error_message "${CACAO_MSG_ERROR_DIR_PWD}"
+		return ${CACAO_CR_ERROR}
+	    fi
+	    real_xml_filename=`cacao_clean_path "${our_cwd}/${_xml_filename}"`
+	    ;;
+    esac
+
+    cacao_is_valid_deployment_descriptor ${real_xml_filename}
+    if [ $? -ne ${CACAO_TRUE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_MOD_DESCR_EINVAL}" "${real_xml_filename}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    _target_modules_dir="${_target_etc_dir}/private/modules/"
+    ${CP} -f ${_xml_filename} ${_target_modules_dir} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" "${_xml_filename}" \
+                              "${_target_modules_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    module_name=`${BASENAME} ${real_xml_filename} ".xml"`
+    path_to_filename=`${DIRNAME} ${real_xml_filename}`
+    property_file="${module_name}.properties"
+    _complete_property_file=${_target_etc_dir}/private/modules/${property_file}
+
+    # Update owner of the file
+    _new_module_xml_file=${_target_modules_dir}/${module_name}.xml
+    ${CHOWN} "${CACAO_ADMIN_USER}":"${CACAO_ADMIN_GROUP}" ${_new_module_xml_file} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" "${_new_module_xml_file}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    current_umask=`umask`
+    umask ${CACAO_PROPERTY_UMASK}
+    ${ECHO} "${CACAO_MODULE_PROPERTY_PATH_KEY}=${path_to_filename}" > \
+	    "${_complete_property_file}" 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+   	# rollback the copy of the deployment descriptor
+        module_filename=`${BASENAME} ${real_xml_filename}`
+	${RM} -f "${_target_modules_dir}/${module_filename}" > /dev/null 2>&1
+        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CREATE}" "${property_file}" 
+	return ${CACAO_CR_ERROR}
+    fi
+    umask ${current_umask}
+
+    # Update property file owner
+    ${CHOWN} "${CACAO_ADMIN_USER}":"${CACAO_ADMIN_GROUP}" ${_complete_property_file} > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" "${_complete_property_file}"
+	return ${CACAO_CR_ERROR}
+    fi    
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_do_create_instance
+#
+# DESCRIPTION :
+# main instance creation wrapper
+#
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_EINVAL  : instance already exist
+# CACAO_CR_ERROR   : instance layout creation failed
+# CACAO_CR_ERROR   : instance files update failed
+# CACAO_CR_SUCCESS : everything fine 
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_do_create_instance () {
+    _instance_name_to_create=$1
+    _instance_will_be_embedded=$2
+
+    #sanity
+    if [ -z "${_instance_name_to_create}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    
+    # May be used in cacao_exit if not cleaned at the end of instance
+    # creation (when interrupted for instance)
+    cacao_creating_instance=${_instance_name_to_create}
+
+    # Create the instance directories
+    cacao_instance_files_create "${_instance_name_to_create}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Update the instance files
+    cacao_instance_files_update ${_instance_name_to_create} ${_instance_will_be_embedded}
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	return ${CACAO_CR_ERROR} 
+    fi
+    
+    cacao_creating_instance=""
+
+    # register the core modules
+    _core_modules=`${LS} ${cacao_template_modules_dir}/*.xml 2> /dev/null`
+    _target_etc_dir="${cacao_etc_instances_dir}/${_instance_name_to_create}"
+    _retval=${CACAO_CR_SUCCESS}
+    for xml_file in ${_core_modules} ; do
+        cacao_do_hard_register_module "${xml_file}" "${_target_etc_dir}"
+        _retval=$?
+        if [ ${_retval} -ne  ${CACAO_CR_SUCCESS} ]; then
+                break
+        fi
+    done
+
+    return ${_retval}
+}
+
+#------------------------------------------------------------------------------
+# cacao_instance_files_create
+#
+# DESCRIPTION :
+# Create the instance directories.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_files_create() {
+
+    instance_name="${1}"
+
+    # Set umask
+    current_mask=`umask` 
+    umask ${CACAO_DEFAULT_UMASK} > /dev/null 2>&1
+
+    # Create the etc directory under instance root
+    # 'mkdir -p' won't complain about existing dir
+    etc_dir="${cacao_etc_instances_dir}/${instance_name}"
+    ${MKDIR} -p "${etc_dir}" >/dev/null 2>&1
+    if [ ${?} -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" \
+		"${etc_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Populate the instance directory
+    ${CP} -r "${cacao_template_config_dir}/." "${etc_dir}" >/dev/null 2>&1
+    if [ ${?} -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_CP}" \
+	    "${cacao_template_config_dir}/." "${etc_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ${CHOWN} -R "${CACAO_ADMIN_USER}":"${CACAO_ADMIN_GROUP}" ${etc_dir} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" "${etc_dir}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # do not trust umask and ensure correct rigth on security dir
+    # notice cacao_security_dir variable is not known as ths time
+    
+    ${CHMOD} ${CACAO_SECURITY_RT_DIRECTORY_MOD} "${etc_dir}/security" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${etc_dir}/security"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    ${CHMOD} ${CACAO_SECURITY_RT_DIRECTORY_MOD} "${etc_dir}/security/snmp" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${etc_dir}/security/snmp"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # restore correct rights for jdmk snmp security file (needed since too wide rights are necessary when
+    # being copied to solve file rights problem on remote install)
+
+    ${CHMOD} ${CACAO_SECURITY_SNMP_FILE_MOD} "${etc_dir}/security/snmp/jdmk.acl" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${etc_dir}/security/snmp/jdmk.acl"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ${CHMOD} ${CACAO_SECURITY_SNMP_FILE_MOD} "${etc_dir}/security/snmp/jdmk.uacl" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${etc_dir}/security/snmp/jdmk.uacl"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    ${CHMOD} ${CACAO_SECURITY_SNMP_FILE_MOD} "${etc_dir}/security/snmp/jdmk.security" >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" "${etc_dir}/security/snmp/jdmk.security"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    
+    #set default umask
+    umask ${current_mask} > /dev/null 2>&1
+
+    if [ $? -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}    
+
+#------------------------------------------------------------------------------
+# cacao_core_instance_files_update
+#
+# DESCRIPTION :
+# Update the instance files for a core instance.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# $2 property file
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_core_instance_files_update() {
+    _inst_name=$1
+    _inst_prop_file=$2
+
+    _inst_definition=${cacao_tools_dir}/instance_definition_${_inst_name}.cfg
+
+    if [ -z "${_inst_name}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    if [ ! -f "${_inst_prop_file}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    if [ ! -s "${_inst_definition}" ]
+    then
+	#nothing to do
+	return ${CACAO_CR_SUCCESS}
+    fi
+
+    ${AWK} -F# '/^PARAM#/ {
+        idx=index($2,"=");
+	if (idx < 1) continue
+	printf("%s %s\n",substr($2,1,idx-1),substr($2,idx+1));
+        }' < ${_inst_definition} 2>/dev/null | while read param value
+    do
+      cacao_set_property_to_file ${_inst_prop_file} ${param} "${value}"
+      if [ $? -ne ${CACAO_CR_SUCCESS} ]
+      then
+	  return $?
+      fi
+    done
+}
+
+#------------------------------------------------------------------------------
+# cacao_instance_files_update
+#
+# DESCRIPTION :
+# Update the instance files.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# $2 is instance embedded ?
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_files_update() {
+
+    instance_name=$1
+    instance_will_be_embedded=$2
+
+    # Update global variables with instance specific values
+    etc_dir="${cacao_etc_instances_dir}/${instance_name}"
+    var_dir="${cacao_var_instances_dir}/${instance_name}"
+    run_dir="${cacao_run_instances_dir}/${instance_name}/${cacao_instance_run_subdir}"
+    tmp_dir="${cacao_tmp_instances_dir}/${instance_name}/${cacao_instance_tmp_subdir}"
+    security_dir="${etc_dir}/security"
+
+    # Get the instance properties file name
+    cacao_config_dir="${etc_dir}"
+    cacao_property_file="${cacao_config_dir}/private/cacao.properties"
+    if [ ! -f "${cacao_property_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${cacao_property_file}"
+        return ${CACAO_CR_ERROR}
+    fi
+    
+    # Set property: CACAO_BASEDIR_KEY
+    cacao_set_property "${CACAO_BASEDIR_KEY}" "${cacao_rt_base_dir}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+	    "${CACAO_BASEDIR_KEY}"
+	return ${CACAO_CR_ERROR}
+    fi
+ 
+    # Set property: CACAO_BASEDIR_KEY
+    cacao_set_property "${CACAO_ETC_BASE_KEY}" "${cacao_etc_base_dir}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+	    "${CACAO_BASEDIR_KEY}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # Set property if needed : CACAO_EMBEDDED_KEY
+    if [ "${instance_will_be_embedded}" = ${CACAO_TRUE_VALUE} ]
+    then
+        cacao_set_property "${CACAO_EMBEDDED_KEY}" \
+	"${CACAO_TRUE_VALUE}"
+        if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+        then
+            cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+                "${CACAO_EMBEDDED_KEY}"
+            return ${CACAO_CR_ERROR}
+        fi
+    fi
+
+    cacao_core_instance_files_update "${instance_name}" "${cacao_property_file}"
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTIES_UPDATE}" \
+                                  "${instance_name}"
+	return ${CACAO_CR_ERROR}
+    fi
+    
+    # set cacao.instance.name property
+    cacao_set_property "${CACAO_INSTANCE_NAME_KEY}" \
+	"${instance_name}"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_SET}" \
+	    "${CACAO_INSTANCE_NAME_KEY}"
+	return ${CACAO_CR_ERROR}
+    fi
+
+    
+    
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_instance_check_userdir
+#
+# DESCRIPTION :
+# Check that user is in right directory for removing the instance (not in 
+# instance directory).
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_check_userdir() {
+
+    instance_name="${1}"
+    etc_dir="${cacao_etc_instances_dir}/${instance_name}"
+
+    #check if the user is not in the instance dir to do the delete
+    user_dir=`pwd`
+    if [ ${?} -ne 0 ]
+    then
+        return ${CACAO_CR_ERROR}
+    fi
+    ${ECHO} "${user_dir}"| ${GREP} "${etc_dir}" >/dev/null 2>&1
+    if [ ${?} -eq 0 ]
+    then
+       cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_DELETE_WRONG_DIR}" \
+                "${user_dir}"
+       return ${CACAO_CR_ERROR}
+    fi 
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_instance_files_delete
+#
+# DESCRIPTION :
+# Delete the instance directories.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR 
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_files_delete() {
+
+    instance_name="${1}"
+
+    cacao_delete_instance_startup ${instance_name}
+    _retval=$?
+    if [ ${_retval} -ne ${CACAO_CR_SUCCESS} ] 
+    then
+	# appropriate message are printed by called helper
+	return ${_retval}
+    fi
+    
+    etc_dir="${cacao_etc_dir}"
+    var_dir="${cacao_var_dir}"
+    up_run_dir="${cacao_run_instances_dir}/${instance_name}"
+    run_dir="${cacao_run_dir}"
+    tmp_dir="${cacao_tmp_dir}"
+    
+
+    # No error if the directory doesn't exist
+    for i in "${etc_dir}" "${var_dir}" "${up_run_dir}" "${run_dir}" "${tmp_dir}" 
+    do
+        if [ -d "${i}" ]
+        then
+	    ${RM} -rf "${i}" >/dev/null 2>&1
+            if [ ${?} -ne 0 ]
+            then
+	        cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${i}"
+	        _retval=${CACAO_CR_ERROR}
+            fi
+        fi
+    done
+
+    return ${_retval}
+}   
+
+#------------------------------------------------------------------------------
+# cacao_create_instance_rollback
+#
+# DESCRIPTION :
+# Undo instance create in case of error.
+# 
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_create_instance_rollback() {
+
+    instance_name="${1}"
+
+    # Remove instance files if any
+    cacao_is_instance_exists "${instance_name}"
+    if [ ${?} -eq ${CACAO_TRUE} ]
+    then
+	cacao_instance_files_delete "${instance_name}"
+    fi
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_instance_context_load
+#
+# DESCRIPTION :
+# Loads the configuration environment for the given instance.
+# Uses the instance cacao.properties to do that.
+# WARNING : get_property method must be used in order to perform
+#           relocation translations
+#
+# PARAMETERS :
+# $1 the instance name.
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_context_load() {
+
+    instance_name="${1}"
+
+    cacao_etc_dir="${cacao_etc_instances_dir}/${instance_name}"
+
+    # Get the instance properties file name
+    cacao_config_dir="${cacao_etc_dir}"
+    cacao_property_file="${cacao_config_dir}/private/cacao.properties"
+    if [ ! -f "${cacao_property_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${cacao_property_file}"
+        return ${CACAO_CR_ERROR}
+    fi
+    cacao_logger_file="${cacao_config_dir}/private/logger.properties"
+    if [ ! -f "${cacao_logger_file}" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_FILE_NOT_FOUND}" \
+	    "${cacao_logger_file}"
+        return ${CACAO_CR_ERROR}
+    fi
+        
+    cacao_security_dir="${cacao_config_dir}/security"
+    cacao_snmp_security_dir="${cacao_security_dir}/snmp"
+    cacao_passwd_file="${cacao_security_dir}/password"
+    cacao_jdmk_snmpv3_deployement_descriptor="${cacao_config_dir}/private/modules/com.sun.cacao.snmpv3_adaptor.xml"
+
+    # Get instance path for run
+    cacao_run_dir="`cacao_get_property ${CACAO_RUN_DIR_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_RUN_DIR_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    #cacao_lock_file="${cacao_run_dir}/lock"
+    # the cacao_run_dir will deleted during 'delete-instance'
+    # lock cannot be inside
+    cacao_lock_file="${cacao_run_root}/.${instance_name}.lock"
+
+    cacao_pid_file="${cacao_run_dir}/${CACAO_DAEMON_NAME}.pid"
+    cacao_retries_file="${cacao_run_dir}/retries"
+
+    # Get instance path for tmp
+    cacao_tmp_dir="`cacao_get_property ${CACAO_TMP_DIR_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_TMP_DIR_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    # Get instance path for var
+    cacao_var_dir="`cacao_get_property ${CACAO_VAR_DIR_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_VAR_DIR_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+    cacao_log_dir=`cacao_get_property "${CACAO_LOG_DIR_KEY}"`
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_LOG_DIR_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_audit_dir=`cacao_get_property "${CACAO_AUDIT_DIR_KEY}"`
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_AUDIT_DIR_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    #sets embedded global in case of an embedded instance
+    cacao_is_embedded="`cacao_get_property ${CACAO_EMBEDDED_KEY}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_EMBEDDED_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_use_j2me="`cacao_get_property ${CACAO_USE_J2ME}`"
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_PROPERTY_NOT_FOUND}" \
+	    "${CACAO_EMBEDDED_KEY}"
+        return ${CACAO_CR_ERROR}
+    fi
+
+    cacao_user=`cacao_get_property "${CACAO_PROCESS_USERNAME_KEY}"`
+    cacao_group=`cacao_get_property "${CACAO_PROCESS_GROUPNAME_KEY}"`
+
+    #sets pmf daemon name for this instance
+    cacao_daemon_name="${cacao_unique_name}-${instance_name}"
+
+    #set cacao error file
+    cacao_error_file="${cacao_tmp_dir}"/cacao_error_file
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_instance_init_dirs
+# 
+# DESCRIPTION :
+# initialise instance runtime dirs
+#  
+# PARAMETERS :
+# $1 the instance name.
+#
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_instance_init_dirs () {
+
+    instance_name="${1}"
+
+    #set umask for the directories under var dir
+    current_mask=`umask` 
+    umask ${CACAO_DEFAULT_UMASK} > /dev/null 2>&1
+    
+    for i in \
+        "${cacao_var_dir}" \
+        "${cacao_run_instances_dir}/${instance_name}" \
+        "${cacao_run_dir}" \
+        "${cacao_tmp_dir}"
+    do
+        if [ ! -d "${i}" ]
+        then
+            ${MKDIR} -p "${i}" > /dev/null 2>&1
+            if [ $? -ne 0 ]
+            then
+                cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" "${i}"
+                return ${CACAO_CR_ERROR}
+            fi 
+            ${CHOWN} ${CACAO_ADMIN_USER}:${CACAO_ADMIN_GROUP} "${i}" > /dev/null 2>&1
+            if [ $? -ne 0 ]
+            then
+                cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" "${i}"
+                return ${CACAO_CR_ERROR}
+            fi
+        fi
+    done
+
+    if [ ! -d "${cacao_log_dir}" ]
+    then
+	${MKDIR} -p ${cacao_log_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" \
+		"${cacao_log_dir}"
+	    return ${CACAO_CR_ERROR}
+        fi 
+	${CHOWN} -R ${cacao_user}:${cacao_group} ${cacao_log_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" \
+		"${cacao_log_dir}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	${CHMOD} ${CACAO_LOG_DIR_MOD} ${cacao_log_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" \
+		"${cacao_log_dir}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    if [ ! -d "${cacao_audit_dir}" ]
+    then
+	${MKDIR} -p ${cacao_audit_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" \
+		"${cacao_audit_dir}"
+	    return ${CACAO_CR_ERROR}
+        fi 
+	${CHOWN} -R ${cacao_user}:${cacao_group} ${cacao_audit_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" \
+		"${cacao_audit_dir}"
+	    return ${CACAO_CR_ERROR}
+	fi
+	${CHMOD} ${CACAO_AUDIT_DIR_MOD} ${cacao_audit_dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+        then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_MODE}" \
+		"${cacao_audit_dir}"
+	    return ${CACAO_CR_ERROR}
+	fi
+    fi
+
+    #set default umask
+    umask ${current_mask} > /dev/null 2>&1
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_instance_context_set
+#
+# DESCRIPTION :
+# Loads the instance configuration if the called action can run on instances
+# (call is done at cacao_is_allowed_instance_action).
+# In the case action is allowed does all the necessary updates so as the
+# called action doesn't even care of instance case or not (instance option
+# 
+# PARAMETERS :
+# instance name
+# 
+# RETURN CODE: 
+# CACAO_CR_SUCCESS
+# CACAO_CR_ERROR
+# CACAO_CR_EINVAL
+# 
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_context_set() {
+    instance_value=$1
+    
+    # Check instance name pattern
+    cacao_instance_name_check "${instance_value}"
+    if [ $? -ne ${CACAO_TRUE} ]
+    then 
+       cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_NAME_WRONG_PATTERN}" \
+		"${instance_value}" 
+       return ${CACAO_CR_EINVAL}
+    fi
+
+    # Check if the instance exists
+    cacao_is_instance_exists "${instance_value}"
+    if [ ${?} -eq ${CACAO_FALSE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_INSTANCE_NAME_MISSING}" \
+	    "${instance_value}"
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    # Load the context for further action processing
+    cacao_instance_context_load "${instance_value}"
+    return $?
+   
+}
+
+#------------------------------------------------------------------------------
+# cacao_instance_name_check
+#
+# DESCRIPTION :
+# Checks the instance name that should be of the form (regexp) :
+# "^[a-zA-Z][a-zA-Z0-9_-]*"
+# Length of instance name: up to 32 characters because of defect 6268008
+# 
+# PARAMETERS :
+# The action instance name to check
+# 
+# RETURN CODE: 
+# CACAO_CR_ERROR in case of error
+# CACAO_TRUE if valid instance name
+# CACAO_FALSE otherwise
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_instance_name_check() {
+
+    instance_name="${1}"
+
+    if [ -z "${instance_name}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    # Length of instance name: up to 32 characters because of defect 6268008
+    # instance name : must match regexp $CACAO_ALLOWED_INSTANCE_NAME
+    result=`${ECHO} "${instance_name}" | eval "${AWK} '{\
+                    if (length(\\$0) >= 33) exit 1 ; \
+                    gsub(/$CACAO_ALLOWED_INSTANCE_NAME/,\"\") ; print \\$0}'" 2>/dev/null`
+    
+    if [ $? -ne 0 ] || [ -n "${result}" ]
+    then
+	return ${CACAO_FALSE}
+    fi
+
+    return ${CACAO_TRUE}
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_is_allowed_embedded_action
+#
+# DESCRIPTION :
+# Returns true if the action is allowed to run in embedded mode. 
+# actions that are not allowed to run are : 
+# start/smf_start/stop/smf_stop/debug/restart/disable/enable
+# 
+# PARAMETERS :
+# The action to check
+# 
+# RETURN CODE: 
+# CACAO_TRUE
+# CACAO_FALSE
+#
+# OUTPUT:
+# None.
+#------------------------------------------------------------------------------
+cacao_is_allowed_embedded_action() {
+
+    if [ ${#} -ne 1 ] || [ -z "${1}" ]
+    then
+	return ${CACAO_CR_EINVAL}
+    fi
+
+    action=$1
+    
+
+    case "${action}" in
+        "start")
+            return ${CACAO_FALSE}
+            ;;
+        "smf_start")
+            return ${CACAO_FALSE}
+            ;;
+        "stop")
+            return ${CACAO_FALSE}
+            ;;
+        "smf_stop")
+            return ${CACAO_FALSE}
+            ;;
+        "debug")
+            return ${CACAO_FALSE}
+            ;;
+        "restart")
+            return ${CACAO_FALSE}
+            ;;
+        "disable")
+            return ${CACAO_FALSE}
+            ;;
+        "enable")
+            return ${CACAO_FALSE}
+            ;;
+        *)
+            return ${CACAO_TRUE}
+    esac
+}
+
+
+
+

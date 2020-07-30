@@ -1,0 +1,61 @@
+#!/bin/sh
+
+#*
+#*******************************************************************************#* $RCSfile: apocjlaunch,v $
+#*
+#* Description:
+#*
+#* Last change: $Date: 2004/06/28 12:23:40 $ $Revision: 1.2 $
+#*
+#* Copyright 2003 Sun Microsystems, Inc. All rights reserved. Use of this
+#* product is subject to license terms.
+#*
+#*******************************************************************************#* Source Code Control System - Header
+#*
+#* $Header: /sgnome/cvsroots/jds/apoc/src/com/sun/apoc/prefs/scripts/apocjlaunch,v 1.2 2004/06/28 12:23:40 cm122549 Exp $
+#*******************************************************************************#*
+
+## Launcher script for an application using the Configuration Manager 
+## Java Preferences adapter.
+
+## It requires that the following variables are set:
+## - $JAVA: location of the JVM,
+## - $CLASSPATH: (optional) required classpath for the application,
+## - $DEFINES: (optional) required defines for the application except the
+##             preferences factory one and the library path one,
+## - $APPLICATION: trailing part of the normal java invocation line (i.e
+##                 either "-jar <jar> [<args>]" or "<class> [<args>]"),
+## - $PREFFACTORY: (optional) name of the default preferences factory class,
+## - $LIBRARYPATH: (optional) library path for the application.
+
+## The normal invocation of the application should be:
+## $JAVA -classpath $CLASSPATH [$DEFINES] [-Djava.util.prefs.PreferencesFactory=$PREFFACTORY] [-Djava.library.path=$LIBRARYPATH] $APPLICATION
+## and it will be complemented to use the Configuration Manager Preferences.
+
+# Setup and checks.
+ApocJavaLib=/usr/lib/apoc
+ApocJavaJar=/usr/share/lib/apoc/apocprefs.jar
+
+if [ "$JAVA" = "" ] || [ ! -f "$JAVA" ] ; then
+    echo "No Java VM provided, please set \$JAVA."
+    exit 1
+fi
+
+ClassPath="-classpath $ApocJavaJar"
+
+if [ "$CLASSPATH" != "" ] ; then
+    ClassPath=$ClassPath:$CLASSPATH
+fi
+
+if [ "$PREFFACTORY" = "" ] ; then
+    PREFFACTORY=java.util.prefs.FileSystemPreferencesFactory
+fi
+
+LibraryPath=-Djava.library.path=$ApocJavaLib
+
+if [ "$LIBRARYPATH" != "" ] ; then
+    LibraryPath=$LibraryPath:$LIBRARYPATH
+fi
+
+$JAVA $ClassPath -Djava.util.prefs.PreferencesFactory=com.sun.apoc.prefs.ApocPreferencesFactory -Dcom.sun.apoc.PreferencesFactory=$PREFFACTORY $DEFINES $LibraryPath $APPLICATION
+

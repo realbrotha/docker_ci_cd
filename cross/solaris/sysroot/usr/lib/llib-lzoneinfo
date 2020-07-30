@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) 2001 by Sun Microsystems, Inc.
+ * All rights reserved.
+ */
+
+#pragma ident	"@(#)llib-lzoneinfo	1.1	01/08/31 SMI"
+
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+#include <libzoneinfo.h>

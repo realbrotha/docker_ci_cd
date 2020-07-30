@@ -1,0 +1,337 @@
+2005년 3월 14일 
+Adobe(R) Reader(R) for UNIX(R) Read Me
+
+Adobe(R) Reader(R) 7.0의 Read Me 파일입니다.
+
+Adobe Reader 7.0은 Adobe Acrobat 7.0의 무료 뷰어 프로그램입니다.
+Adobe Reader를 사용하면 PDF(Portable Document Format) 파일을 열거나, 
+탐색하거나, 인쇄할 수 있습니다. Adobe Acrobat 7.0은 PDF의 정보를 작성, 개선,
+검토, 편집 및 공유하기 위한 완벽한 솔루션입니다. 
+
+Adobe Acrobat 7.0에 대한 자세한 내용을 보려면 
+http://www.adobe.com/products/acrobat을 방문하십시오. 
+
+이 Read Me 파일에는 다음 사항에 대한 정보가 포함되어 있습니다.
+시스템 요구 사항 
+
+설치 지침 
+
+문제 해결 
+
+바로 가기 키 
+
+
+시스템 요구 사항
+================
+
+Adobe Reader 7.0 for Linux에 대한 시스템 요구 사항
+- 32비트 Intel Pentium급 프로세서
+- Linux Kernel 2.4 이상
+- GLIBC 버전 2.3 이상
+- 128MB RAM(256MB 권장) 
+- 110MB의 사용 가능한 하드 디스크 공간 
+- 아시아 언어 글꼴에는 추가로 40MB 필요(옵션) 
+- 지원되는 Linux 배포본:
+	o Red Hat Linux AS 3.0 (2.4.21) 및 4.0 (2.6.9)	
+	o Red Hat Linux ES 3.0 (2.4.21) 및 4.0 (2.6.9)	
+	o Red Hat Linux WS 3.0 (2.4.21) 및 4.0 (2.6.9)	
+	o Red Hat Linux Desktop	o Red Hat Linux 9.0 (2.4.20-6)	
+	o SUSE Enterprise Server 9X (2.6)	
+	o SUSE Professional 9.2 (2.6.4)	
+	o Novell Linux Desktop 9.x (2.6.4)	
+	o Turbolinux 10 Desktop (2.6)	
+	o Red Flag Linux Desktop 4.0 
+
+
+웹 브라우저 지원
+PDF 파일은 다음과 같은 브라우저에서 볼 수 있습니다.	
+	o Mozilla 1.7.3, 1.8	
+	o Firefox 1.0	
+	o Netscape 7
+	
+
+설치 지침:
+========== 
+
+Adobe Reader 7.0 for Linux 설치 및 제거  
+
+Adobe Reader 7.0을 설치하려면 다음 단계를 수행하십시오.  
+
+- RPM 설치 관리자:
+	1. 사용 가능한 디스크 공간이 110MB 이상 있는지 확인합니다.
+	2. "rpm -i AdobeReader_kor-7.0.1-1.i386.rpm"을 실행합니다.
+	
+	Adobe Reader 7.0을 제거하려면 아래의 명령을 실행하십시오.
+	"rpm -e AdobeReader_kor"
+	
+- Tarball 설치 관리자:
+	1. 사용 가능한 디스크 공간이 110MB 이상 있는지 확인합니다.
+	2. "tar -zxvf AdbeRdr70_linux_kor.tar.gz"를 실행합니다.
+	3. 이렇게 만들어진 "AdobeReader" 디렉토리에서 "INSTALL" 스크립트를 
+	실행합니다.
+	
+	Adobe Reader 7.0을 제거하려면 이를 설치했던 디렉토리만 	삭제하시면 됩니다.
+	
+브라우저 플러그인 설치(기본적으로 설치되지 않음):
+- 브라우저 플러그인을 설치하려면 
+  "<INSTALL_PATH>/Browser/install_browser_plugin" 스크립트를 실행해야 합니다.
+  스크립트를 실행하기 전에 "<INSTALL_PATH>/Browser/Browser_Plugin_HowTo.txt"
+  에서 자세한 내용을 참조하십시오.
+  
+설치 문제
+
+Adobe Reader에는 libstdc++.so.5가 필요합니다. libstdc++.so.5가 기본적으로 
+설치되지 않는 시스템도 있습니다. 이 문제를 해결하려면 compat-libstdc++ 
+패키지를 설치해야 합니다.
+
+
+문제 해결:
+==========
+
+Red Flag Linux 문제
+Glib의 알려진 버그 때문에 Adobe Reader가 Red Flag Linux 4.1에서 실행되지 
+않습니다. 이 문제는 액세서빌러티 관련 모듈을 불러 올 때 발생합니다.  
+GLib의 최신 버전으로 업그레이드하거나, <INSTALL_PATH>/bin/acroread 스크립트에서
+"export GTK_MODULES" 줄에 주석을 달면 이 문제를 해결할 수 있습니다.
+[1106081]
+
+PPKLite.api 로드 실패
+PPKLite를 사용하려면 해당 시스템에 OpenLDAP 패키지가 설치되어 있어야 하며, 
+이 패키지가 없으면 PPKLite가 초기화되지 못합니다. acroread가 시작될 때
+이 오류가 발생한 경우 LDAP 라이브러리(OpenLDAP 패키지)를 설치해야 합니다. 
+그래도 PPKLite가 로드되지 않는 경우 'libldap.so' 및 'liblber.so'라는 이름을 
+사용하여 <INSTALL_PATH>/Reader/intellinux/lib의 설치된 libldap.so.X 및 
+liblber.so.X에 대한 링크를 만드십시오. [1132741]
+
+문서/속성 창/도구 모음에서 일부 시스템 글꼴이 표시되지 않습니다. Adobe Reader는
+몇 가지 미리 정의된 시스템 디렉토리 외에 PSRESOURCEPATH 환경 변수에 지정되어 
+있는 디렉토리 목록에서도 시스템 글꼴을 검색합니다.  시스템에 Adobe Reader가 
+검색하지 않는 글꼴 디렉토리가 더 있을 경우 Adobe Reader를 실행하기 전에 이러한
+디렉토리를 PSRESOURCEPATH 환경 변수에 추가할 수 있습니다.  필요한 글꼴이 문서에
+포함되어 있지 않을 경우, [문서] > [로컬 글꼴 사용] 옵션을 선택하면 
+PSRESOURCEPATH 변수에 의해 지정된 대로 Adobe Reader가 시스템의 글꼴을 
+선택합니다. 
+
+배율을 적용하면 CJK 텍스트가 볼드체로 표시됩니다. 원본 응용 프로그램에서 합성 
+볼드체를 사용하여 볼드 텍스트를 만든 경우 일부 CJK 볼드 문자가 흐리게 
+나타날 수 있습니다. [페이지 표시] 기본 설정 패널에서 [텍스트 부드럽게 하기] 및
+[CoolType 사용] 기본 설정이 선택되어 있지 않을 경우 문서를 확대해 보면 공백이나
+균열이 발견됩니다. Acrobat 4.x에서는 볼드체를 만들기 위해 한 문자를 4번 쓰는데
+어떤 문서에서는 그러한 텍스트가 볼드체로 나타나는 대신 4줄의 텍스트로 나타날 수
+있습니다. Acrobat 5.0에서는 합성 볼드체가 사용됩니다. 볼드체를 확대해 볼 때 
+공백이나 균열이 보이지 않게 하려면 [텍스트 부드럽게 하기] 및 [CoolType 사용] 
+기본 설정을 선택하는 것이 좋습니다. [418447] 
+
+[찾기] 대화 상자 - [찾기]를 사용하여 유니코드 문자 찾기 [찾기]를 사용하면 
+PDF 문서에서 유니코드 문자를 찾을 수 있습니다. 유니코드 문자를 찾으려면 
+찾으려는 유니코드 문자 앞에 "\u"를 추가합니다. 예를 들어, ASCII 문자 "A"에
+해당하는 유니코드 문자를 찾고 싶다면 [찾기] 대화 상자에 "\u0041"을 입력합니다.
+유니코드 "4e01" 같은 CJK 문자를 찾고 싶다면 "\u4e01"을 지정하면 됩니다. 
+[413632]
+
+일부 시스템에서 페이지 텍스트가 늘어나고 기울어져서 나타납니다. 특정 시스템에서
+페이지 표시에 늘이기/기울이기 효과가 나타날 수 있습니다. [편집] > [기본 설정] >
+[페이지 표시] 탭으로 가서 "사용자 정의 해상도"를 현재 표시되어 있는 시스템 
+설정으로 설정하면 이 문제를 해결할 수 있습니다. [1154513]
+
+소켓 파일을 찾지 못합니다. 지정된 검색 경로(일반적인 경로는 /tmp 또는 $HOME)에
+소켓 파일이 포함되어 있으면 파일을 찾지 못합니다.  지정된 경로에 일반 파일만 
+있고 소켓 파일은 없어야 합니다.[1148788]
+
+mutt를 사용하여 메일 보내기
+선택된 전자 메일 클라이언트가 mutt일 때 터미널 창이 깜박이다가 사라지는 경우
+$HOME/.muttrc에 "set autoedit=no" 줄을 추가하면 mutt를 사용한 메일 보내기가 
+사용됩니다. [1117619]
+
+메일을 보낼 때 Evolution이 충돌합니다.
+이 문제는 이전 버전의 Evolution에서 발생합니다. 전자 메일 클라이언트로 
+Evolution을 선택한 경우 메일을 보낼 때 Evolution이 충돌하면 Evolution을 
+백그라운드에서 실행합니다. 그래도 충돌할 경우 Evolution 2.0 이상으로 
+업그레이드합니다. 계속 백그라운드에서 실행해야 할 수도 있습니다. [1087494]
+
+액세서빌러티가 작동하지 않습니다.
+Adobe Reader는 시스템에 액세서빌러티 지원이 설정되었는지 확인할 때 gconf 
+레지스트리를 확인합니다. 시스템에서 gconftool-2를 사용할 수 없다면 
+Adobe Reader에서 액세서빌러티 지원이 설정되어 있지 않은 것입니다. 시스템에 
+gconftool-2가 없는 상태에서 Adobe Reader의 액세서빌러티 기능을 사용하려면 
+<INSTALL_PATH>/bin/acroread 파일의 끝 부분에 있는 
+'if [ "$IS_GCONF_TOOL" = "no" ]' 블록에서 'ACRO_AT_ACTIVE="false"' 줄을 
+'ACRO_AT_ACTIVE="true"로 변경합니다.[1161246]
+
+문서 액세서빌러티 사용 설정
+1. gconf-editor 또는 gconftool-2를 사용하여 시스템에 액세서빌러티 지원을 
+설정하려면 /desktop/gnome/interface/accessibility 키를 true로 설정합니다.
+2. 키보드 선택 커서를 사용 설정합니다(F7 키가 이 커서를 토글합니다. 
+또한 "편집 -> 기본 설정 -> 액세서빌러티 -> 항상 키보드 선택 커서 표시"를 통해
+사용 설정할 수도 있습니다).
+3. "편집 -> 기본 설정 -> 읽기 -> 문서 액세서빌러티 사용" 옵션을 선택합니다.
+
+홍콩 문자 세트, 각주 및 책갈피 
+Acrobat Reader 5.0에서는 PDF 파일 텍스트를 홍콩 문자 세트로 나타낼 수 있습니다.
+홍콩 문자 세트는 Adobe 중국어 번체 문자 세트의 확장판입니다. 홍콩 문자 세트를
+사용하는 문자가 포함된 PDF 파일을 보려면 중국어 번체 언어 팩을 설치하여 중국어
+번체 문자 지원을 설치하십시오. 홍콩 문자 세트는 표준 시스템 글꼴이 아니므로
+홍콩 문자를 사용하여 주석을 달거나 책갈피를 만들 수 없습니다. [407877]
+
+Adobe Reader는 pwd에 액세스해야 합니다. 
+"pwd" 명령이 수행되지 않는 디렉토리에서는 Adobe Reader가 제대로 작동하지 
+않습니다.
+
+이전 버전의 기본 설정 제거
+Adobe Reader 7.0을 처음 실행하기 전에 $HOME/.acrorc 파일 및 $HOME/.adobe 
+디렉토리(있는 경우)를 제거하는 것이 좋습니다. 그래야 Adobe Reader를 처음 
+실행할 때 초기 기본 설정이 사용됩니다. 그러나 이것은 필수 사항이 아니며 이전 
+버전의 Adobe Reader를 계속 사용하려는 경우 실제로는 이러한 항목을 제거하지 않는
+것이 바람직할 수도 있습니다. 
+
+최근 파일 이름
+[파일] 메뉴에 나열된 파일들은 "최근에 사용된 파일들"이며 정확한 경로와 함께 
+표시됩니다. 자동 마운터를 사용하는 세션에서 파일을 연 후 자동 마운터가 종료된
+경우 "최근 파일"을 열려고 하면 "해당 파일 또는 디렉토리를 찾을 수 없습니다."
+라는 오류 메시지가 나타납니다. 또한 파일이 이동했거나 이름이 변경된 경우 또는 
+동일한 파일 시스템이 마운트되어 있지 않은 다른 컴퓨터에서 Adobe Reader를 실행한
+경우에도 이 오류가 발생합니다.
+
+최근 사용한 파일 목록에서 임시 파일이 나타나지 않게 하기
+"최근 파일" 목록에 임시 파일(예를 들어, 웹에서 열었던 문서)이 나타나지 않게 
+하려면 다음과 같이 mailcap 항목을 설정합니다.
+
+       application/pdf;acroread -tempFile %s
+       
+기본 설정 파일 작성
+Adobe Reader에서는 기본 설정 파일을 작성할 수 없는 경우에도 경고 메시지가 뜨지
+않습니다. 기본 설정을 저장하려면 '$HOME/.adobe' 디렉토리가 쓰기 가능한지
+확인합니다.
+
+창 관리자 
+KDE 및 GNOME 환경에서 테스트를 수행했습니다.
+
+암호로 보호된 PDF 인쇄
+암호로 보호된 PDF 문서를 Adobe Reader로부터 인쇄할 수는 있지만 명령줄로부터
+PostScript로 인쇄할 수는 없습니다. 
+
+이기종 파일 서버 환경 
+Novell 서버를 사용하는 이기종 네트워크 환경에서 작업할 경우에는 PDF 파일에 32자
+이상의 긴 이름을 지정하지 않는 것이 좋습니다. Novell 서버는 Macintosh 컴퓨터
+사용자에게 긴 파일 이름을 표시하지만 MacOS에서는 Adobe Reader로 이 파일을
+열 수 없습니다. Windows에서는 이러한 문제가 없습니다.
+
+명령줄 도움말
+명령줄 옵션에 대한 자세한 내용을 보려면 명령줄에서 'acroread -help' 또는 
+'acroread -helpall'을 입력합니다. 이러한 명령줄을 사용할 때도 사용자 환경에서
+아직 정의되지 않은 경우에는 DISPLAY 변수를 입력해야 합니다. 
+
+인쇄: 문서가 인쇄되지 않고 lp 로그에 오류가 기록됩니다. 
+lp foo.ps 명령을 수행하면 스풀 파일에서 foo.ps 파일로 가는 심볼 링크가 
+생깁니다. 이렇게 하면 파일 시스템의 공간은 절약되지만 불행히도 Adobe Reader는 
+스풀링할 임시 파일을 만들어 PostScript를 작성한 뒤 lpd 프로세스에서 인식하기
+전에 임시 파일을 삭제합니다. 이 문제를 해결하려면 [인쇄] 대화 상자에서 lp 또는
+lpr 명령에 "-c"(복사) 옵션을 추가합니다.  이 옵션을 추가하면 lp 프로세스가 
+심볼 링크를 만드는 대신 파일을 스풀 영역으로 복사합니다.
+
+Adobe Reader 검색
+플랫폼에 상관없이 안정적인 전체 텍스트 검색 색인을 만들고자 한다면 ISO 9660 
+파일 이름 지정 규칙을 사용하여 색인 파일을 만들어야 합니다(8.3 대문자, 제한된
+문자 세트). 이러한 이름을 사용하지 않으면 UNIX Reader가 Unix 파일 이름을 
+추측하여 검색하려고 합니다. 이렇게 되면 검색하는 데 시간이 지연되고 파일을 찾지
+못할 수 있습니다. 
+
+선택 도구 및 스냅샷 도구
+선택 도구는 문서에서 텍스트를 선택하는 데 사용할 수 있고, 스냅샷 도구는 
+클립보드로 자동 복사되는 영역을 페이지에서 선택하는 데 사용할 수 있습니다.
+
+복수 인스턴스를 실행 중인 경우 웹 브라우저로부터 양식을 제출할 수 없습니다.
+.Netscape 폴더에 잠금 파일이 있다는 내용의 경고 메시지가 Netscape나 다른 웹 
+브라우저에 나타난 경우에는 웹의 양식을 제출할 수 없습니다. 이 경고 메시지는 
+Netscape를 처음 실행할 때 나타나는데, 일반적으로 Netscape의 또 다른 인스턴스가
+실행 중임을 나타냅니다. 하나의 Netscape 인스턴스만 실행하면 이 문제가 
+해결됩니다. 잠금 파일이 Netscape 충돌로 인해 생긴 것이라면 .Netscape/잠금 
+파일을 삭제하기만 하면 됩니다.
+
+
+바로 가기 키:
+=============
+
+바로 가기 키 또는 액셀러레이터:
+<Alt> 키와 다음 키를 조합하여 메뉴 명령을 사용할 수 있습니다.
+f - 파일 메뉴
+e - 편집 메뉴
+v - 보기 메뉴
+d - 문서 메뉴
+t - 도구 메뉴
+w - 창 메뉴
+h - 도움말 메뉴
+
+탐색 도구:
+Page Up - 이전 화면
+Page Down - 다음 화면
+왼쪽 화살표 - 이전 페이지
+오른쪽 화살표 - 다음 페이지
+위쪽 화살표 - 위쪽으로 스크롤
+아래쪽 화살표 - 아래쪽으로 스크롤
+Ctrl+L - 전체 화면 표시/숨기기 
+Shift+Ctrl+N - 특정 페이지로 이동
+
+기능 키:
+F8 - 도구 모음 표시/숨기기
+
+문서 편집:
+Ctrl+A - 모두 선택
+Ctrl+C - 복사
+Ctrl+M - 확대/축소
+Ctrl+O - 열기
+Ctrl+P - 인쇄
+Ctrl+Q - 종료
+Ctrl+W - 문서 닫기
+Ctrl+0 - 창 크기에 맞추기
+Ctrl+1 - 실제 크기에 맞추기
+Ctrl+2 - 너비에 맞추기
+Ctrl+3 - 표시 내용에 맞추기
+Ctrl++ - 확대 
+Ctrl+- - 축소
+Shift+Ctrl+A - 모두 선택 취소
+Shift+Ctrl+P - 페이지 설정
+Shift+Ctrl+S - 다른 이름으로 저장
+Shift+Ctrl++ - 시계 방향으로 회전
+Shift+Ctrl+- - 시계 반대 방향으로 회전 
+
+문서 액세서빌러티
+F7 - 키보드 캐럿(^) 토글
+
+검색:
+Ctrl+F - 찾기 
+Shift+Ctrl+F - 검색 패널 열기
+
+문서 정보 및 기본 설정:
+Ctrl+D - 문서 요약 대화 상자 표시
+Ctrl+K - 일반 기본 설정 대화 상자 표시
+
+
+=============================================================================== 
+Copyright (c) 1987-2005 Adobe Systems Incorporated 및 사용 허가자. 모든 권리 
+보유. Adobe, Adobe 로고, Acrobat, Acrobat 로고, PostScript 및 PostScript 로고는
+미국 및/또는 기타 국가에서 Adobe Systems Incorporated의 등록 상표 또는 
+상표입니다. Distiller, Adobe Type Manager, ATM, Illustrator, PageMaker 및 
+Photoshop은 Adobe Systems Incorporated의 상표입니다. Sun, Sun Microsystems, 
+Sun 로고 및 Solaris는 미국 및 기타 국가에서 Sun Microsystems, Inc.의 상표 또는
+등록 상표입니다. 모든 SPARC 상표는 사용권에 준하여 사용되며, 미국 및 기타 
+국가에서 SPARC International, Inc.의 상표 또는 등록 상표입니다.  SPARC 상표가
+표시된 제품은 Sun Microsystems, Inc.에서 개발한 아키텍처를 기반으로 하고 
+있으며, UNIX는 X/Open Company, Ltd.를 통해 독점적으로 사용권 허가를 얻은, 미국
+및 기타 여러 국가에서의 상표입니다. X Window System은 Massachusetts Institute
+of Technology의 상표입니다. Linux는 Linus Torvalds의 상표입니다. Novell은 
+Novell, Inc.의 등록 상표입니다. Macintosh와 MacOS는 미국 및 기타 여러 국가에서
+등록된 Apple Computer, Inc의 상표입니다. NCD와 PC-Xware는 미국 및 기타 국가에서
+Network Computing Devices, Inc.의 상표 또는 등록 상표입니다. STSongu는 
+ChangZhou SinoType Technology Co., Ltd의 상표입니다.
+그 밖의 모든 상표는 해당 소유자의 자산입니다.  
+이 파일의 내용은 Mozilla Public License Version 1.1("사용권")의 적용을 받기 
+때문에 그 사용권에 저촉되는 상황에서는 이 파일을 사용하면 안 됩니다. 사용권에
+대해서는 http://www.mozilla.org/MPL(영문)을 참조하십시오. 이 파일은 Adobe사가
+수정하지 않았고, 소스 코드는 http://www.mozilla.org/source.html(영문)을
+참조하십시오. 원본 Code는 1998년 3월 31일에 출시된 Mozilla Communicator 
+클라이언트 코드입니다. 최초 개발자는 Netscape Communications Corporation입니다.
+Netscape가 만든 부분은 Copyright (c) 1998 Netscape Communications 
+Corporation입니다. 모든 권리 보유. 
+===============================================================================
+

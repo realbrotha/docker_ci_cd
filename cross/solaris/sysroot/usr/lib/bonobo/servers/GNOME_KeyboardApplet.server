@@ -1,0 +1,266 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_KeyboardApplet_Factory"
+            type="exe"
+            location="/usr/lib/gnome-keyboard-applet">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="Keyboard applet factory"/>
+        <oaf_attribute name="name-ar" type="string" value="مصنع بريمج لوحة المفاتيح"/>
+        <oaf_attribute name="name-az" type="string" value="Klaviatura applet e&apos;malatxanası"/>
+        <oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета клявіятуры"/>
+        <oaf_attribute name="name-bg" type="string" value="Фабрика на аплета за клавиатурата"/>
+        <oaf_attribute name="name-bn" type="string" value="কিবোর্ড অ্যাপলেট কারখানা"/>
+        <oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet del teclat"/>
+        <oaf_attribute name="name-cs" type="string" value="Generátor apletu klávesnice"/>
+        <oaf_attribute name="name-cy" type="string" value="Ffatri rhaglennig bysellfwrdd"/>
+        <oaf_attribute name="name-da" type="string" value="Fabrik til tastaturpanelprogram"/>
+        <oaf_attribute name="name-de" type="string" value="Tastatur-Applet-Fabrik"/>
+        <oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου πληκτρολογίου"/>
+        <oaf_attribute name="name-en_CA" type="string" value="Keyboard applet factory"/>
+        <oaf_attribute name="name-en_GB" type="string" value="Keyboard applet factory"/>
+        <oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación del teclado"/>
+        <oaf_attribute name="name-eu" type="string" value="Teklatuaren applet-aren fabrika"/>
+        <oaf_attribute name="name-fi" type="string" value="Näppäimistösovelman tehdas"/>
+        <oaf_attribute name="name-fr" type="string" value="Fabrique de l&apos;applet Clavier"/>
+        <oaf_attribute name="name-gu" type="string" value="કીબોર્ડ અેપ્લેટનું કારખાનું"/>
+        <oaf_attribute name="name-hr" type="string" value="Tvornica apleta za tipkovnicu"/>
+        <oaf_attribute name="name-hu" type="string" value="Billentyűzet applet factory"/>
+        <oaf_attribute name="name-it" type="string" value="Fabbrica Applet Tastiera"/>
+        <oaf_attribute name="name-ja" type="string" value="キーボード・アプレットのファクトリ"/>
+        <oaf_attribute name="name-ko" type="string" value="키보드 애플릿 팩토리"/>
+        <oaf_attribute name="name-lt" type="string" value="Klaviatūros įtaiso gamykla"/>
+        <oaf_attribute name="name-ms" type="string" value="Kilang Aplet papan kekunci"/>
+        <oaf_attribute name="name-nl" type="string" value="Toetsenbord appletfabriek"/>
+        <oaf_attribute name="name-nn" type="string" value="Fabrikk for tastaturpanelprogram"/>
+        <oaf_attribute name="name-no" type="string" value="Factory for tastaturpanelprogram"/>
+        <oaf_attribute name="name-pa" type="string" value="ਕੀ-ਬੋਰਡ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+        <oaf_attribute name="name-pl" type="string" value="Generator apletu klawiatury"/>
+        <oaf_attribute name="name-pt" type="string" value="Fábrica da applet de teclado"/>
+        <oaf_attribute name="name-pt_BR" type="string" value="Gerador de miniaplicativo de teclado"/>
+        <oaf_attribute name="name-ro" type="string" value="Factory aplet tastatură"/>
+        <oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Klávesnica"/>
+        <oaf_attribute name="name-sq" type="string" value="Fabrika e applet-it të tastierës"/>
+        <oaf_attribute name="name-sr" type="string" value="Радионица програмчета за тастатуру"/>
+        <oaf_attribute name="name-sr@Latn" type="string" value="Radionica programčeta za tastaturu"/>
+        <oaf_attribute name="name-sv" type="string" value="Fabrik för tangentbordspanelprogram"/>
+        <oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตแป้นพิมพ์"/>
+        <oaf_attribute name="name-uk" type="string" value="Фабрика аплету клавіатури"/>
+        <oaf_attribute name="name-zh_CN" type="string" value="键盘小程序工厂"/>
+        <oaf_attribute name="name-zh_HK" type="string" value="鍵盤 Applet 工廠"/>
+        <oaf_attribute name="name-zh_TW" type="string" value="鍵盤 Applet 工廠"/>
+        <oaf_attribute name="description" type="string" value="GNOME keyboard applet factory"/>
+        <oaf_attribute name="description-ar" type="string" value="مصنع بريمج جنوم للوحة المفاتيح"/>
+        <oaf_attribute name="description-az" type="string" value="GNOME klaviatura appleti e&apos;malatxanası"/>
+        <oaf_attribute name="description-be" type="string" value="Вытворчасьць аплета клявіятуры"/>
+        <oaf_attribute name="description-bg" type="string" value="Фабрика на аплета за клавиатурата на GNOME"/>
+        <oaf_attribute name="description-bn" type="string" value="গ্নোম কিবোর্ড অ্যাপলেট কারখানা"/>
+        <oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;applet del teclat del GNOME"/>
+        <oaf_attribute name="description-cs" type="string" value="Generátor GNOME Apletu klávesnice"/>
+        <oaf_attribute name="description-cy" type="string" value="Ffatri Rhaglennig Bysellfwrdd GNOME"/>
+        <oaf_attribute name="description-da" type="string" value="Fabrik til Gnome-tastaturpanelprogram"/>
+        <oaf_attribute name="description-de" type="string" value="GNOME-Tastatur-Applet-Fabrik"/>
+        <oaf_attribute name="description-el" type="string" value="Εργοστάσιο εφαρμογιδίου πληκτρολογίου του GNOME "/>
+        <oaf_attribute name="description-en_CA" type="string" value="GNOME keyboard applet factory"/>
+        <oaf_attribute name="description-en_GB" type="string" value="GNOME keyboard applet factory"/>
+        <oaf_attribute name="description-es" type="string" value="Fábrica de la miniaplicación Gnome XKB"/>
+        <oaf_attribute name="description-eu" type="string" value="GNOME teklatuaren applet-aren fabrika"/>
+        <oaf_attribute name="description-fi" type="string" value="Gnomen näppäimistösovelman tehdas"/>
+        <oaf_attribute name="description-fr" type="string" value="Fabrique de l&apos;applet GNOME XKB"/>
+        <oaf_attribute name="description-gu" type="string" value="જીનોમ કીબોર્ડ એપ્લેટનું કારખાનું"/>
+        <oaf_attribute name="description-hr" type="string" value="Tvornica programa za gnome tipkovnicu"/>
+        <oaf_attribute name="description-hu" type="string" value="GNOME billentyűzet applet factory"/>
+        <oaf_attribute name="description-it" type="string" value="Fabbrica dell&apos;applet tastiera di GNOME"/>
+        <oaf_attribute name="description-ja" type="string" value="GNOME キーボード・アプレットのファクトリ"/>
+        <oaf_attribute name="description-ko" type="string" value="그놈 키보드 애플릿 팩토리"/>
+        <oaf_attribute name="description-lt" type="string" value="GNOME klaviatūros įtaiso gamykla"/>
+        <oaf_attribute name="description-ms" type="string" value="Kilang aplet papan kekunci GNOME"/>
+        <oaf_attribute name="description-nl" type="string" value="GNOME toetsenbord appletfabriek"/>
+        <oaf_attribute name="description-nn" type="string" value="Fabrikk for GNOME tastatur-panelprogram"/>
+        <oaf_attribute name="description-no" type="string" value="Factory for GNOME tastaturpanelprogram"/>
+        <oaf_attribute name="description-pa" type="string" value="ਗਨੋਮ ਕੀ-ਬੋਰਡ ਅੈਪਲਿਟ ਫੈਕਟਰੀ"/>
+        <oaf_attribute name="description-pl" type="string" value="Generator apletu klawiatury GNOME"/>
+        <oaf_attribute name="description-pt" type="string" value="Fábrica de applet de teclado GNOME"/>
+        <oaf_attribute name="description-pt_BR" type="string" value="Gerador de miniaplicativo de teclado do GNOME"/>
+        <oaf_attribute name="description-ro" type="string" value="Factory Aplet Gnome keyboard"/>
+        <oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet GNOME klávesnica"/>
+        <oaf_attribute name="description-sq" type="string" value="GNOME keyboard applet factory"/>
+        <oaf_attribute name="description-sr" type="string" value="Радионица Гномовог програмчета за тастатуру"/>
+        <oaf_attribute name="description-sr@Latn" type="string" value="Radionica Gnomovog programčeta za tastaturu"/>
+        <oaf_attribute name="description-sv" type="string" value="Fabrik för GNOME-tangentbordspanelprogram"/>
+        <oaf_attribute name="description-th" type="string" value="โรงงานแอพเพล็ตแป้นพิมพ์"/>
+        <oaf_attribute name="description-uk" type="string" value="Фабрика аплетів клавіатури"/>
+        <oaf_attribute name="description-zh_CN" type="string" value="GNOME 键盘小程序工厂"/>
+        <oaf_attribute name="description-zh_HK" type="string" value="GNOME 鍵盤 Applet 工廠"/>
+        <oaf_attribute name="description-zh_TW" type="string" value="GNOME 鍵盤 Applet 工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_KeyboardApplet"
+            type="factory"
+            location="OAFIID:GNOME_KeyboardApplet_Factory">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+                <item value="IDL:Bonobo/Control:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+        </oaf_attribute>
+        <oaf_attribute name="name" type="string" value="Keyboard Indicator"/>
+        <oaf_attribute name="name-ar" type="string" value="مؤشر لوحة المفاتيح"/>
+        <oaf_attribute name="name-az" type="string" value="Klaviatura Göstəricisi"/>
+        <oaf_attribute name="name-be" type="string" value="Індыкатар клявіятуры"/>
+        <oaf_attribute name="name-bg" type="string" value="Датчик за Клавиатурата"/>
+        <oaf_attribute name="name-bn" type="string" value="কিবোর্ড নির্দেশক"/>
+        <oaf_attribute name="name-ca" type="string" value="Indicador del teclat"/>
+        <oaf_attribute name="name-cs" type="string" value="Indikátor klávesnice"/>
+        <oaf_attribute name="name-cy" type="string" value="Dangosydd Bysellfwrdd"/>
+        <oaf_attribute name="name-da" type="string" value="Tastaturindikator"/>
+        <oaf_attribute name="name-de" type="string" value="Tastaturindikator"/>
+        <oaf_attribute name="name-el" type="string" value="Ενδείκτης Πληκτρολογίου"/>
+        <oaf_attribute name="name-en_CA" type="string" value="Keyboard Indicator"/>
+        <oaf_attribute name="name-en_GB" type="string" value="Keyboard Indicator"/>
+        <oaf_attribute name="name-es" type="string" value="Indicador del teclado"/>
+        <oaf_attribute name="name-eu" type="string" value="Teklatuaren adierazlea"/>
+        <oaf_attribute name="name-fi" type="string" value="Näppäimistöasettelun ilmaisin"/>
+        <oaf_attribute name="name-fr" type="string" value="Sélecteur de clavier"/>
+        <oaf_attribute name="name-gu" type="string" value="કીબોર્ડ સૂચવનાર"/>
+        <oaf_attribute name="name-hr" type="string" value="Pokazatelj tipkovnice"/>
+        <oaf_attribute name="name-hu" type="string" value="Kiosztás jelző"/>
+        <oaf_attribute name="name-it" type="string" value="Indicatore della tastiera"/>
+        <oaf_attribute name="name-ja" type="string" value="キーボードインジケータ"/>
+        <oaf_attribute name="name-ko" type="string" value="키보드 표시기"/>
+        <oaf_attribute name="name-lt" type="string" value="Klaviatūros indikatorius"/>
+        <oaf_attribute name="name-ms" type="string" value="Penunjuk Papan Kekunci"/>
+        <oaf_attribute name="name-nl" type="string" value="Toetsenbordwisselaar"/>
+        <oaf_attribute name="name-nn" type="string" value="Tastaturvisar"/>
+        <oaf_attribute name="name-no" type="string" value="Tastaturindikator"/>
+        <oaf_attribute name="name-pa" type="string" value="ਕੀ-ਬੋਰਡ ਸੰਕੇਤਕ"/>
+        <oaf_attribute name="name-pl" type="string" value="Wskaźnik klawiatury"/>
+        <oaf_attribute name="name-pt" type="string" value="Indicador de Teclado"/>
+        <oaf_attribute name="name-pt_BR" type="string" value="Indicador de teclado"/>
+        <oaf_attribute name="name-ro" type="string" value="Indicator tastatură"/>
+        <oaf_attribute name="name-sk" type="string" value="Indikátor klávesnice"/>
+        <oaf_attribute name="name-sq" type="string" value="Treguesi i Tastierës"/>
+        <oaf_attribute name="name-sr" type="string" value="Показатељ тастатуре"/>
+        <oaf_attribute name="name-sr@Latn" type="string" value="Pokazatelj tastature"/>
+        <oaf_attribute name="name-sv" type="string" value="Tangentbordsindikator"/>
+        <oaf_attribute name="name-th" type="string" value="ตัวแสดงแป้นพิมพ์ที่ใช้"/>
+        <oaf_attribute name="name-uk" type="string" value="Індикатор клавіатури"/>
+        <oaf_attribute name="name-vi" type="string" value="Bộ chỉ thị bàn phím"/>
+        <oaf_attribute name="name-zh_CN" type="string" value="键盘标识器"/>
+        <oaf_attribute name="name-zh_HK" type="string" value="鍵盤指示器"/>
+        <oaf_attribute name="name-zh_TW" type="string" value="鍵盤指示器"/>
+        <oaf_attribute name="description" type="string" value="GNOME keyboard layout indicator"/>
+        <oaf_attribute name="description-ar" type="string" value="مؤشر جنوم لتصاميم لوحة المفاتيح"/>
+        <oaf_attribute name="description-az" type="string" value="GNOME klaviatura düzülüşü seçicisi"/>
+        <oaf_attribute name="description-be" type="string" value="Індыкатар раскладкі клявіятуры"/>
+        <oaf_attribute name="description-bg" type="string" value="GNOME превключвател на клавиатурни подредби"/>
+        <oaf_attribute name="description-bn" type="string" value="গ্নোম কিবোর্ডের বিন্যাস নির্দেশক"/>
+        <oaf_attribute name="description-ca" type="string" value="Indicador de disposició de teclat del GNOME"/>
+        <oaf_attribute name="description-cs" type="string" value="GNOME indikátor rozložení klávesnice"/>
+        <oaf_attribute name="description-cy" type="string" value="Dangosydd cynlluniau bysellfwrdd GNOME"/>
+        <oaf_attribute name="description-da" type="string" value="Gnome-tastaturlayoutindikator"/>
+        <oaf_attribute name="description-de" type="string" value="GNOME-Tastaturbelegunsindikator"/>
+        <oaf_attribute name="description-el" type="string" value="Ενδείκτης  Διάταξης Πληκτρολογίου του GNOME"/>
+        <oaf_attribute name="description-en_CA" type="string" value="GNOME keyboard layout indicator"/>
+        <oaf_attribute name="description-en_GB" type="string" value="GNOME keyboard layout indicator"/>
+        <oaf_attribute name="description-es" type="string" value="Indicador de distribución del teclado de Gnome"/>
+        <oaf_attribute name="description-eu" type="string" value="GNOME teklatu-diseinuaren adierazlea"/>
+        <oaf_attribute name="description-fi" type="string" value="Gnomen näppäimistöasettelun ilmaisin"/>
+        <oaf_attribute name="description-fr" type="string" value="Sélecteur de disposition du clavier GNOME"/>
+        <oaf_attribute name="description-gu" type="string" value="જીનોમ કીબોર્ડનો દેખાવ સૂચવનાર"/>
+        <oaf_attribute name="description-hr" type="string" value="Izmjenjivač rasporeda na tipkovnici"/>
+        <oaf_attribute name="description-hu" type="string" value="GNOME billentyűzetkiosztás jelző"/>
+        <oaf_attribute name="description-it" type="string" value="Indicatore dello schema della tastiera di GNOME"/>
+        <oaf_attribute name="description-ja" type="string" value="GNOME キーボード配列インジケータ"/>
+        <oaf_attribute name="description-ko" type="string" value="그놈 키보드 배치 표시기"/>
+        <oaf_attribute name="description-lt" type="string" value="GNOME klaviatūros išdėstymo indikatorius"/>
+        <oaf_attribute name="description-ms" type="string" value="Penunjuk  susunatur papan kekunci GNOME"/>
+        <oaf_attribute name="description-nl" type="string" value="GNOME toetsenbord-indeling wisselaar"/>
+        <oaf_attribute name="description-nn" type="string" value="GNOME tastaturutformingsvisar"/>
+        <oaf_attribute name="description-no" type="string" value="GNOME tastaturindikator"/>
+        <oaf_attribute name="description-pa" type="string" value="ਗਨੋਮ ਕੀ-ਬੋਰਡ ਖਾਕਾ ਸੰਕੇਤਕ"/>
+        <oaf_attribute name="description-pl" type="string" value="Wskaźnik układu klawiatury GNOME"/>
+        <oaf_attribute name="description-pt" type="string" value="Indicador de disposição de teclado GNOME"/>
+        <oaf_attribute name="description-pt_BR" type="string" value="Indicador de layout de teclado do GNOME"/>
+        <oaf_attribute name="description-ro" type="string" value="Indicator layout tastatură"/>
+        <oaf_attribute name="description-sk" type="string" value="Indikátor Prepínania klávesníc"/>
+        <oaf_attribute name="description-sq" type="string" value="Treguesi i llojit të tastierës GNOME"/>
+        <oaf_attribute name="description-sr" type="string" value="Показатељ распореда тастатуре за Гнома"/>
+        <oaf_attribute name="description-sr@Latn" type="string" value="Pokazatelj rasporeda tastature za Gnoma"/>
+        <oaf_attribute name="description-sv" type="string" value="GNOME-tangentbordslayoutindikator"/>
+        <oaf_attribute name="description-th" type="string" value="ตัวแสดงผังแป้นพิมพ์ที่ใช้"/>
+        <oaf_attribute name="description-uk" type="string" value="Індикатор розкладки клавіатури"/>
+        <oaf_attribute name="description-vi" type="string" value="Bộ chỉ thị bố cục bàn phím GNOME"/>
+        <oaf_attribute name="description-zh_CN" type="string" value="GNOME 键盘布局标识器"/>
+        <oaf_attribute name="description-zh_HK" type="string" value="GNOME 鍵盤佈局指示器"/>
+        <oaf_attribute name="description-zh_TW" type="string" value="GNOME 鍵盤佈局指示器"/>
+        <oaf_attribute name="panel:category" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+        <oaf_attribute name="panel:category-ar" type="string" value="أداة"/>
+        <oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+        <oaf_attribute name="panel:category-be" type="string" value="Карыснасьці"/>
+        <oaf_attribute name="panel:category-bg" type="string" value="Инструменти"/>
+        <oaf_attribute name="panel:category-bn" type="string" value="কাজের প্রোগ্রাম"/>
+        <oaf_attribute name="panel:category-ca" type="string" value="Utilitats"/>
+        <oaf_attribute name="panel:category-cs" type="string" value="Nástroj"/>
+        <oaf_attribute name="panel:category-cy" type="string" value="Cyfleuster"/>
+        <oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+        <oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+        <oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+        <oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+        <oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+        <oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+        <oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+        <oaf_attribute name="panel:category-fi" type="string" value="Ohjelma"/>
+        <oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+        <oaf_attribute name="panel:category-ga" type="string" value="Feidhmchlár"/>
+        <oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+        <oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગીતા"/>
+        <oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+        <oaf_attribute name="panel:category-hi" type="string" value="उपयोगी"/>
+        <oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+        <oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+        <oaf_attribute name="panel:category-is" type="string" value="Verkfæri"/>
+        <oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+        <oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+        <oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+        <oaf_attribute name="panel:category-lt" type="string" value="Pagalbinė programa"/>
+        <oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+        <oaf_attribute name="panel:category-mk" type="string" value="Aлатка"/>
+        <oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+        <oaf_attribute name="panel:category-mn" type="string" value="Хэрэгсэл"/>
+        <oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+        <oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+        <oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+        <oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+        <oaf_attribute name="panel:category-pa" type="string" value="ਉਪਯੋਿਗਤਾ"/>
+        <oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+        <oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+        <oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+        <oaf_attribute name="panel:category-ro" type="string" value="Utilitate"/>
+        <oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+        <oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+        <oaf_attribute name="panel:category-sl" type="string" value="Orodje"/>
+        <oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+        <oaf_attribute name="panel:category-sr" type="string" value="Помоћни алати"/>
+        <oaf_attribute name="panel:category-sr@Latn" type="string" value="Pomoćni alati"/>
+        <oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+        <oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+        <oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+        <oaf_attribute name="panel:category-tr" type="string" value="Yardımcı"/>
+        <oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+        <oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+        <oaf_attribute name="panel:category-wa" type="string" value="Usteye"/>
+        <oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+        <oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+        <oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+        <oaf_attribute name="panel:icon" type="string" value="gswitchit-applet.png"/>
+
+</oaf_server>
+
+</oaf_info>

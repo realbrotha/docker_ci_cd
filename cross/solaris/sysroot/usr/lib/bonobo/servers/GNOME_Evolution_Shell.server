@@ -1,0 +1,267 @@
+<oaf_info>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell"
+	      type="exe"
+	      location="/usr/bin/evolution-1.4">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/Shell:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution Shell"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Абалонка &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Shell Evolution"/>
+    <oaf_attribute name="name-cy" type="string"
+		   value="Cragen Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution skallen"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Evolution-Bedienoberfläche"/>
+    <oaf_attribute name="name-el" type="string"
+		   value="Κέλυφος Evolution"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Intérprete de Evolution."/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution-kuori"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Shell d&apos;Evolution."/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution Shell"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="La shell di Evolution"/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution シェル"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 쉘"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Cangkerang Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution shell"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Evolution skall"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Powłoka Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Consola Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Shell do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Оболочка Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Еволуција конзола"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Evolucija konzola"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutionskalet"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 外壳"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution Shell"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution Shell"/>
+  </oaf_server>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory"
+	      type="exe"
+	      location="evolution-exchange-storage">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/GenericFactory:1.0"/>
+    </oaf_attribute>
+  </oaf_server>
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Shell_Config_Factory">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution:config_item:title" type="string"
+		   value="Folder Settings"/>
+    <oaf_attribute name="evolution:config_item:title-be" type="string"
+		   value="Усталёўкі тэчкі"/>
+    <oaf_attribute name="evolution:config_item:title-cs" type="string"
+		   value="Nastavení složky"/>
+    <oaf_attribute name="evolution:config_item:title-da" type="string"
+		   value="Mappeindstillinger"/>
+    <oaf_attribute name="evolution:config_item:title-de" type="string"
+		   value="Ordnereinstellungen"/>
+    <oaf_attribute name="evolution:config_item:title-el" type="string"
+		   value="Ρυθμίσεις φακέλων"/>
+    <oaf_attribute name="evolution:config_item:title-es" type="string"
+		   value="Configuración de carpetas"/>
+    <oaf_attribute name="evolution:config_item:title-fi" type="string"
+		   value="Kansion asetukset"/>
+    <oaf_attribute name="evolution:config_item:title-fr" type="string"
+		   value="Paramètres dossier"/>
+    <oaf_attribute name="evolution:config_item:title-hu" type="string"
+		   value="Mappabeállítások"/>
+    <oaf_attribute name="evolution:config_item:title-it" type="string"
+		   value="Impostazioni Cartella"/>
+    <oaf_attribute name="evolution:config_item:title-ja" type="string"
+		   value="フォルダの設定"/>
+    <oaf_attribute name="evolution:config_item:title-ko" type="string"
+		   value="폴더 설정"/>
+    <oaf_attribute name="evolution:config_item:title-lv" type="string"
+		   value="Mapes uzstādījumi"/>
+    <oaf_attribute name="evolution:config_item:title-ms" type="string"
+		   value="Seting Folder"/>
+    <oaf_attribute name="evolution:config_item:title-nl" type="string"
+		   value="Mapinstellingen"/>
+    <oaf_attribute name="evolution:config_item:title-no" type="string"
+		   value="Mappeinnstillinger"/>
+    <oaf_attribute name="evolution:config_item:title-pl" type="string"
+		   value="Ustawienia folderów"/>
+    <oaf_attribute name="evolution:config_item:title-pt" type="string"
+		   value="Definições Pastas"/>
+    <oaf_attribute name="evolution:config_item:title-pt_BR" type="string"
+		   value="Configurações de pastas"/>
+    <oaf_attribute name="evolution:config_item:title-ru" type="string"
+		   value="Параметры папки"/>
+    <oaf_attribute name="evolution:config_item:title-sk" type="string"
+		   value="Nastavenie priečinkov"/>
+    <oaf_attribute name="evolution:config_item:title-sr" type="string"
+		   value="Подешавања директоријума"/>
+    <oaf_attribute name="evolution:config_item:title-sr@Latn" type="string"
+		   value="Podešavanja direktorijuma"/>
+    <oaf_attribute name="evolution:config_item:title-sv" type="string"
+		   value="Mappinställningar"/>
+    <oaf_attribute name="evolution:config_item:title-tr" type="string"
+		   value="Dizin Ayarları"/>
+    <oaf_attribute name="evolution:config_item:title-uk" type="string"
+		   value="Параметри теки"/>
+    <oaf_attribute name="evolution:config_item:title-vi" type="string"
+		   value="Thư lập thư mục"/>
+    <oaf_attribute name="evolution:config_item:title-zh_CN" type="string"
+		   value="文件夹设置"/>
+    <oaf_attribute name="evolution:config_item:title-zh_HK" type="string"
+		   value="資料夾設定"/>
+    <oaf_attribute name="evolution:config_item:title-zh_TW" type="string"
+		   value="資料夾設定"/>
+
+    <oaf_attribute name="evolution:config_item:description" type="string"
+		   value="Configure special folders and offline folder behavior here"/>
+    <oaf_attribute name="evolution:config_item:description-be" type="string"
+		   value="Наладжваеце паводзіны адмысловых і лакальных тэчак тут"/>
+    <oaf_attribute name="evolution:config_item:description-cs" type="string"
+		   value="Zde lze nastavit speciální složky a chování odpojené složky"/>
+    <oaf_attribute name="evolution:config_item:description-da" type="string"
+		   value="Konfigurér opførsel for specialmapper og frakoblede mapper her"/>
+    <oaf_attribute name="evolution:config_item:description-de" type="string"
+		   value="Hier können Sie spezielle Ordner und Offline-Ordner konfigurieren"/>
+    <oaf_attribute name="evolution:config_item:description-es" type="string"
+		   value="Configure carpetas especiales y el comportamiento de las carpetas fuera de línea aquí"/>
+    <oaf_attribute name="evolution:config_item:description-fi" type="string"
+		   value="Muokkaa erikoiskansioita ja yhteydettömän tilan kansioiden toimintaa tästä"/>
+    <oaf_attribute name="evolution:config_item:description-fr" type="string"
+		   value="Configurez ici les dossiers spéciaux et les dossiers hors-ligne"/>
+    <oaf_attribute name="evolution:config_item:description-hu" type="string"
+		   value="Speciális mappák és kapcsolat nélküli módban használt mappák viselkedésének beállítása"/>
+    <oaf_attribute name="evolution:config_item:description-it" type="string"
+		   value="Configura qui il comportamento delle cartelle speciali e non in linea"/>
+    <oaf_attribute name="evolution:config_item:description-ja" type="string"
+		   value="ここで特別なフォルダとオフライン動作を設定します"/>
+    <oaf_attribute name="evolution:config_item:description-ko" type="string"
+		   value="여기에 특정 폴더 및 오프라인 폴더 동작을 구성합니다."/>
+    <oaf_attribute name="evolution:config_item:description-lv" type="string"
+		   value="Konfigurēt speciālo mapju un nesaistes mapes uzvedību šeit"/>
+    <oaf_attribute name="evolution:config_item:description-ms" type="string"
+		   value="Buat konfigurasi folder khas dan peri laku folder luar talian di sini"/>
+    <oaf_attribute name="evolution:config_item:description-nl" type="string"
+		   value="Hier kunt u speciale mappen en offline gedrag instellen"/>
+    <oaf_attribute name="evolution:config_item:description-no" type="string"
+		   value="Konfigurer spesielle mapper og oppførsel når du arbeider frakoblet her"/>
+    <oaf_attribute name="evolution:config_item:description-pl" type="string"
+		   value="Konfiguracja folderów specjalnych i zachowania folderu offline"/>
+    <oaf_attribute name="evolution:config_item:description-pt" type="string"
+		   value="Configure aqui pastas especiais e comportamento de pastas quando desligado"/>
+    <oaf_attribute name="evolution:config_item:description-pt_BR" type="string"
+		   value="Configure pastas especiais e comportamento de pastas desconectadas aqui"/>
+    <oaf_attribute name="evolution:config_item:description-ru" type="string"
+		   value="Здесь можно настроить поведение специальных папок и папок для автономной работы"/>
+    <oaf_attribute name="evolution:config_item:description-sk" type="string"
+		   value="Nastavenie špeciálnych priečinkov a ich off-line chovanie"/>
+    <oaf_attribute name="evolution:config_item:description-sr" type="string"
+		   value="Овде подесите понашање посебних и директоријума који нису на мрежи"/>
+    <oaf_attribute name="evolution:config_item:description-sr@Latn" type="string"
+		   value="Ovde podesite ponašanje posebnih i direktorijuma koji nisu na mreži"/>
+    <oaf_attribute name="evolution:config_item:description-sv" type="string"
+		   value="Konfigurera beteende för specialmappar och nedkopplade mappar här"/>
+    <oaf_attribute name="evolution:config_item:description-uk" type="string"
+		   value="Налаштовування властивостей спеціальних тек та оффлайн-тек"/>
+    <oaf_attribute name="evolution:config_item:description-vi" type="string"
+		   value="Cấu hình thư mục đặc biệt và hành vi thư mục ngoại tuyến ở đây"/>
+    <oaf_attribute name="evolution:config_item:description-zh_CN" type="string"
+		   value="在此配置特殊文件夹和脱机文件夹的行为"/>
+    <oaf_attribute name="evolution:config_item:description-zh_HK" type="string"
+		   value="在此設定特殊資料夾與離線資料夾的行為"/>
+    <oaf_attribute name="evolution:config_item:description-zh_TW" type="string"
+		   value="在此設定特殊資料夾與離線資料夾的行為"/>
+
+    <oaf_attribute name="evolution:config_item:icon_name" type="string"
+		   value="folder-settings.png"/>
+
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-9"/>
+
+    <oaf_attribute name="evolution:config_item:type" type="stringv">
+      <item value="shell"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+		   value="Evolution folder settings configuration control"/>
+    <oaf_attribute name="name-be" type="string"
+		   value="Сродак кіраваньня наладкамі тэчак &quot;Эвалюцыі&quot;"/>
+    <oaf_attribute name="name-cs" type="string"
+		   value="Ovládací prvek nastavení složky Evolution"/>
+    <oaf_attribute name="name-da" type="string"
+		   value="Evolution mappeindstillingsopsætnings-styreelement"/>
+    <oaf_attribute name="name-de" type="string"
+		   value="Bedienelement zur Konfiguration von Evolution-Ordnern"/>
+    <oaf_attribute name="name-es" type="string"
+		   value="Control de configuración de preferencias de carpetas de Evolution"/>
+    <oaf_attribute name="name-fi" type="string"
+		   value="Evolution kansioiden asetukset"/>
+    <oaf_attribute name="name-fr" type="string"
+		   value="Composant de configuration des paramètres dossier d&apos;Evolution"/>
+    <oaf_attribute name="name-hu" type="string"
+		   value="Evolution mappabeállítás konfigurációs vezérlő"/>
+    <oaf_attribute name="name-it" type="string"
+		   value="Controllo di configurazione delle impostazioni delle cartelle di Evolution."/>
+    <oaf_attribute name="name-ja" type="string"
+		   value="Evolution フォルダ設定コントロール"/>
+    <oaf_attribute name="name-ko" type="string"
+		   value="Evolution 폴더 설정 구성 제어"/>
+    <oaf_attribute name="name-ms" type="string"
+		   value="Kawalan konfigurasi seting folder Evolution"/>
+    <oaf_attribute name="name-nl" type="string"
+		   value="Evolution configuratie voor mapinstellingen"/>
+    <oaf_attribute name="name-no" type="string"
+		   value="Konfigurasjonskontroll for mappeinnstillinger i Evolution"/>
+    <oaf_attribute name="name-pl" type="string"
+		   value="Narzędzie do konfiguracji ustawień folderu programu Evolution"/>
+    <oaf_attribute name="name-pt" type="string"
+		   value="Controlo de definições de configuração de pasta Evolution"/>
+    <oaf_attribute name="name-pt_BR" type="string"
+		   value="Controle de configuração das configurações de pasta do Evolution"/>
+    <oaf_attribute name="name-ru" type="string"
+		   value="Управление настройкой параметров папки Evolution"/>
+    <oaf_attribute name="name-sr" type="string"
+		   value="Контрола подешавања поставки Еволуција директоријума"/>
+    <oaf_attribute name="name-sr@Latn" type="string"
+		   value="Kontrola podešavanja postavki Evolucija direktorijuma"/>
+    <oaf_attribute name="name-sv" type="string"
+		   value="Evolutions konfigurationskontroll för mappinställningar"/>
+    <oaf_attribute name="name-zh_CN" type="string"
+		   value="Evolution 文件夹配置控件"/>
+    <oaf_attribute name="name-zh_HK" type="string"
+		   value="Evolution 資料夾設定組態控制"/>
+    <oaf_attribute name="name-zh_TW" type="string"
+		   value="Evolution 資料夾設定組態控制"/>
+  </oaf_server>
+
+</oaf_info>

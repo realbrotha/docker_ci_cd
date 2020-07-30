@@ -1,0 +1,210 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Image_Properties_View" 
+	type="shlib" location="/usr/lib/bonobo/libnautilus-image-properties-view">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Nautilus Image Properties view"/>
+	<oaf_attribute name="name-af" type="string" value="Beeldkenmerke-aangesig: Nautilus"/>
+	<oaf_attribute name="name-ar" type="string" value="مشهد نوتلس لخصائص الصورة"/>
+	<oaf_attribute name="name-az" type="string" value="Nautilus Rəsm Xassələri nümayişi"/>
+	<oaf_attribute name="name-be" type="string" value="Прагляд уласьцівасьцяў відарыса для &quot;Наўтылюса&quot;"/>
+	<oaf_attribute name="name-bg" type="string" value="Настройка за преглед на картинка в Nautilus"/>
+	<oaf_attribute name="name-bn" type="string" value="নটিলাসের ছবির বৈশিষ্ট্য প্রদর্শক"/>
+	<oaf_attribute name="name-ca" type="string" value="Vista de les propietats de la imatge del Nautilus"/>
+	<oaf_attribute name="name-cs" type="string" value="Pohled Nautilu Vlastnosti obrázku"/>
+	<oaf_attribute name="name-cy" type="string" value="Gwelydd Priodweddau Delwedd Nautilus"/>
+	<oaf_attribute name="name-da" type="string" value="Billedegenskabsvisning til Nautilus"/>
+	<oaf_attribute name="name-de" type="string" value="Nautilus-Bildeigenschaften-Ansicht"/>
+	<oaf_attribute name="name-el" type="string" value="Όψη Ιδιοτήτων Εικόνας του Ναυτίλου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Nautilus Image Properties view"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Nautilus Image Properties view"/>
+	<oaf_attribute name="name-es" type="string" value="Vista de las propiedades de la imagen de Nautilus"/>
+	<oaf_attribute name="name-et" type="string" value="Nautiluse pildi omaduste vaade"/>
+	<oaf_attribute name="name-eu" type="string" value="Nautilus-eko irudi-propietateen ikuspegia"/>
+	<oaf_attribute name="name-fi" type="string" value="Nautiluksen kuvien ominaisuusnäkymä"/>
+	<oaf_attribute name="name-fr" type="string" value="Vue des propriétés de l&apos;image Nautilus"/>
+	<oaf_attribute name="name-gu" type="string" value="નોટિલસના ચિત્રોના ગુણધર્મોનો દેખાવ"/>
+	<oaf_attribute name="name-he" type="string" value="תצוגת מאפייני תמונה של נאוטילוס"/>
+	<oaf_attribute name="name-hr" type="string" value="Nautilusov pregled osobina slike"/>
+	<oaf_attribute name="name-hu" type="string" value="Nautilus képtulajdonság-nézet"/>
+	<oaf_attribute name="name-id" type="string" value="view Property Gambar Nautilus"/>
+	<oaf_attribute name="name-is" type="string" value="Myndaeigindasýn Nautilus"/>
+	<oaf_attribute name="name-it" type="string" value="Visualizzazione «Proprietà immagine» di Nautilus"/>
+	<oaf_attribute name="name-ja" type="string" value="Nautilus 画像プロパティ表示"/>
+	<oaf_attribute name="name-ko" type="string" value="노틸러스 이미지 기본 설정 보기"/>
+	<oaf_attribute name="name-li" type="string" value="Nautilus aafbiljingseigesjappevinster"/>
+	<oaf_attribute name="name-lt" type="string" value="Nautilus paveikslo savybių rodytojas"/>
+	<oaf_attribute name="name-lv" type="string" value="Nautilus Attēla Rekvizītu skats"/>
+	<oaf_attribute name="name-mk" type="string" value="Nautilus преглед на својствата на сликата"/>
+	<oaf_attribute name="name-ml" type="string" value="നോട്ടിലസ് ചിത്ര ഗുണഗണങ്ങളുടെ കാഴ്ച"/>
+	<oaf_attribute name="name-mn" type="string" value="Наутилусаар зургийн агуулгын үзүүлэх"/>
+	<oaf_attribute name="name-ms" type="string" value="Paparan Ciri-ciri Imej Nautilus"/>
+	<oaf_attribute name="name-nl" type="string" value="Nautilus afbeeldingseigenschappenvenster"/>
+	<oaf_attribute name="name-nn" type="string" value="Nautilus-visar for bileteeigenskapar"/>
+	<oaf_attribute name="name-no" type="string" value="Nautilus-visning for bildeegenskaper"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨਾਟਲਿਸ ਚਿੱਤਰ ਗੁਣ ਦਰਿਸ਼"/>
+	<oaf_attribute name="name-pl" type="string" value="Widok Nautilusa z właściwościami obrazu"/>
+	<oaf_attribute name="name-pt" type="string" value="Vista de Propriedades de Imagem Nautilus"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Visão Propriedades de imagem do Nautilus"/>
+	<oaf_attribute name="name-ro" type="string" value="Vizualizare proprietăţi imagine"/>
+	<oaf_attribute name="name-ru" type="string" value="Свойства изрбражения для &quot;Наутилуса&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Pohľad Vlastnosti obrázku pre Nautilus"/>
+	<oaf_attribute name="name-sl" type="string" value="Nautilusov pogled lastnosti slike"/>
+	<oaf_attribute name="name-sq" type="string" value="Shikuesi i pronësive të figurave të Nautilus"/>
+	<oaf_attribute name="name-sr" type="string" value="Наутилусов преглед особина слике"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Nautilusov pregled osobina slike"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Наутилусов преглед особина слике"/>
+	<oaf_attribute name="name-sv" type="string" value="Nautilus bildegenskapervy"/>
+	<oaf_attribute name="name-th" type="string" value="มุมมองคุณสมบัติภาพ จาก Nautilus"/>
+	<oaf_attribute name="name-tr" type="string" value="Nautilus Resim Özellikleri görünümü"/>
+	<oaf_attribute name="name-uk" type="string" value="Відображення властивостей зображення для &quot;Наутілуса&quot;"/>
+	<oaf_attribute name="name-vi" type="string" value="Khung xem thuộc tính ảnh của Nautilus"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Nautilus 图像属性视图"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Nautilus 圖像屬性顯示模式"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Nautilus 圖像屬性顯示模式"/>
+	<oaf_attribute name="description" type="string" value="Image Properties content view component"/>
+	<oaf_attribute name="description-af" type="string" value="Inhoudaangesigkomponent: Beeldkenmerke"/>
+	<oaf_attribute name="description-ar" type="string" value="مكوّن مشهد خصائص محتوى الصورة"/>
+	<oaf_attribute name="description-az" type="string" value="Rəsm Xassələrinin məzmun nümayişi tərkib hissəsi"/>
+	<oaf_attribute name="description-be" type="string" value="Кампанэнт прагляду ўласьцівасьцяў відарыса"/>
+	<oaf_attribute name="description-bg" type="string" value="Настройка на компонент за преглед съдържанието на изображения"/>
+	<oaf_attribute name="description-bn" type="string" value="ছবির বৈশিষ্ট্য প্রদর্শক কম্পোনেন্ট"/>
+	<oaf_attribute name="description-ca" type="string" value="Component de vista de continguts de les propietats de la imatge"/>
+	<oaf_attribute name="description-cs" type="string" value="Komponenta pohledu obsahu Vlastnosti obrázku"/>
+	<oaf_attribute name="description-cy" type="string" value="Gwelydd cydran priodweddau cynnwys delwedd "/>
+	<oaf_attribute name="description-da" type="string" value="Indholdsvisningskomponent til billedegenskaber"/>
+	<oaf_attribute name="description-de" type="string" value="Inhaltsanzeige-Komponente der Bildeigenschaften"/>
+	<oaf_attribute name="description-el" type="string" value="Συστατικό όψης περιεχομένου ιδιοτήτων εικόνας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Image Properties content view component"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Image Properties content view component"/>
+	<oaf_attribute name="description-es" type="string" value="Componente del visor del contenido de las propiedades de la imagen"/>
+	<oaf_attribute name="description-et" type="string" value="Pildi omaduste sisu vaatamise koostisosad"/>
+	<oaf_attribute name="description-eu" type="string" value="Irudi-propietateen edukia ikusteko osagaia"/>
+	<oaf_attribute name="description-fi" type="string" value="Kuvan ominaisuuksien sisältönäkymäkomponentti"/>
+	<oaf_attribute name="description-fr" type="string" value="Composant de la vue du contenu des propriétés de l&apos;image"/>
+	<oaf_attribute name="description-gu" type="string" value="ચિત્રના ગુણધર્મના સમાવિષ્ટોને જોવા માટેનો ભાગ"/>
+	<oaf_attribute name="description-he" type="string" value="מאפייני תמונה ברכיב מציג התוכן"/>
+	<oaf_attribute name="description-hr" type="string" value="Komponenta za pregled osobina slike"/>
+	<oaf_attribute name="description-hu" type="string" value="Kép tulajdonságai tartalomnézet-komponens"/>
+	<oaf_attribute name="description-id" type="string" value="komponen content view Property gambar "/>
+	<oaf_attribute name="description-is" type="string" value="Image Properties content view component"/>
+	<oaf_attribute name="description-it" type="string" value="Componente della visualizzazione di contenuto «Proprietà immagine»"/>
+	<oaf_attribute name="description-ja" type="string" value="画像のプロパティコンテンツ表示コンポーネント"/>
+	<oaf_attribute name="description-ko" type="string" value="이미지 속성 내용 보기 구성요소"/>
+	<oaf_attribute name="description-li" type="string" value="Aafbiljingseigesjappe-inhaudsvinsterkomponent"/>
+	<oaf_attribute name="description-lt" type="string" value="Paveikslo savybių turinio peržiūros komponentas"/>
+	<oaf_attribute name="description-lv" type="string" value="Attēla Rekvizītu satura skata komponente"/>
+	<oaf_attribute name="description-mk" type="string" value="Компонента за преглед на содржинските својства на сликите"/>
+	<oaf_attribute name="description-ml" type="string" value="ചിത്ര ഗുണഗണങ്ങളുടെ ഉള്ളടക്ക കാഴ്ച"/>
+	<oaf_attribute name="description-mn" type="string" value="Зургийн агуулгын утгыг үзүүлэх бүрэлдхүүн"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang konponen paparan kandungan Ciri-ciri Imej"/>
+	<oaf_attribute name="description-nl" type="string" value="Afbeeldingseigenschappen-inhoudsvenstercomponent"/>
+	<oaf_attribute name="description-nn" type="string" value="Innhaldsvisarkomponent for bileteeigenskapar"/>
+	<oaf_attribute name="description-no" type="string" value="Innholdsvisningskomponent for bildeegenskaper"/>
+	<oaf_attribute name="description-pa" type="string" value="ਚਿੱਤਰ ਗੁਣ ਦਾ ਸੰਖੇਪ ਵੇਖਾਉਣ ਵਾਲਾ ਹਿੱਸਾ"/>
+	<oaf_attribute name="description-pl" type="string" value="Komponent widoku zawartości z właściwościami obrazu"/>
+	<oaf_attribute name="description-pt" type="string" value="Componente de vista de conteúdo de Propriedade de Imagem"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Visão de conteúdo do componente Propriedades de imagem"/>
+	<oaf_attribute name="description-ro" type="string" value="Componentă pentru vizualizarea proprietăţilor imaginii"/>
+	<oaf_attribute name="description-ru" type="string" value="Компонент просмотра свойств изображения"/>
+	<oaf_attribute name="description-sk" type="string" value="Komponent Vlastnosti obrázku"/>
+	<oaf_attribute name="description-sl" type="string" value="komponenta vsebine pogleda lastnosti slike"/>
+	<oaf_attribute name="description-sq" type="string" value="Komponent i shikuesit të pronësive të figurave"/>
+	<oaf_attribute name="description-sr" type="string" value="Компонента за преглед особина слике"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Komponenta za pregled osobina slike"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Компонента за преглед особина слике"/>
+	<oaf_attribute name="description-sv" type="string" value="Bildegenskaperinnehållsvykomponent"/>
+	<oaf_attribute name="description-tr" type="string" value="Resim Özellikleri içerik görünüm bileşeni"/>
+	<oaf_attribute name="description-uk" type="string" value="Компонент відображення властивостей зображення"/>
+	<oaf_attribute name="description-vi" type="string" value="Thành phần khung xem nội dung thuộc tính ảnh"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="图像属性内容视图组件"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="圖像屬性顯示模式元件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="圖像屬性顯示模式元件"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="image/x-bmp"/>
+		<item value="image/x-ico"/>
+		<item value="image/jpeg"/>
+		<item value="image/gif"/>
+		<item value="image/png"/>
+		<item value="image/pnm"/>
+		<item value="image/ras"/>
+		<item value="image/tga"/>
+		<item value="image/tiff"/>
+		<item value="image/wbmp"/>
+		<item value="image/x-xbitmap"/>
+		<item value="image/x-xpixmap"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:property_page_name" type="string" value="Image"/>
+	<oaf_attribute name="nautilus:property_page_name-af" type="string" value="Beeld"/>
+	<oaf_attribute name="nautilus:property_page_name-am" type="string" value="ምስል"/>
+	<oaf_attribute name="nautilus:property_page_name-ar" type="string" value="الصورة"/>
+	<oaf_attribute name="nautilus:property_page_name-az" type="string" value="Rəsm"/>
+	<oaf_attribute name="nautilus:property_page_name-be" type="string" value="Відарыс"/>
+	<oaf_attribute name="nautilus:property_page_name-bg" type="string" value="Изображение"/>
+	<oaf_attribute name="nautilus:property_page_name-bn" type="string" value="ছবি"/>
+	<oaf_attribute name="nautilus:property_page_name-ca" type="string" value="Imatge"/>
+	<oaf_attribute name="nautilus:property_page_name-cs" type="string" value="Obrázek"/>
+	<oaf_attribute name="nautilus:property_page_name-cy" type="string" value="Delwedd"/>
+	<oaf_attribute name="nautilus:property_page_name-da" type="string" value="Billede"/>
+	<oaf_attribute name="nautilus:property_page_name-de" type="string" value="Bild"/>
+	<oaf_attribute name="nautilus:property_page_name-el" type="string" value="Εικόνα"/>
+	<oaf_attribute name="nautilus:property_page_name-en_CA" type="string" value="Image"/>
+	<oaf_attribute name="nautilus:property_page_name-en_GB" type="string" value="Image"/>
+	<oaf_attribute name="nautilus:property_page_name-es" type="string" value="Imagen"/>
+	<oaf_attribute name="nautilus:property_page_name-et" type="string" value="Pilt"/>
+	<oaf_attribute name="nautilus:property_page_name-eu" type="string" value="Irudia"/>
+	<oaf_attribute name="nautilus:property_page_name-fi" type="string" value="Kuva"/>
+	<oaf_attribute name="nautilus:property_page_name-fr" type="string" value="Image"/>
+	<oaf_attribute name="nautilus:property_page_name-ga" type="string" value="Íomha"/>
+	<oaf_attribute name="nautilus:property_page_name-gl" type="string" value="Imaxe"/>
+	<oaf_attribute name="nautilus:property_page_name-gu" type="string" value="ચિત્ર"/>
+	<oaf_attribute name="nautilus:property_page_name-he" type="string" value="תמונה"/>
+	<oaf_attribute name="nautilus:property_page_name-hi" type="string" value="छवि"/>
+	<oaf_attribute name="nautilus:property_page_name-hr" type="string" value="Slika"/>
+	<oaf_attribute name="nautilus:property_page_name-hu" type="string" value="Kép"/>
+	<oaf_attribute name="nautilus:property_page_name-id" type="string" value="Gambar"/>
+	<oaf_attribute name="nautilus:property_page_name-is" type="string" value="Mynd"/>
+	<oaf_attribute name="nautilus:property_page_name-it" type="string" value="Immagine"/>
+	<oaf_attribute name="nautilus:property_page_name-ja" type="string" value="画像"/>
+	<oaf_attribute name="nautilus:property_page_name-ko" type="string" value="이미지:"/>
+	<oaf_attribute name="nautilus:property_page_name-li" type="string" value="Aafbiljing"/>
+	<oaf_attribute name="nautilus:property_page_name-lt" type="string" value="Paveikslas"/>
+	<oaf_attribute name="nautilus:property_page_name-lv" type="string" value="Attēls"/>
+	<oaf_attribute name="nautilus:property_page_name-mi" type="string" value="Whakaahua"/>
+	<oaf_attribute name="nautilus:property_page_name-mk" type="string" value="Слика:"/>
+	<oaf_attribute name="nautilus:property_page_name-ml" type="string" value="ചിത്രം"/>
+	<oaf_attribute name="nautilus:property_page_name-mn" type="string" value="Зураг"/>
+	<oaf_attribute name="nautilus:property_page_name-ms" type="string" value="Imej"/>
+	<oaf_attribute name="nautilus:property_page_name-ne" type="string" value="चित्र"/>
+	<oaf_attribute name="nautilus:property_page_name-nl" type="string" value="Afbeelding"/>
+	<oaf_attribute name="nautilus:property_page_name-nn" type="string" value="Bilete"/>
+	<oaf_attribute name="nautilus:property_page_name-no" type="string" value="Bilde"/>
+	<oaf_attribute name="nautilus:property_page_name-pa" type="string" value="ਚਿੱਤਰ"/>
+	<oaf_attribute name="nautilus:property_page_name-pl" type="string" value="Obraz"/>
+	<oaf_attribute name="nautilus:property_page_name-pt" type="string" value="Imagem"/>
+	<oaf_attribute name="nautilus:property_page_name-pt_BR" type="string" value="Imagem"/>
+	<oaf_attribute name="nautilus:property_page_name-ro" type="string" value="Imagine"/>
+	<oaf_attribute name="nautilus:property_page_name-ru" type="string" value="Изображение"/>
+	<oaf_attribute name="nautilus:property_page_name-sk" type="string" value="Obrázok"/>
+	<oaf_attribute name="nautilus:property_page_name-sl" type="string" value="Slika"/>
+	<oaf_attribute name="nautilus:property_page_name-sq" type="string" value="Figura"/>
+	<oaf_attribute name="nautilus:property_page_name-sr" type="string" value="Слика"/>
+	<oaf_attribute name="nautilus:property_page_name-sr@Latn" type="string" value="Slika"/>
+	<oaf_attribute name="nautilus:property_page_name-sr@ije" type="string" value="Слика"/>
+	<oaf_attribute name="nautilus:property_page_name-sv" type="string" value="Bild"/>
+	<oaf_attribute name="nautilus:property_page_name-th" type="string" value="ภาพ"/>
+	<oaf_attribute name="nautilus:property_page_name-tr" type="string" value="Resim"/>
+	<oaf_attribute name="nautilus:property_page_name-uk" type="string" value="Зображення"/>
+	<oaf_attribute name="nautilus:property_page_name-vi" type="string" value="Ảnh"/>
+	<oaf_attribute name="nautilus:property_page_name-wa" type="string" value="Imådje"/>
+	<oaf_attribute name="nautilus:property_page_name-yi" type="string" value="בילד"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_CN" type="string" value="图像"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_HK" type="string" value="圖像"/>
+	<oaf_attribute name="nautilus:property_page_name-zh_TW" type="string" value="圖像"/>
+	<oaf_attribute name="nautilus:can_handle_multiple_files" type="boolean" value="false"/>
+</oaf_server>
+
+</oaf_info>

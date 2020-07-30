@@ -1,0 +1,9 @@
+./"entry_type"8t"entry_count"8t"sys_define"nB8tB8tB
++/"entry_status"8t"handle_l_l"8t"handle_l_h"nB8tB8tB
++/"handle_h"8t"reserved"8t"initiator_id"nx8tB8tB
++/"lun_l"8t"lun_h"8tnBB
++/"reserved_1"8t4B
++/"status_l"8t"status_h"8t"task_flags_l"nB8tB8tB
++/"task_flags_h"8t"sequence_id"8tnB8tx8t
++/"reserved_3"8t40B
++/"ox_id"8tnx

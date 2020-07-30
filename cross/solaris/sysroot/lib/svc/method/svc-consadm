@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)svc-consadm	1.1	04/07/15 SMI"
+
+#
+# "Start" the "consadm service" by launching consadmd if /etc/consadm.conf
+# exists.
+#
+# Note that these strings are hardcoded into consadm, so there's no benefit to
+# keeping them in the repository.
+#
+
+. /lib/svc/share/smf_include.sh
+
+if [ -r /etc/consadm.conf ]; then :; else
+	echo "No /etc/consadm.conf"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+/usr/sbin/consadmd &
+
+exit 0

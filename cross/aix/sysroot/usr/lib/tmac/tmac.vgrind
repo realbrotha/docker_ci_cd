@@ -1,0 +1,97 @@
+'\" @(#)45	1.8  src/cmdtext/usr/bin/vgrind/tmac.vgrind, cmdtext, cmdtext530 5/17/91 10:05:49
+.. IBM_PROLOG_BEGIN_TAG 
+.. This is an automatically generated prolog. 
+..  
+.. cmdtext530 src/cmdtext/usr/bin/vgrind/tmac.vgrind 1.8 
+..  
+.. Licensed Materials - Property of IBM 
+..  
+.. (C) COPYRIGHT International Business Machines Corp. 1989,1991 
+.. All Rights Reserved 
+..  
+.. US Government Users Restricted Rights - Use, duplication or 
+.. disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+..  
+.. IBM_PROLOG_END_TAG 
+'\"
+'\" COMPONENT_NAME: (CMDTEXT) Text Formatting Services
+'\"
+'\" FUNCTIONS:
+'\"
+'\" ORIGINS: 10,26,27
+'\"
+'\" (C) COPYRIGHT International Business Machines Corp. 1989, 1991
+'\" All Rights Reserved
+'\" Licensed Materials - Property of IBM
+'\"
+'\" US Government Users Restricted Rights - Use, duplication or
+'\" disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+'\"
+'ss 23
+'ds _ \d\(mi\u
+'ps 10p
+'vs 12p
+'ds - \(mi
+'ds / \\h'\\w' 'u-\\w'/'u'/
+'ds /* \\h'\\w' 'u-\\w'/'u'/*
+'bd B 3
+'bd S B 3
+'nr cm 0
+'nf
+'de vH
+'ev 2
+'\"'if t 'if !\nv 'tl '\-\-''\-\-' \"cutmarks deleted since not needed
+'\" IF cut marks are needed, uncomment the above line
+'ft 1
+'sp .35i
+'tl '\s14\f3\\*(=F\fP\s0'\\*(=H'\f3\s14\\*(=F\fP\s0'
+'sp .25i
+'ft 1
+\f2\s12\h'\\n(.lu-\w'\\*(=f'u'\\*(=f\fP\s0\h'|0u'
+.sp .05i
+'ev
+'ds =G \\*(=F
+..
+'de vF
+'ev 2
+'sp .35i
+'tl '\f2\\*(=M''Page % of \\*(=G\fP'
+'bp
+'ev
+'ft 1
+'if \\n(cm=1 'ft 2
+..
+'de ()
+'pn 1
+..
+'de +C
+'nr cm 1
+'ft 2
+'ds +K
+'ds -K
+..
+'de -C
+'nr cm 0
+'ft 1
+'ds +K \f3
+'ds -K \fP
+..
+'+C
+'-C
+'am +C
+'ne 3
+..
+'de FN
+\f2\s14\h'\\n(.lu-\w'\\$1'u'\\$1\fP\s0\h'|0u'\c
+.if \\nx .tm \\$1 \\*(=F \\n%
+'ds =f \&...\\$1
+..
+'de FC
+.if \\nx .tm \\$1 \\*(=F \\n%
+'ds =f \&...\\$1
+..
+'de -F
+'rm =f
+..
+'ft 1
+'lg 0

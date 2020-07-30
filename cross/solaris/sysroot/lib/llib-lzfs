@@ -1,0 +1,11 @@
+/*
+ * Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+
+#pragma ident	"@(#)llib-lzfs	1.1	06/07/24 SMI"
+
+/*LINTLIBRARY*/
+/*PROTOLIB1*/
+
+#include <libzfs.h>

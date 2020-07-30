@@ -1,0 +1,152 @@
+#!/bin/sh
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident	"$Revision: 1.4 $ SMI"
+#
+
+# Must be able to determine target OS so can set up appropriate
+# command environment.
+OS=`uname -s`
+OS_VERSION=`uname -r`
+
+
+# This script is used as a startup script for initd.
+
+CACAOADM="_CACAO_RT_DIR_/bin/cacaoadm"
+cacao_etc_instances_dir="_CACAO_ETC_INSTANCE_DIR_"
+cacao_base_dir="_CACAO_BASE_DIR_"
+
+case "${OS}" in
+    "SunOS")	
+	CAT="/usr/bin/cat"
+        LS="/usr/bin/ls"      
+	;;
+    "Linux")
+	CAT="/bin/cat"
+        LS="/bin/ls"
+	;;
+    *)
+	echo "Not supported on detected OS \"${OS}\"."
+	exit 1
+	;;
+esac 
+
+LOGGER="/usr/bin/logger"
+
+
+# PARAMETERS for localization
+TEXTDOMAIN="cacao"
+
+# Starts or stops the default Cacao instance and any 
+# additional instances.
+# In case of failure on one instance, process the next instance and the final
+# exit code will reflect the failure
+final_exit_code=0
+
+
+case "$1" in
+start)
+
+    #robustness
+    if [ ! -f "${CACAOADM}" ]
+    then
+        echo "Can't find cacaoadm, exit"
+        exit 1
+    fi
+
+    #loop on all cacao instances
+    instances="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ $? -ne 0 ]; then
+        instances="default"
+        MSG="Error : Can't retrieve the instances, start the default."
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        final_exit_code=1
+    fi
+
+    for i in ${instances}
+    do
+        instance="-i ${i}"
+        instancename="(instance ${i})"
+        
+        # Do the start
+        ${CACAOADM} enabled_at_boot_start ${instance} 2>&1
+        if [ $? -ne 0 ]; then
+            MSG="Error: Fail to start cacao agent. ${instancename}"
+            # Log message on syslog
+            ${LOGGER} -p local0.err -t cacao "${MSG}"
+            # Display message on terminal if any
+            echo "${MSG}" >&2
+            final_exit_code=1
+            continue
+        fi
+    done
+    exit ${final_exit_code}
+    ;;
+
+stop)
+
+    #robustness
+    if [ ! -f "${CACAOADM}" ]
+    then
+        echo "Can't find cacaoadm, exit"
+        exit 1
+    fi
+
+    #loop on all cacao instances
+    instances="`${LS} -1 ${cacao_etc_instances_dir} 2>/dev/null`"
+    if [ $? -ne 0 ]; then
+        instances="default"
+        MSG="Error : Can't retrieve the instances, stop the default."
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        final_exit_code=1
+    fi
+
+    for i in ${instances}
+    do
+       instance="-i ${i}"
+       instancename="(instance ${i})"
+        
+        MSG="`${CACAOADM} non_embedded_stop ${instance} 2>&1`"
+        if [ $? -ne 0 ]; then
+            MSG="Error: Can't stop cacao agent. ${instancename} ${MSG}"
+            # Log message on syslog
+            ${LOGGER} -p local0.err -t cacao "${MSG}"
+            # Display message on terminal if any
+            echo "${MSG}" >&2
+            final_exit_code=1
+        fi
+    done
+    exit ${final_exit_code}
+    ;;
+
+restart)
+        $0 stop
+        final_exit_code=$?
+        $0 start
+        if [ ${?} -ne 0 ]; then
+            final_exit_code=$?
+        fi
+        exit ${final_exit_code}
+    ;;
+
+get-basedir)
+        echo "${cacao_base_dir}"
+        exit 0
+    ;;
+
+*)
+    echo "Usage: $0 {start|stop|restart|debug|get_base_dir}" >&2
+    exit 1
+    ;;
+esac
+
+
+exit 0

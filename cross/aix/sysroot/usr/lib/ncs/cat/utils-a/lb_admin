@@ -1,0 +1,231 @@
+lb_admin - Local Broker Administration
+
+The Local Broker Administration tool (lb_admin) administers the
+registrations of NCS-based servers in global location broker (GLB) or local
+location broker (LLB) databases. A server registers universal unique
+identifiers (UUIDs) specifying an object, a type, and an interface, along
+with a socket address specifying its location. A client can locate servers
+by issuing lookup requests to GLBs and LLBs.
+
+Use the Local Broker Administration tool (lb_admin) to look up information,
+add new entries, and delete existing entries in a specified database.
+
+The Local Broker Administration tool is useful for inspecting the contents
+of location broker databases and for correcting database errors. For
+example, if a server terminates abnormally without unregistering itself,
+use Local Broker Administration (lb_admin) to manually remove its entry
+from the GLB database.
+
+When accepting input or displaying output, Local Broker Administration
+(lb_admin) uses either character strings or descriptive textual names to
+identify objects, types, and interfaces. A character string directly
+represents the data in a UUID in the format:
+
+xxxxxxxxxxxx.xx.xx.xx.xx.xx.xx.xx.xx
+
+where each x is a hexadecimal digit.
+
+Local Broker Administration (lb_admin) will examine or modify only one
+database at a time. This is referred to as the current database. The
+use_broker command selects the type of location broker database, GLB or
+LLB. The set_broker command selects the host whose GLB or LLB database is
+to be accessed. Of course, if one replica of a replicated GLB database is
+modified, the modifications will be propagated to the other replicas of
+that database.
+
+Syntax
+
+lb_admin [ -nq ] [ -version ]
+
+Parameters
+
+-nq
+     Do not query for verification of wildcard expansions in unregister
+     operations.
+
+-version
+     Display the version of NCS that this lb_admin tool belongs to, but do 
+     not start the tool.
+
+Commands
+
+When you type:
+
+lb_admin
+
+you are prompted with the following line, where you can enter the lb_admin
+commands:
+
+lb_admin:
+
+In lookup, register, and unregister commands, the object, type, and
+interface arguments can be either character strings representing UUIDs or
+textual names corresponding to UUIDs, as described earlier.
+
+a[dd]
+     Synonym for register.
+
+c[lean]
+     Find and delete obsolete entries in the current database.
+
+     When issuing this command, lb_admin attempts to contact each server
+     registered in the database. If the server responds, the entry for its
+     registration is left intact in the database. If the server does not
+     respond, lb_admin looks up its registration in the LLB database at the
+     host where the server is located, tells the result of this lookup, and
+     asks if the entry is to be deleted. If a server responds, but its
+     UUIDs do not match the entry in the database, lb_admin tells this
+     result and asks if the entry is to be deleted.
+
+     Entries that meet either of these conditions are probably safe to
+     delete:
+
+        o The server does not respond. The lb_admin succeeds in contacting
+          the LLB at the host where the server is located, but the server
+          is not registered with that LLB. The server is probably no longer
+          running.
+
+        o A server responds, but its UUIDs do not match the entry in the
+          database. The server that responds is not the one that registered
+          the entry.
+
+     Entries that meet either of these conditions are probably safe to
+     delete.
+
+     In other situations, it is best not to delete the entry unless it can
+     be verified directly that the server is not running (for example, by
+     listing the processes running on its host).
+
+     When lb_admin asks to delete an entry, you can respond in four ways:
+
+        o A y[es] response deletes the entry.
+
+        o A n[o] response leaves the entry intact in the database. After a
+          yes or a no, lb_admin proceeds to check the next entry in the
+          current database.
+
+        o A g[o] response invokes automatic deletion, in which all eligible
+          entries are deleted and all ineligible entries are left intact,
+          without the user being queried, until all entries have been
+          checked.
+
+        o A q[uit] response terminates the clean operation.
+
+d[elete]
+     Synonym for unregister.
+
+h[elp] [command] or ? [command]
+     Display a description of the specified command or, if none is
+     specified, list all of the lb_admin commands.
+
+l[ookup] object type interface
+     Look up and display all entries with matching object, type, and
+     interface fields in the current database. You can use an asterisk (*) as 
+     a wildcard for any of the parameters. If all the parameters are
+     wildcards, lookup displays the entire database.
+
+q[uit]
+     Exit the lb_admin session.
+
+r[egister] object type interface location annotation [flag]
+     Add the specified entry to the current database. Use an asterisk (*) to
+     represent the null UUID in the object, type, and interface fields.
+
+     The location is a string in the format family:host[port], where family
+     is an address family, host is a host name, and port is a port number.
+     A leading # can be used to indicate that a host name is in the
+     standard numeric form.
+
+     The following are sample location specifiers:
+
+     ip:vienna[1756]
+
+     ip:#192.5.5.5[1791]
+
+     The annotation is a string of up to 255 characters annotating the
+     entry. Use double quotation marks to enclose a string that contains a
+     space or contains no characters. To embed a double quotation mark in
+     the string, precede it with a backslash.
+
+     The flag is either local (the default) or global, indicating whether
+     the entry should be marked for local registration only or for
+     registration in both the LLB and GLB databases. The flag is a field
+     that is stored with the entry but does not affect where the entry is
+     registered. The set_broker and use_broker commands select the
+     particular LLB or GLB database for registration.
+
+s[et_broker] [broker_switch] host
+     Set the host for the current LLB or GLB. If specifying global as the
+     broker_switch, set_broker sets the current GLB, otherwise it sets the
+     current LLB. The host is a string in the format family:host, where
+     family is an address family and host is a host name. Use a leading #
+     to indicate that a host name is in the standard numeric form. The
+     following are sample location specifiers:
+
+     ip:prague
+
+     ip:#192.5.5.5
+
+     Issue use_broker, not this command, to determine if subsequent
+     operations will access the LLB or the GLB.
+
+set_t[imeout] [ short | long ]
+     Set the timeout period used by lb_admin Administration for all of its
+     operations. With an argument of short or long, set_timeout sets the
+     timeout accordingly. With no argument, it displays the current
+     time-out value.
+
+u[nregister] object type interface location
+     Delete the specified entry from the current database.
+
+     The location is a string in the format family:host[port], where family
+     is an address family, host is a host name, and port is a port number.
+     Use a leading # to indicate that a host name is in the standard
+     numeric form. The following are sample location specifiers:
+
+     ip:vienna[1756]
+
+     ip:#192.5.5.5[1791]
+
+     You can use an asterisk as a wildcard in the object, type, and
+     interface fields to match any value for the field. Unless queries have
+     been suppressed by invoking lb_admin with the -nq option, unregister
+     allows deletion of each matching entry.
+
+        o A y[es] response deletes the entry.
+
+        o A n[o] response leaves the entry in the database.
+
+        o A g[o] response deletes all remaining database entries that
+          match, without querying.
+
+        o A q[uit] response terminates the unregister operation, without
+          deleting any additional entries.
+
+us[e_broker] [broker_switch]
+     Select the type of database that subsequent operations will access,
+     GLB or LLB. The broker_switch is either global or local. If a
+     broker_switch is not supplied, use_broker determines if the current
+     database is global or local.
+
+     Use set_broker to select the host whose GLB or LLB is to be accessed.
+
+Example
+
+  1. Set the global location broker as the default database.
+
+     lb_admin
+     lb_admin: use global
+
+  2. Find and delete obsolete entries in the global location broker
+     database.
+
+     lb_admin: clean
+
+     This is the output, if there are no entries to be cleaned:
+
+           0 Entries deleted of 8 processed
+
+  3. Exit the tool:
+
+     lb_admin: Quit

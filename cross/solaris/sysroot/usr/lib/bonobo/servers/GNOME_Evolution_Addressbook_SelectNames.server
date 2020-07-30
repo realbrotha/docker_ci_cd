@@ -1,0 +1,138 @@
+<oaf_info>
+
+<!--
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory"
+            type="shlib"
+            location="/usr/lib/evolution/1.4/components/libevolution-addressbook.so">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Addressbook name selection interface"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Інтарфэйс выбару імя з кнігі адрэсаў &quot;Эвалюцыі&quot;."/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Rozhraní pro výběr jména adresáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution adressebog - navnevalgsgrænseflade"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Oberfläche zur Auswahl eines Namens für Evolution-Adressbücher"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Διασύνδεση επιλογής ονομάτων του Βιβλίου Διευθύνσεων του Evolution."/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Interfaz de selección de nombre de la libreta de direcciones de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution osoitekirjan nimenvalintaliittymä"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Interface de sélection de nom du carnet d&apos;adresses d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Címjegyzék névkiválasztó felülete"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Interfaccia per la selezione dei nomi della rubrica di Evolution."/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution アドレス帳の名前選択インタフェース"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 주소록 이름 선택 인터페이스"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Интерфејс за селекција по име во Evolution адресарот"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Antara muka pemilihan nama Buku Alamat Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution adresboek naamselectie-interface"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Grensesnitt for navnevalg i Evolution adressebok"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Interfejs wyboru nazwy książki adresowej programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Interface de selecção de nome de Livro de Endereços Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Interface para seleção de nomes do catálogo de endereços do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Интерфейс выбора имен адресной книги Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Алат за одабир имена Еволуција адресара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Alat za odabir imena Evolucija adresara"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutions adressboks namnvalsgränssnitt"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Adres Defteri isim seçim arayüzü"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 的地址簿名称选择界面"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 通訊錄名稱選擇界面。"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 通訊錄名稱選擇界面。"/>
+
+</oaf_server>
+-->
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/Addressbook/SelectNames"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+                       value="Evolution Addressbook name selection interface"/>
+	<oaf_attribute name="name-be" type="string"
+                       value="Інтарфэйс выбару імя з кнігі адрэсаў &quot;Эвалюцыі&quot;."/>
+	<oaf_attribute name="name-cs" type="string"
+                       value="Rozhraní pro výběr jména adresáře Evolution"/>
+	<oaf_attribute name="name-da" type="string"
+                       value="Evolution adressebog - navnevalgsgrænseflade"/>
+	<oaf_attribute name="name-de" type="string"
+                       value="Oberfläche zur Auswahl eines Namens für Evolution-Adressbücher"/>
+	<oaf_attribute name="name-el" type="string"
+                       value="Διασύνδεση επιλογής ονομάτων του Βιβλίου Διευθύνσεων του Evolution."/>
+	<oaf_attribute name="name-es" type="string"
+                       value="Interfaz de selección de nombre de la libreta de direcciones de Evolution"/>
+	<oaf_attribute name="name-fi" type="string"
+                       value="Evolution osoitekirjan nimenvalintaliittymä"/>
+	<oaf_attribute name="name-fr" type="string"
+                       value="Interface de sélection de nom du carnet d&apos;adresses d&apos;Evolution"/>
+	<oaf_attribute name="name-hu" type="string"
+                       value="Evolution Címjegyzék névkiválasztó felülete"/>
+	<oaf_attribute name="name-it" type="string"
+                       value="Interfaccia per la selezione dei nomi della rubrica di Evolution."/>
+	<oaf_attribute name="name-ja" type="string"
+                       value="Evolution アドレス帳の名前選択インタフェース"/>
+	<oaf_attribute name="name-ko" type="string"
+                       value="Evolution 주소록 이름 선택 인터페이스"/>
+	<oaf_attribute name="name-mk" type="string"
+                       value="Интерфејс за селекција по име во Evolution адресарот"/>
+	<oaf_attribute name="name-ms" type="string"
+                       value="Antara muka pemilihan nama Buku Alamat Evolution"/>
+	<oaf_attribute name="name-nl" type="string"
+                       value="Evolution adresboek naamselectie-interface"/>
+	<oaf_attribute name="name-no" type="string"
+                       value="Grensesnitt for navnevalg i Evolution adressebok"/>
+	<oaf_attribute name="name-pl" type="string"
+                       value="Interfejs wyboru nazwy książki adresowej programu Evolution"/>
+	<oaf_attribute name="name-pt" type="string"
+                       value="Interface de selecção de nome de Livro de Endereços Evolution"/>
+	<oaf_attribute name="name-pt_BR" type="string"
+                       value="Interface para seleção de nomes do catálogo de endereços do Evolution"/>
+	<oaf_attribute name="name-ru" type="string"
+                       value="Интерфейс выбора имен адресной книги Evolution"/>
+	<oaf_attribute name="name-sr" type="string"
+                       value="Алат за одабир имена Еволуција адресара"/>
+	<oaf_attribute name="name-sr@Latn" type="string"
+                       value="Alat za odabir imena Evolucija adresara"/>
+	<oaf_attribute name="name-sv" type="string"
+                       value="Evolutions adressboks namnvalsgränssnitt"/>
+	<oaf_attribute name="name-tr" type="string"
+                       value="Evolution Adres Defteri isim seçim arayüzü"/>
+	<oaf_attribute name="name-zh_CN" type="string"
+                       value="Evolution 的地址簿名称选择界面"/>
+	<oaf_attribute name="name-zh_HK" type="string"
+                       value="Evolution 通訊錄名稱選擇界面。"/>
+	<oaf_attribute name="name-zh_TW" type="string"
+                       value="Evolution 通訊錄名稱選擇界面。"/>
+
+</oaf_server>
+

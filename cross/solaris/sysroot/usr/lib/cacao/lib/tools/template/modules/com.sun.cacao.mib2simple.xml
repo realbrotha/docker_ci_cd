@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE module SYSTEM "urn:sun:n1:cacao:module:dtd:1_1">
+
+<!--
+ Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+ 
+ ident  "$Revision: 1.7 $ SMI"
+-->
+
+
+<module name="com.sun.cacao.mib2simple"
+        initial-administrative-state="UNLOCKED"
+        ignored-at-startup="No"
+        enable-on-demand="No">
+ <description>
+    A limited implementation of the MIB-II defined in RFC1213.
+ </description>
+
+ <module-dependencies>
+    <instance-dependency dependency-type="STRONG_DEPENDENCY">
+       <name>
+          com.sun.cacao.snmpv3_adaptor
+       </name>
+    </instance-dependency>
+ </module-dependencies>
+
+ <module-class>
+      com.sun.cacao.mib2simple.impl.Mib2SimpleModule
+ </module-class>
+
+  <public-path>
+      <path-element>
+        file:../../../../lib/cacao_mib2simple.jar
+      </path-element>
+  </public-path>
+  <cacao-version-supported>
+       2.0
+  </cacao-version-supported>
+  
+  <!-- 
+        Custom parameter definition
+  -->
+  
+  <!--
+        Context used to registered the MIB.
+  -->
+  
+  <parameters>
+    <parameter>
+        <param-name>context</param-name>
+        <param-value></param-value>
+    </parameter>
+    
+<!-- 
+    'sysName' metric overwritting section.
+    
+    By default, the entity name is computed at runtime but a custom
+    value may de defined herein by uncommenting the following
+    entry and assigning the <paramer-value> element.
+-->
+<!--
+    <parameter>
+        <param-name>sysName</param-name>
+        <param-value>PUT HERE YOUR OWN VALUE</param-value>
+    </parameter>
+-->
+
+<!-- 
+    'sysLocation' metric overwritting section.
+-->    
+    <parameter>
+        <param-name>sysLocation</param-name>
+        <param-value></param-value>
+    </parameter>
+    
+<!-- 
+    'sysContact' metric overwriting section.
+    
+    By default, this will be set to root@<hostname> but it may be overwriten
+    by uncommenting the following entry and assigning the <paramer-value>
+    element.
+-->
+
+<!--
+    <parameter>
+        <param-name>sysContact</param-name>
+        <param-value>PUT YOUR OWN VALUE HERE</param-value>
+    </parameter>
+ -->
+ 
+<!--
+    'enableAuthenTraps' tuning section.
+    
+    boolean parameter controlling the sent out of
+    SNMP traps on authentification failure (when set
+    to 'true'). If set to 'false', omitted or bad 
+    valued, this feature is turned off.
+    
+    Values for this parameter are not case sensitive.
+-->
+    <parameter>
+        <param-name>enableAuthenTraps</param-name>
+        <param-value>true</param-value>
+    </parameter>
+    
+  </parameters> 
+  
+</module>

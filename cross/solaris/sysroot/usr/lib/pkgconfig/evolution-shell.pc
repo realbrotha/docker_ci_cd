@@ -1,0 +1,23 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+libexecdir=/usr/lib
+includedir=${prefix}/include
+datadir=${prefix}/share
+
+privlibdir=${libdir}/evolution/1.4
+privlibexecdir=${libexecdir}/evolution/1.4
+privincludedir=${includedir}/evolution-1.4
+idldir=${prefix}/share/idl/evolution-1.4
+componentdir=${libdir}/evolution/1.4/components
+evolutionuidir=${datadir}/evolution/1.4/ui
+imagesdir=${datadir}/evolution/1.4/images
+
+IDL_INCLUDES=-I ${idldir} -I /usr/share/idl/bonobo-2.0 -I /usr/share/idl/bonobo-activation-2.0
+
+Name: evolution-shell
+Description: libraries needed for Evolution shell components
+Version: 1.4.6.325
+Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= 1.99.8
+Libs: -L${privlibdir} -leshell
+Cflags: -I${privincludedir}

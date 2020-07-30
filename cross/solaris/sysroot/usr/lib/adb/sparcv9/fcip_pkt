@@ -1,0 +1,10 @@
+.>a
+<a+0=""
++/"mblk_ptr"16t"qptr"16t"ttl"nJJX
++/"retries"16t"fc_pkt_ptr"16t"dest"nXJJ
++/"fptr"16t"next"16t"prev"nJJJ
++/"state"16t"reason"16t"flags"nXXX
++/"dma_flags"16tnX
++/"fcpkt"
+.$<<fc_packet
+<a+0t472=""

@@ -1,0 +1,13 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+gconf_serverdir=/usr/lib
+
+
+Name: gconf
+Description: GNOME Config System.
+Version: 2.6.1
+Requires: ORBit-2.0
+Libs: -L${libdir} -lgconf-2
+Cflags: -I${includedir}/gconf/2

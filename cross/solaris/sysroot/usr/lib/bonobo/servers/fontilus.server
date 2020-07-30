@@ -1,0 +1,300 @@
+<?xml version="1.0"?> <!--*- mode: xml -*-->
+
+<oaf_info>
+  <oaf_server iid="OAFIID:Fontilus_Context_Menu_Factory"
+              type="exe" location="/usr/lib/fontilus-context-menu">
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/ObjectFactory:1.0" />
+    </oaf_attribute>
+    <oaf_attribute name="name" type="string" value="Fontilus context menu factory" />
+    <oaf_attribute name="name-af" type="string" value="Fontilus-kontekskieslys-fabriek" />
+    <oaf_attribute name="name-ar" type="string" value="مصنع قائمة الحالة لفنتيلوس" />
+    <oaf_attribute name="name-az" type="string" value="Fontilus məzmun menyusu e&apos;malatxanası" />
+    <oaf_attribute name="name-be" type="string" value="Вытворчасьць кантэкстнага мэню &quot;Фанцілуса&quot;" />
+    <oaf_attribute name="name-bn" type="string" value="ফন্টিলস কনটেক্সট মেনু ফ্যাক্টরি" />
+    <oaf_attribute name="name-ca" type="string" value="Factoria del menú contextual de Fontilus" />
+    <oaf_attribute name="name-cs" type="string" value="Generátor kontextového menu fontilus" />
+    <oaf_attribute name="name-cy" type="string" value="Ffatri deiwlen cyd-destun fontilus" />
+    <oaf_attribute name="name-da" type="string" value="Fabrik til Fontilus-kontekstmenu" />
+    <oaf_attribute name="name-de" type="string" value="Fabrik des Fontilus-Kontextmenüs" />
+    <oaf_attribute name="name-el" type="string" value="Εργοστάσιο για το μενού περιεχομένου του fontilus" />
+    <oaf_attribute name="name-en_CA" type="string" value="Fontilus context menu factory" />
+    <oaf_attribute name="name-en_GB" type="string" value="Fontilus context menu factory" />
+    <oaf_attribute name="name-es" type="string" value="Fábrica del menú contextual de Fontilus" />
+    <oaf_attribute name="name-eu" type="string" value="Fontilus laster-menuaren fabrika" />
+    <oaf_attribute name="name-fa" type="string" value="کارخانه‌ی منوی موقعیتی فونتیلوس" />
+    <oaf_attribute name="name-fi" type="string" value="Fontilus-kontekstivalikkotehdas" />
+    <oaf_attribute name="name-fr" type="string" value="Fabrique de menu contextuel de fontilus" />
+    <oaf_attribute name="name-gu" type="string" value="ફોન્ટીલસનાં સંદર્ભમાં યાદીનું કારખાનું" />
+    <oaf_attribute name="name-he" type="string" value="יצרן תפריט תכני גופנטילוס" />
+    <oaf_attribute name="name-hr" type="string" value="Tvornica Fontilus kontekstnog izbornika " />
+    <oaf_attribute name="name-hu" type="string" value="Fontilus helyi menü factory" />
+    <oaf_attribute name="name-id" type="string" value="Factory menu konteks Fontilus" />
+    <oaf_attribute name="name-is" type="string" value="Fontilus samhengisvalssmiðja" />
+    <oaf_attribute name="name-it" type="string" value="Fabbrica menu contestuale di fontilus" />
+    <oaf_attribute name="name-ja" type="string" value="Fontilus コンテキストメニューファクトリ" />
+    <oaf_attribute name="name-ko" type="string" value="폰틸러스 컨텍스트 메뉴 팩토리" />
+    <oaf_attribute name="name-lt" type="string" value="Fontilus kontekstinio meniu gamykla" />
+    <oaf_attribute name="name-lv" type="string" value="Fontilus konteksta izvēlnes ražotne" />
+    <oaf_attribute name="name-mk" type="string" value="Fontilus контекст мени фабрика" />
+    <oaf_attribute name="name-mn" type="string" value="Fontilus-хам цэсийн үйлдвэр" />
+    <oaf_attribute name="name-ms" type="string" value="Kilang menu konteks Fontilus" />
+    <oaf_attribute name="name-nl" type="string" value="Fontilus contextmene-fabriek" />
+    <oaf_attribute name="name-nn" type="string" value="Fabrikk for kontekstmenyen i Fontilus" />
+    <oaf_attribute name="name-no" type="string" value="Factory for fontilus kontekstmeny" />
+    <oaf_attribute name="name-pa" type="string" value="ਫੋਟੀਲਸ ਪ੍ਸੰਗ ਮੇਨੂ ਫੈਕਟਰੀ" />
+    <oaf_attribute name="name-pl" type="string" value="Generator menu kontekstowego programu Fontilus" />
+    <oaf_attribute name="name-pt" type="string" value="Fábrica de menu de contexto fontilus" />
+    <oaf_attribute name="name-pt_BR" type="string" value="Fábrica de menus de contexto fontilus" />
+    <oaf_attribute name="name-ro" type="string" value="Fabrică meniu contextual fontilus" />
+    <oaf_attribute name="name-ru" type="string" value="Фабрика контекстного меню Fontilus" />
+    <oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre kontextové menu Fontilus" />
+    <oaf_attribute name="name-sl" type="string" value="Tovarna fontilusovih kontekstnih menujev" />
+    <oaf_attribute name="name-sq" type="string" value="Fabrika e Fontilus" />
+    <oaf_attribute name="name-sr" type="string" value="Фонтилус фабрика приручних менија" />
+    <oaf_attribute name="name-sr@Latn" type="string" value="Fontilus fabrika priručnih menija" />
+    <oaf_attribute name="name-sv" type="string" value="Fabrik för fontilus-sammanhangsmeny" />
+    <oaf_attribute name="name-th" type="string" value="เครื่องมือสำหรับเมนูบริบทของ Fontilus" />
+    <oaf_attribute name="name-tr" type="string" value="Fontilus içerik menü fabrikası" />
+    <oaf_attribute name="name-uk" type="string" value="Фабрика контекстного меню Fontilus" />
+    <oaf_attribute name="name-zh_CN" type="string" value="Fontilus 快捷菜单工厂" />
+    <oaf_attribute name="name-zh_HK" type="string" value="Fontilus 快顯選單工廠" />
+    <oaf_attribute name="name-zh_TW" type="string" value="Fontilus 快顯選單工廠" />
+    <oaf_attribute name="description" type="string" value="Factory for the fontilus context menu" />
+    <oaf_attribute name="description-af" type="string" value="Fabriek vir die fontilus-kontekskieslys" />
+    <oaf_attribute name="description-ar" type="string" value="مصنع لقائمة الحالة لفنتيلوس" />
+    <oaf_attribute name="description-az" type="string" value="Fontilus məzmun menyusu üçün e&apos;malatxana" />
+    <oaf_attribute name="description-be" type="string" value="Вытворчасьць для кантэкстнага мэню &quot;Фанцілуса&quot;" />
+    <oaf_attribute name="description-bn" type="string" value="ফন্টিলস কনটেক্সট মেনুর ফ্যাক্টরি" />
+    <oaf_attribute name="description-ca" type="string" value="Factoria per al menú contextual de fontilus" />
+    <oaf_attribute name="description-cs" type="string" value="Generátor pro kontextové menu fontilus" />
+    <oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer y dewislen cyd-destun fontilus" />
+    <oaf_attribute name="description-da" type="string" value="Fabrik til Fontilus-kontekstmenuen" />
+    <oaf_attribute name="description-de" type="string" value="Fabrik für das Fontilus Kontextmenü" />
+    <oaf_attribute name="description-el" type="string" value="Εργοστάσιο για το μενού περιεχομένου του fontilus" />
+    <oaf_attribute name="description-en_CA" type="string" value="Factory for the fontilus context menu" />
+    <oaf_attribute name="description-en_GB" type="string" value="Factory for the fontilus context menu" />
+    <oaf_attribute name="description-es" type="string" value="Fábrica para el menú contextual de fontilus" />
+    <oaf_attribute name="description-eu" type="string" value="Fontilus laster-menuaren fabrika" />
+    <oaf_attribute name="description-fa" type="string" value="کارخانه‌ی منوی موقعیتی فونتیلوس" />
+    <oaf_attribute name="description-fi" type="string" value="Tehdas Fontilus-kontekstivalikoille" />
+    <oaf_attribute name="description-fr" type="string" value="Fabrique pour le menu contextuel de fontilus" />
+    <oaf_attribute name="description-gu" type="string" value="ફોન્ટીલસનાં સંદર્ભમાં યાદીનું કારખાનું" />
+    <oaf_attribute name="description-he" type="string" value="יצרן לתפריט תכני גופנטילוס" />
+    <oaf_attribute name="description-hr" type="string" value="Tvornica fontilus kontekstnog izbornika" />
+    <oaf_attribute name="description-hu" type="string" value="Factory a fontilus helyi menüjéhez" />
+    <oaf_attribute name="description-id" type="string" value="Factory untuk menu konteks fontilus" />
+    <oaf_attribute name="description-is" type="string" value="Smiðja fyrir fontilus samhengisval" />
+    <oaf_attribute name="description-it" type="string" value="Fabbrica del menu contestuale di fontilus" />
+    <oaf_attribute name="description-ja" type="string" value="fontilus コンテキストメニュー用ファクトリ" />
+    <oaf_attribute name="description-ko" type="string" value="폰틸러스 컨텍스트 메뉴에 대한 팩토리" />
+    <oaf_attribute name="description-lt" type="string" value="Fontilus kontekstinio meniu gamykla" />
+    <oaf_attribute name="description-lv" type="string" value="Ražotne fontilus konteksa izvēlnei" />
+    <oaf_attribute name="description-mk" type="string" value="Фабрика за fontilus контекст менито" />
+    <oaf_attribute name="description-mn" type="string" value="Fontilus -д зориулсан хам цэсийн үйлдвэр" />
+    <oaf_attribute name="description-ms" type="string" value="Kilang bagi menu konteks nautilus" />
+    <oaf_attribute name="description-nl" type="string" value="Fabriek voor het contextmenu van fontilus" />
+    <oaf_attribute name="description-nn" type="string" value="Fabrikk for kontekstmenyen i Fontilus" />
+    <oaf_attribute name="description-no" type="string" value="Factory for fontilus kontekstmeny" />
+    <oaf_attribute name="description-pa" type="string" value="ਫੋਟੀਲਸ ਪ੍ਸੰਗ ਮੇਨੂ ਲੲੀ ਫੈਕਟਰੀ" />
+    <oaf_attribute name="description-pl" type="string" value="Generator menu kontekstowego programu Fontilus" />
+    <oaf_attribute name="description-pt" type="string" value="Fábrica para o menu de contexto fontilus" />
+    <oaf_attribute name="description-pt_BR" type="string" value="Fábrica para o menu de contexto fontilus" />
+    <oaf_attribute name="description-ro" type="string" value="Fabrică pentru meniul contextual fontilus" />
+    <oaf_attribute name="description-ru" type="string" value="Фабрика контекстного меню fontilus" />
+    <oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre kontextové menu fontilus" />
+    <oaf_attribute name="description-sl" type="string" value="Tovarna fontilusovih kontekstnih menujev" />
+    <oaf_attribute name="description-sq" type="string" value="Fabrikë për menu e fontilus" />
+    <oaf_attribute name="description-sr" type="string" value="Фабрика за фонтилусове приручне меније" />
+    <oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za fontilusove priručne menije" />
+    <oaf_attribute name="description-sv" type="string" value="Fabrik för fontilus-sammanhangsmenyn" />
+    <oaf_attribute name="description-th" type="string" value="เครื่องมือสำหรับเมนูบริบทของ Fontilus" />
+    <oaf_attribute name="description-tr" type="string" value="Fontilus içerik menüsü için fabrika" />
+    <oaf_attribute name="description-uk" type="string" value="Фабрика для контекстного меню &quot;Шрифтілуса&quot;" />
+    <oaf_attribute name="description-zh_CN" type="string" value="Fontilus 快捷菜单工厂" />
+    <oaf_attribute name="description-zh_HK" type="string" value="產生 Fontilus 快顯選單的工廠" />
+    <oaf_attribute name="description-zh_TW" type="string" value="產生 Fontilus 快顯選單的工廠" />
+  </oaf_server>
+
+  <oaf_server iid="OAFIID:Fontilus_Context_Menu"
+              type="factory" location="OAFIID:Fontilus_Context_Menu_Factory">
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:Bonobo/Unknown:1.0" />
+      <item value="IDL:Bonobo/Listener:1.0" />
+    </oaf_attribute>
+    <oaf_attribute name="name" type="string" value="Fontilus context menu" />
+    <oaf_attribute name="name-af" type="string" value="Fontilus-kontekskieslys" />
+    <oaf_attribute name="name-ar" type="string" value="قائمة الحالة لفنتيلوس" />
+    <oaf_attribute name="name-az" type="string" value="Fontilus məzmun menyusu" />
+    <oaf_attribute name="name-be" type="string" value="Кантэкстнае мэню &quot;Фанцілуса&quot;" />
+    <oaf_attribute name="name-bn" type="string" value="ফন্টিলস কনটেক্সট মেনু" />
+    <oaf_attribute name="name-ca" type="string" value="Menú contextual de Fontilus" />
+    <oaf_attribute name="name-cs" type="string" value="Kontextové menu fontilus" />
+    <oaf_attribute name="name-cy" type="string" value="Dewislen cyd-destun fontilus" />
+    <oaf_attribute name="name-da" type="string" value="Fontilus-kontekstmenu" />
+    <oaf_attribute name="name-de" type="string" value="Fontilus-Kontextmenü" />
+    <oaf_attribute name="name-el" type="string" value="Μενού περιεχομένου fontilus" />
+    <oaf_attribute name="name-en_CA" type="string" value="Fontilus context menu" />
+    <oaf_attribute name="name-en_GB" type="string" value="Fontilus context menu" />
+    <oaf_attribute name="name-es" type="string" value="Menú contextual de Fontilus" />
+    <oaf_attribute name="name-eu" type="string" value="Fontilus laster-menua" />
+    <oaf_attribute name="name-fa" type="string" value="منوی موقعیتی فونتیلوس" />
+    <oaf_attribute name="name-fi" type="string" value="Fontiluksen kontekstivalikko" />
+    <oaf_attribute name="name-fr" type="string" value="Menu contextuel de fontilus" />
+    <oaf_attribute name="name-gu" type="string" value="ફોન્ટીલસનાં સંદર્ભમાં યાદી" />
+    <oaf_attribute name="name-he" type="string" value="תפריט תכני גופנטילוס" />
+    <oaf_attribute name="name-hr" type="string" value="Fontilus kontekstualni izbornik" />
+    <oaf_attribute name="name-hu" type="string" value="Fontilus helyi menü" />
+    <oaf_attribute name="name-id" type="string" value="Menu konteks Fontilus" />
+    <oaf_attribute name="name-is" type="string" value="Fontilus samhengisval" />
+    <oaf_attribute name="name-it" type="string" value="Menu contestuale di fontilus" />
+    <oaf_attribute name="name-ja" type="string" value="Fontilus コンテキストメニュー" />
+    <oaf_attribute name="name-ko" type="string" value="폰틸러스 컨텍스트 메뉴" />
+    <oaf_attribute name="name-lt" type="string" value="Fontilus kontekstinis meniu" />
+    <oaf_attribute name="name-lv" type="string" value="Fontilus konteksta izvēlne" />
+    <oaf_attribute name="name-mk" type="string" value="Фонт мени" />
+    <oaf_attribute name="name-mn" type="string" value="Fontilus-хам цэс" />
+    <oaf_attribute name="name-ms" type="string" value="Menu konteks Fontilus" />
+    <oaf_attribute name="name-nl" type="string" value="Fontilus contextmenu" />
+    <oaf_attribute name="name-nn" type="string" value="Kontekstmeny for Fontilus" />
+    <oaf_attribute name="name-no" type="string" value="Fontilus kontekstmeny" />
+    <oaf_attribute name="name-pa" type="string" value="ਫੋਟੀਲਸ ਪ੍ਸੰਗ ਮੇਨੂ" />
+    <oaf_attribute name="name-pl" type="string" value="Menu kontekstowe programu Fontilus" />
+    <oaf_attribute name="name-pt" type="string" value="Menu de contexto fontilus" />
+    <oaf_attribute name="name-pt_BR" type="string" value="Menu de contexto fontilus" />
+    <oaf_attribute name="name-ro" type="string" value="Meniu contextual fontilus" />
+    <oaf_attribute name="name-ru" type="string" value="Контекстное меню Fontilus" />
+    <oaf_attribute name="name-sk" type="string" value="Kontextové menu Fontilus" />
+    <oaf_attribute name="name-sl" type="string" value="Fontilusov kontekstni menu" />
+    <oaf_attribute name="name-sq" type="string" value="Menu-ja kontekstuale e Fontilus" />
+    <oaf_attribute name="name-sr" type="string" value="Фонтилус приручни мени" />
+    <oaf_attribute name="name-sr@Latn" type="string" value="Fontilus priručni meni" />
+    <oaf_attribute name="name-sv" type="string" value="Fontilus-sammanhangsmeny" />
+    <oaf_attribute name="name-th" type="string" value="เมนูบริบทของ Fontilus" />
+    <oaf_attribute name="name-tr" type="string" value="Fontiuls içerik menüsü" />
+    <oaf_attribute name="name-uk" type="string" value="Контекстне меню Fontilus" />
+    <oaf_attribute name="name-zh_CN" type="string" value="Fontilus 快捷菜单" />
+    <oaf_attribute name="name-zh_HK" type="string" value="Fontilus 快顯選單" />
+    <oaf_attribute name="name-zh_TW" type="string" value="Fontilus 快顯選單" />
+    <oaf_attribute name="description" type="string" value="Nautilus context menu entries for fonts" />
+    <oaf_attribute name="description-af" type="string" value="Nautilus-kontekskieslys inskrywings vir lettertipes" />
+    <oaf_attribute name="description-ar" type="string" value="خانات الخطوط لقائمة الحالة لنوتلس" />
+    <oaf_attribute name="description-az" type="string" value="Yazı növləri üçün Nautils məzmun menyusu girişləri" />
+    <oaf_attribute name="description-be" type="string" value="Элемэнт кантэкстнага мэню &quot;Наўцілуса&quot; для шрыфтоў" />
+    <oaf_attribute name="description-bn" type="string" value="ফন্টের জন্য নটিলাস কনটেক্সট মেনু এনট্রি" />
+    <oaf_attribute name="description-ca" type="string" value="Entrades de menú de contex de Nautilus per a fonts" />
+    <oaf_attribute name="description-cs" type="string" value="Položky kontextového menu Nautilus pro písma" />
+    <oaf_attribute name="description-cy" type="string" value="Eitemau dewislen cyd-destun Nautilus ar gyfer ffontiau" />
+    <oaf_attribute name="description-da" type="string" value="Kontekstmenupunkter for skriftyper" />
+    <oaf_attribute name="description-de" type="string" value="Einträge im Nautilus-Kontextmenü für Schriften" />
+    <oaf_attribute name="description-el" type="string" value="Καταχωρήσεις μενού περιεχομένου του Ναυτίλου για γραμματοσειρές" />
+    <oaf_attribute name="description-en_CA" type="string" value="Nautilus context menu entries for fonts" />
+    <oaf_attribute name="description-en_GB" type="string" value="Nautilus context menu entries for fonts" />
+    <oaf_attribute name="description-es" type="string" value="Entrada del menú contextual de Nautilus para las tipografías" />
+    <oaf_attribute name="description-eu" type="string" value="Nautilus laster-menuko sarrerak letra-tipoentzat" />
+    <oaf_attribute name="description-fa" type="string" value="مداخل منوی موقعیتی ناتیلوس برای قلم‌ها" />
+    <oaf_attribute name="description-fi" type="string" value="Kirjasinten kontekstivalikon kohdat Nautiluksessa" />
+    <oaf_attribute name="description-fr" type="string" value="Éntrées de menu contextuel Nautilus pour les polices" />
+    <oaf_attribute name="description-gu" type="string" value="ફોન્ટ માટે નોટિલસનાં સંદર્ભમાં યાદીમાં પ્રવેશ " />
+    <oaf_attribute name="description-he" type="string" value="ערכי תפריט התוכן של נאוטילוס לגופנים" />
+    <oaf_attribute name="description-hr" type="string" value="Kontekstni zapisi Nautilus izbornika za pisma" />
+    <oaf_attribute name="description-hu" type="string" value="Nautilus helyi menü bejegyzések betűkészletekhez" />
+    <oaf_attribute name="description-id" type="string" value="Entri menu konteks Nautilus untuk font" />
+    <oaf_attribute name="description-is" type="string" value="Nautilus samhengisvalsfærslur fyrir letur" />
+    <oaf_attribute name="description-it" type="string" value="Voci di menu contestuale di Nautilus per i caratteri" />
+    <oaf_attribute name="description-ja" type="string" value="フォント表示の Nautilus コンテキストメニュー" />
+    <oaf_attribute name="description-ko" type="string" value="글꼴에 대한 노틸러스 컨텍스트 메뉴 항목" />
+    <oaf_attribute name="description-lt" type="string" value="Nautilus kontekstinio meniu įrašai šriftams" />
+    <oaf_attribute name="description-lv" type="string" value="Nautilus konteksta ieraksti fontiem" />
+    <oaf_attribute name="description-mk" type="string" value="Nautilus контекст мени записи за фонтови" />
+    <oaf_attribute name="description-mn" type="string" value="Nautilus-хам цэсийн бичлэгүүдийн бичгүүд" />
+    <oaf_attribute name="description-ms" type="string" value="Kemasukan menu konteks Nautilus bagi font" />
+    <oaf_attribute name="description-nl" type="string" value="Nautilus contextmenu-velden voor lettertypes" />
+    <oaf_attribute name="description-nn" type="string" value="Kontekstmenyoppføringar for skrifttypar i Nautilus" />
+    <oaf_attribute name="description-no" type="string" value="Kontekstmenyoppføringer for skrifter i Nautilus" />
+    <oaf_attribute name="description-pa" type="string" value="ਨਟਾਲਿਸ ਪ੍ਸੰਗ ਮੇਨੂ ੲਿੰਦਰਾਜ ਲੲੀ ਫੋਟ" />
+    <oaf_attribute name="description-pl" type="string" value="Wpisy menu kontekstowego dla czcionek w programie Nautilus" />
+    <oaf_attribute name="description-pt" type="string" value="Entradas de menu de contexto nautilus para fontes" />
+    <oaf_attribute name="description-pt_BR" type="string" value="Entradas Nautilus do menu de contexto para fontes" />
+    <oaf_attribute name="description-ro" type="string" value="Intrări pentru fonturi în meniul contextual Nautilus" />
+    <oaf_attribute name="description-ru" type="string" value="Элементы контекстного меню Наутилуса для шрифтов" />
+    <oaf_attribute name="description-sk" type="string" value="Kontextové menu pre písma v Nautiluse" />
+    <oaf_attribute name="description-sl" type="string" value="Vnosi za nautilusov kontekstni menu za pisave" />
+    <oaf_attribute name="description-sq" type="string" value="Zërat e menu-së kontekstuale të Nautilus për gërmat" />
+    <oaf_attribute name="description-sr" type="string" value="Наутилусови уноси у приручном менију за фонтове" />
+    <oaf_attribute name="description-sr@Latn" type="string" value="Nautilusovi unosi u priručnom meniju za fontove" />
+    <oaf_attribute name="description-sv" type="string" value="Poster i Nautilus-sammanhangsmeny för typsnitt" />
+    <oaf_attribute name="description-th" type="string" value="เมนูบริบทของ Nautilus สำหรับแบบอักษร" />
+    <oaf_attribute name="description-tr" type="string" value="Nautilus yazıtipleri için içerik menü girdileri" />
+    <oaf_attribute name="description-uk" type="string" value="Елементи контекстного меню шрифтів Fontilus" />
+    <oaf_attribute name="description-zh_CN" type="string" value="Nautilus 用于字体的快捷菜单项" />
+    <oaf_attribute name="description-zh_HK" type="string" value="每個字型在 Nautilus 中的快顯選單項目" />
+    <oaf_attribute name="description-zh_TW" type="string" value="每個字型在 Nautilus 中的快顯選單項目" />
+    <oaf_attribute name="bonobo:supported_uri_schemes" type="stringv">
+      <item value="fonts" />
+    </oaf_attribute>
+    <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+      <item value="application/x-font-ttf" />
+      <item value="application/x-font-type1" />
+      <item value="application/x-font-pcf" />
+      <item value="application/x-font-otf" />
+    </oaf_attribute>
+    <oaf_attribute name="nautilus:context_menu_handler" type="boolean" value="true" />
+    <oaf_attribute name="nautilus:can_handle_multiple_files" type="boolean" value="false" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont" type="string" value="Set as Application Font" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-af" type="string" value="Stel in as &apos;n Toepassings-lettertipe" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ar" type="string" value="ضبط كخط التطبيقات" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-az" type="string" value="Proqram Yazı Növü Olaraq Tə&apos;yin Et" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-be" type="string" value="Усталяваць як шрыфт дастасаваньня" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-bn" type="string" value="অ্যাপলিকেশনে ব্যবহৃত ফন্ট" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ca" type="string" value="Estableix com tipus de lletra de les aplicacions" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-cs" type="string" value="Nastavit jako písmo aplikací" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-cy" type="string" value="Gosod fel y Ffont Rhaglenni" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-da" type="string" value="Vælg som programskrifttype" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-de" type="string" value="Als Anwendungsschrift verwenden" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-el" type="string" value="Ορισμός ως Γραμματοσειρά Εφαρμογής" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-en_CA" type="string" value="Set as Application Font" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-en_GB" type="string" value="Set as Application Font" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-es" type="string" value="Establecer como tipografía de la aplicación" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-eu" type="string" value="Ezarri letra-tipoaren aplikazio gisa" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-fa" type="string" value="تنظیم به‌عنوان قلم برنامه‌ها" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-fi" type="string" value="Vaihda sovellusten kirjasimeksi" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-fr" type="string" value="Définir comme police d&apos;applications" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-gu" type="string" value="કાર્યક્રમનાં ફોન્ટ તરીકે સુયોજીત કરો (_A)" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-he" type="string" value="קבע כגופן יישום" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-hi" type="string" value="अनुप्रयोग फोन्ट की तरह मेस  (_A)" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-hr" type="string" value="Postavi pismo aplikacije" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-hu" type="string" value="Beállítás alkalmazás betűkészletként" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-id" type="string" value="Jadikan sebagai font yang digunakan oleh semua Aplikasi" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-is" type="string" value="Gera að forritsletri" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-it" type="string" value="Imposta come carattere predefinito" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ja" type="string" value="アプリのフォントにセットする" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ko" type="string" value="응용프로그램 글꼴로 설정" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-lt" type="string" value="Nustatyti kaip Programų Šriftą" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-lv" type="string" value="Iestatīt kā Aplikācijas Fontu" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-mk" type="string" value="Подеси фонт за апликација:" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-mn" type="string" value="Хэрэглээний бичгээр хэрэглэх" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ms" type="string" value="Tetapkan sebagai Font Aplikasi" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-nl" type="string" value="Gebruiken als toepassings-lettertype" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-nn" type="string" value="Bruk denne skrifttypen i programma" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-no" type="string" value="Sett som skrift for applikasjoner" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-pa" type="string" value="ਕਾਰਜ ਫੋਟ ਨਿਰਧਾਰਤ ਕਰੋ" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-pl" type="string" value="Ustaw jako czcionkę aplikacji" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-pt" type="string" value="Definir como Fonte da Aplicação" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-pt_BR" type="string" value="Define como Fonte das Aplicações" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ro" type="string" value="Setează ca font pentru aplicaţii" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-ru" type="string" value="Установить как шрифт приложения" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sk" type="string" value="Použiť ako písmo aplikácií" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sl" type="string" value="Nastavi za pisavo programa" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sq" type="string" value="Zgjidh Shkronjat e Programeve" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sr" type="string" value="Намести као фонт апликације" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sr@Latn" type="string" value="Namesti kao font aplikacije" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-sv" type="string" value="Ställ in som programtypsnitt" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-th" type="string" value="ตั้งเป็นแบบอักษรสำหรับโปรแกรม" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-tr" type="string" value="Uygulama Yazıtipi Olarak Tanımla" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-uk" type="string" value="Зробити шрифтом програм" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-zh_CN" type="string" value="设置为应用程序字体" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-zh_HK" type="string" value="指定為應用程式字型" />
+    <oaf_attribute name="nautilusverb:SetAsApplicationFont-zh_TW" type="string" value="指定為應用程式字型" />
+  </oaf_server>
+</oaf_info>

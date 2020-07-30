@@ -1,0 +1,22 @@
+.>X
+.=n"FcPkg:"16tK
+<X+0=""
++/"FcPriority"16t"FcSession"16t"FcPkgSubtype"nU4+JU
++/"FcHeader"16t"status flags"16tnXX
+<X+0t48=""
++/"frame_size"16t"classofsvc"16tnUU
+<X+0t64=""
++/"reason"16tnX4+
++/"Command File"
+.$<<jfca_file
++/"Data File"
+.$<<jfca_file
++/"Resp File"
+.$<<jfca_file
++/"resp_offset"16t"residual length"16t"relative_offset"nUUU4+
++/"troubledpkg"16t"oxid_terminated"8tnJx8t
+<X+0t416=""
+="spare pkg handle"16tJ
+<X+0t424=""
+="spare mem handle"16tJ
+<X+0t512=""

@@ -1,0 +1,482 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_NotificationAreaApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/notification-area-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="name-af" type="string" value="Meldingsarea-fabriek"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع مساحة التبليغ"/>
+	<oaf_attribute name="name-az" type="string" value="Bildiriş Sahəsi E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць прасторы паведамленьня"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за областите за уведомяване"/>
+	<oaf_attribute name="name-bn" type="string" value="তথ্য প্রদর্শনকারী জায়গার ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;àrea de notificació"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor Oznamovací oblasti"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Mannau Hysbysu"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik til statusområde"/>
+	<oaf_attribute name="name-de" type="string" value="Benachrichtigungsfeld-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Περιοχής Ειδοποίησης"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="name-eo" type="string" value="Atentigoarea fabrikejo"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica del Área de notificación"/>
+	<oaf_attribute name="name-et" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Jakinarazpen-arearen fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Ilmoitusaluetehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique de zone de notification"/>
+	<oaf_attribute name="name-gu" type="string" value="નાેંધણી માટેના વિસ્તારનું કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן אזור התרעה"/>
+	<oaf_attribute name="name-hi" type="string" value="नोटिफिकेशन क्षेत्र फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica za Obaveštajnu zonu"/>
+	<oaf_attribute name="name-hu" type="string" value="Figyelmeztető terület factory"/>
+	<oaf_attribute name="name-id" type="string" value="Pabrik Area Pemberitahuan"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica dell&apos;area di notifica"/>
+	<oaf_attribute name="name-ja" type="string" value="通知スペースファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="알림 구역 팩토리"/>
+	<oaf_attribute name="name-li" type="string" value="Febrik veur mitdeilingegebede"/>
+	<oaf_attribute name="name-lt" type="string" value="Pranešimų vietos Factory"/>
+	<oaf_attribute name="name-lv" type="string" value="Paziņojumu Lauka Fabrika"/>
+	<oaf_attribute name="name-mk" type="string" value="Factory за Местото за Известување "/>
+	<oaf_attribute name="name-ml" type="string" value="സ്ഥാന നിര്ണ്ണയശാല"/>
+	<oaf_attribute name="name-mn" type="string" value="Сонордуулгын мужийн үйлдвэр"/>
+	<oaf_attribute name="name-mr" type="string" value="सूचनाप्रसार केंद्र"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Kawasan Pemakluman"/>
+	<oaf_attribute name="name-nl" type="string" value="Fabriek voor mededelingengebieden"/>
+	<oaf_attribute name="name-nn" type="string" value="Varslingsområdefabrikk"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for varslingsområde"/>
+	<oaf_attribute name="name-pa" type="string" value="ਟਿੱਪਣੀ ਖੇਤਰ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator obszaru powiadamiania"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Área de Notificação"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador de área de notificação"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrica zonei de notificare"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика &quot;Области уведомления&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre oblasť upozornení"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna opozorilnega dela"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e zonës së njoftimit"/>
+	<oaf_attribute name="name-sr" type="string" value="Фабрика за Обавештајну зону"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika za Obaveštajnu zonu"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Фабрика за Обавјештајну зону"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för notifieringsyta"/>
+	<oaf_attribute name="name-ta" type="string" value="அறிவிப்பு இடம் செயலகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานพื้นที่รายงานแจ้งเตือน"/>
+	<oaf_attribute name="name-tr" type="string" value="Uyarı Alanı Üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика зон сповіщення"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory vị trí thông báo"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="通知区域工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="「程式狀態通知區」工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="「程式狀態通知區」工廠"/>
+	<oaf_attribute name="description" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="description-af" type="string" value="Meldingsarea-fabriek"/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع مساحة التبليغ"/>
+	<oaf_attribute name="description-az" type="string" value="Bildiriş Sahəsi E&apos;malatxanası"/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць прасторы паведамленьня"/>
+	<oaf_attribute name="description-bg" type="string" value="Фабрика за областите за уведомяване"/>
+	<oaf_attribute name="description-bn" type="string" value="তথ্য প্রদর্শনকারী জায়গার ফ্যাক্টরি"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria de l&apos;àrea de notificació"/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor Oznamovací oblasti"/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri Mannau Hysbysu"/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til statusområde"/>
+	<oaf_attribute name="description-de" type="string" value="Benachrichtigungsfeld-Fabrik"/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο Περιοχής Ειδοποίησης"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="description-eo" type="string" value="Atentigoarea fabrikejo"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica del Área de notificación"/>
+	<oaf_attribute name="description-et" type="string" value="Notification Area Factory"/>
+	<oaf_attribute name="description-eu" type="string" value="Jakinarazpen-arearen fabrika"/>
+	<oaf_attribute name="description-fi" type="string" value="Ilmoitusaluetehdas"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique de zone de notification"/>
+	<oaf_attribute name="description-gu" type="string" value="નાેંધણી માટેના વિસ્તારનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן אזור התרעה"/>
+	<oaf_attribute name="description-hi" type="string" value="नोटिफिकेशन क्षेत्र फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Tvornica za Obaveštajnu zonu"/>
+	<oaf_attribute name="description-hu" type="string" value="Figyelmeztető terület factory"/>
+	<oaf_attribute name="description-id" type="string" value="Pabrik Area Pemberitahuan"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica dell&apos;area di notifica"/>
+	<oaf_attribute name="description-ja" type="string" value="通知スペースファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="알림 구역 팩토리"/>
+	<oaf_attribute name="description-li" type="string" value="Febrik veur mitdeilingegebede"/>
+	<oaf_attribute name="description-lt" type="string" value="Pranešimų vietos Factory"/>
+	<oaf_attribute name="description-lv" type="string" value="Paziņojumu Lauka Fabrika"/>
+	<oaf_attribute name="description-mk" type="string" value="Factory за Местото за Известување "/>
+	<oaf_attribute name="description-ml" type="string" value="സ്ഥാന നിര്ണ്ണയശാല"/>
+	<oaf_attribute name="description-mn" type="string" value="Сонордуулгын мужийн үйлдвэр"/>
+	<oaf_attribute name="description-mr" type="string" value="सूचनाप्रसार केंद्र"/>
+	<oaf_attribute name="description-ms" type="string" value="Kilang Kawasan Pemakluman"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek voor mededelingengebieden"/>
+	<oaf_attribute name="description-nn" type="string" value="Varslingsområdefabrikk"/>
+	<oaf_attribute name="description-no" type="string" value="Factory for varslingsområde"/>
+	<oaf_attribute name="description-pa" type="string" value="ਟਿੱਪਣੀ ਖੇਤਰ ਫੈਕਟਰੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator obszaru powiadamiania"/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica de Área de Notificação"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador de área de notificação"/>
+	<oaf_attribute name="description-ro" type="string" value="Fabrica zonei de notificare"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика &quot;Области уведомления&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre oblasť upozornení"/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna opozorilnega dela"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrika e zonës së njoftimit"/>
+	<oaf_attribute name="description-sr" type="string" value="Фабрика за Обавештајну зону"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za Obaveštajnu zonu"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Фабрика за Обавјештајну зону"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för notifieringsyta"/>
+	<oaf_attribute name="description-ta" type="string" value="அறிவிப்பு இடம் செயலகம்"/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานพื้นที่รายงานแจ้งเตือน"/>
+	<oaf_attribute name="description-tr" type="string" value="Uyarı Alanı Üreticisi"/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика зон сповіщення"/>
+	<oaf_attribute name="description-vi" type="string" value="Factory vị trí thông báo"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="通知区域工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="「程式狀態通知區」工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="「程式狀態通知區」工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_NotificationAreaApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_NotificationAreaApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-af" type="string" value="Meldingsarea"/>
+	<oaf_attribute name="name-ar" type="string" value="مساحة التبليغ"/>
+	<oaf_attribute name="name-az" type="string" value="Bildiriş Sahəsi"/>
+	<oaf_attribute name="name-be" type="string" value="Прастора паведамленьня"/>
+	<oaf_attribute name="name-bg" type="string" value="Област за уведомяване"/>
+	<oaf_attribute name="name-bn" type="string" value="তথ্য প্রদর্শন করার জায়গা"/>
+	<oaf_attribute name="name-ca" type="string" value="Àrea de notificació"/>
+	<oaf_attribute name="name-cs" type="string" value="Oznamovací oblast"/>
+	<oaf_attribute name="name-cy" type="string" value="Man Hysbysu"/>
+	<oaf_attribute name="name-da" type="string" value="Statusområde"/>
+	<oaf_attribute name="name-de" type="string" value="Benachrichtigungsfeld"/>
+	<oaf_attribute name="name-el" type="string" value="Περιοχή Ειδοποίησης"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-eo" type="string" value="Atentigoareo"/>
+	<oaf_attribute name="name-es" type="string" value="Área de notificación"/>
+	<oaf_attribute name="name-et" type="string" value="Teateala"/>
+	<oaf_attribute name="name-eu" type="string" value="Jakinarazpen-area"/>
+	<oaf_attribute name="name-fi" type="string" value="Ilmoitusalue"/>
+	<oaf_attribute name="name-fr" type="string" value="Zone de notification"/>
+	<oaf_attribute name="name-gu" type="string" value="નાેંધણી માટેનો વિસ્તાર"/>
+	<oaf_attribute name="name-he" type="string" value="אזור התרעה"/>
+	<oaf_attribute name="name-hi" type="string" value="नोटिफिकेशन क्षेत्र"/>
+	<oaf_attribute name="name-hr" type="string" value="Obavještajna zona"/>
+	<oaf_attribute name="name-hu" type="string" value="Figyelmeztető terület"/>
+	<oaf_attribute name="name-id" type="string" value="Area pemberitahuan"/>
+	<oaf_attribute name="name-it" type="string" value="Area di notifica"/>
+	<oaf_attribute name="name-ja" type="string" value="通知スペース"/>
+	<oaf_attribute name="name-ko" type="string" value="알림 구역"/>
+	<oaf_attribute name="name-li" type="string" value="Mitdeilingegebeed"/>
+	<oaf_attribute name="name-lt" type="string" value="Pranešimų vieta"/>
+	<oaf_attribute name="name-lv" type="string" value="Paziņojumu Lauks"/>
+	<oaf_attribute name="name-mk" type="string" value="Место за Известување"/>
+	<oaf_attribute name="name-ml" type="string" value="സ്ഥാന നിര്ണ്ണയം"/>
+	<oaf_attribute name="name-mn" type="string" value="Сонордуулгын муж"/>
+	<oaf_attribute name="name-mr" type="string" value="सूचनाप्रसार क्षेत्र"/>
+	<oaf_attribute name="name-ms" type="string" value="Kawasan Pemakluman"/>
+	<oaf_attribute name="name-nl" type="string" value="Mededelingengebied"/>
+	<oaf_attribute name="name-nn" type="string" value="Varslingsområde"/>
+	<oaf_attribute name="name-no" type="string" value="Varslingsområde"/>
+	<oaf_attribute name="name-pa" type="string" value="ਟਿੱਪਣੀ ਲੲੀ ਥ੾"/>
+	<oaf_attribute name="name-pl" type="string" value="Obszar powiadamiania"/>
+	<oaf_attribute name="name-pt" type="string" value="Área de Notificação"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Área de notificação"/>
+	<oaf_attribute name="name-ro" type="string" value="Zonă de notificare"/>
+	<oaf_attribute name="name-ru" type="string" value="Область уведомления"/>
+	<oaf_attribute name="name-sk" type="string" value="Oblasť upozornení"/>
+	<oaf_attribute name="name-sl" type="string" value="Opozorilni del"/>
+	<oaf_attribute name="name-sq" type="string" value="Zona e njoftimit"/>
+	<oaf_attribute name="name-sr" type="string" value="Обавештајна зона"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Obaveštajna zona"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Обавјештајна зона"/>
+	<oaf_attribute name="name-sv" type="string" value="Notifieringsyta"/>
+	<oaf_attribute name="name-ta" type="string" value="அறிவிப்பு இடம்"/>
+	<oaf_attribute name="name-th" type="string" value="พื้นที่รายงานแจ้งเตือน"/>
+	<oaf_attribute name="name-tr" type="string" value="Uyarı Alanı"/>
+	<oaf_attribute name="name-uk" type="string" value="Зона сповіщення"/>
+	<oaf_attribute name="name-vi" type="string" value="Vị trí thông báo"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="通知区域"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="程式狀態通知區"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="程式狀態通知區"/>
+	<oaf_attribute name="description" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-af" type="string" value="Area waar meldingsikone verskyn"/>
+	<oaf_attribute name="description-ar" type="string" value="المساحة التي ستظهر أيقونات الإبلاغ"/>
+	<oaf_attribute name="description-az" type="string" value="Bildiriş timsallarının göstərildiyi sahə"/>
+	<oaf_attribute name="description-be" type="string" value="Прастора дзе зьяўляюцца значкі паведамленьня"/>
+	<oaf_attribute name="description-bg" type="string" value="Област, в която се появяват иконите за уведомяване"/>
+	<oaf_attribute name="description-bn" type="string" value="এমন একটি জায়গা যেখানে তথ্য প্রদর্শনকারী আইকনসমূহকে দেখা যায়"/>
+	<oaf_attribute name="description-ca" type="string" value="Àrea on apareixen les icones de notificació"/>
+	<oaf_attribute name="description-cs" type="string" value="Oblast, kde se objevují oznamovací ikony"/>
+	<oaf_attribute name="description-cy" type="string" value="Y man lle mae eiconau hysbysu yn ymddangos"/>
+	<oaf_attribute name="description-da" type="string" value="Område hvor statusikoner dukker op"/>
+	<oaf_attribute name="description-de" type="string" value="Ein Feld für die Anzeige von Benachrichtigungssymbolen"/>
+	<oaf_attribute name="description-el" type="string" value="Περιοχή όπου θα εμφανίζονται εικονίδια ειδοποίησης"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-eo" type="string" value="Areo, kie atentigopiktogramo aperas"/>
+	<oaf_attribute name="description-es" type="string" value="Área donde aparecen los iconos de notificación"/>
+	<oaf_attribute name="description-et" type="string" value="Ala, kuhu teateikoonid ilmuvad"/>
+	<oaf_attribute name="description-eu" type="string" value="Jakinarazpen-ikonoak azalduko diren lekua"/>
+	<oaf_attribute name="description-fi" type="string" value="Alue, johon ilmoituskuvakkeet ilmestyvät"/>
+	<oaf_attribute name="description-fr" type="string" value="Zone où les icônes de notification apparaîtront"/>
+	<oaf_attribute name="description-gu" type="string" value="વિસ્તાર કે જ્યાં સૂચનદર્શક ચિહ્નો દેખાય છે"/>
+	<oaf_attribute name="description-he" type="string" value="האזור בו סמלי ההתרעה מופיעים"/>
+	<oaf_attribute name="description-hi" type="string" value="क्षेत्र जहां नोटिफिकेशन आइकन दिखें"/>
+	<oaf_attribute name="description-hr" type="string" value="PovrÅ¡ina gde se pojavljuju sličicice za obaveÅ¡tenja"/>
+	<oaf_attribute name="description-hu" type="string" value="A terület, ahol a figyelmeztető ikonok megjelennek"/>
+	<oaf_attribute name="description-id" type="string" value="Area di mana ikon pemberitahuan muncul"/>
+	<oaf_attribute name="description-it" type="string" value="Area dove appaiono le icone di notifica"/>
+	<oaf_attribute name="description-ja" type="string" value="通知アイコンを表示するスペース"/>
+	<oaf_attribute name="description-ko" type="string" value="알림 아이콘이 나타날 구역"/>
+	<oaf_attribute name="description-li" type="string" value="Plek woe mitdeilingspiktogramme versjiene"/>
+	<oaf_attribute name="description-lt" type="string" value="Vieta, kurioje atsiranda pranešimų ikonos"/>
+	<oaf_attribute name="description-lv" type="string" value="Vieta, kur parādās paziņojumu ikonas"/>
+	<oaf_attribute name="description-mk" type="string" value="Место каде што се појавуваат икони за известување"/>
+	<oaf_attribute name="description-mn" type="string" value="Сонордуулгын эмблем харуулах хэсэг"/>
+	<oaf_attribute name="description-mr" type="string" value="सूचनादर्शक चिन्हे दिसणारे क्षेत्र"/>
+	<oaf_attribute name="description-ms" type="string" value="Kawasan di mana ikon pemakluman muncul"/>
+	<oaf_attribute name="description-nl" type="string" value="Gebied waar mededelingspictogrammen verschijnen"/>
+	<oaf_attribute name="description-nn" type="string" value="Område der varslingsikon kjem fram"/>
+	<oaf_attribute name="description-no" type="string" value="Område hvor varselsikoner kommer til syne"/>
+	<oaf_attribute name="description-pa" type="string" value="ਥ੾ ਜਿਥੇ ਟਿੱਪਣੀ ਅਾੲੀਕਾਨ ਹਾਜ਼ਰ ਹੋਵੇ"/>
+	<oaf_attribute name="description-pl" type="string" value="Obszar, na którym pojawiają się ikony informujące o stanie różnych komponentów"/>
+	<oaf_attribute name="description-pt" type="string" value="Área onde surgem os ícones de notificação"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Área em que os ícones de notificação aparecem"/>
+	<oaf_attribute name="description-ro" type="string" value="Zonă unde apar iconiţele de notificare"/>
+	<oaf_attribute name="description-ru" type="string" value="Апплет отображает область, где появляются значки уведомления"/>
+	<oaf_attribute name="description-sk" type="string" value="Oblasť, kde sa objavujú ikony upozornení"/>
+	<oaf_attribute name="description-sl" type="string" value="Del pulta kjer se kažejo opozorila"/>
+	<oaf_attribute name="description-sq" type="string" value="Zona ku shfaqen ikonat njoftuese"/>
+	<oaf_attribute name="description-sr" type="string" value="Површина где се појављују иконе за обавештења"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Površina gde se pojavljuju ikone za obaveštenja"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Површина гдје се појављују иконе за обавјештења"/>
+	<oaf_attribute name="description-sv" type="string" value="Yta där notifieringsikoner visas"/>
+	<oaf_attribute name="description-ta" type="string" value="அறிவிப்பு குறும்படங்கள் காண்பிக்கப்படும் இடம்"/>
+	<oaf_attribute name="description-th" type="string" value="พื้นที่สำหรับไอคอนแจ้งเตือน"/>
+	<oaf_attribute name="description-tr" type="string" value="Uyarı simgelerinin belireceği alan"/>
+	<oaf_attribute name="description-uk" type="string" value="Зона, де з&apos;являтиметься піктограма сповіщення"/>
+	<oaf_attribute name="description-vi" type="string" value="Vị trí nơi các biểu tượng thông báo xuất hiện"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="通知图标显示的区域"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="顯示程式狀態通知圖示的區域"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="顯示程式狀態通知圖示的區域"/>
+	<oaf_attribute name="panel:category" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Nutsprogram"/>
+	<oaf_attribute name="panel:category-am" type="string" value="መገልገያ"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="مرفق"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Vasitə"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Уціліты"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Полезни"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="প্রয়োজনীয়তা"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Utilitat"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Nástroje"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Teclyn"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Værktøj"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Dienstprogramm"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Εργαλείο"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Utility"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Ilo"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Utilidades"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Utiliit"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Utilitatea"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Työkalut"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Utilitaire"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Utilidade"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="ઉપયોગિતા"/>
+	<oaf_attribute name="panel:category-he" type="string" value="תוכנית שירות"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="यूटिलिटी"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Uslužni program"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Segédprogram"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Utilitas"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Utilità"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="ユーティリティ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="유틸리티"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Hulppregram"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Įrankiai"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Utilīta"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Алатка"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="ഉപകാരി"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Утилит"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="उपयुक्तता"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Utiliti"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Hulpmiddel"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Verktøy"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ੳੁਪਯੋਗ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Narzędzia"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Utilitário"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Utilitare"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Утилиты"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Nástroj"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomoček"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Ndihmues"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Alati"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Алати"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Verktyg"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="பயன்பாடு"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อรรถประโยชน์"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Araçlar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Утиліти"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Tiện ích"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="工具"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="公用程式"/>
+	<oaf_attribute name="panel:icon" type="string" value="panel-notification-area.png"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Notification Area Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="notification-area-applet"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_SystemTrayApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_NotificationAreaApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-af" type="string" value="Meldingsarea"/>
+	<oaf_attribute name="name-ar" type="string" value="مساحة التبليغ"/>
+	<oaf_attribute name="name-az" type="string" value="Bildiriş Sahəsi"/>
+	<oaf_attribute name="name-be" type="string" value="Прастора паведамленьня"/>
+	<oaf_attribute name="name-bg" type="string" value="Област за уведомяване"/>
+	<oaf_attribute name="name-bn" type="string" value="তথ্য প্রদর্শন করার জায়গা"/>
+	<oaf_attribute name="name-ca" type="string" value="Àrea de notificació"/>
+	<oaf_attribute name="name-cs" type="string" value="Oznamovací oblast"/>
+	<oaf_attribute name="name-cy" type="string" value="Man Hysbysu"/>
+	<oaf_attribute name="name-da" type="string" value="Statusområde"/>
+	<oaf_attribute name="name-de" type="string" value="Benachrichtigungsfeld"/>
+	<oaf_attribute name="name-el" type="string" value="Περιοχή Ειδοποίησης"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Notification Area"/>
+	<oaf_attribute name="name-eo" type="string" value="Atentigoareo"/>
+	<oaf_attribute name="name-es" type="string" value="Área de notificación"/>
+	<oaf_attribute name="name-et" type="string" value="Teateala"/>
+	<oaf_attribute name="name-eu" type="string" value="Jakinarazpen-area"/>
+	<oaf_attribute name="name-fi" type="string" value="Ilmoitusalue"/>
+	<oaf_attribute name="name-fr" type="string" value="Zone de notification"/>
+	<oaf_attribute name="name-gu" type="string" value="નાેંધણી માટેનો વિસ્તાર"/>
+	<oaf_attribute name="name-he" type="string" value="אזור התרעה"/>
+	<oaf_attribute name="name-hi" type="string" value="नोटिफिकेशन क्षेत्र"/>
+	<oaf_attribute name="name-hr" type="string" value="Obavještajna zona"/>
+	<oaf_attribute name="name-hu" type="string" value="Figyelmeztető terület"/>
+	<oaf_attribute name="name-id" type="string" value="Area pemberitahuan"/>
+	<oaf_attribute name="name-it" type="string" value="Area di notifica"/>
+	<oaf_attribute name="name-ja" type="string" value="通知スペース"/>
+	<oaf_attribute name="name-ko" type="string" value="알림 구역"/>
+	<oaf_attribute name="name-li" type="string" value="Mitdeilingegebeed"/>
+	<oaf_attribute name="name-lt" type="string" value="Pranešimų vieta"/>
+	<oaf_attribute name="name-lv" type="string" value="Paziņojumu Lauks"/>
+	<oaf_attribute name="name-mk" type="string" value="Место за Известување"/>
+	<oaf_attribute name="name-ml" type="string" value="സ്ഥാന നിര്ണ്ണയം"/>
+	<oaf_attribute name="name-mn" type="string" value="Сонордуулгын муж"/>
+	<oaf_attribute name="name-mr" type="string" value="सूचनाप्रसार क्षेत्र"/>
+	<oaf_attribute name="name-ms" type="string" value="Kawasan Pemakluman"/>
+	<oaf_attribute name="name-nl" type="string" value="Mededelingengebied"/>
+	<oaf_attribute name="name-nn" type="string" value="Varslingsområde"/>
+	<oaf_attribute name="name-no" type="string" value="Varslingsområde"/>
+	<oaf_attribute name="name-pa" type="string" value="ਟਿੱਪਣੀ ਲੲੀ ਥ੾"/>
+	<oaf_attribute name="name-pl" type="string" value="Obszar powiadamiania"/>
+	<oaf_attribute name="name-pt" type="string" value="Área de Notificação"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Área de notificação"/>
+	<oaf_attribute name="name-ro" type="string" value="Zonă de notificare"/>
+	<oaf_attribute name="name-ru" type="string" value="Область уведомления"/>
+	<oaf_attribute name="name-sk" type="string" value="Oblasť upozornení"/>
+	<oaf_attribute name="name-sl" type="string" value="Opozorilni del"/>
+	<oaf_attribute name="name-sq" type="string" value="Zona e njoftimit"/>
+	<oaf_attribute name="name-sr" type="string" value="Обавештајна зона"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Obaveštajna zona"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Обавјештајна зона"/>
+	<oaf_attribute name="name-sv" type="string" value="Notifieringsyta"/>
+	<oaf_attribute name="name-ta" type="string" value="அறிவிப்பு இடம்"/>
+	<oaf_attribute name="name-th" type="string" value="พื้นที่รายงานแจ้งเตือน"/>
+	<oaf_attribute name="name-tr" type="string" value="Uyarı Alanı"/>
+	<oaf_attribute name="name-uk" type="string" value="Зона сповіщення"/>
+	<oaf_attribute name="name-vi" type="string" value="Vị trí thông báo"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="通知区域"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="程式狀態通知區"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="程式狀態通知區"/>
+	<oaf_attribute name="description" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-af" type="string" value="Area waar meldingsikone verskyn"/>
+	<oaf_attribute name="description-ar" type="string" value="المساحة التي ستظهر أيقونات الإبلاغ"/>
+	<oaf_attribute name="description-az" type="string" value="Bildiriş timsallarının göstərildiyi sahə"/>
+	<oaf_attribute name="description-be" type="string" value="Прастора дзе зьяўляюцца значкі паведамленьня"/>
+	<oaf_attribute name="description-bg" type="string" value="Област, в която се появяват иконите за уведомяване"/>
+	<oaf_attribute name="description-bn" type="string" value="এমন একটি জায়গা যেখানে তথ্য প্রদর্শনকারী আইকনসমূহকে দেখা যায়"/>
+	<oaf_attribute name="description-ca" type="string" value="Àrea on apareixen les icones de notificació"/>
+	<oaf_attribute name="description-cs" type="string" value="Oblast, kde se objevují oznamovací ikony"/>
+	<oaf_attribute name="description-cy" type="string" value="Y man lle mae eiconau hysbysu yn ymddangos"/>
+	<oaf_attribute name="description-da" type="string" value="Område hvor statusikoner dukker op"/>
+	<oaf_attribute name="description-de" type="string" value="Ein Feld für die Anzeige von Benachrichtigungssymbolen"/>
+	<oaf_attribute name="description-el" type="string" value="Περιοχή όπου θα εμφανίζονται εικονίδια ειδοποίησης"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Area where notification icons appear"/>
+	<oaf_attribute name="description-eo" type="string" value="Areo, kie atentigopiktogramo aperas"/>
+	<oaf_attribute name="description-es" type="string" value="Área donde aparecen los iconos de notificación"/>
+	<oaf_attribute name="description-et" type="string" value="Ala, kuhu teateikoonid ilmuvad"/>
+	<oaf_attribute name="description-eu" type="string" value="Jakinarazpen-ikonoak azalduko diren lekua"/>
+	<oaf_attribute name="description-fi" type="string" value="Alue, johon ilmoituskuvakkeet ilmestyvät"/>
+	<oaf_attribute name="description-fr" type="string" value="Zone où les icônes de notification apparaîtront"/>
+	<oaf_attribute name="description-gu" type="string" value="વિસ્તાર કે જ્યાં સૂચનદર્શક ચિહ્નો દેખાય છે"/>
+	<oaf_attribute name="description-he" type="string" value="האזור בו סמלי ההתרעה מופיעים"/>
+	<oaf_attribute name="description-hi" type="string" value="क्षेत्र जहां नोटिफिकेशन आइकन दिखें"/>
+	<oaf_attribute name="description-hr" type="string" value="PovrÅ¡ina gde se pojavljuju sličicice za obaveÅ¡tenja"/>
+	<oaf_attribute name="description-hu" type="string" value="A terület, ahol a figyelmeztető ikonok megjelennek"/>
+	<oaf_attribute name="description-id" type="string" value="Area di mana ikon pemberitahuan muncul"/>
+	<oaf_attribute name="description-it" type="string" value="Area dove appaiono le icone di notifica"/>
+	<oaf_attribute name="description-ja" type="string" value="通知アイコンを表示するスペース"/>
+	<oaf_attribute name="description-ko" type="string" value="알림 아이콘이 나타날 구역"/>
+	<oaf_attribute name="description-li" type="string" value="Plek woe mitdeilingspiktogramme versjiene"/>
+	<oaf_attribute name="description-lt" type="string" value="Vieta, kurioje atsiranda pranešimų ikonos"/>
+	<oaf_attribute name="description-lv" type="string" value="Vieta, kur parādās paziņojumu ikonas"/>
+	<oaf_attribute name="description-mk" type="string" value="Место каде што се појавуваат икони за известување"/>
+	<oaf_attribute name="description-mn" type="string" value="Сонордуулгын эмблем харуулах хэсэг"/>
+	<oaf_attribute name="description-mr" type="string" value="सूचनादर्शक चिन्हे दिसणारे क्षेत्र"/>
+	<oaf_attribute name="description-ms" type="string" value="Kawasan di mana ikon pemakluman muncul"/>
+	<oaf_attribute name="description-nl" type="string" value="Gebied waar mededelingspictogrammen verschijnen"/>
+	<oaf_attribute name="description-nn" type="string" value="Område der varslingsikon kjem fram"/>
+	<oaf_attribute name="description-no" type="string" value="Område hvor varselsikoner kommer til syne"/>
+	<oaf_attribute name="description-pa" type="string" value="ਥ੾ ਜਿਥੇ ਟਿੱਪਣੀ ਅਾੲੀਕਾਨ ਹਾਜ਼ਰ ਹੋਵੇ"/>
+	<oaf_attribute name="description-pl" type="string" value="Obszar, na którym pojawiają się ikony informujące o stanie różnych komponentów"/>
+	<oaf_attribute name="description-pt" type="string" value="Área onde surgem os ícones de notificação"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Área em que os ícones de notificação aparecem"/>
+	<oaf_attribute name="description-ro" type="string" value="Zonă unde apar iconiţele de notificare"/>
+	<oaf_attribute name="description-ru" type="string" value="Апплет отображает область, где появляются значки уведомления"/>
+	<oaf_attribute name="description-sk" type="string" value="Oblasť, kde sa objavujú ikony upozornení"/>
+	<oaf_attribute name="description-sl" type="string" value="Del pulta kjer se kažejo opozorila"/>
+	<oaf_attribute name="description-sq" type="string" value="Zona ku shfaqen ikonat njoftuese"/>
+	<oaf_attribute name="description-sr" type="string" value="Површина где се појављују иконе за обавештења"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Površina gde se pojavljuju ikone za obaveštenja"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Површина гдје се појављују иконе за обавјештења"/>
+	<oaf_attribute name="description-sv" type="string" value="Yta där notifieringsikoner visas"/>
+	<oaf_attribute name="description-ta" type="string" value="அறிவிப்பு குறும்படங்கள் காண்பிக்கப்படும் இடம்"/>
+	<oaf_attribute name="description-th" type="string" value="พื้นที่สำหรับไอคอนแจ้งเตือน"/>
+	<oaf_attribute name="description-tr" type="string" value="Uyarı simgelerinin belireceği alan"/>
+	<oaf_attribute name="description-uk" type="string" value="Зона, де з&apos;являтиметься піктограма сповіщення"/>
+	<oaf_attribute name="description-vi" type="string" value="Vị trí nơi các biểu tượng thông báo xuất hiện"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="通知图标显示的区域"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="顯示程式狀態通知圖示的區域"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="顯示程式狀態通知圖示的區域"/>
+	<!-- has no panel: attributes as we don't want it in the menus -->
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="System Tray Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="notification-area-applet"/>
+</oaf_server>   
+
+
+</oaf_info>

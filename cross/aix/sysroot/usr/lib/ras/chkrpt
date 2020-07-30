@@ -1,0 +1,41 @@
+# @(#)32        1.1  src/bos/usr/bin/errlg/odm/chkrpt.sh, cmderrlg, bos53L, l2007_16A3 4/18/07 14:49:36
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos53L src/bos/usr/bin/errlg/odm/chkrpt.sh 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2007 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# This is the notification method used by errpt -c.
+#
+# Make sure that the process being signaled is really errpt.
+# Note that we check for just errpt here, and don't validate it's errpt -c.
+# The chance that the process is errpt without being errpt -c is so small
+# that we don't care about it.
+[[ $# -ne 2 ]] && exit 1
+killflag=$1
+procid=$2
+unset id cmd base
+
+# Check for errpt by process id
+ps -o pid,comm -L$procid | tail -1 | read id cmd
+
+# $cmd may be "" or name another process if errpt is gone.
+[[ -n "$cmd" ]] && base=`basename $cmd`
+if [[ "$base" = "errpt" ]]
+then	# the process is really errpt.
+	kill $killflag $procid
+else	# the associated errpt is gone!
+	odmdelete -o errnotify -q "en_pid = '$procid'"
+fi
+exit 0

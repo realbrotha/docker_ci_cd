@@ -1,0 +1,240 @@
+2005 年 3 月 14 日
+Adobe(r) Reader(r) UNIX 版自述文件
+
+欢迎阅读 Adobe(r) Reader(r) 7.0 自述文件。
+
+Adobe Reader 7.0 是配合 Adobe Acrobat 7.0 一起使用的免费的查看程序。Adobe Reader 允许您查看，导览并打印“便携式文档格式”的（PDF）文件。Adobe Acrobat 7.0 是查看、增强、审阅、编辑和分享 PDF 中所包含信息的完整解决方案。
+
+要了解有关 Adobe Acrobat 7.0 的详细信息，请访问 
+http://www.adobe.com/products/acrobat 
+ 
+本自述文件包含以下信息：
+系统要求 
+
+安装说明
+ 
+疑难解答
+ 
+键盘快捷方式
+
+
+系统要求：
+====================
+
+Adobe Reader 7.0 Linux(r) 版的系统要求 - 32-bit Intel Pentium(r) 级处理器 
+- Linux kernel 2.4 或更新版本
+- GLIBC version 2.3 或更新版本
+- 128M 内存（建议 256M） 
+- 110M 可用的磁盘空间
+- 用于亚洲字体的额外的 40M 硬盘空间（可选） 
+- 所支持的 Linux 发布版本：
+	o Red Hat Linux AS 3.0 （2.4.21），4.0 （2.6.9）
+	o Red Hat Linux ES 3.0 （2.4.21），4.0 （2.6.9）
+	o Red Hat Linux WS 3.0 （2.4.21），4.0 （2.6.9）
+	o Red Hat Linux Desktop
+	o Red Hat Linux 9.0 （2.4.20-6）
+	o SUSE Enterprise Server 9X （2.6）
+	o SUSE Professional 9.2 （2.6.4）
+	o Novell Linux Desktop 9.x （2.6.4）
+	o Turbolinux 10 Desktop （2.6）
+	o Red Flag Linux Desktop 4.0
+ 
+
+网络浏览器支持
+PDF 文件可在以下浏览器中查看：
+	o Mozilla 1.7.3, 1.8
+	o Firefox 1.0
+	o Netscape 7
+
+
+安装说明：
+==========================
+ 
+安装和卸载 Adobe Reader 7.0 Linux 版 
+ 
+要安装 Adobe Reader 7.0，请按照以下步骤操作： 
+ 
+- RPM 安装程序：
+	1. 请确保您至少有 110M 可用磁盘空间 
+	2. 请运行“rpm -i AdobeReader_chs-7.0.1-1.i386.rpm”
+
+	要卸载 Adobe Reader 7.0，请运行以下命令：
+	“rpm -e AdobeReader_chs”
+
+- Tarball 安装程序：
+	1. 请确保您至少有 110M 可用磁盘空间 
+	2. 请运行“tar -zxvf AdbeRdr70_linux_chs.tar.gz”
+	3. 请在因此而创建的“AdobeReader“目录中运行”INSTALL”脚本
+ 
+	要卸载 Adobe Reader 7.0，只需删除其所在的安装目录。
+
+浏览器增效工具的安装（默认情况下不执行）：
+- 要安装浏览器增效工具，您将需要执行该脚本“<INSTALL_PATH>/Browser/install_browser_plugin”。在此之前，请仔细阅读“<INSTALL_PATH>/Browser/Browser_Plugin_HowTo.txt”以获取有关详细信息。
+
+
+安装事项
+
+Adobe Reader 要求 libstdc++.so.5。某些系统在默认情况下可能没有安装。要更正这个问题，您需要安装 compat-libstdc++ package。
+
+
+疑难解答：
+=======================
+
+Red Flag Linux Issue 
+由于 GLib 中的一个已知缺陷，Adobe Reader 无法在 Red Flag Linux 4.1 中打开。在尝试加载辅助工具的相关模块会发生这种情况。可以通过升级到 GLidb 的更新版本或注释脚本 <INSTALL_PATH>/bin/acroread 中的“export GTK_MODULES”来修复这个问题。[1106081]
+
+PPKLite.api 装载失败
+PPKLite 要求系统中安装 OpenLDAP 包，且在未安装的情况下初始化失败。如果您在 acroread 启动时遇到该错误，您将需要安装 LDAP 库（OpenLDAP 包）。如果 PPKLite 仍装载失败，请为安装在 <INSTALL_PATH>/Reader/intellinux/lib 中的 libldap.so.X 和 liblber.so.X 创建名为 'libldap.so' 和 'liblber.so'的链接。[1132741]
+
+
+某些字体在 Document/Properties Window/Toolbar 中不显示
+除某些预定义系统目录外， Adobe Reader 还将在 PSRESOURCEPATH 环境变量中指定的目录列表中搜索系统字体。
+如果您的系统有多个 Adobe Reader 不会搜索的附加字体目录，您可以在启动 Adobe Reader 之前将这些目录添加到 PSRESOURCEPATH 环境变量。如果所需字体没有嵌入文档，请检查“文档”>“使用本地字体”选项，Adobe
+Reader 将按照从 PSRESOURCEPATH 变量所指定的从系统中挑选字体。
+
+应用放大率时 CJK 文本的粗体显示  
+如果源应用程序使用混合粗体创建了某些粗体文本，则这些 CJK 粗体字符可能会模糊不清。如果“页面显示”首选项调板中的“平滑文本”和“使用 CoolType”首选项被关闭，则当文档被放大时您可能会看到空白区域或隔断。Acrobat 4.x 将一个字符写四遍以达到粗体的效果，而对于某些文档，这样的文本可能会出现四行或四个文本而不是显示为粗体文本。在 Acrobat 5.0 中，使用混合粗体。Adobe 建议打开“页面显示”首选项调板中的“平滑文本”和“使用 CoolType”首选项以防止当粗体文本被放大时出现空白区域和隔断。[418447]  
+ 
+查找对话框 - 使用“查找”来定位“Unicode 字符” 
+您可以使用“查找”在 PDF 文档中定位“Unicode 字符” 。要实现本功能，请在您要搜索的 Unicode 字符之前添加“\u”。例如，要搜索 ASCII 字符“A”的 Unicode 值，请在“查找”对话框中输入“\u0041”。对于某些 CJK 字符，例如 Unicode“4e01”，您可以指定“\u4e01”。 [413632] 
+  
+在某些系统上页面文本的伸展或扭曲
+您可能会在某些系统的页面显示上遇到某些伸展扭曲的效果。 通过在“编辑”>“首选项”>“页面显示”书签中为当前显示系统设置“自定义分辨率”可以解决这个问题。[1154513]
+
+对 socket 文件未完成的搜索
+如果指定搜索路径包含 socket 文件（典型的路径为 /tmp 或 $HOME），则搜索将无法完成。请确保指定路径只包含常规文件，而没有 socked 文件。[1148788]
+
+使用 Mutt 发送邮件
+如果当所选择的电子邮件客户端为 mutt 时终端窗口闪烁不清并消失，添加“set autoedit=no”到 $HOME/.muttrc 将启用使用 mutt 发送邮件。[1117619]
+
+发送邮件时 Evolution 崩溃
+这种情况发生在 evolution 的旧版本。如果 evolution 在发送邮件时崩溃（当 Evolution 是选定的电子邮件客户端），请尝试保持 evolution 在背景中运行。如果它仍崩溃，请升级至 evolution 2.0 或更高版本。您可能需要保持它在背景中运行。[1087494]
+
+未被激活的辅助工具
+Adobe Reader 将检查 gconf 注册表以确定辅助工具支持在系统上是否被启用。如果 gconftool-2 在系统上不可用，则辅助工具支持在 Reader 中被关闭。如果您的系统中没有 gconftool-2 并且您想使用 Adobe Reader 的辅助性功能，请在文件结尾附近的 block 'if [ "$IS_GCONF_TOOL" = "no" ]'，文件 <INSTALL_PATH>/bin/acroread 中将 'ACRO_AT_ACTIVE="false"' 更改为 'ACRO_AT_ACTIVE="true"'。[1161246]
+
+启用文档辅助工具
+1. 使用 gconf-editor 或 gconftool-2 在您的系统上打开辅助工具支持将 key /desktop/gnome/interface/accessibility 设置为 true。
+2. 启用键盘选定光标（F7 键切换指针。光标也可以通过 “编辑”->“首选项”->“辅助工具”->“总是显示键盘选定光标”被启用）。
+3. 检查选项“编辑”->“首选项”->“朗读”->“启用文档辅助工具”。
+
+香港字符集以及注释和书签 
+Acrobat Reader 5.0 对 PDF 文件中的文本支持香港字符集。它是 Adobe 繁体中文字符集的扩展。如果您想查看包含使用香港字符集文本的 PDF 文件，请通过安装繁体中文语言包来安装繁体中文字符支持。由于香港字符集不属于标准系统字体，您将无法使用香港字符进行注释或创建书签。[407877] 
+   
+Adobe Reader 需要 pwd 访问权限 
+Adobe Reader 无法在“pwd”命令失败的目录中正确运行。
+
+删除之前的首选项
+我们建议您在第一次运行 Adobe Reader 7.0 之前删除文件 $HOME/.acrorc 以及目录 $HOME/.adobe（如果存在）。这将确保当您第一次运行 Adobe Reader 时默认首选项设置被使用。当然，这并不是必须的，而且如果您希望继续运行旧版本的 Adobe Reader，这实际上可能是不适当的。
+
+最近文件的名称 
+“文件”菜单中列出的文件都是最近文件并取决于精确的路径名称。如果使用 automounter 来打开会话中的文件且 automounter 向下执行，则尝试打开最近文件 的操作将返回“无此文件或目录”的错误。当该文件被移动，重命名或 Reader 从另外一个没有安装相同文件系统的机器上运行时，也会发生这种情况。
+
+防止临时文件在最近文件列表中显示 
+要防止临时文件（例如从网络中打开的文件）出现在最近文件列表中，请如下设置您的 mailcap 项：
+   
+    application/pdf;acroread -tempFile %s
+
+写入首选项文件 
+当首选项文件无法被写入时，Adobe Reader 不会警告用户。如果您希望保留首选项，请确保 '$HOME/.adobe' 是一个可写入的目录。
+
+窗口管理器 
+我们在 KDE 和 GNOME 环境中进行了测试。
+
+打印受口令保护的 PDF 文档 
+即使用户可以从 Adobe Reader 中打印文件，但他们无法从命令行打印受口令保护的 PDF 文档到 PostScript。
+
+异源文件服务器环境 
+当使用 Novell 服务器在异源网络环境中操作时，我们建议您避免给 PDF 文件过长的名称（大于 32 个字符）。Novell 服务器会将长文件名显示给 Macintosh 计算机用户，但 MacOS 会阻止 Adobe Reader 打开该文件。这不是 Windows 的问题。
+
+命令行帮助
+在命令行中，键入 'acroread -help' 或 'acroread -helpall' 以获取关于命令行选项的更多详细信息。请注意，当使用这些命令行时，如果其中某个未在您的环境中定义，则您还必须提供一个 DISPLAY 变量。
+
+打印：并未打印文档且/或打印日志中出现错误 
+当您打印 foo.ps 时，系统将创建一个从 spool 文件到 foo.ps 文件的符号链接。这将节省文件系统上的空间。但是，Adobe Reader 将创建一个临时文件到缓冲区，写出 PostScript，然后在 lpf 程序抓住该临时文件之前将其删除。该解决方案将在打印对话框中包含 lp 或 lpr 命令上的“-c”选项（复制）。这将强制 lp 程序将该文件复制到缓冲区而不是创建链接。
+
+启动外部应用程序/安全性 
+PDF 文件可能包含启动外部应用程序或打开非 PDF 文件的说明。为了加强 PDF 文件的安全性，Adobe Reader 将在启动外部应用程序、可执行文件或命令之前用警告提示用户。警告如下；
+     “Adobe Reader 将运行该应用程序：”    
+     [Application] “允许对全部应用程序执行该动作（是）或全部动作（全部）？”  
+警告包含三个按钮，“是”， “否”和“全部”。
+    - 选择“是”将仅允许该动作的这个实例。  
+    - 选择“否”将阻止该动作的这个实例。
+    - 选择“全部”将允许全部动作的全部实例，直到退出或重新启动 Adobe Reader。 
+ 
+Adobe Reader 搜索 
+如果您要创建跨平台的可靠的全文本搜索索引，您必须使用 ISO 9660 文件命名惯例来命名索引文件（8.3 大写字母，受限制的字符集）。如果您不使用这些名称，UNIX Reader 将尝试猜测这些 Unix 文件的文件名称。这将减慢搜索速度，并且可能导致文件无法被找到。
+
+选择工具和快照工具
+选择工具可以用来在文档中选择文本，快照工具可以用来在页面中选择某些区域， 
+所选区域将被自动复制到剪贴板。
+
+运行多个实例时无法从网络浏览器提交表单
+如果 Netscape（或其它网络浏览器）警告您在 .Netscape 文件夹中发现锁定文件，则无法在网络上提交表单。该警告（出现在您第一次运行 Netscape 时出现）通常意味着您有另一个 Netscape 的运行副本。您可以通过确保只有一个 Netscape 副本在运行来修正这个问题。如果锁定文件是由于 Netscape 文件崩溃所遗留的，则您只要删除 .Netscape/锁定文件。
+
+
+键盘快捷方式；
+===================
+
+加速热键：
+用 <ALT> 键访问菜单栏，并按以下键；
+f - “文件”菜单
+e - “编辑”菜单
+v - “视图”菜单
+d - “文档”菜单
+t - “工具”菜单
+w - “窗口”菜单
+h - “帮助”菜单
+
+导览工具：
+按 Page Up 到上一屏
+按 Page Down 到下一屏
+按向左箭头到上一页
+按向右箭头到下一页
+按向上箭头向上滚动
+按向下箭头向下滚动
+CTRL L 显示或隐藏全屏
+SHIFT CTRL N 到指定页面
+
+功能键：
+F8 显示或隐藏工具栏
+
+编辑文档：
+CTRL A 选择全部
+CTRL C 复制
+CTRL M 缩放至
+CTRL O 打开
+CTRL P 打印
+CTRL Q 结束
+CTRL W 关闭文档
+CTRL 0 适合窗口
+CTRL 1 适合实际大小
+CTRL 2 适合宽度
+CTRL 3 适合可见
+CTRL + 放大
+CTRL - 缩小
+SHIFT CTRL A 取消选择全部
+SHIFT CTRL P 页面设置
+SHIFT CTRL S 另存为
+SHIFT CTRL + 顺时针旋转
+SHIFT CTRL - 逆时针旋转
+
+文档辅助工具
+按F7 切换键盘插入号
+
+搜索：
+CTRL F 查找
+SHIFT CTRL F 打开搜索面板
+
+文档信息和首选项：
+CTRL D 将文档小结对话框置于顶层
+CTRL K 将“一般首选项”对话框置于顶层
+
+
+====================================================================== 
+版权所有 (c) 1987-2005 Adobe Systems Incorporated 和许可证颁发者。保留所有权利。Adobe，Adobe 标志，Acrobat，Acrobat 标志，PostScript 和 PostScript 标志是 Adobe Systems Incorporated 在美国和/或其它国家的注册商标或商标。Distiller，Adobe Type Manager，ATM，Illustrator，PageMaker 和 Photoshop 是 Adobe Systems Incorporated 的商标。Sun，Sun Microsystems， Sun 标志 和 Solaris 是 Sun Microsystems, Inc. 在美国或其它国家的商标或注册商标。所有的 SPARC 商标都是 SPARC International, Inc. 在美国和其它国家许可使用的商标或注册商标。带有 SPARC 商标的产品都是以 Sun Microsystems, Inc. 开发的结构为基础。UNIX 是在美国和其它国家的注册商标，通过（X/Open Company, Ltd ）排它性地授权许可。X Window System 是 Massachusetts 技术学院的商标。Linux 是 Linus Torvaldsis 的注册商标。Novell 是 Novell, Inc. 的注册商标。Macintosh 和 MacOS 是 Apple Computer, Inc.的商标，在美国和其它国家的注册商标。NCD 和 PC-Xware 是 Network Computing Devices, Inc. 在美国和其它国家的商标或注册商标。STSong 是 ChangZhou SinoType Technology Co., Ltd. 的商标。
+所有其它的商标是其各自物主的财产。 该文件的内容服从 Moziolla 公共许可 version 1.1（“许可”）；您只能在服从该“许可”的条件下使用该文件。您可以在 http://www.mozilla.org/MPL. 上获得该“许可”的副本。该文件未被 Adobe 修改，源代码可以在 http://www.mozilla.org/source.html. 上找到。
+源代码是 Mozilla Communicator client code，发布于 1998 年 3 月 31 日。
+该源代码的初始开发者是 Netscape Communications Corporation。由 Netscape 创建的部分源代码版权所有 (c) 1998 Netscape Communications Corporation。保留所有权利。 
+=======================================================================
+

@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Copyright (c) 1997-2001 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+#ident	"@(#)newsyslog	1.5	01/11/08 SMI"
+#
+# NOTE: This script is no longer used -- see logadm(1M)
+#
+# Running this script checks to see if /var/log/syslog or /var/adm/messages
+# need rotating, according to the policies in /etc/logadm.conf.  Since logadm
+# normally runs from root's crontab every morning, running this script is no
+# longer necessary.
+#
+/usr/sbin/logadm /var/log/syslog /var/adm/messages

@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=${prefix}/include
+idldir=${prefix}/share/idl/gok-1.0
+
+Name: Gok
+Description: GNOME On-screen Keyboard
+Requires: libgnomeui-2.0 cspi-1.0 libspi-1.0 libbonobo-2.0 atk gtk+-2.0 gail libwnck-1.0 esound
+Version: 1.0.5
+Libs: -L${libdir}
+Cflags: -I${includedir}/gok-1.0

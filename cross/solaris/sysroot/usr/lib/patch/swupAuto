@@ -1,0 +1,72 @@
+#!/usr/bin/sh
+#
+# ident	"%Z%%M%	%I%	%E% SMI"
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+log=echo
+
+umask 022
+
+#TODO need to update path
+CCR=/usr/lib/cc-ccr/bin/ccr
+
+#$log "swupas run at `date`"
+
+CheckZones()
+{
+    ZONENAME=/usr/bin/zonename
+    if [ -f ${ZONENAME} ] ; then
+        if [ `${ZONENAME}` != "global" ] ; then
+            echo "Non global zone not supported. zone: $ZONENAME"
+            logger -tswupAuto -p2 "Non global zone not supported. zone: $ZONENAME. Exiting"
+            exit 1
+        fi
+    fi 
+}
+
+# Software Update Agent will only run in the global zone
+CheckZones
+
+if [ ! -f $CCR ]; then
+#    $log "swup agent error: CCR is not installed, can't run auto analysis"
+    exit 1
+fi
+
+REGISTERED=`$CCR -g cns.assetid 2> /dev/null`
+if [ $? -ne 0 ]; then
+#    $log "swup agent error: Unable to read cns.assetid from CCR"
+    exit 1
+fi
+
+# if we are not registered then exit
+if [ "$REGISTERED" = "" ]; then
+#    $log "swup agent error: We are not yet registered so exiting..."
+    exit 1
+fi
+
+
+# is autoAnalysis enabled?
+
+AUTO_ENABLED=`$CCR -g cns.swup.autoAnalysis.enabled 2> /dev/null`
+if [ $? -ne 0 ]; then
+#    $log "swup agent error: Unable to read cns.swup.autoAnalysis.enabled from CCR"
+    exit 1
+fi
+
+# if auto analysis is enabled...
+if [ "$AUTO_ENABLED" = "true" ]; then
+
+    # Run the swup agent to update the analysis cache for the Update Manager
+    # and user notification. When run in this mode, swup agent will not
+    # check in with swup server for portal commands to execute
+    /usr/bin/java -jar /usr/lib/patch/swupa.jar -autoAnalysis "$@"
+
+else
+# auto analysis is disabled so exit
+
+    exit 0
+
+fi

@@ -1,0 +1,22 @@
+#!/usr/bin/ksh
+#
+# ident	"@(#)getmodels	1.1	04/04/15 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+#
+# get a list of the Models for this Model from the ppdcache
+#
+
+if [[ $# -lt 1 ]]; then
+        exit 1
+fi
+
+if [[ -f /usr/lib/lp/model/ppd/ppdcache ]]; then
+	/bin/grep ^$1 /usr/lib/lp/model/ppd/ppdcache | nawk '{FS=":"; print $2}' | uniq 
+	exit 0
+else
+	exit 1
+fi

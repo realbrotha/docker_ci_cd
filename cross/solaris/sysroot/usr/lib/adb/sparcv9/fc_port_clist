@@ -1,0 +1,11 @@
+.>w
+<w+0=""
++/"port"16t"state"16t"len"nJXX
++/"size"16t"map"16t"flags"nX4+JX
++/"wait"16tnX
+<w+0t40=""
++/"mutex"
+.$<<mutex
+<w+0t48=""
++/"cv"8tnx
+<w+0t56=""

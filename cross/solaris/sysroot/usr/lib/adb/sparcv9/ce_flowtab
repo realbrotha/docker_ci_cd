@@ -1,0 +1,3 @@
+.="ce flow table element structure"n
++/"pkt_cnt"nX
++/"*drainq_index"18t"first"18t"last"nX18tK18tK

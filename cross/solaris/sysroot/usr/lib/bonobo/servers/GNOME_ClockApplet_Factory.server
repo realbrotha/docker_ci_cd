@@ -1,0 +1,346 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_ClockApplet_Factory"
+	    type="exe"
+	    location="/usr/lib/clock-applet">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Clock Applet Factory"/>
+	<oaf_attribute name="name-af" type="string" value="Horlosie-miniprogramfabriek"/>
+	<oaf_attribute name="name-ar" type="string" value="مصنع بريمج الساعة"/>
+	<oaf_attribute name="name-az" type="string" value="Saat Appleti E&apos;malatxanası"/>
+	<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплета-гадзіньніка"/>
+	<oaf_attribute name="name-bg" type="string" value="Фабрика за аплети на часовника"/>
+	<oaf_attribute name="name-bn" type="string" value="ঘড়ির অ্যাপ্লেট ফ্যাক্টরি"/>
+	<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet rellotge"/>
+	<oaf_attribute name="name-cs" type="string" value="Generátor apletu hodin"/>
+	<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennigion Cloc"/>
+	<oaf_attribute name="name-da" type="string" value="Fabrik til ur-panelprogram"/>
+	<oaf_attribute name="name-de" type="string" value="Uhrenapplet-Fabrik"/>
+	<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Ρολογιού"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Clock Applet Factory"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Clock Applet Factory"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de la miniaplicación Reloj"/>
+	<oaf_attribute name="name-et" type="string" value="Clock Applet Factory"/>
+	<oaf_attribute name="name-eu" type="string" value="Erlojuaren applet-aren fabrika"/>
+	<oaf_attribute name="name-fi" type="string" value="Kellosovelmatehdas"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique de l&apos;applet Horloge"/>
+	<oaf_attribute name="name-gu" type="string" value="ઘડિયાળ એપ્લેટ કારખાનું"/>
+	<oaf_attribute name="name-he" type="string" value="יצרן יישומון שעון"/>
+	<oaf_attribute name="name-hi" type="string" value="घडी अप्लेट फैक्टरी"/>
+	<oaf_attribute name="name-hr" type="string" value="Tvornica appleta za satove"/>
+	<oaf_attribute name="name-hu" type="string" value="Óra kisalkalmazás Factory"/>
+	<oaf_attribute name="name-id" type="string" value="Pabrik Applet Jam"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica applet Orologio"/>
+	<oaf_attribute name="name-ja" type="string" value="時計アプレットファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="시계 애플릿 팩토리"/>
+	<oaf_attribute name="name-lt" type="string" value="Clock Applet Factory"/>
+	<oaf_attribute name="name-mk" type="string" value="Часовник аплет фабрика"/>
+	<oaf_attribute name="name-mn" type="string" value="Цаг апплетийн үйлдвэр"/>
+	<oaf_attribute name="name-mr" type="string" value="घड्याळामध्ये बदल करण्याचे केंद्र"/>
+	<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Jam"/>
+	<oaf_attribute name="name-nl" type="string" value="Klok-appletfabriek"/>
+	<oaf_attribute name="name-nn" type="string" value="Klokkeprogram-fabrikk"/>
+	<oaf_attribute name="name-no" type="string" value="Factory for klokke"/>
+	<oaf_attribute name="name-pa" type="string" value="ਘੜੀ ਅੈਪਲੈਟ ਕਾਰਖਾਨਾ"/>
+	<oaf_attribute name="name-pl" type="string" value="Generator apletu zegara"/>
+	<oaf_attribute name="name-pt" type="string" value="Fábrica de Applet de Relógio"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador do mini-aplicativo Relógio"/>
+	<oaf_attribute name="name-ro" type="string" value="Fabrica Applet GenUtil"/>
+	<oaf_attribute name="name-ru" type="string" value="Фабрика апплета-часов"/>
+	<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Hodiny"/>
+	<oaf_attribute name="name-sl" type="string" value="Tovarna vstavkov ure"/>
+	<oaf_attribute name="name-sq" type="string" value="Fabrika e Programit të Orës"/>
+	<oaf_attribute name="name-sr" type="string" value="Производња програмчета за часовник"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Proizvodnja programčeta za časovnik"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Производња програмчета за часовник"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för klockpanelprogrammet"/>
+	<oaf_attribute name="name-ta" type="string" value="கடிகாரம் குறும்பயன் செயலகம்"/>
+	<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตนาฬิกา"/>
+	<oaf_attribute name="name-tr" type="string" value="Saat Uygulamacığı Üreticisi"/>
+	<oaf_attribute name="name-uk" type="string" value="Фабрика аплетів годинника"/>
+	<oaf_attribute name="name-vi" type="string" value="Factory Applet Đồng hồ"/>
+	<oaf_attribute name="name-wa" type="string" value="Oujhene di l&apos; aplikete d&apos; Ôrlodje"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="时钟小程序工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="時鐘面板程式工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="時鐘面板程式工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for creating clock applets."/>
+	<oaf_attribute name="description-af" type="string" value="Fabriek vir die skep van horlosie-miniprogramme."/>
+	<oaf_attribute name="description-ar" type="string" value="مصنع لانشاء بريمجات الساعة."/>
+	<oaf_attribute name="description-az" type="string" value="Saat appletləri yaratmaq üçün e&apos;malatxana."/>
+	<oaf_attribute name="description-be" type="string" value="Вытворчасьць для стварэньня аплетаў-гадзіньнікаў."/>
+	<oaf_attribute name="description-bg" type="string" value="фабрика за създаването на аплети за часовника"/>
+	<oaf_attribute name="description-bn" type="string" value="ঘড়ির অ্যাপ্লেট তৈরি করার ফ্যাক্টরি।"/>
+	<oaf_attribute name="description-ca" type="string" value="Factoria per a crear applets de rellotge."/>
+	<oaf_attribute name="description-cs" type="string" value="Generátor pro vytváření apletů hodin."/>
+	<oaf_attribute name="description-cy" type="string" value="Ffatri creu rhai rhaglennigion cloc."/>
+	<oaf_attribute name="description-da" type="string" value="Fabrik til oprettelse af ur-panelprogrammer."/>
+	<oaf_attribute name="description-de" type="string" value="Fabrik zum Erzeugen von Uhrenapplets."/>
+	<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για τη δημιουργία εφαρμογιδίων ρολογιού."/>
+	<oaf_attribute name="description-en_CA" type="string" value="Factory for creating clock applets."/>
+	<oaf_attribute name="description-en_GB" type="string" value="Factory for creating clock applets."/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica para crear miniaplicaciones de reloj."/>
+	<oaf_attribute name="description-et" type="string" value="Factory for creating clock applets."/>
+	<oaf_attribute name="description-eu" type="string" value="Erlojuen applet-ak sortzeko fabrika."/>
+	<oaf_attribute name="description-fi" type="string" value="Tehdas kellosovelmien tuottamiseen."/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour créer des applets Horloge."/>
+	<oaf_attribute name="description-gu" type="string" value="ઘડિયાળ એપ્લેટ બનાવવા માટેનું કારખાનું"/>
+	<oaf_attribute name="description-he" type="string" value="יצרן ליצירת יישומוני שעון."/>
+	<oaf_attribute name="description-hi" type="string" value="घडी एप्लेट बनाने हेतु फैक्टरी"/>
+	<oaf_attribute name="description-hr" type="string" value="Proizvodnja programa za sat."/>
+	<oaf_attribute name="description-hu" type="string" value="Factory az Óra kisalkalmazás létrehozására."/>
+	<oaf_attribute name="description-id" type="string" value="Pabrik pembuatan applet Jam"/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per creare le applet orologio."/>
+	<oaf_attribute name="description-ja" type="string" value="時計アプレットを生成するためのファクトリです。"/>
+	<oaf_attribute name="description-ko" type="string" value="시계 애플릿을 만드는 데 쓰이는 팩토리"/>
+	<oaf_attribute name="description-lt" type="string" value="Factory for creating clock applets."/>
+	<oaf_attribute name="description-mk" type="string" value="Фабрика за создавање на часовници аплети"/>
+	<oaf_attribute name="description-mn" type="string" value="Цаг апплет үүсгэх үйлдвэр."/>
+	<oaf_attribute name="description-mr" type="string" value="घड्याळ बनविण्याचे केंद्र"/>
+	<oaf_attribute name="description-ms" type="string" value="kilang untuk mencipta aplet jam"/>
+	<oaf_attribute name="description-nl" type="string" value="Fabriek om klok-applets aan te maken."/>
+	<oaf_attribute name="description-nn" type="string" value="fabrikk for oppretting av klokke-tilleggsprogram"/>
+	<oaf_attribute name="description-no" type="string" value="factory for oppretting av klokke."/>
+	<oaf_attribute name="description-pa" type="string" value="ਘੜੀ ਅੈਪਲੈਟ ਬਣਾੳੁਣ ਲੲੀ ਫੈਕਟਰੀ  ੤"/>
+	<oaf_attribute name="description-pl" type="string" value="Generator tworzący aplety zegara."/>
+	<oaf_attribute name="description-pt" type="string" value="Fábrica para criar applets de relógio."/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador para criação de mini-aplicativos relógio."/>
+	<oaf_attribute name="description-ro" type="string" value="Fabrică pentru crearea apleturilor ceas"/>
+	<oaf_attribute name="description-ru" type="string" value="Фабрика для создания апплетов-часов."/>
+	<oaf_attribute name="description-sk" type="string" value="vytváracie rozhranie pre applety Hodiny."/>
+	<oaf_attribute name="description-sl" type="string" value="Tovarna za ustvarjanje vstavkov ure"/>
+	<oaf_attribute name="description-sq" type="string" value="Fabrikë për krijimin e disa programeve për orën."/>
+	<oaf_attribute name="description-sr" type="string" value="Производња програмчета за часовник."/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Proizvodnja programčeta za časovnik."/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Производња програмчета за часовник."/>
+	<oaf_attribute name="description-sv" type="string" value="fabrik för skapande av klockpanelprogram."/>
+	<oaf_attribute name="description-ta" type="string" value="கடிகாரம் குறும்பயன் உருவாக்கும் செயலகம்."/>
+	<oaf_attribute name="description-th" type="string" value="โรงงานสร้างแอพเพล็ตนาฬิกา"/>
+	<oaf_attribute name="description-tr" type="string" value="Saat uygulamacıklari yaratmak için üreticisi."/>
+	<oaf_attribute name="description-uk" type="string" value="Фабрика для створення аплетів годинника."/>
+	<oaf_attribute name="description-vi" type="string" value="Factory tạo các applet đồng hồ."/>
+	<oaf_attribute name="description-zh_CN" type="string" value="创建时钟小程序的工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="產生時鐘面板程式的工廠"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="產生時鐘面板程式的工廠"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_ClockApplet"
+	    type="factory" 
+	    location="OAFIID:GNOME_ClockApplet_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Clock"/>
+	<oaf_attribute name="name-af" type="string" value="Horlosie"/>
+	<oaf_attribute name="name-am" type="string" value="ሰዓት"/>
+	<oaf_attribute name="name-ar" type="string" value="ساعة"/>
+	<oaf_attribute name="name-az" type="string" value="Saat"/>
+	<oaf_attribute name="name-be" type="string" value="Гадзіньнік"/>
+	<oaf_attribute name="name-bg" type="string" value="Часовник"/>
+	<oaf_attribute name="name-bn" type="string" value="ঘড়ি"/>
+	<oaf_attribute name="name-ca" type="string" value="Rellotge"/>
+	<oaf_attribute name="name-cs" type="string" value="Hodiny"/>
+	<oaf_attribute name="name-cy" type="string" value="Cloc"/>
+	<oaf_attribute name="name-da" type="string" value="Ur"/>
+	<oaf_attribute name="name-de" type="string" value="Uhr"/>
+	<oaf_attribute name="name-el" type="string" value="Ρολόι"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Clock"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Clock"/>
+	<oaf_attribute name="name-eo" type="string" value="Horloĝo"/>
+	<oaf_attribute name="name-es" type="string" value="Reloj"/>
+	<oaf_attribute name="name-et" type="string" value="Kell"/>
+	<oaf_attribute name="name-eu" type="string" value="Erlojua"/>
+	<oaf_attribute name="name-fa" type="string" value="ساعت"/>
+	<oaf_attribute name="name-fi" type="string" value="Kello"/>
+	<oaf_attribute name="name-fr" type="string" value="Horloge"/>
+	<oaf_attribute name="name-ga" type="string" value="Clog"/>
+	<oaf_attribute name="name-gl" type="string" value="Reloxo"/>
+	<oaf_attribute name="name-gu" type="string" value="ઘડિયાળ"/>
+	<oaf_attribute name="name-he" type="string" value="שעון"/>
+	<oaf_attribute name="name-hi" type="string" value="घडी"/>
+	<oaf_attribute name="name-hr" type="string" value="Sat"/>
+	<oaf_attribute name="name-hu" type="string" value="Óra"/>
+	<oaf_attribute name="name-id" type="string" value="Jam"/>
+	<oaf_attribute name="name-it" type="string" value="Orologio"/>
+	<oaf_attribute name="name-ja" type="string" value="時計"/>
+	<oaf_attribute name="name-ko" type="string" value="시계"/>
+	<oaf_attribute name="name-li" type="string" value="Klok"/>
+	<oaf_attribute name="name-lt" type="string" value="Laikrodis"/>
+	<oaf_attribute name="name-lv" type="string" value="Pulkstenis"/>
+	<oaf_attribute name="name-mk" type="string" value="Часовник"/>
+	<oaf_attribute name="name-ml" type="string" value="ഘടികാരം"/>
+	<oaf_attribute name="name-mn" type="string" value="Цаг"/>
+	<oaf_attribute name="name-mr" type="string" value="घड्याळ"/>
+	<oaf_attribute name="name-ms" type="string" value="Jam"/>
+	<oaf_attribute name="name-nl" type="string" value="Klok"/>
+	<oaf_attribute name="name-nn" type="string" value="Klokke"/>
+	<oaf_attribute name="name-no" type="string" value="Klokke"/>
+	<oaf_attribute name="name-pa" type="string" value="ਘੜੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Zegar"/>
+	<oaf_attribute name="name-pt" type="string" value="Relógio"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Relógio"/>
+	<oaf_attribute name="name-ro" type="string" value="Ceas"/>
+	<oaf_attribute name="name-ru" type="string" value="Часы"/>
+	<oaf_attribute name="name-sk" type="string" value="Hodiny"/>
+	<oaf_attribute name="name-sl" type="string" value="Ura"/>
+	<oaf_attribute name="name-sq" type="string" value="Ora"/>
+	<oaf_attribute name="name-sr" type="string" value="Часовник"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Časovnik"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Часовник"/>
+	<oaf_attribute name="name-sv" type="string" value="Klocka"/>
+	<oaf_attribute name="name-ta" type="string" value="கடிகாரம்"/>
+	<oaf_attribute name="name-th" type="string" value="นาฬิกา"/>
+	<oaf_attribute name="name-tr" type="string" value="Saat"/>
+	<oaf_attribute name="name-uk" type="string" value="Годинник"/>
+	<oaf_attribute name="name-vi" type="string" value="Đồng hồ"/>
+	<oaf_attribute name="name-wa" type="string" value="Ôrlodje"/>
+	<oaf_attribute name="name-yi" type="string" value="זײגער"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="时钟"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="時鐘"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="時鐘"/>
+	<oaf_attribute name="description" type="string" value="Get the current time and date"/>
+	<oaf_attribute name="description-af" type="string" value="Vind die huidige tyd en datum"/>
+	<oaf_attribute name="description-ar" type="string" value="تلقى الوقت والتاريخ الحالي"/>
+	<oaf_attribute name="description-az" type="string" value="Hazırkı saat və vaxtı al"/>
+	<oaf_attribute name="description-be" type="string" value="Атрымаць бягучы дзень і час"/>
+	<oaf_attribute name="description-bg" type="string" value="Вземи текущото време и дата"/>
+	<oaf_attribute name="description-bn" type="string" value="বর্তমান সময় ও তারিখ দেখুন"/>
+	<oaf_attribute name="description-ca" type="string" value="Dona la hora i data actual"/>
+	<oaf_attribute name="description-cs" type="string" value="Získat aktuální datum a čas"/>
+	<oaf_attribute name="description-cy" type="string" value="Cyrchu&apos;r dyddiad ac amser cyfredol"/>
+	<oaf_attribute name="description-da" type="string" value="Vis det aktuelle tidspunkt og datoen"/>
+	<oaf_attribute name="description-de" type="string" value="Aktuelles Datum und Uhrzeit abrufen"/>
+	<oaf_attribute name="description-el" type="string" value="Λήψη της τρέχουσας ημερομηνίας και ώρας"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Get the current time and date"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Get the current time and date"/>
+	<oaf_attribute name="description-eo" type="string" value="Ricevu nunajn horon kaj daton"/>
+	<oaf_attribute name="description-es" type="string" value="Obtener la fecha y hora actuales"/>
+	<oaf_attribute name="description-et" type="string" value="Võta praegune kuupäev ja kellaaeg"/>
+	<oaf_attribute name="description-eu" type="string" value="Hartu uneko data eta ordua"/>
+	<oaf_attribute name="description-fa" type="string" value="گرفتن زمان و تاریخ فعلی"/>
+	<oaf_attribute name="description-fi" type="string" value="Hae nykyinen aika ja päiväys"/>
+	<oaf_attribute name="description-fr" type="string" value="Donner l&apos;heure et la date en cours"/>
+	<oaf_attribute name="description-ga" type="string" value="Faigh an am agus dáta anois"/>
+	<oaf_attribute name="description-gl" type="string" value="Obter a hora e data actuais"/>
+	<oaf_attribute name="description-gu" type="string" value="વર્તમાન સમય અને તારીખ મેળવો"/>
+	<oaf_attribute name="description-he" type="string" value="קבל את השעה והתאריך הנוכחיים"/>
+	<oaf_attribute name="description-hi" type="string" value="वर्तमान समय और दिनांक प्राप्त करें"/>
+	<oaf_attribute name="description-hr" type="string" value="Saznaj trenutno vrijeme i datum"/>
+	<oaf_attribute name="description-hu" type="string" value="Pontos idő és dátum megjelenítése"/>
+	<oaf_attribute name="description-id" type="string" value="Dapatkan waktu dan tanggal sekarang"/>
+	<oaf_attribute name="description-it" type="string" value="Mostra data/ora corrente"/>
+	<oaf_attribute name="description-ja" type="string" value="現在の時間と日付を得る"/>
+	<oaf_attribute name="description-ko" type="string" value="현재 시간과 날짜를 보여 줍니다"/>
+	<oaf_attribute name="description-li" type="string" value="Hujigen tied en datem ophaole"/>
+	<oaf_attribute name="description-lt" type="string" value="Gauti dabarties laiką ir datą"/>
+	<oaf_attribute name="description-lv" type="string" value="Dabūt pašreizējo laiku un datumu"/>
+	<oaf_attribute name="description-mk" type="string" value="Земи ги тековните датум и време"/>
+	<oaf_attribute name="description-ml" type="string" value="നിലവിലുള്ള സമയവും തിയ്യതിയും അറിയുക"/>
+	<oaf_attribute name="description-mn" type="string" value="Идэвхитэй цаг ба огноог авах"/>
+	<oaf_attribute name="description-mr" type="string" value="चालू वेळ आणि दिनांक मिळवा"/>
+	<oaf_attribute name="description-ms" type="string" value="Dapatkan masa dan tarikh semasa"/>
+	<oaf_attribute name="description-nl" type="string" value="Huidige tijd en datum"/>
+	<oaf_attribute name="description-nn" type="string" value="Hent aktiv tid og dato"/>
+	<oaf_attribute name="description-no" type="string" value="Hent tid og dato"/>
+	<oaf_attribute name="description-pa" type="string" value="ਹੁਣ ਦਾ ਸਮ੾ ਅਤੇ ਤਰੀਕ ਵੇਖੋ"/>
+	<oaf_attribute name="description-pl" type="string" value="Wyświetla bieżącą datę i czas"/>
+	<oaf_attribute name="description-pt" type="string" value="Obter data e hora actuais"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Obter hora e data atuais"/>
+	<oaf_attribute name="description-ro" type="string" value="Obţine timpul şi data curentă"/>
+	<oaf_attribute name="description-ru" type="string" value="Выдаёт текущие дату и время"/>
+	<oaf_attribute name="description-sk" type="string" value="Získanie aktuálneho dátumu a času"/>
+	<oaf_attribute name="description-sl" type="string" value="Dobi trenutno uro in datum"/>
+	<oaf_attribute name="description-sq" type="string" value="Trego orën e tanishme dhe datën"/>
+	<oaf_attribute name="description-sr" type="string" value="Сазнај тренутно време и датум"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Saznaj trenutno vreme i datum"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Сазнај тренутно вријеме и датум"/>
+	<oaf_attribute name="description-sv" type="string" value="Visa aktuell tid och aktuellt datum"/>
+	<oaf_attribute name="description-ta" type="string" value="தற்போதைய நேரமும் திகதியையும் பெறுக"/>
+	<oaf_attribute name="description-th" type="string" value="รับค่าวันและเวลาปัจจุบัน"/>
+	<oaf_attribute name="description-tr" type="string" value="Güncel zamanı ve tarihi al"/>
+	<oaf_attribute name="description-uk" type="string" value="Відображує поточну дату і час"/>
+	<oaf_attribute name="description-vi" type="string" value="Lấy thời gian hiện thời"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="获取当前时间和日期"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="取得目前的時間及日期"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="取得目前的時間及日期"/>
+	<oaf_attribute name="panel:icon" type="string" value="gnome-clock.png"/>
+	<oaf_attribute name="panel:category" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-af" type="string" value="Bykomstighede"/>
+	<oaf_attribute name="panel:category-am" type="string" value="አጋዥ ፕሮግራሞች"/>
+	<oaf_attribute name="panel:category-ar" type="string" value="إكسسوارات"/>
+	<oaf_attribute name="panel:category-az" type="string" value="Ləvazimatlar"/>
+	<oaf_attribute name="panel:category-be" type="string" value="Зручнасьці"/>
+	<oaf_attribute name="panel:category-bg" type="string" value="Помощни"/>
+	<oaf_attribute name="panel:category-bn" type="string" value="আনুষঙ্গিক"/>
+	<oaf_attribute name="panel:category-ca" type="string" value="Accessoris"/>
+	<oaf_attribute name="panel:category-cs" type="string" value="Příslušenství"/>
+	<oaf_attribute name="panel:category-cy" type="string" value="Ategolion"/>
+	<oaf_attribute name="panel:category-da" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-de" type="string" value="Zubehör"/>
+	<oaf_attribute name="panel:category-el" type="string" value="Βοηθήματα"/>
+	<oaf_attribute name="panel:category-en_CA" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-en_GB" type="string" value="Accessories"/>
+	<oaf_attribute name="panel:category-eo" type="string" value="Utilaĵoj"/>
+	<oaf_attribute name="panel:category-es" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-et" type="string" value="Tarvikud"/>
+	<oaf_attribute name="panel:category-eu" type="string" value="Gehigarriak"/>
+	<oaf_attribute name="panel:category-fi" type="string" value="Apuohjelmat"/>
+	<oaf_attribute name="panel:category-fr" type="string" value="Accessoires"/>
+	<oaf_attribute name="panel:category-ga" type="string" value="Oiriúintí"/>
+	<oaf_attribute name="panel:category-gl" type="string" value="Accesorios"/>
+	<oaf_attribute name="panel:category-gu" type="string" value="સહાયક કાર્યક્રમો"/>
+	<oaf_attribute name="panel:category-he" type="string" value="עזרים"/>
+	<oaf_attribute name="panel:category-hi" type="string" value="सहायक प्रोग्राम"/>
+	<oaf_attribute name="panel:category-hr" type="string" value="Pomoćni alati"/>
+	<oaf_attribute name="panel:category-hu" type="string" value="Kellékek"/>
+	<oaf_attribute name="panel:category-id" type="string" value="Aksesoris"/>
+	<oaf_attribute name="panel:category-it" type="string" value="Accessori"/>
+	<oaf_attribute name="panel:category-ja" type="string" value="アクセサリ"/>
+	<oaf_attribute name="panel:category-ko" type="string" value="액세서리"/>
+	<oaf_attribute name="panel:category-li" type="string" value="Middele"/>
+	<oaf_attribute name="panel:category-lt" type="string" value="Priemonės"/>
+	<oaf_attribute name="panel:category-lv" type="string" value="Aksesuāri"/>
+	<oaf_attribute name="panel:category-mk" type="string" value="Алатки"/>
+	<oaf_attribute name="panel:category-ml" type="string" value="സഹപ്രയോഗങ്ങള്"/>
+	<oaf_attribute name="panel:category-mn" type="string" value="Орлуулга хэрэгсэл"/>
+	<oaf_attribute name="panel:category-mr" type="string" value="उपलब्ध सहाय्यके"/>
+	<oaf_attribute name="panel:category-ms" type="string" value="Aksesori"/>
+	<oaf_attribute name="panel:category-nl" type="string" value="Accesoires"/>
+	<oaf_attribute name="panel:category-nn" type="string" value="Hjelpemiddel"/>
+	<oaf_attribute name="panel:category-no" type="string" value="Tilbehør"/>
+	<oaf_attribute name="panel:category-pa" type="string" value="ਸਹਾੲਿਕ"/>
+	<oaf_attribute name="panel:category-pl" type="string" value="Akcesoria"/>
+	<oaf_attribute name="panel:category-pt" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-pt_BR" type="string" value="Acessórios"/>
+	<oaf_attribute name="panel:category-ro" type="string" value="Accesorii"/>
+	<oaf_attribute name="panel:category-ru" type="string" value="Дополнительные"/>
+	<oaf_attribute name="panel:category-sk" type="string" value="Príslušenstvo"/>
+	<oaf_attribute name="panel:category-sl" type="string" value="Pripomočki"/>
+	<oaf_attribute name="panel:category-sq" type="string" value="Açesorët"/>
+	<oaf_attribute name="panel:category-sr" type="string" value="Допунски програми"/>
+	<oaf_attribute name="panel:category-sr@Latn" type="string" value="Dopunski programi"/>
+	<oaf_attribute name="panel:category-sr@ije" type="string" value="Допунски програми"/>
+	<oaf_attribute name="panel:category-sv" type="string" value="Tillbehör"/>
+	<oaf_attribute name="panel:category-ta" type="string" value="துணை உறுப்புகள்"/>
+	<oaf_attribute name="panel:category-th" type="string" value="อำนวยความสะดวก"/>
+	<oaf_attribute name="panel:category-tr" type="string" value="Donatılar"/>
+	<oaf_attribute name="panel:category-uk" type="string" value="Стандартні"/>
+	<oaf_attribute name="panel:category-vi" type="string" value="Phụ tùng"/>
+	<oaf_attribute name="panel:category-wa" type="string" value="Accesoires"/>
+	<oaf_attribute name="panel:category-zh_CN" type="string" value="附件"/>
+	<oaf_attribute name="panel:category-zh_HK" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="panel:category-zh_TW" type="string" value="附屬應用程式"/>
+	<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	<oaf_attribute name="bugzilla:product" type="string" value="gnome-panel"/>
+	<oaf_attribute name="bugzilla:component" type="string" value="Clock Applet"/>
+	<oaf_attribute name="bugzilla:other_binaries" type="string" value="gnome-panel"/>
+</oaf_server>
+
+</oaf_info>

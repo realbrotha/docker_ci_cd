@@ -1,0 +1,11 @@
+./"entry_type"8t"entry_count"8t"sys_define"nB8tB8tB
++/"entry_status"8t"handle_l_l"8t"handle_l_h"nB8tB8tB
++/"handle_h"8t"reserved"8t"initiator_id"nx8tB8tB
++/"rx_id"8t"flags_l"8t"flags_h"nxBB
++/"status_l"8t"status_h"8t"reserved_1"nB8tB8tB
++/"task_codes"16t"reserved_2"16t"task_flags"nXXB
++/"execution_codes"8tnB8t
++/"cdb"8t16B
++/"data_length"16t"lun_l"8t"lun_h"nXBB
++/"reserved_3"8t20B
++/"ox_id"8tnx

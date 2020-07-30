@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.copy 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Start a Copy (Job)"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "This menu selection will copy the contents of active BE to the target BE. This function occurs automatically as part of the Create process, but a separate menu item exists to enable an administrator to update the contents of a previously configured BE."`"\n\n"`gettext "Copy operation is not applicable if a copy job is pending."`"\n\n"\
+`gettext "This menu selection will prompt you for the name of the target BE which will be populated with the contents of the active BE. The \"CHOICES\" key will show all inactive and complete BEs."`"\n\n"`gettext "An optional field is available to schedule the job for later. It is always better to schedule the Copy for a time when the system I/O activity is minimal."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

@@ -1,0 +1,375 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:File_Roller_Component_Extract"
+	type="shlib" location="/usr/lib/bonobo/libfile-roller-component.so">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Listener:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="File Roller Component extract operations"/>
+	<oaf_attribute name="name-ar" type="string" value="عمليات استخراج مكونات فايل رلا"/>
+	<oaf_attribute name="name-az" type="string" value="Fayl Roller Tərkib hissəsi açma əməliyyatları"/>
+	<oaf_attribute name="name-be" type="string" value="Кампанэнт дзеяньняў распакоўкі праграмы &quot;Укатчык файлаў&quot;"/>
+	<oaf_attribute name="name-bn" type="string" value="ফাইল রোলার কম্পোনেন্ট নিষ্কাশন করার মাধ্যম"/>
+	<oaf_attribute name="name-ca" type="string" value="Component de File Roller d&apos;operacions d&apos;extracció"/>
+	<oaf_attribute name="name-cs" type="string" value="Komponenta operací rozbalení File Roller"/>
+	<oaf_attribute name="name-cy" type="string" value="Gwiethrediadau echdynnu&apos;r Gydran File Roller"/>
+	<oaf_attribute name="name-da" type="string" value="Udpakningshandlinger til Filpakker-komponenten"/>
+	<oaf_attribute name="name-de" type="string" value="Entpacken-Vorgänge der File Roller-Komponente"/>
+	<oaf_attribute name="name-el" type="string" value="Εργασίες αποσυμπίεσης στοιχείου File roller "/>
+	<oaf_attribute name="name-en_CA" type="string" value="File Roller Component extract operations"/>
+	<oaf_attribute name="name-en_GB" type="string" value="File Roller Component extract operations"/>
+	<oaf_attribute name="name-es" type="string" value="Componente de operaciones de extracción File Roller"/>
+	<oaf_attribute name="name-et" type="string" value="File Rolleri komponendi lahtipakkimise tegevused"/>
+	<oaf_attribute name="name-eu" type="string" value="Ateratze eragiketetako File Roller osagaia"/>
+	<oaf_attribute name="name-fi" type="string" value="Tiedostokäärinkomponentin purkutoiminnot"/>
+	<oaf_attribute name="name-fr" type="string" value="Composant File Roller - Extraction"/>
+	<oaf_attribute name="name-gu" type="string" value="ફાઇલ રોલરમાં અવયવોનો અર્ક કાઢવાની પ્રક્રિયા"/>
+	<oaf_attribute name="name-he" type="string" value="פעולות חילוץ עם רכיב גלגלן הקבצים"/>
+	<oaf_attribute name="name-hr" type="string" value="Operacije raspakiranja za File Roller komponentu"/>
+	<oaf_attribute name="name-hu" type="string" value="File Roller komponens kicsomagolási műveletek"/>
+	<oaf_attribute name="name-id" type="string" value="Komponen File Roller operasi ekstrak"/>
+	<oaf_attribute name="name-is" type="string" value="Afþjöppunaraðgerðir File Roller íhluts"/>
+	<oaf_attribute name="name-it" type="string" value="Componente di File Roller per operazioni di estrazione"/>
+	<oaf_attribute name="name-ja" type="string" value="ファイルローラーコンポーネント抽出操作"/>
+	<oaf_attribute name="name-ko" type="string" value="파일 롤러 컴포넌트 풀기 동작"/>
+	<oaf_attribute name="name-lt" type="string" value="File Roller Komponento išskleidimo operacijos"/>
+	<oaf_attribute name="name-lv" type="string" value="File Roller Komponenta atspiešanas operācijas"/>
+	<oaf_attribute name="name-mk" type="string" value="Операции на отпакувач на Отворувач на Датотека"/>
+	<oaf_attribute name="name-mn" type="string" value="Файл Бүртгэгчээс бүрэлдэхүүн задлах үйлдэл"/>
+	<oaf_attribute name="name-ms" type="string" value="Operasi pengekstrakan Komponen File Roller"/>
+	<oaf_attribute name="name-nl" type="string" value="File Roller Component uitpak handelingen"/>
+	<oaf_attribute name="name-nn" type="string" value="File Roller-komponent, operasjonar for utpakking"/>
+	<oaf_attribute name="name-no" type="string" value="Filknuser-komponent, operasjoner for utpakking"/>
+	<oaf_attribute name="name-pa" type="string" value="ਫਾੲਿਲ ਰੋਲਰ ਭਾਗ ਖੋਲ੏ਣ ਕਾਰਵਾੲੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Komponent File Roller - operacje wydobywania"/>
+	<oaf_attribute name="name-pt" type="string" value="Operações de extracção do Componente File Roller"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Operações de extração de Componente File Roller"/>
+	<oaf_attribute name="name-ro" type="string" value="arhivă de decomprimat în File Roller"/>
+	<oaf_attribute name="name-ru" type="string" value="Компонент операций распаковки программы &quot;Файл Роллер&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Operácie rozbalenia komponentu File Roller"/>
+	<oaf_attribute name="name-sl" type="string" value="Operacije odpakiranja komponente File roller"/>
+	<oaf_attribute name="name-sq" type="string" value="Komponenti i operacioneve të nxjerrjes"/>
+	<oaf_attribute name="name-sr" type="string" value="Операције распакивања за File Roller компоненту"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Operacije raspakivanja za File Roller komponentu"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Операције распакивања за File Roller компоненту"/>
+	<oaf_attribute name="name-sv" type="string" value="Uppackningsåtgärder för File Roller-komponenten"/>
+	<oaf_attribute name="name-ta" type="string" value="கோப்பு சுழற்றி பகுதி பிரிப்பு செய்திகள் செயல்கள்"/>
+	<oaf_attribute name="name-th" type="string" value="ปฏิบัติการคัดลอกออกของตัวจัดเก็บแฟ้ม"/>
+	<oaf_attribute name="name-tr" type="string" value="File Roller Bileşen açma işlemleri"/>
+	<oaf_attribute name="name-uk" type="string" value="Операції добування компонента &quot;Файлового млина&quot;"/>
+	<oaf_attribute name="name-vi" type="string" value="Thành phần chức năng giải nén File Roller"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="压缩文件管理器组件解压缩操作"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="File Roller 的元件解壓縮操作"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="File Roller 的元件解壓縮操作"/>
+	<oaf_attribute name="description" type="string" value="File roller component"/>
+	<oaf_attribute name="description-ar" type="string" value="مكون فايل رلا"/>
+	<oaf_attribute name="description-az" type="string" value="Fayl Roller Tərkib hissəsi"/>
+	<oaf_attribute name="description-be" type="string" value="Кампанэнт праграмы &quot;Укатчык файлаў&quot;"/>
+	<oaf_attribute name="description-bg" type="string" value="Компонент на File Roller"/>
+	<oaf_attribute name="description-bn" type="string" value="ফাইল রোলার কম্পোনেন্ট"/>
+	<oaf_attribute name="description-ca" type="string" value="Component de File roller"/>
+	<oaf_attribute name="description-cs" type="string" value="Komponenta File Roller"/>
+	<oaf_attribute name="description-cy" type="string" value="Cydran File Roller"/>
+	<oaf_attribute name="description-da" type="string" value="Filpakker-komponent"/>
+	<oaf_attribute name="description-de" type="string" value="File Roller-Komponente"/>
+	<oaf_attribute name="description-el" type="string" value="Στοιχείο File roller "/>
+	<oaf_attribute name="description-en_CA" type="string" value="File roller component"/>
+	<oaf_attribute name="description-en_GB" type="string" value="File roller component"/>
+	<oaf_attribute name="description-es" type="string" value="Componente de File Roller"/>
+	<oaf_attribute name="description-et" type="string" value="File Roller komponent"/>
+	<oaf_attribute name="description-eu" type="string" value="File Roller osagaia"/>
+	<oaf_attribute name="description-fi" type="string" value="Tiedostokäärinkomponentti"/>
+	<oaf_attribute name="description-fr" type="string" value="Composant File Roller"/>
+	<oaf_attribute name="description-gu" type="string" value="ફાઇલ રોલર અવયવ"/>
+	<oaf_attribute name="description-he" type="string" value="רכיב גלגלן הקבצים"/>
+	<oaf_attribute name="description-hr" type="string" value="File roller komponenta"/>
+	<oaf_attribute name="description-hu" type="string" value="File roller komponens"/>
+	<oaf_attribute name="description-id" type="string" value="Komponen file roller"/>
+	<oaf_attribute name="description-is" type="string" value="File roller íhlutur"/>
+	<oaf_attribute name="description-it" type="string" value="Componente di File Roller"/>
+	<oaf_attribute name="description-ja" type="string" value="ファイル圧縮コンポーネント"/>
+	<oaf_attribute name="description-ko" type="string" value="파일 롤러 컴포넌트"/>
+	<oaf_attribute name="description-lt" type="string" value="File roller komponentas"/>
+	<oaf_attribute name="description-lv" type="string" value="File roller komponents"/>
+	<oaf_attribute name="description-mk" type="string" value="Компоненти на Отворувач на Датотека"/>
+	<oaf_attribute name="description-ml" type="string" value="ഫയല് റോളര് ഘടകം"/>
+	<oaf_attribute name="description-mn" type="string" value="Файл бүртгэгч бүрэлдэхүүн"/>
+	<oaf_attribute name="description-ms" type="string" value="Komponen File Roller"/>
+	<oaf_attribute name="description-nl" type="string" value="File roller component"/>
+	<oaf_attribute name="description-nn" type="string" value="File Roller-komponent"/>
+	<oaf_attribute name="description-no" type="string" value="Filknuser-komponent"/>
+	<oaf_attribute name="description-pa" type="string" value="ਫਾੲਿਲ ਰੋਲਰ ਭਾਗ"/>
+	<oaf_attribute name="description-pl" type="string" value="Komponent File Roller"/>
+	<oaf_attribute name="description-pt" type="string" value="Componente File roller"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Componente File Roller"/>
+	<oaf_attribute name="description-ro" type="string" value="o componentă File Roller"/>
+	<oaf_attribute name="description-ru" type="string" value="Компонент программы &quot;Файл Роллер&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Komponent File roller"/>
+	<oaf_attribute name="description-sl" type="string" value="Komponenta File roller"/>
+	<oaf_attribute name="description-sq" type="string" value="Komponent i file roller"/>
+	<oaf_attribute name="description-sr" type="string" value="File roller компонента"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="File roller komponenta"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="File roller компонента"/>
+	<oaf_attribute name="description-sv" type="string" value="File roller-komponent"/>
+	<oaf_attribute name="description-ta" type="string" value="கோப்பு சுழற்றி பகுதி"/>
+	<oaf_attribute name="description-th" type="string" value="องค์ประกอบตัวจัดเก็บแฟ้ม"/>
+	<oaf_attribute name="description-tr" type="string" value="File roller bileşeni"/>
+	<oaf_attribute name="description-uk" type="string" value="Компонент &quot;Файлового млина&quot;"/>
+	<oaf_attribute name="description-vi" type="string" value="Thành phần File Roller"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="压缩文件管理器组件"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="File roller 的元件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="File roller 的元件"/>
+        <oaf_attribute name="bonobo:supported_uri_schemes" type="stringv">
+                <item value="file"/>
+        </oaf_attribute>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="application/x-tar"/>
+		<item value="application/x-compressed-tar"/>
+		<item value="application/x-bzip-compressed-tar"/>
+		<item value="application/x-lzop-compressed-tar"/>
+		<item value="application/zip"/>
+		<item value="application/x-arj"/>
+		<item value="application/x-zip"/>
+		<item value="application/x-lha"/>
+		<item value="application/x-rar"/>
+		<item value="application/x-rar-compressed"/>
+		<item value="application/x-gzip"/>
+		<item value="application/x-bzip"/>
+		<item value="application/x-compress"/>
+		<item value="application/x-lzop"/>
+		<item value="application/x-zoo"/>
+		<item value="application/x-jar"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:context_menu_handler" type="boolean" value="true"/>
+	<oaf_attribute name="nautilus:can_handle_multiple_files" type="boolean" value="true"/>
+	<oaf_attribute name="nautilusverb:ExtractHere" type="string" value="Extract Here"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-am" type="string" value="ወደዚህ አውጣ"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ar" type="string" value="استخراج هنا"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-az" type="string" value="Buraya Aç"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-be" type="string" value="Распакаваць сюды"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-bn" type="string" value="বর্তমান জায়গায় নিষ্কাশন করো"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ca" type="string" value="Extreu ací"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-cs" type="string" value="Rozbalit sem"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-cy" type="string" value="Echdynnu Yma"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-da" type="string" value="Udpak her"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-de" type="string" value="Hier entpacken"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-el" type="string" value="Αποσυμπίεση εδώ"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-en_CA" type="string" value="Extract Here"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-en_GB" type="string" value="Extract Here"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-es" type="string" value="Extraer aquí"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-et" type="string" value="Paki siia lahti"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-eu" type="string" value="Atera hemen"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-fi" type="string" value="Pura tähän"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-fr" type="string" value="Extraire ici"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-gu" type="string" value="અંહિ પેટીનો અર્ક કાઢો"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-he" type="string" value="חלץ כאן"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-hr" type="string" value="Otpakiraj ovdje"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-hu" type="string" value="Kicsomagolás ide"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-is" type="string" value="Afþjappa Hér"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-it" type="string" value="Estrai qui"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ja" type="string" value="ここに抽出"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ko" type="string" value="여기에 풀기"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-lt" type="string" value="Išskleisti čia"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-lv" type="string" value="Atspiest Šeit"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-mk" type="string" value="Отпакувај Овде"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ml" type="string" value="ഇവിടെ വലിച്ചിടുക"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-mn" type="string" value="Энд задлах"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ms" type="string" value="Ekstrak Sini"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-nl" type="string" value="Hier uitpakken"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-nn" type="string" value="Pakk ut her"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-no" type="string" value="Pakk ut her"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-pa" type="string" value="ੲਿਥੇ ਖੋਲੋ੏"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-pl" type="string" value="Wydobądź tutaj"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-pt" type="string" value="Extrair Aqui"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-pt_BR" type="string" value="Extrair Aqui"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ro" type="string" value="Dezarhiveaza aici"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ru" type="string" value="Распаковать сюда"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sk" type="string" value="Rozbaliť sem"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sl" type="string" value="Odpakiraj sem"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sq" type="string" value="Hape këtu"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sr" type="string" value="Распакуј овде"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sr@Latn" type="string" value="Raspakuj ovde"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sr@ije" type="string" value="Распакуј овдје"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-sv" type="string" value="Packa upp här"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-ta" type="string" value="இங்கு பிரிக்கவும்"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-th" type="string" value="คัดลอกออกมาที่นี่"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-tr" type="string" value="Buraya Aç"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-uk" type="string" value="Розпакувати сюди"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-zh_CN" type="string" value="解压缩到这里"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-zh_HK" type="string" value="在此解壓縮"/>
+	<oaf_attribute name="nautilusverb:ExtractHere-zh_TW" type="string" value="在此解壓縮"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:File_Roller_Component_Add"
+	type="shlib" location="/usr/lib/bonobo/libfile-roller-component.so">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Listener:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="File Roller Component add operations"/>
+	<oaf_attribute name="name-ar" type="string" value="عمليات اضافة مكونات فايل رلا"/>
+	<oaf_attribute name="name-az" type="string" value="Fayl Roller Tərkib hissəsi və əməliyyatlar"/>
+	<oaf_attribute name="name-be" type="string" value="Кампанэнт дзеяньняў даданьня праграмы &quot;Укатчык файлаў&quot;"/>
+	<oaf_attribute name="name-bn" type="string" value="ফাইল রোলার কম্পোনেন্ট সংযোজন করার মাধ্যম"/>
+	<oaf_attribute name="name-ca" type="string" value="Component de File Roller d&apos;operacions d&apos;afegiment"/>
+	<oaf_attribute name="name-cs" type="string" value="Komponenta operací přidání File Roller"/>
+	<oaf_attribute name="name-cy" type="string" value="Gweithrediadau ychwanegu&apos;r Gydran File Roller"/>
+	<oaf_attribute name="name-da" type="string" value="Tilføjningshandlinger til Filpakker-komponenten"/>
+	<oaf_attribute name="name-de" type="string" value="Hinzufügen-Vorgänge der File Roller-Komponente"/>
+	<oaf_attribute name="name-el" type="string" value="Εργασίες προσθήκης στοιχείου File Roller"/>
+	<oaf_attribute name="name-en_CA" type="string" value="File Roller Component add operations"/>
+	<oaf_attribute name="name-en_GB" type="string" value="File Roller Component add operations"/>
+	<oaf_attribute name="name-es" type="string" value="Componente de operaciones de adición File Roller"/>
+	<oaf_attribute name="name-et" type="string" value="File Rolleri komponendi lisamise tegevused"/>
+	<oaf_attribute name="name-eu" type="string" value="Gehitze eragiketetako File Roller osagaia"/>
+	<oaf_attribute name="name-fi" type="string" value="Tiedostokäärinkomponentin lisäämistoiminnot"/>
+	<oaf_attribute name="name-fr" type="string" value="Composant File Roller - Ajout"/>
+	<oaf_attribute name="name-gu" type="string" value="ફાઇલ રોલરમાં અવયવો ઉમેરવાની પ્રક્રિયા"/>
+	<oaf_attribute name="name-he" type="string" value="פעולות הוספה עם רכיב גלגלן הקבצים"/>
+	<oaf_attribute name="name-hr" type="string" value="Operacije dodavanja za File Roller komponentu"/>
+	<oaf_attribute name="name-hu" type="string" value="File Roller komponens hozzáadási műveletek"/>
+	<oaf_attribute name="name-id" type="string" value="Komponen File Roller operasi tambah"/>
+	<oaf_attribute name="name-is" type="string" value="Skráarviðbætur File Roller íhluts"/>
+	<oaf_attribute name="name-it" type="string" value="Componente di File Roller per operazioni di aggiunta"/>
+	<oaf_attribute name="name-ja" type="string" value="ファイルローラーコンポーネント追加操作"/>
+	<oaf_attribute name="name-ko" type="string" value="파일 롤러 컴포넌트 만들기 동작"/>
+	<oaf_attribute name="name-lt" type="string" value="File Roller Komponento pridėjimo operacijos"/>
+	<oaf_attribute name="name-lv" type="string" value="File Roller Komponenta pievienošanas operācijas"/>
+	<oaf_attribute name="name-mk" type="string" value="Компоненти и операции на Отворувач на Датотека"/>
+	<oaf_attribute name="name-mn" type="string" value="Файл Бүртгэгчид бүрэлдэхүүн нэмэх үйлдэл"/>
+	<oaf_attribute name="name-ms" type="string" value="Operasi penambahan Komponen File Roller"/>
+	<oaf_attribute name="name-nl" type="string" value="File Roller Component inpak handelingen"/>
+	<oaf_attribute name="name-nn" type="string" value="File Roller-komponent, operasjonar for tillegg"/>
+	<oaf_attribute name="name-no" type="string" value="Filknuser-komponent, operasjoner for tillegg"/>
+	<oaf_attribute name="name-pa" type="string" value="ਫਾੲਿਲ ਰੋਲਰ ਭਾਗ ਜੋੜਨ ਕਾਰਵਾੲੀ"/>
+	<oaf_attribute name="name-pl" type="string" value="Komponent File Roller - operacje dodawania"/>
+	<oaf_attribute name="name-pt" type="string" value="Operações de adição do Componente File Roller"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Operações de adição de Componente File Roller"/>
+	<oaf_attribute name="name-ro" type="string" value="fişier de adăugat într-o arhivă File Roller"/>
+	<oaf_attribute name="name-ru" type="string" value="Компонент операций добавления программы &quot;Файл Роллер&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Operácie pridania komponentu File Roller"/>
+	<oaf_attribute name="name-sl" type="string" value="Operacija dodajanja komponente File roller"/>
+	<oaf_attribute name="name-sq" type="string" value="Komponenti i operacioneve të shtimit"/>
+	<oaf_attribute name="name-sr" type="string" value="Операције додавања за File Roller компоненту"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Operacije dodavanja za File Roller komponentu"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Операције додавања за File Roller компоненту"/>
+	<oaf_attribute name="name-sv" type="string" value="Tilläggningsåtgärder för File Roller-komponenten"/>
+	<oaf_attribute name="name-ta" type="string" value="கோப்பு சுழற்றி பகுதி சேர்ப்பு செயல்கள்"/>
+	<oaf_attribute name="name-th" type="string" value="ปฏิบัติการเพิ่มของตัวจัดเก็บแฟ้ม"/>
+	<oaf_attribute name="name-tr" type="string" value="File Roller Bileşen ekleme işlemleri"/>
+	<oaf_attribute name="name-uk" type="string" value="Операції додавання компонента &quot;Файлового млина&quot;"/>
+	<oaf_attribute name="name-vi" type="string" value="Thành phần bổ sung chức năng File Roller"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="压缩文件管理器组件添加操作"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="File Roller 的元件新增操作"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="File Roller 的元件新增操作"/>
+	<oaf_attribute name="description" type="string" value="File roller component"/>
+	<oaf_attribute name="description-ar" type="string" value="مكون فايل رلا"/>
+	<oaf_attribute name="description-az" type="string" value="Fayl Roller Tərkib hissəsi"/>
+	<oaf_attribute name="description-be" type="string" value="Кампанэнт праграмы &quot;Укатчык файлаў&quot;"/>
+	<oaf_attribute name="description-bg" type="string" value="Компонент на File Roller"/>
+	<oaf_attribute name="description-bn" type="string" value="ফাইল রোলার কম্পোনেন্ট"/>
+	<oaf_attribute name="description-ca" type="string" value="Component de File roller"/>
+	<oaf_attribute name="description-cs" type="string" value="Komponenta File Roller"/>
+	<oaf_attribute name="description-cy" type="string" value="Cydran File Roller"/>
+	<oaf_attribute name="description-da" type="string" value="Filpakker-komponent"/>
+	<oaf_attribute name="description-de" type="string" value="File Roller-Komponente"/>
+	<oaf_attribute name="description-el" type="string" value="Στοιχείο File roller "/>
+	<oaf_attribute name="description-en_CA" type="string" value="File roller component"/>
+	<oaf_attribute name="description-en_GB" type="string" value="File roller component"/>
+	<oaf_attribute name="description-es" type="string" value="Componente de File Roller"/>
+	<oaf_attribute name="description-et" type="string" value="File Roller komponent"/>
+	<oaf_attribute name="description-eu" type="string" value="File Roller osagaia"/>
+	<oaf_attribute name="description-fi" type="string" value="Tiedostokäärinkomponentti"/>
+	<oaf_attribute name="description-fr" type="string" value="Composant File Roller"/>
+	<oaf_attribute name="description-gu" type="string" value="ફાઇલ રોલર અવયવ"/>
+	<oaf_attribute name="description-he" type="string" value="רכיב גלגלן הקבצים"/>
+	<oaf_attribute name="description-hr" type="string" value="File roller komponenta"/>
+	<oaf_attribute name="description-hu" type="string" value="File roller komponens"/>
+	<oaf_attribute name="description-id" type="string" value="Komponen file roller"/>
+	<oaf_attribute name="description-is" type="string" value="File roller íhlutur"/>
+	<oaf_attribute name="description-it" type="string" value="Componente di File Roller"/>
+	<oaf_attribute name="description-ja" type="string" value="ファイル圧縮コンポーネント"/>
+	<oaf_attribute name="description-ko" type="string" value="파일 롤러 컴포넌트"/>
+	<oaf_attribute name="description-lt" type="string" value="File roller komponentas"/>
+	<oaf_attribute name="description-lv" type="string" value="File roller komponents"/>
+	<oaf_attribute name="description-mk" type="string" value="Компоненти на Отворувач на Датотека"/>
+	<oaf_attribute name="description-ml" type="string" value="ഫയല് റോളര് ഘടകം"/>
+	<oaf_attribute name="description-mn" type="string" value="Файл бүртгэгч бүрэлдэхүүн"/>
+	<oaf_attribute name="description-ms" type="string" value="Komponen File Roller"/>
+	<oaf_attribute name="description-nl" type="string" value="File roller component"/>
+	<oaf_attribute name="description-nn" type="string" value="File Roller-komponent"/>
+	<oaf_attribute name="description-no" type="string" value="Filknuser-komponent"/>
+	<oaf_attribute name="description-pa" type="string" value="ਫਾੲਿਲ ਰੋਲਰ ਭਾਗ"/>
+	<oaf_attribute name="description-pl" type="string" value="Komponent File Roller"/>
+	<oaf_attribute name="description-pt" type="string" value="Componente File roller"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Componente File Roller"/>
+	<oaf_attribute name="description-ro" type="string" value="o componentă File Roller"/>
+	<oaf_attribute name="description-ru" type="string" value="Компонент программы &quot;Файл Роллер&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Komponent File roller"/>
+	<oaf_attribute name="description-sl" type="string" value="Komponenta File roller"/>
+	<oaf_attribute name="description-sq" type="string" value="Komponent i file roller"/>
+	<oaf_attribute name="description-sr" type="string" value="File roller компонента"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="File roller komponenta"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="File roller компонента"/>
+	<oaf_attribute name="description-sv" type="string" value="File roller-komponent"/>
+	<oaf_attribute name="description-ta" type="string" value="கோப்பு சுழற்றி பகுதி"/>
+	<oaf_attribute name="description-th" type="string" value="องค์ประกอบตัวจัดเก็บแฟ้ม"/>
+	<oaf_attribute name="description-tr" type="string" value="File roller bileşeni"/>
+	<oaf_attribute name="description-uk" type="string" value="Компонент &quot;Файлового млина&quot;"/>
+	<oaf_attribute name="description-vi" type="string" value="Thành phần File Roller"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="压缩文件管理器组件"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="File roller 的元件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="File roller 的元件"/>
+       <oaf_attribute name="bonobo:supported_uri_schemes" type="stringv">
+                <item value="file"/>
+        </oaf_attribute>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="*/*"/>
+	</oaf_attribute>
+	<oaf_attribute name="nautilus:context_menu_handler" type="boolean" value="true"/>
+	<oaf_attribute name="nautilus:can_handle_multiple_files" type="boolean" value="true"/>
+	<oaf_attribute name="nautilusverb:AddToArchive" type="string" value="Create Archive..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-ar" type="string" value="إنشاء محفوظة..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-az" type="string" value="Arxiv Yarat..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-be" type="string" value="Стварэньне архіва..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-ca" type="string" value="Crea un _arxiu..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-cs" type="string" value="Vytvořit archiv..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-cy" type="string" value="Creu Archif..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-da" type="string" value="Opret arkiv..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-de" type="string" value="Archiv erstellen..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-el" type="string" value="Δημιουργία συμπιεσμένου αρχείου..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-en_CA" type="string" value="Create Archive..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-en_GB" type="string" value="Create Archive..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-es" type="string" value="Crear contenedor..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-fi" type="string" value="Luo arkisto..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-fr" type="string" value="Créer une archive..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-hr" type="string" value="Stvori arhivu..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-hu" type="string" value="Archívum létrehozása..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-is" type="string" value="Stofna skráarsafn..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-it" type="string" value="Crea archivio..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-ja" type="string" value="アーカイブの作成..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-ko" type="string" value="압축 파일 만들기..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-lt" type="string" value="Sukurti archyvą..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-mn" type="string" value="Архив Үүсгэх..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-nl" type="string" value="_Nieuw archief maken"/>
+	<oaf_attribute name="nautilusverb:AddToArchive-nn" type="string" value="Lag arkiv ..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-no" type="string" value="Opprett arkiv..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-pt" type="string" value="Criar Arquivo..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-pt_BR" type="string" value="Criar arquivo compactado..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-ro" type="string" value="Creează arhivă..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sk" type="string" value="Vytvoriť archív..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sq" type="string" value="Krijo një Arkiv..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sr" type="string" value="Направи _архиву..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sr@Latn" type="string" value="Napravi _arhivu..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sr@ije" type="string" value="Направи архиву..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-sv" type="string" value="Skapa arkiv..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-th" type="string" value="สร้างแฟ้มจัดเก็บ..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-tr" type="string" value="Arşiv Oluştur..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-uk" type="string" value="Створити архів..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-zh_CN" type="string" value="创建归档文件..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-zh_HK" type="string" value="建立壓縮檔..."/>
+	<oaf_attribute name="nautilusverb:AddToArchive-zh_TW" type="string" value="建立壓縮檔..."/>
+</oaf_server>
+
+</oaf_info>

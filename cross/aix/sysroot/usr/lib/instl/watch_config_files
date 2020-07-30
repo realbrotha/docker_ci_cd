@@ -1,0 +1,154 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/sbin/install/scripts/watch_config_files.sh 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2004 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+if [ -n "$INST_DEBUG" ]; then
+   set -x
+fi
+
+BACKUP_DIR=/var/adm/config
+OUTFILE=/var/adm/ras/config.diff
+CHECKLIST=/tmp/check_config.files
+PID=$$
+
+if [ ! -f "/etc/check_config.files" ]; then
+   return 0
+fi
+
+BEFORE=0
+while getopts "bB" OPTION
+do
+   case $OPTION in
+      b) BEFORE=1;;
+      B) BEFORE=1;;
+      *) BEFORE=0
+   esac
+done
+
+## -----------------------------
+##  "Establish baselines" phase
+## -----------------------------
+if [ $BEFORE -eq 1 ]; then
+   if [ ! -d "$BACKUP_DIR" ]; then
+      /usr/bin/mkdir -p $BACKUP_DIR 2>/dev/null
+      if [ $? -ne 0 ]; then
+         /usr/bin/dspmsg -s 3 cmdinstl_e.cat 34 \
+"0503-028 %1$s:  Cannot create the directory %2$s.\n\
+\tCheck permissions and available space.\n" geninstall $BACKUP_DIR
+         return 0
+      else
+         /usr/bin/chmod 700 $BACKUP_DIR 2>/dev/null
+      fi
+   fi
+
+   ## Strip out all comment lines, and default
+   ## all path-only lines to "delete when done"
+   cat /etc/check_config.files | egrep -v "^#" | \
+       sed s/^"\/"/"d \/"/g > $CHECKLIST
+
+   while read line; do
+      CFGFILE=`echo $line | /usr/bin/awk '{print $2}'`
+      if [[ -f $CFGFILE ]]; then
+         SAVEPATH=`dirname $CFGFILE`
+         if [ ! -d ${BACKUP_DIR}${SAVEPATH} ]; then
+            /usr/bin/mkdir -p ${BACKUP_DIR}${SAVEPATH} 2>/dev/null
+            if [ $? -ne 0 ]; then
+               /usr/bin/dspmsg -s 3 cmdinstl_e.cat 34 \
+"0503-028 %1$s:  Cannot create the directory %2$s.\n\
+\tCheck permissions and available space.\n" geninstall $BACKUP_DIR
+               return 0
+            fi
+         fi
+
+         RC=0
+         if [ -f ${CFGFILE} ] && [ -f ${BACKUP_DIR}${CFGFILE} ]; then
+            /usr/bin/cmp -s ${BACKUP_DIR}${CFGFILE} ${CFGFILE} 2>/dev/null
+            RC=$?
+         else
+            RC=1
+         fi
+
+         ## If we already have both "real" and "backup" files, and
+         ## they're the same, we don't need to re-process them
+         if [ $RC -ne 0 ]; then
+            ## If different backup file exists, rename with $PID
+            if [ -f ${BACKUP_DIR}${CFGFILE} ]; then
+               /usr/bin/mv ${BACKUP_DIR}${CFGFILE} ${BACKUP_DIR}${CFGFILE}.${PID}
+            fi
+            ## Make a backup of the file we're watching
+            /usr/bin/cp -fp $CFGFILE ${BACKUP_DIR}${SAVEPATH} 2>/dev/null
+         fi
+      fi
+   done < $CHECKLIST
+
+   rm -f $CHECKLIST 2>/dev/null
+
+else
+   ## ---------------------------------
+   ##  We must be in the "AFTER" phase
+   ## ---------------------------------
+   NUM_MODS=0
+   ## Rename an existing /var/adm/ras/config.diff file
+   if [ -f $OUTFILE ]; then
+      /usr/bin/mv $OUTFILE ${OUTFILE}.${PID}
+   fi
+
+   ## Strip out all comment lines, and default
+   ## all path-only lines to "delete when done"
+   cat /etc/check_config.files | egrep -v "^#" | \
+       sed s/^"\/"/"d \/"/g > $CHECKLIST
+
+   while read line; do
+      SAVE_OR_DEL=`echo $line | /usr/bin/awk '{print $1}'`
+      CFGFILE=`echo $line | /usr/bin/awk '{print $2}'`
+      if [[ ! -f $CFGFILE ]] || [[ ! -f ${BACKUP_DIR}${CFGFILE} ]]; then
+         continue
+      fi
+      /usr/bin/cmp -s ${BACKUP_DIR}${CFGFILE} ${CFGFILE} 2>/dev/null
+      if [ $? -ne 0 ]; then
+         let NUM_MODS=$NUM_MODS+1
+         if [ $NUM_MODS -eq 1 ]; then
+            echo
+         fi
+         dspmsg -s 22 cmdinstl_e 4 "File $CFGFILE has been modified.\n" $CFGFILE
+         echo "=======================================================================" >> $OUTFILE
+         echo "\t${CFGFILE}" >> $OUTFILE
+         if [ $SAVE_OR_DEL = "s" ] || [ $SAVE_OR_DEL = "S" ]; then
+            MESG=`dspmsg -s 22 cmdinstl_e 2 \
+            "The original file was saved to ${BACKUP_DIR}${CFGFILE}.\n" \
+            ${BACKUP_DIR}${CFGFILE}`
+            echo "\t$MESG" >> $OUTFILE
+         elif [ $SAVE_OR_DEL = "d" ] || [ $SAVE_OR_DEL = "D" ]; then
+            MESG=`dspmsg -s 22 cmdinstl_e 3 "The original file was not saved.\n"`
+            echo "\t$MESG" >> $OUTFILE
+         fi
+         /usr/bin/diff ${BACKUP_DIR}${CFGFILE} ${CFGFILE} >> $OUTFILE
+      fi
+      if [ $SAVE_OR_DEL = "d" ] || [ $SAVE_OR_DEL = "D" ]; then
+         rm -f ${BACKUP_DIR}${CFGFILE} 2>/dev/null
+      fi
+   done < $CHECKLIST
+   if [ $NUM_MODS -gt 0 ]; then
+      echo
+      dspmsg -s 22 cmdinstl_e 1 \
+"One or more of the files listed in /etc/check_config.files have changed.\n \
+\tSee /var/adm/ras/config.diff for details.\n"
+   fi
+   rm -f $CHECKLIST 2>/dev/null
+   return $NUM_MODS
+fi
+
+return 0

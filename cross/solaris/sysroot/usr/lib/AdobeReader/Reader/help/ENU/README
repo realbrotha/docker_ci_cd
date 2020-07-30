@@ -1,0 +1,353 @@
+July 27, 2005
+Adobe® Reader® for UNIX® Read Me
+
+Welcome to the Adobe® Reader® 7.0 Read Me.
+
+Adobe Reader 7.0 is the free viewing companion to Adobe Acrobat 7.0.
+Adobe Reader lets you view, navigate and print Portable Document Format 
+(PDF) files. Adobe Acrobat 7.0 is a complete solution for creating, 
+enhancing, reviewing, editing, and sharing information in PDF. 
+
+To learn more about Adobe Acrobat 7.0, visit 
+http://www.adobe.com/products/acrobat 
+ 
+This Read Me contains information on:
+System Requirements 
+
+Installation Instructions 
+ 
+Troubleshooting Issues
+ 
+Keyboard Shortcuts
+
+
+System Requirements:
+====================
+
+System Requirements for Adobe Reader 7.0 for Solaris®
+- Solaris SPARC processor 
+- GLIBC version 2.3 or higher
+- 128 MB of RAM (256 recommended) 
+- 140 MB of available hard disk space 
+- Additional 40 MB of hard-disk space for Asian fonts (optional) 
+- Supported Solaris Distributions:
+	o Solaris 8 operating system (SPARC platform)
+	o Solaris 9 operating system (SPARC platform)
+	o Solaris 10 operating system (SPARC platform)
+
+Web Browser Support
+PDF files may be viewed within the following browsers:
+	o Mozilla 1.7.3
+	o Netscape 7
+
+
+Installation Instructions:
+==========================
+ 
+Installing and Uninstalling Adobe Reader 7.0 for Solaris 
+ 
+To install Adobe Reader 7.0, follow these steps: 
+ 
+- Tarball Installer:
+	1. Make sure you have at least 140 MB of available disk space 
+	2. Run "gunzip AdbeRdr70_solaris_enu.tar.gz" followed by "tar -xvf AdbeRdr70_solaris_enu.tar"
+	3. Run the "INSTALL" script in the "AdobeReader" directory thus 
+	created
+ 
+	To uninstall Adobe Reader 7.0, simply delete the directory 
+	where it was installed. 
+
+Installation of the Browser plugin (not done by default):
+- To install the browser plugin, you would need to execute the script
+  "<INSTALL_PATH>/Browser/install_browser_plugin". Before doing so,
+  please go through "<INSTALL_PATH>/Browser/Browser_Plugin_HowTo.txt" 
+  for details.
+
+
+Installation Issues
+
+Adobe Reader requires libstdc++.so.5. Some systems might not have it
+installed by default. To fix this, you need to install the 
+compat-libstdc++ package.
+
+
+Troubleshooting Issues:
+=======================
+
+PPKLite.api Failed to Load
+PPKLite requires the OpenLDAP package to be installed on the system,
+and fails to initialize in its absence. If you get this error when 
+acroread starts up, you will need to install the LDAP libraries 
+(OpenLDAP package).  If PPKLite still fails to load, make a link to the 
+installed libldap.so.X and liblber.so.X in 
+<INSTALL_PATH>/Reader/sparcsolaris/lib with the names 'libldap.so' and 
+'liblber.so'. [1132741]
+
+Mutt Does Not Launch
+Selecting 'mutt' as the preferred email client requires the presence of
+'xterm' in your PATH. If mutt fails to launch when you try to send an email
+from the Adobe Reader, please make sure xterm exists in your PATH. [1184354]
+
+Some System Fonts do not display in Document/Properties Window/Toolbar
+Adobe Reader searches for system fonts in the directory list specified 
+in the PSRESOURCEPATH environment variable, in addition to some 
+predefined system directories.  If your system has several additional 
+font directories which Adobe Reader may not be searching, you can add 
+those directories to the PSRESOURCEPATH environment variable before 
+launching Adobe Reader.  If the required fonts are not embedded in the
+document, checking the Document > Use Local Fonts option, Adobe
+Reader shall pick up the fonts from the system as specified by the
+PSRESOURCEPATH variable.
+
+CJK Text Display of bolded text when magnification is applied 
+Some CJK bolded characters may be blurred if the original application 
+created the bolded text with synthetic bolding. If the Smooth Text and 
+Use CoolType preferences in the Page Display preference panel are turned 
+off, when the document is magnified you may see some white areas or 
+cracks. Acrobat 4.x writes a character four times to achieve bolding, 
+and for some documents, such text may appear as four lines of text 
+instead of appearing as bold text. In Acrobat 5.0, synthetic bolding is 
+used. Adobe recommends turning on the Smooth Text and Use 
+CoolType preferences in the Display preference panel to avoid seeing 
+white areas or cracks when the bolded text is magnified. [418447]  
+ 
+Find Dialog - Using Find to Locate Unicode Characters 
+You can use Find to locate Unicode characters within a PDF 
+document. To do this, add a "\u" in front of the Unicode character for 
+which you want to search. For example, to search for the Unicode 
+equivalent of the ASCII character "A" , enter "\u0041" in the Find 
+dialog. For some CJK characters, such as Unicode "4e01", you can 
+specify "\u4e01". [413632] 
+  
+Stretching/Skewing of Page Text on some systems
+You may face some stretching/skewing effect on the page display on 
+certain systems.  This problem can be resolved by going to Edit > 
+Preference > Page Display tab, and setting the "Custom Resolution" to 
+the currently displayed System setting. [1154513]
+
+Search does not complete for socket files
+If the specified search path contains a socket file (typical paths are 
+/tmp or $HOME), the search will not complete.  Make sure that the 
+specified path contains only regular files, and no socket files.
+[1148788]
+
+Sending Mail Using Mutt
+If a terminal window flashes and disappears when the selected email 
+client is mutt, adding the line "set autoedit=no" to $HOME/.muttrc
+would enable sending mail using mutt. [1117619]
+
+Evolution Crashes on Sending Mail
+This happens with earlier versions of evolution. If evolution crashes on
+sending mail (when Evolution is the selected Email client), try keeping
+evolution running in the background. If it still crashes, please upgrade 
+to evolution 2.0 or later.  You might need to keep it running in the
+background. [1087494]
+
+Accessibility is Not Active
+The Adobe Reader checks the gconf registry to find if accessibility 
+support is enabled on a system. If gconftool-2 is not available on a 
+system, accessibility support is turned off in the Reader. If your 
+system does not have gconftool-2 and you wish to use the accessibility 
+features of Adobe Reader, change the line 'ACRO_AT_ACTIVE="false"' to 
+'ACRO_AT_ACTIVE="true"' in the file <INSTALL_PATH>/bin/acroread, in the 
+block 'if [ "$IS_GCONF_TOOL" = "no" ]' near the end of the file.
+[1161246]
+
+Enabling Document Accessibility
+1. Turn on accessibility support on your system using gconf-editor or 
+gconftool-2 to set the key /desktop/gnome/interface/accessibility to 
+true.
+2. Enable the keyboard selection cursor (F7 toggles the cursor. It can 
+also be enabled through "Edit -> Preferences -> Accessibility -> Always 
+display the keyboard selection cursor").
+3. Check the option "Edit -> Preferences -> Reading -> Enable document 
+accessibility".
+
+Hong Kong Character Set and Comments and Bookmarks 
+Acrobat Reader 5.0 supports the Hong Kong character set for text in a 
+PDF file. It is an extension to the Adobe Chinese Traditional character 
+set. If you would like to view PDF files that contain text using the 
+Hong Kong character set, please install support for the Chinese 
+Traditional character by installing the Chinese Traditional Language 
+Pack. Since the Hong Kong character set is not part of the standard 
+system fonts you will not be able to comment or create bookmarks using 
+Hong Kong characters. [407877] 
+   
+Adobe Reader Needs Access to pwd 
+Adobe Reader will not run correctly from a directory where the "pwd" 
+command fails.
+
+Removing Previous Preferences
+We recommend you remove the file $HOME/.acrorc and the directory 
+$HOME/.adobe (if they exist) before running Adobe Reader 7.0 for the 
+first time.  This ensures the default preference settings are used when 
+you first run Adobe Reader. This is not, however, a necessity, and may 
+actually be undesirable if you wish to continue running older versions 
+of Adobe Reader.
+
+Recent Files Names 
+Files listed in the File menu are "recent files" and depend upon exact 
+path names. If you open a file in a session using automounter and the 
+automounter goes down, attempting to open the "recent file" will give a 
+"No such file or directory" error.  This also occurs when the file is 
+moved, renamed, or Reader is run from a different machine that does 
+not have the same file systems mounted.
+
+Prevent Temporary Files from Showing Up in Recent File List 
+To prevent temporary files (for instance opened from the Web) from 
+appearing in the "recent files" list, set your mailcap entry as follows:
+   
+    application/pdf;acroread -tempFile %s
+
+Writing the Preferences File 
+Adobe Reader does not warn the user when the preferences file cannot be 
+written.  Please make sure '$HOME/.adobe' is a writable directory if you 
+wish to save preferences.
+
+Window Managers 
+We have tested with KDE and GNOME environments.
+
+Printing Password-protected PDFs 
+Users cannot print password-protected PDF documents to PostScript from 
+the command line even though they are able to print the files from Adobe 
+Reader.
+
+Heterogenous File Server Environment 
+When operating in a heterogenous network environment using Novell 
+servers, we recommend you avoid giving PDF files long names (greater 
+than 32 characters). A Novell® server displays the long file name to the 
+user of a Macintosh® computer, but MacOS® prevents Adobe Reader from 
+opening the file. This is not a problem on Windows.
+
+Command line help 
+At the command line, type 'acroread -help' or 'acroread -helpall' for 
+more information on command line options. Note that when using these 
+command lines you must still supply a DISPLAY variable if one is not 
+already defined in your environment. 
+
+Printing: no document printed and/or error in lp log 
+When you lp foo.ps, it creates a symbolic link from the spool file to 
+the foo.ps file.  This saves space on the file system.  Unfortunately, 
+Adobe Reader creates a temporary file to spool, writes the PostScript 
+out, and then deletes the temporary file before the lpd process can get 
+hold of it.  The solution is to include the "-c" option (copy) on the lp 
+or lpr command in the print dialog box.  This forces the lp process to 
+copy the file to the spool area instead of making a link.
+
+Adobe Reader Search 
+If you want to create full text search indexes that can be reliably used 
+across platforms, you must use ISO 9660 file naming conventions for 
+the indexed files (8.3 uppercase, restricted character set).  If you 
+don't use such names, the UNIX Reader will attempt to guess what the 
+Unix filenames are. This causes delays in searching, and may result in 
+the file not being found.
+
+Select Tool and Snapshot Tool
+The select tool can be used to select text in the document, and the 
+snapshot tool can be used to select some area in the page, which is 
+automatically copied to the clipboard.
+
+Cannot Submit Forms From Web Browsers if multiple instances are running
+Submitting forms on the web will not work if Netscape (or other Web 
+Browser) has warned you that it found a lock file in the .Netscape  
+folder. This warning (which occurs when you first launch Netscape) 
+usually means you have another copy of Netscape running. You may fix 
+this problem by insuring that only one copy of Netscape is running. If a 
+lock file is left around because of a Netscape crash, you may simply 
+delete the .Netscape/lock file.
+
+
+Keyboard Shortcuts:
+===================
+
+Hot Keys or Accelerators:
+Access menu bar with <ALT>, then one of these keys:
+f - File menu
+e - Edit menu
+v - View menu
+d - Document menu
+t - Tools menu
+w - Window menu
+h - Help menu
+
+Navigation Tools:
+Page Up for previous screen
+Page Down for next screen
+Left Arrow for previous page
+Right Arrow for next page
+Up Arrow to scroll up
+Down Arrow to scroll down
+CTRL L to show or hide full screen
+SHIFT CTRL N to go to a specific page
+
+Function Keys:
+F8 to show or hide toolbars
+
+Editing Documents:
+CTRL A to select all
+CTRL C to copy
+CTRL M to zoom to
+CTRL O to open
+CTRL P to print
+CTRL Q to quit
+CTRL W to close a document
+CTRL 0 to fit in window
+CTRL 1 to fit actual size
+CTRL 2 to fit width
+CTRL 3 to fit visible
+CTRL + to zoom in
+CTRL - to zoom out
+SHIFT CTRL A to unselect all
+SHIFT CTRL P for page setup
+SHIFT CTRL S for save as
+SHIFT CTRL + to rotate clockwise
+SHIFT CTRL - to rotate counterclockwise
+
+Document Accessibility
+F7 to toggle keyboard caret
+
+Searching:
+CTRL F to find
+SHIFT CTRL F to open Search Panel
+
+Document Information and Preferences:
+CTRL D to bring up document summary dialog box
+CTRL K to bring up General Preferences dialog box
+
+
+====================================================================== 
+Copyright © 1987-2005 Adobe Systems Incorporated and its 
+licensors. All rights reserved. Adobe, the Adobe logo, Acrobat, the 
+Acrobat logo, PostScript, and the PostScript logo are either registered 
+trademarks or trademarks of Adobe Systems Incorporated in the 
+United States and/or other countries. Distiller, Adobe Type Manager, 
+ATM, Illustrator, PageMaker, and Photoshop are trademarks of 
+Adobe Systems Incorporated.  Sun, Sun Microsystems, the Sun Logo, 
+and Solaris are trademarks or registered trademarks of Sun 
+Microsystems, Inc. in the United States and other countries.  All 
+SPARC trademarks are used under license and are trademarks or 
+registered trademarks of SPARC International, Inc. in the United 
+States and other countries.  Products bearing SPARC trademarks are 
+based upon an architecture developed by Sun Microsystems, Inc. 
+UNIX is a registered trademark in the United States and other 
+countries, licensed exclusively through X/Open Company Ltd.  X 
+Window System is a trademark of the Massachusetts Institute of 
+Technology. Linux is a registered trademark of Linus Torvalds.  Novell 
+is a registered trademark of Novell, Inc. Macintosh and MacOS is a 
+trademark of Apple Computer, Inc., registered in the United States and 
+other countries. NCD and PC-Xware are trademarks or registered 
+trademarks of Network Computing Devices, Inc. in the United States 
+and other countries.  STSong™ is a trademark of ChangZhou SinoType 
+Technology Co., Ltd.
+All other trademarks are the property of their respective owners.  
+The contents of this file are subject to the Mozilla Public License 
+Version 1.1 (the "License"); you may not use this file except in 
+compliance with the License. You may obtain a copy of the License at 
+http://www.mozilla.org/MPL.This file has not been modified by Adobe 
+and Source code may be found at http://www.mozilla.org/source.html. 
+The Original Code is Mozilla Communicator client code, released 
+March 31, 1998.The Initial Developer of the Original Code is 
+Netscape Communications Corporation. Portions created by Netscape 
+are Copyright © 1998 Netscape Communications Corporation. All 
+Rights Reserved. 
+=======================================================================

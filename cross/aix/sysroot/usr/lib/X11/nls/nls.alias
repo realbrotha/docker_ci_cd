@@ -1,0 +1,135 @@
+# @(#)30	1.14  src/gos/2d/XTOP/lib/nls/Xibm/nls.alias, xlib, gos530 1/9/02 14:18:53
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/lib/nls/Xibm/nls.alias 1.14 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1987,1995 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+# COMPONENT_NAME: XLIB
+#
+# FUNCTIONS: nls.alias
+#
+# ORIGINS: 16,27,40
+#
+# (C) COPYRIGHT International Business Machines Corp. 1987,1996
+# All Rights Reserved
+# Licensed Materials - Property of IBM
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+# to resolve full locale name from abbrev locale name.
+# file format;
+#  abbrev-name full-name
+#
+# number of aliases
+#
+106
+#
+# standard locale ... 44
+#
+ar_AA           ar_AA.ISO8859-6
+bg_BG           bg_BG.ISO8859-5
+ca_ES           ca_ES.ISO8859-1
+cs_CZ           cs_CZ.ISO8859-2
+da_DK           da_DK.ISO8859-1
+de_CH           de_CH.ISO8859-1
+de_DE           de_DE.ISO8859-1
+el_GR           el_GR.ISO8859-7
+en_GB           en_GB.ISO8859-1
+en_JP           en_JP.IBM-eucJP
+en_KR           en_KR.IBM-eucKR
+en_TW           en_TW.IBM-eucTW
+en_US           en_US.ISO8859-1
+es_ES           es_ES.ISO8859-1
+fi_FI           fi_FI.ISO8859-1
+fr_BE           fr_BE.ISO8859-1
+fr_CA           fr_CA.ISO8859-1
+fr_FR           fr_FR.ISO8859-1
+fr_CH           fr_CH.ISO8859-1
+hr_HR           hr_HR.ISO8859-2
+hu_HU           hu_HU.ISO8859-2
+is_IS           is_IS.ISO8859-1
+it_IT           it_IT.ISO8859-1
+iw_IL           iw_IL.ISO8859-8
+ja_JP           ja_JP.IBM-eucJP
+ko_KR           ko_KR.IBM-eucKR
+mk_MK           mk_MK.ISO8859-5
+nl_BE           nl_BE.ISO8859-1
+nl_NL           nl_NL.ISO8859-1
+no_NO           no_NO.ISO8859-1
+pl_PL           pl_PL.ISO8859-2
+pt_BR           pt_BR.ISO8859-1
+pt_PT           pt_PT.ISO8859-1
+ro_RO           ro_RO.ISO8859-2
+ru_RU           ru_RU.ISO8859-5
+sh_SP           sh_SP.ISO8859-2
+sl_SI           sl_SI.ISO8859-2
+sk_SK           sk_SK.ISO8859-2
+sq_AL           sq_AL.ISO8859-1
+sr_SP           sr_SP.ISO8859-5
+sv_SE           sv_SE.ISO8859-1
+tr_TR           tr_TR.ISO8859-9
+zh_TW           zh_TW.IBM-eucTW
+zh_CN           zh_CN.IBM-eucCN
+#
+# IBM defined locale ... 27
+#
+Ar_AA           Ar_AA.IBM-1046
+En_JP           En_JP.IBM-932
+Et_EE           Et_EE.IBM-922
+Iw_IL           Iw_IL.IBM-856
+Ja_JP           Ja_JP.IBM-943
+Lt_LT           Lt_LT.IBM-921
+Lv_LV           Lv_LV.IBM-921
+Zh_TW           Zh_TW.big5
+Zh_CN           Zh_CN.GBK
+#
+# Unicode locale ... 5
+#
+ZH_CN           ZH_CN.UTF-8
+UNIVERSAL       UNIVERSAL.UTF-8
+ET_EE           ET_EE.UTF-8
+LT_LT           LT_LT.UTF-8
+LV_LV           LV_LV.UTF-8
+#
+# ISO8859-15 locales ... 29
+#
+ca_ES.8859-15           ca_ES.ISO8859-15
+da_DK.8859-15		da_DK.ISO8859-15
+de_CH.8859-15		de_CH.ISO8859-15
+de_DE.8859-15		de_DE.ISO8859-15
+en_AU			en_AU.ISO8859-15
+en_AU.8859-15		en_AU.ISO8859-15
+en_BE			en_BE.ISO8859-15
+en_BE.8859-15		en_BE.ISO8859-15
+en_GB.8859-15		en_GB.ISO8859-15
+en_US.8859-15		en_US.ISO8859-15
+en_ZA			en_ZA.ISO8859-15
+en_ZA.8859-15		en_ZA.ISO8859-15
+es_ES.8859-15		es_ES.ISO8859-15
+fi_FI.8859-15		fi_FI.ISO8859-15
+fr_BE.8859-15		fr_BE.ISO8859-15
+fr_CA.8859-15		fr_CA.ISO8859-15
+fr_CH.8859-15		fr_CH.ISO8859-15
+fr_FR.8859-15		fr_FR.ISO8859-15
+is_IS.8859-15		is_IS.ISO8859-15
+it_CH			it_CH.ISO8859-15
+it_CH.8859-15		it_CH.ISO8859-15
+it_IT.8859-15		it_IT.ISO8859-15
+nl_BE.8859-15		nl_BE.ISO8859-15
+nl_NL.8859-15		nl_NL.ISO8859-15
+no_NO.8859-15		no_NO.ISO8859-15
+pt_BR.8859-15           pt_BR.ISO8859-15
+pt_PT.8859-15		pt_PT.ISO8859-15
+sq_AL.8859-15           sq_AL.ISO8859-15
+sv_SE.8859-15		sv_SE.ISO8859-15

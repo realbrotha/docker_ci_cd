@@ -1,0 +1,6 @@
+.="ce PCS register structure"n
+./"control"18t"status"18t"anar"nX18tX18tX
++/"anlpar"18t"config"18t"state_mch"nX18tX18tX
++/"int_status"nX
+.+38/"datapath_mode"18t"serdes_control"18t"shared_output_sel"nX18tX18tX
++/"serdes_state"18t"pcs_pkt_cntr"nX18tX

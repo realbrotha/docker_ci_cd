@@ -1,0 +1,290 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:CircleItem_Factory" type="exe"
+	location="/usr/libexec/circle">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Test canvas item factory"/>
+	<oaf_attribute name="name-cs" type="string" value="Testovací plátno"/>
+	<oaf_attribute name="name-de" type="string" value="Testobjekt-Factory für Canvas-Elemente"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de elementos de área de dibujo de prueba"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;élément de canevas de test"/>
+	<oaf_attribute name="name-hu" type="string" value="Canves elem factory tesztelése"/>
+	<oaf_attribute name="name-it" type="string" value="Prova fabbrica dell&apos;elemento area di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="テストキャンバス項目ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="캔버스 항목 팩토리 테스트"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Testar gerador de item de tela"/>
+	<oaf_attribute name="name-sv" type="string" value="Testa fabrik för dukobjekt"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="测试画布项目工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="測試畫布項目 Factory"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="測試畫布項目 Factory"/>
+	<oaf_attribute name="description" type="string" value="Test object canvas item server factory"/>
+	<oaf_attribute name="description-cs" type="string" value="Testovací objekt canvas položky komponenty"/>
+	<oaf_attribute name="description-de" type="string" value="Testobjekt-Factory für Canvas-Serverelemente"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de servidores de elementos objeto de área de dibujo de prueba"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique de serveur d&apos;élément de canevas d&apos;objet de test"/>
+	<oaf_attribute name="description-hu" type="string" value="Objektum Canvas elem kiszolgáló factory tesztelése"/>
+	<oaf_attribute name="description-it" type="string" value="Prova fabbrica del server dell&apos;elemento area di lavoro dell&apos;oggetto"/>
+	<oaf_attribute name="description-ja" type="string" value="テストオブジェクトキャンバス項目サーバファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="개체 캔버스 항목 서버 팩토리 테스트"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Testar gerador de servidor de item de tela de objeto"/>
+	<oaf_attribute name="description-sv" type="string" value="Testa serverfabrik för dukobjekt"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="测试对象画布项目服务器工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="測試物件畫布項目伺服器 Factory"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="測試物件畫布項目伺服器 Factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:CircleItem" type="factory"
+	location="OAFIID:CircleItem_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Embeddable:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Test canvas item"/>
+	<oaf_attribute name="name-cs" type="string" value="Testovací plátno"/>
+	<oaf_attribute name="name-de" type="string" value="Testobjekt für Canvas-Elemente"/>
+	<oaf_attribute name="name-es" type="string" value="Elemento de área de dibujo de prueba"/>
+	<oaf_attribute name="name-fr" type="string" value="Élément de canevas de test"/>
+	<oaf_attribute name="name-hu" type="string" value="Canvas elem tesztelése"/>
+	<oaf_attribute name="name-it" type="string" value="Prova elemento area di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="テストキャンバス項目"/>
+	<oaf_attribute name="name-ko" type="string" value="캔버스 항목 테스트"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Testar item de tela"/>
+	<oaf_attribute name="name-sv" type="string" value="Testa dukobjekt"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="测试画布项目"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="測試畫布項目"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="測試畫布項目"/>
+	<oaf_attribute name="description" type="string" value="Test server canvas item component"/>
+	<oaf_attribute name="description-cs" type="string" value="Testovací server canvas položky komponenty"/>
+	<oaf_attribute name="description-de" type="string" value="Komponente für Testserver von Canvas-Elementen"/>
+	<oaf_attribute name="description-es" type="string" value="Componente elemento de área de dibujo servidor de prueba"/>
+	<oaf_attribute name="description-fr" type="string" value="Composant d&apos;élément de canevas de serveur de test"/>
+	<oaf_attribute name="description-hu" type="string" value="Kiszolgáló canvas elem komponens tesztelése"/>
+	<oaf_attribute name="description-it" type="string" value="Prova componente dell&apos;elemento area di lavoro del server"/>
+	<oaf_attribute name="description-ja" type="string" value="テストサーバキャンバス項目コンポーネント"/>
+	<oaf_attribute name="description-ko" type="string" value="서버 캔버스 항목 구성 요소 테스트"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Testar componente de item de tela de servidor"/>
+	<oaf_attribute name="description-sv" type="string" value="Testa dukobjektskomponent för server"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="测试服务器画布项目组件"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="測試伺服器畫布項目元件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="測試伺服器畫布項目元件"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Circle_ControllerFactory" type="exe"
+	location="/usr/libexec/circle">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Sample controls factory"/>
+	<oaf_attribute name="name-cs" type="string" value="Zdroj ukázkových control"/>
+	<oaf_attribute name="name-de" type="string" value="Factory für Beispielbedienelemente"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de controles de ejemplo"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique des contrôles d&apos;échantillons "/>
+	<oaf_attribute name="name-hu" type="string" value="Minta vezérlõ factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica controlli di esempio"/>
+	<oaf_attribute name="name-ja" type="string" value="サンプルのコントロールファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="샘플 컨트롤 팩토리"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador de controles de exemplo"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för exempelkontroll"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="采样控制工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="範例控制工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="範例控制工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for the bonobo sample controls"/>
+	<oaf_attribute name="description-cs" type="string" value="Zdroj bonobo ukázkové controly"/>
+	<oaf_attribute name="description-de" type="string" value="Factory für Bonobo-Beispielsteuerelemente"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de los controles de ejemplo de bonobo"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour les contrôles d&apos;échantillons bonobo"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a minta bonobo vezérlõkhöz."/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per i controlli di esempio bonobo"/>
+	<oaf_attribute name="description-ja" type="string" value="サンプルの bonobo コントロール用のファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="Bonobo 샘플 컨트롤을 위한 팩토리"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador de controles de exemplo do bonobo"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för bonobo-exempelkontroller"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="bonobo 示例控制工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Bonobo 控制項範例 Factory"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Bonobo 控制項範例 Factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Circle_Controller" type="factory"
+	location="OAFIID:Circle_ControllerFactory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="a basic entry control"/>
+	<oaf_attribute name="name-cs" type="string" value="základní entry control"/>
+	<oaf_attribute name="name-de" type="string" value="grundlegendes Steuerelement für Eingabezwecke"/>
+	<oaf_attribute name="name-es" type="string" value="un control de entrada básico"/>
+	<oaf_attribute name="name-fr" type="string" value="un contrôle d&apos;entrée de base"/>
+	<oaf_attribute name="name-hu" type="string" value="egy alap elemvezérlő"/>
+	<oaf_attribute name="name-it" type="string" value="un controllo di immissione di base"/>
+	<oaf_attribute name="name-ja" type="string" value="基本エントリコントロール"/>
+	<oaf_attribute name="name-ko" type="string" value="기본 항목 컨트롤"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="um controle de entrada básico"/>
+	<oaf_attribute name="name-sv" type="string" value="en grundläggande postkontroll"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="基本条目控制"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="基本的項目控制項"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="基本的項目控制項"/>
+	<oaf_attribute name="description" type="string" value="A sample bonobo control wrapping a Gtk Entry widget."/>
+	<oaf_attribute name="description-cs" type="string" value="Ukázkové wrapování bonbo control na Gtk vstupní okno"/>
+	<oaf_attribute name="description-de" type="string" value="Bonobo-Beispielsteuerelement, das einen Gtk Entry Widget enthält."/>
+	<oaf_attribute name="description-es" type="string" value="Control de ejemplo de bonobo que incorpora un widget de entrada de Gtk."/>
+	<oaf_attribute name="description-fr" type="string" value="Un contrôle d&apos;échantillon bonobo bouclant un widget d&apos;entrée Gtk."/>
+	<oaf_attribute name="description-hu" type="string" value="Bonobo vezérlõ minta mely egy Gtk Entry widget-et borít."/>
+	<oaf_attribute name="description-it" type="string" value="Un controllo bonobo di esempio che include un widget Gtk Entry."/>
+	<oaf_attribute name="description-ja" type="string" value="Gtk Entry ウィジェットをラップするサンプルの bonobo コントロール"/>
+	<oaf_attribute name="description-ko" type="string" value="Gtk 항목 Widget을 래핑하는 샘플 Bonobo 컨트롤"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Controle de exemplo do bonobo está quebrando as linhas de um widget de entrada do Gtk."/>
+	<oaf_attribute name="description-sv" type="string" value="Ett exempel på en bonobo-kontroll som radbryter en Gtk Entry-widget."/>
+	<oaf_attribute name="description-zh_CN" type="string" value="一个 bonobo 控制示例包括一个 Gtk Entry 构件。"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="設定 Gtk 項目視窗元件換行的 Bonobo 控制項範例。"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="設定 Gtk 項目視窗元件換行的 Bonobo 控制項範例。"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:SquareItem_Factory" type="exe"
+	location="/usr/libexec/square">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+                <item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Test canvas item factory"/>
+	<oaf_attribute name="name-cs" type="string" value="Testovací plátno"/>
+	<oaf_attribute name="name-de" type="string" value="Testobjekt-Factory für Canvas-Elemente"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de elementos de área de dibujo de prueba"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;élément de canevas de test"/>
+	<oaf_attribute name="name-hu" type="string" value="Canves elem factory tesztelése"/>
+	<oaf_attribute name="name-it" type="string" value="Prova fabbrica dell&apos;elemento area di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="テストキャンバス項目ファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="캔버스 항목 팩토리 테스트"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Testar gerador de item de tela"/>
+	<oaf_attribute name="name-sv" type="string" value="Testa fabrik för dukobjekt"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="测试画布项目工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="測試畫布項目 Factory"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="測試畫布項目 Factory"/>
+	<oaf_attribute name="description" type="string" value="Test object canvas item server factory"/>
+	<oaf_attribute name="description-cs" type="string" value="Testovací objekt canvas položky komponenty"/>
+	<oaf_attribute name="description-de" type="string" value="Testobjekt-Factory für Canvas-Serverelemente"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de servidores de elementos objeto de área de dibujo de prueba"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique de serveur d&apos;élément de canevas d&apos;objet de test"/>
+	<oaf_attribute name="description-hu" type="string" value="Objektum Canvas elem kiszolgáló factory tesztelése"/>
+	<oaf_attribute name="description-it" type="string" value="Prova fabbrica del server dell&apos;elemento area di lavoro dell&apos;oggetto"/>
+	<oaf_attribute name="description-ja" type="string" value="テストオブジェクトキャンバス項目サーバファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="개체 캔버스 항목 서버 팩토리 테스트"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Testar gerador de servidor de item de tela de objeto"/>
+	<oaf_attribute name="description-sv" type="string" value="Testa serverfabrik för dukobjekt"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="测试对象画布项目服务器工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="測試物件畫布項目伺服器 Factory"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="測試物件畫布項目伺服器 Factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:SquareItem" type="factory"
+	location="OAFIID:SquareItem_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Embeddable:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Test canvas item"/>
+	<oaf_attribute name="name-cs" type="string" value="Testovací plátno"/>
+	<oaf_attribute name="name-de" type="string" value="Testobjekt für Canvas-Elemente"/>
+	<oaf_attribute name="name-es" type="string" value="Elemento de área de dibujo de prueba"/>
+	<oaf_attribute name="name-fr" type="string" value="Élément de canevas de test"/>
+	<oaf_attribute name="name-hu" type="string" value="Canvas elem tesztelése"/>
+	<oaf_attribute name="name-it" type="string" value="Prova elemento area di lavoro"/>
+	<oaf_attribute name="name-ja" type="string" value="テストキャンバス項目"/>
+	<oaf_attribute name="name-ko" type="string" value="캔버스 항목 테스트"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Testar item de tela"/>
+	<oaf_attribute name="name-sv" type="string" value="Testa dukobjekt"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="测试画布项目"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="測試畫布項目"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="測試畫布項目"/>
+	<oaf_attribute name="description" type="string" value="Test server canvas item component"/>
+	<oaf_attribute name="description-cs" type="string" value="Testovací server canvas položky komponenty"/>
+	<oaf_attribute name="description-de" type="string" value="Komponente für Testserver von Canvas-Elementen"/>
+	<oaf_attribute name="description-es" type="string" value="Componente elemento de área de dibujo servidor de prueba"/>
+	<oaf_attribute name="description-fr" type="string" value="Composant d&apos;élément de canevas de serveur de test"/>
+	<oaf_attribute name="description-hu" type="string" value="Kiszolgáló canvas elem komponens tesztelése"/>
+	<oaf_attribute name="description-it" type="string" value="Prova componente dell&apos;elemento area di lavoro del server"/>
+	<oaf_attribute name="description-ja" type="string" value="テストサーバキャンバス項目コンポーネント"/>
+	<oaf_attribute name="description-ko" type="string" value="서버 캔버스 항목 구성 요소 테스트"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Testar componente de item de tela de servidor"/>
+	<oaf_attribute name="description-sv" type="string" value="Testa dukobjektskomponent för server"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="测试服务器画布项目组件"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="測試伺服器畫布項目元件"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="測試伺服器畫布項目元件"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Square_ControllerFactory" type="exe"
+	location="/usr/libexec/square">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Sample controls factory"/>
+	<oaf_attribute name="name-cs" type="string" value="Zdroj ukázkových control"/>
+	<oaf_attribute name="name-de" type="string" value="Factory für Beispielbedienelemente"/>
+	<oaf_attribute name="name-es" type="string" value="Fábrica de controles de ejemplo"/>
+	<oaf_attribute name="name-fr" type="string" value="Fabrique des contrôles d&apos;échantillons "/>
+	<oaf_attribute name="name-hu" type="string" value="Minta vezérlõ factory"/>
+	<oaf_attribute name="name-it" type="string" value="Fabbrica controlli di esempio"/>
+	<oaf_attribute name="name-ja" type="string" value="サンプルのコントロールファクトリ"/>
+	<oaf_attribute name="name-ko" type="string" value="샘플 컨트롤 팩토리"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Gerador de controles de exemplo"/>
+	<oaf_attribute name="name-sv" type="string" value="Fabrik för exempelkontroll"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="采样控制工厂"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="範例控制工廠"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="範例控制工廠"/>
+	<oaf_attribute name="description" type="string" value="Factory for the bonobo sample controls"/>
+	<oaf_attribute name="description-cs" type="string" value="Zdroj bonobo ukázkové controly"/>
+	<oaf_attribute name="description-de" type="string" value="Factory für Bonobo-Beispielsteuerelemente"/>
+	<oaf_attribute name="description-es" type="string" value="Fábrica de los controles de ejemplo de bonobo"/>
+	<oaf_attribute name="description-fr" type="string" value="Fabrique pour les contrôles d&apos;échantillons bonobo"/>
+	<oaf_attribute name="description-hu" type="string" value="Factory a minta bonobo vezérlõkhöz."/>
+	<oaf_attribute name="description-it" type="string" value="Fabbrica per i controlli di esempio bonobo"/>
+	<oaf_attribute name="description-ja" type="string" value="サンプルの bonobo コントロール用のファクトリ"/>
+	<oaf_attribute name="description-ko" type="string" value="Bonobo 샘플 컨트롤을 위한 팩토리"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Gerador de controles de exemplo do bonobo"/>
+	<oaf_attribute name="description-sv" type="string" value="Fabrik för bonobo-exempelkontroller"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="bonobo 示例控制工厂"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Bonobo 控制項範例 Factory"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Bonobo 控制項範例 Factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:Square_Controller" type="factory"
+	location="OAFIID:Square_ControllerFactory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="a basic entry control"/>
+	<oaf_attribute name="name-cs" type="string" value="základní entry control"/>
+	<oaf_attribute name="name-de" type="string" value="grundlegendes Steuerelement für Eingabezwecke"/>
+	<oaf_attribute name="name-es" type="string" value="un control de entrada básico"/>
+	<oaf_attribute name="name-fr" type="string" value="un contrôle d&apos;entrée de base"/>
+	<oaf_attribute name="name-hu" type="string" value="egy alap elemvezérlő"/>
+	<oaf_attribute name="name-it" type="string" value="un controllo di immissione di base"/>
+	<oaf_attribute name="name-ja" type="string" value="基本エントリコントロール"/>
+	<oaf_attribute name="name-ko" type="string" value="기본 항목 컨트롤"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="um controle de entrada básico"/>
+	<oaf_attribute name="name-sv" type="string" value="en grundläggande postkontroll"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="基本条目控制"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="基本的項目控制項"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="基本的項目控制項"/>
+	<oaf_attribute name="description" type="string" value="A sample bonobo control wrapping a Gtk Entry widget."/>
+	<oaf_attribute name="description-cs" type="string" value="Ukázkové wrapování bonbo control na Gtk vstupní okno"/>
+	<oaf_attribute name="description-de" type="string" value="Bonobo-Beispielsteuerelement, das einen Gtk Entry Widget enthält."/>
+	<oaf_attribute name="description-es" type="string" value="Control de ejemplo de bonobo que incorpora un widget de entrada de Gtk."/>
+	<oaf_attribute name="description-fr" type="string" value="Un contrôle d&apos;échantillon bonobo bouclant un widget d&apos;entrée Gtk."/>
+	<oaf_attribute name="description-hu" type="string" value="Bonobo vezérlõ minta mely egy Gtk Entry widget-et borít."/>
+	<oaf_attribute name="description-it" type="string" value="Un controllo bonobo di esempio che include un widget Gtk Entry."/>
+	<oaf_attribute name="description-ja" type="string" value="Gtk Entry ウィジェットをラップするサンプルの bonobo コントロール"/>
+	<oaf_attribute name="description-ko" type="string" value="Gtk 항목 Widget을 래핑하는 샘플 Bonobo 컨트롤"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Controle de exemplo do bonobo está quebrando as linhas de um widget de entrada do Gtk."/>
+	<oaf_attribute name="description-sv" type="string" value="Ett exempel på en bonobo-kontroll som radbryter en Gtk Entry-widget."/>
+	<oaf_attribute name="description-zh_CN" type="string" value="一个 bonobo 控制示例包括一个 Gtk Entry 构件。"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="設定 Gtk 項目視窗元件換行的 Bonobo 控制項範例。"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="設定 Gtk 項目視窗元件換行的 Bonobo 控制項範例。"/>
+</oaf_server>
+
+
+</oaf_info>

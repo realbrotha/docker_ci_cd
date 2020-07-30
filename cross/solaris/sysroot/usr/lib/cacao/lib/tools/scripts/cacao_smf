@@ -1,0 +1,113 @@
+#!/bin/sh
+
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident	"$Revision: 1.4 $ SMI"
+#
+
+# Must be able to determine target OS so can set up appropriate
+# command environment.
+OS=`uname -s`
+OS_VERSION=`uname -r`
+
+# This script is used as a startup script for initd.
+
+case "${OS}" in
+    "SunOS")
+	CACAOADM="`dirname $0`/../../../bin/cacaoadm"
+	CAT="/usr/bin/cat"
+        LS="/usr/bin/ls"
+	;;
+    *)
+	echo "Not supported on detected OS \"${OS}\"."
+	exit 1
+	;;
+esac 
+
+LOGGER="/usr/bin/logger"
+
+
+# PARAMETERS for localization
+TEXTDOMAIN="cacao"
+
+case "$1" in
+start)
+    
+    
+    # This subcommand is invoked by the SMF framework passing the name of
+    # service instance.
+    # The instance name is passed as argument
+    
+   
+    #robustness
+    if [ ! -f "${CACAOADM}" ]
+    then
+        MSG="Can't find cacaoadm, exit"
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        exit 1
+    fi
+
+     # Do the start
+    instancename=$2
+    instance="-i ${instancename}"
+
+    ${CACAOADM} smf_start ${instance} 2>&1
+    if [ $? -ne 0 ]; then
+        MSG="Error: Fail to start cacao agent. ${instancename}"
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        exit 1            
+    fi        
+    ;;
+
+stop)
+    
+
+    # This subcommand is invoked by the SMF framework passing the name of
+    # service instance.
+    # The instance name is passed as argument
+    
+    #robustness
+    if [ ! -f "${CACAOADM}" ]
+    then
+        MSG="Can't find cacaoadm, exit"
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        exit 1
+    fi
+
+    # Do the stop
+    forced_stop=""
+    if [ "$2" = "-f" ]
+    then
+        forced_stop=-f
+        shift
+    fi
+    instancename=$2
+    instance="-i ${instancename}"
+
+    ${CACAOADM} smf_stop ${forced_stop} ${instance} 2>&1
+    if [ $? -ne 0 ]; then
+        MSG="Error: Can't stop cacao agent. ${instancename}"
+        # Log message on syslog
+        ${LOGGER} -p local0.err -t cacao "${MSG}"
+        # Display message on terminal if any
+        echo "${MSG}" >&2
+        exit 1
+    fi
+    ;;
+
+*)
+    echo "Usage: $0 {start|stop} [instance name]}" >&2
+    ;;
+esac
+
+exit 0

@@ -1,0 +1,316 @@
+<oaf_info>
+	<oaf_server iid="OAFIID:GNOME_CDPlayerApplet_Factory" type="exe" location="/usr/lib/cdplayer_applet2">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/GenericFactory:1.0"/>
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-ar" type="string" value="مصنع بريمج عزف الأقراص المدمجة"/>
+		<oaf_attribute name="name-az" type="string" value="CD Çalğıcısı Appleti E&apos;malatxanası"/>
+		<oaf_attribute name="name-be" type="string" value="Вытворчасьць аплету прайгравальніка дыскаў"/>
+		<oaf_attribute name="name-bg" type="string" value="Фабрика на CD плеър аплета"/>
+		<oaf_attribute name="name-bn" type="string" value="সিডি বাদক অ্যাপলেট কারখানা"/>
+		<oaf_attribute name="name-ca" type="string" value="Factoria de l&apos;applet del reproductor de CD"/>
+		<oaf_attribute name="name-cs" type="string" value="Generátor pro palet CD Přehrávač"/>
+		<oaf_attribute name="name-cy" type="string" value="Ffatri Rhaglennigion Chwarae CD"/>
+		<oaf_attribute name="name-da" type="string" value="Fabrik til cd-afspillerpanelprogram"/>
+		<oaf_attribute name="name-de" type="string" value="CD-Player-Applet-Fabrik"/>
+		<oaf_attribute name="name-el" type="string" value="Εργοστάσιο Εφαρμογιδίου Αναπαραγωγής CD"/>
+		<oaf_attribute name="name-en_CA" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-en_GB" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-es" type="string" value="Miniaplicación Lector de cd"/>
+		<oaf_attribute name="name-et" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-eu" type="string" value="CD erreproduzigailuaren applet-aren fabrika"/>
+		<oaf_attribute name="name-fi" type="string" value="CD-soitinsovelman tehdas"/>
+		<oaf_attribute name="name-fr" type="string" value="Fabrique d&apos;applet Lecteur CD"/>
+		<oaf_attribute name="name-gl" type="string" value="Fábrica da applet reproductor de CD"/>
+		<oaf_attribute name="name-gu" type="string" value="CD વગાડનારનું અેપ્લેટ કારખાનું"/>
+		<oaf_attribute name="name-he" type="string" value="יצרן יישומון נגן תקליטורים"/>
+		<oaf_attribute name="name-hi" type="string" value="सीडी प्लेयर एप्लेट फैक्टरी"/>
+		<oaf_attribute name="name-hr" type="string" value="Tvornica apleta za puštanje CD-a"/>
+		<oaf_attribute name="name-hu" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-is" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-it" type="string" value="Fabbrica per Lettore CD"/>
+		<oaf_attribute name="name-ja" type="string" value="CD プレイヤーアプレット ファクトリ"/>
+		<oaf_attribute name="name-ko" type="string" value="CD 플레이어 애플릿 팩토리"/>
+		<oaf_attribute name="name-lt" type="string" value="CD grotuvo įtaiso gamykla"/>
+		<oaf_attribute name="name-lv" type="string" value="CD Atskaņotāja Paneļprogrammas Ražotne"/>
+		<oaf_attribute name="name-mk" type="string" value="CD Плеер Aплет Фабрички"/>
+		<oaf_attribute name="name-ml" type="string" value="സി.ഡി പ്ളേയര്‍ ക്രിയാജാലക ശാല"/>
+		<oaf_attribute name="name-mn" type="string" value="КД Тоглуулагч апплетийн үндэслэгч"/>
+		<oaf_attribute name="name-ms" type="string" value="Kilang Aplet Pemain CD"/>
+		<oaf_attribute name="name-nl" type="string" value="CD-Speler Appletfabriek"/>
+		<oaf_attribute name="name-nn" type="string" value="Fabrikk for CD-spelar-programmet"/>
+		<oaf_attribute name="name-no" type="string" value="Factory for CD-spiller-applet"/>
+		<oaf_attribute name="name-pa" type="string" value="CD ਪਲੇਅਰ ਅੈਪਲਟ ਫੈਕਟਰੀ"/>
+		<oaf_attribute name="name-pl" type="string" value="Generator apletu odtwarzacza CD"/>
+		<oaf_attribute name="name-pt" type="string" value="Fábrica da Applet de Leitor de CD"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="Gerador do miniaplicativo CD Player"/>
+		<oaf_attribute name="name-ro" type="string" value="Factory Aplet CD Player"/>
+		<oaf_attribute name="name-ru" type="string" value="Фабрика окна приложения проигрывателя компакт-дисков"/>
+		<oaf_attribute name="name-sk" type="string" value="Vytváracie rozhranie pre applet Prehrávač CD"/>
+		<oaf_attribute name="name-sl" type="string" value="Tovarna vstavka Predvajalnik CD"/>
+		<oaf_attribute name="name-sq" type="string" value="Fabrika Applet e Lexuesit CD"/>
+		<oaf_attribute name="name-sr" type="string" value="Фабрика аплета за пуштање ЦД-а"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="Fabrika apleta za puštanje CD-a"/>
+		<oaf_attribute name="name-sv" type="string" value="Fabrik för cd-spelarpanelprogram"/>
+		<oaf_attribute name="name-th" type="string" value="โรงงานแอพเพล็ตตัวเล่นซีดี"/>
+		<oaf_attribute name="name-tr" type="string" value="CD Çalar Uygulak Mîmârîsi"/>
+		<oaf_attribute name="name-uk" type="string" value="Фабрика аплетів програвача компакт-дисків"/>
+		<oaf_attribute name="name-vi" type="string" value="CD Player Applet Factory"/>
+		<oaf_attribute name="name-wa" type="string" value="Oujhene d&apos; apliketes lijheuses di plakes lazer"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="CD 播放器 Applet 工厂"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="CD 播放器 Applet 工廠"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="CD 播放器 Applet 工廠"/>
+		<oaf_attribute name="description" type="string" value="Factory for CD player applet"/>
+		<oaf_attribute name="description-ar" type="string" value="مصنع لبريمج عازف الأقراص المدمجة"/>
+		<oaf_attribute name="description-az" type="string" value="CD çalğıcısı appleti üçün e&apos;malatxana"/>
+		<oaf_attribute name="description-be" type="string" value="Вытворчасьць для аплету прайграваньня дыскаў"/>
+		<oaf_attribute name="description-bg" type="string" value="Фабрика за CD плеър аплета"/>
+		<oaf_attribute name="description-bn" type="string" value="সিডি বাদক অ্যাপলেটের জন্য কারখানা"/>
+		<oaf_attribute name="description-ca" type="string" value="Factoria per a l&apos;applet del reproductor de CD"/>
+		<oaf_attribute name="description-cs" type="string" value="Generátor pro aplet CD Přehrávač"/>
+		<oaf_attribute name="description-cy" type="string" value="Ffatri ar gyfer y rhaglennig chwaraeydd CD"/>
+		<oaf_attribute name="description-da" type="string" value="Fabrik for cd-afspillerpanelprogram"/>
+		<oaf_attribute name="description-de" type="string" value="Fabrik für das CD-Player-Applet"/>
+		<oaf_attribute name="description-el" type="string" value="Εργοστάσιο για το εφαρμογίδιο αναπαραγωγής CD"/>
+		<oaf_attribute name="description-en_CA" type="string" value="Factory for CD player applet"/>
+		<oaf_attribute name="description-en_GB" type="string" value="Factory for CD player applet"/>
+		<oaf_attribute name="description-es" type="string" value="Fábrica para la miniaplicación Lector de cd"/>
+		<oaf_attribute name="description-et" type="string" value="Factory for CD player applet"/>
+		<oaf_attribute name="description-eu" type="string" value="CD erreproduzigailuaren applet-aren fabrika"/>
+		<oaf_attribute name="description-fi" type="string" value="Tehdas CD-soitinsovelmalle"/>
+		<oaf_attribute name="description-fr" type="string" value="Fabrique de l&apos;applet lecteur CD"/>
+		<oaf_attribute name="description-gl" type="string" value="Fábrica da applet reproductor de CD"/>
+		<oaf_attribute name="description-gu" type="string" value="CD વગાડનાર અેપ્લેટ માટેનું કારખાનું"/>
+		<oaf_attribute name="description-he" type="string" value="יצרן ליישומון נגן התקליטורים"/>
+		<oaf_attribute name="description-hi" type="string" value="सीडी प्लेयर एप्लेट हेतु फैक्टरी"/>
+		<oaf_attribute name="description-hr" type="string" value="Tvornica za applet za puštanje CD-a"/>
+		<oaf_attribute name="description-hu" type="string" value="Factory CD-lejátszó applet készítéséhez"/>
+		<oaf_attribute name="description-is" type="string" value="Verksmiðja fyrir Geislaspilara smáforrit"/>
+		<oaf_attribute name="description-it" type="string" value="Fabbrica per l&apos;applet Lettore CD"/>
+		<oaf_attribute name="description-ja" type="string" value="CD プレイヤーアプレットのファクトリ"/>
+		<oaf_attribute name="description-ko" type="string" value="CD 플레이어 애플릿 팩토리"/>
+		<oaf_attribute name="description-lt" type="string" value="Gamykla CD grotuvo įtaisui"/>
+		<oaf_attribute name="description-lv" type="string" value="CD atskaņotāja paneļprogrammas ražotne"/>
+		<oaf_attribute name="description-mk" type="string" value="Фабрика за аплетot на CD Плеерот"/>
+		<oaf_attribute name="description-ml" type="string" value="സി.ഡി പ്ളേയര്‍ ക്രിയാജാലക ശാല"/>
+		<oaf_attribute name="description-mn" type="string" value="КД Тоглуулагч апплетийн үндэслэгч"/>
+		<oaf_attribute name="description-ms" type="string" value="Kilang bagi aplet Pemain CD"/>
+		<oaf_attribute name="description-nl" type="string" value="Fabriek voor CD-Speler applet"/>
+		<oaf_attribute name="description-nn" type="string" value="Fabrikk for CD-spelar-programmet"/>
+		<oaf_attribute name="description-no" type="string" value="Factory for CD-spiller-applet"/>
+		<oaf_attribute name="description-pa" type="string" value="CD ਪਲੇਅਰ ਅੈਪਲਟ ਫੈਕਟਰੀ"/>
+		<oaf_attribute name="description-pl" type="string" value="Generator apletu odtwarzacza CD"/>
+		<oaf_attribute name="description-pt" type="string" value="Fábrica para a applet de leitor de CD"/>
+		<oaf_attribute name="description-pt_BR" type="string" value="Gerador para o miniaplicativo CD Player"/>
+		<oaf_attribute name="description-ro" type="string" value="Factory pentru apletul CD player"/>
+		<oaf_attribute name="description-ru" type="string" value="Фабрика окна приложения проигрывателя компакт-дисков"/>
+		<oaf_attribute name="description-sk" type="string" value="Vytváracie rozhranie pre applet Prehrávač CD"/>
+		<oaf_attribute name="description-sl" type="string" value="Tovarna za vstavek Predvajalnik CD"/>
+		<oaf_attribute name="description-sq" type="string" value="Fabrika për applet e lexuesit CD"/>
+		<oaf_attribute name="description-sr" type="string" value="Фабрика за аплет за пуштање ЦД-а"/>
+		<oaf_attribute name="description-sr@Latn" type="string" value="Fabrika za aplet za puštanje CD-a"/>
+		<oaf_attribute name="description-sv" type="string" value="Fabrik för cd-spelarpanelprogram"/>
+		<oaf_attribute name="description-th" type="string" value="โรงงานสำหรับแอพเพล็ตตัวเล่นซีดี"/>
+		<oaf_attribute name="description-tr" type="string" value="CD çalar uygulağı için mîmârî"/>
+		<oaf_attribute name="description-uk" type="string" value="Фабрика для аплету програвача компакт-дисків"/>
+		<oaf_attribute name="description-vi" type="string" value="Factory của CD player applet"/>
+		<oaf_attribute name="description-wa" type="string" value="Oujhene po les apliketes lijheuses di plakes lazer"/>
+		<oaf_attribute name="description-zh_CN" type="string" value="关于 CD 播放器 Applet 的工厂"/>
+		<oaf_attribute name="description-zh_HK" type="string" value="CD 播放器 Applet 工廠"/>
+		<oaf_attribute name="description-zh_TW" type="string" value="CD 播放器 Applet 工廠"/>
+	</oaf_server>
+
+	<oaf_server iid="OAFIID:GNOME_CDPlayerApplet" type="factory" location="OAFIID:GNOME_CDPlayerApplet_Factory">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+			<item value="IDL:Bonobo/Control:1.0"/>
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="CD Player"/>
+		<oaf_attribute name="name-ar" type="string" value="عازف الأقراص المدمجة"/>
+		<oaf_attribute name="name-az" type="string" value="CD Çalğıcı"/>
+		<oaf_attribute name="name-be" type="string" value="Прайгравальнік дыскаў"/>
+		<oaf_attribute name="name-bg" type="string" value="CD Плеър"/>
+		<oaf_attribute name="name-bn" type="string" value="সি-ডি বাদক"/>
+		<oaf_attribute name="name-ca" type="string" value="Reproductor de CD"/>
+		<oaf_attribute name="name-cs" type="string" value="CD Přehrávač"/>
+		<oaf_attribute name="name-cy" type="string" value="Chwaraeydd CD"/>
+		<oaf_attribute name="name-da" type="string" value="Cd-afspiller"/>
+		<oaf_attribute name="name-de" type="string" value="CD-Player"/>
+		<oaf_attribute name="name-el" type="string" value="Αναπαραγωγή CD"/>
+		<oaf_attribute name="name-en_CA" type="string" value="CD Player"/>
+		<oaf_attribute name="name-en_GB" type="string" value="CD Player"/>
+		<oaf_attribute name="name-es" type="string" value="Lector de CD"/>
+		<oaf_attribute name="name-et" type="string" value="CD mängija"/>
+		<oaf_attribute name="name-eu" type="string" value="CD erreproduzigailua"/>
+		<oaf_attribute name="name-fi" type="string" value="CD-soitin"/>
+		<oaf_attribute name="name-fr" type="string" value="Lecteur CD"/>
+		<oaf_attribute name="name-ga" type="string" value="Seinnteoir CD"/>
+		<oaf_attribute name="name-gl" type="string" value="Reproductor de CD"/>
+		<oaf_attribute name="name-gu" type="string" value="CD વગાડનાર"/>
+		<oaf_attribute name="name-he" type="string" value="נגן תקליטורים"/>
+		<oaf_attribute name="name-hi" type="string" value="सीडी पलेयर"/>
+		<oaf_attribute name="name-hr" type="string" value="CD svirač"/>
+		<oaf_attribute name="name-hu" type="string" value="CD-lejátszó"/>
+		<oaf_attribute name="name-is" type="string" value="Geislaspilari"/>
+		<oaf_attribute name="name-it" type="string" value="Lettore CD"/>
+		<oaf_attribute name="name-ja" type="string" value="CD プレイヤー"/>
+		<oaf_attribute name="name-ko" type="string" value="CD 플레이어"/>
+		<oaf_attribute name="name-lt" type="string" value="CD grotuvas"/>
+		<oaf_attribute name="name-lv" type="string" value="CD Atskaņotājs"/>
+		<oaf_attribute name="name-mk" type="string" value="CD Плеер"/>
+		<oaf_attribute name="name-ml" type="string" value="സി.ഡി പ്ളേയര്‍"/>
+		<oaf_attribute name="name-mn" type="string" value="КД Тоглуулагч"/>
+		<oaf_attribute name="name-ms" type="string" value="Pemain CD"/>
+		<oaf_attribute name="name-nl" type="string" value="CD-Speler"/>
+		<oaf_attribute name="name-nn" type="string" value="CD-spelar"/>
+		<oaf_attribute name="name-no" type="string" value="CD-spiller"/>
+		<oaf_attribute name="name-pa" type="string" value="CD ਪਲੇਅਰ"/>
+		<oaf_attribute name="name-pl" type="string" value="Odtwarzacz CD"/>
+		<oaf_attribute name="name-pt" type="string" value="Leitor de CD"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="CD Player"/>
+		<oaf_attribute name="name-ro" type="string" value="CD Player"/>
+		<oaf_attribute name="name-ru" type="string" value="Проигрыватель компакт-дисков"/>
+		<oaf_attribute name="name-sk" type="string" value="CD prehrávač"/>
+		<oaf_attribute name="name-sl" type="string" value="Predvajalnik CD"/>
+		<oaf_attribute name="name-sq" type="string" value="Lexuesi CD"/>
+		<oaf_attribute name="name-sr" type="string" value="Пуштање ЦД-а"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="Puštanje CD-a"/>
+		<oaf_attribute name="name-sv" type="string" value="Cd-spelare"/>
+		<oaf_attribute name="name-ta" type="string" value="கு.த. இயக்கி"/>
+		<oaf_attribute name="name-th" type="string" value="ตัวเล่นซีดี"/>
+		<oaf_attribute name="name-tr" type="string" value="CD Çalar"/>
+		<oaf_attribute name="name-uk" type="string" value="Програвач компакт-дисків"/>
+		<oaf_attribute name="name-vi" type="string" value="Trình chơi CD"/>
+		<oaf_attribute name="name-wa" type="string" value="Lijheu di CD"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="CD 播放器"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="CD 播放程式"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="CD 播放程式"/>
+		<oaf_attribute name="description" type="string" value="Panel applet for playing audio CDs"/>
+		<oaf_attribute name="description-ar" type="string" value="بريمج الشريط لعزف الأقراص المدمجة"/>
+		<oaf_attribute name="description-az" type="string" value="Audio CD&apos;lərin oxudulması üçün panel apleti"/>
+		<oaf_attribute name="description-be" type="string" value="Аплет для прайграваньня музычных дыскаў"/>
+		<oaf_attribute name="description-bg" type="string" value="Аплет за панела за слушане на аудио CD-та"/>
+		<oaf_attribute name="description-bn" type="string" value="গানের সিডি বাজাবার জন্য প্যানেল অ্যাপলেট।"/>
+		<oaf_attribute name="description-ca" type="string" value="Applet del quadre per a reproduir CD d&apos;audio"/>
+		<oaf_attribute name="description-cs" type="string" value="Aplet pro přehrávání zvukových CD"/>
+		<oaf_attribute name="description-cy" type="string" value="Rhaglennig panel ar gyfer chwarae CD"/>
+		<oaf_attribute name="description-da" type="string" value="Panelprogram til afspilning af lyd-cd&apos;er"/>
+		<oaf_attribute name="description-de" type="string" value="Panel-Applet zum Abspielen von Audio-CDs"/>
+		<oaf_attribute name="description-el" type="string" value="Εφαρμογίδιο του ταμπλώ για την αναπαραγωγή audio CDs"/>
+		<oaf_attribute name="description-en_CA" type="string" value="Panel applet for playing audio CDs"/>
+		<oaf_attribute name="description-en_GB" type="string" value="Panel applet for playing audio CDs"/>
+		<oaf_attribute name="description-es" type="string" value="Miniaplicación del panel para la reproducción de CD de audio"/>
+		<oaf_attribute name="description-et" type="string" value="Paneelirakend muusika CD-de mängimiseks"/>
+		<oaf_attribute name="description-eu" type="string" value="Audio CDak erreproduzitzeko paneleko applet-a"/>
+		<oaf_attribute name="description-fi" type="string" value="Paneelisovelma CD-äänilevyjen soittamiseen"/>
+		<oaf_attribute name="description-fr" type="string" value="Applet de tableau de bord pour lire des CD audio"/>
+		<oaf_attribute name="description-gl" type="string" value="Applet do panel para reproducir CDs de audio"/>
+		<oaf_attribute name="description-gu" type="string" value="અવાજની CDઅો વગાડવા માટે પેનલની અેપ્લેટ"/>
+		<oaf_attribute name="description-he" type="string" value="יישומון לוח לניגון תקליטורי שמע"/>
+		<oaf_attribute name="description-hi" type="string" value="आडियो सीडी चलाने हेतु पेनल एप्लेट"/>
+		<oaf_attribute name="description-hr" type="string" value="Aplet panela za puštanje zvučnih CD-ova"/>
+		<oaf_attribute name="description-hu" type="string" value="Applet audio CD-k lejátszásához"/>
+		<oaf_attribute name="description-is" type="string" value="Tólstikuforrit til að spila geisladiska"/>
+		<oaf_attribute name="description-it" type="string" value="Applet per la riproduzione di CD audio"/>
+		<oaf_attribute name="description-ja" type="string" value="オーディオ CD を演奏するパネル アプレット"/>
+		<oaf_attribute name="description-ko" type="string" value="오디오 CD를 재생하는 패널 애플릿"/>
+		<oaf_attribute name="description-lt" type="string" value="Audio CD groti skirtas skydelio įtaisas"/>
+		<oaf_attribute name="description-lv" type="string" value="Paneļprogramma audio CD atskaņošanai"/>
+		<oaf_attribute name="description-mk" type="string" value="Лента на аплети за свирење на аудио CD-a"/>
+		<oaf_attribute name="description-ml" type="string" value="പാട്ടു സി.ഡികള് പാടിക്കാനുള്ള പാളി ക്രിയാജാലകം"/>
+		<oaf_attribute name="description-mn" type="string" value="КД дуунд зориулагдсан апплет"/>
+		<oaf_attribute name="description-ms" type="string" value="Aplet panel untuk memainkan CD audio."/>
+		<oaf_attribute name="description-nl" type="string" value="Applet om Audio-CD&apos;s af te spelen"/>
+		<oaf_attribute name="description-nn" type="string" value="Panelprogram til å spela lyd-CD-plater med"/>
+		<oaf_attribute name="description-no" type="string" value="Panelapplet for avspilling av lyd-CDer"/>
+		<oaf_attribute name="description-pa" type="string" value="ਸੰਗੀਤ (ਆਡੀਉ) CD ਵਜਾਉ ਲਈ ਪੈਨਲ ਅੈਪਲਟ"/>
+		<oaf_attribute name="description-pl" type="string" value="Aplet panelu służący do odtwarzania płyt CD"/>
+		<oaf_attribute name="description-pt" type="string" value="Applet de painel para reproduzir CDs de audio"/>
+		<oaf_attribute name="description-pt_BR" type="string" value="Miniaplicativo de painel para reprodução de CDs de áudio"/>
+		<oaf_attribute name="description-ro" type="string" value="Aplet pentru redarea CD-urilor audio"/>
+		<oaf_attribute name="description-ru" type="string" value="Окно приложения для воспроизведения компакт-дисков"/>
+		<oaf_attribute name="description-sk" type="string" value="Applet pre prehrávanie zvukových CD"/>
+		<oaf_attribute name="description-sl" type="string" value="Vstavek za predvajanje glasbenih CDjev"/>
+		<oaf_attribute name="description-sq" type="string" value="Applet e panelit për leximin e CD-ve"/>
+		<oaf_attribute name="description-sr" type="string" value="Аплет панела за пуштање музичких ЦД-а"/>
+		<oaf_attribute name="description-sr@Latn" type="string" value="Aplet panela za puštanje muzičkih CD-a"/>
+		<oaf_attribute name="description-sv" type="string" value="Panelprogram för spelning av ljud-cd"/>
+		<oaf_attribute name="description-ta" type="string" value="ஒலி கு.த.க்களை இயக்கும் பலக ஆப்லெட் "/>
+		<oaf_attribute name="description-th" type="string" value="แอพเพล็ตในพาเนลสำหรับเล่นซีดีเพลง"/>
+		<oaf_attribute name="description-tr" type="string" value="Ses CD&apos;lerini çalan panel uygulağı"/>
+		<oaf_attribute name="description-uk" type="string" value="Аплет для програвання музичних компакт-дисків"/>
+		<oaf_attribute name="description-vi" type="string" value="Applet chơi nhạc CD Audio"/>
+		<oaf_attribute name="description-zh_CN" type="string" value="用于播放音乐 CD 的面板 Applet"/>
+		<oaf_attribute name="description-zh_HK" type="string" value="播效音樂 CD 的面板 applet"/>
+		<oaf_attribute name="description-zh_TW" type="string" value="播效音樂 CD 的面板 applet"/>
+		<oaf_attribute name="panel:category" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-ar" type="string" value="وسائط متعددة"/>
+		<oaf_attribute name="panel:category-az" type="string" value="Multimedya"/>
+		<oaf_attribute name="panel:category-be" type="string" value="Мульцімедыя"/>
+		<oaf_attribute name="panel:category-bg" type="string" value="Мултимедия"/>
+		<oaf_attribute name="panel:category-bn" type="string" value="মাল্টিমিডিয়া"/>
+		<oaf_attribute name="panel:category-ca" type="string" value="Multimèdia"/>
+		<oaf_attribute name="panel:category-cs" type="string" value="Multimédia"/>
+		<oaf_attribute name="panel:category-cy" type="string" value="Amlgyfrwng"/>
+		<oaf_attribute name="panel:category-da" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-de" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-el" type="string" value="Πολυμέσα"/>
+		<oaf_attribute name="panel:category-en_CA" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-en_GB" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-es" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-et" type="string" value="Multimeedia"/>
+		<oaf_attribute name="panel:category-eu" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-fa" type="string" value="چندرسانه‌ای"/>
+		<oaf_attribute name="panel:category-fi" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-fr" type="string" value="Multimédia"/>
+		<oaf_attribute name="panel:category-ga" type="string" value="Ílmeánach"/>
+		<oaf_attribute name="panel:category-gl" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-gu" type="string" value="મલ્ટીમીડીયા"/>
+		<oaf_attribute name="panel:category-he" type="string" value="מולטימדיה"/>
+		<oaf_attribute name="panel:category-hi" type="string" value="मल्टीमिडिया"/>
+		<oaf_attribute name="panel:category-hr" type="string" value="Multimedija"/>
+		<oaf_attribute name="panel:category-hu" type="string" value="Multimédia"/>
+		<oaf_attribute name="panel:category-is" type="string" value="Margmiðlun"/>
+		<oaf_attribute name="panel:category-it" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-ja" type="string" value="マルチメディア"/>
+		<oaf_attribute name="panel:category-ko" type="string" value="멀티미디어"/>
+		<oaf_attribute name="panel:category-lt" type="string" value="Garsas ir vaizdas"/>
+		<oaf_attribute name="panel:category-lv" type="string" value="Multimedija"/>
+		<oaf_attribute name="panel:category-mk" type="string" value="Мултимедија"/>
+		<oaf_attribute name="panel:category-ml" type="string" value="ബഹുമാധ്യമം"/>
+		<oaf_attribute name="panel:category-mn" type="string" value="Мультимедиа"/>
+		<oaf_attribute name="panel:category-ms" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-nl" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-nn" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-no" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-pa" type="string" value="ਬਹੁਰੰਗ"/>
+		<oaf_attribute name="panel:category-pl" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-pt" type="string" value="Multimédia"/>
+		<oaf_attribute name="panel:category-pt_BR" type="string" value="Multimídia"/>
+		<oaf_attribute name="panel:category-ro" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-ru" type="string" value="Мультимедиа"/>
+		<oaf_attribute name="panel:category-sk" type="string" value="Multimédiá"/>
+		<oaf_attribute name="panel:category-sl" type="string" value="Multimedija"/>
+		<oaf_attribute name="panel:category-sq" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-sr" type="string" value="Мултимедија"/>
+		<oaf_attribute name="panel:category-sr@Latn" type="string" value="Multimedija"/>
+		<oaf_attribute name="panel:category-sv" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-ta" type="string" value="பல் ஊடகம்"/>
+		<oaf_attribute name="panel:category-th" type="string" value="มัลติมีเดีย"/>
+		<oaf_attribute name="panel:category-tr" type="string" value="Çoklu Ortam"/>
+		<oaf_attribute name="panel:category-uk" type="string" value="Мультимедія"/>
+		<oaf_attribute name="panel:category-vi" type="string" value="Đa phương tiện"/>
+		<oaf_attribute name="panel:category-wa" type="string" value="Multimedia"/>
+		<oaf_attribute name="panel:category-zh_CN" type="string" value="多媒体"/>
+		<oaf_attribute name="panel:category-zh_HK" type="string" value="多媒體"/>
+		<oaf_attribute name="panel:category-zh_TW" type="string" value="多媒體"/>
+		<oaf_attribute name="panel:icon" type="string" value="gnome-cdplayer-icon"/>
+		<oaf_attribute name="bugzilla:bugzilla" type="string" value="GNOME"/>
+	        <oaf_attribute name="bugzilla:product" type="string" value="gnome-applets"/>
+        	<oaf_attribute name="bugzilla:component" type="string" value="cdplayer"/>
+        	<oaf_attribute name="bugzilla:other_binaries" type="string" value="cdplayer_applet2"/>
+	</oaf_server>
+</oaf_info>

@@ -1,0 +1,495 @@
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)magic	1.51	04/05/26 SMI"
+#
+# This file contains the dictionary of file format identifiers (magic strings)
+# used by file(1).  The fields of this file are as follows:
+#
+# (1) byte offset
+# (2) value type
+# (3) optional operator (= by default)
+# (4) value to match (numeric or string)
+# (5) string to be printed
+#
+# Numeric values may be decimal, octal, or hex.  Also note that the last string
+# may have one printf format specifier.  The '>' in occassional column 1's is
+# magic: it forces file(1) to continue scanning and matching additional lines.
+# The first line afterwards not so marked terminates the search.
+#
+# The entries for ELF are not needed anymore, as file(1) now uses the elf(3ELF)
+# routines to look at ELF files.  They remain, commented out, for reference.
+#
+#0	string		\177ELF		ELF
+#>4	byte		1		32-bit
+#>5	byte		1		LSB
+#>5	byte		2		MSB
+#>16	short		0		unknown type
+#>16	short		1		relocatable
+#>16	short		2		executable
+#>16	short		3		dynamic lib
+#>16	short		4		core file
+#>18	short		0		unknown machine
+#>18	short		1		WE32100
+#>18	short		2		SPARC
+#>18	short		3		80386
+#>18	short		4		M68000
+#>18	short		5		M88000
+#>18	short		6		i80486
+#>18	short		7		i860
+#>18	short		8		RS3000_BE
+#>18	short		9		UNKNOWN
+#>18	short		10		RS3000_LE
+#>18	short		11		RS6000
+#>18	short		12		UNKNOWN
+#>18	short		13		UNKNOWN
+#>18	short		14		UNKNOWN
+#>18	short		15		PA_RISC
+#>18	short		16		nCUBE
+#>18	short		17		VPP500
+#>18	short		18		SPARC32PLUS
+#>18	short		19		UNKNOWN
+#>18	short		20		PowerPC
+#>20	long		1		Version 1
+#>36	long		1		MAU Required
+257	string		ustar		USTAR tar 아카이브
+>156	byte		88		확장된 형식
+0	short		070701		cpio 아카이브
+0	string		070701		ASCII cpio 아카이브
+0	short		070702		cpio 아카이브 - CRC 헤더
+0	string		070702		ASCII cpio 아카이브 - CRC 헤더
+0	short		070707		cpio 아카이브 - CHR (-c) 헤더
+0	string		070707		ASCII cpio 아카이브 - CHR (-c) 헤더
+0	long		0177555		폐기된 ar 아카이브
+0	short		0177545		pdp11/pre System V ar 아카이브
+0	long		0100554		apl 작업 공간
+0	short		017037		압축된 데이터
+0	string		<ar>		System V 릴리즈 1 ar 아카이브
+0	string		!<arch>		최신 ar 아카이브
+0	short		0407		pdp11/pre System V vax 실행 가능
+>8	ushort		>0		스트립되지 않음
+>15	ubyte		>0		- 버전 %ld
+0	short		0401		unix-rt ldp
+0	short		0405		pdp11 오버레이
+0	short		0410		pdp11/pre System V vax 순수 실행 가능
+>8	ushort		>0		스트립되지 않음
+>15	ubyte		>0		- 버전 %ld
+0	short		0411		pdp11 별도의 I&D
+>8	ushort		>0		스트립되지 않음
+>15	ubyte		>0		- 버전 %ld
+0	short		015001		컴파일된 Terminfo 입력 항목
+# little-endian entry
+0	short		0432		컴파일된 Terminfo 입력 항목
+0	short		0433		화면 이미지 커스
+0	short		0434		화면 이미지 커스
+0	short		0437		pdp11 커널 오버레이
+0	short		0570		vax 실행 가능
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0575		vax 순수 실행 가능
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0502		기본-16 실행 가능
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0503		기본-16 실행 가능 (TV)
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0510		x86 실행 가능
+>12	long		>0		스트립되지 않음
+0	short		0511		x86 실행 가능 (TV)
+>12	long		>0		스트립되지 않음
+0	short		0550		3b20 실행 가능
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0551		3b20 실행 가능 (TV)
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0560		WE32000 실행 가능
+>12	long		>0		스트립되지 않음
+>18	short		^00010000	- 3b2/300 w/페이징에서 사용 불가
+>18	short		&00020000	- 32100 필요함
+>18	short		&00040000	그리고 mau 하드웨어가 필요함
+>20	short		0443		(대상 공유 라이브러리)
+>20	short		0410		(교체됨)
+>20	short		0413		(페이지됨)
+>22	ushort		>0		- 버전 %ld
+0	short		0561		WE32000 실행 가능 (TV)
+>12	long		>0		스트립되지 않음
+>18	short		&00020000	- 32100 필요함
+>18	short		&00040000	그리고 mau 하드웨어가 필요함
+>22	ushort		>0		- 버전 %ld
+0	short		=0512		iAPX 286 실행 가능 소형 모델 (COFF)
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		=0522		iAPX 286 실행 가능 대형 모델 (COFF)
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0514		iAPX 386 실행 가능 (COFF) (사라짐)
+>12	long		>0		스트립되지 않음
+>22	ushort		>0		- 버전 %ld
+0	short		0520		mc68k 실행 가능
+>12	long		>0		스트립되지 않음
+0	short		0521		mc68k 실행 가능 (공유)
+>12	long		>0		스트립되지 않음
+0	short		0522		mc68k 실행 가능 (공유 요구 페이지됨)
+>12	long		>0		스트립되지 않음
+# big-endian entries for pure executables
+2	short		0410		순수
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+# little-endian entries for pure executables
+2	short		04001		순수
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+# big-endian entries for impure executables
+2	short		0407		순수하지 않음
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+# little-endian entries for impure executables
+2	short		03401		순수하지 않음
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+# big-endian entries for Sun demand paged executables
+2	short		0413		Sun 요구 페이지됨
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+# little-endian entries for Sun demand paged executables
+2	short		05401		Sun 요구 페이지됨
+>1	byte		0		sun2 실행 가능
+>1	byte		1		mc68010 실행 가능
+>1	byte		2		mc68020 실행 가능
+>1	byte		3		SPARC 실행 가능
+>0	ubyte		>077		동적으로 연결됨
+0	short		0x8001		Adobe PostScript Type 1 이진 글꼴 (PFB)
+0	short		0x0180		Adobe PostScript Type 1 이진 글꼴 (PFB)
+0	long		0x00010000	TrueType 글꼴 파일 버전 1.0 (TTF)
+0	long		0x00000100	TrueType 글꼴 파일 버전 1.0 (TTF)
+0	long		0xf00000ff	확장된 계정 파일
+# little-endian entry
+0	long		0xff0000f0	확장된 계정 파일
+0	byte		0x80		8086 재배치 가능(Microsoft)
+0	byte		0xf0		MS-DOS 라이브러리
+0	short		0xff65		x.out
+>2	string		__.SYMDEF	임의 처리됨
+>0	byte		x		아카이브
+0	short		0x206		Microsoft a.out
+>0x1e	short		&0x10		오버레이
+>0x1e	short		&0x2		별개
+>0x1e	short		&0x4		순수
+>0x1e	short		&0x800		세그먼트로 나뉨
+>0x1e	short		&0x400		독립형
+>0x1e	short		&0x8		고정 스택
+>0x1c	byte		&0x80		교체된 바이트
+>0x1c	byte		&0x40		교체된 단어
+>0x10	long		>0		스트립되지 않음
+>0x1e	short		^0xc000		pre-SysV
+>0x1c	byte		&0x4		86
+>0x1c	byte		&0x9		286
+>0x1c	byte		&0xa		386
+>0x1e	short		&0x1		실행 가능
+>0x1e	short		^0x1		객체 파일
+>0x1e	short		&0x40		큰 텍스트
+>0x1e	short		&0x20		큰 데이터
+>0x1e	short		&0x120		대형 객체 활성화
+0	short		0x10b		VAX가 로드 형식 a.out 객체 파일을 요구함
+>0x10	long		>0		스트립되지 않음
+0	short		0x140		이전 Microsoft 8086 x.out
+>0x3	byte		&0x4		별개
+>0x3	byte		&0x2		순수
+>0	byte		&0x1		실행 가능
+>0	byte		^0x1		relocatable
+>0x14	long		>0		스트립되지 않음
+0	long		0x10b		VAX가 로드 형식 a.out 객체 파일을 요구함
+>0x10	long		>0		스트립되지 않음
+0	long		0x140		이전 Microsoft 8086 x.out
+>0x3	byte		&0x4		별개
+>0x3	byte		&0x2		순수
+>0	byte		&0x1		실행 가능
+>0	byte		^0x1		relocatable
+>0x14	long		>0		스트립되지 않음
+0	long		0xe807		객체 파일 (z8000 a.out)
+0	long		0xe808		순수 객체 파일 (z8000 a.out)
+0	long		0xe809		별도의 객체 파일 (z8000 a.out)
+0	long		0xe805		오버레이 객체 파일 (z8000 a.out)
+0	long		0x178		Bell 5.0 실행 가능
+2	short		0410		Sun 읽기 전용 텍스트 실행 가능
+>2	short		0407		Sun 이전 실행 가능
+>1	byte		3		(SPARC)
+>1	byte		2		(68020)
+>1	byte		1		(68010)
+>1	byte		0		(Sun2)
+0	short		0143561		교체된 바이트 cpio 아카이브
+0	long		0101555		PDP-11 단정도 APL 작업 공간
+0	long		0101554		PDP-11 배정도 APL 작업 공간
+0	long		0101557		VAX 단정도 APL 작업 공간
+0	long		0101556		VAX 배정도 APL 작업 공간
+0	short		017437		old 압축된 데이터
+0	string		\037\036	압축된 데이터
+0	string		\377\037	압축된 데이터
+0	string		\037\235	압축된 데이터
+>2	byte&0x80	>0		압축된 블록
+>2	byte&0x1f	x		%d비트
+0	string		\037\213	gzip 압축된 데이터
+>2	byte		8		- 압축 방법
+>3	byte		&0x1		, ascii
+>3	byte		&0x2		, 연속
+>3	byte		&0x4		, 특별 필드
+>3	byte		&0x8		, 원래 파일 이름
+>3	byte		&0x10		, 주석
+>3	byte		&0x20		, 암호화됨
+>8	byte		2		, 최대 압축
+>8	byte		4		, 최대 속도
+0	string		!<arch>\n__.SYMDEF	아카이브 임의 라이브러리
+0	long		0x1010101	MMDF 우편함
+0	string		<!OPS		Interleaf ASCII 문서
+24	string		SunGKS		SunGKS
+# version number follows, in the form m.n
+>0	string		GKSM		메타파일
+0	string		GKSM		GKS 메타 파일
+# version number follows, in the form <!OPS, Version n.n>
+0	string		%!PS-AdobeFont	Adobe PostScript ASCII 글꼴 (PFA)
+0	string		%!		PostScript 문서
+>2	string		PS-Adobe	 conforming to level
+>10	string		-1.0		 1.0
+>10	string		-2.0		 2.0
+>10	string		-3.0		 3.0
+# version ID follows, in the form PS-Adobe-nn
+0	string		Interpress/Xerox	Interpress 문서
+# version ID follows, in the form /n.n
+0	string		StartFontMetrics	Adobe 글꼴 메트릭스
+0	string		StartFont	Adobe 글꼴 비트
+0	long		0x137A2944	NeWS 비트맵 글꼴
+0	long		0x137A2947	NeWS 글꼴 패밀리
+8	long		0x137A2B45	X11/NeWS 비트맵 글꼴
+8	long		0x137A2B48	X11/NeWS 글꼴 패밀리
+# snoop files are always big-endian
+# big-endian entries, with ullong equivalent of string "snoop"
+0	ullong		0x736e6f6f70000000	Snoop 캡처 파일
+>8	long		>0		- 버전 %ld
+# little-endian entries, with ullong equivalent of string "snoop"
+0	ullong		0x000000706f6f6e73	Snoop 캡처 파일
+>11	long		>0		- 버전 %ld
+0	short		0436		vfont 정의
+0	string		<MakerFile	Frame Maker 문서
+0	string		<MIFFile	Frame Maker MIF 파일
+0	string		<MML		Frame Maker MML 파일
+0	string		<BookFile	Frame Maker book 파일
+# Audio files are always big-endian so there are two sets of tables here.
+# The CPU endian architecture is determined via the ordering of the first 4 bytes
+# (the string ".snd"). The tables below have this value represented as a single
+# 4 byte long. If the architecture is big-endian the %d token can be used for
+# interpreting the sampling rate.
+# Since %d can't be done on the data for little endian machines the limitation
+# is that sampling rates not included in the x86 entries will not be recognized.
+#
+# big-endian entries
+#
+0	long		0x2e736e64	오디오 데이터:
+>12	long		1		8비트 u-law,
+>12	long		2		8비트 선형 PCM,
+>12	long		3		16비트 선형 PCM,
+>12	long		4		24비트 선형 PCM,
+>12	long		5		32비트 선형 PCM,
+>12	long		6		32비트 부동 소수점,
+>12	long		7		64비트 부동 소수점,
+>12	long		23		압축됨 (4비트 G.721 ADPCM),
+>12	long		24		압축됨 (8비트 G.722 ADPCM),
+>12	long		25		압축됨 (3비트 G.723 ADPCM),
+>12	long		26		압축됨 (5비트 G.723 ADPCM),
+>12	long		27		8비트 A-law,
+>20	long		1		모노,
+>20	long		2		스테레오,
+>20	long		4		쿼드,
+>16	long		x		%d Hz
+#
+# little-endian entries
+#
+0	long		0x646e732e	오디오 데이터:
+>12	long		0x01000000	8비트 u-law,
+>12	long		0x02000000	8비트 선형 PCM,
+>12	long		0x03000000	16비트 선형 PCM,
+>12	long		0x04000000	24비트 선형 PCM,
+>12	long		0x05000000	32비트 선형 PCM,
+>12	long		0x06000000	32비트 부동 소수점,
+>12	long		0x07000000	64비트 부동 소수점,
+>12	long		0x17000000	압축됨 (4비트 G.721 ADPCM),
+>12	long		0x18000000	압축됨 (8비트 G.722 ADPCM),
+>12	long		0x19000000	압축됨 (3비트 G.723 ADPCM),
+>12	long		0x1a000000	압축됨 (5비트 G.723 ADPCM),
+>12	long		0x1b000000	8비트 A-law,
+>20	long		0x01000000	모노,
+>20	long		0x02000000	스테레오,
+>20	long		0x04000000	쿼드,
+>16	long		0x401f0000	8000 Hz
+>16	long		0x80250000	9600 Hz
+>16	long		0x112b0000	11025 Hz
+>16	long		0x803e0000	16000 Hz
+>16	long		0xd4490000	18900 Hz
+>16	long		0x22560000	22050 Hz
+>16	long		0x007d0000	32000 Hz
+>16	long		0xa8930000	37800 Hz
+>16	long		0x44ac0000	44100 Hz
+>16	long		0x80bb0000	48000 Hz
+# .wav files are always little-endian
+# .wav big-endian entries, starting with long value for the string "RIFF"
+0	long		0x52494646	오디오 데이터:
+>34	short		0x0800		8-bit
+>34	short		0x1000		16-bit
+>20	short		0x0100		선형 PCM,
+>20	short		0x0200		MS ADPCM,
+>20	short		0x0600		A-law,
+>20	short		0x0700		u-law,
+>20	short		0x1100		DVI ADPCM,
+>22	short		0x0100		mono
+>22	short		0x0200		stereo
+# .wav little-endian entries, starting with long value for the string "RIFF"
+0	long		0x46464952	오디오 데이터:
+>34	short		0x0008		8-bit
+>34	short		0x0010		16-bit
+>20	short		0x0001		선형 PCM,
+>20	short		0x0002		MS ADPCM,
+>20	short		0x0006		A-law,
+>20	short		0x0007		u-law,
+>20	short		0x0011		DVI ADPCM,
+>22	short		0x0001		mono
+>22	short		0x0002		stereo
+# .aiff files are always big-endian
+# .aiff big-endian entries, starting with long value for the string "FORM"
+0	long		0x464f524d	오디오 데이터:
+>26	short		0x0008		8비트 선형 PCM,
+>26	short		0x0010		16비트 선형 PCM,
+>20	short		0x0001		mono
+>20	short		0x0002		stereo
+# .aiff little-endian entries, starting with long value for the string "FORM"
+0	long		0x4d524f46	오디오 데이터:
+>26	short		0x0800		8비트 선형 PCM,
+>26	short		0x1000		16비트 선형 PCM,
+>20	short		0x0100		mono
+>20	short		0x0200		stereo
+# .mid files are always big-endian
+# .mid big-endian entries, starting with long value for the string "MThd"
+0	long		0x4d546864	MIDI 데이터:
+>8	short		x		유형 %u,
+>10	short		x		%u 트랙
+# .mid little-endian entry (the string "MThd")
+# can't translate big-endian type and track information
+0	long		0x6468544d	MIDI 데이터
+#
+0	short		0x1010		PEX 이진 아카이브
+# rasterfiles are big-endian
+# big-endian rasterfile entries
+0	long		0x59a66a95	래스터 파일,
+>4	long		>0		%ld x
+>8	long		>0		%ld x
+>12	long		>0		%ld
+>20	long		0		이전 형식 이미지
+>20	long		1		표준 형식 이미지
+>20	long		2		런 길이 바이트 코드화된 이미지
+>20	long		3		XRGB 또는 RGB 형식 이미지
+>20	long		4		tiff 형식 이미지
+>20	long		5		iff (TAAC 형식) 이미지 
+>20	long		0xffff		실험적 형식의 이미지
+# little-endian rasterfile entries
+# cannot translate resolution stored as big-endian longs
+0	long		0x956aa659	래스터 파일,
+>23	long		0		이전 형식 이미지
+>23	long		1		표준 형식 이미지
+>23	long		2		런 길이 바이트 코드화된 이미지
+>23	long		3		XRGB 또는 RGB 형식 이미지
+>23	long		4		tiff 형식 이미지
+>23	long		5		iff (TAAC 형식) 이미지 
+>20	long		0xffff		실험적 형식의 이미지
+0	long		0x884f5053	Interleaf 빠른 저장 문서
+0	long		0x2a535441	Aster*x
+>7	long		0x574f5244		워드 문서
+>7	long		0x47524150		그래픽
+>7	long		0x53505245		스프레드시트
+>7	long		0x4d414352		매크로
+0	long		0x32323738	Aster*x 버전 2
+>29	byte		0x36			워드 문서
+>29	byte		0x35			그래픽
+>29	byte		0x32			스프레드시트
+>29	byte		0x38			매크로
+4	string		pgscriptver	IslandWrite 문서
+13	string		DrawFile	IslandDraw 문서
+0	string		P1		PBM ascii 파일
+0	string		P2		PGM ascii 파일
+0	string		P3		PPM ascii 파일
+0	string		P4		PBM 원시 파일
+0	string		P5		PGM 원시 파일
+0	string		P6		PPM 원시 파일
+0	string		\115\115	TIFF 파일, 빅 엔디언
+0	string		\111\111	TIFF 파일, 리틀 엔디언
+0	string		GIF87a		GIF 파일, v87
+0	string		GIF89a		GIF 파일, v89
+0	string		\377\330\377\340	JPEG 파일
+0	string		\377\330\377\341	JPEG 파일
+0	string		\377\330\377\356	JPG 파일
+8	string		ILBM		IFF ILBM 파일
+0	string		\312\376\272\276	자바 클래스 파일
+36	string		acsp	Kodak Color Management System, ICC 프로필
+0	string		%PDF		Adobe Portable Document Format (PDF) 
+>4	string		-1.0		v1.0
+>4	string		-1.1		v1.1
+>4	string		-1.2		v1.2
+>4	string		-1.3		v1.3
+>4	string		-1.4		v1.4
+>4	string		-1.5		v1.5
+0	string		<html		html 문서
+0	string		<HTML		html 문서
+0	string		<Html		html 문서
+0	string		<!doctype HTML	html document
+0	string		<!doctype Html	html document
+0	string		<!doctype html	html document
+0	string		<!DOCTYPE HTML	html document
+0	string		<!DOCTYPE Html	html document
+0	string		<!DOCTYPE html	html document
+0	string		<!Doctype HTML	html document
+0	string		<!Doctype Html	html document
+0	string		<!Doctype html	html document
+0	string		<head		html 문서
+0	string		<HEAD		html 문서
+0	string		<Head		html 문서
+0	string		<title		html 문서
+0	string		<TITLE		html 문서
+0	string		<Title		html 문서
+0	string		<?xml		XML 문서
+0	string		<?XML		XML 문서
+0	string		<?Xml		XML 문서
+0	string		\0211PNG	PNG 이미지 데이터
+0	string		.RMF		RealMedia 파일
+0	string		FlAsH-aRcHiVe	플래시 아카이브
+>13	string		-1.0		 1.0
+>13	string		-2.0		 2.0
+0	string		PK\003\004	ZIP 아카이브
+0	string		MZ		DOS 실행 가능 (EXE)
+0	string		LZ		DOS 내장
+0	byte		0xe9		DOS 실행 가능 (COM)
+0	byte		0xeb		DOS 실행 가능 (COM)
+24	long		60012		ufsdump 아카이브 파일
+0	string		TZif		zoneinfo 시간대 데이터 파일
+0	string		BZh		bzip2 압축된 데이터
+>3	byte		>47		, 블록 크기 = %c00k
+0	string		SUNWcpch	Sun C 컴파일러로 미리 컴파일된 헤더
+0	string		SUNWCpch	Sun C++ 컴파일러로 미리 컴파일된 헤더
+0	string		\043\040PaCkAgE\040DaTaStReAm	패키지 데이터 스트림
+0	short		0xcff1		CTF 데이터 파일
+0	string		\177DOF		DTrace DOF 데이터 파일
+0	string		\177FCF		fmd(1M) 체크포인트 파일

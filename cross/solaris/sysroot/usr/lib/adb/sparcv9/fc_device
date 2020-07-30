@@ -1,0 +1,15 @@
+.>w
+<w+0=""
++/"mutex"
+.$<<mutex
+<w+0t8=""
++/"node_name"
+.$<<la_wwn
+<w+0t16=""
++/"count"16t"flags"16t"ports"nXXJ
++/"state"16tnX
++/"initial process associator"8t8B
++/"vendor version"8t16B
++/"symbolic node name length"8tnB24t
++/"symbolic node name"8t255B
+<w+0t320=""

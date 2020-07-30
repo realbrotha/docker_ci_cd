@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE module SYSTEM "urn:sun:n1:cacao:module:dtd:1_1">
+
+<!--
+ Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+ ident	"$Revision: 1.17 $	SMI"
+-->
+
+<module name="com.sun.cacao.snmpv3_adaptor"
+        version="1.0"
+        initial-administrative-state="UNLOCKED"
+        ignored-at-startup="No"
+        enable-on-demand="No">
+
+  <description>
+    Adaptor providing SNMPv1/v2/v3 interface.
+  </description>
+
+  <module-class>
+    com.sun.cacao.snmpv3adaptor.SnmpV3AdaptorModule
+  </module-class>
+
+  <public-path>
+    <path-element>
+      file:../../../../lib/cacao_snmpv3_adaptor.jar
+    </path-element>
+  </public-path>
+
+  <cacao-version-supported>
+    2.0
+  </cacao-version-supported>
+
+  <parameters>
+    <!--
+                 The default ACL file read in by the SNMPv3 Adaptor module.
+		 This path is relocated by the snmpv3 module
+    -->
+    <parameter>
+      <param-name>jdmk.acl.file</param-name>
+      <param-value>#CACAO_ETC_BASEDIR#//etc/cacao/instances/#CACAO_INSTANCE_NAME#/security/snmp/jdmk.acl</param-value>
+    </parameter>
+
+    <!--
+                 The default UACL file read in by the SNMPv3 Adaptor module.
+		 This path is relocated by the snmpv3 module
+    -->
+    <parameter>
+      <param-name>jdmk.uacl.file</param-name>
+      <param-value>#CACAO_ETC_BASEDIR#//etc/cacao/instances/#CACAO_INSTANCE_NAME#/security/snmp/jdmk.uacl</param-value>
+    </parameter>
+
+    <!--
+                 The default user security file read in by the SNMPv3 Adaptor module.
+		 This path is relocated by the snmpv3 module
+    -->
+    <parameter>
+      <param-name>jdmk.security.file</param-name>
+      <param-value>#CACAO_ETC_BASEDIR#//etc/cacao/instances/#CACAO_INSTANCE_NAME#/security/snmp/jdmk.security</param-value>
+    </parameter>
+  </parameters>
+
+</module>

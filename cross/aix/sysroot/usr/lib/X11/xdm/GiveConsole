@@ -1,0 +1,58 @@
+#!/usr/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/2d/XTOP/aixclients/xdm/config/GiveConsole 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1992,1998 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)68        1.3  src/gos/2d/XTOP/aixclients/xdm/config/GiveConsole, xdmcp, gos530 2/26/98 15:59:29
+ 
+
+# Assign ownership of the console to the invoking user if on main DISPLAY.
+# By convention, both xconsole and xterm -C check that the
+# console is owned by the invoking user and is readable before attaching
+# the console output.  This way a random user can invoke xterm -C without
+# causing serious grief.
+#
+if [ $DISPLAY = ":0" ]; then
+    chown $USER /dev/console
+fi
+
+# Use the DISPLAY name to create a dummy device.
+# Change "." and ":" to "_" and truncate to 8 chars,
+# as utmp entries are limited to 12 chars.
+PORT=`echo $DISPLAY | /usr/bin/sed "s/\./_/g" | /usr/bin/sed "s/:/_/g" | /usr/bin/cut -c1-8`
+
+if [ -n "$PORT" ]; then
+    # Create a fake device for the xdm login port.
+    # This makes finger happy.
+    if [ ! -d /dev/xdm ]; then
+        /usr/bin/mkdir /dev/xdm
+        /usr/bin/chmod 755 /dev/xdm
+    fi
+    if [ -f /dev/xdm/$PORT ]; then
+        /usr/bin/rm /dev/xdm/$PORT
+    fi
+    /usr/bin/touch /dev/xdm/$PORT
+    /usr/bin/chmod 644 /dev/xdm/$PORT
+
+    # Extract the hostname (if present) from the DISPLAY name.
+    HOST=`echo $DISPLAY | /usr/bin/cut -d":" -f1`
+
+    # Use sessreg to add the /etc/utmp and /usr/adm/wtmp entries
+    # for this login session.
+    if [ -n "$HOST" ]; then
+        /usr/lib/X11/xdm/sessreg -a -l xdm/$PORT -h $HOST $USER
+    else
+        /usr/lib/X11/xdm/sessreg -a -l xdm/$PORT $USER
+    fi
+fi
+

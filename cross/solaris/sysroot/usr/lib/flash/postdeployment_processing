@@ -1,0 +1,56 @@
+#!/bin/ksh 
+
+RM="/usr/bin/rm"
+MKDIR="/usr/bin/mkdir"
+MV="/usr/bin/mv"
+CHGRP="/usr/bin/chgrp"
+CHMOD="/usr/bin/chmod"
+
+if [ ! -d $FLASH_ROOT/etc/flash ] ; then
+    $MKDIR $FLASH_ROOT/etc/flash
+fi
+
+if [ -d $FLASH_ROOT/var/fm/fmd ]; then
+	$CHGRP sys $FLASH_ROOT/var/fm/fmd
+	$CHMOD 755 $FLASH_ROOT/var/fm/fmd
+fi
+
+if [ -d $FLASH_ROOT/var/fm/fmd/ckpt ]; then
+	$CHGRP sys $FLASH_ROOT/var/fm/fmd/ckpt
+	$CHMOD 700 $FLASH_ROOT/var/fm/fmd/ckpt
+fi
+
+if [ -d $FLASH_ROOT/var/fm/fmd/rsrc ]; then
+	$CHGRP sys $FLASH_ROOT/var/fm/fmd/rsrc
+	$CHMOD 700 $FLASH_ROOT/var/fm/fmd/rsrc
+fi
+
+if [ -f $FLASH_ROOT/var/fm/fmd/rsrc/rsrc- ]; then
+    $MV $FLASH_ROOT/var/fm/fmd/rsrc/rsrc- $FLASH_ROOT/var/fm/fmd/rsrc/rsrc
+fi
+
+
+/usr/bin/cp -r /tmp/flash_tmp/reboot $FLASH_ROOT/etc/flash
+if [ $? != 0 ] ; then
+	$RM -rf $FLASH_DIR
+	echo "$(gettext "Can not set reboot customization scripts")"
+	exit 1
+fi
+
+/usr/bin/cp /tmp/flash_tmp/reboot_processing $FLASH_ROOT/etc/init.d/flash_reboot_processing
+if [ $? != 0 ] ; then
+	$RM -rf $FLASH_DIR
+	echo "$(gettext "Can not set reboot customization scripts")"
+	exit 1
+fi
+
+if [ ! -f $FLASH_ROOT/etc/rc2.d/S98flash_reboot ] ; then
+	/usr/bin/ln $FLASH_ROOT/etc/init.d/flash_reboot_processing $FLASH_ROOT/etc/rc2.d/S98flash_reboot
+	if [ $? != 0 ] ; then
+		$RM -rf $FLASH_DIR
+		echo "$(gettext "Can not set reboot customization scripts")"
+		exit 1
+	fi
+fi
+
+exit 0

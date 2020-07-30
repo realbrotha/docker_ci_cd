@@ -1,0 +1,20 @@
+.>X
+<X+0=n24t"*** TcbDesc ***"
++/"TcbDescHandle"16t"TcbHandle"16t"type"nJJX
++/"tcb_status"16t"Server pkg"16t"Victim"nUJJ
++/"sg_cache_ptr"8t"TcbIndex"16t"TcbSeq."nB8t3+XU4+
++/"InfoBufHandle"16t"UnsolHdrHandle"16t"AbortedTcb hnd"nJJJ
++="&Unsol BufList[32]"8tJn
+<X+0t336=""
++/"LsHandle"16tnJ
++/"DescLock"
+.$<<kmutex_t
++/"SgList hnd"16t"PkgOxId"16tnJX4+
++/"sys_mem"
+.$<<jfca_sysmem
++/"buf_cnt."16t"timer_pkg"16t"scsi_pkg"nU4+JJ
++/"local_abort"16t"pkg_completed"16t"active_flags"nXXX
++/"flags"16tnX
+<X+0t8=n24t"*** TCB ***"n
+*(<X+0t8)$<<jfca_htcb
+<X+0t480=""

@@ -1,0 +1,39 @@
+# @(#)73        1.3  src/bos/usr/lib/pios/file.attach, cmdpios, bos530 3/17/94 20:28:49
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/pios/file.attach 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1993,1994 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+#
+#   COMPONENT_NAME: CMDPIOS
+#
+#   FUNCTIONS:#		
+#
+#   ORIGINS: 27
+#
+#
+#   (C) COPYRIGHT International Business Machines Corp. 1993
+#   All Rights Reserved
+#   Licensed Materials - Property of IBM
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+	# FILE attachment
+	description 	= 	piobe.cat,4,21;File (in /dev directory)
+	add_queue 	= 	ps_makprt_prt
+	add_printer     =   	ps_makprt_prt
+	seq_num		=	6
+	submit_job	=	ps_qprt_fileName
+	change_queue	=	ps_chpq_attachName
+	change_filters	=	ps_pqfilters_ghostName
+	remove_queue	=	ps_rmpq_ghostName_other

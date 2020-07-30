@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/gstreamer-0.8
+
+Name: GStreamer control library
+Description: Dynamic parameters for plug-ins
+Requires: gstreamer-0.8
+Version: 0.8.4
+Libs: -L${libdir} -lgstcontrol-0.8
+Cflags: -I${includedir} -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64

@@ -1,0 +1,70 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# rspc53H src/rspc/usr/sbin/rtas/getRtasHeap.sh 1.3 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 2005 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)85      1.3  src/rspc/usr/sbin/rtas/getRtasHeap.sh, rspcpal, rspc53H, h2005_39B8 9/28/05 12:14:37
+#
+# COMPONENT_NAME: rspcpal
+#
+# FUNCTION: This command dumps RTAS Heap Memory. This command is called by snap.
+#
+# ORIGINS: 27
+#
+
+if [ "$PASSNO" = 1 ]
+then
+    echo "Checking space requirement for RTAS heap information...\c" >> $SCRIPTLOG
+else
+    echo "Gathering RTAS heap memory information...\c" >> $SCRIPTLOG
+fi
+
+rtas_heap_line=`echo "ipl -mem" | /usr/sbin/kdb | /usr/bin/grep RTAS_HEAP`
+rtas_size_temp=`echo $rtas_heap_line | /usr/bin/cut -f 3 -d " "`
+typeset -i10 rtas_size_bytes
+rtas_size_bytes=16#$rtas_size_temp
+
+if [ "$PASSNO" = 1 ]
+then
+    # Add a fixed amount of 3000 bytes (in addition to the RTAS heap bytes)
+    # to account for the kdb header information.  Also, multiply by a factor
+    # of 5, because only 16 bytes are displayed per 80 character line.
+    ((total_bytes=(rtas_size_bytes * 5) + 3000))
+
+    # report size for both adapter types
+    echo "$total_bytes" > $SCRIPTSIZE
+    echo "RTAS Heap first pass reporting size= $total_bytes" >> $SCRIPTLOG
+    exit 0
+#end of first pass
+fi
+  
+# Second pass,  return without error on first pass
+if [[ -z $SNAPDIR ]]
+then
+    echo "ERROR: the script directory was not created  " >> $SCRIPTLOG
+    exit 1
+fi
+
+rtas_address=`echo $rtas_heap_line | /usr/bin/cut -f 2 -d " "`
+((rtas_size_temp2=rtas_size_bytes / 4))
+typeset -i16 rtas_size_words
+rtas_size_words=$rtas_size_temp2
+echo "dpw $rtas_address ${rtas_size_words#16#}" | /usr/sbin/kdb > $SNAPDIR/rtas_heap.out
+if [ -x /usr/bin/gzip/ ]
+then
+    /usr/bin/rm $SNAPDIR/rtas_heap.out.gz > /dev/null 2>&1
+    /usr/bin/gzip $SNAPDIR/rtas_heap.out > /dev/null 2>&1
+fi
+echo " done." >> $SCRIPTLOG

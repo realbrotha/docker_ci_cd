@@ -1,0 +1,43 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/pios/bull.trailer.sh 1.2 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1989,1992 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)68        1.2  src/bos/usr/lib/pios/bull.trailer.sh, cmdpios, bos530 4/22/92 15:38:15
+#
+# COMPONENT_NAME: (CMDPIOS) Printer Backend
+#
+# ORIGINS: 27
+#
+#                  -- (                            when
+# combined with the aggregated modules for this product)
+# OBJECT CODE ONLY SOURCE MATERIALS
+# (C) COPYRIGHT International Business Machines Corp. 1989
+# All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# BULL SOURCE FILE
+#
+
+#
+# produces the "END banner for the trailer for Bull print outs
+#
+if [ -x /bin/banner ]; then
+    banner=/bin/banner
+else
+    banner=/bin/echo
+fi
+$banner "END"
+exit 0

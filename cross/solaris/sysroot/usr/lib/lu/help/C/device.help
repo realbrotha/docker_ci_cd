@@ -1,0 +1,25 @@
+\f2Help on Device Choices.\f1
+
+The choices contain the list of all free devices.  Devices displayed
+in bold meet the the recommended min size of the corresponding mount 
+point and may be selected.
+
+You can move the cursor using the UP and DOWN arrow keys. The device
+can be selected by Pressing ENTER (Carriage Return).
+
+You can escape to the main menu with out selecting a device, using
+\f4Abort\f1.
+
+If no device of the proper size exists on your system, you can create the 
+devices by invoking a format session, using the \f2Slice\f1 key.
+
+\f4Remember:\f1
+   Please note the Recommended Minsize of the new BE slices before 
+   entering the format session.
+
+\f4The following restrictions apply for selecting the devices\f1
+1. It is preferable to have the ROOT of the new BE on a different 
+   disk than the Active BE ROOT. This greatly simplifies the fallback 
+   process between the BEs. 
+2. On older systems, if your hard disk capacity is more than 1GB, 
+   then the ROOT device must be within the first 1GB of the disk.

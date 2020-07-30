@@ -1,0 +1,118 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Form.copy 5.2     01/04/19 SMI"
+#
+
+################################################################################
+#	Module Name:  Form.copy
+################################################################################
+
+form=`gettext "Copy the contents of active BE to target BE"`
+help=OPEN TEXT $OBJ_DIR/$LININFO
+altslks=true
+done=`  indicator -w;
+	run $LUBIN/lumake -t "$F3" -o $LOGFILE -l /tmp/err.${VPID} -n "$F1" -m "$F4" -Z;
+	if [ "$RET" = "0" ];
+	then
+		set -l CMD="open text $OBJ_DIR/Text.ok /tmp/err.${VPID} Copy";
+	else
+		set -l CMD="open text $OBJ_DIR/Text.err /tmp/err.${VPID} Copy";
+	fi;`$CMD
+
+close=`/bin/rm -f $ARG1;`
+
+name=`gettext "Name of target Boot Environment"`
+lininfo=Sub1Help.copy
+nrow=1
+ncol=1
+frow=1
+fcol=40
+rows=1
+columns=30
+#choices should show all inactive and complete BEs.
+rmenu=open menu $OBJ_DIR/Menu.choices $ARG1
+valid=`fmlgrep '^'$F1'$' $ARG1`
+invalidmsg=`gettext "ERROR: Press CHOICES to see the valid BE names."`
+
+name=`gettext "Do you want to schedule the copy?"`
+lininfo=Sub1Help2.copy
+nrow=2
+ncol=1
+frow=2
+fcol=45
+rows=1
+columns=5
+rmenu={ `gettext "yes"` `gettext "no"` }
+value=`gettext "no"`
+menuonly=true
+invalidmsg=`gettext "ERROR: Enter yes or no."`
+choicemsg=`gettext "Enter yes or no."`
+
+name=`gettext "Enter the time in 'at' format to schedule the copy"`
+lininfo=Sub1Help3.copy
+nrow=3
+ncol=1
+frow=3
+fcol=58
+rows=1
+columns=18
+scroll=true
+valid=`$LUBIN/lutime_valid "$F3"`
+choicemsg=`gettext "Enter the time in 'at' format"`
+invalidmsg=`gettext "ERROR: You have not entered the time in proper 'at' format"`
+show=`gettext "yes" | grep "$F2" > /tmp/.compareyesno; echo \$? >/tmp/out ;
+	if [ -s /tmp/.compareyesno ];
+        then rm -f /tmp/.compareyesno; echo TRUE;
+        else rm -f /tmp/.compareyesno; echo FALSE;
+        fi`
+
+name=`gettext "Enter the address to which the copy log should be mailed"`
+lininfo=Sub1Help4.copy
+nrow=4
+ncol=1
+frow=4
+fcol=58
+rows=1
+columns=18
+scroll=true
+valid=`if [ "X$F4" != "X" ] ; then /bin/true ; else /bin/false ; fi`
+choicemsg=`gettext "Enter an e-mail address"`
+invalidmsg=`gettext "ERROR: You must enter an e-mail address"`
+show=`gettext "yes" | grep "$F2" > /tmp/.compareyesno;
+	if [ -s /tmp/.compareyesno ];
+        then rm -f /tmp/.compareyesno; echo TRUE;
+        else rm -f /tmp/.compareyesno; echo FALSE;
+        fi`
+
+name= 
+button=9
+action=nop
+
+name=`gettext "CHOICES"`
+button=10
+action=choices
+
+name=`gettext "SAVE"`
+button=11
+action=done
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=`gettext "HELP"`
+button=16
+action=help

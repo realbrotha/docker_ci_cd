@@ -1,0 +1,198 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:Nautilus_Emblem_View"
+	type="shlib" location="/usr/lib/bonobo/libnautilus-emblem-view">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Nautilus Emblem view"/>
+	<oaf_attribute name="name-af" type="string" value="Nautilus-embleemaansig"/>
+	<oaf_attribute name="name-am" type="string" value="የNautilus አርማ ዕይታ"/>
+	<oaf_attribute name="name-ar" type="string" value="مشهد نوتلس للشعارات"/>
+	<oaf_attribute name="name-az" type="string" value="Nautilus Emblem nümayişi"/>
+	<oaf_attribute name="name-be" type="string" value="Праглядальнік эмблемаў Наўтылюса"/>
+	<oaf_attribute name="name-bg" type="string" value="Преглед на емблеми в Nautilus"/>
+	<oaf_attribute name="name-bn" type="string" value="নটিলাস প্রতীকের দৃশ্য"/>
+	<oaf_attribute name="name-ca" type="string" value="Vista del distintiu del Nautilus"/>
+	<oaf_attribute name="name-cs" type="string" value="Pohled Emblém Nautilu"/>
+	<oaf_attribute name="name-cy" type="string" value="Golwg Bathodynnau Nautilus"/>
+	<oaf_attribute name="name-da" type="string" value="Emblemvisning til Nautilus"/>
+	<oaf_attribute name="name-de" type="string" value="Nautilus-Emblemansicht"/>
+	<oaf_attribute name="name-el" type="string" value="Όψη Εμβλήματος του Ναυτίλου"/>
+	<oaf_attribute name="name-en_CA" type="string" value="Nautilus Emblem view"/>
+	<oaf_attribute name="name-en_GB" type="string" value="Nautilus Emblem view"/>
+	<oaf_attribute name="name-es" type="string" value="Vista de emblemas de Nautilus"/>
+	<oaf_attribute name="name-et" type="string" value="Nautiluse embleemivaade"/>
+	<oaf_attribute name="name-eu" type="string" value="Nautilus-en ikurren ikuspegia"/>
+	<oaf_attribute name="name-fi" type="string" value="Nautiluksen tunnusmerkkinäkymä"/>
+	<oaf_attribute name="name-fr" type="string" value="Vue d&apos;emblème Nautilus"/>
+	<oaf_attribute name="name-gu" type="string" value="નોટિલસના સાંકેતિક ચિહ્નનું દ્રશ્ય"/>
+	<oaf_attribute name="name-he" type="string" value="תצוגת סמלי נאוטילוס"/>
+	<oaf_attribute name="name-hi" type="string" value="नॉटिलस नमूना दश्य"/>
+	<oaf_attribute name="name-hr" type="string" value="Pregled Nautilusovih obilježja"/>
+	<oaf_attribute name="name-hu" type="string" value="Nautilus matricanézet"/>
+	<oaf_attribute name="name-id" type="string" value="View Emblem Nautilus"/>
+	<oaf_attribute name="name-is" type="string" value="Merkimiðasýn Nautilus"/>
+	<oaf_attribute name="name-it" type="string" value="Visualizzazione «Simboli» per Nautilus"/>
+	<oaf_attribute name="name-ja" type="string" value="Nautilus エンブレム表示"/>
+	<oaf_attribute name="name-ko" type="string" value="노틸러스 상징 보기"/>
+	<oaf_attribute name="name-li" type="string" value="Nautilus embleemvinster"/>
+	<oaf_attribute name="name-lt" type="string" value="Nautilus emblemų vaizdas"/>
+	<oaf_attribute name="name-lv" type="string" value="Nautilus Emblēmu skats"/>
+	<oaf_attribute name="name-mk" type="string" value="Nautilus поглед на амблеми"/>
+	<oaf_attribute name="name-ml" type="string" value="നോട്ടിലസ് ചിഹ്ന കാഴ്ച"/>
+	<oaf_attribute name="name-mn" type="string" value="Наутилусын эмблем харагдалт"/>
+	<oaf_attribute name="name-ms" type="string" value="Paparan Lambang Nautilus"/>
+	<oaf_attribute name="name-ne" type="string" value="नटिलस एमब्लेम दृश्य"/>
+	<oaf_attribute name="name-nl" type="string" value="Nautilus embleemweergave"/>
+	<oaf_attribute name="name-nn" type="string" value="Nautilus merkevising"/>
+	<oaf_attribute name="name-no" type="string" value="Nautilus emblemvisning"/>
+	<oaf_attribute name="name-pa" type="string" value="ਨਾਟਲਿਸ ਨਿਸ਼ਾਨ ਦਰਿਸ਼"/>
+	<oaf_attribute name="name-pl" type="string" value="Widok Nautilusa z symbolami"/>
+	<oaf_attribute name="name-pt" type="string" value="Vista de Emblema Nautilus"/>
+	<oaf_attribute name="name-pt_BR" type="string" value="Visão de emblemas do Nautilus"/>
+	<oaf_attribute name="name-ro" type="string" value="Vizualizare Embleme"/>
+	<oaf_attribute name="name-ru" type="string" value="Просмотр  в виде эмблем для &quot;Наутилуса&quot;"/>
+	<oaf_attribute name="name-sk" type="string" value="Pohľad Emblémy pre Nautilus"/>
+	<oaf_attribute name="name-sl" type="string" value="Nautilusov pogled Emblemov"/>
+	<oaf_attribute name="name-sq" type="string" value="Paraqitje sipas emblemave të Nautilus"/>
+	<oaf_attribute name="name-sr" type="string" value="Преглед Наутилусових обележја"/>
+	<oaf_attribute name="name-sr@Latn" type="string" value="Pregled Nautilusovih obeležja"/>
+	<oaf_attribute name="name-sr@ije" type="string" value="Преглед Наутилусових обиљежја"/>
+	<oaf_attribute name="name-sv" type="string" value="Nautilus emblemvy"/>
+	<oaf_attribute name="name-th" type="string" value="มุมมองตราของ Nautilus"/>
+	<oaf_attribute name="name-tr" type="string" value="Nautilus Amblem görünümü"/>
+	<oaf_attribute name="name-uk" type="string" value="Відображення емблем для &quot;Наутілуса&quot;"/>
+	<oaf_attribute name="name-vi" type="string" value="Khung xem hình tượng của Nautilus"/>
+	<oaf_attribute name="name-zh_CN" type="string" value="Nautilus 徽标视图"/>
+	<oaf_attribute name="name-zh_HK" type="string" value="Nautilus 圖章顯示模式"/>
+	<oaf_attribute name="name-zh_TW" type="string" value="Nautilus 圖章顯示模式"/>
+	<oaf_attribute name="description" type="string" value="Nautilus Emblem side pane"/>
+	<oaf_attribute name="description-af" type="string" value="Nautilus-embleemsypaneel"/>
+	<oaf_attribute name="description-ar" type="string" value="لوح نوتلس الجانبي للشعارات"/>
+	<oaf_attribute name="description-az" type="string" value="Nautilus Emblem yan çubuğu"/>
+	<oaf_attribute name="description-be" type="string" value="Бакавая панэля эмблемаў Наўтылюса"/>
+	<oaf_attribute name="description-bg" type="string" value="Страничен панел на Nautilus за Емблема"/>
+	<oaf_attribute name="description-bn" type="string" value="নটিলাসের প্রতীকধারী সাইড পেন"/>
+	<oaf_attribute name="description-ca" type="string" value="Barra lateral de distintius del Nautilus"/>
+	<oaf_attribute name="description-cs" type="string" value="Boční panel Nautilu Emblém"/>
+	<oaf_attribute name="description-cy" type="string" value="Panel ochr Bathodynnau Nautilus"/>
+	<oaf_attribute name="description-da" type="string" value="Emblemsidepanel til Nautilus"/>
+	<oaf_attribute name="description-de" type="string" value="Nautilus-Emblem-Seitenleiste"/>
+	<oaf_attribute name="description-el" type="string" value="Πλευρικό ταμπλώ Εμβλήματος του Ναυτίλου"/>
+	<oaf_attribute name="description-en_CA" type="string" value="Nautilus Emblem side pane"/>
+	<oaf_attribute name="description-en_GB" type="string" value="Nautilus Emblem side pane"/>
+	<oaf_attribute name="description-es" type="string" value="Panel lateral de emblemas de Nautilus"/>
+	<oaf_attribute name="description-et" type="string" value="Nautiluse embleemide küljepaan"/>
+	<oaf_attribute name="description-eu" type="string" value="Nautilus-eko ikurren albo-panela"/>
+	<oaf_attribute name="description-fi" type="string" value="Nautiluksen tunnusmerkkisivupaneeli"/>
+	<oaf_attribute name="description-fr" type="string" value="Volet latéral d&apos;emblème Nautilus"/>
+	<oaf_attribute name="description-gu" type="string" value="નોટિલસના સાંકેતિક ચિહ્નની બાજુની તકતી"/>
+	<oaf_attribute name="description-he" type="string" value="חלונית צד סמלי נאוטילוס"/>
+	<oaf_attribute name="description-hi" type="string" value="नॉटिलस नमूना दश्य"/>
+	<oaf_attribute name="description-hr" type="string" value="Nautilusova bočna ploča sa obilježjima"/>
+	<oaf_attribute name="description-hu" type="string" value="Nautilus matrica-oldalpanel"/>
+	<oaf_attribute name="description-id" type="string" value="Pane samping Emblem Nautilus"/>
+	<oaf_attribute name="description-is" type="string" value="Síðustika fyrir merkimiða í Nautilus"/>
+	<oaf_attribute name="description-it" type="string" value="Riquadro laterale «Simboli» per Nautilus"/>
+	<oaf_attribute name="description-ja" type="string" value="Nautilus のエンブレム用サイド区画"/>
+	<oaf_attribute name="description-ko" type="string" value="노틸러스 상징 가장자리 패널"/>
+	<oaf_attribute name="description-li" type="string" value="Nautilus embleem-ziejpeniel"/>
+	<oaf_attribute name="description-lt" type="string" value="Nautilus emblemų šoninis skydelis"/>
+	<oaf_attribute name="description-lv" type="string" value="Nautilus Emblēmu sāna rūts"/>
+	<oaf_attribute name="description-mk" type="string" value="Nautilus странична-лента панел на емблем"/>
+	<oaf_attribute name="description-ml" type="string" value="നോട്ടിലസ് ചിഹ്ന പാര്ശ്വതലം"/>
+	<oaf_attribute name="description-mn" type="string" value="Наутилусын хажуугийн эмблемт самбар"/>
+	<oaf_attribute name="description-ms" type="string" value="Jendela tepi Lambang Nautilus"/>
+	<oaf_attribute name="description-ne" type="string" value="नटिलस चिन्हको साइड पेन"/>
+	<oaf_attribute name="description-nl" type="string" value="Nautilus embleem-zijpaneel"/>
+	<oaf_attribute name="description-nn" type="string" value="Nautilus sidepanel for merke"/>
+	<oaf_attribute name="description-no" type="string" value="Nautilus sidepanel for emblemer"/>
+	<oaf_attribute name="description-pa" type="string" value="ਨਾਟਲਿਸ ਨਿਸ਼ਾਨ ਕਿਨਾਰੇ ਦੀ ਪੱਟੀ"/>
+	<oaf_attribute name="description-pl" type="string" value="Panel paska bocznego z symbolami"/>
+	<oaf_attribute name="description-pt" type="string" value="Painel lateral de Emblema Nautilus"/>
+	<oaf_attribute name="description-pt_BR" type="string" value="Painel lateral de emblemas do Nautilus"/>
+	<oaf_attribute name="description-ro" type="string" value="Panou lateral Embleme"/>
+	<oaf_attribute name="description-ru" type="string" value="Боковая панель эмблем для &quot;Наутилуса&quot;"/>
+	<oaf_attribute name="description-sk" type="string" value="Bočný panel Emblémy pre Nautilus"/>
+	<oaf_attribute name="description-sl" type="string" value="Stranski pult Nautilusovih emblemov"/>
+	<oaf_attribute name="description-sq" type="string" value="Paneli anësor i emblemave të Nautilus"/>
+	<oaf_attribute name="description-sr" type="string" value="Наутилусова плоча постранце са обележјима"/>
+	<oaf_attribute name="description-sr@Latn" type="string" value="Nautilusova ploča postrance sa obeležjima"/>
+	<oaf_attribute name="description-sr@ije" type="string" value="Наутилусова плоча постранце са обиљежјима"/>
+	<oaf_attribute name="description-sv" type="string" value="Nautilus emblemsidopanel"/>
+	<oaf_attribute name="description-th" type="string" value="แถบข้างสำหรับตราของ Nautilus"/>
+	<oaf_attribute name="description-tr" type="string" value="Nautilus Amblem köşesi paneli"/>
+	<oaf_attribute name="description-uk" type="string" value="Бічна панель відображення емблем для &quot;Наутілуса&quot;"/>
+	<oaf_attribute name="description-vi" type="string" value="Ô bên chứa hình tượng của Nautilus"/>
+	<oaf_attribute name="description-zh_CN" type="string" value="Nautilus 徽标侧栏"/>
+	<oaf_attribute name="description-zh_HK" type="string" value="Nautilus 圖章側列窗格"/>
+	<oaf_attribute name="description-zh_TW" type="string" value="Nautilus 圖章側列窗格"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name" type="string" value="Emblems"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-af" type="string" value="Embleme"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-am" type="string" value="አርማዎች"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ar" type="string" value="شعارات"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-az" type="string" value="Emblemlər"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-be" type="string" value="Эмблемы"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bg" type="string" value="Емблеми"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-bn" type="string" value="প্রতীক"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ca" type="string" value="Distintius"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cs" type="string" value="Emblémy"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-cy" type="string" value="Bathodynau"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-da" type="string" value="Emblemer"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-de" type="string" value="Embleme"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-el" type="string" value="Εμβλήματα"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_CA" type="string" value="Emblems"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-en_GB" type="string" value="Emblems"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-es" type="string" value="Emblemas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-et" type="string" value="Embleemid"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-eu" type="string" value="Ikurrak"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fi" type="string" value="Tunnusmerkit"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-fr" type="string" value="Emblèmes"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gl" type="string" value="Emblemas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-gu" type="string" value="સાંકેતિક ચિહ્નો"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-he" type="string" value="סמלים"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hi" type="string" value="चिन्ह"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hr" type="string" value="Obilježja"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-hu" type="string" value="Matricák"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-id" type="string" value="Emblem"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-is" type="string" value="Merkimiðar"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-it" type="string" value="Simboli"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ja" type="string" value="エンブレム"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ko" type="string" value="상징"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-li" type="string" value="Embleme"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lt" type="string" value="Emblemos"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-lv" type="string" value="Emblēmas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mk" type="string" value="Амблеми"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ml" type="string" value="ചിഹ്നങ്ങള്"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-mn" type="string" value="Эмблемүүд"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ms" type="string" value="Lambang"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ne" type="string" value="चिन्हहरू"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nl" type="string" value="Emblemen"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-nn" type="string" value="Merke"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-no" type="string" value="Emblemer"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pa" type="string" value="ਨਿਸ਼ਾਨ"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pl" type="string" value="Symbole"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt" type="string" value="Emblemas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-pt_BR" type="string" value="Emblemas"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ro" type="string" value="Embleme"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-ru" type="string" value="Эмблемы"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sk" type="string" value="Emblémy"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sl" type="string" value="Emblemi"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sq" type="string" value="Emblemat"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr" type="string" value="Обележја"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@Latn" type="string" value="Obeležja"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sr@ije" type="string" value="Обиљежја"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-sv" type="string" value="Emblem"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-th" type="string" value="ตรา"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-tr" type="string" value="Amblemler"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-uk" type="string" value="Емблеми"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-vi" type="string" value="Hình Tượng"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_CN" type="string" value="徽标"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_HK" type="string" value="標識"/>
+	<oaf_attribute name="nautilus:sidebar_panel_name-zh_TW" type="string" value="標識"/>
+</oaf_server>
+
+</oaf_info>

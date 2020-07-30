@@ -1,0 +1,105 @@
+#!/sbin/sh
+#
+# ident	"%Z%%M%	%I%	%E% SMI"
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+# This script is used install deferred updates at a same run
+# level on the machine
+
+# Set up localization text domain
+TEXTDOMAIN=SUNW_PATCHMGR_INITD_SCRIPTS
+PATCHADD=/usr/sbin/patchadd
+UNZIP=/usr/bin/unzip
+CHMOD=/usr/bin/chmod
+MKDIR=/usr/bin/mkdir
+ECHO=/usr/bin/echo
+TOUCH=/usr/bin/touch
+CHMOD=/usr/bin/chmod
+export TEXTDOMAIN
+
+trap 'exit 0' 1 2 3 15
+
+case "$1" in
+
+'lock')
+	if [ ! -f "$DEFERRED_LOCK_FILE" ]
+	then
+		$TOUCH $DEFERRED_LOCK_FILE
+		$CHMOD 700 $DEFERRED_LOCK_FILE
+	fi
+
+	;;
+'stop')
+	DEFERRED_DIR=`/usr/sbin/smpatch get patchpro.download.directory`
+	if [ ! -d "$DEFERRED_DIR" ]
+	then
+		DEFERRED_DIR=/var/sadm/spool
+	fi
+	DEFERRED_UPDATES_LIST="$DEFERRED_DIR/disallowed_patch_list"
+	DEFERRED_UPDATES_REPORT="$DEFERRED_DIR/disallowed_patch_list_report"
+	DEFERRED_LOCK_FILE="$DEFERRED_DIR/critical_shutdown_update_lock"
+	export DEFERRED_DIR DEFERRED_UPDATES_LIST DEFERRED_UPDATES_REPORT 
+
+	if [ -f "$DEFERRED_LOCK_FILE" ]
+	then
+		rm -f $DEFERRED_LOCK_FILE
+		exit
+	fi
+
+	if [ ! -f "$DEFERRED_UPDATES_LIST" ]
+	then
+		exit
+	fi
+	
+	BACKOUT_DIR=`/usr/sbin/smpatch get patchpro.backout.directory`
+	if [ ! -d "$BACKOUT_DIR" -o -z "$BACKOUT_DIR" ]
+	then
+		BACKOUT_PARM=
+	else
+		BACKOUT_PARM="-B $BACKOUT_DIR"
+	fi
+	export BACKOUT_DIR BACKOUT_PARM
+
+	if [ -f "$DEFERRED_UPDATES_REPORT" ]
+	then
+		rm -f "$DEFERRED_UPDATES_REPORT"
+	fi
+	
+	cat "$DEFERRED_UPDATES_LIST" | while read PATCHID
+	do
+		$ECHO "STATUS INSTALL BEGIN $PATCHID" >> "$DEFERRED_UPDATES_REPORT"
+		/usr/bin/gettext -n -s "Installing update " > /dev/console
+		$ECHO "$PATCHID\c" > /dev/console
+		if [ -f "$DEFERRED_DIR/$PATCHID.jar" ]
+		then
+			$MKDIR $DEFERRED_DIR/$PATCHID.jar.dir
+			$UNZIP -d $DEFERRED_DIR/$PATCHID.jar.dir  $DEFERRED_DIR/$PATCHID.jar >/dev/null 2>> "$DEFERRED_UPDATES_REPORT"
+		fi
+		$PATCHADD  $BACKOUT_PARM $DEFERRED_DIR/$PATCHID.jar.dir/$PATCHID >> "$DEFERRED_UPDATES_REPORT" 2>&1
+		RET=$?
+		
+		if [ $RET -eq 0 ]
+		then
+		        /usr/bin/gettext -s " Succeeded" > /dev/console
+			rm $DEFERRED_DIR/$PATCHID.jar >/dev/null 2>&1
+			$MESSAGE=`/usr/bin/gettext "Update installation was successful"`
+		else
+		        /usr/bin/gettext -s " Failed" > /dev/console
+			$MESSAGE=`/usr/bin/gettext "Update installation failed"`
+		fi	
+
+		rm -rf $DEFERRED_DIR/$PATCHID.jar.dir >/dev/null 2>&1
+
+		$ECHO "STATUS INSTALL END $PATCHID INSTALL.$RET $MESSAGE" >> "$DEFERRED_UPDATES_REPORT"
+	
+	done 
+
+	rm -f "$DEFERRED_UPDATES_LIST"
+
+	;;
+*)
+	;;
+esac

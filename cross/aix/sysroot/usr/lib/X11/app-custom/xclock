@@ -1,0 +1,89 @@
+! @(#)76        1.8  src/gos/apps/custom/app-custom/xclock.nls, custom, gos530 2/4/94 12:53:31
+! IBM_PROLOG_BEGIN_TAG 
+! This is an automatically generated prolog. 
+!  
+! gos530 src/gos/apps/custom/app-custom/xclock.nls 1.8 
+!  
+! Licensed Materials - Property of IBM 
+!  
+! (C) COPYRIGHT International Business Machines Corp. 1992,1994 
+! All Rights Reserved 
+!  
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+!  
+! IBM_PROLOG_END_TAG 
+! 
+! COMPONENT_NAME: (custom) AIXwindows Customizing Tool 
+! 
+! FUNCTIONS: app-custom file
+!
+! ORIGINS: 27 
+! 
+! (C) COPYRIGHT International Business Machines Corp. 1992, 1994 
+! All Rights Reserved 
+! Licensed Materials - Property of IBM 
+! 
+! US Government Users Restricted Rights - Use, duplication or 
+! disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+! 
+! xclock default data file for all xclock applications 
+! 
+"Colors" Color *background "window interior\nbackground" ; 
+"Colors" Color *foreground "digital text or\nanalog clock ticks" ; 
+"Colors" Color *hands "analog hands" ; 
+"Colors" Color *highlight "highlight on\nanalog hands" ; 
+"Colors" SelectOne *reverseVideo "reverse video" 
+	true = "true" 
+	false = "false" ; 
+
+"Fonts" Font *font "digital clock font" ; 
+
+"Size and Location" Number .width "width" ; 
+"Size and Location" Number .height "height" ; 
+"Size and Location" SelectOne .geometry "window location" 
+	+0+0 = "top left" 
+	-0+0 = "top right" 
+	+0-0 = "bottom left" 
+	-0-0 = "bottom right" ; 
+
+"Icon" Picture $MWM**iconImage "icon picture *\n(for minimized icon)" bitmap; 
+"Icon" Color $MWM**iconImageBackground "icon picture background *" ; 
+"Icon" Color $MWM**iconImageForeground "icon picture foreground *" ; 
+"Icon" String *iconName "icon name" ; 
+"Icon" SelectOne *initialState "window state on\nstartup (iconified)" 
+	NormalState = "full window"
+	IconicState = "iconified"; 
+
+"Graphics" SelectMany $MWM**clientDecoration "window decorations *" 
+	" " 
+	all = "turn on all decorations" 
+	resizeh = "resize border" 
+	border = "plain border" 
+	menu = "window menu button" 
+	title = "title bar" 
+	minimize = "minimize button" 
+	maximize = "maximize button" 
+	none = "turn off all decorations" ; 
+"Graphics" SelectMany $MWM**clientFunctions "window operations *" 
+	" " 
+	all = "turn on all operations" 
+	resize = "resize" 
+	move = "move" 
+	minimize = "minimize" 
+	maximize = "maximize" 
+	close = "close" 
+	none = "turn off all operations" ; 
+"Graphics" Number *padding "internal padding\n(pixels)" ; 
+
+"Behaviors" SelectOne $MWM**focusAutoRaise 
+"raise window *\nwhen mouse enters"
+	true = "true" 
+	false = "false" ; 
+"Behaviors" SelectOne *analog "type of clock" 
+	true = "analog" 
+	false = "digital" ; 
+"Behaviors" SelectOne *chime "chime every half hour" 
+	true = "true" 
+	false = "false" ; 
+"Behaviors" Number *update "interval of updates\n(seconds)" ; 

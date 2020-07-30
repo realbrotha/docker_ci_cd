@@ -1,0 +1,16 @@
+######################################################################
+#
+#    Common Desktop Environment (CDE)
+#
+#    Action and DataType Definition File
+#
+######################################################################
+
+ACTION BR_1_0_action
+{
+    TYPE            COMMAND
+    LABEL           Solaris Registration
+    EXEC_STRING     /usr/sbin/sconadm register -c
+    ICON            SDtBR
+    WINDOW_TYPE     NO_STDIO
+}

@@ -1,0 +1,10 @@
+.="ce global register structure"n
++/"ce_globregs"18t"core_arb_wt"18t"infinit_burst_en"18tnX18tX18tX
++/"status"18t"mask"18t"status_alias"nX18tX18tX
+.+10/"sel_clear_mask"nX
+.+fe4/"pci_err_status"18t"pci_err_mask"18t"bim_cfg"nX18tX18tX
++/"bim_diag"18t"soft_reset"nX18tX
+.+c/"bim_dp_test"nX
+.+8/"bim_ldo_en"nX
++/"bim_buf_addr"18t"bim_data_reg"nX18t2X
++/"bim_ram_cs"nX

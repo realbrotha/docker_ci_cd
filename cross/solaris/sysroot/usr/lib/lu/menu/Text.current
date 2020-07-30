@@ -1,0 +1,56 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)Text.current 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Name of Current Boot Environment"`
+wrap=true
+altslks=true
+action=nop
+
+begrow=any
+begcol=any
+rows=4
+columns=35
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+framemsg=`gettext "Strike the CANCEL function key to return to main menu."`
+
+text="
+
+`$LUBIN/lucurr`
+"
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

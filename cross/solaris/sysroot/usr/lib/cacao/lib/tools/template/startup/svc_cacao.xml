@@ -1,0 +1,89 @@
+<?xml version='1.0'?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+	Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+	Use is subject to license terms.
+	ident	"$Revision: 1.4.2.1 $ SMI"
+
+	Service manifest template for the Cacao instance service.
+        
+        This service manages the restart of one Cacao instance based on the value of
+        its property controlling the startup at reboot.                   
+-->
+
+<service_bundle type='manifest' name='SUNWcacaort:cacao'>
+
+<service
+	name='_SMF_SERVICE_NAME_'
+	type='service'
+	version='1'> 
+
+       
+	<dependency
+		name='filesystem'
+		grouping='require_all'
+		restart_on='none'
+		type='service'>
+		<service_fmri value='svc:/system/filesystem/local' />
+	</dependency>
+
+	<dependency
+		name='network'
+		grouping='require_all'
+		restart_on='none'
+		type='service'>
+		<service_fmri value='svc:/network/initial' />
+	</dependency>
+	
+	 <dependency
+                name='multi-user'
+                grouping='require_all'
+                restart_on='none'
+                type='service'>
+                <service_fmri value='svc:/milestone/multi-user' />
+        </dependency>
+
+	<exec_method
+		type='method'
+		name='start'
+		exec='_CACAO_TOOLS_DIR_/cacao_smf start %i'
+		timeout_seconds='0' >
+		<method_context>
+		  <method_credential user='root' group='sys'/>
+         	</method_context>
+        </exec_method>
+
+	<exec_method
+		type='method'
+		name='stop'
+		exec='_CACAO_TOOLS_DIR_/cacao_smf stop %i'
+		timeout_seconds='0' >
+		<method_context>
+		  <method_credential user='root' group='sys'/>
+         	</method_context>
+        </exec_method>
+        
+         <property_group name='common-agent-container' type='application'>
+                <propval name='basedir' type='astring' value='_CACAO_BASE_DIR_' />
+         </property_group>
+                   
+        <instance name="_SMF_INSTANCE_NAME_" enabled='false' />      
+        
+        <stability value='Unstable' />       
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>
+Cacao, a common Java container for JDMK/JMX based management solution
+			</loctext>
+		</common_name>
+		<documentation>
+			<manpage title='cacaoadm' section='1M'
+				manpath='/usr/share/man' />
+                        <manpage title='cacao' section='5'
+				manpath='/usr/share/man' />
+		</documentation>
+	</template>
+</service>
+
+</service_bundle>

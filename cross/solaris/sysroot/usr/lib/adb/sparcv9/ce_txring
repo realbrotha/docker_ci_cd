@@ -1,0 +1,15 @@
+.="ce tx ring structure"n
++/"lock"nK
++/"index"nb
+.+4/"size"18t"wrap_mask"nX18tX
++/"rd_index"18t"wr_index"18t"descs_pending"nX18tX18tX
++/"queueing"nX
+.+8/"descriptors_h"18t"descriptors_mh"18t"descriptors_vp"nK18tK18tK
++/"descriptors_pp"n4X
+.+18/"msg_ring"18t"tiny_buf_h"18t"tiny_buf_mh"nK18tK18tK
++/"dvma_lock"nK
++/"dvma_wr_index"18t"dvma_rd_index"18t"dvma_pending"nX18tX18tX
++/"dvma_available"18t"dvma_wrap_mask"nX18tX
+.+c/"dvma_ring"nK
++/"ce_txpkt_cnt"nX
+.+8/"txhist_base"18t"txhist"nK18tK

@@ -1,0 +1,17 @@
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)openssl.pc.tmpl	1.2	04/09/02 SMI"
+
+prefix=/usr/sfw
+exec_prefix=${prefix}
+libdir=/usr/sfw/lib
+includedir=${prefix}/include
+
+Name: OpenSSL
+Description: Secure Sockets Layer and cryptography libraries and tools
+Version: 0.9.7
+Requires: 
+Libs: -L${libdir} -R${libdir} -lssl -lcrypto -lsocket -lnsl -ldl
+Cflags: -I${includedir} 

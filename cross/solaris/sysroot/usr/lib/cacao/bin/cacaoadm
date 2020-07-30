@@ -1,0 +1,1470 @@
+#! /bin/sh
+
+#
+# Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# ident "$Revision: 1.149 $ SMI"
+#
+#
+# cacaoadm main script
+# script functions list:
+# 
+# cacao_init_env        : initialise environement
+# cacao_init_globals    : initialized global variables
+# cacao_init            : main init point
+# cacao_init_platform   : initialized all variables specific to the os/arch and installation
+# cacao_exit            : main exit point
+# cacao_set_sighandlers : sets signal handlers
+# cacao_init_dirs       : creates runtime directories
+# cacao_init_paths      : inits runtime paths variables
+# cacao_clean_path      : return the pathanme without any '.' '..' '//'
+# cacao_find_real_target: resolve recurssively link's target
+# cacao_reloc_path      : prepend base dir if necessary
+# cacao_resolve_link    : find the target pointed by a symlink
+# cacao_get_os_name     : returns the os name
+# cacao_get_os_version  : returns the os version
+# cacao_get_base_dir    : returns our installation base directory
+# cacao_get_arch_name   : returns the arch name     
+# cacao_get_rt_dir      : returns the runtime dir
+# cacao_no_privileged_user_init : (re)initialised for a non privileged action
+#
+# Used global variables:
+#
+# cacao_os                : current os we are running on
+# cacao_os_version        : cuurent os version we are running on
+# cacao_arch              : current arch we are running on
+# cacao_host              : current host name we are running on
+# cacao_run_mode          : tells cacao'run mode: normal, pmf or greenline
+# cacao_daemon_name       : daemon name for cacao instance in case of pmf
+# cacao_unique_name	  : unique cacao name for the whole machine
+#                           (used in smf and initd naming)
+# cacao_main_action       : cacaoadm main command called
+# cacao_main_instance     : cacao main instance name
+# cacao_creating_instance : instance name being created
+# cacao_deleting_instance : instance name being deleted
+# cacao_force_mode      : cacaoadm was called with -f/--force option
+# cacao_main_args       : cacaoadm main command arguments
+# cacao_main_cr         : cacaoadm exit code
+# cacao_instance_mode   : do the user specify --instance option ? 
+# cacao_java            : Sets path to java (could differ between j2se & j2me)
+# cacao_java_home       : java home used                     
+# cacao_jdmk_home       : jdmk home used
+# cacao_jdmk_lib_dir    : jdmk jar files repository
+# cacao_nss_lib_home    : nss lib home used
+# cacao_nss_tools_home  : nss tools home used
+# cacao_dependencies_ok : tells if all dependcies are loaded
+# cacao_java_already_loaded : java dependencies loaded (java, java_home)
+# cacao_jdmk_already_loaded : jdmk dependencies loaded (jdmk_home)
+# cacao_nss_already_loaded : nss dependencies loaded (nss_lib_home,tools_home)
+# cacao_use_j2me        : tells we have to run under j2me
+# cacao_debug_mode      : tells if we start on debug mode
+# cacao_is_embedded     : tells if the instance is embedded
+# cacao_tmp_file        : name of temporary file
+# cacao_tmp_file_list   : list of temporary files currently used
+# cacao_tmp_dir_list    : list of temporary directories currently used
+# cacao_param_ref_file  : cacao.properties reference file
+# cacao_files_ref_file  : runtime file attributes reference file
+# cacao_rt_base_dir     : cacao binaries base dir
+# cacao_etc_base_dir    : cacao conf base dir
+# cacao_rt_dir          : cacao runtime dir (i.e cacao root)
+# cacao_etc_root           : full path of the directory which contains the
+#                            configuration files
+# cacao_etc_private_dir    : full path of the directory which contains the
+#                            "all instances wide" private configuration files
+# cacao_etc_dir            : full path of the directory which contains the
+#                            configuration files related to the default instance
+# cacao_etc_instances_dir  : full path of the directory which contains the
+#                            sub-directories where are located the configuration
+#                            files of the instances
+# cacao_var_root           : full path of the directory which contains the
+#                            log files
+# cacao_var_dir            : full path of the directory which contains the
+#                            log files related to the default instance
+# cacao_var_instances_dir  : full path of the directory which contains the
+#                            sub-directories where are located the log
+#                            files of the instances
+# cacao_run_root           : full path of the directory which contains the
+#                            runtime files
+# cacao_run_dir            : full path of the directory which contains the
+#                            runtime files related to the default instance
+# cacao_run_instances_dir  : full path of the directory which contains the
+#                            sub-directories where are located the runtime
+#                            files of the instances
+# cacao_instance_run_subdir: sub-directory which contains the runtime files
+#                            related to non-default instance
+# cacao_tmp_dir            : full path of the directory which contains the
+#                            temporary files related to the default instance
+# cacao_tmp_instances_dir  : full path of the directory which contains the
+#                            sub-directories where are located the temporary
+#                            files of the instances
+# cacao_instance_tmp_subdir: sub-directory which contains the temporary files
+#                            related to non-default instance
+# cacao_log_dir         : cacao log dir
+# cacao_lock_file       : path to cacao lock file
+# cacao_pid_file        : path to cacao pid file
+# cacao_retries_file    : path to cacao retries file
+# cacao_configured_file : path to cacao configuration flag file
+# cacao_install_properties_file : path to the cacao file for "all instances
+#                                 wide" properties
+# cacao_tmp_dir         : temporary data: tmp
+# cacao_lib_dir         : cacao lib dir 
+# cacao_private_bin_dir : contains private additional scripts
+# cacao_tools_dir       : contains cacaoadm sourced scripts
+# cacao_jar_dir         : contains cacaoadm public jars
+# cacao_property_file   : path to cacao property file
+# cacao_logger_file     : path to logger property file
+# cacao_security_dir    : contains keystore, truststore and jdmk snmp acl conf
+# cacao_snmp_security_dir : contains acl files for v3
+# cacao_passwd_file     : path to cacao passwd file
+# cacao_generating_password : path to password currently been generated
+# cacao_jdmk_snmpv3_deployement_descriptor : path to snmpv3 adaptor descriptor
+# cacao_had_lock        : global flag to know if we have it
+# cacao_lock_required   : true if lock file required
+# cacao_template_dir    : path to cacao repository for template files
+# cacao_template_config_dir : path to template files for instance config
+# cacao_template_modules_dir : path to template files for core modules
+# cacao_template_startup_dir : path to template files for instance startup
+# cacao_user            : user  name for starting cacao
+# cacao_group           : group name for starting cacao
+# cacao_current_id      : current user id
+# cacao_current_id_name : current user name
+# cacao_print_error_in_file : if true value tells to print the error message 
+#                             in the error file, if false the file in printed
+#                             used in smf mode for the moment
+# cacao_error_file : file which is used to print the error message
+#                    used in smf mode for the moment
+# 
+# cacao_embedded_option    : set to -e if embedded option selected, if not empty
+# cacao_is_privileged_mode : boolean to know if we are executing a privileged action
+
+
+#------------------------------------------------------------------------------
+# Ensure global scope for global variables
+#------------------------------------------------------------------------------
+
+cacao_arch=""
+
+# This canot be set automatically
+cacao_certutil_cmd=""
+cacao_current_id=""
+cacao_unique_name=""
+cacao_daemon_name=""
+cacao_debug_mode=""
+cacao_dependencies_ok=""
+cacao_etc_root=""
+cacao_etc_private_dir=""
+cacao_etc_dir=""
+cacao_etc_instances_dir=""
+cacao_files_ref_file=""
+cacao_group=""
+cacao_had_lock=""
+cacao_host=""
+cacao_is_embedded=""
+cacao_is_privileged_mode=""
+cacao_java=""
+cacao_java_already_loaded=""
+cacao_java_home=""
+cacao_jdmk_already_loaded=""
+cacao_jdmk_home=""
+cacao_jdmk_lib_dir=""
+cacao_lock_required=""
+cacao_main_action=""
+cacao_main_instance=""
+cacao_main_args=""
+cacao_main_cr=""
+cacao_nss_already_loaded=""
+cacao_nss_lib_home=""
+cacao_nss_tools_home=""
+cacao_os=""
+cacao_os_version=""
+cacao_param_ref_file=""
+cacao_priviledged_action=""
+cacao_rt_base_dir=""
+cacao_etc_base_dir=""
+cacao_rt_dir=""
+cacao_run_mode=""
+cacao_tmp_dir_list=""
+cacao_tmp_file_list=""
+cacao_use_j2me=""                    
+cacao_user=""
+cacao_print_error_in_file=""
+cacao_error_file=""
+
+# Under rt dir
+cacao_jar_dir=""
+cacao_lib_dir=""
+cacao_private_bin_dir=""
+cacao_textdomain_dir=""
+cacao_tools_dir=""
+
+# Under etc dir
+cacao_jdmk_snmpv3_deployement_descriptor=""
+cacao_passwd_file=""
+cacao_generating_password=""
+cacao_property_file=""
+cacao_logger_file=""
+cacao_security_dir=""
+cacao_snmp_security_dir=""
+cacao_template_dir=""
+cacao_template_config_dir=""
+cacao_template_modules_dir=""
+cacao_template_startup_dir=""
+cacao_configured_file=""
+cacao_install_properties_file=""
+
+# Paths for data persistent across agent restart: logs
+cacao_var_dir=""
+cacao_var_root=""
+cacao_log_dir=""
+
+# Paths for data not persistent across agent restart: lock, pids, retries
+cacao_run_dir=""
+cacao_run_root=""
+#used for general purpose
+cacao_admin_lock_file=""
+cacao_lock_file=""
+cacao_pid_file=""
+cacao_retries_file=""
+
+# Paths for temporary data: tmp
+cacao_tmp_dir=""
+cacao_tmp_file=""
+
+#------------------------------------------------------------------------------
+# cacao_get_os_name
+# 
+# DESCRIPTION :
+# this function get the current os name
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# NOTICE:
+# at this stage we cannot use any of the helpers.
+#
+# OUTPUT:
+# output the current os name in upper case
+# the name may be "" in case of error
+#------------------------------------------------------------------------------
+
+cacao_get_os_name () {
+    os=`uname -s  | tr "[a-z]" "[A-Z]" 2>/dev/null`
+    case "${os}" in
+    "SUNOS" | "AIX" | "LINUX")
+	    echo ${os}
+	    ;;
+    *)
+	    echo ""
+	    ;;
+    esac
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_os_version
+# 
+# DESCRIPTION :
+# this function get the current os version
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# NOTICE:
+# at this stage we cannot use any of the helpers.
+#
+# OUTPUT:
+# output the current os version in upper case
+# the version may be "" in case of error
+#------------------------------------------------------------------------------
+
+cacao_get_os_version () {
+    os=`uname -r  | tr "[a-z]" "[A-Z]" 2>/dev/null`
+    echo ${os}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_get_arch_name
+# 
+# DESCRIPTION :
+# this function get the current machine arch
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# NOTICE:
+# at this stage we cannot use any of the helpers.
+# cacao_os variable must be set before calling this function
+#
+#
+# OUTPUT:
+# output the current arch name
+# the name may be "" in case of error
+#------------------------------------------------------------------------------
+
+cacao_get_arch_name () {
+    uname_arg="-p"
+
+    if [ "${cacao_os}" = "LINUX" ]
+    then
+	uname_arg="-m"
+    fi
+
+    arch=`uname ${uname_arg}  | tr "[a-z]" "[A-Z]" 2>/dev/null`
+    case "${arch}" in
+    "SPARC" | "POWERPC" | "I686" | "I386" | "X86_64")
+	    echo ${arch}
+	    ;;
+     *)
+ 	   echo ""
+	    ;;
+    esac
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_rt_dir
+# 
+# DESCRIPTION :
+# get the cacao runtime dir, used at init time
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none
+#
+# NOTICE:
+# at this stage we cannot use any of the helpers.
+# cacao_os variable must be set before calling this function
+# IMPORTANT : this cannot complete without base_dir resolved
+#
+# OUTPUT:
+# output the current base dir
+# the name may be "" in case of error
+#------------------------------------------------------------------------------
+
+cacao_get_rt_dir () {
+    echo `cacao_reloc_path usr/lib/cacao`
+}
+
+#------------------------------------------------------------------------------
+# cacao_reloc_path 
+# 
+# DESCRIPTION :
+# prepend base dir if necessary
+# 
+# PARAMETERS :
+# $1 the pathname to relocate
+# $2 the prefix to prepend (optional)
+
+# NOTICE:
+# - we may not have any helpers set at this stage
+# - the path is supposed to be cleaned from any '.' '..' first
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# reloc path
+#------------------------------------------------------------------------------
+cacao_reloc_path () {
+    _path=$1
+    
+    if [ -n "$2" ]
+    then
+	_prefix=$2
+    else
+	_prefix=${cacao_rt_base_dir}
+    fi
+
+    cacao_clean_path ${_prefix}/${_path}
+
+}
+#------------------------------------------------------------------------------
+# cacao_clean_path 
+# 
+# DESCRIPTION :
+# return the pathanme without any '.' '..' '//' 
+# 
+# PARAMETERS :
+# $1 the pathname to be cleaned
+#
+# NOTICE:
+# - no check is performed on pathname validity
+# - we may not have any helpers set at this stage
+# - return codes are not tested, an empty result will be detected after
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# cleaned path
+#------------------------------------------------------------------------------
+cacao_clean_path () {
+    path_to_clean=$1
+    
+    
+    # this awk statement will also remove occurence of '//'
+    # a side effect will also remove leading slash
+    # -> empty field but the last one will be skip 
+    echo "$path_to_clean" | awk -F/ '{
+	realpath="";
+	skip_it=0;
+	for (i=NF; i>0; i--) { 
+		if ($i         == ".")              continue;
+		if (length($i) == 0&& i != 1)       continue;
+		if ($i         == "..") {skip_it++; continue;}
+		if (skip_it    > 0 )    {
+			skip_it--;
+			continue;
+		}
+		if (length(realpath) > 0) {
+                   realpath=$i"/"realpath;
+                } else {
+                   realpath=$i;
+                }
+	}
+    } END {print realpath}' 2>/dev/null
+
+   
+}
+
+#------------------------------------------------------------------------------
+# cacao_get_base_dir
+# 
+# DESCRIPTION :
+# get the cacao installation base dir
+#
+# PARAMETERS :
+# the current command line
+#
+# RETURN CODE: 
+# none
+#
+# OUTPUT:
+# base dir
+#------------------------------------------------------------------------------
+
+cacao_get_base_dir () {
+    current_exe_name=$1
+
+    if [ -z "${current_exe_name}" ]
+    then
+	return 1
+    fi
+
+    our_cwd=`pwd 2>/dev/null`
+    if [ $? -ne 0 ]
+    then
+	echo "Cannot get current working directory."
+	return 1
+    fi
+
+    #first resolve relative path : not beginnig by '/'
+    case ${current_exe_name} in
+	/*) 
+	    ;;
+	*)
+	   current_exe_name="${our_cwd}/${current_exe_name}"
+	   ;;
+    esac
+    
+    real_exe_file=`cacao_find_real_target ${current_exe_name}`
+    
+    #clean the path from any relative part
+    real_exe_file=`cacao_clean_path ${real_exe_file}`
+
+    _cacaoadm_sfx_name=`cacao_clean_path "usr/lib/cacao/bin//cacaoadm" `
+
+    real_base=`echo "${real_exe_file}" | sed -e "s?${_cacaoadm_sfx_name}\\$??" 2>/dev/null`
+    if [ $? -ne 0 ]
+    then
+	echo ""
+    fi
+    
+    if [ -z "${real_base}" ]
+    then
+	echo "/"
+    fi
+
+    echo "${real_base}"
+}
+
+#------------------------------------------------------------------------------
+# cacao_resolve_link
+# 
+# DESCRIPTION :
+# find the target pointed by a file
+#
+# PARAMETERS :
+# the filename
+#
+# RETURN CODE: 
+# 0 : link is resolve
+# 1 : file is not a link
+#
+# NOTICE:
+# at this stage we cannot use any of the helpers.
+# cacao_os variable must be set before calling this function
+#
+#
+# OUTPUT:
+# output the resolved target or the file itself
+# 
+#------------------------------------------------------------------------------
+cacao_resolve_link () {
+    l_source=$1
+    target=`ls -ld "${l_source}" 2>/dev/null | awk  '/^l/ {print $NF ; exit}'`
+    if [ -n "${target}" ]
+    then
+	#if the link's target is not absolute (i.e ../../blu/bla)
+	#resolve it before return
+	case ${target} in
+	    /*)
+		;;
+	    *)
+	        #prepend dirname of te link 
+		target=`dirname ${l_source}`/${target}
+		target=`cacao_clean_path ${target}`
+		;;
+	esac
+	echo "${target}"
+	return 0
+    else
+	echo "$1"
+	return 1
+    fi
+}
+#------------------------------------------------------------------------------
+# cacao_find_real_target
+# 
+# DESCRIPTION :
+# resolve recurssively link's target
+#
+# PARAMETERS :
+# the filename
+#
+# RETURN CODE: 
+# 0
+#
+# OUTPUT:
+# the file we are pointing on
+# 
+#------------------------------------------------------------------------------
+cacao_find_real_target () {
+	link_to_resolve=$1
+
+	status=0
+
+	while [ ${status} -eq 0 ]
+	do
+		link_to_resolve=`cacao_resolve_link ${link_to_resolve}`
+		status=$?		
+	done
+	
+	echo ${link_to_resolve}
+	return 0
+}
+
+#------------------------------------------------------------------------------
+# cacao_init_platform
+# 
+# DESCRIPTION :
+# initialized all variables specific to the os/arch and installation
+# 
+# PARAMETERS :
+# $1 : command line used by user
+#
+# variable initialized :
+# - cacao_os       : current OS
+# - cacao_os_version : current OS version
+# - cacao_arch     : current ARCH
+# - cacao_rt_dir   : current runtime dir 
+# - cacao_etc_dir  : full path of the directory which contains the configuration
+#                    files related to the default instance.
+# - cacao_etc_instances_dir : full path of the directory which contains the
+#                         sub-directories where are located the configuration
+#                         files of the instances.
+# - cacao_var_root : current var root dir for persistent data (log files)
+# - cacao_var_dir  : current var dir for persistent data (log files)
+# - cacao_run_root : current var root dir for non persistent data
+# - cacao_run_dir  : current var dir for non persistent data
+# - cacao_tools_dir: contains cacaoadm sourced scripts 
+#
+# NOTICE :
+# at this stage we cannot use any of the helpers.
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_init_platform () {
+    cmd_line=$1
+
+    cacao_os=`cacao_get_os_name`
+    if [ -z "${cacao_os}" ]
+    then
+	echo "Unsupported OS"
+	return 1
+    fi
+
+    cacao_os_version=`cacao_get_os_version`
+    if [ -z "${cacao_os_version}" ]
+    then
+        echo "Unsupported OS version"
+        return 1
+    fi
+
+    cacao_arch=`cacao_get_arch_name`
+    if [ -z "${cacao_arch}" ]
+    then
+	echo "Unsupported architecture."
+	return 1
+    fi
+    
+    cacao_rt_base_dir=`cacao_get_base_dir ${cmd_line}`
+    if [ -z "${cacao_rt_base_dir}" ]
+    then
+	echo "cannot get the common agent container base directory"
+	return 1
+    fi
+    
+    cacao_rt_dir=`cacao_get_rt_dir`
+    if [ -z "${cacao_rt_dir}" ]
+    then
+	echo "cannot get the common agent container  rt directory"
+	return 1
+    fi
+
+    #tools dir initialized here since needed to load other scirpts and
+    # globals
+    
+    #this path is composed of cacao_rt_dir which is already relocated
+    cacao_tools_dir=${cacao_rt_dir}/lib/tools/scripts
+
+    cacao_set_sighandlers
+       
+
+}
+#------------------------------------------------------------------------------
+# 
+# cacao_init_paths
+# DESCRIPTION :
+# init all the paths according to relocation or not
+#
+# PARAMETERS :
+# 
+# RETURN CODE: 
+# ${CACAO_CR_SUCCESS} / ${CACAO_CR_ERROR}
+#
+# OUTPUT:
+# 
+#------------------------------------------------------------------------------
+cacao_init_paths() {
+    
+    # etc directory
+    cacao_etc_base_dir=`cacao_get_etc_base_dir`
+    if [ -z "${cacao_etc_base_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+    cacao_etc_root=`cacao_reloc_path "//etc/cacao" "${cacao_etc_base_dir}"`
+    if [ -z "${cacao_etc_root}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+    cacao_etc_private_dir="${cacao_etc_root}/private"
+    cacao_configured_file="${cacao_etc_private_dir}/.configured"
+    cacao_install_properties_file="${cacao_etc_private_dir}/install.properties"
+
+    # etc instances directory
+    cacao_etc_instances_dir="${cacao_etc_root}/instances"
+    if [ -z "${cacao_etc_instances_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+
+    # var instances directory
+    cacao_var_base_dir=`cacao_get_var_base_dir`
+    if [ -z "${cacao_var_base_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+    cacao_var_root=`cacao_reloc_path "//var/cacao" "${cacao_var_base_dir}"`
+    cacao_var_instances_dir="${cacao_var_root}/instances"
+    if [ -z "${cacao_var_instances_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi 
+
+    # run instances directory
+    cacao_run_base_dir=`cacao_get_run_base_dir`
+    if [ -z "${cacao_run_base_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+    cacao_run_root=`cacao_reloc_path "//var/run/cacao" "${cacao_run_base_dir}"`
+    cacao_run_instances_dir="${cacao_run_root}/instances"
+    if [ -z "${cacao_run_instances_dir}" ]; then
+	return ${CACAO_CR_ERROR}
+    fi
+    cacao_admin_lock_file="${cacao_run_root}/.lock"
+
+    # these are sub dirs (=suffix) , not to be relocated
+    cacao_instance_run_subdir=run
+    cacao_instance_tmp_subdir=tmp
+
+    #  template directories
+    cacao_template_dir="${cacao_rt_dir}/lib/tools/template"
+    cacao_template_config_dir="${cacao_rt_dir}/lib/tools/template/config"
+    cacao_template_modules_dir="${cacao_rt_dir}/lib/tools/template/modules"
+    cacao_template_startup_dir="${cacao_rt_dir}/lib/tools/template/startup"
+    
+    return ${CACAO_CR_SUCCESS}
+}
+
+
+
+#------------------------------------------------------------------------------
+# cacao_init_env
+# 
+# DESCRIPTION :
+# initialise environement
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_init_env() {
+
+    PATH=/usr/bin
+    export PATH
+    
+    SHELL=/bin/sh
+    export SHELL
+    
+    # unset platform common env var
+    unset LD_LIBRARY_PATH LD_PRELOAD LD_DEBUG
+
+    # unset platform specific env var
+    unset LD_RUN_PATH LD_CONFIG LD_CONFIG_32 LD_CONFIG_64 LD_DEBUG LD_DEBUG_32 LD_DEBUG_64 LD_LOADFLTR LD_LOADFLTR_32 LD_LOADFLTR_64 LD_PRELOAD LD_PRELOAD_32 LD_PRELOAD_64
+
+    #disable core file generation
+    #ulimit -c unlimited
+
+}
+
+#------------------------------------------------------------------------------
+# cacao_init_globals
+# 
+# DESCRIPTION :
+# Initialise all the globals variables.
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# none.
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_init_globals () {
+    
+    
+    cacao_creating_instance=""
+    cacao_deleting_instance=""
+
+    #paths under rt
+    cacao_jar_dir="${cacao_rt_dir}/lib"
+    cacao_lib_dir="${cacao_rt_dir}/lib"
+    cacao_private_bin_dir="${cacao_rt_dir}/lib/tools"
+
+    
+    #paths under etc
+    
+    cacao_tmp_file="${cacao_property_file}.$$"
+    cacao_tmp_file_list=""
+    cacao_tmp_dir_list=""
+   
+
+    cacao_dependencies_ok=${CACAO_FALSE}
+    cacao_java_already_loaded=${CACAO_FALSE}
+    cacao_jdmk_already_loaded=${CACAO_FALSE}
+    cacao_nss_already_loaded=${CACAO_FALSE}
+
+    
+    cacao_param_ref_file="${cacao_tools_dir}/param_catalog.cfg"
+    cacao_files_ref_file="${cacao_tools_dir}/file_catalog.cfg"
+
+    # Initialize the run mode.
+    cacao_run_mode=${CACAO_UNKNOWN_RUN_MODE}
+
+    cacao_generating_password=""
+
+}
+#------------------------------------------------------------------------------
+# cacao_no_privileged_user_init
+# 
+# DESCRIPTION :
+# (re)initialise some maocrs and variables 
+# for a non privileged action 
+# the user may not be root and we need to reset some globals
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_ERROR   : error occured (none for now)
+# CACAO_CR_SUCCESS : init ok
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_no_privileged_user_init () {
+    
+    # otherwise non-root user won't be able to create tmp file inside usual 
+    # caca_tmp_dir. Plus the directory may not be present at this time
+    cacao_tmp_dir="/tmp"
+
+    return ${CACAO_CR_SUCCESS}
+    
+}
+#------------------------------------------------------------------------------
+# cacao_init
+# 
+# DESCRIPTION :
+# cacaoadm main initialisation.
+#  - checks and sets os name
+#  - checks and sets os arch
+#  - inittialise globals variables
+#  variable initialized :
+#  - cacao_host     : current host name
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_ERROR   : get_host_name failed or cannot retries cacao user
+# CACAO_CR_SUCCESS : init ok
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_init() {
+
+    if [ ${cacao_is_instance_context_action} -eq ${CACAO_TRUE} ]
+    then
+        cacao_host=`cacao_get_property "${CACAO_NETWORK_BIND_ADDRESS_KEY}"`
+        if [ $? -ne  ${CACAO_CR_SUCCESS} ] || [ "${cacao_host}" = "0.0.0.0" ]
+        then
+            cacao_host="localhost"
+        fi
+    else
+        cacao_host="localhost"
+    fi
+
+    if [ -z "${cacao_host}" ]
+    then
+	return ${CACAO_CR_ERROR}
+    fi 
+
+    cacao_init_globals
+
+    cacao_current_id_name="`cacao_get_user_id_name`"
+
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_init_dirs
+# 
+# DESCRIPTION :
+# initialise runtime cacaoadm directories
+#
+# PARAMETERS :
+# none.
+#
+# RETURN CODE: 
+# CACAO_CR_ERROR   : error occured (none for now)
+# CACAO_CR_SUCCESS : init ok
+#
+# OUTPUT:
+# nothing.
+#------------------------------------------------------------------------------
+cacao_init_dirs() {
+
+    current_mask=`umask` 
+    umask ${CACAO_DEFAULT_UMASK} > /dev/null 2>&1
+    for i in \
+        "${cacao_etc_root}" \
+        "${cacao_etc_private_dir}" \
+        "${cacao_etc_instances_dir}" \
+        "${cacao_var_root}" \
+        "${cacao_var_instances_dir}" \
+        "${cacao_run_root}" \
+        "${cacao_run_instances_dir}"
+    do
+        if [ ! -d "${i}" ]; then
+            ${MKDIR} -p "${i}" > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                cacao_print_error_message "${CACAO_MSG_ERROR_DIR_CREATE}" "${i}"
+                return ${CACAO_CR_ERROR}
+            fi 
+            ${CHOWN} ${CACAO_ADMIN_USER}:${CACAO_ADMIN_GROUP} "${i}" > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                cacao_print_error_message "${CACAO_MSG_ERROR_CHOWN_FAIL}" "${i}"
+                return ${CACAO_CR_ERROR}
+            fi
+        fi
+    done
+    umask ${current_mask} > /dev/null 2>&1
+    return ${CACAO_CR_SUCCESS}
+}
+
+#------------------------------------------------------------------------------
+# cacao_exit
+# 
+# DESCRIPTION :
+# Cacaoadm unique exit point.
+# Remove temporary files if any.
+# 
+# PARAMETERS :
+# Exit code to apply unless another error occurs before exiting.
+#
+# RETURN CODE: 
+# None.
+#
+# OUTPUT:
+# Nothing.
+#------------------------------------------------------------------------------
+cacao_exit() {
+
+    # Exit code to apply unless another error occurs before exiting.
+    exit_cr=$1
+
+    # Remove temporary files if any.
+    for file in ${cacao_tmp_file_list}
+    do
+      if [ -f ${file} ]
+      then
+	${RM} -rf ${file} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${file}"
+	fi
+      fi
+    done
+    
+    # Remove temporary dir if any.
+    for dir in ${cacao_tmp_dir_list}
+    do 
+      if [ -d ${dir} ]
+      then
+	${RM} -rf ${dir} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${dir}"
+	fi
+      fi
+    done
+
+    if [ -n "${cacao_generating_password}" ]
+    then
+	# a key generation was aborted, remove password file 
+	# to force a clean re-generation the next time
+	${RM} -f ${cacao_generating_password} > /dev/null 2>&1
+	if [ $? -ne 0 ]
+	then
+	    cacao_print_error_message "${CACAO_MSG_ERROR_FILE_RM}" "${cacao_generating_password}"
+	fi
+    fi
+
+    if [ -n "${cacao_creating_instance}" ]
+    then
+        #instance not properly created, we do a rollback
+        cacao_create_instance_rollback "${cacao_creating_instance}"
+    fi
+
+    cacao_is_greenline_run_mode
+    #there can be a ctrl-c before the load of the solaris file
+    if [ ${?} -eq ${CACAO_TRUE} ] && [ -n "${cacao_solaris_file_loaded}" ]
+    then
+        cacao_greenline_exit
+    fi
+    
+    cacao_unlock ${cacao_lock_file}
+
+    # Cacaoadm unique exit point.
+    exit ${exit_cr}
+}
+
+
+#------------------------------------------------------------------------------
+# cacao_set_sighandlers
+# 
+# DESCRIPTION :
+# Set signal handlers.
+#  
+# PARAMETERS :
+# None.
+#
+# RETURN CODE: 
+# None.
+#
+# OUTPUT:
+# Nothing.
+#------------------------------------------------------------------------------
+cacao_set_sighandlers() {
+    trap cacao_exit QUIT HUP INT TERM
+}
+
+
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#
+# Cacao main entry
+#
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# perform first actions to get our current os/arch/conf
+#------------------------------------------------------------------------------
+
+cacao_init_env
+
+cacao_init_platform $0
+if [ $? -ne 0 ]
+then
+    echo "Error during platform specific initialisation, abort."
+    exit 1
+fi
+
+#------------------------------------------------------------------------------
+# source globals vars and macros
+#------------------------------------------------------------------------------
+. ${cacao_tools_dir}/globals.cfg
+. ${cacao_tools_dir}/globals_specific.cfg
+. ${cacao_tools_dir}/error_codes.cfg
+. ${cacao_tools_dir}/messages.cfg
+. ${cacao_tools_dir}/commands_definition.cfg
+. ${cacao_tools_dir}/helpers
+. ${cacao_tools_dir}/helpers_specific
+. ${cacao_tools_dir}/utils
+. ${cacao_tools_dir}/actions
+. ${cacao_tools_dir}/instances_helpers
+. ${cacao_tools_dir}/keygen_helpers
+. ${cacao_tools_dir}/config_helpers
+. ${cacao_tools_dir}/parsing_helpers
+. ${cacao_tools_dir}/usage_helpers
+. ${cacao_tools_dir}/dependencies_helpers
+. ${cacao_tools_dir}/install_helpers
+
+
+#localization environment variable
+TEXTDOMAINDIR="${cacao_rt_dir}/locale"
+#export this one for localization
+export TEXTDOMAINDIR
+
+#init needed before calling is_greenline_run_mode
+cacao_current_id=`cacao_get_user_id`
+
+cacao_force_mode=${CACAO_FALSE}
+cacao_main_action=""
+cacao_main_args=""
+cacao_instance_mode=${CACAO_FALSE}
+cacao_is_instance_context_action=${CACAO_FALSE}
+cacao_daemon_name=""
+cacao_debug_mode=${CACAO_FALSE}
+cacao_run_mode=${CACAO_UNKNOWN_RUN_MODE}
+cacao_is_privileged_mode=${CACAO_FALSE}
+cacao_use_j2me="${CACAO_FALSE_VALUE}"
+cacao_is_embedded="${CACAO_FALSE_VALUE}"
+cacao_lock_required=${CACAO_FALSE}
+cacao_main_cr=${CACAO_CR_ERROR}
+cacao_print_error_in_file="${CACAO_FALSE_VALUE}"
+
+#until context is not loaded : set tmp to /tmp
+cacao_tmp_dir="/tmp"
+
+# detect configuration base dir 
+# and (re)construct all the paths 
+cacao_init_paths
+if [ $? -ne ${CACAO_CR_SUCCESS} ]
+then
+    cacao_print_error_message "${CACAO_INIT_FAILED}"
+    cacao_exit ${CACAO_CR_ERROR}
+fi
+
+# Initialize cacao_unique_name if already exists in install properies file
+cacao_init_unique_name_from_property
+
+cacao_is_greenline_run_mode
+if [ ${?} -eq ${CACAO_TRUE} ]
+then
+    . ${cacao_tools_dir}/cacao_startup_smf_specific
+else
+    . ${cacao_tools_dir}/cacao_startup_initd_specific
+fi
+
+#------------------------------------------------------------------------------
+# first time initialisation
+#------------------------------------------------------------------------------
+
+
+# do we need first time init ?
+cacao_is_install_configured
+if [ ${?} -eq ${CACAO_FALSE} ]
+then
+
+    if [ -z "${cacao_current_id}" ] || [ ${cacao_current_id} -ne ${CACAO_ADMIN_UID} ]
+    then
+	cacao_print_error_message "${CACAO_FIRST_INIT_EEPERM}"
+	cacao_exit ${CACAO_CR_EPERM}
+    fi
+    
+    cacao_init_dirs
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+       cacao_print_error_message "${CACAO_INIT_FAILED}"
+       cacao_exit ${CACAO_CR_ERROR}
+    fi
+
+    cacao_do_sys_config
+    if [ ${?} -ne ${CACAO_CR_SUCCESS} ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_INSTALL_FAILED}"
+	cacao_exit ${CACAO_CR_ERROR}
+    fi
+fi
+
+#------------------------------------------------------------------------------
+# init argument and locate valid main action
+#------------------------------------------------------------------------------
+cacao_main_args=$*
+cacao_option_parser_res=""
+cacao_option_parser_buffer=""
+cacao_parse_args ${cacao_main_args}
+if [ $? -ne ${CACAO_CR_SUCCESS} ]
+then
+    if [ "${cacao_main_action}" != "" ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_EINVALCOMMAND}" "${cacao_main_action}"
+    fi
+    cacao_display_usage
+    cacao_exit ${CACAO_CR_EINVALCOMMAND}
+fi
+
+if [ -z "${cacao_main_instance}" ]
+then
+    cacao_main_instance=default
+fi
+
+#------------------------------------------------------------------------------
+# Check the action and user authorization
+#------------------------------------------------------------------------------
+
+cacao_is_privileged_action "${cacao_main_action}"
+if [ $? -eq ${CACAO_TRUE} ] 
+then    
+    cacao_is_privileged_mode=${CACAO_TRUE}
+
+    # Check if current user is authorized to perform current action
+    cacao_is_authorized_user
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+	cacao_print_error_message "${CACAO_MSG_ERROR_USER_NOT_ALLOWED}" \
+	    "${CACAO_ADMIN_USER}"
+	cacao_exit ${CACAO_CR_EPERM}
+    fi
+else
+    cacao_is_privileged_mode=${CACAO_FALSE}
+fi
+
+#------------------------------------------------------------------------------
+# Set instance context in case we are in an instance case action
+#------------------------------------------------------------------------------
+cacao_is_allowed_instance_action "${cacao_main_action}"
+cacao_is_instance_context_action=$?
+
+if [ ${cacao_instance_mode} -eq ${CACAO_TRUE} ]
+then
+    # cacao_instance_mode only set if user used the instance option
+    # Check if the action accepts instances
+    if [ ${cacao_is_instance_context_action} -eq ${CACAO_FALSE} ]
+    then
+	cacao_display_usage
+        cacao_exit ${CACAO_CR_EINVALCOMMAND}
+    fi
+fi
+
+if [ ${cacao_is_instance_context_action} -eq ${CACAO_TRUE} ]
+then
+  # set instance context
+  cacao_instance_context_set "${cacao_main_instance}"
+  res=$?
+  if [ ${res} -ne ${CACAO_CR_SUCCESS} ]
+  then       
+    cacao_exit ${res}
+  fi
+  
+  if [ ${cacao_current_id} -eq ${CACAO_ADMIN_UID} ]
+  then
+    # initilise instance runtime dirs
+    cacao_instance_init_dirs "${cacao_main_instance}"
+    res=$?
+    if [ ${res} -ne ${CACAO_CR_SUCCESS} ]
+    then       
+	cacao_exit ${res}
+    fi
+  fi
+else
+    # do some post init for non intance context action
+    # by default this set during context load, here we don't have any context
+    cacao_lock_file=${cacao_admin_lock_file}
+fi
+
+
+cacao_init
+if [ $? -ne ${CACAO_CR_SUCCESS} ]
+then
+    cacao_print_error_message "${CACAO_INIT_FAILED}"
+    cacao_exit ${CACAO_CR_ERROR}
+fi
+
+
+#------------------------------------------------------------------------------
+# Check if the action is allowed in embedded mode
+#------------------------------------------------------------------------------
+
+# check is there since we need to set the instance context before (embedded case)
+
+if [ "${cacao_is_embedded}" = "${CACAO_TRUE_VALUE}" ]
+then
+    cacao_is_allowed_embedded_action "${cacao_main_action}"
+    if [ $? -eq ${CACAO_FALSE} ]
+    then
+        cacao_print_error_message "${CACAO_MSG_ERROR_EMBEDDED}"
+        cacao_exit ${CACAO_CR_EMBEDDED}
+    fi
+fi
+    
+#------------------------------------------------------------------------------
+# Process lock and user authorization
+#------------------------------------------------------------------------------
+ 
+if [ ${cacao_is_privileged_mode} -eq ${CACAO_TRUE} ] 
+then
+    # Take a lock if force option is not set
+    if [ ${cacao_force_mode} -ne ${CACAO_TRUE} ]
+    then
+	cacao_is_locked_action "${cacao_main_action}"
+	if [ $? -eq ${CACAO_TRUE} ]
+	    then
+	    cacao_lock_required=${CACAO_TRUE}
+	    cacao_lock ${cacao_lock_file}
+	    cr=$?
+	    if [ ${cr} -ne ${CACAO_CR_SUCCESS} ]
+	    then
+		cacao_print_error_message "${CACAO_LOCK}"
+		cacao_print_error_message "${CACAO_LOCK2}" "${cacao_lock_file}"
+		cacao_exit ${cr}
+	    fi
+	else
+	    cacao_lock_required=${CACAO_FALSE}
+	fi
+    else
+	cacao_lock_required=${CACAO_FALSE}
+    fi
+else 
+
+    cacao_no_privileged_user_init
+    if [ $? -ne ${CACAO_CR_SUCCESS} ]
+    then
+	cacao_print_error_message "${CACAO_INIT_FAILED}"
+	cacao_exit ${CACAO_CR_ERROR}
+    fi
+fi
+
+
+#------------------------------------------------------------------------------
+# cacao_main_action is set inside 'cacao_parse_args'
+#------------------------------------------------------------------------------
+
+case "${cacao_main_action}" in
+     "help")
+        cacao_display_usage
+        cacao_main_cr=${CACAO_CR_SUCCESS}
+        ;;
+    "version")
+        cacao_display_version
+        cacao_main_cr=$?
+        ;;
+    "enable")
+	cacao_enable_at_boot
+	cacao_main_cr=$?
+	;;
+    "disable")
+	cacao_disable_at_boot 
+	cacao_main_cr=$?
+	;;
+    "get-param")
+	cacao_get_param 
+	cacao_main_cr=$?
+	;;
+    "set-param")
+	cacao_set_param 
+	cacao_main_cr=$?
+	;;
+    "list-params")
+	cacao_list_params 
+	cacao_main_cr=$?
+	;;
+    "status")
+	cacao_container_status 
+	cacao_main_cr=$?
+	;;
+    "list-modules")
+	cacao_list_modules 
+	cacao_main_cr=$?
+	;;
+    "list-filters")
+	cacao_list_filters 
+	cacao_main_cr=$?
+	;;
+    "get-filter")
+	cacao_get_filter 
+	cacao_main_cr=$?
+	;;
+    "set-filter")
+	cacao_set_filter 
+	cacao_main_cr=$?
+	;;
+    "create")
+	cacao_create_keys_sc  
+	cacao_main_cr=$?
+	;;
+    "create-keys")
+	cacao_create_keys  
+	cacao_main_cr=$?
+	;;
+    "debug")
+	cacao_debug 
+	cacao_main_cr=$?
+	;;
+    "deploy")
+	cacao_deploy_module  
+	cacao_main_cr=$?
+	;;
+    "undeploy")
+	cacao_undeploy_module  
+	cacao_main_cr=$?
+	;;
+    "lock")
+	cacao_lock_module  
+	cacao_main_cr=$?
+	;;
+    "unlock")
+	cacao_unlock_module  
+	cacao_main_cr=$?
+	;;
+    "start")
+        cacao_start 
+	cacao_main_cr=$?
+	;;
+    "stop")
+	cacao_stop 
+	cacao_main_cr=$?
+	;;
+    "restart")
+        cacao_restart 
+        cacao_main_cr=$?
+	;;
+    "create-instance")
+        cacao_create_instance 
+        cacao_main_cr=$?
+        ;;
+    "list-instances")
+        cacao_list_instance 
+        cacao_main_cr=$?
+        ;;
+    "delete-instance")
+        cacao_delete_instance 
+        cacao_main_cr=$?
+        ;;
+    "uninstall-instance")
+        cacao_uninstall_instance 
+        cacao_main_cr=$?
+        ;;
+    "show-trusted-cert")
+	cacao_show_trusted_cert 
+	cacao_main_cr=$?
+	;;
+    "add-trusted-cert")
+	cacao_add_trusted_cert 
+	cacao_main_cr=$?	
+	;;
+    "list-trusted-certs")
+	cacao_list_trusted_certs 
+	cacao_main_cr=$?	
+	;;
+    "show-cert-chain")
+	cacao_show_cert_chain 
+	cacao_main_cr=$?
+	;;
+    "smf_start")
+        cacao_smf_start 
+        cacao_main_cr=$?
+        ;;
+    "smf_stop")
+        cacao_smf_stop 
+        cacao_main_cr=$?
+        ;;
+    "enabled_at_boot_start")
+        cacao_enabled_at_boot_start 
+        cacao_main_cr=$?
+        ;;
+    "non_embedded_stop")
+        cacao_non_embedded_stop 
+        cacao_main_cr=$?
+        ;;
+    "verify-configuration")
+	cacao_verify_config 
+	cacao_main_cr=$?
+	;;
+     "rebuild-dependencies")
+	cacao_reconfigure_dependencies
+	cacao_main_cr=$?
+        ;;
+     "register-module")
+	cacao_register_module  
+        cacao_main_cr=$?
+        ;;
+     "unregister-module")
+	cacao_unregister_module 
+        cacao_main_cr=$?
+        ;;
+     "prepare-uninstall")
+        cacao_sys_unconfig
+        cacao_main_cr=$?
+        ;;
+      *)
+	cacao_display_usage
+	cacao_main_cr=${CACAO_CR_EINVALCOMMAND}
+        ;;
+esac
+
+cacao_exit ${cacao_main_cr}

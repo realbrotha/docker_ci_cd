@@ -1,0 +1,122 @@
+#!/bin/ksh
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# bos530 src/bos/usr/lib/methods/listDspAttrs/listDspAttrs.sh 1.1 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# Restricted Materials of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1998 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+# @(#)69        1.1  src/bos/usr/lib/methods/listDspAttrs/listDspAttrs.sh, wsmdevice, bos530 4/8/98 15:38:39
+# Function to list value(s) of graphics adapter
+# attributes monitor_type and resolution refresh
+# rate. Designed to be similar to produce output
+# from lsattr command.
+# arguments are as followed:
+#    1st argument is device name
+#    2nd argument is the attribute name
+#    3rd argument is the flag to indicate
+#        whether current value or list of
+#        values is desired
+
+getMonitorType()
+{
+	tst=`lsattr -E -l $1 -a chg_monitortype -Fvalue`
+	if [ "$tst" = "n" ]
+	then
+		print -n ""
+		return
+	fi
+	if [[ $2 -eq 1 ]]
+	then
+	# Current attribute value is desired. If chg_monitortype
+	# value is set to y, then attribute can be displayed
+	# to user
+		lsattr -E -l $1 -a monitor_type | head -1 | awk '{printf $2}'
+	else
+		x=`lsattr -E -l $1 -a monitor_type -Fvalue | head -1 | awk '{printf $0}'`
+		ddc=`odmget -q"name=$1 AND attribute=DDC_capable" CuAt | grep value | cut -d'=' -f2 | cut -d'"' -f2`
+		if [ "$ddc" = "y" ]
+		then
+			if [ "$x" = "Default" ]
+			then
+				print -n "Default"
+			else
+				lsattr -E -l $1 -a monitor_type -Fvalues | head -1 | awk '{printf $0}'
+			fi
+		else
+			lsattr -E -l $1 -a monitor_type -Fvalues |  head -1 | awk '{printf $0}'
+		fi
+	fi
+
+		
+}
+getRefreshRate()
+{
+	tst=`lsattr -E -l $1 -a chg_res_refrate -Fvalue`
+	if [ "$tst" = "n" ]
+	then
+		print -n ""
+		return
+	fi
+	# Get the current value of monitor_type attribute
+	# Query the current value of the monitor_type obtained
+	monitorTypevalue=`lsattr -E -a monitor_type -l $1 | head -1 | awk '{print $2}'`
+	currentVal=`lsattr -E -l $1 -a $monitorTypevalue -Fvalue | head -1 | awk '{printf $0}'`
+
+	# Display the current value
+	if [ $2 = 1 ]
+	then
+		print -n $currentVal
+	else
+		# If DDC_capable, then obtain the value of the DDC_supported attribute
+		# to generate the list of possible refresh rate values
+
+		ddc=`odmget -q"name=$1 AND attribute=DDC_capable" CuAt | grep value | cut -d'=' -f2 | cut -d'"' -f2`
+		if [ "$ddc" = "y" ]
+		then
+			# Generate a comma separated list of refresh rate value
+			x=`odmget -q "name=$1 AND attribute=DDC_supported" CuAt | sed -n '
+				/value = /p' | sed 's/value = //' | sed 's/"//g' | sed 's/     //g' |
+				awk ' BEGIN { FS = "," }
+				{
+  					for (i = 1; i <= NF; i++) {
+    						printf $i","
+  					}
+				}'`
+			print -n $x
+		else
+		# only allow Default as the list of values (in addition
+		# to the current value of res_refrate attribute
+
+			if [ "$monitorTypevalue" = "Default" ]
+			then
+				if [ "$currentVal" = "Default" ]
+				then
+					print -n "Default"
+				else
+					print -n $currentVal",Default"
+				fi
+			else
+				print -n `lsattr -E -l $1 -a $monitorTypevalue -Fvalues`
+			fi
+		fi
+	fi
+}
+devName=$1
+attrName=$2
+flagType=$3
+if [[ $attrName = "monitor_type" ]]
+then
+	getMonitorType $devName $flagType
+else
+	getRefreshRate $devName $flagType
+fi

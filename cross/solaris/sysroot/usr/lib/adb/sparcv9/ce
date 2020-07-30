@@ -1,0 +1,23 @@
+.="ce instance structure"n
+./"dip"18t"instance"18t"dev_regs"nK18tK18tK
++/"soft_regs"18t"statsp"18t"ksp"nK18tK18tK
++/"param_arr"18t"ndd_list"nK18tK
++/"factaddr"n6B
++/"ouraddr"n6B
+.+a/"ouraddr_lock"nK
++/"str_list"18t"pstr_list"18t"mstr_list"nK18tK18tK
++/"sap_tree"nK
++/"str_rxlist_lock"18t"padding"nK18t2K
++/"str_txlist_lock"nK
++/"interrupt_cookie"nK
++/"suspended"nX
++/"bmsr"28t"soft_bmsr"nx28tx
++/"mif_lock"nK
++="filter"n
++/"promiscuous_cnt"18t"all_milticast_cnt"14t"all_sap_cnt"nX6tX14tX
+.+10/"hash_filter"nK
++/"filter_lock"18t"padding"nK18t2K
++/"tx_rings"nK
++/"rx_rings"nK
++/"dmasparehandle"nK
++/"sys_page_sz"18t"sys_page_mask"18t"sys_burst_sz"nK18tK18tK

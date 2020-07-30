@@ -1,0 +1,27 @@
+#
+#ident	"@(#)mapfile_noexdata	1.1	04/10/11 SMI"
+#
+# Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# Linker mapfile to create a non-executable data segment
+# definition within an executable.  Note that this only functions
+# properly on the x86 architecture as on SPARC the PLT contains
+# executable code; it lives at the start of the data segment.
+# The linker does not use this file automatically, so one must use the -M 
+# option to cc or ld:
+#
+#       cc -M /usr/lib/ld/map.noexdata myprogram.c
+#
+
+data = ?RW;
+
+#
+# For programs with a separate bss segment, add a line for the bss.
+# Just adding such a line causes a bss to be created; this causes
+# some extra wasted memory.  A mapfile with just the line below
+# can be safely used on SPARC.
+#
+# bss = ?RW;
+#
+# See also /usr/lib/ld/map.execdata

@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libgtkhtml
+Description: libgtkhtml
+Requires: gtk+-2.0 gdk-pixbuf-2.0 libxml-2.0
+Version: 2.6.2
+Libs: -L${libdir} -lgtkhtml-2
+Cflags: -I${includedir}/gtkhtml-2.0

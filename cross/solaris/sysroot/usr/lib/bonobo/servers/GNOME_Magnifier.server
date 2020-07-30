@@ -1,0 +1,144 @@
+<oaf_info>
+	<oaf_server iid="OAFIID:GNOME_Magnifier_Magnifier:0.9"
+        	    type="exe" location="/usr/bin/magnifier -vz 2">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+			<item value="IDL:GNOME/Magnifier/Magnifier:0.9"/>
+			<item value="IDL:Accessibility/LoginHelper:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="Magnifier"/>
+		<oaf_attribute name="name-ang" type="string" value="Íecere"/>
+		<oaf_attribute name="name-ar" type="string" value="مكبر"/>
+		<oaf_attribute name="name-az" type="string" value="Böyüdücü"/>
+		<oaf_attribute name="name-be" type="string" value="Лупа"/>
+		<oaf_attribute name="name-bg" type="string" value="Лупа"/>
+		<oaf_attribute name="name-bn" type="string" value="বিবর্ধক"/>
+		<oaf_attribute name="name-br" type="string" value="Loupenn"/>
+		<oaf_attribute name="name-bs" type="string" value="Povećalo"/>
+		<oaf_attribute name="name-ca" type="string" value="Magnificador"/>
+		<oaf_attribute name="name-cs" type="string" value="Lupa"/>
+		<oaf_attribute name="name-cy" type="string" value="Chwyddwr"/>
+		<oaf_attribute name="name-da" type="string" value="Forstørrer"/>
+		<oaf_attribute name="name-de" type="string" value="Lupe"/>
+		<oaf_attribute name="name-el" type="string" value="Μεγεθυντής"/>
+		<oaf_attribute name="name-en_CA" type="string" value="Magnifier"/>
+		<oaf_attribute name="name-en_GB" type="string" value="Magnifier"/>
+		<oaf_attribute name="name-es" type="string" value="Lupa"/>
+		<oaf_attribute name="name-et" type="string" value="Luup"/>
+		<oaf_attribute name="name-eu" type="string" value="Lupa"/>
+		<oaf_attribute name="name-fa" type="string" value="ذره‌بین"/>
+		<oaf_attribute name="name-fi" type="string" value="Suurennuslasi"/>
+		<oaf_attribute name="name-fr" type="string" value="Loupe"/>
+		<oaf_attribute name="name-ga" type="string" value="Formhéadúcháin"/>
+		<oaf_attribute name="name-gu" type="string" value="વિસ્તૃત કરનાર"/>
+		<oaf_attribute name="name-he" type="string" value="זכוכית מגדלת"/>
+		<oaf_attribute name="name-hi" type="string" value="आवर्धक"/>
+		<oaf_attribute name="name-hr" type="string" value="Povećalo"/>
+		<oaf_attribute name="name-hu" type="string" value="Nagyító"/>
+		<oaf_attribute name="name-id" type="string" value="Kaca Pembesar"/>
+		<oaf_attribute name="name-is" type="string" value="Stækkunargler"/>
+		<oaf_attribute name="name-it" type="string" value="Ingranditore"/>
+		<oaf_attribute name="name-ja" type="string" value="拡大"/>
+		<oaf_attribute name="name-ka" type="string" value="გამადიდებელი"/>
+		<oaf_attribute name="name-ko" type="string" value="돋보기"/>
+		<oaf_attribute name="name-lt" type="string" value="Lupa"/>
+		<oaf_attribute name="name-lv" type="string" value="Lupa"/>
+		<oaf_attribute name="name-mi" type="string" value="Karu Whakarahi"/>
+		<oaf_attribute name="name-mn" type="string" value="Өсгөгч шил"/>
+		<oaf_attribute name="name-ms" type="string" value="Pembesar"/>
+		<oaf_attribute name="name-nb" type="string" value="Forstørrelsesglass"/>
+		<oaf_attribute name="name-ne" type="string" value="अभिवर्दक"/>
+		<oaf_attribute name="name-nl" type="string" value="Vergrootglas"/>
+		<oaf_attribute name="name-nn" type="string" value="Forstørringsglas"/>
+		<oaf_attribute name="name-no" type="string" value="Forstørrelsesglass"/>
+		<oaf_attribute name="name-or" type="string" value="ବୃଦ୍ଧକ"/>
+		<oaf_attribute name="name-pa" type="string" value="ਵੱਡਦਰਸ਼ੀ"/>
+		<oaf_attribute name="name-pl" type="string" value="Lupa"/>
+		<oaf_attribute name="name-pt" type="string" value="Lupa"/>
+		<oaf_attribute name="name-pt_BR" type="string" value="Lupa"/>
+		<oaf_attribute name="name-ro" type="string" value="Magnificator"/>
+		<oaf_attribute name="name-ru" type="string" value="Лупа"/>
+		<oaf_attribute name="name-sk" type="string" value="Lupa"/>
+		<oaf_attribute name="name-sl" type="string" value="Povečevalo"/>
+		<oaf_attribute name="name-sq" type="string" value="Zmadhues (Lupë)"/>
+		<oaf_attribute name="name-sr" type="string" value="Лупа"/>
+		<oaf_attribute name="name-sr@Latn" type="string" value="Lupa"/>
+		<oaf_attribute name="name-sv" type="string" value="Förstorare"/>
+		<oaf_attribute name="name-ta" type="string" value="அளவு மாற்றி"/>
+		<oaf_attribute name="name-th" type="string" value="แว่นขยาย"/>
+		<oaf_attribute name="name-tk" type="string" value="Ulaldýançy"/>
+		<oaf_attribute name="name-tr" type="string" value="Büyüteç"/>
+		<oaf_attribute name="name-uk" type="string" value="Лупа"/>
+		<oaf_attribute name="name-vi" type="string" value="Kính lúp"/>
+		<oaf_attribute name="name-zh_CN" type="string" value="放大镜"/>
+		<oaf_attribute name="name-zh_HK" type="string" value="放大鏡"/>
+		<oaf_attribute name="name-zh_TW" type="string" value="放大鏡"/>
+		<oaf_attribute name="description" type="string" value="Simple Screen Magnification Service"/>
+		<oaf_attribute name="description-ang" type="string" value="Ánfeald Léohtbordes Íecnunge Þegnung"/>
+		<oaf_attribute name="description-ar" type="string" value="خدمة بسيطة لتكبير الشاشة"/>
+		<oaf_attribute name="description-az" type="string" value="Ekran Böyütmə Xidməti"/>
+		<oaf_attribute name="description-be" type="string" value="Простая паслуга павялічэньня"/>
+		<oaf_attribute name="description-bg" type="string" value="Проста услуга за увеличаване на екрана"/>
+		<oaf_attribute name="description-bn" type="string" value="সাধারণ পর্দা (স্ক্রীণ) বিবর্ধন সেবা"/>
+		<oaf_attribute name="description-br" type="string" value="Servij Loupenn Plaen"/>
+		<oaf_attribute name="description-bs" type="string" value="Jednostavni servis povećanja ekrana"/>
+		<oaf_attribute name="description-ca" type="string" value="Simple servei de magnificació de la pantalla"/>
+		<oaf_attribute name="description-cs" type="string" value="Jednoduchá služba zvětšení obrazovky"/>
+		<oaf_attribute name="description-cy" type="string" value="Gwasanaeth Syml Chwyddo&apos;r Sgrîn"/>
+		<oaf_attribute name="description-da" type="string" value="Simpel skærmforstørrelsestjeneste"/>
+		<oaf_attribute name="description-de" type="string" value="Einfacher Dienst zur Vergrößerung des Bildschirms"/>
+		<oaf_attribute name="description-el" type="string" value="Μια Απλή Υπηρεσία Μεγέθυνσης Οθόνης"/>
+		<oaf_attribute name="description-en_CA" type="string" value="Simple Screen Magnification Service"/>
+		<oaf_attribute name="description-en_GB" type="string" value="Simple Screen Magnification Service"/>
+		<oaf_attribute name="description-es" type="string" value="Servicio sencillo de ampliación de pantalla"/>
+		<oaf_attribute name="description-et" type="string" value="Lihtne ekraani suurendamise teenus"/>
+		<oaf_attribute name="description-eu" type="string" value="Pantaila handitzearen zerbitzu sinplea"/>
+		<oaf_attribute name="description-fa" type="string" value="برنامه‌ی ساده‌ی بزرگ‌بینی صفحه"/>
+		<oaf_attribute name="description-fi" type="string" value="Yksinkertainen ruudunsuurennuspalvelu"/>
+		<oaf_attribute name="description-fr" type="string" value="Service d&apos;agrandissement simple de l&apos;écran"/>
+		<oaf_attribute name="description-ga" type="string" value="SeirbhÃ­s le haighaidh an Scáthán a formhéadaigh"/>
+		<oaf_attribute name="description-gu" type="string" value="સામાન્ય સ્ક્રીન વિસ્તૃતિકરણ સેવા"/>
+		<oaf_attribute name="description-he" type="string" value="שירות זכוכית מגדלת למסך פשוט"/>
+		<oaf_attribute name="description-hi" type="string" value="साधारण सक्रीन आवर्धन सेवा"/>
+		<oaf_attribute name="description-hr" type="string" value="Jednostavna usluga povećanja zaslona"/>
+		<oaf_attribute name="description-hu" type="string" value="Egyszerű képernyőnagyító szolgáltatás"/>
+		<oaf_attribute name="description-id" type="string" value="Layanan Sederhana Untuk Kaca Pembesar Layar"/>
+		<oaf_attribute name="description-is" type="string" value="Einföld skjástækkunarglersþjónusta"/>
+		<oaf_attribute name="description-it" type="string" value="Semplice servizio di ingrandimento schermo"/>
+		<oaf_attribute name="description-ja" type="string" value="簡易スクリーン拡大サービス"/>
+		<oaf_attribute name="description-ka" type="string" value="მარტივი ეკრანის გამადიდებელი სერვისი"/>
+		<oaf_attribute name="description-ko" type="string" value="간단한 화면 돋보기 서비스"/>
+		<oaf_attribute name="description-lt" type="string" value="Paprastas ekrano didinimo įrankis"/>
+		<oaf_attribute name="description-lv" type="string" value="Vienkāršs Ekrāna Palielināšanas Serviss"/>
+		<oaf_attribute name="description-mi" type="string" value="Te Ratonga mō Mata Whakarahi"/>
+		<oaf_attribute name="description-mn" type="string" value="Энгийн дэлгэц өсгөгч үйлчилгээ"/>
+		<oaf_attribute name="description-ms" type="string" value="Servis Pembesaran Skrin Ringkas"/>
+		<oaf_attribute name="description-nb" type="string" value="Enkel tjeneste for forstørring på skjermen"/>
+		<oaf_attribute name="description-ne" type="string" value="साधारण पर्दा अभिवर्दन सेवा"/>
+		<oaf_attribute name="description-nl" type="string" value="Eenvoudig scherm-vergrootglas"/>
+		<oaf_attribute name="description-nn" type="string" value="Enkel skjermforstørringsteneste"/>
+		<oaf_attribute name="description-no" type="string" value="Enkel tjeneste for forstørring på skjermen"/>
+		<oaf_attribute name="description-or" type="string" value="ସରଳ ପରଦା ବୃଦ୍ଧି କରିବା ସେବା"/>
+		<oaf_attribute name="description-pa" type="string" value="ਸਧਾਰਨ ਸਕਰੀਨ ਵੱਡਦਰਸ਼ੀ ਸੇਵਾ"/>
+		<oaf_attribute name="description-pl" type="string" value="Prosta usługa powiększania ekranu"/>
+		<oaf_attribute name="description-pt" type="string" value="Simples Serviço de Ampliação de Ecrã"/>
+		<oaf_attribute name="description-pt_BR" type="string" value="Serviço Simples de Ampliação de Tela"/>
+		<oaf_attribute name="description-ro" type="string" value="Unealtă de mărire a ecranului"/>
+		<oaf_attribute name="description-ru" type="string" value="Простая служба увеличения экрана"/>
+		<oaf_attribute name="description-sk" type="string" value="Jednoduchá služba na zväčšovanie obrazovky"/>
+		<oaf_attribute name="description-sl" type="string" value="Enostavna storitev povečevanja zaslona"/>
+		<oaf_attribute name="description-sq" type="string" value="Një shërbim i thjeshtë për të zmadhuar ekranin"/>
+		<oaf_attribute name="description-sr" type="string" value="Једноставни сервис за увећање екранског приказа"/>
+		<oaf_attribute name="description-sr@Latn" type="string" value="Jednostavni servis za uvećanje ekranskog prikaza"/>
+		<oaf_attribute name="description-sv" type="string" value="Enkel skärmförstoringstjänst"/>
+		<oaf_attribute name="description-ta" type="string" value="சுலபமானக திரை அளவு மாற்றி சேவை"/>
+		<oaf_attribute name="description-th" type="string" value="บริการแว่นขยายจอ"/>
+		<oaf_attribute name="description-tk" type="string" value="Sadaja Perdäni Ulaldýan Servisi"/>
+		<oaf_attribute name="description-tr" type="string" value="Basit ekran büyüteç servisi"/>
+		<oaf_attribute name="description-uk" type="string" value="Проста екранна лупа"/>
+		<oaf_attribute name="description-vi" type="string" value="Dịch Vụ Kính lúp Đơn Giản"/>
+		<oaf_attribute name="description-zh_CN" type="string" value="简单的屏幕放大镜服务"/>
+		<oaf_attribute name="description-zh_HK" type="string" value="簡單的螢幕放大鏡服務"/>
+		<oaf_attribute name="description-zh_TW" type="string" value="簡單的螢幕放大鏡服務"/>
+	</oaf_server>
+</oaf_info>

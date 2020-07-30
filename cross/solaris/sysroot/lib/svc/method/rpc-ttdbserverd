@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Copyright 2006 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#pragma ident	"@(#)rpc-ttdbserverd	1.1	06/05/19 SMI"
+#
+# For modifying parameters passed to ttdbserverd, do not edit
+# this script. Instead use svccfg(1m) to modify the SMF
+# repository. For example:
+#
+# # svccfg
+# svc:> select network/rpc/cde-ttdbserver:tcp
+# svc:/network/rpc/cde-ttdbserver:tcp> setprop ttdbserverd/gc = "true"
+# svc:/network/rpc/cde-ttdbserver:tcp> exit
+# svcadm refresh network/rpc/cde-ttdbserver:tcp
+
+FMRI=svc:network/rpc/cde-ttdbserver:tcp
+
+val=`svcprop -p ttdbserverd/gc $FMRI`
+[ "$val" = "true" ] && arg="-G"
+
+val=`svcprop -p ttdbserverd/permchk $FMRI`
+[ "$val" = "true" ] && arg="$arg -n"
+
+val=`svcprop -p ttdbserverd/mountpoint $FMRI`
+[ -n $val ] && mp=`eval "echo $val"`
+
+arg="$arg $mp"
+
+if [ -x /usr/openwin/bin/rpc.ttdbserverd ] ; then
+        /usr/openwin/bin/rpc.ttdbserverd $arg
+else
+	echo "Error: /usr/openwin/bin/rpc.ttdbserverd is missing or not executable"
+	exit $SMF_EXIT_ERR_CONFIG
+fi
+
+
+exit $SMF_EXIT_OK

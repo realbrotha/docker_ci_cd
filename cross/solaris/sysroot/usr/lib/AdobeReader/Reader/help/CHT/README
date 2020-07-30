@@ -1,0 +1,242 @@
+2005 年 3 月 14 日
+Adobe(r) Reader(r) for UNIX(r) 讀我檔
+
+歡迎閱讀 Adobe(r) Reader(r) 7.0 讀我檔。
+
+Adobe Reader 7.0 是免費檢視 Adobe Acrobat 7.0 的夥伴。Adobe Reader 使您可以檢視、導覽和列印"便攜式文件格式"(PDF)檔案。Adobe Acrobat 7.0 是在 PDF 中建立、增強、檢視、編輯和共用資訊的完整解決方案。
+
+要了解 Adobe Acrobat 7.0 詳細資訊，請蒞臨
+http://www.adobe.com/products/acrobat
+
+這個 Read Me 包含以下資訊：
+系統要求
+
+安裝事項
+
+疑難排解
+
+鍵盤捷徑
+
+
+系統要求：
+====================
+
+系統對 Adobe Reader 7.0 for Linux(r) 的要求 - 32位元 Intel Pentium(r) 處理器
+- Linux kernel 2.4 或更高版本
+- GLIBC version 2.3 或更高版本
+- 128 MB 記憶體 (推薦 256 MB)
+- 110 MB 可用硬碟空間
+- 附加 40 MB 硬碟空間安裝亞洲字型(可選)
+- 支援 Linux 配置：
+	o Red Hat Linux AS 3.0 (2.4.21), 4.0 (2.6.9)
+	o Red Hat Linux ES 3.0 (2.4.21), 4.0 (2.6.9)
+	o Red Hat Linux WS 3.0 (2.4.21), 4.0 (2.6.9)
+	o Red Hat Linux Desktop
+	o Red Hat Linux 9.0 (2.4.20-6)
+	o SUSE Enterprise Server 9X (2.6)
+	o SUSE Professional 9.2 (2.6.4)
+	o Novell Linux Desktop 9.x (2.6.4)
+	o Turbolinux 10 Desktop (2.6)
+	o Red Flag Linux Desktop 4.0
+	
+	
+支援的網頁瀏覽器
+PDF 檔案可以在下列瀏覽器中檢視：
+	o Mozilla 1.7.3, 1.8
+	o Firefox 1.0
+	o Netscape 7
+	
+	
+安裝事項：
+==========================
+
+安裝和移除 Adobe Reader 7.0 for Linux
+
+要安裝 Adobe Reader 7.0，請遵循以下步驟：
+
+- RPM 安裝：
+	1. 請確定您至少還有 110 MB 可用硬碟空間
+	2. 執行 "rpm -i AdobeReader_cht-7.0.1-1.i386.rpm"
+	
+	要移除 Adobe Reader 7.0，請執行以下指令：
+	"rpm -e AdobeReader_cht"
+	
+- Tarball 安裝：
+	1. 請確定您至少還有 110 MB 可用硬碟空間
+	2. 執行 "tar -zxvf AdbeRdr70_linux_cht.tar.gz"
+	3. 執行建立在 "AdobeReader" 目錄中的 "INSTALL" 程式檔
+	
+	要移除 Adobe Reader 7.0，簡單的刪除它的安裝目錄。
+	
+安裝瀏覽器增效模組(非預設安裝)
+- 要安裝瀏覽器增效模組，您需要執行程式檔
+  "<INSTALL_PATH>/Browser/install_browser_plugin"。在執行程式檔之前，
+  請檢查"<INSTALL_PATH>/Browser/Browser_Plugin_HowTo.txt" 中的詳細資訊。 
+
+
+安裝問題
+Adobe Reader 需要 libstdc++.so.5。一些系統在預設情況下沒有安裝它。
+要修復這種問題，您需要安裝 
+compat-libstdc++ 包。
+
+
+疑難排解：
+=======================
+
+紅旗 Linux 問題
+Adobe Reader 在 Red Flag Linux 4.1 中啟動失敗已知 GLib 中的問題。
+這出現在試圖裝載協助工具相關模組時。
+此問題可以通過升級 GLib 的更新版本或在 <INSTALL_PATH>/bin/acroread 程式檔中注釋 "export GTK_MODULES" 列來修復。[1106081]
+
+PPKLite.api 裝載失敗
+PPKLite 需要系統安裝了 OpenLDAP 包，在它不在期間，初期化失敗。如果您在 acroread 啟動時得到此錯誤，您需要安裝 LDAP 庫(OpenLDAP 包)。如果 PPKLite 仍然裝載失敗，在<INSTALL_PATH>/Reader/intellinux/lib 中的名為 'libldap.so' 和 'liblber.so' 決定連結至安裝的 libldap.so.X 和 liblber.so.X。
+
+一些系統字型不在「文件/內容」「視窗/工具列」中顯示
+除開預定義的系統目錄，Adobe Reader 在 PSRESOURCEPATH 環境變數指定的目錄清單中搜尋系統字型。如果您的系統包含一些附加的字型目錄使 Adobe Reader 無法搜尋，您可以在啟動 Adobe Reader 之前將那些目錄新增至 PSRESOURCEPATH 環境變數。如果在文件中要求字型不被嵌入，請檢查「文件 > 使用本地字型」選項，Adobe Reader 將從系統指定 PSRESOURCEPATH 變數中獲取字型。
+
+放大率被套用時，CJK 文字顯示粗體文字
+如果原始應用程式使用人工粗體建立粗體文字，CJK 粗體字元可能被弄模糊。如果「頁面顯示偏好設定」面板中的「修邊文字」和「使用 CoolType」偏好設定被關閉，
+文件被放大時您可以看到一些白色區域或裂縫。Acrobat 4.x 記錄字元四次來產生粗體，並且對一些文件，例如文字顯示為四列文字而不是粗體文字。在 Acrobat 5.0 中，人工粗體被使用。Adobe 推薦開啟「頁面顯示偏好設定」面板中的「修邊文字」和「使用 CoolType」偏好設定以避免粗體文字被放大時看到白色區域或裂縫。[418447]
+
+「尋找」對話方塊 - 使用「尋找」確定 Unicode 字元
+您可以在 PDF 文件中使用「尋找」確定 Unicode 字元。要這樣做，在您要搜尋的 Unicode 字元之前新增 "\u"。例如，要搜尋 Unicode 相等的 ASCII 字元 "A"，在「尋找」對話方塊中輸入 "\u0041"。某些 CJK 字元，例如 Unicode "4e01"，您可以指定為 "\u4e01"。[413632]
+
+在一些系統中頁面文字展開/傾斜
+在某些系統的頁面顯示中，您可能面對的是展開/傾斜效果。此問題可以通過「編輯」>「偏好設定」>「頁面顯示」標籤和設定目前顯示的系統設定「自訂解析度」來解決。[1154513]
+
+對套接字檔案的搜尋沒有完成
+如果指定的搜尋路徑包含套接字檔案(典型路徑是 /tmp 或 $HOME)，搜尋將不會完成。請確定指定的路徑中至包含常規檔案，且沒有套接字檔案。[1148788]
+
+使用 Mutt 傳送郵件
+如果選定 mutt 郵件客戶端時終端視窗閃爍和顯示，請在 $HOME/.muttrc 中
+新增 "set autoedit=no" 列將啟用 mutt 傳送郵件。[1117619]
+
+傳送郵件中 Evolution 當機
+這發生在較早版本的 evolution 中。如果在傳送郵件中當機(當 Evolution 被選定為電子郵件客戶端時)，嘗試保留 evolution 在背景中執行。如果仍然當機，請升級至 evolution 2.0 或更新版本。您還需要保持其在背景中執行。[1087494]
+
+協助工具沒有啟用
+Adobe Reader 檢查 gconf 登錄以尋找系統中啟動的協助工具支援。如果系統中 gconftool-2 不可用，Reader 中的協助工具支援被關閉。如果您的系統中沒有 gconftool-2 且您希望使用 Adobe Reader 的協助工具功能，請變更 <INSTALL_PATH>/bin/acroread 檔案中接近檔案末尾的 'if [ "$IS_GCONF_TOOL" = "no" ]' 塊 'ACRO_AT_ACTIVE="false"' 列為 'ACRO_AT_ACTIVE="true"'。[1161246]
+ 
+啟用文件協助工具
+1. 請使用 gconf-editor 或 gconftool-2 開啟您系統中協助工具支援來設定鍵 /desktop/gnome/interface/accessibility 為 true。
+2. 啟用鍵盤選擇游標(F7 切換游標。這可以通過「編輯」->「偏好設定」->「協助工具」->「總是使用鍵盤選擇游標」來啟動)。
+3. 檢查選項「編輯」->「偏好設定」->「朗讀」->「啟用文件協助工具」。
+
+香港字元集、注釋和書籤
+Acrobat Reader 5.0 支援 PDF 檔案中的文字為香港字元集。它是 Adobe 中文繁體字元集的延伸。如果您將要檢視包含使用香港字元集的 PDF 檔案，請通過安裝中文繁體語言包來支援中文繁體字元。由於香港字元集不是標準字型之一，您將不能使用香港字元添加注釋或建立書籤。[407877]
+
+Adobe Reader 需要存取至 pwd
+在 "pwd" 指令失敗的目錄，Adobe Reader 將不會正確執行。
+
+移除從前的偏好設定
+我們建議您在第一次執行 Adobe Reader 7.0 之前，移除 $HOME/.acrorc 和 $HOME/.adobe 目錄(如果存在)。這將確保您第一次執行  Adobe Reader 時使用預設的偏好設定。此不是必須，但是必要且可能導致版本衝突，如果您希望繼續執行較早版本的 Adobe Reader。
+
+最近檔名
+在「檔案」功能表「最近檔案」中的檔案清單取決於精確的路徑名稱。如果您在作業階段使用自動掛載開啟檔案且自動掛載失效，嘗試開啟「最近檔案」將得到「無此檔案或目錄」的錯誤。這還可以發生在檔案被移動、重新命名或從不同的沒有相同檔案系統掛載的機器上執行 Reader。
+
+防止暫存檔案顯示在最近檔案清單中
+要防止暫存檔案(從網站中開啟的實例)顯示在「最近檔案」清單中，設定您的 mailcap 輸入如下：
+
+    application/pdf;acroread -tempFile %s
+    
+改寫偏好設定檔案
+當偏好檔案不能被改寫時，Adobe Reader 不警告使用者。如果您希望儲存偏好設定，請確定 '$HOME/.adobe' 為可寫目錄。
+
+視窗管理員
+我們測試過 KDE 和 GNOME 環境。
+
+列印密碼保護的 PDFs
+從指令列使用者不能列印密碼保護的 PDF 文件至 PostScript 甚至從 Adobe Reader 中，檔案也不能被列印。
+
+Heterogenous 檔案伺服器環境
+當在使用 Novell(r) 伺服器的 heterogenous 網路環境中作業，我們推薦您避免 PDF 檔案使用長檔案名(超過 32 字元)。Novell(r) 伺服器對 Macintosh(r) 電腦的使用者顯示長檔案名，但是 MacOS(r) 防止 Adobe Reader 開啟檔案。這在 Windows 中不是問題。
+
+指令列說明
+在指令列輸入 'acroread -help' 或 'acroread -helpall' 以在指令列選項獲取更多資訊。請注意，當使用這些指令列時您必須已經提供了 DISPLAY 變數如果您的環境中尚未定義。
+
+列印：文件未列印和/或 lp 記錄檔案中的錯誤
+當您執行 lp foo.ps，它從多工緩衝處理檔案至 foo.ps 檔案建立連結。這在檔案系統中節省空間。令人遺憾的是，Adobe Reader 建立暫存多工緩衝處理檔案，寫入 PostScript 輸出，然後在 lpd 處理它之前刪除暫存檔案。解決辦法是在列印對話方塊 lp 或 lpr 指令中包含 "-c" 選項(複製)。這強制 lp 處理複製檔案至多工緩衝處理區域而不是建立連結。
+
+啟動外部應用程式 / 保全
+PDF 檔案可以包含啟動外部應用程式或開啟非 PDF 檔案的指示。要提昇 PDF 檔案保全，Adobe Reader 將在啟動外部應用程式之前發出警告提示使用者，這是可執行檔案或指令。此警告為：
+     "Adobe Reader 即將啟動此應用程式："    
+     [應用程式] "允許此動作 (是) 或允許所有應用程式的所有動作 (所有) ？" 
+跟隨三個按鈕， "是"， "否"和 "所有"。
+    - 選擇 "是" 將僅允許此動作在此實例中執行。  
+    - 選擇 "否" 將防止此動作在此實例中執行。
+    - 選擇 "所有" 將允許所有動作在所有實例中執行，這樣停用警告至 Adobe Reader 結束和重新啟動。
+
+Adobe Reader 搜尋
+如果您想要建立跨平台可靠的全文字搜尋索引，您必須對索引檔案使用 ISO 9660 檔案命名慣例(8.3 大寫，限制的字元集)。如果您不使用這樣的名稱，UNIX Reader 將嘗試猜測 Unix 檔名。這將延遲搜尋且搜尋結果在檔案中可能無法找到。
+
+選擇工具和快照工具
+在文件中選擇文字可以使用選擇工具，在頁面上選擇一定的區域可以使用快照工具自動複製至剪貼簿。
+
+如果多實例執行，無法從網頁瀏覽器送出表格
+如果 Netscape (或其它網頁瀏覽器)警告您在 .Netscape 資料夾中發現鎖定檔案，在網頁中將不能送出表格。此警告(在您第一次啟動 Netscape 時出現)一般是指您還有另一個 Netscape 版本在執行。您可以通過確保只有一個版本的 Netscape 被執行來修復此問題。如果鎖住檔案是 Netscape 當機之遺留檔案，您可以簡單刪除 .Netscape/鎖定文件。
+
+鍵盤捷徑：
+===================
+
+熱鍵或加速鍵：
+存取功能表列使用 <ALT>，然後下列鍵之一：
+f - 檔案功能表
+e - 編輯功能表
+v - 檢視功能表
+d - 文件功能表
+t - 工具功能表
+w - 視窗功能表
+h - 說明功能表
+
+導覽工具：
+Page Up 上一螢幕
+Page Down 下一螢幕
+向左方向鍵 上一頁
+向右方向鍵 下一頁
+向上方向鍵 向上捲動
+向下方向鍵 向下捲動
+CTRL L 顯示或隱藏全螢幕
+SHIFT CTRL N 跳至指定頁面
+
+功能鍵：
+F8 顯示或隱藏工具列
+
+編輯文件：
+CTRL A 全選
+CTRL C 複製
+CTRL M 縮放
+CTRL O 開啟
+CTRL P 列印
+CTRL Q 關閉
+CTRL W 關閉文件
+CTRL 0 符合視窗
+CTRL 1 符合實際大小
+CTRL 2 符合寬度
+CTRL 3 符合可見
+CTRL + 放大
+CTRL - 縮小
+SHIFT CTRL A 撤銷全選
+SHIFT CTRL P 頁面設定
+SHIFT CTRL S 另存新檔
+SHIFT CTRL + 順時針旋轉
+SHIFT CTRL - 逆時針旋轉
+
+文件協助工具
+F7 切換鍵盤符號
+
+搜尋：
+CTRL F 查找  
+SHIFT CTRL F 開啟搜尋面板
+
+文件資訊和偏好設定：
+CTRL D 顯示文件摘要對話方塊
+CTRL K 顯示一般偏好設定對話方塊
+
+
+======================================================================
+版權所有 (c) 1987-2005 Adobe Systems Incorporated 及其授權者。保留一切權利。Adobe、Adobe圖誌、Acrobat、Acrobat 圖誌、PostScript 和 PostScript 圖誌是 Adobe Systems Incorporated 在美國和/或其它國家註冊商標或商標。Distiller、Adobe Type Manager、ATM、Illustrator、PageMaker 和 Photoshop 是 Adobe Systems Incorporatedare 的商標。Sun、Sun Microsystems、Sun 圖誌和 Solaris 是Sun Microsystems, Inc. 在美國和其它國家的註冊商標或商標。所有 SPARC 商標依照授權使用並且是 SPARC International, Inc. 在美國和其它國家的商標或註冊商標。產品方面的 SPARC 商標是基於 Sun Microsystems, Inc. 的結構開發。UNIX 是通過 X/Open Company Ltd. 授權在美國和其它國家的註冊商標。X Window System 是 Massachusetts Institute of Technology 的商標。Linux 是 Linus Torvalds 的註冊商標。Novell 是 Novell, Inc. 的註冊商標。Macintosh 和 MacOS 是 Apple Computer, Inc. 在美國和其它國家的註冊商標。 NCD 和 PC-Xware 是 Network Computing Devices, Inc. 在美國和其它國家的商標或註冊商標。STSong是 ChangZhou SinoType Technology Co., Ltd. 的商標。
+所有其它商標是其個別所有者的財產。 此檔案的內容需要 Mozilla Public License Version 1.1 (「授權」)；您可以使用此檔案但不包括規範的「授權」。您可以在 http://www.mozilla.org/MPL 獲取授權版本。此檔案未被 Adobe 修改並且源編碼可以從 http://www.mozilla.org/source.html 找到。 
+原始編碼是 Mozilla 通訊程式客戶端編碼，1998 年 3 月 31 日發佈。
+初始開發人員的原始編碼版權是 Netscape Communications Corporation. 部分由 Netscape 建立
+版權所有 (c) 1998 Netscape Communications Corporation。保留一切權利。 
+======================================================================= 

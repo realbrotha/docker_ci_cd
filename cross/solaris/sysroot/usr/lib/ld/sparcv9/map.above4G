@@ -1,0 +1,13 @@
+#
+# ident	"@(#)map.above4G	1.3	01/07/13 SMI"
+#
+# Copyright (c) 1998,2001 by Sun Microsystems, Inc.
+# All rights reserved.
+#
+# Linker mapfile for loading 64-bit programs above 4 gigabytes 
+# The linker does not use this file automatically, so one must use the -M 
+# option to cc or ld:
+#
+#	cc -xarch=v9 -M /usr/lib/ld/sparcv9/map.above4G myprogram.c
+#
+text = V0x100000000;

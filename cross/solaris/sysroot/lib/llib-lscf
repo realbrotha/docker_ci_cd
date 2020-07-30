@@ -1,0 +1,11 @@
+/* LINTLIBRARY */
+/* PROTOLIB1 */
+
+/*
+ * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+ * Use is subject to license terms.
+ */
+#pragma ident	"@(#)llib-lscf	1.1	04/07/15 SMI"
+
+#include <libscf.h>
+#include <libscf_priv.h>

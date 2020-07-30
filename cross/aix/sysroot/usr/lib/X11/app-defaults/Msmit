@@ -1,0 +1,155 @@
+# IBM_PROLOG_BEGIN_TAG 
+# This is an automatically generated prolog. 
+#  
+# gos530 src/gos/apps/cmdmsmit/Msmit 1.19 
+#  
+# Licensed Materials - Property of IBM 
+#  
+# (C) COPYRIGHT International Business Machines Corp. 1991,1996 
+# All Rights Reserved 
+#  
+# US Government Users Restricted Rights - Use, duplication or 
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#  
+# IBM_PROLOG_END_TAG 
+
+#  COMPONENT_NAME: CMDMSMIT
+#
+#  FUNCTIONS: Motif Smit Resource File
+#
+#  ORIGINS: 27
+#
+#
+#  (C) COPYRIGHT International Business Machines Corp. 1991
+#  All Rights Reserved
+#  US Government Users Restricted Rights - Use, duplication or
+#  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+
+
+! This is the resource file for the Motif SMIT application. It
+! must be located the /usr/lib/X11/app-defaults directory.
+
+
+!The following resource assignments define the geometry and the
+!color schemes for the Motif SMIT application.  These resources
+!can be changed if desired.
+
+
+! Use a fixed font for the output window
+*output_panel*FontList:   -dt-interface user-medium-r-normal-S*-*-*-*-*-*-*-*-*:
+
+! Use a proportional font for the rest of msmit
+*FontList:		  -dt-interface system-medium-r-normal-l*-*-*-*-*-*-*-*:
+
+*geometry:                                 	1000x900-50-50
+*topShadowColor:                                white
+*background:                                    light gray
+*foreground:                                    black
+*left_arrow*foreground:                         gray
+*edit_left_arrow*foreground:                    gray
+*main.background:                               light gray
+*non_editable_scrolled_text.background:         light grey
+*non_editable_scrolled_text.bottomShadowColor:  black
+*non_editable_scrolled_text.topShadowColor:     black
+*non_editable_text_entry.background:            light grey
+*non_editable_text_entry.bottomShadowColor:     gray50
+*non_editable_text_entry.topShadowColor:        gray50
+*right_arrow*foreground:                        gray
+*edit_right_arrow*foreground:                   gray
+*scroll_bar_bg:                                 light gray
+*scroll_bar_fg:                                 gray
+*scrolled_text.background:                      light grey
+*show_scrolled_text.background:                 light grey
+*show_command_popup.height:                     250
+*show_command_popup.width:                      400
+*text_entry.background:                         light grey
+*edit_form.height:                              200
+*edit_form.width:                               600
+*label_highlight_bg:                            white
+*label_highlight_fg:                            black
+*changed_text_color.background:                 gray60
+!*ask_popup.width:                               400
+!*ask_popup.height:                              250
+*autoShowCursorPosition:                        TRUE
+*doubleClickInterval:				250
+
+
+!                        Accelerators
+!                        ------------
+!The following section of resource assignments defines the accelerators or
+!"fast keys" associated with the motif smit menu. If an alternative key
+!sequence is desired, just change the key sequence to the right of the colon.
+
+
+
+*exit_quit_button.accelerator:  <Key>F12:
+*exit_quit_button.acceleratorText:F12
+
+*help_context.accelerator:Ctrl<Key>F1:
+*help_context.acceleratorText:Ctrl+F1
+
+
+
+*reset_field_button.accelerator:Ctrl<Key>F5:
+*reset_field_button.acceleratorText:Ctrl+F5
+
+*reset_all_button.accelerator:<Key>F9:
+*reset_all_button.acceleratorText:F9
+
+*show_command_button.accelerator:<Key>F6:
+*show_command_button.acceleratorText:F6
+
+*show_fastpath_button.accelerator:<Key>F8:
+*show_fastpath_button.acceleratorText:F8
+
+
+*search_button.accelerator:     <Key>slash:
+*search_button.acceleratorText:/
+
+*search_again_button.accelerator:       <Key>n:
+*search_again_button.acceleratorText:n
+
+
+!                         Text Translations
+!                         -----------------
+!The following section of resource assignments defines the translations
+!associated with the text widgets used within motif smit.  If an alternative
+!key assignment is desired, just change the Key sequence defintion to the
+!left of the colon for each text widget.
+
+!The ~Alt is needed for BIDI input methods that use the Alt+Return to 
+!toggle the direction.
+
+!Editable field text widget translations.
+*text_entry.translations:       #override\n\
+                         Ctrl<Key>l:    popup_list()\n\
+                         <Key>F4:       popup_list()\n\
+                         <Key>F5:       reset_field()\n\
+                         <Key>F7:       edit_field()\n\
+                         ~Alt<Key>Return:   confirm()
+
+
+!Non Editable field text widget translations
+*non_editable_text_entry.translations:  #override\n\
+                         Ctrl<Key>l:    popup_list()\n\
+                         <Key>F4:       popup_list()\n\
+                         <Key>F5:       reset_field()\n\
+                         <Key>F7:       edit_field()\n\
+                         ~Alt<Key>Return:   confirm()
+
+
+*buttonarea.translations: #override\n\
+                         ~Alt<Key>Return:   done()
+
+
+!Edit Window scrolled text widget translations
+*scrolled_text.translations:    #override\n\
+                   ~Alt<Key>Return:         doit()
+
+
+!Edit Window non editable field scrolled text translations.
+*non_editable_scrolled_text.translations:    #override\n\
+                   ~Alt<Key>Return:         doit()
+
+

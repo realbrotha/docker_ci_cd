@@ -1,0 +1,19 @@
+#!/usr/lib/IbTxLib.a(shr_64.o)
+* IBM_PROLOG_BEGIN_TAG 
+* This is an automatically generated prolog. 
+*  
+* rspc53Q src/rspc/usr/lib/IbMxLib/IbMxLib.64.exp 1.1 
+*  
+* Licensed Materials - Property of IBM 
+*  
+* Restricted Materials of IBM 
+*  
+* COPYRIGHT International Business Machines Corp. 2008 
+* All Rights Reserved 
+*  
+* US Government Users Restricted Rights - Use, duplication or 
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+*  
+* IBM_PROLOG_END_TAG 
+* @(#)13        1.1  src/rspc/usr/lib/IbMxLib/IbMxLib.64.exp, pcimxib, rspc53Q, q2008_08A0 1/23/08 09:24:59
+IbDllGetFuncList

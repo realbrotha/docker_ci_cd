@@ -1,0 +1,22 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:JDS_OnlineHelp_Viewer_Factory" type="exe" 
+	location="/usr/lib/jdshelp-server">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Help server component factory"/>
+	<oaf_attribute name="description" type="string" value="Bonobo Help server factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:JDS_OnlineHelp_Viewer" type="factory" 
+	location="OAFIID:JDS_OnlineHelp_Viewer_Factory">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:JDS/OnlineHelp/Viewer:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+	</oaf_attribute>
+	<oaf_attribute name="name" type="string" value="Help server component"/>
+	<oaf_attribute name="description" type="string" value="Bonobo Help server"/>
+</oaf_server>
+
+</oaf_info>

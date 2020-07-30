@@ -1,0 +1,84 @@
+glbd - Global Location Broker Subsystem
+
+The global location broker (GLB) subsystem (glbd) helps clients to locate
+servers on a network or internet. The GLB database stores the locations
+(that is, the network addresses and port numbers) where server subsystems
+are running. A process maintains this database and provides access to it.
+
+You can replicate the GLB database to increase its availability. Copies of
+the database can exist on several hosts, with glbd running on each of those
+hosts to maintain the consistency of the database replicas. (In an internet,
+at least one glbd must run in each network.) Each replica of the GLB keeps a
+list of all the other GLB replicas. The GLBDs Replicas Administration
+(drm_admin) tool administers the replication of the GLB database and of the
+replica list.
+
+The glbd command writes diagnostic output to the file /etc/ncs/glb_log.
+
+Syntax
+
+startsrc -s glbd [ -a " [ -create { -first [ -family family_name ]
+| -from host_name } ] [ -debug ] [ -log_stdout ] " ]
+
+Parameters
+
+-create
+     Creates a replica of the GLB. This option creates a GLB database in
+     addition to starting a broker subsystem. It must be used with either
+     -first or -from.
+
+-first
+     Use this option only with -create. Use it to create the first replica
+     (that is, the very first instance) of the GLB on the network or
+     internet.
+
+-family family_name
+     Use this option only with -first, to specify the address family that
+     the first replica will use to identify itself on the replica list. Any
+     subsequently created replicas must use this family to communicate with
+     this replica. The family_name can only be ip.
+
+-from host_name
+     Use this option only with -create, to create additional replicas of the
+     global location broker. A replica of the global location broker must
+     exist at host_name. The database and replica list for the new replica
+     are initialized from those at host_name. The replica at host_name adds
+     an entry for the new replica to its replica list and propagates the
+     entry to the other global location broker replicas. A host_name takes
+     the form family:host, where the host can be specified either by its
+     name or by its network address.
+
+     The following are examples of acceptable host names:
+
+     ip:bertie
+
+     ip:#192.5.5.5
+
+     The new replica uses the same address family as host_name in
+     identifying itself on the replica list. For example, if host_name is an
+     IP address, the new replica is listed by its IP address on the replica
+     list.
+
+-debug
+     Prints debugging information.
+
+-log_stdout
+     Redirects the log and debug printout to standard output instead of
+     /etc/ncs/glb_log.
+
+Examples
+
+Create and start for the first time the first replica of the GLB on
+the network or internet:
+
+startsrc -s  glbd -a "-create -first -family ip"
+
+Start for the first time a subsequent replica of the GLB, initializing its
+database from host buddy:
+
+startsrc -s  glbd -a "-create -from ip:buddy"
+
+Restart an existing replica of the GLB:
+
+startsrc -s  glbd
+

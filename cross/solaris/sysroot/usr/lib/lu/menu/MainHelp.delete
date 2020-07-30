@@ -1,0 +1,55 @@
+#       Copyright (c) 1999-2001 by Sun Microsystems, Inc. All Rights Reserved.
+#       Copyright 1992-95 AT&T Global Information Solutions
+#
+#ident "@(#)MainHelp.delete 5.2     01/04/19 SMI"
+#
+
+title=`gettext "Delete a Boot Environment"`
+
+close=nop
+wrap=true
+altslks=true
+
+begrow=any
+begcol=any
+rows=7
+columns=73
+
+`gettext "Strike the CANCEL function key to return to main menu." | message`
+
+text="\n"`gettext "When you choose the \"Delete a Boot Environment\" selection, you will be asked for the target BE name. The \"CHOICES\" key will display a list of all inactive BEs."`"\n\n"\
+`gettext "Upon selecting a BE, the /etc/lutab file will be modified to remove any entries associated with the named BE. All the devices for the filesystems of the BE being deleted are marked as free in the object table (/etc/device.tab), that is all the devices associated with the BE can be used for some other purpose."`"\n"
+
+`indicator -w`
+
+name= 
+button=9
+action=nop
+
+name=
+button=10
+action=nop
+
+name=
+button=11
+action=nop
+
+NAME=
+button=12
+action=nop
+
+name=
+button=13
+action=nop
+
+name=`gettext "CANCEL"`
+button=14
+action=cancel 
+
+name=
+button=15
+action=help
+
+name=
+button=16
+action=help

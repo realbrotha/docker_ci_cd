@@ -1,0 +1,60 @@
+Adobe Reader 7.0 -- Browser Plugin HowTo
+
+The browser plugin provided along with the Adobe Reader 7.0 is
+used for viewing of PDF files from within the browser.  It is
+compliant with the Netscape Gecko API and works with all browsers
+which use the Gecko browser engine.  It will enable viewing of
+PDFs as full page documents in the browser or within frames
+managed by HTML content.
+
+The supported browsers include:
+o Mozilla 1.7.3, 1.8
+o Netscape 7
+o Firefox 1.0
+
+
+
+Installing the browser plugin:
+
+An installation script "install_browser_plugin" has been provided
+for the purpose of setting up the browser plugin for your browser.
+
+Installation steps:
+
+o Run the script from the prompt as:
+  $ cd <install-path>/Browser
+  $ ./install_browser_plugin
+
+o It will ask for the Adobe Reader 7.0 install path. Enter the
+  installation path or press ENTER to use the default.
+
+o It will then prompt for the installation type:
+
+  - Perform global installation:
+    This is used for installing the plugin for a specific browser
+    installation. If setup succeeds, then any user accessing that
+    browser will be able to view PDFs inside the browser itself.
+    This is done by copying the necessary files to the "plugins"
+    folder in the browser installation path. Please make sure the
+    user running the script has write permission to the location
+    where the browser is installed.
+
+  - Perform user-specific installation:
+    This has been tested to work for Mozilla, Firefox and Netscape
+    and enables only a particular user to be able to view PDFs
+    inside any of the browsers stated above.  This is done by
+    copying the necessary files to $HOME/.mozilla/plugins folder.
+
+o If you are unable to install the plugin for your browser by any
+  of the above mentioned mechanisms, you might need to refer to the
+  browser documentation for ways of adding a new plugin.
+
+o After the installation succeeds, please make sure that the
+  acroread startup script is in the PATH environment variable.
+
+
+
+For queries or more information, please visit us at www.adobe.com
+
+Copyright (c) 2005, Adobe Systems Incorporated
+All Rights Reserved
