@@ -1,5 +1,5 @@
 FROM       ubuntu:16.04
-MAINTAINER subicura@subicura.com
+MAINTAINER realbrosss@naver.com
 
 ENV WORK_HOME=/test 
     
