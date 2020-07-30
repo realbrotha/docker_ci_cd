@@ -14,6 +14,9 @@ RUN apt-get -y install git
 RUN apt-get -y install vim
 
 RUN git clone https://github.com/realbrotha/docker_ci_cd.git
+RUN mv /test/docker_ci_cd/cross /opt
+RUN export PATH=$PATH:/opt/cross/solaris/bin:/opt/cross/aix/bin
+
 #RUN apt-get -y install python
 # RUN pip install --upgrade conan<2.0
 
