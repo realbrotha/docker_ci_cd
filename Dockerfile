@@ -6,6 +6,7 @@ ENV PATH /opt/cross/solaris/bin:/opt/cross/aix/bin:$PATH
 WORKDIR ${WORK_HOME}
 
 RUN        apt-get -y update
+RUN        apt-get -y upgrade
 
 # 1. 필요한 친구들
 RUN apt-get -y install build-essential
