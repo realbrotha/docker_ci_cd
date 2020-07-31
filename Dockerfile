@@ -12,7 +12,7 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install gcc
 RUN apt-get -y install git
 RUN apt-get -y install vim
-RUN apt-get -y install curl
+RUN apt-get -y install wget
 
 RUN git clone https://github.com/realbrotha/docker_ci_cd.git
 RUN mv /test/docker_ci_cd/cross /opt
