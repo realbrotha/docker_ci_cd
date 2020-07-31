@@ -12,6 +12,7 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install gcc
 RUN apt-get -y install git
 RUN apt-get -y install vim
+RUN apt-get -y install curl
 
 RUN git clone https://github.com/realbrotha/docker_ci_cd.git
 RUN mv /test/docker_ci_cd/cross /opt
@@ -20,3 +21,4 @@ RUN mv /test/docker_ci_cd/cross /opt
 # RUN pip install --upgrade conan<2.0
 
 RUN     echo "test comeplete"
+
