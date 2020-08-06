@@ -21,8 +21,5 @@ RUN git clone https://github.com/realbrotha/docker_ci_cd.git
 RUN mv /test/docker_ci_cd/updateset /opt
 RUN mv /test/docker_ci_cd/cross /opt
 
-#RUN apt-get -y install python
-# RUN pip install --upgrade conan<2.0
-
 RUN     echo "test comeplete"
 
