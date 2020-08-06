@@ -8,7 +8,7 @@ WORKDIR ${WORK_HOME}
 RUN        apt-get -y update
 RUN        apt-get -y upgrade
 
-# 1. 필요한 친구들
+# linux tool
 RUN apt-get -y install build-essential
 RUN apt-get -y install gcc
 RUN apt-get -y install git
@@ -16,6 +16,12 @@ RUN apt-get -y install vim
 RUN apt-get -y install wget
 RUN apt-get -y install unzip
 
+# python
+RUN apt-get install python2.7 
+RUN apt-get install python-pip python-dev python-setuptools
+RUN pip install --upgrade pip
+
+# cross 
 RUN git clone https://github.com/realbrotha/docker_ci_cd.git
 
 RUN mv /test/docker_ci_cd/updateset /opt
