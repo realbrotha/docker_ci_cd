@@ -17,8 +17,8 @@ RUN apt-get -y install wget
 RUN apt-get -y install unzip
 
 # python
-RUN apt-get install python2.7 
-RUN apt-get install python-pip python-dev python-setuptools
+RUN apt-get -y install python2.7 
+RUN apt-get -y install python-pip python-dev python-setuptools
 RUN pip install --upgrade pip
 
 # cross 
